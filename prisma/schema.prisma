@@ -371,4 +371,3 @@ model Notification {
   
   @@index([userId, isRead])
 }
-EOF < /dev/null
