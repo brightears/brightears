@@ -1,0 +1,374 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User types enum
+enum UserRole {
+  ARTIST
+  CUSTOMER
+  CORPORATE
+  ADMIN
+}
+
+// Artist category enum
+enum ArtistCategory {
+  DJ
+  BAND
+  SINGER
+  MUSICIAN
+  MC
+  COMEDIAN
+  MAGICIAN
+  DANCER
+  PHOTOGRAPHER
+  SPEAKER
+}
+
+// Booking status enum
+enum BookingStatus {
+  INQUIRY
+  QUOTED
+  CONFIRMED
+  PAID
+  COMPLETED
+  CANCELLED
+}
+
+// Verification level enum
+enum VerificationLevel {
+  UNVERIFIED
+  BASIC
+  VERIFIED
+  TRUSTED
+}
+
+// Main user model
+model User {
+  id                String   @id @default(uuid())
+  email             String   @unique
+  phone             String?  @unique
+  password          String?
+  role              UserRole
+  emailVerified     DateTime?
+  phoneVerified     DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  lastLogin         DateTime?
+  isActive          Boolean  @default(true)
+  
+  // Relations
+  artist            Artist?
+  customer          Customer?
+  corporate         Corporate?
+  bookingsAsCustomer Booking[] @relation("CustomerBookings")
+  reviews           Review[]
+  messages          Message[]
+  notifications     Notification[]
+  
+  @@index([email])
+  @@index([phone])
+}
+
+// Artist profile
+model Artist {
+  id                String           @id @default(uuid())
+  userId            String           @unique
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Basic info
+  stageName         String
+  realName          String?
+  bio               String?
+  bioTh             String?
+  category          ArtistCategory
+  subCategories     String[]         // Additional categories
+  
+  // Verification
+  verificationLevel VerificationLevel @default(UNVERIFIED)
+  verifiedAt        DateTime?
+  
+  // Location
+  baseCity          String
+  serviceAreas      String[]         // Cities/districts they serve
+  travelRadius      Int?             // km willing to travel
+  
+  // Pricing
+  hourlyRate        Decimal?         @db.Decimal(10, 2)
+  minimumHours      Int              @default(2)
+  currency          String           @default("THB")
+  
+  // Languages
+  languages         String[]         @default(["en", "th"])
+  
+  // Music/Performance specifics
+  genres            String[]
+  equipment         Json?            // Equipment details
+  technicalRider    String?
+  
+  // Media
+  profileImage      String?
+  coverImage        String?
+  images            String[]
+  videos            String[]
+  audioSamples      String[]
+  
+  // Social/External links
+  website           String?
+  facebook          String?
+  instagram         String?
+  tiktok            String?
+  youtube           String?
+  spotify           String?
+  soundcloud        String?
+  mixcloud          String?
+  lineId            String?
+  
+  // Stats
+  totalBookings     Int              @default(0)
+  completedBookings Int              @default(0)
+  averageRating     Float?
+  responseTime      Int?             // Average response time in hours
+  
+  // Settings
+  instantBooking    Boolean          @default(false)
+  advanceNotice     Int              @default(7) // Days required
+  cancellationPolicy String?
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  // Relations
+  availability      Availability[]
+  bookings          Booking[]        @relation("ArtistBookings")
+  reviews           Review[]         @relation("ArtistReviews")
+  messages          Message[]        @relation("ArtistMessages")
+  favoriteBy        Customer[]       @relation("FavoriteArtists")
+  
+  @@index([category])
+  @@index([baseCity])
+  @@index([verificationLevel])
+}
+
+// Customer profile (individual)
+model Customer {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  firstName         String?
+  lastName          String?
+  preferredLanguage String   @default("en")
+  location          String?
+  
+  // Preferences
+  favoriteGenres    String[]
+  preferredBudget   Json?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relations
+  favoriteArtists   Artist[] @relation("FavoriteArtists")
+  
+  @@index([userId])
+}
+
+// Corporate customer
+model Corporate {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  companyName       String
+  taxId             String?
+  contactPerson     String
+  position          String?
+  companyAddress    String?
+  companyPhone      String?
+  
+  // Business details
+  venueType         String?  // Hotel, Restaurant, Bar, etc.
+  numberOfVenues    Int      @default(1)
+  monthlyBudget     Decimal? @db.Decimal(10, 2)
+  
+  // Billing
+  billingAddress    String?
+  paymentTerms      String   @default("NET30")
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([companyName])
+}
+
+// Artist availability
+model Availability {
+  id                String   @id @default(uuid())
+  artistId          String
+  artist            Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  
+  date              DateTime
+  startTime         DateTime
+  endTime           DateTime
+  isAvailable       Boolean  @default(true)
+  isBooked          Boolean  @default(false)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([artistId, date, startTime])
+  @@index([artistId, date])
+}
+
+// Bookings
+model Booking {
+  id                String        @id @default(uuid())
+  bookingNumber     String        @unique @default(cuid())
+  
+  customerId        String
+  customer          User          @relation("CustomerBookings", fields: [customerId], references: [id])
+  
+  artistId          String
+  artist            Artist        @relation("ArtistBookings", fields: [artistId], references: [id])
+  
+  // Event details
+  eventType         String
+  eventDate         DateTime
+  startTime         DateTime
+  endTime           DateTime
+  duration          Int           // in hours
+  
+  venue             String
+  venueAddress      String
+  guestCount        Int?
+  
+  // Pricing
+  quotedPrice       Decimal       @db.Decimal(10, 2)
+  finalPrice        Decimal?      @db.Decimal(10, 2)
+  currency          String        @default("THB")
+  depositAmount     Decimal?      @db.Decimal(10, 2)
+  depositPaid       Boolean       @default(false)
+  
+  // Status
+  status            BookingStatus @default(INQUIRY)
+  
+  // Additional details
+  specialRequests   String?
+  notes             String?
+  cancellationReason String?
+  
+  // Contract
+  contractUrl       String?
+  contractSignedAt  DateTime?
+  
+  // Payment
+  paymentMethod     String?
+  paidAt            DateTime?
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  confirmedAt       DateTime?
+  completedAt       DateTime?
+  cancelledAt       DateTime?
+  
+  // Relations
+  review            Review?
+  messages          Message[]
+  
+  @@index([customerId])
+  @@index([artistId])
+  @@index([eventDate])
+  @@index([status])
+}
+
+// Reviews
+model Review {
+  id                String   @id @default(uuid())
+  bookingId         String   @unique
+  booking           Booking  @relation(fields: [bookingId], references: [id])
+  
+  reviewerId        String
+  reviewer          User     @relation(fields: [reviewerId], references: [id])
+  
+  artistId          String
+  artist            Artist   @relation("ArtistReviews", fields: [artistId], references: [id])
+  
+  rating            Int      // 1-5 stars
+  comment           String?
+  commentTh         String?
+  
+  // Detailed ratings
+  punctuality       Int?     // 1-5
+  performance       Int?     // 1-5
+  professionalism   Int?     // 1-5
+  valueForMoney     Int?     // 1-5
+  
+  isVerified        Boolean  @default(false) // Verified booking
+  isPublic          Boolean  @default(true)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Artist response
+  artistResponse    String?
+  respondedAt       DateTime?
+  
+  @@index([artistId])
+  @@index([reviewerId])
+}
+
+// Messages
+model Message {
+  id                String   @id @default(uuid())
+  
+  senderId          String
+  sender            User     @relation(fields: [senderId], references: [id])
+  
+  artistId          String
+  artist            Artist   @relation("ArtistMessages", fields: [artistId], references: [id])
+  
+  bookingId         String?
+  booking           Booking? @relation(fields: [bookingId], references: [id])
+  
+  content           String
+  isRead            Boolean  @default(false)
+  readAt            DateTime?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([senderId])
+  @@index([artistId])
+  @@index([bookingId])
+}
+
+// Notifications
+model Notification {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type              String   // booking_request, message, review, etc.
+  title             String
+  titleTh           String?
+  content           String
+  contentTh         String?
+  
+  relatedId         String?  // ID of related entity
+  relatedType       String?  // Type of related entity
+  
+  isRead            Boolean  @default(false)
+  readAt            DateTime?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([userId, isRead])
+}
+EOF < /dev/null
