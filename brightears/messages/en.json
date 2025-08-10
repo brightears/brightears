@@ -1,0 +1,100 @@
+{
+  "nav": {
+    "home": "Home",
+    "browseArtists": "Browse Artists",
+    "howItWorks": "How It Works",
+    "corporate": "Corporate Solutions",
+    "login": "Login",
+    "signup": "Join as Artist"
+  },
+  "hero": {
+    "title": "Premium Entertainment for Every Event",
+    "subtitle": "Book DJs, Bands, and Live Entertainment with Confidence",
+    "searchPlaceholder": "What kind of entertainment do you need?",
+    "searchButton": "Search Artists",
+    "browseButton": "Browse All Artists",
+    "corporateButton": "Corporate Solutions",
+    "trustedBy": "Trusted by Leading Hotels & Venues"
+  },
+  "features": {
+    "noCommission": {
+      "title": "No Commission Fees",
+      "description": "Connect directly with artists. We don't take a cut from bookings."
+    },
+    "verified": {
+      "title": "Verified Professionals",
+      "description": "All artists are verified and reviewed by real clients."
+    },
+    "secure": {
+      "title": "Secure Bookings",
+      "description": "Protected bookings with contracts and payment tracking."
+    },
+    "support": {
+      "title": "24/7 Support",
+      "description": "Get help whenever you need it, in English or Thai."
+    }
+  },
+  "categories": {
+    "title": "Entertainment Categories",
+    "dj": {
+      "name": "DJs",
+      "description": "Professional DJs for all events"
+    },
+    "band": {
+      "name": "Bands",
+      "description": "Live bands and musicians"
+    },
+    "singer": {
+      "name": "Singers",
+      "description": "Solo artists and vocalists"
+    },
+    "musician": {
+      "name": "Musicians",
+      "description": "Instrumentalists and performers"
+    }
+  },
+  "corporate": {
+    "title": "Corporate Entertainment Solutions",
+    "subtitle": "Trusted by Thailand's Leading Hotels & Venues",
+    "residentDJ": {
+      "title": "Resident DJ Programs",
+      "description": "Consistent quality entertainment for your venue"
+    },
+    "multiVenue": {
+      "title": "Multi-Venue Management",
+      "description": "Centralized booking for all your properties"
+    },
+    "compliance": {
+      "title": "Full Compliance",
+      "description": "Licensed music and proper documentation"
+    },
+    "getQuote": "Get Corporate Quote"
+  },
+  "footer": {
+    "about": "About Bright Ears",
+    "description": "Thailand's premier entertainment booking platform",
+    "contact": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Bangkok, Thailand",
+    "links": "Quick Links",
+    "browseArtists": "Browse Artists",
+    "howItWorks": "How It Works",
+    "corporate": "Corporate",
+    "legal": "Legal",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "copyright": "© 2024 Bright Ears Entertainment Co., Ltd. All rights reserved."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try Again",
+    "viewMore": "View More",
+    "viewLess": "View Less",
+    "from": "From",
+    "perHour": "per hour",
+    "perEvent": "per event",
+    "currency": "฿"
+  }
+}
