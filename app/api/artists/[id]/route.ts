@@ -5,11 +5,12 @@ const prisma = new PrismaClient()
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const artist = await prisma.artist.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         user: {
           select: {
@@ -109,9 +110,10 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const body = await req.json()
     
     const allowedFields = [
@@ -131,7 +133,7 @@ export async function PATCH(
     }
     
     const artist = await prisma.artist.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData
     })
     

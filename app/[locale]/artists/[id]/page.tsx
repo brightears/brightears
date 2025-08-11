@@ -2,15 +2,16 @@ import { getTranslations } from 'next-intl/server'
 import ArtistProfile from '@/components/artists/ArtistProfile'
 
 interface ArtistPageProps {
-  params: {
+  params: Promise<{
     locale: string
     id: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: ArtistPageProps) {
+  const { id } = await params
   const artistResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/artists/${params.id}`,
+    `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/artists/${id}`,
     { cache: 'no-store' }
   )
   
@@ -30,7 +31,8 @@ export async function generateMetadata({ params }: ArtistPageProps) {
 }
 
 export default async function ArtistPage({ params }: ArtistPageProps) {
-  const t = await getTranslations({ locale: params.locale, namespace: 'artist' })
+  const { locale, id } = await params
+  const t = await getTranslations({ locale, namespace: 'artist' })
   
-  return <ArtistProfile artistId={params.id} locale={params.locale} />
+  return <ArtistProfile artistId={id} locale={locale} />
 }
