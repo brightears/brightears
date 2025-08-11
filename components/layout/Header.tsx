@@ -31,7 +31,7 @@ export default function Header() {
                 height={40}
                 className="h-10 w-auto"
               />
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-2xl font-bold text-primary-dark">
                 Bright Ears
               </span>
             </Link>
@@ -42,25 +42,25 @@ export default function Header() {
             <div className="ml-10 flex items-baseline space-x-4">
               <Link
                 href="/"
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                className="px-3 py-2 text-sm font-medium text-primary-dark/70 hover:text-primary-dark"
               >
                 {t('home')}
               </Link>
               <Link
                 href="/artists"
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                className="px-3 py-2 text-sm font-medium text-primary-dark/70 hover:text-primary-dark"
               >
                 {t('browseArtists')}
               </Link>
               <Link
                 href="/how-it-works"
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                className="px-3 py-2 text-sm font-medium text-primary-dark/70 hover:text-primary-dark"
               >
                 {t('howItWorks')}
               </Link>
               <Link
                 href="/corporate"
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                className="px-3 py-2 text-sm font-medium text-primary-dark/70 hover:text-primary-dark"
               >
                 {t('corporate')}
               </Link>
@@ -77,8 +77,8 @@ export default function Header() {
                   onClick={() => switchLanguage(loc)}
                   className={`px-3 py-1 text-sm font-medium transition-colors ${
                     locale === loc
-                      ? 'bg-brightears text-white font-semibold'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-brightears text-off-white font-semibold'
+                      : 'text-primary-dark/70 hover:bg-off-white/50'
                   } ${loc === 'en' ? 'rounded-l-lg' : 'rounded-r-lg'}`}
                 >
                   {loc === 'en' ? '🇬🇧 EN' : '🇹🇭 TH'}
@@ -89,13 +89,13 @@ export default function Header() {
             {/* Auth buttons */}
             <Link
               href="/login"
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+              className="px-4 py-2 text-sm font-medium text-primary-dark/70 hover:text-primary-dark"
             >
               {t('login')}
             </Link>
             <Link
               href="/signup"
-              className="px-4 py-2 text-sm font-medium text-gray-900 bg-brightears rounded-lg hover:bg-brightears-400 transition-colors border border-brightears-600"
+              className="px-4 py-2 text-sm font-medium text-off-white bg-button-color rounded-lg hover:bg-button-color/80 transition-colors"
             >
               {t('signup')}
             </Link>
@@ -105,7 +105,7 @@ export default function Header() {
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+              className="inline-flex items-center justify-center p-2 rounded-md text-primary-dark/70 hover:text-primary-dark hover:bg-off-white/50"
             >
               <span className="sr-only">Open main menu</span>
               {/* Hamburger icon */}
@@ -148,25 +148,25 @@ export default function Header() {
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-background shadow-lg">
           <Link
             href="/"
-            className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+            className="block px-3 py-2 text-base font-medium text-primary-dark/70 hover:text-primary-dark hover:bg-off-white/50"
           >
             {t('home')}
           </Link>
           <Link
             href="/artists"
-            className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+            className="block px-3 py-2 text-base font-medium text-primary-dark/70 hover:text-primary-dark hover:bg-off-white/50"
           >
             {t('browseArtists')}
           </Link>
           <Link
             href="/how-it-works"
-            className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+            className="block px-3 py-2 text-base font-medium text-primary-dark/70 hover:text-primary-dark hover:bg-off-white/50"
           >
             {t('howItWorks')}
           </Link>
           <Link
             href="/corporate"
-            className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+            className="block px-3 py-2 text-base font-medium text-primary-dark/70 hover:text-primary-dark hover:bg-off-white/50"
           >
             {t('corporate')}
           </Link>
@@ -180,8 +180,8 @@ export default function Header() {
                   onClick={() => switchLanguage(loc)}
                   className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                     locale === loc
-                      ? 'bg-brightears text-white font-semibold'
-                      : 'bg-gray-100 text-gray-700'
+                      ? 'bg-brightears text-off-white font-semibold'
+                      : 'bg-off-white/50 text-primary-dark/70'
                   }`}
                 >
                   {loc === 'en' ? '🇬🇧 English' : '🇹🇭 ไทย'}
@@ -193,13 +193,13 @@ export default function Header() {
           <div className="px-3 py-2 space-y-2">
             <Link
               href="/login"
-              className="block w-full px-4 py-2 text-center text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+              className="block w-full px-4 py-2 text-center text-sm font-medium text-primary-dark/70 bg-off-white/50 rounded-lg hover:bg-off-white/70"
             >
               {t('login')}
             </Link>
             <Link
               href="/signup"
-              className="block w-full px-4 py-2 text-center text-sm font-medium text-gray-900 bg-brightears rounded-lg hover:bg-brightears-400 transition-colors border border-brightears-600"
+              className="block w-full px-4 py-2 text-center text-sm font-medium text-off-white bg-button-color rounded-lg hover:bg-button-color/80 transition-colors"
             >
               {t('signup')}
             </Link>

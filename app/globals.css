@@ -1,9 +1,18 @@
 @import "tailwindcss";
 
 :root {
+  /* Minimal brand color palette - ONLY these colors */
+  --brightears: #00CFFF;        /* Brand cyan for accents, icons, highlights */
+  --off-white: #EDFDFF;         /* Off-white for light backgrounds */
+  --primary-dark: #22242b;      /* Primary dark background */
+  --secondary-dark: #252525;    /* Secondary dark (slightly lighter) */
+  --button-color: #294751;      /* Button/icon color (dark teal) */
+  
+  /* System compatibility */
   --background: #EDFDFF;
-  --background-dark: #252525;
-  --foreground: #171717;
+  --background-dark: #22242b;
+  --foreground: #22242b;        /* Dark text on light backgrounds */
+  --foreground-light: #EDFDFF;  /* Light text on dark backgrounds */
 }
 
 @theme inline {
@@ -13,18 +22,12 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   
-  /* Brightears brand colors */
-  --color-brightears: #00CFFF;
-  --color-brightears-50: #E6F9FF;
-  --color-brightears-100: #B3F0FF;
-  --color-brightears-200: #80E7FF;
-  --color-brightears-300: #4DDDFF;
-  --color-brightears-400: #1AD4FF;
-  --color-brightears-500: #00CFFF;
-  --color-brightears-600: #00A8D6;
-  --color-brightears-700: #0082A3;
-  --color-brightears-800: #005C73;
-  --color-brightears-900: #003643;
+  /* Minimal brand colors only */
+  --color-brightears: var(--brightears);
+  --color-off-white: var(--off-white);
+  --color-primary-dark: var(--primary-dark);
+  --color-secondary-dark: var(--secondary-dark);
+  --color-button-color: var(--button-color);
   
   /* Animations */
   --animate-blob: blob 7s infinite;
@@ -57,8 +60,6 @@
 .animate-blob:nth-child(3) {
   animation-delay: 4s;
 }
-
-/* We don't use automatic dark mode - brand colors only */
 
 body {
   background: var(--background);
