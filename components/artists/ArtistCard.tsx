@@ -79,7 +79,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
   
   return (
     <Link href={`/${locale}/artists/${artist.id}`}>
-      <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden cursor-pointer">
+      <div className="bg-background rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden cursor-pointer">
         <div className="relative h-48 bg-gray-200">
           {artist.profileImage ? (
             <Image

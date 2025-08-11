@@ -192,7 +192,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
       {/* Profile Header */}
       <div className="container mx-auto px-4">
         <div className="relative -mt-20">
-          <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="bg-background rounded-lg shadow-lg p-6">
             <div className="flex flex-col md:flex-row md:items-start">
               {/* Profile Image */}
               <div className="relative w-32 h-32 md:w-40 md:h-40 -mt-16 md:-mt-20 mb-4 md:mb-0 md:mr-6">
@@ -291,7 +291,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
             {activeTab === 'about' && (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2">
-                  <div className="bg-white rounded-lg shadow-md p-6">
+                  <div className="bg-background rounded-lg shadow-md p-6">
                     <h2 className="text-xl font-bold mb-4">{t('aboutArtist')}</h2>
                     <p className="text-gray-700 whitespace-pre-wrap">
                       {bio || t('noBio')}
@@ -326,7 +326,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                 </div>
                 
                 <div className="lg:col-span-1">
-                  <div className="bg-white rounded-lg shadow-md p-6">
+                  <div className="bg-background rounded-lg shadow-md p-6">
                     <h3 className="font-semibold mb-4">{t('serviceDetails')}</h3>
                     
                     <div className="space-y-3">
@@ -402,7 +402,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
             )}
             
             {activeTab === 'reviews' && (
-              <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="bg-background rounded-lg shadow-md p-6">
                 <h2 className="text-xl font-bold mb-4">{t('customerReviews')}</h2>
                 {artist.reviews.length > 0 ? (
                   <div className="space-y-4">

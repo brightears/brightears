@@ -37,12 +37,12 @@ export default function Hero() {
                   placeholder={t('searchPlaceholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-6 py-4 text-lg text-gray-900 bg-white border-2 border-white/20 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent shadow-lg"
+                  className="w-full px-6 py-4 text-lg text-gray-800 bg-background border-2 border-brightears-200/30 rounded-lg focus:ring-2 focus:ring-brightears-400 focus:border-transparent shadow-lg placeholder-gray-500"
                 />
               </div>
               <button
                 type="submit"
-                className="px-8 py-4 text-lg font-bold text-brightears-700 bg-white rounded-lg hover:bg-gray-50 hover:text-brightears-800 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 transition-colors shadow-lg"
+                className="px-8 py-4 text-lg font-bold text-background bg-gray-800 rounded-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-brightears focus:ring-offset-2 transition-colors shadow-lg"
               >
                 {t('searchButton')}
               </button>
@@ -53,13 +53,13 @@ export default function Hero() {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/artists"
-              className="px-8 py-3 text-lg font-medium text-brightears-800 bg-white border-2 border-white rounded-lg hover:bg-gray-50 hover:text-brightears-900 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 transition-all shadow-lg"
+              className="px-8 py-3 text-lg font-medium text-gray-800 bg-background border-2 border-gray-800 rounded-lg hover:bg-white focus:outline-none focus:ring-2 focus:ring-brightears focus:ring-offset-2 transition-all shadow-lg"
             >
               {t('browseButton')}
             </Link>
             <Link
               href="/corporate"
-              className="px-8 py-3 text-lg font-medium text-white bg-gray-900/80 backdrop-blur-sm rounded-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 transition-colors"
+              className="px-8 py-3 text-lg font-medium text-background bg-background-dark rounded-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-brightears focus:ring-offset-2 transition-colors"
             >
               {t('corporateButton')}
             </Link>

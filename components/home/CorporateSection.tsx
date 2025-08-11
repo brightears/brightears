@@ -34,7 +34,7 @@ export default function CorporateSection() {
   ];
 
   return (
-    <section className="py-16 lg:py-20 bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+    <section className="py-16 lg:py-20 bg-background-dark text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}

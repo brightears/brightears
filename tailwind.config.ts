@@ -9,6 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        background: {
+          DEFAULT: '#EDFDFF',  // Off-white with cyan tint
+          dark: '#252525',     // Dark charcoal
+          darker: '#1A1A1A',   // Even darker
+        },
         brightears: {
           DEFAULT: '#00CFFF',
           50: '#E6F9FF',
@@ -29,6 +34,18 @@ const config: Config = {
           faint: '#E6F9FF',
         },
         secondary: '#FF6B35',
+        gray: {
+          50: '#F9FAFB',
+          100: '#F3F4F6',
+          200: '#E5E7EB',
+          300: '#D1D5DB',
+          400: '#9CA3AF',
+          500: '#6B7280',
+          600: '#4B5563',
+          700: '#374151',
+          800: '#252525',  // Brand dark gray
+          900: '#1A1A1A',
+        },
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
