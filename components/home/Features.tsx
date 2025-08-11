@@ -50,7 +50,7 @@ export default function Features() {
               className="text-center p-6 rounded-lg hover:bg-gray-50 transition-colors group"
             >
               {/* Icon */}
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-blue-600 group-hover:bg-blue-200 transition-colors">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brightears/10 text-brightears group-hover:bg-brightears/20 transition-colors">
                 {feature.icon}
               </div>
               

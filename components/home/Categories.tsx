@@ -15,7 +15,7 @@ export default function Categories() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l6-2v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm10-10c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" />
         </svg>
       ),
-      gradient: 'from-purple-500 to-pink-500',
+      gradient: 'from-brightears-500 to-brightears-300',
     },
     {
       key: 'band',
@@ -25,7 +25,7 @@ export default function Categories() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
       ),
-      gradient: 'from-blue-500 to-cyan-500',
+      gradient: 'from-brightears-600 to-brightears-400',
     },
     {
       key: 'singer',
@@ -35,7 +35,7 @@ export default function Categories() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
         </svg>
       ),
-      gradient: 'from-green-500 to-teal-500',
+      gradient: 'from-brightears-500 to-brightears-200',
     },
     {
       key: 'musician',
@@ -45,7 +45,7 @@ export default function Categories() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l6-2v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm10-10c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" />
         </svg>
       ),
-      gradient: 'from-orange-500 to-red-500',
+      gradient: 'from-brightears-700 to-brightears-500',
     },
   ];
 

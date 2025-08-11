@@ -34,7 +34,7 @@ export default function CorporateSection() {
   ];
 
   return (
-    <section className="py-16 lg:py-20 bg-gray-900 text-white">
+    <section className="py-16 lg:py-20 bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
@@ -52,7 +52,7 @@ export default function CorporateSection() {
                 <div key={feature.key} className="flex items-start space-x-4">
                   {/* Icon */}
                   <div className="flex-shrink-0">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600 text-white">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-brightears text-white">
                       {feature.icon}
                     </div>
                   </div>
@@ -88,7 +88,7 @@ export default function CorporateSection() {
           <div className="relative">
             {/* Main Image Placeholder */}
             <div className="relative rounded-2xl overflow-hidden">
-              <div className="aspect-[4/3] bg-gradient-to-br from-blue-600 to-purple-700"></div>
+              <div className="aspect-[4/3] bg-gradient-to-br from-brightears-600 to-brightears"></div>
               
               {/* Overlay Content */}
               <div className="absolute inset-0 flex items-center justify-center">
@@ -99,7 +99,7 @@ export default function CorporateSection() {
                     </svg>
                   </div>
                   <p className="text-white text-lg font-medium">Premium Hotels</p>
-                  <p className="text-blue-200">& Entertainment Venues</p>
+                  <p className="text-brightears-200">& Entertainment Venues</p>
                 </div>
               </div>
             </div>
@@ -112,10 +112,10 @@ export default function CorporateSection() {
               </div>
             </div>
 
-            <div className="absolute -top-6 -right-6 bg-blue-600 text-white rounded-xl p-6 shadow-xl">
+            <div className="absolute -top-6 -right-6 bg-brightears text-white rounded-xl p-6 shadow-xl">
               <div className="text-center">
                 <div className="text-2xl font-bold">98%</div>
-                <div className="text-sm text-blue-200">Client Satisfaction</div>
+                <div className="text-sm text-white/80">Client Satisfaction</div>
               </div>
             </div>
           </div>

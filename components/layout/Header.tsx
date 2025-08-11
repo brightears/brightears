@@ -77,7 +77,7 @@ export default function Header() {
                   onClick={() => switchLanguage(loc)}
                   className={`px-3 py-1 text-sm font-medium transition-colors ${
                     locale === loc
-                      ? 'bg-brightears text-white'
+                      ? 'bg-brightears text-white font-semibold'
                       : 'text-gray-700 hover:bg-gray-100'
                   } ${loc === 'en' ? 'rounded-l-lg' : 'rounded-r-lg'}`}
                 >
@@ -95,7 +95,7 @@ export default function Header() {
             </Link>
             <Link
               href="/signup"
-              className="px-4 py-2 text-sm font-medium text-white bg-brightears rounded-lg hover:bg-brightears-600 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-gray-900 bg-brightears rounded-lg hover:bg-brightears-400 transition-colors border border-brightears-600"
             >
               {t('signup')}
             </Link>
@@ -180,7 +180,7 @@ export default function Header() {
                   onClick={() => switchLanguage(loc)}
                   className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                     locale === loc
-                      ? 'bg-brightears text-white'
+                      ? 'bg-brightears text-white font-semibold'
                       : 'bg-gray-100 text-gray-700'
                   }`}
                 >
@@ -199,7 +199,7 @@ export default function Header() {
             </Link>
             <Link
               href="/signup"
-              className="block w-full px-4 py-2 text-center text-sm font-medium text-white bg-brightears rounded-lg hover:bg-brightears-600 transition-colors"
+              className="block w-full px-4 py-2 text-center text-sm font-medium text-gray-900 bg-brightears rounded-lg hover:bg-brightears-400 transition-colors border border-brightears-600"
             >
               {t('signup')}
             </Link>
