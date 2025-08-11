@@ -15,7 +15,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-brightears via-brightears-400 to-brightears-600 py-16 lg:py-24">
+    <section className="relative bg-gradient-to-br from-brightears-300 via-brightears-500 to-brightears-700 py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           {/* Main Heading */}
@@ -42,7 +42,7 @@ export default function Hero() {
               </div>
               <button
                 type="submit"
-                className="px-8 py-4 text-lg font-bold text-brightears bg-white rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 transition-colors shadow-lg"
+                className="px-8 py-4 text-lg font-bold text-brightears-700 bg-white rounded-lg hover:bg-gray-50 hover:text-brightears-800 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 transition-colors shadow-lg"
               >
                 {t('searchButton')}
               </button>
@@ -53,7 +53,7 @@ export default function Hero() {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/artists"
-              className="px-8 py-3 text-lg font-medium text-white bg-white/20 border-2 border-white rounded-lg hover:bg-white/30 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 transition-all"
+              className="px-8 py-3 text-lg font-medium text-brightears-800 bg-white border-2 border-white rounded-lg hover:bg-gray-50 hover:text-brightears-900 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 transition-all shadow-lg"
             >
               {t('browseButton')}
             </Link>
@@ -83,9 +83,9 @@ export default function Hero() {
 
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-4 -right-4 w-72 h-72 bg-white rounded-full mix-blend-screen filter blur-xl opacity-20 animate-blob"></div>
-        <div className="absolute -bottom-8 -left-4 w-72 h-72 bg-brightears-200 rounded-full mix-blend-screen filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-8 left-1/2 w-72 h-72 bg-white rounded-full mix-blend-screen filter blur-xl opacity-10 animate-blob animation-delay-4000"></div>
+        <div className="absolute -top-4 -right-4 w-72 h-72 bg-brightears-200 rounded-full mix-blend-overlay filter blur-xl opacity-15 animate-blob"></div>
+        <div className="absolute -bottom-8 -left-4 w-72 h-72 bg-brightears-100 rounded-full mix-blend-overlay filter blur-xl opacity-15 animate-blob"></div>
+        <div className="absolute top-8 left-1/2 w-72 h-72 bg-white rounded-full mix-blend-soft-light filter blur-xl opacity-5 animate-blob"></div>
       </div>
     </section>
   );

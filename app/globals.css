@@ -10,6 +10,50 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Brightears brand colors */
+  --color-brightears: #00CFFF;
+  --color-brightears-50: #E6F9FF;
+  --color-brightears-100: #B3F0FF;
+  --color-brightears-200: #80E7FF;
+  --color-brightears-300: #4DDDFF;
+  --color-brightears-400: #1AD4FF;
+  --color-brightears-500: #00CFFF;
+  --color-brightears-600: #00A8D6;
+  --color-brightears-700: #0082A3;
+  --color-brightears-800: #005C73;
+  --color-brightears-900: #003643;
+  
+  /* Animations */
+  --animate-blob: blob 7s infinite;
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+/* Custom animation classes */
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animate-blob:nth-child(2) {
+  animation-delay: 2s;
+}
+
+.animate-blob:nth-child(3) {
+  animation-delay: 4s;
 }
 
 @media (prefers-color-scheme: dark) {
