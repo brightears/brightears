@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/components/navigation';
 import { locales, localeNames } from '@/i18n.config';
+import Image from 'next/image';
 
 export default function Header() {
   const t = useTranslations('nav');
@@ -22,7 +23,14 @@ export default function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center space-x-2">
+              <Image
+                src="/logo.png"
+                alt="Bright Ears"
+                width={40}
+                height={40}
+                className="h-10 w-auto"
+              />
               <span className="text-2xl font-bold text-gray-900">
                 Bright Ears
               </span>
@@ -69,7 +77,7 @@ export default function Header() {
                   onClick={() => switchLanguage(loc)}
                   className={`px-3 py-1 text-sm font-medium transition-colors ${
                     locale === loc
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-brightears text-white'
                       : 'text-gray-700 hover:bg-gray-100'
                   } ${loc === 'en' ? 'rounded-l-lg' : 'rounded-r-lg'}`}
                 >
@@ -87,7 +95,7 @@ export default function Header() {
             </Link>
             <Link
               href="/signup"
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+              className="px-4 py-2 text-sm font-medium text-white bg-brightears rounded-lg hover:bg-brightears-600 transition-colors"
             >
               {t('signup')}
             </Link>
@@ -172,7 +180,7 @@ export default function Header() {
                   onClick={() => switchLanguage(loc)}
                   className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                     locale === loc
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-brightears text-white'
                       : 'bg-gray-100 text-gray-700'
                   }`}
                 >
@@ -191,7 +199,7 @@ export default function Header() {
             </Link>
             <Link
               href="/signup"
-              className="block w-full px-4 py-2 text-center text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+              className="block w-full px-4 py-2 text-center text-sm font-medium text-white bg-brightears rounded-lg hover:bg-brightears-600 transition-colors"
             >
               {t('signup')}
             </Link>

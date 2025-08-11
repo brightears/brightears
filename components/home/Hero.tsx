@@ -15,7 +15,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-blue-50 to-indigo-100 py-16 lg:py-24">
+    <section className="relative bg-gradient-to-br from-primary-faint to-brightears-100 py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           {/* Main Heading */}
@@ -37,12 +37,12 @@ export default function Hero() {
                   placeholder={t('searchPlaceholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-6 py-4 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-6 py-4 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-brightears focus:border-transparent"
                 />
               </div>
               <button
                 type="submit"
-                className="px-8 py-4 text-lg font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                className="px-8 py-4 text-lg font-medium text-white bg-brightears rounded-lg hover:bg-brightears-600 focus:outline-none focus:ring-2 focus:ring-brightears focus:ring-offset-2 transition-colors"
               >
                 {t('searchButton')}
               </button>
@@ -53,7 +53,7 @@ export default function Hero() {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/artists"
-              className="px-8 py-3 text-lg font-medium text-blue-600 bg-white border-2 border-blue-600 rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+              className="px-8 py-3 text-lg font-medium text-brightears bg-white border-2 border-brightears rounded-lg hover:bg-primary-faint focus:outline-none focus:ring-2 focus:ring-brightears focus:ring-offset-2 transition-colors"
             >
               {t('browseButton')}
             </Link>
@@ -83,9 +83,9 @@ export default function Hero() {
 
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-4 -right-4 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute -bottom-8 -left-4 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-8 left-1/2 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+        <div className="absolute -top-4 -right-4 w-72 h-72 bg-brightears-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute -bottom-8 -left-4 w-72 h-72 bg-brightears-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-8 left-1/2 w-72 h-72 bg-brightears-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
       </div>
     </section>
   );
