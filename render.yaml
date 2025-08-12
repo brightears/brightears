@@ -13,9 +13,11 @@ services:
           name: brightears-db
           property: connectionString
       - key: NEXTAUTH_URL
-        value: https://brightears.io
+        value: https://brightears.onrender.com
       - key: NEXT_PUBLIC_URL
-        value: https://brightears.io
+        value: https://brightears.onrender.com
+      - key: NEXTAUTH_SECRET
+        generateValue: true
 
 databases:
   - name: brightears-db
