@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
-import { withAuth } from 'next-auth/middleware';
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
 import { locales, defaultLocale } from './i18n.config';
 
 const intlMiddleware = createMiddleware({
@@ -16,29 +16,23 @@ const protectedRoutes = [
   '/settings'
 ];
 
-export default function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+export default auth((req) => {
+  const { pathname } = req.nextUrl;
 
   // Check if it's a protected route
   const isProtectedRoute = protectedRoutes.some(route => 
     pathname.includes(route)
   );
 
-  if (isProtectedRoute) {
-    // Apply auth middleware for protected routes
-    return withAuth(request as any, {
-      callbacks: {
-        authorized: ({ token }) => !!token,
-      },
-      pages: {
-        signIn: '/login',
-      },
-    });
+  if (isProtectedRoute && !req.auth) {
+    // Redirect to login if accessing protected route without auth
+    const loginUrl = new URL('/login', req.url);
+    return NextResponse.redirect(loginUrl);
   }
 
-  // Apply only intl middleware for public routes
-  return intlMiddleware(request);
-}
+  // Apply intl middleware for all routes
+  return intlMiddleware(req);
+})
 
 export const config = {
   // Skip all paths that should not be internationalized or need auth

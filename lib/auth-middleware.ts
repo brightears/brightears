@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getToken } from 'next-auth/jwt'
+import { auth } from '@/lib/auth'
 import { UserRole } from '@prisma/client'
 
 /**
@@ -9,13 +9,13 @@ export async function checkUserRole(
   req: NextRequest,
   allowedRoles: UserRole[]
 ): Promise<boolean> {
-  const token = await getToken({ req })
+  const session = await auth()
   
-  if (!token || !token.role) {
+  if (!session || !session.user || !session.user.role) {
     return false
   }
   
-  return allowedRoles.includes(token.role as UserRole)
+  return allowedRoles.includes(session.user.role)
 }
 
 /**
@@ -47,9 +47,9 @@ export function withAuth() {
     req: NextRequest,
     handler: (req: NextRequest) => Promise<NextResponse>
   ) {
-    const token = await getToken({ req })
+    const session = await auth()
     
-    if (!token) {
+    if (!session) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
@@ -61,17 +61,17 @@ export function withAuth() {
 }
 
 /**
- * Get user ID from token in API routes
+ * Get user ID from session in API routes
  */
 export async function getUserIdFromRequest(req: NextRequest): Promise<string | null> {
-  const token = await getToken({ req })
-  return token?.userId as string || null
+  const session = await auth()
+  return session?.user?.id || null
 }
 
 /**
- * Get user role from token in API routes
+ * Get user role from session in API routes
  */
 export async function getUserRoleFromRequest(req: NextRequest): Promise<UserRole | null> {
-  const token = await getToken({ req })
-  return token?.role as UserRole || null
+  const session = await auth()
+  return session?.user?.role || null
 }

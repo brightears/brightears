@@ -1,9 +1,200 @@
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/lib/auth-options"
-import type { Session, User } from "next-auth"
-import type { UserRole } from "@prisma/client"
+import NextAuth, { DefaultSession } from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
+import GoogleProvider from "next-auth/providers/google"
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { PrismaClient, UserRole } from "@prisma/client"
+import bcrypt from "bcryptjs"
+import { z } from "zod"
 
-export interface ExtendedUser {
+const prisma = new PrismaClient()
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1),
+})
+
+// Extend the default session types
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string
+      email?: string
+      role: UserRole
+      artist?: {
+        id: string
+        stageName: string
+        verificationLevel: string
+      }
+      customer?: {
+        id: string
+        firstName?: string
+        lastName?: string
+      }
+      corporate?: {
+        id: string
+        companyName: string
+        contactPerson: string
+      }
+    } & DefaultSession["user"]
+  }
+}
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: "jwt",
+  },
+  pages: {
+    signIn: "/login",
+  },
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      allowDangerousEmailAccountLinking: true,
+    }),
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        try {
+          const validatedFields = loginSchema.safeParse(credentials)
+          
+          if (!validatedFields.success) {
+            return null
+          }
+
+          const { email, password } = validatedFields.data
+
+          const user = await prisma.user.findUnique({
+            where: { email },
+            include: {
+              artist: true,
+              customer: true,
+              corporate: true,
+            },
+          })
+
+          if (!user || !user.password) {
+            return null
+          }
+
+          const isValidPassword = await bcrypt.compare(password, user.password)
+
+          if (!isValidPassword) {
+            return null
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            image: user.image,
+            role: user.role,
+            artist: user.artist ? {
+              id: user.artist.id,
+              stageName: user.artist.stageName,
+              verificationLevel: user.artist.verificationLevel.toString(),
+            } : undefined,
+            customer: user.customer ? {
+              id: user.customer.id,
+              firstName: user.customer.firstName,
+              lastName: user.customer.lastName,
+            } : undefined,
+            corporate: user.corporate ? {
+              id: user.corporate.id,
+              companyName: user.corporate.companyName,
+              contactPerson: user.corporate.contactPerson,
+            } : undefined,
+          } as any
+        } catch (error) {
+          console.error("Auth error:", error)
+          return null
+        }
+      },
+    }),
+  ],
+  callbacks: {
+    async signIn({ user, account, profile }) {
+      // For OAuth providers, create/update user profile
+      if (account?.provider === "google") {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email! },
+          include: { customer: true, corporate: true, artist: true }
+        })
+
+        if (!existingUser) {
+          // Create new customer account for Google OAuth users
+          await prisma.user.create({
+            data: {
+              email: user.email!,
+              name: user.name,
+              image: user.image,
+              role: 'CUSTOMER',
+              customer: {
+                create: {
+                  firstName: user.name?.split(' ')[0] || '',
+                  lastName: user.name?.split(' ').slice(1).join(' ') || '',
+                  preferredLanguage: 'en'
+                }
+              }
+            }
+          })
+        }
+      }
+      return true
+    },
+    async jwt({ token, user, account }) {
+      if (account?.provider === "google" && user) {
+        // Fetch the full user data for OAuth
+        const dbUser = await prisma.user.findUnique({
+          where: { email: user.email! },
+          include: { customer: true, corporate: true, artist: true }
+        })
+        
+        if (dbUser) {
+          token.id = dbUser.id
+          token.role = dbUser.role
+          token.artist = dbUser.artist
+          token.customer = dbUser.customer
+          token.corporate = dbUser.corporate
+        }
+      } else if (user) {
+        // For credentials provider
+        token.id = user.id
+        token.role = (user as any).role
+        token.artist = (user as any).artist
+        token.customer = (user as any).customer
+        token.corporate = (user as any).corporate
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (token && session.user) {
+        session.user.id = token.id as string
+        session.user.role = token.role as UserRole
+        session.user.artist = token.artist as any
+        session.user.customer = token.customer as any
+        session.user.corporate = token.corporate as any
+      }
+      return session
+    },
+  },
+  events: {
+    async signIn({ user }) {
+      console.log(`User ${user.email} signed in`)
+    },
+    async signOut() {
+      console.log(`User signed out`)
+    },
+  },
+})
+
+// Export types for use in other files
+export type ExtendedUser = {
   id: string
   email?: string
   role: UserRole
@@ -11,39 +202,31 @@ export interface ExtendedUser {
     id: string
     stageName: string
     verificationLevel: string
-    // Add other artist properties as needed
   }
   customer?: {
     id: string
     firstName?: string
     lastName?: string
-    // Add other customer properties as needed
   }
   corporate?: {
     id: string
     companyName: string
     contactPerson: string
-    // Add other corporate properties as needed
   }
 }
 
-export interface ExtendedSession {
-  user: ExtendedUser
-  expires?: string
-}
-
 /**
- * Get the current session on the server side
+ * Get the current session (alias for auth())
  */
-export async function getSession(): Promise<ExtendedSession | null> {
-  return (await getServerSession(authOptions)) as ExtendedSession | null
+export async function getSession() {
+  return await auth()
 }
 
 /**
  * Get the current user from the session
  */
-export async function getCurrentUser(): Promise<ExtendedUser | null> {
-  const session = await getSession()
+export async function getCurrentUser() {
+  const session = await auth()
   return session?.user || null
 }
 
@@ -107,14 +290,14 @@ export async function isAdmin(): Promise<boolean> {
  * Check if the current user is authenticated
  */
 export async function isAuthenticated(): Promise<boolean> {
-  const session = await getSession()
+  const session = await auth()
   return !!session
 }
 
 /**
  * Require authentication - throws if not authenticated
  */
-export async function requireAuth(): Promise<ExtendedUser> {
+export async function requireAuth() {
   const user = await getCurrentUser()
   if (!user) {
     throw new Error("Authentication required")
@@ -125,7 +308,7 @@ export async function requireAuth(): Promise<ExtendedUser> {
 /**
  * Require specific role - throws if user doesn't have the role
  */
-export async function requireRole(role: UserRole): Promise<ExtendedUser> {
+export async function requireRole(role: UserRole) {
   const user = await requireAuth()
   if (user.role !== role) {
     throw new Error(`Role ${role} required`)
@@ -136,7 +319,7 @@ export async function requireRole(role: UserRole): Promise<ExtendedUser> {
 /**
  * Require any of the specified roles - throws if user doesn't have any of them
  */
-export async function requireAnyRole(roles: UserRole[]): Promise<ExtendedUser> {
+export async function requireAnyRole(roles: UserRole[]) {
   const user = await requireAuth()
   if (!roles.includes(user.role)) {
     throw new Error(`One of roles ${roles.join(", ")} required`)
