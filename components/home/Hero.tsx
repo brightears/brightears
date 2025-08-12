@@ -42,7 +42,7 @@ export default function Hero() {
               </div>
               <button
                 type="submit"
-                className="px-8 py-4 text-lg font-bold text-pure-white bg-earthy-brown rounded-lg hover:bg-earthy-brown/80 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-colors shadow-lg"
+                className="px-8 py-4 text-lg font-bold text-pure-white bg-brand-cyan rounded-lg hover:bg-brand-cyan/90 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all shadow-lg hover:shadow-xl"
               >
                 {t('searchButton')}
               </button>
@@ -53,13 +53,13 @@ export default function Hero() {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/artists"
-              className="px-8 py-3 text-lg font-medium text-deep-teal bg-pure-white border-2 border-earthy-brown rounded-lg hover:bg-pure-white/90 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all shadow-lg"
+              className="px-8 py-3 text-lg font-medium text-pure-white bg-transparent border-2 border-pure-white/50 rounded-lg hover:bg-pure-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all"
             >
               {t('browseButton')}
             </Link>
             <Link
               href="/corporate"
-              className="px-8 py-3 text-lg font-medium text-pure-white bg-earthy-brown rounded-lg hover:bg-earthy-brown/80 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-colors"
+              className="px-8 py-3 text-lg font-medium text-pure-white bg-transparent border-2 border-pure-white/50 rounded-lg hover:bg-pure-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all"
             >
               {t('corporateButton')}
             </Link>
