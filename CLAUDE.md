@@ -73,6 +73,23 @@ Building a commission-free entertainment booking platform for Thailand, starting
 - **Thai Market** - PromptPay payments, Buddhist holiday awareness
 - **SEO Priority** - All pages must be SEO optimized from the start
 
+### 🎨 CRITICAL DESIGN STANDARDS (Apply to ALL new pages/components)
+**COLORS - Use ONLY these colors:**
+- `brand-cyan` (#00bbe4) - Primary CTAs, links, active states
+- `deep-teal` (#2f6364) - Dark backgrounds, headers, footers
+- `earthy-brown` (#a47764) - Secondary buttons, warm accents
+- `soft-lavender` (#d59ec9) - Badges, special highlights (sparingly)
+- `off-white` (#f7f7f7) - Main page backgrounds
+- `dark-gray` (#333333) - All body text
+- `pure-white` (#ffffff) - Cards, text on dark backgrounds
+
+**TYPOGRAPHY - Apply consistently:**
+- ALL H1-H3 headlines: `font-playfair` (serif font)
+- ALL body text, buttons, UI: `font-inter` (sans-serif)
+- Thai content: `font-noto-thai`
+- Never use default system fonts
+- Maintain this hierarchy on every new component
+
 ### 🔧 Technical Details
 - **Root Directory**: Repository has all files at root (not in subdirectory)
 - **Build Command**: `prisma generate && next build`
@@ -88,7 +105,9 @@ brightears/
 ├── messages/           # EN/TH translations
 ├── prisma/schema.prisma # Database schema
 ├── .claude/agents/     # AI subagents for development
-└── public/            # Static assets
+├── public/            # Static assets
+├── DESIGN_SYSTEM.md   # MANDATORY design standards
+└── BRAND_GUIDELINES.md # Brand colors and typography
 ```
 
 ### 🔑 Environment Variables Needed
