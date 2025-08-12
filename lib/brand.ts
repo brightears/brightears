@@ -1,10 +1,13 @@
 export const brand = {
   colors: {
-    // ONLY these 4 colors from Huemint
-    primary: '#00bbe4',      // Brand cyan (updated brand color to match logo)
-    dark: '#12011f',         // Deep purple-black (darkest backgrounds)
-    secondary: '#373855',    // Medium purple-gray (secondary backgrounds, buttons)
-    light: '#fbfdff',        // Near white (light backgrounds, text on dark)
+    // NEW EARTH-TONE PALETTE (professionally analyzed)
+    primary: '#00bbe4',      // Brand Cyan (Primary/Action) - CTAs, links, headlines, icons
+    dark: '#2f6364',         // Deep Teal (Secondary/Anchor) - dark backgrounds, footers, body text
+    secondary: '#a47764',    // Earthy Brown/Taupe (Accent/Warmth) - secondary buttons, cards, info boxes
+    light: '#f7f7f7',        // Off-white (backgrounds)
+    highlight: '#d59ec9',    // Soft Lavender (Highlight) - badges, tags, special callouts (use sparingly)
+    text: '#333333',         // Dark Gray (text)
+    white: '#ffffff',        // Pure white (for cards on dark backgrounds)
   },
   logo: '/logo.png',
   name: 'Bright Ears',

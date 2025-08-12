@@ -1,17 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  /* ONLY these 4 colors from Huemint */
-  --brand-cyan: #00bbe4;        /* Brand cyan (updated brand color to match logo) */
-  --deep-purple: #12011f;       /* Deep purple-black (darkest backgrounds) */
-  --medium-purple: #373855;     /* Medium purple-gray (secondary backgrounds, buttons) */
-  --near-white: #fbfdff;        /* Near white (light backgrounds, text on dark) */
+  /* NEW EARTH-TONE PALETTE (professionally analyzed) */
+  --brand-cyan: #00bbe4;        /* Brand Cyan (Primary/Action) - CTAs, links, headlines, icons */
+  --deep-teal: #2f6364;         /* Deep Teal (Secondary/Anchor) - dark backgrounds, footers, body text */
+  --earthy-brown: #a47764;      /* Earthy Brown/Taupe (Accent/Warmth) - secondary buttons, cards, info boxes */
+  --soft-lavender: #d59ec9;     /* Soft Lavender (Highlight) - badges, tags, special callouts (use sparingly) */
+  --off-white: #f7f7f7;         /* Off-white (backgrounds) */
+  --dark-gray: #333333;         /* Dark Gray (text) */
+  --pure-white: #ffffff;        /* Pure white (for cards on dark backgrounds) */
   
   /* System compatibility */
-  --background: #fbfdff;
-  --background-dark: #12011f;
-  --foreground: #12011f;        /* Dark text on light backgrounds */
-  --foreground-light: #fbfdff;  /* Light text on dark backgrounds */
+  --background: #f7f7f7;
+  --background-dark: #2f6364;
+  --foreground: #333333;        /* Dark text on light backgrounds */
+  --foreground-light: #ffffff;  /* Light text on dark backgrounds */
 }
 
 @theme inline {
@@ -21,11 +24,14 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   
-  /* ONLY these 4 colors from Huemint */
+  /* NEW EARTH-TONE PALETTE */
   --color-brand-cyan: var(--brand-cyan);
-  --color-deep-purple: var(--deep-purple);
-  --color-medium-purple: var(--medium-purple);
-  --color-near-white: var(--near-white);
+  --color-deep-teal: var(--deep-teal);
+  --color-earthy-brown: var(--earthy-brown);
+  --color-soft-lavender: var(--soft-lavender);
+  --color-off-white: var(--off-white);
+  --color-dark-gray: var(--dark-gray);
+  --color-pure-white: var(--pure-white);
   
   /* Animations */
   --animate-blob: blob 7s infinite;

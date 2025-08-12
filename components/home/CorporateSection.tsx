@@ -34,7 +34,7 @@ export default function CorporateSection() {
   ];
 
   return (
-    <section className="py-16 lg:py-20 bg-deep-purple text-near-white">
+    <section className="py-16 lg:py-20 bg-deep-teal text-pure-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
@@ -42,7 +42,7 @@ export default function CorporateSection() {
             <h2 className="text-3xl font-bold sm:text-4xl mb-4">
               {t('title')}
             </h2>
-            <p className="text-xl text-near-white/80 mb-8">
+            <p className="text-xl text-pure-white/80 mb-8">
               {t('subtitle')}
             </p>
 
@@ -52,17 +52,17 @@ export default function CorporateSection() {
                 <div key={feature.key} className="flex items-start space-x-4">
                   {/* Icon */}
                   <div className="flex-shrink-0">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-brand-cyan text-near-white">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-brand-cyan text-pure-white">
                       {feature.icon}
                     </div>
                   </div>
                   
                   {/* Content */}
                   <div>
-                    <h3 className="text-lg font-semibold text-near-white mb-2">
+                    <h3 className="text-lg font-semibold text-pure-white mb-2">
                       {t(`${feature.key}.title`)}
                     </h3>
-                    <p className="text-near-white/80">
+                    <p className="text-pure-white/80">
                       {t(`${feature.key}.description`)}
                     </p>
                   </div>
@@ -74,7 +74,7 @@ export default function CorporateSection() {
             <div className="mt-10">
               <Link
                 href="/corporate"
-                className="inline-flex items-center px-8 py-4 text-lg font-medium text-deep-purple bg-near-white rounded-lg hover:bg-near-white/90 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 focus:ring-offset-deep-purple transition-colors"
+                className="inline-flex items-center px-8 py-4 text-lg font-medium text-deep-teal bg-pure-white rounded-lg hover:bg-pure-white/90 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 focus:ring-offset-deep-teal transition-colors"
               >
                 {t('getQuote')}
                 <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,34 +88,34 @@ export default function CorporateSection() {
           <div className="relative">
             {/* Main Image Placeholder */}
             <div className="relative rounded-2xl overflow-hidden">
-              <div className="aspect-[4/3] bg-gradient-to-br from-brand-cyan to-medium-purple"></div>
+              <div className="aspect-[4/3] bg-gradient-to-br from-brand-cyan to-earthy-brown"></div>
               
               {/* Overlay Content */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="w-24 h-24 mx-auto mb-4 bg-near-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <svg className="w-12 h-12 text-near-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-24 h-24 mx-auto mb-4 bg-pure-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <svg className="w-12 h-12 text-pure-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                   </div>
-                  <p className="text-near-white text-lg font-medium">Premium Hotels</p>
-                  <p className="text-near-white/80">& Entertainment Venues</p>
+                  <p className="text-pure-white text-lg font-medium">Premium Hotels</p>
+                  <p className="text-pure-white/80">& Entertainment Venues</p>
                 </div>
               </div>
             </div>
 
             {/* Floating Stats */}
-            <div className="absolute -bottom-6 -left-6 bg-near-white rounded-xl p-6 shadow-xl">
+            <div className="absolute -bottom-6 -left-6 bg-pure-white rounded-xl p-6 shadow-xl">
               <div className="text-center">
-                <div className="text-2xl font-bold text-deep-purple">500+</div>
-                <div className="text-sm text-deep-purple/70">Events Monthly</div>
+                <div className="text-2xl font-bold text-deep-teal">500+</div>
+                <div className="text-sm text-deep-teal/70">Events Monthly</div>
               </div>
             </div>
 
-            <div className="absolute -top-6 -right-6 bg-brand-cyan text-near-white rounded-xl p-6 shadow-xl">
+            <div className="absolute -top-6 -right-6 bg-brand-cyan text-pure-white rounded-xl p-6 shadow-xl">
               <div className="text-center">
                 <div className="text-2xl font-bold">98%</div>
-                <div className="text-sm text-near-white/80">Client Satisfaction</div>
+                <div className="text-sm text-pure-white/80">Client Satisfaction</div>
               </div>
             </div>
           </div>

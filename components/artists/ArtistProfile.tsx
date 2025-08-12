@@ -232,7 +232,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                   </div>
                   
                   <div className="mt-4 md:mt-0">
-                    <button className="w-full md:w-auto px-6 py-3 bg-brand-cyan text-white font-semibold rounded-lg hover:bg-brand-cyan/80 transition">
+                    <button className="w-full md:w-auto px-6 py-3 bg-brand-cyan text-pure-white font-semibold rounded-lg hover:bg-brand-cyan/80 transition">
                       {t('bookNow')}
                     </button>
                   </div>

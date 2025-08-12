@@ -41,26 +41,26 @@ export default function Features() {
   ];
 
   return (
-    <section className="py-16 lg:py-20 bg-deep-purple">
+    <section className="py-16 lg:py-20 bg-deep-teal">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature) => (
             <div
               key={feature.key}
-              className="text-center p-6 rounded-lg bg-near-white hover:bg-near-white/90 transition-colors group shadow-lg"
+              className="text-center p-6 rounded-lg bg-pure-white hover:bg-pure-white/90 transition-colors group shadow-lg"
             >
               {/* Icon */}
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-cyan text-near-white group-hover:bg-brand-cyan/80 transition-colors">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-cyan text-pure-white group-hover:bg-brand-cyan/80 transition-colors">
                 {feature.icon}
               </div>
               
               {/* Title */}
-              <h3 className="mt-6 text-lg font-semibold text-deep-purple">
+              <h3 className="mt-6 text-lg font-semibold text-deep-teal">
                 {t(`${feature.key}.title`)}
               </h3>
               
               {/* Description */}
-              <p className="mt-2 text-sm text-deep-purple/80 leading-relaxed">
+              <p className="mt-2 text-sm text-deep-teal/80 leading-relaxed">
                 {t(`${feature.key}.description`)}
               </p>
             </div>

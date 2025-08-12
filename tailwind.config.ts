@@ -9,18 +9,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ONLY these 4 colors from Huemint
-        'brand-cyan': '#00bbe4',      // Brand cyan (updated brand color to match logo)
-        'deep-purple': '#12011f',     // Deep purple-black (darkest backgrounds)
-        'medium-purple': '#373855',   // Medium purple-gray (secondary backgrounds, buttons)
-        'near-white': '#fbfdff',      // Near white (light backgrounds, text on dark)
+        // NEW EARTH-TONE PALETTE (professionally analyzed)
+        'brand-cyan': '#00bbe4',      // Brand Cyan (Primary/Action) - CTAs, links, headlines, icons
+        'deep-teal': '#2f6364',       // Deep Teal (Secondary/Anchor) - dark backgrounds, footers, body text
+        'earthy-brown': '#a47764',    // Earthy Brown/Taupe (Accent/Warmth) - secondary buttons, cards, info boxes
+        'soft-lavender': '#d59ec9',   // Soft Lavender (Highlight) - badges, tags, special callouts (use sparingly)
+        'off-white': '#f7f7f7',       // Off-white (backgrounds)
+        'dark-gray': '#333333',       // Dark Gray (text)
+        'pure-white': '#ffffff',      // Pure white (for cards on dark backgrounds)
         
         // Keep these standard overrides for system compatibility
         background: {
-          DEFAULT: '#fbfdff',         // Near white
-          dark: '#12011f',            // Deep purple-black
+          DEFAULT: '#f7f7f7',         // Off-white
+          dark: '#2f6364',            // Deep Teal
         },
-        foreground: '#fbfdff',        // Text color on dark backgrounds
+        foreground: '#ffffff',        // Text color on dark backgrounds
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

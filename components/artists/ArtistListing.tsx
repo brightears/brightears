@@ -116,7 +116,7 @@ export default function ArtistListing({ locale }: ArtistListingProps) {
                   <button
                     onClick={() => setPage(Math.max(1, page - 1))}
                     disabled={page === 1}
-                    className="px-4 py-2 bg-brand-cyan text-white rounded-lg disabled:bg-gray-300 hover:bg-brand-cyan/80 transition-colors"
+                    className="px-4 py-2 bg-brand-cyan text-pure-white rounded-lg disabled:bg-gray-300 hover:bg-brand-cyan/80 transition-colors"
                   >
                     {t('previous')}
                   </button>
@@ -128,7 +128,7 @@ export default function ArtistListing({ locale }: ArtistListingProps) {
                   <button
                     onClick={() => setPage(Math.min(totalPages, page + 1))}
                     disabled={page === totalPages}
-                    className="px-4 py-2 bg-brand-cyan text-white rounded-lg disabled:bg-gray-300 hover:bg-brand-cyan/80 transition-colors"
+                    className="px-4 py-2 bg-brand-cyan text-pure-white rounded-lg disabled:bg-gray-300 hover:bg-brand-cyan/80 transition-colors"
                   >
                     {t('next')}
                   </button>

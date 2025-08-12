@@ -101,7 +101,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
           </div>
           
           <div className="absolute bottom-2 left-2">
-            <span className="bg-brand-cyan text-near-white text-xs px-2 py-1 rounded">
+            <span className="bg-brand-cyan text-pure-white text-xs px-2 py-1 rounded">
               {t(`category.${artist.category}`)}
             </span>
           </div>
