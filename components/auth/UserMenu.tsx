@@ -27,20 +27,20 @@ export function UserMenu() {
   const user = session.user
 
   const getDisplayName = () => {
-    if (user.role === 'ARTIST' && user.artist?.stageName) {
+    if (user?.role === 'ARTIST' && user.artist?.stageName) {
       return user.artist.stageName
     }
-    if (user.role === 'CUSTOMER' && user.customer?.firstName) {
+    if (user?.role === 'CUSTOMER' && user.customer?.firstName) {
       return `${user.customer.firstName} ${user.customer.lastName || ''}`.trim()
     }
-    if (user.role === 'CORPORATE' && user.corporate?.contactPerson) {
+    if (user?.role === 'CORPORATE' && user.corporate?.contactPerson) {
       return user.corporate.contactPerson
     }
-    return user.email?.split('@')[0] || 'User'
+    return user?.email?.split('@')[0] || 'User'
   }
 
   const getRoleLinks = () => {
-    switch (user.role) {
+    switch (user?.role) {
       case 'ARTIST':
         return [
           { href: '/dashboard/artist', label: 'Artist Dashboard' },
@@ -108,7 +108,7 @@ export function UserMenu() {
           <div className="px-4 py-2 text-xs text-gray-500 border-b border-gray-100">
             {user.email}
             <div className="text-xs text-soft-lavender font-medium">
-              {user.role.toLowerCase()}
+              {user?.role?.toLowerCase() || 'user'}
             </div>
           </div>
           
