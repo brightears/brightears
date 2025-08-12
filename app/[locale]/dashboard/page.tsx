@@ -96,7 +96,7 @@ export default async function DashboardPage() {
             </h1>
             <p className="mt-2 text-dark-gray">{description}</p>
             <div className="mt-2 text-sm text-brand-cyan font-medium">
-              Role: {user.role} | Email: {user.email}
+              Role: {user.role} | Email: {user?.email || 'Not provided'}
             </div>
           </div>
 

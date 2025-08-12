@@ -106,7 +106,7 @@ export function UserMenu() {
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-pure-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
           <div className="px-4 py-2 text-xs text-gray-500 border-b border-gray-100">
-            {user.email}
+            {user?.email || 'No email available'}
             <div className="text-xs text-soft-lavender font-medium">
               {user?.role?.toLowerCase() || 'user'}
             </div>

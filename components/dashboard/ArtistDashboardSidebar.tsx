@@ -102,7 +102,7 @@ export default function ArtistDashboardSidebar({ locale, user }: ArtistDashboard
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-brand-cyan rounded-full flex items-center justify-center">
                 <span className="text-pure-white font-bold text-lg">
-                  {user.artist?.stageName?.charAt(0) || user.email?.charAt(0).toUpperCase()}
+                  {user.artist?.stageName?.charAt(0) || user.email?.charAt(0)?.toUpperCase() || 'U'}
                 </span>
               </div>
               <div>

@@ -25,7 +25,7 @@ export function AuthButton() {
     return (
       <div className="flex items-center space-x-4">
         <div className="text-sm text-dark-gray">
-          Welcome, {session.user.email}
+          Welcome, {session.user?.email || 'User'}
         </div>
         <button
           onClick={handleSignOut}
