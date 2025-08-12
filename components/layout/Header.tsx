@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { UserMenu } from '@/components/auth/UserMenu';
 import { AuthButton } from '@/components/auth/AuthButton';
+import NotificationBell from '@/components/notifications/NotificationBell';
 
 export default function Header() {
   const t = useTranslations('nav');
@@ -89,6 +90,9 @@ export default function Header() {
                 </button>
               ))}
             </div>
+
+            {/* Notifications */}
+            {session && <NotificationBell locale={locale} />}
 
             {/* Auth section */}
             {session ? <UserMenu /> : <AuthButton />}
@@ -182,6 +186,13 @@ export default function Header() {
               ))}
             </div>
           </div>
+
+          {/* Mobile notifications */}
+          {session && (
+            <div className="px-3 py-2">
+              <NotificationBell locale={locale} />
+            </div>
+          )}
 
           {/* Mobile auth section */}
           <div className="px-3 py-2">

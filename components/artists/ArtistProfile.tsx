@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
+import BookingInquiryForm from '@/components/booking/BookingInquiryForm'
 
 interface ArtistProfileProps {
   artistId: string
@@ -66,6 +67,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
   const [artist, setArtist] = useState<Artist | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('about')
+  const [showBookingForm, setShowBookingForm] = useState(false)
   
   useEffect(() => {
     fetchArtist()
@@ -232,7 +234,10 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                   </div>
                   
                   <div className="mt-4 md:mt-0">
-                    <button className="w-full md:w-auto px-6 py-3 bg-brand-cyan text-pure-white font-semibold rounded-lg hover:bg-brand-cyan/80 transition">
+                    <button 
+                      onClick={() => setShowBookingForm(true)}
+                      className="w-full md:w-auto px-6 py-3 bg-brand-cyan text-pure-white font-semibold rounded-lg hover:bg-brand-cyan/80 transition"
+                    >
                       {t('bookNow')}
                     </button>
                   </div>
@@ -430,6 +435,15 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
           </div>
         </div>
       </div>
+
+      {/* Booking Form Modal */}
+      {showBookingForm && artist && (
+        <BookingInquiryForm
+          artist={artist}
+          locale={locale}
+          onClose={() => setShowBookingForm(false)}
+        />
+      )}
     </div>
   )
 }

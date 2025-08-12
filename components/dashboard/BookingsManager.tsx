@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import BookingMessaging from '@/components/booking/BookingMessaging'
 
 type BookingStatus = 'INQUIRY' | 'QUOTED' | 'CONFIRMED' | 'PAID' | 'COMPLETED' | 'CANCELLED'
 
@@ -29,6 +30,17 @@ interface Booking {
   confirmedAt?: string
   completedAt?: string
   cancelledAt?: string
+  unreadMessages?: number
+  lastMessage?: {
+    id: string
+    content: string
+    createdAt: string
+    isRead: boolean
+    sender: {
+      id: string
+      role: string
+    }
+  } | null
 }
 
 interface BookingsManagerProps {
@@ -48,6 +60,7 @@ const statusFilters = [
 export default function BookingsManager({ bookings, artistId, locale }: BookingsManagerProps) {
   const [selectedFilter, setSelectedFilter] = useState('all')
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
+  const [showMessaging, setShowMessaging] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const filteredBookings = selectedFilter === 'all' 
@@ -198,6 +211,11 @@ export default function BookingsManager({ bookings, artistId, locale }: Bookings
                             {booking.guestCount} guests
                           </div>
                         )}
+                        {(booking.unreadMessages && booking.unreadMessages > 0) && (
+                          <div className="text-xs text-brand-cyan font-medium">
+                            {booking.unreadMessages} new messages
+                          </div>
+                        )}
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -230,6 +248,20 @@ export default function BookingsManager({ bookings, artistId, locale }: Bookings
                           className="text-brand-cyan hover:text-brand-cyan/80 text-sm font-medium"
                         >
                           View
+                        </button>
+                        <button
+                          onClick={() => {
+                            setSelectedBooking(booking)
+                            setShowMessaging(true)
+                          }}
+                          className="text-gray-600 hover:text-gray-800 text-sm font-medium"
+                        >
+                          Message
+                          {(booking.unreadMessages && booking.unreadMessages > 0) && (
+                            <span className="ml-1 bg-brand-cyan text-white text-xs px-1.5 py-0.5 rounded-full">
+                              {booking.unreadMessages}
+                            </span>
+                          )}
                         </button>
                         {booking.status === 'INQUIRY' && (
                           <>
@@ -290,24 +322,37 @@ export default function BookingsManager({ bookings, artistId, locale }: Bookings
                   <span className={`px-3 py-1 text-sm font-semibold rounded-full ${getStatusColor(selectedBooking.status)}`}>
                     {selectedBooking.status}
                   </span>
-                  {selectedBooking.status === 'INQUIRY' && (
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => handleStatusUpdate(selectedBooking.id, 'CONFIRMED')}
-                        disabled={isLoading}
-                        className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50"
-                      >
-                        Accept Booking
-                      </button>
-                      <button
-                        onClick={() => handleStatusUpdate(selectedBooking.id, 'CANCELLED')}
-                        disabled={isLoading}
-                        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50"
-                      >
-                        Decline Booking
-                      </button>
-                    </div>
-                  )}
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => setShowMessaging(true)}
+                      className="px-4 py-2 bg-brand-cyan text-white rounded-md hover:bg-brand-cyan/80"
+                    >
+                      Message Customer
+                      {(selectedBooking.unreadMessages && selectedBooking.unreadMessages > 0) && (
+                        <span className="ml-2 bg-white text-brand-cyan px-2 py-1 text-xs rounded-full">
+                          {selectedBooking.unreadMessages}
+                        </span>
+                      )}
+                    </button>
+                    {selectedBooking.status === 'INQUIRY' && (
+                      <>
+                        <button
+                          onClick={() => handleStatusUpdate(selectedBooking.id, 'CONFIRMED')}
+                          disabled={isLoading}
+                          className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50"
+                        >
+                          Accept Booking
+                        </button>
+                        <button
+                          onClick={() => handleStatusUpdate(selectedBooking.id, 'CANCELLED')}
+                          disabled={isLoading}
+                          className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50"
+                        >
+                          Decline Booking
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
 
                 {/* Event Information */}
@@ -398,6 +443,27 @@ export default function BookingsManager({ bookings, artistId, locale }: Bookings
             </div>
           </div>
         </div>
+      )}
+
+      {/* Messaging Modal */}
+      {selectedBooking && showMessaging && (
+        <BookingMessaging
+          booking={{
+            id: selectedBooking.id,
+            bookingNumber: selectedBooking.bookingNumber,
+            artistName: 'You', // Artist perspective
+            artistImage: undefined,
+            artistCategory: '',
+            eventType: selectedBooking.eventType,
+            eventDate: selectedBooking.eventDate,
+            status: selectedBooking.status,
+            venue: selectedBooking.venue
+          }}
+          locale={locale}
+          onClose={() => {
+            setShowMessaging(false)
+          }}
+        />
       )}
     </div>
   )

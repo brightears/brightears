@@ -1,5 +1,6 @@
 import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
+import { prisma } from '@/lib/prisma'
 import BookingsManager from '@/components/dashboard/BookingsManager'
 
 export default async function BookingsPage({
@@ -18,97 +19,69 @@ export default async function BookingsPage({
     redirect(`/${locale}/dashboard`)
   }
 
-  // Mock bookings data - will be replaced with real API calls
-  const mockBookings = [
-    {
-      id: '1',
-      bookingNumber: 'BE001',
-      customerId: 'customer1',
-      customerName: 'John Smith',
-      customerEmail: 'john@example.com',
-      eventType: 'Wedding Reception',
-      eventDate: '2024-08-20T19:00:00Z',
-      startTime: '2024-08-20T19:00:00Z',
-      endTime: '2024-08-20T23:00:00Z',
-      duration: 4,
-      venue: 'Grand Hyatt Bangkok',
-      venueAddress: '494 Rajdamri Road, Pathum Wan, Bangkok',
-      guestCount: 150,
-      quotedPrice: 15000,
-      finalPrice: 15000,
-      currency: 'THB',
-      status: 'CONFIRMED',
-      specialRequests: 'Please play some jazz during cocktail hour',
-      notes: 'Customer prefers upbeat music for dancing',
-      createdAt: '2024-08-10T10:00:00Z',
-      confirmedAt: '2024-08-11T14:30:00Z'
+  // Fetch real bookings data
+  const bookings = await prisma.booking.findMany({
+    where: { artistId: artist.id },
+    include: {
+      customer: {
+        select: {
+          email: true,
+          customer: {
+            select: {
+              firstName: true,
+              lastName: true
+            }
+          }
+        }
+      },
+      messages: {
+        take: 1,
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          isRead: true,
+          sender: {
+            select: {
+              id: true,
+              role: true
+            }
+          }
+        }
+      },
+      _count: {
+        select: {
+          messages: {
+            where: {
+              senderId: { not: user.id },
+              isRead: false
+            }
+          }
+        }
+      }
     },
-    {
-      id: '2',
-      bookingNumber: 'BE002',
-      customerId: 'customer2',
-      customerName: 'Sarah Johnson',
-      customerEmail: 'sarah@example.com',
-      eventType: 'Corporate Event',
-      eventDate: '2024-08-25T18:30:00Z',
-      startTime: '2024-08-25T18:30:00Z',
-      endTime: '2024-08-25T22:30:00Z',
-      duration: 4,
-      venue: 'Centara Grand at CentralWorld',
-      venueAddress: '999/99 Rama I Road, Pathum Wan, Bangkok',
-      guestCount: 200,
-      quotedPrice: 20000,
-      currency: 'THB',
-      status: 'INQUIRY',
-      specialRequests: 'Need background music during dinner, dance music after 9 PM',
-      createdAt: '2024-08-12T09:15:00Z'
-    },
-    {
-      id: '3',
-      bookingNumber: 'BE003',
-      customerId: 'customer3',
-      customerName: 'Michael Chen',
-      customerEmail: 'michael@example.com',
-      eventType: 'Birthday Party',
-      eventDate: '2024-08-15T20:00:00Z',
-      startTime: '2024-08-15T20:00:00Z',
-      endTime: '2024-08-16T01:00:00Z',
-      duration: 5,
-      venue: 'Private Residence',
-      venueAddress: 'Sukhumvit 55, Watthana, Bangkok',
-      guestCount: 50,
-      quotedPrice: 12000,
-      finalPrice: 12000,
-      currency: 'THB',
-      status: 'COMPLETED',
-      specialRequests: 'Mix of 80s and current hits',
-      createdAt: '2024-07-20T16:00:00Z',
-      confirmedAt: '2024-07-21T11:00:00Z',
-      completedAt: '2024-08-16T01:30:00Z'
-    },
-    {
-      id: '4',
-      bookingNumber: 'BE004',
-      customerId: 'customer4',
-      customerName: 'Lisa Williams',
-      customerEmail: 'lisa@example.com',
-      eventType: 'Graduation Party',
-      eventDate: '2024-08-30T19:00:00Z',
-      startTime: '2024-08-30T19:00:00Z',
-      endTime: '2024-08-30T23:00:00Z',
-      duration: 4,
-      venue: 'Bangkok University',
-      venueAddress: 'Rangsit Campus, Pathum Thani',
-      guestCount: 100,
-      quotedPrice: 18000,
-      currency: 'THB',
-      status: 'CANCELLED',
-      specialRequests: 'Fun party music for young adults',
-      cancellationReason: 'Event postponed due to weather concerns',
-      createdAt: '2024-08-05T13:20:00Z',
-      cancelledAt: '2024-08-08T10:45:00Z'
-    }
-  ]
+    orderBy: { createdAt: 'desc' }
+  })
+
+  // Format bookings for display
+  const formattedBookings = bookings.map(booking => ({
+    ...booking,
+    customerName: booking.customer.customer ? 
+      `${booking.customer.customer.firstName || ''} ${booking.customer.customer.lastName || ''}`.trim() ||
+      booking.customer.email :
+      booking.customer.email,
+    customerEmail: booking.customer.email,
+    lastMessage: booking.messages[0] || null,
+    unreadMessages: booking._count.messages,
+    eventDate: booking.eventDate.toISOString(),
+    startTime: booking.startTime.toISOString(),
+    endTime: booking.endTime.toISOString(),
+    createdAt: booking.createdAt.toISOString(),
+    confirmedAt: booking.confirmedAt?.toISOString(),
+    completedAt: booking.completedAt?.toISOString(),
+    cancelledAt: booking.cancelledAt?.toISOString()
+  }))
 
   return (
     <div className="space-y-8">
@@ -123,7 +96,7 @@ export default async function BookingsPage({
       </div>
 
       {/* Bookings Manager */}
-      <BookingsManager bookings={mockBookings} artistId={artist.id} locale={locale} />
+      <BookingsManager bookings={formattedBookings} artistId={artist.id} locale={locale} />
     </div>
   )
 }
