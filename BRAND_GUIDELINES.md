@@ -1,59 +1,70 @@
 # Bright Ears Brand Guidelines
 
 ## Logo
-- **File**: `/public/logo.png`
+- **File**: `/public/logo.png` (BE_Logo_Transparent.png)
 - **Location**: Stored as transparent PNG
 - **Usage**: Display at 40px height in header, scale appropriately for other uses
 
-## Brand Colors
+## Brand Colors (Earth-Tone Palette)
 
-### Primary Color
-- **Bright Ears Cyan**: `#00CFFF` (primary brand color)
-- **CSS Class**: `bg-brightears`, `text-brightears`
+### Primary Colors
+- **Brand Cyan**: `#00bbe4` - Primary brand color (matches logo)
+- **Deep Teal**: `#2f6364` - Dark backgrounds, anchoring
+- **Earthy Brown**: `#a47764` - Warm accent, secondary buttons
+- **Soft Lavender**: `#d59ec9` - Highlights, badges (use sparingly)
 
-### Color Palette
+### Neutral Colors
+- **Off-White**: `#f7f7f7` - Main backgrounds
+- **Dark Gray**: `#333333` - Primary text color
+- **Pure White**: `#ffffff` - Cards on dark backgrounds
+
+### Color System
 ```css
-brightears: {
-  DEFAULT: '#00CFFF',  // Main brand color
-  50: '#E6F9FF',       // Lightest - backgrounds
-  100: '#B3F0FF',      
-  200: '#80E7FF',
-  300: '#4DDDFF',
-  400: '#1AD4FF',
-  500: '#00CFFF',      // Main
-  600: '#00A8D6',      // Hover states
-  700: '#0082A3',      // Dark variant
-  800: '#005C73',
-  900: '#003643',      // Darkest
-}
-```
+/* Primary Palette */
+brand-cyan: #00bbe4;     /* CTAs, links, icons, primary actions */
+deep-teal: #2f6364;      /* Dark backgrounds, footers, headers */
+earthy-brown: #a47764;   /* Secondary buttons, warm accents */
+soft-lavender: #d59ec9;  /* Special highlights, badges */
 
-### Secondary Colors
-- **Accent Orange**: `#FF6B35` - Use sparingly for important CTAs
-- **Dark Text**: `#1A1A1A` - Primary text color
-- **Gray Scale**: Use Tailwind default grays
+/* Neutrals */
+off-white: #f7f7f7;      /* Page backgrounds */
+dark-gray: #333333;      /* Body text */
+white: #ffffff;          /* Cards, text on dark */
+```
 
 ## Usage Guidelines
 
+### Color Hierarchy (Based on Gemini Analysis)
+1. **Primary/Action** (#00bbe4): CTAs, links, headlines, key branding
+2. **Secondary/Anchor** (#2f6364): Dark backgrounds, footers, section dividers
+3. **Accent/Warmth** (#a47764): Secondary buttons, cards, info boxes
+4. **Highlight** (#d59ec9): Badges, tags, special callouts (use sparingly)
+
 ### Buttons
-- **Primary CTA**: `bg-brightears hover:bg-brightears-600`
-- **Secondary CTA**: `border-brightears text-brightears hover:bg-primary-faint`
-- **Tertiary**: `bg-gray-100 text-gray-700 hover:bg-gray-200`
+- **Primary CTA**: `bg-brand-cyan text-white hover:bg-opacity-90`
+- **Secondary CTA**: `bg-earthy-brown text-white hover:bg-opacity-90`
+- **Tertiary**: `bg-off-white text-dark-gray hover:bg-gray-100`
 
-### Gradients
-- **Hero Gradient**: `from-brightears-600 to-brightears`
-- **Background Gradient**: `from-primary-faint to-brightears-100`
-
-### Focus States
-- Use `focus:ring-brightears` for all interactive elements
+### Backgrounds
+- **Hero Section**: Deep teal (#2f6364) with white text
+- **Features**: Off-white (#f7f7f7) background with white cards
+- **Categories**: Earthy brown accents for warmth
+- **Corporate**: Deep teal background
+- **Footer**: Deep teal (#2f6364)
 
 ### Typography
-- Headers: Bold, dark gray (`text-gray-900`)
-- Body: Regular, medium gray (`text-gray-700`)
-- Subtle: Light gray (`text-gray-500`)
+- **Headers**: Bold, dark gray (#333333) on light, white on dark
+- **Body**: Regular dark gray (#333333) on light backgrounds
+- **White Text**: Use on deep teal backgrounds for contrast
+
+## Design Principles
+- **Balance**: Cool tech feel (cyan/teal) with warm organic tones (brown)
+- **Hierarchy**: Clear visual hierarchy with color roles
+- **Contrast**: Proper contrast ratios for accessibility
+- **Minimal**: Clean, sophisticated, artistic aesthetic
 
 ## Implementation Notes
-- All purple/blue colors have been replaced with Bright Ears cyan
-- Hover states use darker shade (`brightears-600`)
-- Light backgrounds use `primary-faint` or `brightears-50`
-- Maintain high contrast for accessibility
+- Updated from purple theme to earth-tone palette (Aug 12, 2024)
+- Brand cyan updated from #00CFFF to #00bbe4 to match logo
+- Color palette professionally analyzed for harmony and balance
+- Maintains triadic color relationship for visual appeal
