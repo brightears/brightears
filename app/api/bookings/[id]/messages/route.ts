@@ -4,9 +4,10 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const user = await getCurrentUser()
     
     if (!user) {
@@ -15,7 +16,7 @@ export async function GET(
 
     // Verify user has access to this booking
     const booking = await prisma.booking.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         artist: { select: { userId: true } },
         customer: { select: { id: true } }
@@ -64,7 +65,7 @@ export async function GET(
     // Mark messages as read for current user
     await prisma.message.updateMany({
       where: {
-        bookingId: params.id,
+        bookingId: id,
         senderId: { not: user.id },
         isRead: false
       },
@@ -105,9 +106,10 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const user = await getCurrentUser()
     
     if (!user) {
@@ -123,7 +125,7 @@ export async function POST(
 
     // Verify user has access to this booking
     const booking = await prisma.booking.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         artist: { 
           select: { 
@@ -173,7 +175,7 @@ export async function POST(
         content: content.trim(),
         senderId: user.id,
         artistId: artistId,
-        bookingId: params.id
+        bookingId: id
       },
       include: {
         sender: {

@@ -4,9 +4,10 @@ import { prisma } from '@/lib/prisma'
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const user = await getCurrentUser()
     
     if (!user || user.role !== 'ARTIST') {
@@ -31,7 +32,7 @@ export async function PUT(
 
     // Verify the review belongs to this artist
     const review = await prisma.review.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: { artist: true }
     })
 
@@ -41,7 +42,7 @@ export async function PUT(
 
     // Update review with artist response
     const updatedReview = await prisma.review.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         artistResponse: response,
         respondedAt: new Date()

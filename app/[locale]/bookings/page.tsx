@@ -56,13 +56,30 @@ export default async function BookingsPage({ params }: PageProps) {
     orderBy: { createdAt: 'desc' }
   })
 
-  // Format bookings for display
+  // Format bookings for display with proper type conversions
   const formattedBookings = bookings.map(booking => ({
     ...booking,
     artistName: booking.artist.stageName,
-    artistImage: booking.artist.profileImage,
+    artistImage: booking.artist.profileImage || undefined,
     artistCategory: booking.artist.category,
-    lastMessage: booking.messages[0] || null,
+    eventDate: booking.eventDate.toISOString(),
+    startTime: booking.startTime.toISOString(),
+    endTime: booking.endTime.toISOString(),
+    createdAt: booking.createdAt.toISOString(),
+    confirmedAt: booking.confirmedAt?.toISOString(),
+    completedAt: booking.completedAt?.toISOString(),
+    cancelledAt: booking.cancelledAt?.toISOString(),
+    paidAt: booking.paidAt?.toISOString(),
+    quotedPrice: booking.quotedPrice?.toNumber(),
+    finalPrice: booking.finalPrice?.toNumber(),
+    guestCount: booking.guestCount || undefined,
+    specialRequests: booking.specialRequests || undefined,
+    notes: booking.notes || undefined,
+    cancellationReason: booking.cancellationReason || undefined,
+    lastMessage: booking.messages[0] ? {
+      ...booking.messages[0],
+      createdAt: booking.messages[0].createdAt.toISOString()
+    } : null,
     unreadMessages: booking.messages.filter(m => !m.isRead && m.sender.id !== user.id).length
   }))
 
@@ -86,7 +103,7 @@ export default async function BookingsPage({ params }: PageProps) {
       <div className="container mx-auto px-4 py-8">
         <CustomerBookingsManager
           bookings={formattedBookings}
-          locale={params.locale}
+          locale={locale}
         />
       </div>
     </div>

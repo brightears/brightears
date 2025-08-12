@@ -4,9 +4,10 @@ import { prisma } from '@/lib/prisma'
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const user = await getCurrentUser()
     
     if (!user || user.role !== 'ARTIST') {
@@ -23,7 +24,7 @@ export async function PUT(
 
     // Verify the booking belongs to this artist
     const booking = await prisma.booking.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: { artist: true }
     })
 
@@ -33,7 +34,7 @@ export async function PUT(
 
     // Update booking status
     const updatedBooking = await prisma.booking.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         status,
         confirmedAt: status === 'CONFIRMED' ? new Date() : booking.confirmedAt,

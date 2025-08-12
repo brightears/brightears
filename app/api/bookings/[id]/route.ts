@@ -4,9 +4,10 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const user = await getCurrentUser()
     
     if (!user) {
@@ -14,7 +15,7 @@ export async function GET(
     }
 
     const booking = await prisma.booking.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         customer: {
           select: {
@@ -123,9 +124,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const user = await getCurrentUser()
     
     if (!user) {
@@ -136,7 +138,7 @@ export async function PUT(
     
     // Verify the booking exists and user has permission
     const booking = await prisma.booking.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         artist: { select: { id: true, userId: true } }
       }
@@ -226,7 +228,7 @@ export async function PUT(
 
     // Update the booking
     const updatedBooking = await prisma.booking.update({
-      where: { id: params.id },
+      where: { id: id },
       data: updateData,
       include: {
         customer: {
@@ -314,9 +316,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const user = await getCurrentUser()
     
     if (!user) {
@@ -324,7 +327,7 @@ export async function DELETE(
     }
 
     const booking = await prisma.booking.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         artist: { select: { userId: true } }
       }
@@ -346,16 +349,16 @@ export async function DELETE(
     // Delete associated messages and notifications
     await prisma.$transaction([
       prisma.message.deleteMany({
-        where: { bookingId: params.id }
+        where: { bookingId: id }
       }),
       prisma.notification.deleteMany({
         where: { 
-          relatedId: params.id,
+          relatedId: id,
           relatedType: 'booking'
         }
       }),
       prisma.booking.delete({
-        where: { id: params.id }
+        where: { id: id }
       })
     ])
 
