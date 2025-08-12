@@ -47,6 +47,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/login",
   },
+  trustHost: true, // Required for NextAuth v5 in production
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
@@ -148,39 +149,52 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return true
     },
     async jwt({ token, user, account }) {
-      if (account?.provider === "google" && user) {
+      if (account?.provider === "google" && user && user.email) {
         // Fetch the full user data for OAuth
         const dbUser = await prisma.user.findUnique({
-          where: { email: user.email! },
+          where: { email: user.email },
           include: { customer: true, corporate: true, artist: true }
         })
         
         if (dbUser) {
           token.id = dbUser.id
+          token.email = dbUser.email
           token.role = dbUser.role
           token.artist = dbUser.artist
           token.customer = dbUser.customer
           token.corporate = dbUser.corporate
+        } else {
+          // If user doesn't exist in DB, don't create a token
+          return {}
         }
-      } else if (user) {
-        // For credentials provider
+      } else if (user && user.id && user.email) {
+        // For credentials provider - ensure we have required fields
         token.id = user.id
+        token.email = user.email
         token.role = (user as any).role
         token.artist = (user as any).artist
         token.customer = (user as any).customer
         token.corporate = (user as any).corporate
+      } else {
+        // If we don't have a valid user, return empty token
+        return {}
       }
       return token
     },
     async session({ session, token }) {
-      if (token && session.user) {
+      // Only return a session if we have a valid token with user ID and email
+      if (token && token.id && token.email && session.user) {
         session.user.id = token.id as string
+        session.user.email = token.email as string
         session.user.role = token.role as UserRole
         session.user.artist = token.artist as any
         session.user.customer = token.customer as any
         session.user.corporate = token.corporate as any
+        return session
       }
-      return session
+      
+      // Return null if we don't have a valid authenticated token
+      return null
     },
   },
   events: {
@@ -287,11 +301,24 @@ export async function isAdmin(): Promise<boolean> {
 }
 
 /**
+ * Check if a session is valid and authenticated
+ */
+export function isValidSession(session: any): boolean {
+  return !!(
+    session && 
+    session.user && 
+    session.user.id && 
+    session.user.email &&
+    session.user.role
+  )
+}
+
+/**
  * Check if the current user is authenticated
  */
 export async function isAuthenticated(): Promise<boolean> {
   const session = await auth()
-  return !!session
+  return isValidSession(session)
 }
 
 /**

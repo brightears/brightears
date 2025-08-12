@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
+import { isValidSession } from '@/lib/auth'
 import Link from 'next/link'
 
 interface Notification {
@@ -32,7 +33,7 @@ export default function NotificationBell({ locale }: NotificationBellProps) {
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (session?.user) {
+    if (isValidSession(session)) {
       fetchNotifications()
       // Set up polling for new notifications
       const interval = setInterval(fetchNotifications, 30000) // Check every 30 seconds
@@ -114,13 +115,13 @@ export default function NotificationBell({ locale }: NotificationBellProps) {
     switch (notification.type) {
       case 'booking_request':
       case 'booking_update':
-        if (session?.user?.role === 'ARTIST') {
+        if (isValidSession(session) && session.user.role === 'ARTIST') {
           return `/${locale}/dashboard/artist/bookings`
         } else {
           return `/${locale}/bookings`
         }
       case 'message':
-        if (session?.user?.role === 'ARTIST') {
+        if (isValidSession(session) && session.user.role === 'ARTIST') {
           return `/${locale}/dashboard/artist/bookings`
         } else {
           return `/${locale}/bookings`
@@ -146,7 +147,7 @@ export default function NotificationBell({ locale }: NotificationBellProps) {
     }
   }
 
-  if (!session?.user) return null
+  if (!isValidSession(session)) return null
 
   return (
     <div className="relative" ref={dropdownRef}>

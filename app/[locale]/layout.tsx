@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { locales } from '@/i18n.config';
 import { Inter, Playfair_Display, Noto_Sans_Thai } from 'next/font/google';
 import { SessionProvider } from '@/components/auth/SessionProvider';
-import { getSession } from '@/lib/auth';
+import { getSession, isValidSession } from '@/lib/auth';
 import type { Session } from 'next-auth';
 import '../globals.css';
 
@@ -70,6 +70,9 @@ export default async function LocaleLayout({
   // Get messages for the locale
   const messages = await getMessages();
   const session = await getSession();
+  
+  // Only pass valid sessions to the SessionProvider
+  const validSession = isValidSession(session) ? session : null;
 
   return (
     <html 
@@ -78,7 +81,7 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased`}>
-        <SessionProvider session={session as Session | null}>
+        <SessionProvider session={validSession as Session | null}>
           <NextIntlClientProvider locale={locale} messages={messages}>
             {children}
           </NextIntlClientProvider>

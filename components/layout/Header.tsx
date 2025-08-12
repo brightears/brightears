@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { UserMenu } from '@/components/auth/UserMenu';
 import { AuthButton } from '@/components/auth/AuthButton';
+import { isValidSession } from '@/lib/auth';
 import NotificationBell from '@/components/notifications/NotificationBell';
 
 export default function Header() {
@@ -17,6 +18,7 @@ export default function Header() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data: session } = useSession();
+  const hasValidSession = isValidSession(session);
 
   const switchLanguage = (newLocale: string) => {
     router.replace(pathname, { locale: newLocale });
@@ -92,10 +94,10 @@ export default function Header() {
             </div>
 
             {/* Notifications */}
-            {session && <NotificationBell locale={locale} />}
+            {hasValidSession && <NotificationBell locale={locale} />}
 
             {/* Auth section */}
-            {session ? <UserMenu /> : <AuthButton />}
+            {hasValidSession ? <UserMenu /> : <AuthButton />}
           </div>
 
           {/* Mobile menu button */}
@@ -188,7 +190,7 @@ export default function Header() {
           </div>
 
           {/* Mobile notifications */}
-          {session && (
+          {hasValidSession && (
             <div className="px-3 py-2">
               <NotificationBell locale={locale} />
             </div>
@@ -196,7 +198,7 @@ export default function Header() {
 
           {/* Mobile auth section */}
           <div className="px-3 py-2">
-            {session ? (
+            {hasValidSession ? (
               <div className="text-center">
                 <UserMenu />
               </div>

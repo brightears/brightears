@@ -3,6 +3,7 @@
 import { useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { isValidSession } from '@/lib/auth'
 
 export function AuthButton() {
   const { data: session, status } = useSession()
@@ -21,7 +22,7 @@ export function AuthButton() {
     )
   }
 
-  if (session) {
+  if (isValidSession(session)) {
     return (
       <div className="flex items-center space-x-4">
         <div className="text-sm text-dark-gray">

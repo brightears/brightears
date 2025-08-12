@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/lib/auth'
+import { auth, isValidSession } from '@/lib/auth'
 import { UserRole } from '@prisma/client'
 
 /**
@@ -11,7 +11,7 @@ export async function checkUserRole(
 ): Promise<boolean> {
   const session = await auth()
   
-  if (!session || !session.user || !session.user.role) {
+  if (!isValidSession(session)) {
     return false
   }
   
@@ -49,7 +49,7 @@ export function withAuth() {
   ) {
     const session = await auth()
     
-    if (!session) {
+    if (!isValidSession(session)) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
@@ -65,7 +65,7 @@ export function withAuth() {
  */
 export async function getUserIdFromRequest(req: NextRequest): Promise<string | null> {
   const session = await auth()
-  return session?.user?.id || null
+  return isValidSession(session) ? session.user.id : null
 }
 
 /**
@@ -73,5 +73,5 @@ export async function getUserIdFromRequest(req: NextRequest): Promise<string | n
  */
 export async function getUserRoleFromRequest(req: NextRequest): Promise<UserRole | null> {
   const session = await auth()
-  return session?.user?.role || null
+  return isValidSession(session) ? session.user.role : null
 }

@@ -3,6 +3,7 @@
 import { useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
+import { isValidSession } from '@/lib/auth'
 
 export function UserMenu() {
   const { data: session } = useSession()
@@ -22,7 +23,8 @@ export function UserMenu() {
     }
   }, [])
 
-  if (!session) return null
+  // Only render if we have a valid, authenticated session
+  if (!isValidSession(session)) return null
 
   const user = session.user
 

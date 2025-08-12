@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
+import { auth, isValidSession } from '@/lib/auth';
 import { locales, defaultLocale } from './i18n.config';
 
 const intlMiddleware = createMiddleware({
@@ -63,8 +63,8 @@ export default async function middleware(req: NextRequest) {
   if (isProtectedRoute) {
     const session = await auth();
     
-    if (!session) {
-      // Redirect to login if accessing protected route without auth
+    if (!isValidSession(session)) {
+      // Redirect to login if accessing protected route without valid auth
       const loginUrl = new URL('/login', req.url);
       return NextResponse.redirect(loginUrl);
     }
