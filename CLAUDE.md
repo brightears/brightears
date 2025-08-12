@@ -74,14 +74,16 @@ Building a commission-free entertainment booking platform for Thailand, starting
 - **SEO Priority** - All pages must be SEO optimized from the start
 
 ### 🎨 CRITICAL DESIGN STANDARDS (Apply to ALL new pages/components)
-**COLORS - Use ONLY these colors:**
+**COLORS - 4 Brand Colors + White:**
 - `brand-cyan` (#00bbe4) - Primary CTAs, links, active states
 - `deep-teal` (#2f6364) - Dark backgrounds, headers, footers
 - `earthy-brown` (#a47764) - Secondary buttons, warm accents
 - `soft-lavender` (#d59ec9) - Badges, special highlights (sparingly)
+- `pure-white` (#ffffff) - Cards, text on dark backgrounds
+
+**Supporting neutrals (backgrounds/text only):**
 - `off-white` (#f7f7f7) - Main page backgrounds
 - `dark-gray` (#333333) - All body text
-- `pure-white` (#ffffff) - Cards, text on dark backgrounds
 
 **TYPOGRAPHY - Apply consistently:**
 - ALL H1-H3 headlines: `font-playfair` (serif font)

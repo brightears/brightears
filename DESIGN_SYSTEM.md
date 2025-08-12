@@ -6,19 +6,19 @@ This document defines the **ONLY** colors and fonts allowed in the Bright Ears p
 
 ## Color Palette (USE ONLY THESE)
 
-### Primary Colors
+### 4 Brand Colors + White
 ```css
 brand-cyan: #00bbe4     /* Primary CTAs, links, icons, active states */
 deep-teal: #2f6364      /* Dark backgrounds, headers, footers */
 earthy-brown: #a47764   /* Secondary buttons, warm accents */
 soft-lavender: #d59ec9  /* Badges, special highlights (use sparingly) */
+pure-white: #ffffff     /* Clean white for cards and text on dark */
 ```
 
-### Neutral Colors
+### Supporting Neutrals (for backgrounds/text only)
 ```css
-off-white: #f7f7f7      /* Main page backgrounds */
-dark-gray: #333333      /* ALL body text */
-pure-white: #ffffff     /* Cards, text on dark backgrounds */
+off-white: #f7f7f7      /* Main page backgrounds (not pure white) */
+dark-gray: #333333      /* ALL body text (not black) */
 ```
 
 ### Color Usage Rules
@@ -108,7 +108,7 @@ font-noto-thai   /* Noto Sans Thai - Thai language content only */
 
 ## Verification Checklist
 Before implementing any component:
-- [ ] Uses ONLY the 7 defined colors
+- [ ] Uses ONLY the 4 brand colors + white (plus off-white/dark-gray for backgrounds/text)
 - [ ] Headlines use font-playfair
 - [ ] Body text uses default Inter (no class needed)
 - [ ] No custom colors or fonts introduced
