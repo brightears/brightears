@@ -1,4 +1,4 @@
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/components/navigation';
 import Hero from '@/components/home/Hero';
 import Features from '@/components/home/Features';
@@ -7,8 +7,8 @@ import CorporateSection from '@/components/home/CorporateSection';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
-export default function HomePage() {
-  const t = useTranslations();
+export default async function HomePage() {
+  const t = await getTranslations();
 
   return (
     <>
