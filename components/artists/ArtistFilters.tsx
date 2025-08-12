@@ -53,7 +53,7 @@ export default function ArtistFilters({ filters, onFilterChange }: ArtistFilters
         {(filters.category || filters.city) && (
           <button
             onClick={clearFilters}
-            className="text-sm text-brightears hover:text-brightears-600"
+            className="text-sm text-brand-cyan hover:text-brand-cyan-600"
           >
             {t('clearAll')}
           </button>
@@ -69,7 +69,7 @@ export default function ArtistFilters({ filters, onFilterChange }: ArtistFilters
                 type="checkbox"
                 checked={filters.category === category}
                 onChange={() => handleCategoryChange(category)}
-                className="mr-2 text-brightears focus:ring-brightears"
+                className="mr-2 text-brand-cyan focus:ring-brand-cyan"
               />
               <span className="text-sm">{t(`category.${category}`)}</span>
             </label>
@@ -86,7 +86,7 @@ export default function ArtistFilters({ filters, onFilterChange }: ArtistFilters
                 type="checkbox"
                 checked={filters.city === city}
                 onChange={() => handleCityChange(city)}
-                className="mr-2 text-brightears focus:ring-brightears"
+                className="mr-2 text-brand-cyan focus:ring-brand-cyan"
               />
               <span className="text-sm">{city}</span>
             </label>

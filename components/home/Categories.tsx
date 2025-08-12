@@ -46,11 +46,11 @@ export default function Categories() {
   ];
 
   return (
-    <section className="py-16 lg:py-20 bg-secondary-dark">
+    <section className="py-16 lg:py-20 bg-medium-purple">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-off-white sm:text-4xl">
+          <h2 className="text-3xl font-bold text-near-white sm:text-4xl">
             {t('title')}
           </h2>
         </div>
@@ -61,31 +61,31 @@ export default function Categories() {
             <Link
               key={category.key}
               href={category.href}
-              className="group relative overflow-hidden rounded-2xl bg-off-white p-8 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+              className="group relative overflow-hidden rounded-2xl bg-near-white p-8 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
             >
               {/* Background Gradient */}
-              <div className="absolute inset-0 bg-brightears opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-brand-cyan opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
               
               {/* Content */}
               <div className="relative z-10 text-center">
                 {/* Icon */}
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-brightears text-off-white mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-brand-cyan text-near-white mb-6 group-hover:scale-110 transition-transform duration-300">
                   {category.icon}
                 </div>
                 
                 {/* Category Name */}
-                <h3 className="text-xl font-semibold text-primary-dark mb-2 group-hover:text-primary-dark/80 transition-colors">
+                <h3 className="text-xl font-semibold text-deep-purple mb-2 group-hover:text-deep-purple/80 transition-colors">
                   {t(`${category.key}.name`)}
                 </h3>
                 
                 {/* Description */}
-                <p className="text-sm text-primary-dark/70 group-hover:text-primary-dark/80 transition-colors">
+                <p className="text-sm text-deep-purple/70 group-hover:text-deep-purple/80 transition-colors">
                   {t(`${category.key}.description`)}
                 </p>
 
                 {/* Hover Arrow */}
                 <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <svg className="mx-auto w-6 h-6 text-primary-dark/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="mx-auto w-6 h-6 text-deep-purple/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </div>

@@ -7,7 +7,7 @@ export default function Footer() {
   const t = useTranslations('footer');
 
   return (
-    <footer className="bg-primary-dark text-off-white">
+    <footer className="bg-deep-purple text-near-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-12 lg:py-16">
@@ -15,16 +15,16 @@ export default function Footer() {
             {/* Company Info */}
             <div className="lg:col-span-2">
               <div className="flex items-center mb-4">
-                <span className="text-2xl font-bold text-off-white">Bright Ears</span>
+                <span className="text-2xl font-bold text-near-white">Bright Ears</span>
               </div>
-              <p className="text-off-white/70 mb-6 max-w-md">
+              <p className="text-near-white/70 mb-6 max-w-md">
                 {t('description')}
               </p>
               
               {/* Contact Info */}
               <div className="space-y-3">
-                <h4 className="text-lg font-semibold text-off-white">{t('contact')}</h4>
-                <div className="space-y-2 text-off-white/70">
+                <h4 className="text-lg font-semibold text-near-white">{t('contact')}</h4>
+                <div className="space-y-2 text-near-white/70">
                   <div className="flex items-center space-x-3">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -50,12 +50,12 @@ export default function Footer() {
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-lg font-semibold text-off-white mb-6">{t('links')}</h4>
+              <h4 className="text-lg font-semibold text-near-white mb-6">{t('links')}</h4>
               <ul className="space-y-4">
                 <li>
                   <Link 
                     href="/artists" 
-                    className="text-off-white/70 hover:text-off-white transition-colors"
+                    className="text-near-white/70 hover:text-near-white transition-colors"
                   >
                     {t('browseArtists')}
                   </Link>
@@ -63,7 +63,7 @@ export default function Footer() {
                 <li>
                   <Link 
                     href="/how-it-works" 
-                    className="text-off-white/70 hover:text-off-white transition-colors"
+                    className="text-near-white/70 hover:text-near-white transition-colors"
                   >
                     {t('howItWorks')}
                   </Link>
@@ -71,7 +71,7 @@ export default function Footer() {
                 <li>
                   <Link 
                     href="/corporate" 
-                    className="text-off-white/70 hover:text-off-white transition-colors"
+                    className="text-near-white/70 hover:text-near-white transition-colors"
                   >
                     {t('corporate')}
                   </Link>
@@ -81,12 +81,12 @@ export default function Footer() {
 
             {/* Legal */}
             <div>
-              <h4 className="text-lg font-semibold text-off-white mb-6">{t('legal')}</h4>
+              <h4 className="text-lg font-semibold text-near-white mb-6">{t('legal')}</h4>
               <ul className="space-y-4">
                 <li>
                   <Link 
                     href="/terms" 
-                    className="text-off-white/70 hover:text-off-white transition-colors"
+                    className="text-near-white/70 hover:text-near-white transition-colors"
                   >
                     {t('terms')}
                   </Link>
@@ -94,7 +94,7 @@ export default function Footer() {
                 <li>
                   <Link 
                     href="/privacy" 
-                    className="text-off-white/70 hover:text-off-white transition-colors"
+                    className="text-near-white/70 hover:text-near-white transition-colors"
                   >
                     {t('privacy')}
                   </Link>
@@ -103,12 +103,12 @@ export default function Footer() {
 
               {/* Social Media */}
               <div className="mt-8">
-                <h4 className="text-lg font-semibold text-off-white mb-4">Follow Us</h4>
+                <h4 className="text-lg font-semibold text-near-white mb-4">Follow Us</h4>
                 <div className="flex space-x-4">
                   {/* Facebook */}
                   <a
                     href="#"
-                    className="text-off-white/70 hover:text-off-white transition-colors"
+                    className="text-near-white/70 hover:text-near-white transition-colors"
                     aria-label="Facebook"
                   >
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -119,7 +119,7 @@ export default function Footer() {
                   {/* Instagram */}
                   <a
                     href="#"
-                    className="text-off-white/70 hover:text-off-white transition-colors"
+                    className="text-near-white/70 hover:text-near-white transition-colors"
                     aria-label="Instagram"
                   >
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -130,7 +130,7 @@ export default function Footer() {
                   {/* Line */}
                   <a
                     href="#"
-                    className="text-off-white/70 hover:text-off-white transition-colors"
+                    className="text-near-white/70 hover:text-near-white transition-colors"
                     aria-label="Line"
                   >
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -144,16 +144,16 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-secondary-dark py-6">
+        <div className="border-t border-medium-purple py-6">
           <div className="flex flex-col md:flex-row items-center justify-between">
-            <p className="text-off-white/70 text-sm">
+            <p className="text-near-white/70 text-sm">
               {t('copyright')}
             </p>
-            <div className="mt-4 md:mt-0 flex space-x-6 text-sm text-off-white/70">
-              <Link href="/terms" className="hover:text-off-white transition-colors">
+            <div className="mt-4 md:mt-0 flex space-x-6 text-sm text-near-white/70">
+              <Link href="/terms" className="hover:text-near-white transition-colors">
                 {t('terms')}
               </Link>
-              <Link href="/privacy" className="hover:text-off-white transition-colors">
+              <Link href="/privacy" className="hover:text-near-white transition-colors">
                 {t('privacy')}
               </Link>
             </div>

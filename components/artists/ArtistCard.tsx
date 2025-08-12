@@ -101,7 +101,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
           </div>
           
           <div className="absolute bottom-2 left-2">
-            <span className="bg-brightears text-white text-xs px-2 py-1 rounded">
+            <span className="bg-brand-cyan text-near-white text-xs px-2 py-1 rounded">
               {t(`category.${artist.category}`)}
             </span>
           </div>
@@ -131,7 +131,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
           )}
           
           <div className="flex justify-between items-center mt-3 pt-3 border-t">
-            <div className="text-sm font-semibold text-brightears-600">
+            <div className="text-sm font-semibold text-brand-cyan">
               {formatPrice(artist.hourlyRate)}
             </div>
             

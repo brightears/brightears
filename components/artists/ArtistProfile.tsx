@@ -105,7 +105,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">{t('notFound')}</h1>
-          <Link href={`/${locale}/artists`} className="text-brightears hover:text-brightears-600">
+          <Link href={`/${locale}/artists`} className="text-brand-cyan hover:text-brand-cyan/80">
             {t('backToArtists')}
           </Link>
         </div>
@@ -177,7 +177,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Cover Image */}
-      <div className="relative h-64 md:h-80 bg-gradient-to-r from-brightears-600 to-brightears">
+      <div className="relative h-64 md:h-80 bg-gradient-to-r from-brand-cyan/80 to-brand-cyan">
         {artist.coverImage && (
           <Image
             src={artist.coverImage}
@@ -220,7 +220,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                       {artist.stageName}
                     </h1>
                     <div className="flex flex-wrap items-center gap-3 mb-3">
-                      <span className="bg-brightears-100 text-brightears-700 px-3 py-1 rounded-full text-sm font-medium">
+                      <span className="bg-brand-cyan/10 text-brand-cyan/90 px-3 py-1 rounded-full text-sm font-medium">
                         {t(`category.${artist.category}`)}
                       </span>
                       {getVerificationBadge()}
@@ -232,7 +232,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                   </div>
                   
                   <div className="mt-4 md:mt-0">
-                    <button className="w-full md:w-auto px-6 py-3 bg-brightears text-white font-semibold rounded-lg hover:bg-brightears-600 transition">
+                    <button className="w-full md:w-auto px-6 py-3 bg-brand-cyan text-white font-semibold rounded-lg hover:bg-brand-cyan/80 transition">
                       {t('bookNow')}
                     </button>
                   </div>
@@ -276,7 +276,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                   onClick={() => setActiveTab(tab)}
                   className={`py-2 px-1 border-b-2 font-medium text-sm ${
                     activeTab === tab
-                      ? 'border-brightears text-brightears'
+                      ? 'border-brand-cyan text-brand-cyan'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
                 >
@@ -362,7 +362,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                         <h3 className="font-semibold mb-4">{t('connect')}</h3>
                         <div className="space-y-2">
                           {artist.website && (
-                            <a href={artist.website} target="_blank" rel="noopener noreferrer" className="flex items-center text-gray-600 hover:text-brightears">
+                            <a href={artist.website} target="_blank" rel="noopener noreferrer" className="flex items-center text-gray-600 hover:text-brand-cyan">
                               <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.029 11H4.083a6.004 6.004 0 002.783 4.118z" clipRule="evenodd" />
                               </svg>
@@ -370,7 +370,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                             </a>
                           )}
                           {artist.facebook && (
-                            <a href={artist.facebook} target="_blank" rel="noopener noreferrer" className="flex items-center text-gray-600 hover:text-brightears">
+                            <a href={artist.facebook} target="_blank" rel="noopener noreferrer" className="flex items-center text-gray-600 hover:text-brand-cyan">
                               <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                               </svg>
@@ -378,7 +378,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                             </a>
                           )}
                           {artist.instagram && (
-                            <a href={artist.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center text-gray-600 hover:text-brightears">
+                            <a href={artist.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center text-gray-600 hover:text-brand-cyan">
                               <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
                               </svg>

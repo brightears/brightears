@@ -9,19 +9,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary brand colors - ONLY these colors
-        brightears: '#00CFFF',        // Brand cyan for accents, icons, highlights
-        'off-white': '#EDFDFF',       // Off-white for light backgrounds
-        'primary-dark': '#22242b',    // Primary dark background
-        'secondary-dark': '#252525',  // Secondary dark (slightly lighter)
-        'button-color': '#294751',    // Button/icon color (dark teal)
+        // ONLY these 4 colors from Huemint
+        'brand-cyan': '#00bbe4',      // Brand cyan (updated brand color to match logo)
+        'deep-purple': '#12011f',     // Deep purple-black (darkest backgrounds)
+        'medium-purple': '#373855',   // Medium purple-gray (secondary backgrounds, buttons)
+        'near-white': '#fbfdff',      // Near white (light backgrounds, text on dark)
         
         // Keep these standard overrides for system compatibility
         background: {
-          DEFAULT: '#EDFDFF',         // Off-white
-          dark: '#22242b',            // Primary dark
+          DEFAULT: '#fbfdff',         // Near white
+          dark: '#12011f',            // Deep purple-black
         },
-        foreground: '#EDFDFF',        // Text color on dark backgrounds
+        foreground: '#fbfdff',        // Text color on dark backgrounds
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
