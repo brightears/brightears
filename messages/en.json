@@ -9,7 +9,7 @@
     "howItWorks": "How It Works",
     "corporate": "Corporate Solutions",
     "login": "Login",
-    "signup": "Join as Artist"
+    "signup": "Sign Up"
   },
   "hero": {
     "title": "Premium Entertainment for Every Event",
@@ -174,5 +174,51 @@
     "category.DANCER": "Dancer",
     "category.PHOTOGRAPHER": "Photographer",
     "category.SPEAKER": "Speaker"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to your account",
+      "email": "Email address",
+      "password": "Password",
+      "signIn": "Sign in",
+      "signingIn": "Signing in...",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create a new account",
+      "invalidCredentials": "Invalid email or password",
+      "error": "An error occurred. Please try again."
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Join Bright Ears today",
+      "customerType": "Individual Customer",
+      "corporateType": "Corporate/Business",
+      "email": "Email address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "phone": "Phone number",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "location": "Location",
+      "preferredLanguage": "Preferred Language",
+      "companyName": "Company Name",
+      "contactPerson": "Contact Person",
+      "position": "Position",
+      "venueType": "Venue Type",
+      "companyAddress": "Company Address",
+      "createAccount": "Create account",
+      "creatingAccount": "Creating account...",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "artistRegister": "Are you an artist?",
+      "registerAsArtist": "Register as an artist instead",
+      "passwordMismatch": "Passwords do not match",
+      "required": "Required fields are missing"
+    },
+    "dashboard": {
+      "welcome": "Welcome back",
+      "quickActions": "Quick Actions",
+      "stats": "Statistics"
+    }
   }
 }

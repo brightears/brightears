@@ -3,6 +3,8 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n.config';
 import { Inter, Playfair_Display, Noto_Sans_Thai } from 'next/font/google';
+import { SessionProvider } from '@/components/auth/SessionProvider';
+import { getSession } from '@/lib/auth';
 import '../globals.css';
 
 const inter = Inter({ 
@@ -66,6 +68,7 @@ export default async function LocaleLayout({
 
   // Get messages for the locale
   const messages = await getMessages();
+  const session = await getSession();
 
   return (
     <html 
@@ -74,9 +77,11 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased`}>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+        <SessionProvider session={session}>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -5,6 +5,9 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/components/navigation';
 import { locales, localeNames } from '@/i18n.config';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import { UserMenu } from '@/components/auth/UserMenu';
+import { AuthButton } from '@/components/auth/AuthButton';
 
 export default function Header() {
   const t = useTranslations('nav');
@@ -12,6 +15,7 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   const switchLanguage = (newLocale: string) => {
     router.replace(pathname, { locale: newLocale });
@@ -86,19 +90,8 @@ export default function Header() {
               ))}
             </div>
 
-            {/* Auth buttons */}
-            <Link
-              href="/login"
-              className="px-4 py-2 text-sm font-medium text-deep-teal/70 hover:text-deep-teal"
-            >
-              {t('login')}
-            </Link>
-            <Link
-              href="/signup"
-              className="px-4 py-2 text-sm font-medium text-pure-white bg-earthy-brown rounded-lg hover:bg-earthy-brown/80 transition-colors"
-            >
-              {t('signup')}
-            </Link>
+            {/* Auth section */}
+            {session ? <UserMenu /> : <AuthButton />}
           </div>
 
           {/* Mobile menu button */}
@@ -190,19 +183,28 @@ export default function Header() {
             </div>
           </div>
 
-          <div className="px-3 py-2 space-y-2">
-            <Link
-              href="/login"
-              className="block w-full px-4 py-2 text-center text-sm font-medium text-deep-teal/70 bg-off-white/50 rounded-lg hover:bg-off-white/70"
-            >
-              {t('login')}
-            </Link>
-            <Link
-              href="/signup"
-              className="block w-full px-4 py-2 text-center text-sm font-medium text-pure-white bg-earthy-brown rounded-lg hover:bg-earthy-brown/80 transition-colors"
-            >
-              {t('signup')}
-            </Link>
+          {/* Mobile auth section */}
+          <div className="px-3 py-2">
+            {session ? (
+              <div className="text-center">
+                <UserMenu />
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <Link
+                  href="/login"
+                  className="block w-full px-4 py-2 text-center text-sm font-medium text-deep-teal/70 bg-off-white/50 rounded-lg hover:bg-off-white/70"
+                >
+                  {t('login')}
+                </Link>
+                <Link
+                  href="/register"
+                  className="block w-full px-4 py-2 text-center text-sm font-medium text-pure-white bg-earthy-brown rounded-lg hover:bg-earthy-brown/80 transition-colors"
+                >
+                  {t('signup')}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
