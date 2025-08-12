@@ -39,19 +39,27 @@ export function AuthButton() {
   }
 
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex items-center space-x-2">
       <Link
         href="/login"
-        className="text-deep-teal hover:text-brand-cyan text-sm font-medium"
+        className="text-deep-teal hover:text-brand-cyan text-sm font-medium px-3 py-2"
       >
         Sign in
       </Link>
-      <Link
-        href="/register"
-        className="bg-brand-cyan text-pure-white px-4 py-2 rounded-md text-sm font-medium hover:bg-brand-cyan/90"
-      >
-        Sign up
-      </Link>
+      <div className="flex items-center space-x-2">
+        <Link
+          href="/register/artist"
+          className="bg-earthy-brown text-pure-white px-4 py-2 rounded-md text-sm font-medium hover:bg-earthy-brown/90 transition-colors"
+        >
+          Artist Portal
+        </Link>
+        <Link
+          href="/register/choice"
+          className="bg-brand-cyan text-pure-white px-4 py-2 rounded-md text-sm font-medium hover:bg-brand-cyan/90 transition-colors"
+        >
+          Sign up
+        </Link>
+      </div>
     </div>
   )
 }

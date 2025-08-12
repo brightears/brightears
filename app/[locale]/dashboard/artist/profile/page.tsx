@@ -5,6 +5,7 @@ import ProfileEditForm from '@/components/dashboard/ProfileEditForm'
 import PricingSettingsForm from '@/components/dashboard/PricingSettingsForm'
 import ServiceAreasForm from '@/components/dashboard/ServiceAreasForm'
 import SocialLinksForm from '@/components/dashboard/SocialLinksForm'
+import ImageUploadForm from '@/components/dashboard/ImageUploadForm'
 
 export default async function ProfilePage({
   params
@@ -54,6 +55,8 @@ export default async function ProfilePage({
       soundcloud: true,
       mixcloud: true,
       lineId: true,
+      profileImage: true,
+      coverImage: true,
     }
   })
 
@@ -81,6 +84,9 @@ export default async function ProfilePage({
 
       {/* Profile Forms */}
       <div className="space-y-8">
+        {/* Profile Images */}
+        <ImageUploadForm artist={artist} locale={locale} />
+        
         {/* Basic Information */}
         <ProfileEditForm artist={artist} locale={locale} />
         

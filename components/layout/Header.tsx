@@ -209,8 +209,14 @@ export default function Header() {
                   {t('login')}
                 </Link>
                 <Link
-                  href="/register"
+                  href="/register/artist"
                   className="block w-full px-4 py-2 text-center text-sm font-medium text-pure-white bg-earthy-brown rounded-lg hover:bg-earthy-brown/80 transition-colors"
+                >
+                  Artist Portal
+                </Link>
+                <Link
+                  href="/register/choice"
+                  className="block w-full px-4 py-2 text-center text-sm font-medium text-pure-white bg-brand-cyan rounded-lg hover:bg-brand-cyan/80 transition-colors"
                 >
                   {t('signup')}
                 </Link>
