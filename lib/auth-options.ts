@@ -1,5 +1,6 @@
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import GoogleProvider from "next-auth/providers/google"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient, UserRole } from "@prisma/client"
 import bcrypt from "bcryptjs"
@@ -21,6 +22,11 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      allowDangerousEmailAccountLinking: true,
+    }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -72,8 +78,52 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
+    async signIn({ user, account, profile }) {
+      // For OAuth providers, create/update user profile
+      if (account?.provider === "google") {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email! },
+          include: { customer: true, corporate: true, artist: true }
+        })
+
+        if (!existingUser) {
+          // Create new customer account for Google OAuth users
+          await prisma.user.create({
+            data: {
+              email: user.email!,
+              name: user.name,
+              image: user.image,
+              role: 'CUSTOMER',
+              customer: {
+                create: {
+                  firstName: user.name?.split(' ')[0] || '',
+                  lastName: user.name?.split(' ').slice(1).join(' ') || '',
+                  preferredLanguage: 'en'
+                }
+              }
+            }
+          })
+        }
+      }
+      return true
+    },
+    async jwt({ token, user, account }) {
+      if (account?.provider === "google" && user) {
+        // Fetch the full user data for OAuth
+        const dbUser = await prisma.user.findUnique({
+          where: { email: user.email! },
+          include: { customer: true, corporate: true, artist: true }
+        })
+        
+        if (dbUser) {
+          token.id = dbUser.id
+          token.role = dbUser.role
+          token.artist = dbUser.artist
+          token.customer = dbUser.customer
+          token.corporate = dbUser.corporate
+        }
+      } else if (user) {
+        // For credentials provider
         token.id = user.id
         token.role = user.role
         token.artist = user.artist

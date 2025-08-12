@@ -23,7 +23,7 @@
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.2",
     "next": "15.4.6",
-    "next-auth": "^4.24.11",
+    "next-auth": "^5.0.0-beta.29",
     "next-intl": "^4.3.4",
     "prisma": "^6.13.0",
     "react": "19.1.0",
