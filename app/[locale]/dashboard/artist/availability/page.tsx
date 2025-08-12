@@ -3,10 +3,11 @@ import { redirect } from 'next/navigation'
 import AvailabilityCalendar from '@/components/dashboard/AvailabilityCalendar'
 
 export default async function AvailabilityPage({
-  params: { locale }
+  params
 }: {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params
   const user = await getCurrentUser()
   
   if (!user || user.role !== 'ARTIST') {

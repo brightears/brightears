@@ -3,10 +3,11 @@ import { redirect } from 'next/navigation'
 import MediaGalleryManager from '@/components/dashboard/MediaGalleryManager'
 
 export default async function MediaPage({
-  params: { locale }
+  params
 }: {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params
   const user = await getCurrentUser()
   
   if (!user || user.role !== 'ARTIST') {

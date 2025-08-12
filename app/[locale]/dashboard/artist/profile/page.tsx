@@ -6,10 +6,11 @@ import ServiceAreasForm from '@/components/dashboard/ServiceAreasForm'
 import SocialLinksForm from '@/components/dashboard/SocialLinksForm'
 
 export default async function ProfilePage({
-  params: { locale }
+  params
 }: {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params
   const user = await getCurrentUser()
   
   if (!user || user.role !== 'ARTIST') {

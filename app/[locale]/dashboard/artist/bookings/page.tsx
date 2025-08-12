@@ -4,10 +4,11 @@ import { prisma } from '@/lib/prisma'
 import BookingsManager from '@/components/dashboard/BookingsManager'
 
 export default async function BookingsPage({
-  params: { locale }
+  params
 }: {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params
   const user = await getCurrentUser()
   
   if (!user || user.role !== 'ARTIST') {

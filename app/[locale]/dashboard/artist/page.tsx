@@ -6,10 +6,11 @@ import QuickActions from '@/components/dashboard/QuickActions'
 import UpcomingEvents from '@/components/dashboard/UpcomingEvents'
 
 export default async function ArtistDashboardPage({
-  params: { locale }
+  params
 }: {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params
   const user = await getCurrentUser()
   
   if (!user || user.role !== 'ARTIST') {

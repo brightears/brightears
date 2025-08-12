@@ -6,20 +6,21 @@ import CustomerBookingsManager from '@/components/booking/CustomerBookingsManage
 import { getTranslations } from 'next-intl/server'
 
 interface PageProps {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }
 
 export default async function BookingsPage({ params }: PageProps) {
+  const { locale } = await params
   const user = await getCurrentUser()
   const t = await getTranslations('customerBookings')
 
   if (!user) {
-    redirect(`/${params.locale}/login`)
+    redirect(`/${locale}/login`)
   }
 
   // Redirect artists to their dashboard
   if (user.role === 'ARTIST') {
-    redirect(`/${params.locale}/dashboard/artist/bookings`)
+    redirect(`/${locale}/dashboard/artist/bookings`)
   }
 
   // Fetch customer bookings
