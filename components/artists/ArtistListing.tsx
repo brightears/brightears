@@ -121,7 +121,7 @@ export default function ArtistListing({ locale }: ArtistListingProps) {
                     {t('previous')}
                   </button>
                   
-                  <span className="px-4 py-2">
+                  <span className="px-4 py-2 font-inter text-dark-gray">
                     {t('page', { current: page, total: totalPages })}
                   </span>
                   
@@ -137,7 +137,7 @@ export default function ArtistListing({ locale }: ArtistListingProps) {
             </>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">{t('noArtistsFound')}</p>
+              <p className="text-dark-gray font-inter text-lg">{t('noArtistsFound')}</p>
             </div>
           )}
         </div>

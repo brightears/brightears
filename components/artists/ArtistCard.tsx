@@ -51,7 +51,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
           </svg>
         ))}
-        <span className="ml-1 text-sm text-gray-600">
+        <span className="ml-1 text-sm text-dark-gray">
           {rating.toFixed(1)} ({artist.reviewCount})
         </span>
       </div>
@@ -62,7 +62,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
     switch (artist.verificationLevel) {
       case 'TRUSTED':
         return (
-          <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+          <span className="bg-soft-lavender text-pure-white text-xs px-2 py-1 rounded-full">
             ✓ {t('trusted')}
           </span>
         )
@@ -101,21 +101,21 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
           </div>
           
           <div className="absolute bottom-2 left-2">
-            <span className="bg-brand-cyan text-pure-white text-xs px-2 py-1 rounded">
+            <span className="bg-earthy-brown text-pure-white text-xs px-2 py-1 rounded">
               {t(`category.${artist.category}`)}
             </span>
           </div>
         </div>
         
         <div className="p-4">
-          <h3 className="font-playfair font-bold text-lg mb-1">{artist.stageName}</h3>
+          <h3 className="font-playfair font-bold text-lg mb-1 text-dark-gray">{artist.stageName}</h3>
           
-          <p className="text-gray-600 text-sm mb-2">
+          <p className="text-dark-gray font-inter text-sm mb-2">
             📍 {artist.baseCity}
           </p>
           
           {bio && (
-            <p className="text-gray-700 text-sm mb-2 line-clamp-2">
+            <p className="text-dark-gray font-inter text-sm mb-2 line-clamp-2">
               {bio}
             </p>
           )}
@@ -123,7 +123,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
           {artist.genres.length > 0 && (
             <div className="flex flex-wrap gap-1 mb-2">
               {artist.genres.slice(0, 3).map((genre) => (
-                <span key={genre} className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
+                <span key={genre} className="bg-off-white text-dark-gray font-inter text-xs px-2 py-1 rounded">
                   {genre}
                 </span>
               ))}
@@ -131,7 +131,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
           )}
           
           <div className="flex justify-between items-center mt-3 pt-3 border-t">
-            <div className="text-sm font-semibold text-brand-cyan">
+            <div className="text-sm font-inter font-semibold text-brand-cyan">
               {formatPrice(artist.hourlyRate)}
             </div>
             

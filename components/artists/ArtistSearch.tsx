@@ -30,7 +30,7 @@ export default function ArtistSearch({ onSearch, initialValue = '' }: ArtistSear
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t('searchPlaceholder')}
-          className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+          className="w-full font-inter px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-cyan text-dark-gray"
         />
         
         {search && (

@@ -49,11 +49,11 @@ export default function ArtistFilters({ filters, onFilterChange }: ArtistFilters
   return (
     <div className="bg-background rounded-lg shadow-md p-6">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-bold text-lg">{t('filters')}</h3>
+        <h3 className="font-playfair font-bold text-lg text-dark-gray">{t('filters')}</h3>
         {(filters.category || filters.city) && (
           <button
             onClick={clearFilters}
-            className="text-sm text-brand-cyan hover:text-brand-cyan-600"
+            className="text-sm font-inter text-brand-cyan hover:text-brand-cyan/80"
           >
             {t('clearAll')}
           </button>
@@ -61,7 +61,7 @@ export default function ArtistFilters({ filters, onFilterChange }: ArtistFilters
       </div>
       
       <div className="mb-6">
-        <h4 className="font-semibold mb-3">{t('category')}</h4>
+        <h4 className="font-inter font-semibold mb-3 text-dark-gray">{t('category')}</h4>
         <div className="space-y-2">
           {categories.map((category) => (
             <label key={category} className="flex items-center cursor-pointer">
@@ -71,14 +71,14 @@ export default function ArtistFilters({ filters, onFilterChange }: ArtistFilters
                 onChange={() => handleCategoryChange(category)}
                 className="mr-2 text-brand-cyan focus:ring-brand-cyan"
               />
-              <span className="text-sm">{t(`category.${category}`)}</span>
+              <span className="text-sm font-inter text-dark-gray">{t(`category.${category}`)}</span>
             </label>
           ))}
         </div>
       </div>
       
       <div>
-        <h4 className="font-semibold mb-3">{t('location')}</h4>
+        <h4 className="font-inter font-semibold mb-3 text-dark-gray">{t('location')}</h4>
         <div className="space-y-2">
           {cities.map((city) => (
             <label key={city} className="flex items-center cursor-pointer">
@@ -88,7 +88,7 @@ export default function ArtistFilters({ filters, onFilterChange }: ArtistFilters
                 onChange={() => handleCityChange(city)}
                 className="mr-2 text-brand-cyan focus:ring-brand-cyan"
               />
-              <span className="text-sm">{city}</span>
+              <span className="text-sm font-inter text-dark-gray">{city}</span>
             </label>
           ))}
         </div>
