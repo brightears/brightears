@@ -108,7 +108,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
         </div>
         
         <div className="p-4">
-          <h3 className="font-bold text-lg mb-1">{artist.stageName}</h3>
+          <h3 className="font-playfair font-bold text-lg mb-1">{artist.stageName}</h3>
           
           <p className="text-gray-600 text-sm mb-2">
             📍 {artist.baseCity}

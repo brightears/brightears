@@ -8,6 +8,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'inter': ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        'playfair': ['var(--font-playfair)', 'Georgia', 'serif'],
+        'noto-thai': ['var(--font-noto-thai)', 'sans-serif'],
+      },
       colors: {
         // NEW EARTH-TONE PALETTE (professionally analyzed)
         'brand-cyan': '#00bbe4',      // Brand Cyan (Primary/Action) - CTAs, links, headlines, icons

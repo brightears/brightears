@@ -104,7 +104,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">{t('notFound')}</h1>
+          <h1 className="text-2xl font-playfair font-bold text-gray-900 mb-4">{t('notFound')}</h1>
           <Link href={`/${locale}/artists`} className="text-brand-cyan hover:text-brand-cyan/80">
             {t('backToArtists')}
           </Link>
@@ -216,7 +216,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
               <div className="flex-1">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                   <div>
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                    <h1 className="text-3xl font-playfair font-bold text-gray-900 mb-2">
                       {artist.stageName}
                     </h1>
                     <div className="flex flex-wrap items-center gap-3 mb-3">
@@ -292,14 +292,14 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2">
                   <div className="bg-background rounded-lg shadow-md p-6">
-                    <h2 className="text-xl font-bold mb-4">{t('aboutArtist')}</h2>
+                    <h2 className="text-xl font-playfair font-bold mb-4">{t('aboutArtist')}</h2>
                     <p className="text-gray-700 whitespace-pre-wrap">
                       {bio || t('noBio')}
                     </p>
                     
                     {artist.genres.length > 0 && (
                       <div className="mt-6">
-                        <h3 className="font-semibold mb-3">{t('genres')}</h3>
+                        <h3 className="font-playfair font-semibold mb-3">{t('genres')}</h3>
                         <div className="flex flex-wrap gap-2">
                           {artist.genres.map((genre) => (
                             <span key={genre} className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
@@ -312,7 +312,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                     
                     {artist.languages.length > 0 && (
                       <div className="mt-6">
-                        <h3 className="font-semibold mb-3">{t('languages')}</h3>
+                        <h3 className="font-playfair font-semibold mb-3">{t('languages')}</h3>
                         <div className="flex flex-wrap gap-2">
                           {artist.languages.map((lang) => (
                             <span key={lang} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
@@ -327,7 +327,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                 
                 <div className="lg:col-span-1">
                   <div className="bg-background rounded-lg shadow-md p-6">
-                    <h3 className="font-semibold mb-4">{t('serviceDetails')}</h3>
+                    <h3 className="font-playfair font-semibold mb-4">{t('serviceDetails')}</h3>
                     
                     <div className="space-y-3">
                       <div>
@@ -359,7 +359,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                     {/* Social Links */}
                     {(artist.website || artist.facebook || artist.instagram || artist.lineId) && (
                       <div className="mt-6 pt-6 border-t">
-                        <h3 className="font-semibold mb-4">{t('connect')}</h3>
+                        <h3 className="font-playfair font-semibold mb-4">{t('connect')}</h3>
                         <div className="space-y-2">
                           {artist.website && (
                             <a href={artist.website} target="_blank" rel="noopener noreferrer" className="flex items-center text-gray-600 hover:text-brand-cyan">
@@ -403,7 +403,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
             
             {activeTab === 'reviews' && (
               <div className="bg-background rounded-lg shadow-md p-6">
-                <h2 className="text-xl font-bold mb-4">{t('customerReviews')}</h2>
+                <h2 className="text-xl font-playfair font-bold mb-4">{t('customerReviews')}</h2>
                 {artist.reviews.length > 0 ? (
                   <div className="space-y-4">
                     {artist.reviews.map((review: any) => (

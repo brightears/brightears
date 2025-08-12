@@ -53,8 +53,23 @@ white: #ffffff;          /* Cards, text on dark */
 - **Footer**: Deep teal (#2f6364)
 
 ### Typography
-- **Headers**: Bold, dark gray (#333333) on light, white on dark
-- **Body**: Regular dark gray (#333333) on light backgrounds
+
+#### Font Families
+- **Headlines (H1-H3)**: Playfair Display (serif) - Elegant, professional
+- **Body Text & UI**: Inter (sans-serif) - Clean, readable
+- **Thai Content**: Noto Sans Thai - Native Thai typography support
+
+#### Typography Hierarchy
+- **H1**: Playfair Display, Bold, 2.5-3.75rem
+- **H2**: Playfair Display, Bold, 1.875-2.25rem  
+- **H3**: Playfair Display, Semibold, 1.125-1.25rem
+- **Body**: Inter, Regular, 0.875-1rem
+- **Buttons**: Inter, Medium/Semibold, 0.875-1.125rem
+- **Navigation**: Inter, Medium, 0.875rem
+
+#### Text Colors
+- **Headers**: Dark gray (#333333) on light, white on dark
+- **Body**: Dark gray (#333333) on light backgrounds
 - **White Text**: Use on deep teal backgrounds for contrast
 
 ## Design Principles
@@ -68,3 +83,5 @@ white: #ffffff;          /* Cards, text on dark */
 - Brand cyan updated from #00CFFF to #00bbe4 to match logo
 - Color palette professionally analyzed for harmony and balance
 - Maintains triadic color relationship for visual appeal
+- Typography system implemented with serif/sans-serif pairing (Aug 12, 2024)
+- Playfair Display + Inter creates professional, elegant aesthetic

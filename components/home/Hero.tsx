@@ -19,7 +19,7 @@ export default function Hero() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           {/* Main Heading */}
-          <h1 className="text-4xl font-bold tracking-tight text-pure-white sm:text-5xl lg:text-6xl">
+          <h1 className="text-4xl font-playfair font-bold tracking-tight text-pure-white sm:text-5xl lg:text-6xl">
             {t('title')}
           </h1>
           

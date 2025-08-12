@@ -55,7 +55,7 @@ export default function Features() {
               </div>
               
               {/* Title */}
-              <h3 className="mt-6 text-lg font-semibold text-deep-teal">
+              <h3 className="mt-6 text-lg font-playfair font-semibold text-deep-teal">
                 {t(`${feature.key}.title`)}
               </h3>
               

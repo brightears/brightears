@@ -2,13 +2,19 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n.config';
-import { Inter, Noto_Sans_Thai } from 'next/font/google';
+import { Inter, Playfair_Display, Noto_Sans_Thai } from 'next/font/google';
 import '../globals.css';
 
 const inter = Inter({ 
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
+});
+
+const playfairDisplay = Playfair_Display({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-playfair',
 });
 
 const notoSansThai = Noto_Sans_Thai({
@@ -64,7 +70,7 @@ export default async function LocaleLayout({
   return (
     <html 
       lang={locale} 
-      className={`${inter.variable} ${notoSansThai.variable}`}
+      className={`${inter.variable} ${playfairDisplay.variable} ${notoSansThai.variable}`}
       suppressHydrationWarning
     >
       <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased`}>

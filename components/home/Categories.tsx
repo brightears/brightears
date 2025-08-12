@@ -50,7 +50,7 @@ export default function Categories() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-pure-white sm:text-4xl">
+          <h2 className="text-3xl font-playfair font-bold text-pure-white sm:text-4xl">
             {t('title')}
           </h2>
         </div>
@@ -74,7 +74,7 @@ export default function Categories() {
                 </div>
                 
                 {/* Category Name */}
-                <h3 className="text-xl font-semibold text-deep-teal mb-2 group-hover:text-deep-teal/80 transition-colors">
+                <h3 className="text-xl font-playfair font-semibold text-deep-teal mb-2 group-hover:text-deep-teal/80 transition-colors">
                   {t(`${category.key}.name`)}
                 </h3>
                 

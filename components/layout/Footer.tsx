@@ -15,7 +15,7 @@ export default function Footer() {
             {/* Company Info */}
             <div className="lg:col-span-2">
               <div className="flex items-center mb-4">
-                <span className="text-2xl font-bold text-pure-white">Bright Ears</span>
+                <span className="text-2xl font-playfair font-bold text-pure-white">Bright Ears</span>
               </div>
               <p className="text-pure-white/70 mb-6 max-w-md">
                 {t('description')}
@@ -23,7 +23,7 @@ export default function Footer() {
               
               {/* Contact Info */}
               <div className="space-y-3">
-                <h4 className="text-lg font-semibold text-pure-white">{t('contact')}</h4>
+                <h4 className="text-lg font-playfair font-semibold text-pure-white">{t('contact')}</h4>
                 <div className="space-y-2 text-pure-white/70">
                   <div className="flex items-center space-x-3">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +50,7 @@ export default function Footer() {
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-lg font-semibold text-pure-white mb-6">{t('links')}</h4>
+              <h4 className="text-lg font-playfair font-semibold text-pure-white mb-6">{t('links')}</h4>
               <ul className="space-y-4">
                 <li>
                   <Link 
@@ -81,7 +81,7 @@ export default function Footer() {
 
             {/* Legal */}
             <div>
-              <h4 className="text-lg font-semibold text-pure-white mb-6">{t('legal')}</h4>
+              <h4 className="text-lg font-playfair font-semibold text-pure-white mb-6">{t('legal')}</h4>
               <ul className="space-y-4">
                 <li>
                   <Link 
@@ -103,7 +103,7 @@ export default function Footer() {
 
               {/* Social Media */}
               <div className="mt-8">
-                <h4 className="text-lg font-semibold text-pure-white mb-4">Follow Us</h4>
+                <h4 className="text-lg font-playfair font-semibold text-pure-white mb-4">Follow Us</h4>
                 <div className="flex space-x-4">
                   {/* Facebook */}
                   <a
