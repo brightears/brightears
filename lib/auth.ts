@@ -193,8 +193,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return session
       }
       
-      // Return null if we don't have a valid authenticated token
-      return null
+      // Return the original session if we don't have a valid token (NextAuth expects this)
+      return session
     },
   },
   events: {

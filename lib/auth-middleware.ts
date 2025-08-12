@@ -11,7 +11,7 @@ export async function checkUserRole(
 ): Promise<boolean> {
   const session = await auth()
   
-  if (!isValidSession(session)) {
+  if (!isValidSession(session) || !session?.user?.role) {
     return false
   }
   
@@ -65,7 +65,7 @@ export function withAuth() {
  */
 export async function getUserIdFromRequest(req: NextRequest): Promise<string | null> {
   const session = await auth()
-  return isValidSession(session) ? session.user.id : null
+  return isValidSession(session) && session?.user?.id ? session.user.id : null
 }
 
 /**
@@ -73,5 +73,5 @@ export async function getUserIdFromRequest(req: NextRequest): Promise<string | n
  */
 export async function getUserRoleFromRequest(req: NextRequest): Promise<UserRole | null> {
   const session = await auth()
-  return isValidSession(session) ? session.user.role : null
+  return isValidSession(session) && session?.user?.role ? session.user.role : null
 }

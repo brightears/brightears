@@ -26,7 +26,7 @@ export function UserMenu() {
   // Only render if we have a valid, authenticated session
   if (!isValidSession(session)) return null
 
-  const user = session.user
+  const user = session?.user
 
   const getDisplayName = () => {
     if (user?.role === 'ARTIST' && user.artist?.stageName) {

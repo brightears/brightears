@@ -115,13 +115,13 @@ export default function NotificationBell({ locale }: NotificationBellProps) {
     switch (notification.type) {
       case 'booking_request':
       case 'booking_update':
-        if (isValidSession(session) && session.user.role === 'ARTIST') {
+        if (isValidSession(session) && session?.user?.role === 'ARTIST') {
           return `/${locale}/dashboard/artist/bookings`
         } else {
           return `/${locale}/bookings`
         }
       case 'message':
-        if (isValidSession(session) && session.user.role === 'ARTIST') {
+        if (isValidSession(session) && session?.user?.role === 'ARTIST') {
           return `/${locale}/dashboard/artist/bookings`
         } else {
           return `/${locale}/bookings`
