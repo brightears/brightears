@@ -5,6 +5,7 @@ import { locales } from '@/i18n.config';
 import { Inter, Playfair_Display, Noto_Sans_Thai } from 'next/font/google';
 import { SessionProvider } from '@/components/auth/SessionProvider';
 import { getSession } from '@/lib/auth';
+import type { Session } from 'next-auth';
 import '../globals.css';
 
 const inter = Inter({ 
@@ -77,7 +78,7 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased`}>
-        <SessionProvider session={session}>
+        <SessionProvider session={session as Session | null}>
           <NextIntlClientProvider locale={locale} messages={messages}>
             {children}
           </NextIntlClientProvider>

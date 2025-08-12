@@ -17,9 +17,9 @@ export default async function DashboardPage() {
           title: 'Artist Dashboard',
           description: `Welcome back, ${user.artist?.stageName || 'Artist'}!`,
           stats: [
-            { label: 'Total Bookings', value: user.artist?.totalBookings || 0 },
-            { label: 'Completed Bookings', value: user.artist?.completedBookings || 0 },
-            { label: 'Average Rating', value: user.artist?.averageRating || 'N/A' },
+            { label: 'Total Bookings', value: 'Coming Soon' },
+            { label: 'Completed Bookings', value: 'Coming Soon' },
+            { label: 'Average Rating', value: 'Coming Soon' },
           ],
           quickActions: [
             { label: 'Update Profile', href: '/dashboard/artist/profile' },
@@ -49,7 +49,7 @@ export default async function DashboardPage() {
           stats: [
             { label: 'Active Contracts', value: 'Coming Soon' },
             { label: 'This Month Bookings', value: 'Coming Soon' },
-            { label: 'Company Venues', value: user.corporate?.numberOfVenues || 1 },
+            { label: 'Company Venues', value: 'Coming Soon' },
           ],
           quickActions: [
             { label: 'Browse Artists', href: '/artists' },
@@ -143,10 +143,10 @@ export default async function DashboardPage() {
                   <strong>Stage Name:</strong> {user.artist.stageName}
                 </div>
                 <div>
-                  <strong>Category:</strong> {user.artist.category}
+                  <strong>Category:</strong> Coming Soon
                 </div>
                 <div>
-                  <strong>Base City:</strong> {user.artist.baseCity}
+                  <strong>Base City:</strong> Coming Soon
                 </div>
                 <div>
                   <strong>Verification:</strong> 
@@ -174,13 +174,11 @@ export default async function DashboardPage() {
                 <div>
                   <strong>Contact Person:</strong> {user.corporate.contactPerson}
                 </div>
-                {user.corporate.venueType && (
-                  <div>
-                    <strong>Venue Type:</strong> {user.corporate.venueType}
-                  </div>
-                )}
                 <div>
-                  <strong>Number of Venues:</strong> {user.corporate.numberOfVenues}
+                  <strong>Venue Type:</strong> Coming Soon
+                </div>
+                <div>
+                  <strong>Number of Venues:</strong> Coming Soon
                 </div>
               </div>
             </div>

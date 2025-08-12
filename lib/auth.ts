@@ -3,8 +3,9 @@ import { authOptions } from "@/lib/auth-options"
 import type { Session, User } from "next-auth"
 import type { UserRole } from "@prisma/client"
 
-export interface ExtendedUser extends User {
+export interface ExtendedUser {
   id: string
+  email?: string
   role: UserRole
   artist?: {
     id: string
@@ -26,8 +27,9 @@ export interface ExtendedUser extends User {
   }
 }
 
-export interface ExtendedSession extends Session {
+export interface ExtendedSession {
   user: ExtendedUser
+  expires?: string
 }
 
 /**

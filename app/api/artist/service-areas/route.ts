@@ -10,7 +10,17 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const artist = user.artist
+    const sessionArtist = user.artist
+    if (!sessionArtist) {
+      return NextResponse.json({ error: 'Artist profile not found' }, { status: 404 })
+    }
+
+    // Fetch full artist data
+    const artist = await prisma.artist.findUnique({
+      where: { id: sessionArtist.id },
+      select: { id: true, baseCity: true, serviceAreas: true, travelRadius: true }
+    })
+
     if (!artist) {
       return NextResponse.json({ error: 'Artist profile not found' }, { status: 404 })
     }

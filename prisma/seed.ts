@@ -243,7 +243,7 @@ async function main() {
             realName: artistData.realName,
             bio: artistData.bio,
             bioTh: artistData.bioTh,
-            category: artistData.category,
+            category: artistData.category as any,
             subCategories: artistData.subCategories,
             genres: artistData.genres,
             baseCity: artistData.baseCity,
@@ -251,7 +251,7 @@ async function main() {
             languages: artistData.languages,
             hourlyRate: artistData.hourlyRate,
             minimumHours: artistData.minimumHours,
-            verificationLevel: artistData.verificationLevel,
+            verificationLevel: artistData.verificationLevel as any,
             instantBooking: artistData.instantBooking,
             advanceNotice: artistData.advanceNotice,
             responseTime: Math.floor(Math.random() * 24) + 1,
@@ -279,7 +279,6 @@ async function main() {
         create: {
           firstName: 'John',
           lastName: 'Doe',
-          phone: '+66812345678',
           preferredLanguage: 'en',
         }
       }
@@ -297,13 +296,9 @@ async function main() {
       corporate: {
         create: {
           companyName: 'Hilton Bangkok',
-          contactName: 'Sarah Johnson',
-          phone: '+6621234567',
+          contactPerson: 'Sarah Johnson',
           taxId: '0105561234567',
-          address: '123 Sukhumvit Road, Bangkok',
-          website: 'https://hilton.com',
-          preferredLanguage: 'en',
-          verified: true,
+          companyAddress: '123 Sukhumvit Road, Bangkok',
         }
       }
     }

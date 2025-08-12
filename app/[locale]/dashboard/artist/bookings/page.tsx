@@ -73,7 +73,10 @@ export default async function BookingsPage({
       booking.customer.email :
       booking.customer.email,
     customerEmail: booking.customer.email,
-    lastMessage: booking.messages[0] || null,
+    lastMessage: booking.messages[0] ? {
+      ...booking.messages[0],
+      createdAt: booking.messages[0].createdAt.toISOString()
+    } : null,
     unreadMessages: booking._count.messages,
     eventDate: booking.eventDate.toISOString(),
     startTime: booking.startTime.toISOString(),
@@ -81,7 +84,14 @@ export default async function BookingsPage({
     createdAt: booking.createdAt.toISOString(),
     confirmedAt: booking.confirmedAt?.toISOString(),
     completedAt: booking.completedAt?.toISOString(),
-    cancelledAt: booking.cancelledAt?.toISOString()
+    cancelledAt: booking.cancelledAt?.toISOString(),
+    paidAt: booking.paidAt?.toISOString(),
+    guestCount: booking.guestCount || undefined,
+    quotedPrice: booking.quotedPrice?.toNumber(),
+    finalPrice: booking.finalPrice?.toNumber(),
+    specialRequests: booking.specialRequests || undefined,
+    notes: booking.notes || undefined,
+    cancellationReason: booking.cancellationReason || undefined
   }))
 
   return (

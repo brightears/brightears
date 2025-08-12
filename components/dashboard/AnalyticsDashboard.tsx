@@ -302,7 +302,7 @@ export default function AnalyticsDashboard({ artistId, analytics, locale }: Anal
                     }}
                   ></div>
                   <span className="text-sm font-medium text-gray-700">
-                    {location.city}
+                    {location.type}
                   </span>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -332,7 +332,7 @@ export default function AnalyticsDashboard({ artistId, analytics, locale }: Anal
                     }}
                   ></div>
                   <span className="text-sm font-medium text-gray-700">
-                    {slot.time}
+                    {slot.type}
                   </span>
                 </div>
                 <div className="flex items-center space-x-2">

@@ -110,7 +110,7 @@ export default function ArtistDashboardSidebar({ locale, user }: ArtistDashboard
                   {user.artist?.stageName || 'Artist'}
                 </div>
                 <div className="text-xs text-gray-500">
-                  {user.artist?.category}
+                  Coming Soon
                 </div>
               </div>
             </div>

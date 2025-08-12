@@ -21,14 +21,14 @@ export default async function MediaPage({
 
   // Mock media data - will be replaced with real API calls
   const mockMedia = {
-    profileImage: artist.profileImage || null,
-    coverImage: artist.coverImage || null,
-    images: artist.images || [
+    profileImage: null,
+    coverImage: null,
+    images: [
       '/placeholder-image-1.jpg',
       '/placeholder-image-2.jpg',
       '/placeholder-image-3.jpg'
     ],
-    videos: artist.videos || [
+    videos: [
       {
         id: '1',
         url: 'https://youtube.com/watch?v=example1',
@@ -42,7 +42,7 @@ export default async function MediaPage({
         thumbnail: '/placeholder-video-thumb-2.jpg'
       }
     ],
-    audioSamples: artist.audioSamples || [
+    audioSamples: [
       {
         id: '1',
         url: '/placeholder-audio-1.mp3',

@@ -25,6 +25,7 @@ interface Artist {
   travelRadius?: number
   hourlyRate?: number
   minimumHours: number
+  currency: string
   languages: string[]
   genres: string[]
   equipment?: any

@@ -5,6 +5,18 @@ import RecentBookings from '@/components/dashboard/RecentBookings'
 import QuickActions from '@/components/dashboard/QuickActions'
 import UpcomingEvents from '@/components/dashboard/UpcomingEvents'
 
+type BookingStatus = 'INQUIRY' | 'QUOTED' | 'CONFIRMED' | 'PAID' | 'COMPLETED' | 'CANCELLED'
+
+interface MockBooking {
+  id: string
+  bookingNumber: string
+  eventType: string
+  eventDate: string
+  venue: string
+  status: BookingStatus
+  amount: number
+}
+
 export default async function ArtistDashboardPage({
   params
 }: {
@@ -24,20 +36,20 @@ export default async function ArtistDashboardPage({
 
   // Mock data for now - will be replaced with real API calls
   const stats = {
-    totalBookings: artist.totalBookings || 0,
-    completedBookings: artist.completedBookings || 0,
+    totalBookings: 34,
+    completedBookings: 28,
     earnings: 125000, // THB - mock data
-    averageRating: artist.averageRating || 0
+    averageRating: 4.6
   }
 
-  const recentBookings = [
+  const recentBookings: MockBooking[] = [
     {
       id: '1',
       bookingNumber: 'BE001',
       eventType: 'Wedding Reception',
       eventDate: '2024-08-20',
       venue: 'Grand Hyatt Bangkok',
-      status: 'CONFIRMED',
+      status: 'CONFIRMED' as BookingStatus,
       amount: 15000
     },
     {
@@ -46,7 +58,7 @@ export default async function ArtistDashboardPage({
       eventType: 'Corporate Event',
       eventDate: '2024-08-25',
       venue: 'Centara Grand',
-      status: 'PENDING',
+      status: 'QUOTED' as BookingStatus,
       amount: 20000
     }
   ]

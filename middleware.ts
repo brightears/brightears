@@ -26,19 +26,14 @@ export default function middleware(request: NextRequest) {
 
   if (isProtectedRoute) {
     // Apply auth middleware for protected routes
-    return withAuth(
-      function middleware(req) {
-        return intlMiddleware(req);
+    return withAuth(request as any, {
+      callbacks: {
+        authorized: ({ token }) => !!token,
       },
-      {
-        callbacks: {
-          authorized: ({ token }) => !!token,
-        },
-        pages: {
-          signIn: '/login',
-        },
-      }
-    )(request);
+      pages: {
+        signIn: '/login',
+      },
+    });
   }
 
   // Apply only intl middleware for public routes

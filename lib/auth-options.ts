@@ -1,7 +1,7 @@
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient, UserRole } from "@prisma/client"
 import bcrypt from "bcryptjs"
 import { z } from "zod"
 
@@ -13,13 +13,12 @@ const loginSchema = z.object({
 })
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as any,
   session: {
     strategy: "jwt",
   },
   pages: {
     signIn: "/login",
-    signUp: "/register",
   },
   providers: [
     CredentialsProvider({
@@ -64,7 +63,7 @@ export const authOptions: NextAuthOptions = {
             artist: user.artist,
             customer: user.customer,
             corporate: user.corporate,
-          }
+          } as any
         } catch (error) {
           console.error("Auth error:", error)
           return null
@@ -86,7 +85,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string
-        session.user.role = token.role as string
+        session.user.role = token.role as UserRole
         session.user.artist = token.artist as any
         session.user.customer = token.customer as any
         session.user.corporate = token.corporate as any

@@ -6,7 +6,7 @@ interface Booking {
   eventType: string
   eventDate: string
   venue: string
-  status: 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED'
+  status: 'INQUIRY' | 'QUOTED' | 'CONFIRMED' | 'PAID' | 'COMPLETED' | 'CANCELLED'
   amount: number
 }
 
@@ -18,12 +18,16 @@ interface RecentBookingsProps {
 export default function RecentBookings({ bookings, locale }: RecentBookingsProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
+      case 'INQUIRY':
+        return 'bg-gray-100 text-gray-800'
+      case 'QUOTED':
+        return 'bg-yellow-100 text-yellow-800'
       case 'CONFIRMED':
         return 'bg-green-100 text-green-800'
-      case 'PENDING':
-        return 'bg-yellow-100 text-yellow-800'
-      case 'COMPLETED':
+      case 'PAID':
         return 'bg-blue-100 text-blue-800'
+      case 'COMPLETED':
+        return 'bg-purple-100 text-purple-800'
       case 'CANCELLED':
         return 'bg-red-100 text-red-800'
       default:

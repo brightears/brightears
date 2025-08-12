@@ -92,6 +92,7 @@ export async function GET(
     
     return NextResponse.json({
       ...artist,
+      hourlyRate: artist.hourlyRate ? artist.hourlyRate.toNumber() : null,
       averageRating,
       reviewCount: artist.reviews.length,
       detailedRatings: avgDetailedRatings

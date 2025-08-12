@@ -66,17 +66,17 @@ export default async function AnalyticsPage({
         { type: 'Other', count: 3, percentage: 8 }
       ],
       locations: [
-        { city: 'Bangkok', count: 20, percentage: 59 },
-        { city: 'Chiang Mai', count: 6, percentage: 18 },
-        { city: 'Phuket', count: 4, percentage: 12 },
-        { city: 'Pattaya', count: 2, percentage: 6 },
-        { city: 'Other', count: 2, percentage: 5 }
+        { type: 'Bangkok', count: 20, percentage: 59 },
+        { type: 'Chiang Mai', count: 6, percentage: 18 },
+        { type: 'Phuket', count: 4, percentage: 12 },
+        { type: 'Pattaya', count: 2, percentage: 6 },
+        { type: 'Other', count: 2, percentage: 5 }
       ],
       timeSlots: [
-        { time: '6-9 PM', count: 15, percentage: 44 },
-        { time: '9-12 AM', count: 10, percentage: 29 },
-        { time: '12-3 AM', count: 6, percentage: 18 },
-        { time: '3-6 PM', count: 3, percentage: 9 }
+        { type: '6-9 PM', count: 15, percentage: 44 },
+        { type: '9-12 PM', count: 10, percentage: 29 },
+        { type: '12-3 AM', count: 6, percentage: 18 },
+        { type: '3-6 PM', count: 3, percentage: 9 }
       ]
     }
   }

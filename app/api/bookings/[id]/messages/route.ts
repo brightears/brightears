@@ -37,7 +37,7 @@ export async function GET(
 
     // Get messages for this booking
     const messages = await prisma.message.findMany({
-      where: { bookingId: params.id },
+      where: { bookingId: id },
       include: {
         sender: {
           select: {

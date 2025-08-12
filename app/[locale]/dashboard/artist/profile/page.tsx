@@ -1,5 +1,6 @@
 import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
+import { prisma } from '@/lib/prisma'
 import ProfileEditForm from '@/components/dashboard/ProfileEditForm'
 import PricingSettingsForm from '@/components/dashboard/PricingSettingsForm'
 import ServiceAreasForm from '@/components/dashboard/ServiceAreasForm'
@@ -17,9 +18,53 @@ export default async function ProfilePage({
     redirect(`/${locale}/login`)
   }
 
-  const artist = user.artist
-  if (!artist) {
+  const sessionArtist = user.artist
+  if (!sessionArtist) {
     redirect(`/${locale}/dashboard`)
+  }
+
+  // Fetch full artist data from database
+  const artistData = await prisma.artist.findUnique({
+    where: { id: sessionArtist.id },
+    select: {
+      id: true,
+      stageName: true,
+      realName: true,
+      bio: true,
+      bioTh: true,
+      category: true,
+      subCategories: true,
+      baseCity: true,
+      languages: true,
+      genres: true,
+      serviceAreas: true,
+      hourlyRate: true,
+      minimumHours: true,
+      currency: true,
+      travelRadius: true,
+      instantBooking: true,
+      advanceNotice: true,
+      cancellationPolicy: true,
+      website: true,
+      facebook: true,
+      instagram: true,
+      tiktok: true,
+      youtube: true,
+      spotify: true,
+      soundcloud: true,
+      mixcloud: true,
+      lineId: true,
+    }
+  })
+
+  if (!artistData) {
+    redirect(`/${locale}/dashboard`)
+  }
+
+  // Transform the data to convert Decimal to number
+  const artist = {
+    ...artistData,
+    hourlyRate: artistData.hourlyRate ? artistData.hourlyRate.toNumber() : null,
   }
 
   return (
