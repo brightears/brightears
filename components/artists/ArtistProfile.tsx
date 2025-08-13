@@ -85,7 +85,19 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
       const response = await fetch(`/api/artists/${artistId}`)
       if (response.ok) {
         const data = await response.json()
-        setArtist(data)
+        // Ensure arrays are initialized to prevent null/undefined errors
+        const artistData = {
+          ...data,
+          genres: data.genres || [],
+          languages: data.languages || [],
+          serviceAreas: data.serviceAreas || [],
+          reviews: data.reviews || [],
+          images: data.images || [],
+          videos: data.videos || [],
+          audioSamples: data.audioSamples || [],
+          availability: data.availability || []
+        }
+        setArtist(artistData)
       }
     } catch (error) {
       console.error('Error fetching artist:', error)
@@ -265,9 +277,11 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                       {artist.stageName}
                     </h1>
                     <div className="flex flex-wrap items-center gap-3 mb-3">
-                      <span className="bg-earthy-brown text-pure-white px-3 py-1 rounded-full text-sm font-inter font-medium">
-                        {t(`category.${artist.category}`)}
-                      </span>
+                      {artist.category && (
+                        <span className="bg-earthy-brown text-pure-white px-3 py-1 rounded-full text-sm font-inter font-medium">
+                          {t(`category.${artist.category}`)}
+                        </span>
+                      )}
                       {getVerificationBadge()}
                       <span className="text-dark-gray font-inter">
                         📍 {artist.baseCity}
@@ -345,7 +359,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                       {bio || t('noBio')}
                     </p>
                     
-                    {artist.genres.length > 0 && (
+                    {artist.genres && artist.genres.length > 0 && (
                       <div className="mt-6">
                         <h3 className="font-playfair font-semibold mb-3 text-dark-gray">{t('genres')}</h3>
                         <div className="flex flex-wrap gap-2">
@@ -358,7 +372,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                       </div>
                     )}
                     
-                    {artist.languages.length > 0 && (
+                    {artist.languages && artist.languages.length > 0 && (
                       <div className="mt-6">
                         <h3 className="font-playfair font-semibold mb-3 text-dark-gray">{t('languages')}</h3>
                         <div className="flex flex-wrap gap-2">
@@ -380,7 +394,11 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                     <div className="space-y-3">
                       <div>
                         <p className="text-sm font-inter text-dark-gray">{t('serviceAreas')}</p>
-                        <p className="font-inter font-medium text-dark-gray">{artist.serviceAreas.join(', ')}</p>
+                        <p className="font-inter font-medium text-dark-gray">
+                          {artist.serviceAreas && artist.serviceAreas.length > 0 
+                            ? artist.serviceAreas.join(', ') 
+                            : 'Not specified'}
+                        </p>
                       </div>
                       
                       {artist.travelRadius && (
@@ -524,7 +542,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
             {activeTab === 'reviews' && (
               <div className="bg-background rounded-lg shadow-md p-6">
                 <h2 className="text-xl font-playfair font-bold mb-4 text-dark-gray">{t('customerReviews')}</h2>
-                {artist.reviews.length > 0 ? (
+                {artist.reviews && artist.reviews.length > 0 ? (
                   <div className="space-y-4">
                     {artist.reviews.map((review: any) => (
                       <div key={review.id} className="border-b pb-4">
