@@ -29,7 +29,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
   
   const formatPrice = (price?: number) => {
     if (!price) return t('priceOnRequest')
-    return `฿${price.toLocaleString()}/hr`
+    return `${t('from')} ฿${price.toLocaleString()}/hr`
   }
   
   const renderStars = (rating?: number) => {
@@ -135,7 +135,9 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
               {formatPrice(artist.hourlyRate)}
             </div>
             
-            {artist.averageRating && renderStars(artist.averageRating)}
+            {artist.averageRating ? renderStars(artist.averageRating) : (
+              <span className="text-sm text-gray-500 font-inter">{t('new')}</span>
+            )}
           </div>
         </div>
       </div>

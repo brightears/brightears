@@ -388,6 +388,8 @@
     "page": "หน้า {{current}} จาก {{total}}",
     "verified": "ยืนยันแล้ว",
     "trusted": "น่าเชื่อถือ",
+    "from": "เริ่มต้น",
+    "new": "ใหม่",
     "category.DJ": "ดีเจ",
     "category.BAND": "วงดนตรี",
     "category.SINGER": "นักร้อง",

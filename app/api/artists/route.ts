@@ -13,29 +13,43 @@ export async function GET(req: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '12')
     const skip = (page - 1) * limit
     
+    // Base query to get active artists
     const where: any = {
       user: {
         isActive: true
       }
     }
     
+    // Build search conditions
+    const conditions: any[] = []
+    
     if (category) {
-      where.category = category
+      conditions.push({ category: category })
     }
     
     if (city) {
-      where.OR = [
-        { baseCity: { contains: city, mode: 'insensitive' } },
-        { serviceAreas: { has: city } }
-      ]
+      conditions.push({
+        OR: [
+          { baseCity: { contains: city, mode: 'insensitive' } },
+          { serviceAreas: { has: city } }
+        ]
+      })
     }
     
     if (search) {
-      where.OR = [
-        { stageName: { contains: search, mode: 'insensitive' } },
-        { bio: { contains: search, mode: 'insensitive' } },
-        { genres: { hasSome: [search] } }
-      ]
+      conditions.push({
+        OR: [
+          { stageName: { contains: search, mode: 'insensitive' } },
+          { bio: { contains: search, mode: 'insensitive' } },
+          { bioTh: { contains: search, mode: 'insensitive' } },
+          { genres: { hasSome: search.split(' ').filter(s => s.length > 0) } }
+        ]
+      })
+    }
+    
+    // Combine all conditions
+    if (conditions.length > 0) {
+      where.AND = conditions
     }
     
     const [artists, total] = await Promise.all([
@@ -46,8 +60,8 @@ export async function GET(req: NextRequest) {
         include: {
           user: {
             select: {
+              id: true,
               email: true,
-              phone: false,
               isActive: true
             }
           },
@@ -66,18 +80,28 @@ export async function GET(req: NextRequest) {
       prisma.artist.count({ where })
     ])
     
+    // Transform the data to match the expected interface
     const artistsWithStats = artists.map(artist => {
       const ratings = artist.reviews.map(r => r.rating)
       const averageRating = ratings.length > 0 
         ? ratings.reduce((a, b) => a + b, 0) / ratings.length 
         : null
       
-      const { reviews, ...artistData } = artist
+      const { reviews, user, hourlyRate, ...artistData } = artist
       
       return {
-        ...artistData,
+        id: artist.id,
+        stageName: artist.stageName,
+        bio: artist.bio,
+        bioTh: artist.bioTh,
+        category: artist.category,
+        baseCity: artist.baseCity,
+        profileImage: artist.profileImage,
         averageRating,
-        reviewCount: ratings.length
+        reviewCount: ratings.length,
+        hourlyRate: hourlyRate ? parseFloat(hourlyRate.toString()) : null,
+        verificationLevel: artist.verificationLevel,
+        genres: artist.genres
       }
     })
     

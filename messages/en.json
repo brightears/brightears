@@ -388,6 +388,8 @@
     "page": "Page {{current}} of {{total}}",
     "verified": "Verified",
     "trusted": "Trusted",
+    "from": "From",
+    "new": "New",
     "category.DJ": "DJ",
     "category.BAND": "Band",
     "category.SINGER": "Singer",
