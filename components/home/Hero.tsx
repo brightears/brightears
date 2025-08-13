@@ -6,19 +6,12 @@ import { Link } from '@/components/navigation';
 
 export default function Hero() {
   const t = useTranslations('hero');
-  const [location, setLocation] = useState('');
-  const [date, setDate] = useState('');
-  const [genre, setGenre] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Build search URL with all parameters
-    const params = new URLSearchParams();
-    if (location) params.append('location', location);
-    if (date) params.append('date', date);
-    if (genre) params.append('genre', genre);
-    
-    window.location.href = `/artists${params.toString() ? '?' + params.toString() : ''}`;
+    // Navigate to artists page with search term
+    window.location.href = `/artists?search=${encodeURIComponent(searchTerm)}`;
   };
 
   return (
@@ -30,81 +23,60 @@ export default function Hero() {
             {t('title')}
           </h1>
           
-          {/* Commission & Free Registration Badges */}
-          <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <div className="bg-brand-cyan text-pure-white px-6 py-2 rounded-full font-bold text-lg shadow-lg">
-              {t('zeroCommission')}
-            </div>
-            <div className="bg-pure-white/20 backdrop-blur-sm text-pure-white px-6 py-2 rounded-full font-medium border border-pure-white/30">
-              {t('freeRegistration')}
-            </div>
-          </div>
+          {/* Subtitle */}
+          <p className="mt-6 text-xl text-pure-white/90 sm:text-2xl">
+            {t('subtitle')}
+          </p>
 
           {/* Search Form */}
-          <div className="mt-10 max-w-4xl mx-auto">
-            <form onSubmit={handleSearch} className="bg-pure-white rounded-xl p-6 shadow-2xl">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div>
-                  <label className="block text-sm font-medium text-deep-teal mb-2">
-                    {t('location')}
-                  </label>
-                  <input
-                    type="text"
-                    placeholder={t('locationPlaceholder')}
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    className="w-full px-4 py-3 text-deep-teal bg-off-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-deep-teal mb-2">
-                    {t('date')}
-                  </label>
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-4 py-3 text-deep-teal bg-off-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-deep-teal mb-2">
-                    {t('musicGenre')}
-                  </label>
-                  <select
-                    value={genre}
-                    onChange={(e) => setGenre(e.target.value)}
-                    className="w-full px-4 py-3 text-deep-teal bg-off-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
-                  >
-                    <option value="">{t('selectGenre')}</option>
-                    <option value="house">House</option>
-                    <option value="techno">Techno</option>
-                    <option value="pop">Pop</option>
-                    <option value="rock">Rock</option>
-                    <option value="jazz">Jazz</option>
-                    <option value="acoustic">Acoustic</option>
-                    <option value="thai">Thai Music</option>
-                    <option value="international">International</option>
-                  </select>
-                </div>
+          <div className="mt-10 max-w-2xl mx-auto">
+            <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1">
+                <input
+                  type="text"
+                  placeholder={t('searchPlaceholder')}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-6 py-4 text-lg text-deep-teal bg-pure-white border-2 border-brand-cyan/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent shadow-lg placeholder-deep-teal/60"
+                />
               </div>
               <button
                 type="submit"
-                className="w-full px-8 py-4 text-lg font-bold text-pure-white bg-brand-cyan rounded-lg hover:bg-brand-cyan/90 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all shadow-lg hover:shadow-xl"
+                className="px-8 py-4 text-lg font-bold text-pure-white bg-brand-cyan rounded-lg hover:bg-brand-cyan/90 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all shadow-lg hover:shadow-xl"
               >
                 {t('searchButton')}
               </button>
             </form>
           </div>
 
-          {/* Browse All Artists Link */}
-          <div className="mt-8">
+          {/* CTA Buttons */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/artists"
-              className="text-pure-white/90 hover:text-pure-white font-medium text-lg underline decoration-2 underline-offset-4 transition-colors"
+              className="px-8 py-3 text-lg font-medium text-pure-white bg-transparent border-2 border-pure-white/50 rounded-lg hover:bg-pure-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all"
             >
-              {t('browseAllArtists')}
+              {t('browseButton')}
             </Link>
+            <Link
+              href="/corporate"
+              className="px-8 py-3 text-lg font-medium text-pure-white bg-transparent border-2 border-pure-white/50 rounded-lg hover:bg-pure-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all"
+            >
+              {t('corporateButton')}
+            </Link>
+          </div>
+
+          {/* Trusted By Section */}
+          <div className="mt-16">
+            <p className="text-sm text-pure-white/80 uppercase tracking-wide font-semibold">
+              {t('trustedBy')}
+            </p>
+            <div className="mt-6 flex justify-center items-center space-x-8 opacity-60">
+              {/* Placeholder for partner logos */}
+              <div className="h-12 w-24 bg-pure-white/20 backdrop-blur-sm rounded"></div>
+              <div className="h-12 w-24 bg-pure-white/20 backdrop-blur-sm rounded"></div>
+              <div className="h-12 w-24 bg-pure-white/20 backdrop-blur-sm rounded"></div>
+              <div className="h-12 w-24 bg-pure-white/20 backdrop-blur-sm rounded"></div>
+            </div>
           </div>
         </div>
       </div>
