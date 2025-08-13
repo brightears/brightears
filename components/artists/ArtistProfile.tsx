@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import BookingInquiryForm from '@/components/booking/BookingInquiryForm'
+import LoginPromptModal from '@/components/auth/LoginPromptModal'
 
 interface ArtistProfileProps {
   artistId: string
@@ -65,10 +67,13 @@ interface Artist {
 
 export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) {
   const t = useTranslations('artist')
+  const { data: session, status } = useSession()
   const [artist, setArtist] = useState<Artist | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('about')
   const [showBookingForm, setShowBookingForm] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [hasViewedContact, setHasViewedContact] = useState(false)
   
   useEffect(() => {
     fetchArtist()
@@ -85,6 +90,42 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
       console.error('Error fetching artist:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  // Track contact view when user logs in and views contact info
+  const trackContactView = async () => {
+    if (session?.user && artist && !hasViewedContact) {
+      try {
+        await fetch('/api/artists/contact-views', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            artistId: artist.id,
+            userId: session.user.id,
+          }),
+        })
+        setHasViewedContact(true)
+      } catch (error) {
+        console.error('Error tracking contact view:', error)
+      }
+    }
+  }
+
+  // Handle login success - track contact view
+  const handleLoginSuccess = () => {
+    // Refresh the page to update session
+    window.location.reload()
+  }
+
+  // Handle contact button click
+  const handleContactClick = () => {
+    if (session?.user) {
+      trackContactView()
+    } else {
+      setShowLoginModal(true)
     }
   }
   
@@ -362,11 +403,13 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                       )}
                     </div>
                     
-                    {/* Social Links */}
-                    {(artist.website || artist.facebook || artist.instagram || artist.lineId) && (
-                      <div className="mt-6 pt-6 border-t">
-                        <h3 className="font-playfair font-semibold mb-4 text-dark-gray">{t('connect')}</h3>
+                    {/* Contact Information Section */}
+                    <div className="mt-6 pt-6 border-t">
+                      <h3 className="font-playfair font-semibold mb-4 text-dark-gray">{t('connect')}</h3>
+                      
+                      {session?.user ? (
                         <div className="space-y-2">
+                          {/* Show actual contact info for logged-in users */}
                           {artist.website && (
                             <a href={artist.website} target="_blank" rel="noopener noreferrer" className="flex items-center text-dark-gray font-inter hover:text-brand-cyan">
                               <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -392,16 +435,77 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                             </a>
                           )}
                           {artist.lineId && (
-                            <div className="flex items-center text-dark-gray font-inter">
-                              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6L14 10.64c-.32.32-.32.86 0 1.19.16.16.37.24.58.24s.43-.08.58-.24l2.64-2.64c.32-.32.32-.86 0-1.19zm-9.28 0c-.32.33-.32.87 0 1.19L10 11.83c.16.16.37.24.58.24s.43-.08.58-.24c.32-.32.32-.86 0-1.19L8.52 8c-.32-.33-.86-.33-1.18 0zm9.28 5.19L14 15.83c-.16.16-.37.24-.58.24s-.43-.08-.58-.24c-.32-.32-.32-.86 0-1.19L15.48 12c.32-.32.86-.32 1.18 0 .32.33.32.87 0 1.19zm-9.28 0c-.32.32-.32.86 0 1.19.16.16.37.24.58.24s.43-.08.58-.24L10 13.19c.32-.32.32-.86 0-1.19-.32-.32-.86-.32-1.18 0-.32.33-.32.87 0 1.19z"/>
-                              </svg>
-                              Line: {artist.lineId}
+                            <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
+                              <div className="flex items-center text-green-700 font-inter">
+                                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.28-.63.626-.63.352 0 .631.285.631.63v4.771z"/>
+                                </svg>
+                                LINE: {artist.lineId}
+                              </div>
+                              <button
+                                onClick={() => window.open(`https://line.me/ti/p/~${artist.lineId}`, '_blank')}
+                                className="px-3 py-1 bg-green-500 text-white text-sm font-inter rounded hover:bg-green-600 transition-colors"
+                              >
+                                {t('addLine')}
+                              </button>
                             </div>
                           )}
                         </div>
-                      </div>
-                    )}
+                      ) : (
+                        /* Show login prompt for non-logged-in users */
+                        <div className="space-y-3">
+                          <div className="p-4 bg-off-white rounded-lg border-2 border-dashed border-gray-300">
+                            <div className="text-center">
+                              <div className="mb-3">
+                                <svg className="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                              </div>
+                              <h4 className="font-playfair font-semibold text-dark-gray mb-2">
+                                {t('contactInfoProtected')}
+                              </h4>
+                              <p className="text-sm font-inter text-dark-gray mb-4">
+                                {t('signInToViewContact')}
+                              </p>
+                              <button
+                                onClick={handleContactClick}
+                                className="px-6 py-2 bg-brand-cyan text-white font-inter font-medium rounded-lg hover:bg-brand-cyan/80 transition-colors"
+                              >
+                                {t('signInToContact')}
+                              </button>
+                            </div>
+                          </div>
+                          
+                          {/* Show public social links */}
+                          <div className="space-y-2">
+                            {artist.website && (
+                              <a href={artist.website} target="_blank" rel="noopener noreferrer" className="flex items-center text-dark-gray font-inter hover:text-brand-cyan">
+                                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.029 11H4.083a6.004 6.004 0 002.783 4.118z" clipRule="evenodd" />
+                                </svg>
+                                {t('website')}
+                              </a>
+                            )}
+                            {artist.facebook && (
+                              <a href={artist.facebook} target="_blank" rel="noopener noreferrer" className="flex items-center text-dark-gray font-inter hover:text-brand-cyan">
+                                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                Facebook
+                              </a>
+                            )}
+                            {artist.instagram && (
+                              <a href={artist.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center text-dark-gray font-inter hover:text-brand-cyan">
+                                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+                                </svg>
+                                Instagram
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -443,6 +547,16 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
           artist={artist}
           locale={locale}
           onClose={() => setShowBookingForm(false)}
+        />
+      )}
+
+      {/* Login Prompt Modal */}
+      {showLoginModal && artist && (
+        <LoginPromptModal
+          isOpen={showLoginModal}
+          onClose={() => setShowLoginModal(false)}
+          artistName={artist.stageName}
+          onLoginSuccess={handleLoginSuccess}
         />
       )}
     </div>

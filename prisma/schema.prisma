@@ -76,6 +76,7 @@ model User {
   notifications     Notification[]
   accounts          Account[]
   sessions          Session[]
+  contactViews      ContactView[]
   
   @@index([email])
   @@index([phone])
@@ -155,6 +156,7 @@ model Artist {
   reviews           Review[]         @relation("ArtistReviews")
   messages          Message[]        @relation("ArtistMessages")
   favoriteBy        Customer[]       @relation("FavoriteArtists")
+  contactViews      ContactView[]
   
   @@index([category])
   @@index([baseCity])
@@ -395,6 +397,23 @@ model Account {
 
   @@unique([provider, providerAccountId])
   @@index([userId])
+}
+
+// Contact views tracking for analytics and anti-spam
+model ContactView {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  artistId  String
+  artist    Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  viewedAt  DateTime @default(now())
+  ipAddress String?
+  userAgent String?
+
+  @@unique([userId, artistId])
+  @@index([artistId])
+  @@index([userId])
+  @@index([viewedAt])
 }
 
 model Session {

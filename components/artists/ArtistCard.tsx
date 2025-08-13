@@ -1,8 +1,11 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import { useSession } from 'next-auth/react'
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import LoginPromptModal from '@/components/auth/LoginPromptModal'
 
 interface ArtistCardProps {
   artist: {
@@ -24,8 +27,22 @@ interface ArtistCardProps {
 
 export default function ArtistCard({ artist, locale }: ArtistCardProps) {
   const t = useTranslations('artists')
+  const { data: session } = useSession()
+  const [showLoginModal, setShowLoginModal] = useState(false)
   
   const bio = locale === 'th' && artist.bioTh ? artist.bioTh : artist.bio
+  
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (!session?.user) {
+      setShowLoginModal(true)
+    }
+  }
+  
+  const handleLoginSuccess = () => {
+    // Refresh the page to update session
+    window.location.reload()
+  }
   
   const formatPrice = (price?: number) => {
     if (!price) return t('priceOnRequest')
@@ -139,8 +156,36 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
               <span className="text-sm text-gray-500 font-inter">{t('new')}</span>
             )}
           </div>
+          
+          {/* Contact Button */}
+          <div className="mt-3">
+            {session?.user ? (
+              <Link href={`/${locale}/artists/${artist.id}`} className="block">
+                <button className="w-full px-3 py-2 bg-brand-cyan text-white font-inter font-medium text-sm rounded hover:bg-brand-cyan/80 transition-colors">
+                  {t('viewContact')}
+                </button>
+              </Link>
+            ) : (
+              <button
+                onClick={handleContactClick}
+                className="w-full px-3 py-2 border border-brand-cyan text-brand-cyan font-inter font-medium text-sm rounded hover:bg-brand-cyan hover:text-white transition-colors"
+              >
+                {t('loginToContact')}
+              </button>
+            )}
+          </div>
         </div>
       </div>
+      
+      {/* Login Prompt Modal */}
+      {showLoginModal && (
+        <LoginPromptModal
+          isOpen={showLoginModal}
+          onClose={() => setShowLoginModal(false)}
+          artistName={artist.stageName}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      )}
     </Link>
   )
 }

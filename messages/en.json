@@ -390,6 +390,8 @@
     "trusted": "Trusted",
     "from": "From",
     "new": "New",
+    "viewContact": "View Contact",
+    "loginToContact": "Login to Contact",
     "category.DJ": "DJ",
     "category.BAND": "Band",
     "category.SINGER": "Singer",
@@ -443,7 +445,11 @@
     "category.MAGICIAN": "Magician",
     "category.DANCER": "Dancer",
     "category.PHOTOGRAPHER": "Photographer",
-    "category.SPEAKER": "Speaker"
+    "category.SPEAKER": "Speaker",
+    "contactInfoProtected": "Contact Information Protected",
+    "signInToViewContact": "Sign in to view phone number, email, and LINE ID",
+    "signInToContact": "Sign In to Contact",
+    "addLine": "Add on LINE"
   },
   "auth": {
     "login": {
@@ -489,6 +495,28 @@
       "welcome": "Welcome back",
       "quickActions": "Quick Actions",
       "stats": "Statistics"
-    }
+    },
+    "signInToContact": "Sign in to contact {name}",
+    "protectedContactInfo": "Contact information is protected to prevent spam",
+    "continueWithGoogle": "Continue with Google",
+    "orContinueWith": "or continue with",
+    "useEmailPassword": "Use email and password",
+    "email": "Email",
+    "password": "Password", 
+    "enterEmail": "Enter your email",
+    "enterPassword": "Enter your password",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "backToGoogleLogin": "Back to Google login",
+    "loginFailed": "Login failed. Please try again.",
+    "loginError": "An error occurred during login",
+    "invalidCredentials": "Invalid email or password",
+    "whySignIn": "Why do I need to sign in?",
+    "protectArtists": "Protect artists from spam and unwanted contact",
+    "preventSpam": "Prevent abuse of the platform",
+    "trackInquiries": "Track your inquiries and bookings in one place",
+    "betterService": "Provide better customer service",
+    "noAccount": "Don't have an account?",
+    "signUpHere": "Sign up here"
   }
 }
