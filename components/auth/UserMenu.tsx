@@ -32,13 +32,20 @@ export function UserMenu() {
     if (user?.role === 'ARTIST' && user.artist?.stageName) {
       return user.artist.stageName
     }
-    if (user?.role === 'CUSTOMER' && user.customer?.firstName) {
-      return `${user.customer.firstName} ${user.customer.lastName || ''}`.trim()
+    if (user?.role === 'CUSTOMER') {
+      if (user.customer?.firstName) {
+        return `${user.customer.firstName} ${user.customer.lastName || ''}`.trim()
+      }
+      // For OAuth users, use name or email
+      if (user.name) {
+        return user.name.split(' ')[0]
+      }
     }
     if (user?.role === 'CORPORATE' && user.corporate?.contactPerson) {
       return user.corporate.contactPerson
     }
-    return user?.email?.split('@')[0] || 'User'
+    // Fallback to name, email prefix, or 'User'
+    return user?.name || user?.email?.split('@')[0] || 'User'
   }
 
   const getRoleLinks = () => {

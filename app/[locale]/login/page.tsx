@@ -45,7 +45,8 @@ export default function LoginPage() {
     setIsLoading(true)
     setError('')
     try {
-      await signIn('google', { callbackUrl: '/dashboard' })
+      // Redirect to home page after successful Google sign-in
+      await signIn('google', { callbackUrl: '/' })
     } catch (error) {
       setError('Failed to sign in with Google')
       setIsLoading(false)

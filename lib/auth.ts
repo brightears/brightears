@@ -159,6 +159,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (dbUser) {
           token.id = dbUser.id
           token.email = dbUser.email
+          token.name = dbUser.name
           token.role = dbUser.role
           token.artist = dbUser.artist
           token.customer = dbUser.customer
@@ -186,6 +187,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (token && token.id && token.email && session.user) {
         session.user.id = token.id as string
         session.user.email = token.email as string
+        session.user.name = token.name as string
         session.user.role = token.role as UserRole
         session.user.artist = token.artist as any
         session.user.customer = token.customer as any
