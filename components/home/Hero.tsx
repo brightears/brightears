@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { Link } from '@/components/navigation';
+import { partners } from '@/lib/partners';
 
 export default function Hero() {
   const t = useTranslations('hero');
@@ -70,12 +72,80 @@ export default function Hero() {
             <p className="text-sm text-pure-white/80 uppercase tracking-wide font-semibold">
               {t('trustedBy')}
             </p>
-            <div className="mt-6 flex justify-center items-center space-x-8 opacity-60">
-              {/* Placeholder for partner logos */}
-              <div className="h-12 w-24 bg-pure-white/20 backdrop-blur-sm rounded"></div>
-              <div className="h-12 w-24 bg-pure-white/20 backdrop-blur-sm rounded"></div>
-              <div className="h-12 w-24 bg-pure-white/20 backdrop-blur-sm rounded"></div>
-              <div className="h-12 w-24 bg-pure-white/20 backdrop-blur-sm rounded"></div>
+            <div className="mt-6">
+              {/* Desktop: Show all logos in one row */}
+              <div className="hidden md:flex justify-center items-center space-x-8 opacity-70">
+                {partners.map((partner) => (
+                  <div 
+                    key={partner.name}
+                    className="flex-shrink-0 transition-all duration-300 hover:opacity-100 hover:scale-105"
+                  >
+                    {partner.websiteUrl ? (
+                      <a
+                        href={partner.websiteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                      >
+                        <Image
+                          src={partner.logoPath}
+                          alt={partner.altText}
+                          width={120}
+                          height={48}
+                          className="h-12 w-auto filter brightness-0 invert"
+                          priority
+                        />
+                      </a>
+                    ) : (
+                      <Image
+                        src={partner.logoPath}
+                        alt={partner.altText}
+                        width={120}
+                        height={48}
+                        className="h-12 w-auto filter brightness-0 invert"
+                        priority
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              {/* Mobile: Show 2 per row, stacked */}
+              <div className="md:hidden grid grid-cols-2 gap-4 max-w-xs mx-auto opacity-70">
+                {partners.map((partner) => (
+                  <div 
+                    key={partner.name}
+                    className="flex justify-center transition-all duration-300 hover:opacity-100"
+                  >
+                    {partner.websiteUrl ? (
+                      <a
+                        href={partner.websiteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                      >
+                        <Image
+                          src={partner.logoPath}
+                          alt={partner.altText}
+                          width={100}
+                          height={40}
+                          className="h-10 w-auto filter brightness-0 invert"
+                          priority
+                        />
+                      </a>
+                    ) : (
+                      <Image
+                        src={partner.logoPath}
+                        alt={partner.altText}
+                        width={100}
+                        height={40}
+                        className="h-10 w-auto filter brightness-0 invert"
+                        priority
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
