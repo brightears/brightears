@@ -12,13 +12,21 @@
     "signup": "Sign Up"
   },
   "hero": {
-    "title": "Premium Entertainment for Every Event",
+    "title": "Find the Perfect DJ for your Event",
     "subtitle": "Book DJs, Bands, and Live Entertainment with Confidence",
     "searchPlaceholder": "What kind of entertainment do you need?",
     "searchButton": "Search Artists",
     "browseButton": "Browse All Artists",
     "corporateButton": "Corporate Solutions",
-    "trustedBy": "Trusted by Leading Hotels & Venues"
+    "trustedBy": "Trusted by Leading Hotels & Venues",
+    "zeroCommission": "0% Commission",
+    "freeRegistration": "Free Registration",
+    "location": "Location",
+    "locationPlaceholder": "Enter city or area",
+    "date": "Date",
+    "musicGenre": "Music Genre",
+    "selectGenre": "Select genre",
+    "browseAllArtists": "Browse All Artists"
   },
   "features": {
     "noCommission": {
@@ -442,6 +450,11 @@
     "category.DANCER": "Dancer",
     "category.PHOTOGRAPHER": "Photographer",
     "category.SPEAKER": "Speaker"
+  },
+  "featuredArtists": {
+    "title": "Featured Artists",
+    "subtitle": "Discover talented professionals ready to make your event unforgettable",
+    "seeAllArtists": "See All Artists"
   },
   "auth": {
     "login": {

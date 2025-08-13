@@ -3,6 +3,8 @@
 ## Project Overview
 Building a commission-free entertainment booking platform for Thailand, starting with DJs/musicians and expanding to all entertainment categories.
 
+**CORE FOCUS**: Simple, spam-protected bookings with Thailand-specific features (LINE, PromptPay, Buddhist calendar)
+
 ## Current Status (August 12, 2024)
 
 ### ✅ Completed
@@ -42,36 +44,48 @@ Building a commission-free entertainment booking platform for Thailand, starting
    - Individual artist profile pages
    - Rating and review display system
 
-### 🚀 Next Up
-1. **File Upload System**
-   - Cloudinary integration for images/audio
-   - Profile and cover image upload
-   - Audio sample management
+### 🚀 IMMEDIATE PRIORITIES (Week 1)
+1. **Simplify Homepage**
+   - Clean search: Location + Date + Category
+   - Show "From ฿XXX" pricing
+   - Professional artist cards
+   - "Browse without login" working properly
 
-2. **Authentication System**
-   - NextAuth setup
-   - Login/signup pages
-   - Protected routes
-   - Role-based access control
+2. **Fix Contact Protection**
+   - Browse freely → Login to contact → Message in-platform
+   - Only reveal LINE/phone after booking confirmed
+   - Prevent spam while keeping it simple
 
-3. **Booking System**
-   - Quote request forms
-   - Availability calendar
-   - Booking status management
-   - Line messaging integration
+3. **Make OAuth Work**
+   - Google OAuth for international/corporate
+   - LINE Login for Thai customers (priority!)
+   - Simple email/password as backup
 
-4. **Artist Dashboard**
-   - Profile management
-   - Booking management
-   - Availability settings
-   - Earnings tracking
+### 📅 NEXT PHASE (Week 2-4)
+1. **Thailand-Specific Features**
+   - LINE Bot for notifications (not direct contact)
+   - PromptPay QR codes for payments
+   - Buddhist holiday calendar
+   - Thai language throughout (not just translations)
 
-### 📝 Important Notes
-- **No Commission Model** - Platform makes money from premium features/apps
-- **Line Integration** - Use Line for messaging (not WhatsApp) in Thailand
-- **Corporate Focus** - English-first interface for hotel/venue clients
-- **Thai Market** - PromptPay payments, Buddhist holiday awareness
-- **SEO Priority** - All pages must be SEO optimized from the start
+2. **Revenue Model**
+   - FREE: Basic artist profiles
+   - PREMIUM (฿499/mo): Unlimited photos, top placement, analytics
+   - NO COMMISSION on bookings (our key differentiator!)
+
+### 📝 CRITICAL PRINCIPLES
+- **SIMPLICITY FIRST** - If it takes more than 3 clicks, it's too complex
+- **NO COMMISSION** - Loud and clear on every page
+- **SPAM PROTECTION** - Never expose artist contacts without verified booking
+- **THAILAND-NATIVE** - LINE > Email, PromptPay > Credit Cards, Thai > English
+- **PROGRESSIVE DISCLOSURE** - Browse free → Login to contact → Pay to confirm
+- **MOBILE FIRST** - 91% of Thai users are on mobile
+
+### 🎯 SUCCESS METRICS
+- Can a user find and contact an artist in under 60 seconds?
+- Do artists feel protected from spam?
+- Is the 0% commission clear?
+- Does it feel "Thai" not "Western"?
 
 ### 🎨 CRITICAL DESIGN STANDARDS (Apply to ALL new pages/components)
 **COLORS - 4 Brand Colors + White:**
@@ -131,6 +145,17 @@ brightears/
 - Fixed next-intl navigation API
 - Fixed Prisma schema validation errors
 - Fixed deployment build issues
+- Fixed authentication ghost sessions
+- Fixed TypeScript build errors
+- Fixed redirect loops
+
+### 🎯 COMPETITIVE ADVANTAGE
+**vs DJAAYZ/Others:**
+- Thailand-native (LINE, PromptPay, Buddhist calendar)
+- Truly bilingual (not just translated)
+- 0% commission (vs 15-20% industry standard)
+- "Sanuk" (fun) UX vs corporate feel
+- Temple/cultural event specialists
 
 ### 📚 Resources
 - Subagents available in .claude/agents/

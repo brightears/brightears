@@ -12,13 +12,21 @@
     "signup": "สมัครเป็นศิลปิน"
   },
   "hero": {
-    "title": "ศิลปินคุณภาพสำหรับทุกงาน",
+    "title": "ค้นหาดีเจที่ใช่สำหรับงานของคุณ",
     "subtitle": "จองดีเจ วงดนตรี และนักแสดงสด อย่างมั่นใจ",
     "searchPlaceholder": "คุณกำลังมองหาศิลปินแบบไหน?",
     "searchButton": "ค้นหาศิลปิน",
     "browseButton": "ดูศิลปินทั้งหมด",
     "corporateButton": "บริการสำหรับองค์กร",
-    "trustedBy": "ได้รับความไว้วางใจจากโรงแรมและสถานที่ชั้นนำ"
+    "trustedBy": "ได้รับความไว้วางใจจากโรงแรมและสถานที่ชั้นนำ",
+    "zeroCommission": "0% ค่าคอมมิชชั่น",
+    "freeRegistration": "สมัครฟรี",
+    "location": "สถานที่",
+    "locationPlaceholder": "ใส่เมืองหรือพื้นที่",
+    "date": "วันที่",
+    "musicGenre": "แนวเพลง",
+    "selectGenre": "เลือกแนวเพลง",
+    "browseAllArtists": "ดูศิลปินทั้งหมด"
   },
   "features": {
     "noCommission": {
@@ -442,5 +450,10 @@
     "category.DANCER": "นักเต้น",
     "category.PHOTOGRAPHER": "ช่างภาพ",
     "category.SPEAKER": "วิทยากร"
+  },
+  "featuredArtists": {
+    "title": "ศิลปินแนะนำ",
+    "subtitle": "ค้นพบศิลปินที่มีความสามารถและพร้อมทำให้งานของคุณน่าจดจำ",
+    "seeAllArtists": "ดูศิลปินทั้งหมด"
   }
 }
