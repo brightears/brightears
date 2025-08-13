@@ -272,7 +272,40 @@
     "loginRequired": "Login Required",
     "loginRequiredDescription": "You need to be logged in to submit a booking request.",
     "login": "Login",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "contactViaLine": "Contact via LINE",
+    "quickBooking": {
+      "title": "Quick Booking",
+      "description": "Fill in basic details and contact the artist directly via LINE for instant communication.",
+      "eventDate": "Event Date",
+      "eventType": "Event Type", 
+      "location": "Event Location",
+      "selectEventType": "Select event type",
+      "locationPlaceholder": "e.g., Bangkok, Sukhumvit Hotel",
+      "fillAllFields": "Please fill in all required fields",
+      "contactArtist": "Contact Artist",
+      "detailedBooking": "Detailed Booking Form",
+      "inquirySent": "Inquiry sent! The artist will contact you soon.",
+      "helpText": "This sends your inquiry directly to the artist. They'll respond quickly via their preferred communication method.",
+      "contactArtistDirectly": "Please contact the artist directly using the information provided above."
+    },
+    "lineMessage": {
+      "greeting": "Hi {artistName}! I found you on Bright Ears and I'm interested in booking you.",
+      "eventDate": "Event Date",
+      "eventType": "Event Type",
+      "location": "Location",
+      "footer": "Please let me know your availability and rate. Thank you!"
+    },
+    "eventTypes": {
+      "wedding": "Wedding",
+      "birthday_party": "Birthday Party",
+      "corporate_event": "Corporate Event", 
+      "private_party": "Private Party",
+      "bar_club_night": "Bar/Club Night",
+      "restaurant_performance": "Restaurant Performance",
+      "hotel_event": "Hotel Event",
+      "other": "Other"
+    }
   },
   "customerBookings": {
     "meta": {

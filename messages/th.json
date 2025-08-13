@@ -272,7 +272,40 @@
     "loginRequired": "ต้องเข้าสู่ระบบ",
     "loginRequiredDescription": "คุณต้องเข้าสู่ระบบเพื่อส่งคำขอจอง",
     "login": "เข้าสู่ระบบ",
-    "cancel": "ยกเลิก"
+    "cancel": "ยกเลิก",
+    "contactViaLine": "ติดต่อผ่าน LINE",
+    "quickBooking": {
+      "title": "จองด่วน",
+      "description": "กรอกข้อมูลพื้นฐานและติดต่อศิลปินโดยตรงผ่าน LINE เพื่อการสื่อสารแบบทันที",
+      "eventDate": "วันที่จัดงาน",
+      "eventType": "ประเภทงาน", 
+      "location": "สถานที่จัดงาน",
+      "selectEventType": "เลือกประเภทงาน",
+      "locationPlaceholder": "เช่น กรุงเทพฯ โรงแรมสุขุมวิท",
+      "fillAllFields": "กรุณากรอกข้อมูลให้ครบทุกช่อง",
+      "contactArtist": "ติดต่อศิลปิน",
+      "detailedBooking": "แบบฟอร์มจองแบบละเอียด",
+      "inquirySent": "ส่งคำสอบถามแล้ว! ศิลปินจะติดต่อกลับเร็วๆ นี้",
+      "helpText": "ระบบจะส่งคำสอบถามของคุณไปยังศิลปินโดยตรง พวกเขาจะตอบกลับอย่างรวดเร็วผ่านช่องทางที่ต้องการ",
+      "contactArtistDirectly": "กรุณาติดต่อศิลปินโดยตรงโดยใช้ข้อมูลที่แสดงด้านบน"
+    },
+    "lineMessage": {
+      "greeting": "สวัสดีครับ/ค่ะ คุณ{artistName}! ผมเจอคุณใน Bright Ears และสนใจที่จะจองครับ/ค่ะ",
+      "eventDate": "วันที่จัดงาน",
+      "eventType": "ประเภทงาน",
+      "location": "สถานที่",
+      "footer": "ช่วยแจ้งความพร้อมและราคาหน่อยครับ/ค่ะ ขอบคุณครับ/ค่ะ!"
+    },
+    "eventTypes": {
+      "wedding": "งานแต่งงาน",
+      "birthday_party": "งานวันเกิด",
+      "corporate_event": "งานบริษัท", 
+      "private_party": "งานเลี้ยงส่วนตัว",
+      "bar_club_night": "งานบาร์/คลับ",
+      "restaurant_performance": "การแสดงในร้านอาหาร",
+      "hotel_event": "งานในโรงแรม",
+      "other": "อื่นๆ"
+    }
   },
   "customerBookings": {
     "meta": {

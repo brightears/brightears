@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import BookingInquiryForm from '@/components/booking/BookingInquiryForm'
+import QuickBookingForm from '@/components/booking/QuickBookingForm'
 import LoginPromptModal from '@/components/auth/LoginPromptModal'
 
 interface ArtistProfileProps {
@@ -507,6 +508,15 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                       )}
                     </div>
                   </div>
+                </div>
+                
+                {/* Quick Booking Section - Prominent LINE integration */}
+                <div className="lg:col-span-1">
+                  <QuickBookingForm 
+                    artist={artist} 
+                    locale={locale} 
+                    onDetailedBookingClick={() => setShowBookingForm(true)}
+                  />
                 </div>
               </div>
             )}
