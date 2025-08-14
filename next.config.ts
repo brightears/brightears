@@ -5,7 +5,7 @@ const withNextIntl = createNextIntlPlugin('./i18n.ts');
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['localhost', 'brightears.io', 'via.placeholder.com'],
+    domains: ['localhost', 'brightears.io', 'via.placeholder.com', 'api.dicebear.com'],
   },
   experimental: {
     serverActions: {
