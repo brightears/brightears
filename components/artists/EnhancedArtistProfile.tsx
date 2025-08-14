@@ -123,13 +123,24 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
   }
 
   // Enhanced data with sample content for demo
-  const sampleMedia = [
-    { id: '1', type: 'image' as const, url: '/artist-sample-1.jpg', title: 'Live Performance' },
-    { id: '2', type: 'image' as const, url: '/artist-sample-2.jpg', title: 'Wedding Event' },
-    { id: '3', type: 'image' as const, url: '/artist-sample-3.jpg', title: 'Corporate Event' },
-    { id: '4', type: 'video' as const, url: '/sample-video.mp4', thumbnail: '/video-thumb.jpg', title: 'Demo Reel' },
-    { id: '5', type: 'audio' as const, url: '/sample-audio.mp3', title: 'Mix Sample' },
-  ]
+  const sampleMedia = artist.images?.length > 0 || artist.videos?.length > 0 ? 
+    [...(artist.images || []).map((url: string, i: number) => ({
+      id: `img-${i}`,
+      type: 'image' as const,
+      url,
+      title: `Photo ${i + 1}`
+    })),
+    ...(artist.videos || []).map((url: string, i: number) => ({
+      id: `vid-${i}`,
+      type: 'video' as const,
+      url,
+      title: `Video ${i + 1}`
+    }))] : 
+    [
+      { id: '1', type: 'image' as const, url: 'https://via.placeholder.com/600x400?text=Performance+1', title: 'Live Performance' },
+      { id: '2', type: 'image' as const, url: 'https://via.placeholder.com/600x400?text=Event+Photo', title: 'Event Photo' },
+      { id: '3', type: 'image' as const, url: 'https://via.placeholder.com/600x400?text=Stage+Setup', title: 'Stage Setup' },
+    ]
 
   const samplePackages = [
     {
