@@ -351,7 +351,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
                 <LineContactButton
                   artistName={artist.stageName}
                   artistId={artist.id}
-                  category={artist.category}
+                  lineId={artist.lineId || '@brightears'}
                 />
                 
                 <button

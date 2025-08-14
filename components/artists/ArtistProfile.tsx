@@ -83,6 +83,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [hasViewedContact, setHasViewedContact] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
+  const [activeTab, setActiveTab] = useState('about')
   
   useEffect(() => {
     fetchArtist()
