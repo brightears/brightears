@@ -251,16 +251,8 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
       <main className="min-h-screen bg-off-white">
         {/* Hero Section */}
         <div className="relative h-96 bg-gradient-to-r from-deep-teal to-brand-cyan">
-          {artist.coverImage ? (
-            <Image
-              src={artist.coverImage}
-              alt={artist.stageName}
-              fill
-              className="object-cover opacity-50"
-            />
-          ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-deep-teal/90 to-brand-cyan/90" />
-          )}
+          {/* Skip cover image for now to avoid loading issues */}
+          <div className="absolute inset-0 bg-gradient-to-br from-deep-teal/90 to-brand-cyan/90" />
           
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
           
@@ -268,7 +260,8 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
             <div className="flex items-end space-x-6 w-full">
               {/* Profile Image */}
               <div className="relative">
-                {artist.profileImage ? (
+                {/* Always use fallback for now to avoid image loading issues */}
+                {false && artist.profileImage ? (
                   <Image
                     src={artist.profileImage}
                     alt={artist.stageName}
