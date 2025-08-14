@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import ArtistProfile from '@/components/artists/ArtistProfile'
+import EnhancedArtistProfile from '@/components/artists/EnhancedArtistProfile'
 
 interface ArtistPageProps {
   params: Promise<{
@@ -34,5 +34,5 @@ export default async function ArtistPage({ params }: ArtistPageProps) {
   const { locale, id } = await params
   const t = await getTranslations({ locale, namespace: 'artist' })
   
-  return <ArtistProfile artistId={id} locale={locale} />
+  return <EnhancedArtistProfile artistId={id} locale={locale} />
 }

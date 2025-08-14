@@ -3,8 +3,15 @@
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
+import ArtistProfileTabs from './ArtistProfileTabs'
+import RatingStars from '@/components/ui/RatingStars'
+import VerificationBadge from '@/components/ui/VerificationBadge'
+import LineContactButton from '@/components/booking/LineContactButton'
 import BookingInquiryForm from '@/components/booking/BookingInquiryForm'
 import QuickBookingForm from '@/components/booking/QuickBookingForm'
 import LoginPromptModal from '@/components/auth/LoginPromptModal'
@@ -69,12 +76,13 @@ interface Artist {
 export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) {
   const t = useTranslations('artist')
   const { data: session, status } = useSession()
+  const router = useRouter()
   const [artist, setArtist] = useState<Artist | null>(null)
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState('about')
   const [showBookingForm, setShowBookingForm] = useState(false)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [hasViewedContact, setHasViewedContact] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false)
   
   useEffect(() => {
     fetchArtist()
