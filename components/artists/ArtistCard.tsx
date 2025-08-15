@@ -3,8 +3,7 @@
 import { useTranslations } from 'next-intl'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
-import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { Link } from '@/components/navigation'
 import Image from 'next/image'
 import LoginPromptModal from '@/components/auth/LoginPromptModal'
 
@@ -27,7 +26,6 @@ interface ArtistCardProps {
 }
 
 export default function ArtistCard({ artist, locale }: ArtistCardProps) {
-  const params = useParams()
   const t = useTranslations('artists')
   const { data: session } = useSession()
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -97,7 +95,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
   }
   
   return (
-    <Link href={`/${locale}/artists/${artist.id}`}>
+    <Link href={`/artists/${artist.id}`}>
       <div className="bg-background rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden cursor-pointer">
         <div className="relative h-48 bg-gray-200">
           {artist.profileImage ? (
@@ -162,7 +160,7 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
           {/* Contact Button */}
           <div className="mt-3">
             {session?.user ? (
-              <Link href={`/${locale}/artists/${artist.id}`} className="block">
+              <Link href={`/artists/${artist.id}`} className="block">
                 <button className="w-full px-3 py-2 bg-brand-cyan text-white font-inter font-medium text-sm rounded hover:bg-brand-cyan/80 transition-colors">
                   {t('viewContact')}
                 </button>
