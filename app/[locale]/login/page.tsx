@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from '@/components/navigation'
 import { Link } from '@/components/navigation'
 import { useTranslations } from 'next-intl'
+import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 
 export default function LoginPage() {
@@ -14,6 +15,8 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const router = useRouter()
   const t = useTranslations('auth')
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get('redirect') || '/dashboard'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -30,8 +33,8 @@ export default function LoginPage() {
       if (result?.error) {
         setError('Invalid email or password')
       } else {
-        // Redirect based on user role or to dashboard
-        router.push('/dashboard')
+        // Redirect to intended page or dashboard
+        router.push(redirect)
         router.refresh()
       }
     } catch (error) {
@@ -45,8 +48,9 @@ export default function LoginPage() {
     setIsLoading(true)
     setError('')
     try {
-      // Redirect to home page after successful Google sign-in
-      await signIn('google', { callbackUrl: '/' })
+      // Build the callback URL with the intended redirect
+      const callbackUrl = redirect === '/dashboard' ? '/' : redirect
+      await signIn('google', { callbackUrl })
     } catch (error) {
       setError('Failed to sign in with Google')
       setIsLoading(false)
