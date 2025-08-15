@@ -22,6 +22,7 @@ export default async function BookingPage({ params }: BookingPageProps) {
       href: `/login?redirect=/book/${artistId}`,
       locale
     })
+    return null // TypeScript needs this even though redirect throws
   }
 
   // Fetch artist details

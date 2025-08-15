@@ -21,6 +21,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
       href: '/login',
       locale
     })
+    return null // TypeScript needs this even though redirect throws
   }
 
   return (
