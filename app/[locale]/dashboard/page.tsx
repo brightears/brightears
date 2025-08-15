@@ -17,7 +17,10 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
   const t = await getTranslations({ locale, namespace: 'dashboard' })
 
   if (!user) {
-    redirect('/login')
+    redirect({
+      href: '/login',
+      locale
+    })
   }
 
   return (

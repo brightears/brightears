@@ -18,7 +18,10 @@ export default async function BookingPage({ params }: BookingPageProps) {
   const user = await getCurrentUser()
 
   if (!user) {
-    redirect(`/login?redirect=/book/${artistId}`)
+    redirect({
+      href: `/login?redirect=/book/${artistId}`,
+      locale
+    })
   }
 
   // Fetch artist details
@@ -28,7 +31,10 @@ export default async function BookingPage({ params }: BookingPageProps) {
   )
   
   if (!artistResponse.ok) {
-    redirect('/artists')
+    redirect({
+      href: '/artists',
+      locale
+    })
   }
   
   const artist = await artistResponse.json()
