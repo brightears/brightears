@@ -1,13 +1,9 @@
 import createMiddleware from 'next-intl/middleware';
 import { NextRequest, NextResponse } from 'next/server';
 import { auth, isValidSession } from '@/lib/auth';
-import { locales, defaultLocale } from './i18n.config';
+import { routing } from './i18n/routing';
 
-const intlMiddleware = createMiddleware({
-  locales,
-  defaultLocale,
-  localePrefix: 'as-needed' // English URLs won't have /en prefix
-});
+const intlMiddleware = createMiddleware(routing);
 
 // Define protected routes that require authentication
 const protectedRoutes = [
@@ -77,6 +73,6 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // Skip all paths that should not be internationalized or need auth
-  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
+  // Skip all paths that should not be internationalized
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)', '/']
 };

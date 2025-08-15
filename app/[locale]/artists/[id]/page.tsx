@@ -9,30 +9,40 @@ interface ArtistPageProps {
 }
 
 export async function generateMetadata({ params }: ArtistPageProps) {
-  const { id } = await params
-  const artistResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/artists/${id}`,
-    { cache: 'no-store' }
-  )
-  
-  if (!artistResponse.ok) {
+  try {
+    const { id } = await params
+    // Use a simpler title for now to avoid fetch issues
     return {
-      title: 'Artist Not Found | Bright Ears',
-      description: 'The artist you are looking for could not be found.'
+      title: `Artist Profile | Bright Ears Entertainment`,
+      description: `View artist profile and book for your next event.`
     }
-  }
-  
-  const artist = await artistResponse.json()
-  
-  return {
-    title: `${artist.stageName} | Bright Ears Entertainment`,
-    description: artist.bio || `Book ${artist.stageName} for your next event. Professional ${artist.category.toLowerCase()} available in ${artist.baseCity}.`,
+  } catch (error) {
+    return {
+      title: 'Artist | Bright Ears',
+      description: 'Professional entertainment booking platform'
+    }
   }
 }
 
 export default async function ArtistPage({ params }: ArtistPageProps) {
-  const { locale, id } = await params
-  const t = await getTranslations({ locale, namespace: 'artist' })
-  
-  return <EnhancedArtistProfile artistId={id} locale={locale} />
+  try {
+    const { locale, id } = await params
+    
+    // Validate locale
+    if (!locale || !['en', 'th'].includes(locale)) {
+      throw new Error('Invalid locale')
+    }
+    
+    return <EnhancedArtistProfile artistId={id} locale={locale} />
+  } catch (error) {
+    // Return a simple error page
+    return (
+      <div className="min-h-screen bg-off-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-dark-gray mb-4">Error Loading Artist</h1>
+          <p className="text-dark-gray">Please try again later.</p>
+        </div>
+      </div>
+    )
+  }
 }
