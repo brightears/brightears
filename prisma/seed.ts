@@ -258,7 +258,7 @@ async function main() {
             totalBookings: artistData.completedBookings + 10,
             completedBookings: artistData.completedBookings,
             averageRating: artistData.averageRating,
-            profileImage: `https://api.dicebear.com/7.x/personas/svg?seed=${artistData.stageName}`,
+            profileImage: null, // Use fallback avatar in components
             coverImage: `https://source.unsplash.com/1200x400/?music,concert`,
             verifiedAt: artistData.verificationLevel !== 'BASIC' ? new Date() : null,
           }

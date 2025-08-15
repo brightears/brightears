@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-intl/client'
 import Image from 'next/image'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -59,15 +59,15 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
 
   const handleBookNow = () => {
     if (!session) {
-      router.push(`/login?redirect=/book/${artistId}`)
+      router.push(`/${locale}/login?redirect=/book/${artistId}`)
     } else {
-      router.push(`/book/${artistId}`)
+      router.push(`/${locale}/book/${artistId}`)
     }
   }
 
   const handleFavorite = async () => {
     if (!session) {
-      router.push('/login')
+      router.push(`/${locale}/login`)
       return
     }
     setIsFavorite(!isFavorite)
@@ -110,7 +110,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
               {error || 'Artist not found'}
             </h2>
             <button
-              onClick={() => router.push('/artists')}
+              onClick={() => router.push(`/${locale}/artists`)}
               className="text-brand-cyan hover:text-brand-cyan/80"
             >
               Browse all artists

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { Link } from '@/components/navigation'
 import { usePathname } from 'next/navigation'
 import { ExtendedUser } from '@/lib/auth'
 

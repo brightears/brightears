@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import { isValidSession } from '@/lib/auth'
-import Link from 'next/link'
+import { Link } from '@/components/navigation'
 
 interface Notification {
   id: string

@@ -24,7 +24,9 @@ const publicRoutes = [
   '/login',
   '/register',
   '/about',
-  '/contact'
+  '/contact',
+  '/how-it-works',
+  '/corporate'
 ];
 
 export default async function middleware(req: NextRequest) {

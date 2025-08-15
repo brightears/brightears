@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import Image from 'next/image'
 import LoginPromptModal from '@/components/auth/LoginPromptModal'
 
@@ -26,6 +27,7 @@ interface ArtistCardProps {
 }
 
 export default function ArtistCard({ artist, locale }: ArtistCardProps) {
+  const params = useParams()
   const t = useTranslations('artists')
   const { data: session } = useSession()
   const [showLoginModal, setShowLoginModal] = useState(false)

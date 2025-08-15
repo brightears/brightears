@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { useRouter } from '@/components/navigation'
+import { Link } from '@/components/navigation'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
