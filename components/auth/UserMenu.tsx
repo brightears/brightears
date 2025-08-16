@@ -62,7 +62,7 @@ export function UserMenu() {
         return [
           { href: '/dashboard/customer', label: 'Dashboard' },
           { href: '/dashboard/customer/bookings', label: 'My Bookings' },
-          { href: '/dashboard/customer/favorites', label: 'Favorites' },
+          { href: '/favorites', label: 'Favorites' },
           { href: '/dashboard/customer/profile', label: 'Profile' },
         ]
       case 'CORPORATE':

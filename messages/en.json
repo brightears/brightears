@@ -649,5 +649,17 @@
     "betterService": "Provide better customer service",
     "noAccount": "Don't have an account?",
     "signUpHere": "Sign up here"
+  },
+  "favorites": {
+    "title": "My Favorite Artists",
+    "description": "You have {count} favorite artists",
+    "emptyDescription": "Start building your list of favorite artists",
+    "refresh": "Refresh",
+    "errorLoading": "Failed to load favorites. Please try again.",
+    "emptyTitle": "No favorites yet",
+    "emptyMessage": "Save artists to your favorites to quickly find them later. Click the heart icon on any artist card to add them to your list.",
+    "browseArtists": "Browse Artists",
+    "discoverMore": "Looking for more entertainment options?",
+    "exploreMore": "Explore All Artists"
   }
 }

@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { Link } from '@/components/navigation'
 import Image from 'next/image'
 import LoginPromptModal from '@/components/auth/LoginPromptModal'
+import FavoriteButton from '@/components/favorites/FavoriteButton'
 
 interface ArtistCardProps {
   artist: {
@@ -113,8 +114,15 @@ export default function ArtistCard({ artist, locale }: ArtistCardProps) {
             </div>
           )}
           
-          <div className="absolute top-2 right-2">
+          {/* Top right corner - Verification badge and favorite button */}
+          <div className="absolute top-2 right-2 flex items-start gap-2">
             {getVerificationBadge()}
+            <FavoriteButton 
+              artistId={artist.id}
+              artistName={artist.stageName}
+              size="sm"
+              variant="icon"
+            />
           </div>
           
           <div className="absolute bottom-2 left-2">
