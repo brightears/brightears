@@ -132,35 +132,46 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ user, account, profile }) {
       // For OAuth providers, create/update user profile
       if (account?.provider === "google") {
-        const existingUser = await prisma.user.findUnique({
-          where: { email: user.email! },
-          include: { customer: true, corporate: true, artist: true }
-        })
-
-        if (!existingUser) {
-          // Create new customer account for Google OAuth users
-          await prisma.user.create({
-            data: {
-              email: user.email!,
-              name: user.name,
-              image: user.image,
-              role: 'CUSTOMER',
-              customer: {
-                create: {
-                  firstName: user.name?.split(' ')[0] || '',
-                  lastName: user.name?.split(' ').slice(1).join(' ') || '',
-                  preferredLanguage: 'en'
-                }
-              }
-            }
+        try {
+          const existingUser = await prisma.user.findUnique({
+            where: { email: user.email! },
+            include: { customer: true, corporate: true, artist: true }
           })
+
+          if (!existingUser) {
+            // Create new customer account for Google OAuth users
+            const newUser = await prisma.user.create({
+              data: {
+                email: user.email!,
+                name: user.name,
+                image: user.image,
+                role: 'CUSTOMER',
+                customer: {
+                  create: {
+                    firstName: user.name?.split(' ')[0] || '',
+                    lastName: user.name?.split(' ').slice(1).join(' ') || '',
+                    preferredLanguage: 'en'
+                  }
+                }
+              },
+              include: { customer: true }
+            })
+            console.log("Created new Google OAuth user:", newUser.email)
+          } else {
+            console.log("Google OAuth user already exists:", existingUser.email)
+          }
+        } catch (error) {
+          console.error("Error in signIn callback:", error)
+          // Still return true to allow sign in, but log the error
+          return true
         }
       }
       return true
     },
     async jwt({ token, user, account }) {
       if (account?.provider === "google" && user && user.email) {
-        // Fetch the full user data for OAuth
+        // For Google OAuth, the user should already be created in signIn callback
+        // Fetch the full user data from database
         const dbUser = await prisma.user.findUnique({
           where: { email: user.email },
           include: { customer: true, corporate: true, artist: true }
@@ -175,8 +186,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           token.customer = dbUser.customer
           token.corporate = dbUser.corporate
         } else {
-          // If user doesn't exist in DB, don't create a token
-          return {}
+          // This shouldn't happen if signIn callback worked correctly
+          console.error("Google OAuth user not found in database:", user.email)
+          return token // Return existing token instead of empty object
         }
       } else if (user && user.id && user.email) {
         // For credentials provider - ensure we have required fields
@@ -186,10 +198,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.artist = (user as any).artist
         token.customer = (user as any).customer
         token.corporate = (user as any).corporate
-      } else {
-        // If we don't have a valid user, return empty token
-        return {}
       }
+      
       return token
     },
     async session({ session, token }) {

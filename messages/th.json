@@ -582,7 +582,11 @@
     "trackInquiries": "ติดตามคำขอและการจองของคุณในที่เดียว",
     "betterService": "ให้บริการลูกค้าที่ดีกว่า",
     "noAccount": "ไม่มีบัญชี?",
-    "signUpHere": "สมัครที่นี่"
+    "signUpHere": "สมัครที่นี่",
+    "forgotPassword": {
+      "title": "รีเซ็ตรหัสผ่าน",
+      "description": "รีเซ็ตรหัสผ่านบัญชี Bright Ears ของคุณ"
+    }
   },
   "favorites": {
     "title": "ศิลปินที่ฉันชื่นชอบ",

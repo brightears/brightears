@@ -648,7 +648,11 @@
     "trackInquiries": "Track your inquiries and bookings in one place",
     "betterService": "Provide better customer service",
     "noAccount": "Don't have an account?",
-    "signUpHere": "Sign up here"
+    "signUpHere": "Sign up here",
+    "forgotPassword": {
+      "title": "Reset Password",
+      "description": "Reset your Bright Ears account password"
+    }
   },
   "favorites": {
     "title": "My Favorite Artists",

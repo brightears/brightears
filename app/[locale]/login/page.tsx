@@ -48,10 +48,12 @@ export default function LoginPage() {
     setIsLoading(true)
     setError('')
     try {
-      // Build the callback URL with the intended redirect
-      const callbackUrl = redirect === '/dashboard' ? '/' : redirect
+      // Use the redirect URL directly, or default to root
+      const callbackUrl = redirect || '/'
+      console.log('Google OAuth callbackUrl:', callbackUrl)
       await signIn('google', { callbackUrl })
     } catch (error) {
+      console.error('Google OAuth error:', error)
       setError('Failed to sign in with Google')
       setIsLoading(false)
     }
