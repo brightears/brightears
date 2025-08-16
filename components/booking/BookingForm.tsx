@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from '@/components/navigation'
 import { useTranslations } from 'next-intl'
+import ErrorModal from '@/components/ui/ErrorModal'
 
 interface BookingFormProps {
   artist: any
@@ -14,6 +15,9 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
   const router = useRouter()
   const t = useTranslations('booking')
   const [isLoading, setIsLoading] = useState(false)
+  const [showErrorModal, setShowErrorModal] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [estimatedTotal, setEstimatedTotal] = useState(0)
   const [formData, setFormData] = useState({
     eventDate: '',
     eventTime: '',
@@ -26,6 +30,13 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
     contactPhone: '',
     contactEmail: '',
   })
+
+  // Calculate estimated total whenever duration changes
+  useEffect(() => {
+    const baseRate = artist.hourlyRate || 2500
+    const total = baseRate * formData.duration
+    setEstimatedTotal(total)
+  }, [formData.duration, artist.hourlyRate])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -60,7 +71,12 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
       router.push(`/bookings/${booking.id}/confirmation`)
     } catch (error) {
       console.error('Booking error:', error)
-      alert('Failed to create booking. Please try again.')
+      setErrorMessage(
+        error instanceof Error 
+          ? error.message 
+          : 'Failed to create booking. Please check your information and try again.'
+      )
+      setShowErrorModal(true)
     } finally {
       setIsLoading(false)
     }
@@ -91,7 +107,7 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
               min={new Date().toISOString().split('T')[0]}
               value={formData.eventDate}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+              className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
             />
           </div>
           
@@ -106,7 +122,7 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
               required
               value={formData.eventTime}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+              className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
             />
           </div>
         </div>
@@ -126,7 +142,7 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
               max={12}
               value={formData.duration}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+              className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
             />
           </div>
           
@@ -140,7 +156,7 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
               required
               value={formData.eventType}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+              className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
             >
               <option value="">Select event type</option>
               <option value="Wedding">Wedding</option>
@@ -215,7 +231,7 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
               required
               value={formData.contactEmail}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+              className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
             />
           </div>
           
@@ -230,7 +246,7 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
               required
               value={formData.contactPhone}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+              className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
             />
           </div>
         </div>
@@ -253,11 +269,19 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
 
         {/* Total Cost */}
         <div className="border-t pt-6">
-          <div className="flex justify-between items-center mb-6">
-            <span className="text-lg font-medium text-dark-gray">Estimated Total</span>
-            <span className="text-2xl font-bold text-brand-cyan">
-              ฿{calculateTotal().toLocaleString()}
-            </span>
+          <div className="bg-off-white rounded-lg p-4 mb-6">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm text-dark-gray/70">Base Rate ({formData.duration} hours)</span>
+              <span className="text-sm text-dark-gray">
+                ฿{((artist.hourlyRate || 2500) * formData.duration).toLocaleString()}
+              </span>
+            </div>
+            <div className="flex justify-between items-center pt-2 border-t">
+              <span className="text-lg font-medium text-dark-gray">Estimated Total</span>
+              <span className="text-2xl font-bold text-brand-cyan">
+                ฿{estimatedTotal.toLocaleString()}
+              </span>
+            </div>
           </div>
 
           <button
@@ -273,6 +297,16 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
           </p>
         </div>
       </div>
+
+      {/* Error Modal */}
+      <ErrorModal
+        isOpen={showErrorModal}
+        onClose={() => setShowErrorModal(false)}
+        title="Booking Request Failed"
+        message={errorMessage}
+        actionText="Try Again"
+        onAction={() => setShowErrorModal(false)}
+      />
     </form>
   )
 }
