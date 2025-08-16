@@ -39,21 +39,20 @@ declare module "next-auth" {
   }
 }
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
-  session: {
-    strategy: "jwt",
-  },
-  pages: {
-    signIn: "/login",
-  },
-  trustHost: true, // Required for NextAuth v5 in production
-  providers: [
+const providers = []
+
+// Only add Google provider if credentials are available
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  providers.push(
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
-    }),
+    })
+  )
+}
+
+providers.push(
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -116,8 +115,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null
         }
       },
-    }),
-  ],
+    })
+)
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: "jwt",
+  },
+  pages: {
+    signIn: "/login",
+  },
+  trustHost: true, // Required for NextAuth v5 in production
+  providers,
   callbacks: {
     async signIn({ user, account, profile }) {
       // For OAuth providers, create/update user profile
