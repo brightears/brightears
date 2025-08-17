@@ -154,8 +154,8 @@ export async function GET(request: NextRequest) {
     let whereClause: any = { artistId: artist.id }
 
     if (month && year) {
-      const startDate = new Date(parseInt(year), parseInt(month) - 1, 1)
-      const endDate = new Date(parseInt(year), parseInt(month), 0)
+      const startDate = new Date(year, month - 1, 1)
+      const endDate = new Date(year, month, 0)
       
       whereClause.date = {
         gte: startDate,
