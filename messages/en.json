@@ -57,6 +57,20 @@
       "description": "Instrumentalists and performers"
     }
   },
+  "home": {
+    "featuredArtists": {
+      "title": "Featured Artists",
+      "subtitle": "Handpicked professionals trusted by Thailand's leading venues",
+      "quickBook": "Quick Book Now",
+      "viewProfile": "View Profile",
+      "viewAllArtists": "View All Artists",
+      "available": "Available",
+      "featured": "Featured",
+      "recentlyPerformed": "Recently performed at",
+      "startingFrom": "Starting from",
+      "priceOnRequest": "Quote on request"
+    }
+  },
   "corporate": {
     "title": "Corporate Entertainment Solutions",
     "subtitle": "Trusted by Thailand's Leading Hotels & Venues",

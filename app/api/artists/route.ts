@@ -9,8 +9,44 @@ const searchSchema = z.object({
   city: z.string().max(100).optional(),
   search: z.string().max(200).optional(),
   page: z.number().min(1).max(1000).default(1),
-  limit: z.number().min(1).max(100).default(12)
+  limit: z.number().min(1).max(100).default(12),
+  featured: z.boolean().optional(),
+  sort: z.enum(['featured', 'rating', 'recent', 'bookings']).optional()
 })
+
+// Helper function to determine sort order
+function getOrderBy(sort?: string, featured?: boolean) {
+  if (featured && sort === 'featured') {
+    return [
+      { verificationLevel: 'desc' as const },
+      { averageRating: 'desc' as const },
+      { createdAt: 'desc' as const }
+    ]
+  }
+  
+  switch (sort) {
+    case 'rating':
+      return [
+        { averageRating: 'desc' as const },
+        { verificationLevel: 'desc' as const },
+        { createdAt: 'desc' as const }
+      ]
+    case 'recent':
+      return [{ createdAt: 'desc' as const }]
+    case 'bookings':
+      return [
+        { verificationLevel: 'desc' as const },
+        { averageRating: 'desc' as const },
+        { createdAt: 'desc' as const }
+      ]
+    default:
+      return [
+        { verificationLevel: 'desc' as const },
+        { averageRating: 'desc' as const },
+        { createdAt: 'desc' as const }
+      ]
+  }
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -22,7 +58,9 @@ export async function GET(req: NextRequest) {
       city: searchParams.get('city') || undefined,
       search: searchParams.get('search') || undefined,
       page: parseInt(searchParams.get('page') || '1'),
-      limit: parseInt(searchParams.get('limit') || '12')
+      limit: parseInt(searchParams.get('limit') || '12'),
+      featured: searchParams.get('featured') === 'true',
+      sort: searchParams.get('sort') || undefined
     })
     
     if (!inputValidation.success) {
@@ -32,7 +70,7 @@ export async function GET(req: NextRequest) {
       )
     }
     
-    const { category, city, search, page, limit } = inputValidation.data
+    const { category, city, search, page, limit, featured, sort } = inputValidation.data
     const skip = (page - 1) * limit
     
     // Base query to get active artists
@@ -69,6 +107,17 @@ export async function GET(req: NextRequest) {
       })
     }
     
+    // Add featured filter
+    if (featured) {
+      conditions.push({
+        OR: [
+          { verificationLevel: 'TRUSTED' },
+          { averageRating: { gte: 4.5 } },
+          { bookings: { some: { status: 'COMPLETED' } } }
+        ]
+      })
+    }
+
     // Combine all conditions
     if (conditions.length > 0) {
       where.AND = conditions
@@ -93,11 +142,7 @@ export async function GET(req: NextRequest) {
             }
           }
         },
-        orderBy: [
-          { verificationLevel: 'desc' },
-          { averageRating: 'desc' },
-          { createdAt: 'desc' }
-        ]
+        orderBy: getOrderBy(sort, featured)
       }),
       prisma.artist.count({ where })
     ])

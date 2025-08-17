@@ -57,6 +57,20 @@
       "description": "นักดนตรีเครื่องเล่นและนักแสดง"
     }
   },
+  "home": {
+    "featuredArtists": {
+      "title": "ศิลปินแนะนำ",
+      "subtitle": "ศิลปินมืออาชีพที่ได้รับความไว้วางใจจากสถานที่ชั้นนำของไทย",
+      "quickBook": "จองด่วน",
+      "viewProfile": "ดูโปรไฟล์",
+      "viewAllArtists": "ดูศิลปินทั้งหมด",
+      "available": "ว่าง",
+      "featured": "แนะนำ",
+      "recentlyPerformed": "เพิ่งแสดงที่",
+      "startingFrom": "เริ่มต้น",
+      "priceOnRequest": "สอบถามราคา"
+    }
+  },
   "corporate": {
     "title": "บริการความบันเทิงสำหรับองค์กร",
     "subtitle": "ได้รับความไว้วางใจจากโรงแรมและสถานที่ชั้นนำของไทย",
