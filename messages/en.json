@@ -746,7 +746,128 @@
           "completedEvents": "Completed Events", 
           "totalSpent": "Total Spent"
         }
+      },
+      "profile": {
+        "title": "Profile Settings",
+        "description": "Manage your personal information and account preferences",
+        "subtitle": "Update your personal information and preferences",
+        "personalInfo": {
+          "title": "Personal Information",
+          "description": "This information will be used for bookings and communication with artists."
+        },
+        "fields": {
+          "firstName": "First Name",
+          "lastName": "Last Name", 
+          "email": "Email Address",
+          "phone": "Phone Number",
+          "location": "Location",
+          "preferredLanguage": "Preferred Language"
+        },
+        "placeholders": {
+          "firstName": "Enter your first name",
+          "lastName": "Enter your last name",
+          "email": "Enter your email address",
+          "phone": "Enter your phone number",
+          "location": "Enter your city or location"
+        },
+        "languages": {
+          "en": "English",
+          "th": "ไทย (Thai)"
+        },
+        "privacy": {
+          "title": "Privacy & Security",
+          "description": "Your personal information is encrypted and never shared with third parties without your consent."
+        },
+        "actions": {
+          "save": "Save Changes",
+          "saving": "Saving...",
+          "cancel": "Cancel"
+        },
+        "updateSuccess": "Profile updated successfully!",
+        "updateError": "Failed to update profile. Please try again.",
+        "accountSettings": {
+          "title": "Account Settings",
+          "description": "Manage your account security and preferences",
+          "changePassword": "Change Password",
+          "changePasswordDesc": "Update your account password",
+          "changePasswordBtn": "Change Password",
+          "deleteAccount": "Delete Account",
+          "deleteAccountDesc": "Permanently delete your account and all data",
+          "deleteAccountBtn": "Delete Account"
+        }
       }
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "description": "Learn how Bright Ears connects you with Thailand's finest entertainment talent",
+    "hero": {
+      "title": "How Bright Ears Works",
+      "subtitle": "Connecting you with Thailand's finest entertainment talent in three simple steps"
+    },
+    "steps": {
+      "title": "Simple Process",
+      "subtitle": "Get started in just three easy steps",
+      "browse": {
+        "title": "Browse & Discover",
+        "description": "Browse our curated selection of verified entertainers. Filter by location, category, and budget to find your perfect match."
+      },
+      "connect": {
+        "title": "Connect & Book",
+        "description": "Contact artists directly through our platform. Discuss your event details and receive personalized quotes."
+      },
+      "enjoy": {
+        "title": "Enjoy Your Event",
+        "description": "Relax and enjoy exceptional entertainment at your event. Leave reviews to help other customers."
+      }
+    },
+    "features": {
+      "title": "Why Choose Bright Ears?",
+      "subtitle": "We make booking entertainment simple, secure, and transparent",
+      "noCommission": {
+        "title": "No Commission Fees",
+        "description": "Connect directly with artists. We don't take a cut from bookings."
+      },
+      "verified": {
+        "title": "Verified Professionals",
+        "description": "All artists are verified and reviewed by real clients."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Get help whenever you need it, in English or Thai."
+      },
+      "secure": {
+        "title": "Secure Platform",
+        "description": "Protected bookings with secure payment and communication."
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Common questions about using Bright Ears",
+      "questions": {
+        "q1": {
+          "question": "How much does it cost to use Bright Ears?",
+          "answer": "Bright Ears is completely free for customers. We don't charge any commission fees - you pay the artist directly."
+        },
+        "q2": {
+          "question": "Are all artists verified?",
+          "answer": "Yes, all artists go through our verification process including identity verification and portfolio review."
+        },
+        "q3": {
+          "question": "How do I communicate with artists?",
+          "answer": "You can message artists directly through our secure platform to discuss your event details and requirements."
+        },
+        "q4": {
+          "question": "What if I need to cancel my booking?",
+          "answer": "Cancellation policies vary by artist. Please check the specific terms when booking and contact support if needed."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "subtitle": "Join thousands of satisfied customers who found their perfect entertainment",
+      "browseArtists": "Browse Artists",
+      "joinAsArtist": "Join as Artist"
     }
   }
 }
