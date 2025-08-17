@@ -1,16 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { z } from 'zod'
+import { prisma } from '@/lib/prisma'
+import { safeErrorResponse } from '@/lib/api-auth'
 
-const prisma = new PrismaClient()
+// Input validation schema for artist search
+const searchSchema = z.object({
+  category: z.string().max(50).optional(),
+  city: z.string().max(100).optional(),
+  search: z.string().max(200).optional(),
+  page: z.number().min(1).max(1000).default(1),
+  limit: z.number().min(1).max(100).default(12)
+})
 
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams
-    const category = searchParams.get('category')
-    const city = searchParams.get('city')
-    const search = searchParams.get('search')
-    const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '12')
+    
+    // Validate input parameters
+    const inputValidation = searchSchema.safeParse({
+      category: searchParams.get('category') || undefined,
+      city: searchParams.get('city') || undefined,
+      search: searchParams.get('search') || undefined,
+      page: parseInt(searchParams.get('page') || '1'),
+      limit: parseInt(searchParams.get('limit') || '12')
+    })
+    
+    if (!inputValidation.success) {
+      return NextResponse.json(
+        { error: 'Invalid search parameters', details: inputValidation.error.issues },
+        { status: 400 }
+      )
+    }
+    
+    const { category, city, search, page, limit } = inputValidation.data
     const skip = (page - 1) * limit
     
     // Base query to get active artists
@@ -116,12 +138,6 @@ export async function GET(req: NextRequest) {
     })
     
   } catch (error) {
-    console.error('Error fetching artists:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch artists' },
-      { status: 500 }
-    )
-  } finally {
-    await prisma.$disconnect()
+    return safeErrorResponse(error, 'Failed to fetch artists')
   }
 }

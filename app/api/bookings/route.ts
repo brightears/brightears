@@ -1,6 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { safeErrorResponse, sanitizeInput } from '@/lib/api-auth'
+import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit'
+
+// Input validation schemas
+const getBookingsSchema = z.object({
+  status: z.string().max(20).optional(),
+  limit: z.number().min(1).max(100).default(20),
+  offset: z.number().min(0).max(10000).default(0)
+})
+
+const createBookingSchema = z.object({
+  artistId: z.string().uuid(),
+  eventType: z.string().min(1).max(100),
+  eventDate: z.string().datetime(),
+  startTime: z.string().datetime(),
+  endTime: z.string().datetime(),
+  duration: z.number().min(1).max(24).optional(),
+  venue: z.string().min(1).max(200),
+  venueAddress: z.string().min(1).max(500),
+  guestCount: z.number().min(1).max(10000).optional(),
+  specialRequests: z.string().max(1000).optional(),
+  budgetRange: z.string().max(100).optional(),
+  contactPhone: z.string().max(20).optional(),
+  notes: z.string().max(1000).optional()
+})
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,9 +37,22 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url)
-    const status = searchParams.get('status')
-    const limit = parseInt(searchParams.get('limit') || '20')
-    const offset = parseInt(searchParams.get('offset') || '0')
+    
+    // Validate input parameters
+    const inputValidation = getBookingsSchema.safeParse({
+      status: searchParams.get('status') || undefined,
+      limit: parseInt(searchParams.get('limit') || '20'),
+      offset: parseInt(searchParams.get('offset') || '0')
+    })
+    
+    if (!inputValidation.success) {
+      return NextResponse.json(
+        { error: 'Invalid parameters', details: inputValidation.error.issues },
+        { status: 400 }
+      )
+    }
+    
+    const { status, limit, offset } = inputValidation.data
 
     let whereClause: any = {}
 
@@ -107,8 +146,7 @@ export async function GET(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('Error fetching bookings:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return safeErrorResponse(error, 'Failed to fetch bookings')
   }
 }
 
@@ -119,8 +157,24 @@ export async function POST(request: NextRequest) {
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+    
+    // Apply rate limiting for booking creation
+    const rateLimitResult = await rateLimit(request, RATE_LIMITS.booking, `user:${user.id}`)
+    if (!rateLimitResult.success) {
+      return rateLimitResult.response!
+    }
 
     const body = await request.json()
+    
+    // Validate input data
+    const inputValidation = createBookingSchema.safeParse(body)
+    if (!inputValidation.success) {
+      return NextResponse.json(
+        { error: 'Invalid booking data', details: inputValidation.error.issues },
+        { status: 400 }
+      )
+    }
+    
     const {
       artistId,
       eventType,
@@ -135,13 +189,17 @@ export async function POST(request: NextRequest) {
       budgetRange,
       contactPhone,
       notes
-    } = body
-
-    // Validate required fields
-    if (!artistId || !eventType || !eventDate || !startTime || !endTime || !venue || !venueAddress) {
-      return NextResponse.json({ 
-        error: 'Missing required fields' 
-      }, { status: 400 })
+    } = inputValidation.data
+    
+    // Sanitize text inputs
+    const sanitizedData = {
+      eventType: sanitizeInput(eventType),
+      venue: sanitizeInput(venue),
+      venueAddress: sanitizeInput(venueAddress),
+      specialRequests: specialRequests ? sanitizeInput(specialRequests) : undefined,
+      budgetRange: budgetRange ? sanitizeInput(budgetRange) : undefined,
+      contactPhone: contactPhone ? sanitizeInput(contactPhone) : undefined,
+      notes: notes ? sanitizeInput(notes) : undefined
     }
 
     // Validate dates
@@ -220,23 +278,23 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Create booking inquiry
+    // Create booking inquiry with sanitized data
     const booking = await prisma.booking.create({
       data: {
         customerId: user.id,
         artistId: artistId,
-        eventType,
+        eventType: sanitizedData.eventType,
         eventDate: eventDateTime,
         startTime: startDateTime,
         endTime: endDateTime,
         duration: duration || Math.ceil((endDateTime.getTime() - startDateTime.getTime()) / (1000 * 60 * 60)),
-        venue,
-        venueAddress,
-        guestCount: guestCount ? parseInt(guestCount) : null,
+        venue: sanitizedData.venue,
+        venueAddress: sanitizedData.venueAddress,
+        guestCount: guestCount || null,
         quotedPrice: estimatedPrice || 0,
         currency: artist.currency,
-        specialRequests,
-        notes: [notes, budgetRange ? `Budget range: ${budgetRange}` : null, contactPhone ? `Contact phone: ${contactPhone}` : null]
+        specialRequests: sanitizedData.specialRequests,
+        notes: [sanitizedData.notes, sanitizedData.budgetRange ? `Budget range: ${sanitizedData.budgetRange}` : null, sanitizedData.contactPhone ? `Contact phone: ${sanitizedData.contactPhone}` : null]
           .filter(Boolean)
           .join('\n'),
         status: 'INQUIRY'
@@ -291,7 +349,6 @@ export async function POST(request: NextRequest) {
     }, { status: 201 })
 
   } catch (error) {
-    console.error('Error creating booking:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return safeErrorResponse(error, 'Failed to create booking')
   }
 }

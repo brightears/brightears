@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { z } from 'zod'
+import { prisma } from '@/lib/prisma'
+import { requireArtistOwnership, safeErrorResponse, sanitizeInput } from '@/lib/api-auth'
+import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit'
 
 export async function GET(
   req: NextRequest,
@@ -99,15 +100,38 @@ export async function GET(
     })
     
   } catch (error) {
-    console.error('Error fetching artist:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch artist' },
-      { status: 500 }
-    )
-  } finally {
-    await prisma.$disconnect()
+    return safeErrorResponse(error, 'Failed to fetch artist')
   }
 }
+
+// Validation schema for artist profile updates
+const updateArtistSchema = z.object({
+  stageName: z.string().min(2).max(100).optional(),
+  realName: z.string().min(2).max(100).optional(),
+  bio: z.string().max(2000).optional(),
+  bioTh: z.string().max(2000).optional(),
+  subCategories: z.array(z.string()).max(10).optional(),
+  serviceAreas: z.array(z.string()).max(20).optional(),
+  travelRadius: z.number().min(0).max(1000).optional(),
+  hourlyRate: z.number().min(0).max(100000).optional(),
+  minimumHours: z.number().min(1).max(24).optional(),
+  languages: z.array(z.string()).max(10).optional(),
+  genres: z.array(z.string()).max(20).optional(),
+  equipment: z.array(z.string()).max(50).optional(),
+  technicalRider: z.string().max(5000).optional(),
+  website: z.string().url().max(200).optional().or(z.literal('')),
+  facebook: z.string().max(200).optional(),
+  instagram: z.string().max(200).optional(),
+  tiktok: z.string().max(200).optional(),
+  youtube: z.string().max(200).optional(),
+  spotify: z.string().max(200).optional(),
+  soundcloud: z.string().max(200).optional(),
+  mixcloud: z.string().max(200).optional(),
+  lineId: z.string().max(100).optional(),
+  instantBooking: z.boolean().optional(),
+  advanceNotice: z.number().min(1).max(365).optional(),
+  cancellationPolicy: z.string().max(1000).optional()
+})
 
 export async function PATCH(
   req: NextRequest,
@@ -115,38 +139,75 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params
+    
+    // CRITICAL: Check authentication and ownership
+    const user = await requireArtistOwnership(id)
+    
+    // Apply rate limiting for profile updates
+    const rateLimitResult = await rateLimit(req, RATE_LIMITS.profile, `user:${user.id}`)
+    if (!rateLimitResult.success) {
+      return rateLimitResult.response!
+    }
+    
     const body = await req.json()
     
-    const allowedFields = [
-      'stageName', 'realName', 'bio', 'bioTh', 'subCategories',
-      'serviceAreas', 'travelRadius', 'hourlyRate', 'minimumHours',
-      'languages', 'genres', 'equipment', 'technicalRider',
-      'website', 'facebook', 'instagram', 'tiktok', 'youtube',
-      'spotify', 'soundcloud', 'mixcloud', 'lineId',
-      'instantBooking', 'advanceNotice', 'cancellationPolicy'
-    ]
+    // Validate input data
+    const validationResult = updateArtistSchema.safeParse(body)
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { 
+          error: 'Invalid input data', 
+          details: validationResult.error.issues 
+        },
+        { status: 400 }
+      )
+    }
     
-    const updateData: any = {}
-    for (const field of allowedFields) {
-      if (body[field] !== undefined) {
-        updateData[field] = body[field]
+    const updateData = validationResult.data
+    
+    // Sanitize text fields to prevent XSS
+    const sanitizedData: any = {}
+    for (const [key, value] of Object.entries(updateData)) {
+      if (typeof value === 'string') {
+        sanitizedData[key] = sanitizeInput(value)
+      } else {
+        sanitizedData[key] = value
       }
+    }
+    
+    // Only update if we have some data
+    if (Object.keys(sanitizedData).length === 0) {
+      return NextResponse.json(
+        { error: 'No valid fields to update' },
+        { status: 400 }
+      )
     }
     
     const artist = await prisma.artist.update({
       where: { id },
-      data: updateData
+      data: sanitizedData
     })
     
-    return NextResponse.json(artist)
+    return NextResponse.json({
+      ...artist,
+      hourlyRate: artist.hourlyRate ? artist.hourlyRate.toNumber() : null
+    })
     
   } catch (error) {
-    console.error('Error updating artist:', error)
-    return NextResponse.json(
-      { error: 'Failed to update artist' },
-      { status: 500 }
-    )
-  } finally {
-    await prisma.$disconnect()
+    if (error instanceof Error) {
+      if (error.message === 'Authentication required') {
+        return NextResponse.json(
+          { error: 'Authentication required' },
+          { status: 401 }
+        )
+      }
+      if (error.message.includes('Can only edit') || error.message.includes('Must be an artist')) {
+        return NextResponse.json(
+          { error: 'Unauthorized to edit this artist profile' },
+          { status: 403 }
+        )
+      }
+    }
+    return safeErrorResponse(error, 'Failed to update artist')
   }
 }
