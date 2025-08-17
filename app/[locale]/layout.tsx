@@ -6,6 +6,8 @@ import { Inter, Playfair_Display, Noto_Sans_Thai } from 'next/font/google';
 import { SessionProvider } from '@/components/auth/SessionProvider';
 import { FavoritesProvider } from '@/components/favorites/FavoritesContext';
 import { getSession, isValidSession } from '@/lib/auth';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import type { Session } from 'next-auth';
 import '../globals.css';
 
@@ -85,7 +87,11 @@ export default async function LocaleLayout({
         <SessionProvider session={validSession as Session | null}>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <FavoritesProvider>
-              {children}
+              <Header />
+              <main className="min-h-screen">
+                {children}
+              </main>
+              <Footer />
             </FavoritesProvider>
           </NextIntlClientProvider>
         </SessionProvider>
