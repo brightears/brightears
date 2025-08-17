@@ -20,23 +20,39 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
   const [estimatedTotal, setEstimatedTotal] = useState(0)
   const [formData, setFormData] = useState({
     eventDate: '',
-    eventTime: '',
+    startTime: '',
+    endTime: '',
     duration: artist.minimumHours || 2,
     eventType: '',
-    venueName: '',
+    venue: '',
     venueAddress: '',
-    expectedGuests: '',
-    message: '',
+    guestCount: '',
+    specialRequests: '',
     contactPhone: '',
-    contactEmail: '',
+    budgetRange: '',
+    notes: '',
   })
 
-  // Calculate estimated total whenever duration changes
+  // Calculate estimated total and end time whenever duration or start time changes
   useEffect(() => {
     const baseRate = artist.hourlyRate || 2500
     const total = baseRate * formData.duration
     setEstimatedTotal(total)
-  }, [formData.duration, artist.hourlyRate])
+    
+    // Auto-calculate end time when start time and duration are set
+    if (formData.startTime && formData.duration) {
+      const [hours, minutes] = formData.startTime.split(':').map(Number)
+      const startDate = new Date()
+      startDate.setHours(hours, minutes, 0, 0)
+      
+      const endDate = new Date(startDate.getTime() + (formData.duration * 60 * 60 * 1000))
+      const endTimeString = endDate.toTimeString().slice(0, 5)
+      
+      if (formData.endTime !== endTimeString) {
+        setFormData(prev => ({ ...prev, endTime: endTimeString }))
+      }
+    }
+  }, [formData.duration, formData.startTime, artist.hourlyRate])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -48,27 +64,55 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
     setIsLoading(true)
 
     try {
+      // Format datetime fields to ISO strings for API
+      const eventDate = new Date(formData.eventDate)
+      const [startHours, startMinutes] = formData.startTime.split(':').map(Number)
+      const [endHours, endMinutes] = formData.endTime.split(':').map(Number)
+      
+      const startDateTime = new Date(eventDate)
+      startDateTime.setHours(startHours, startMinutes, 0, 0)
+      
+      const endDateTime = new Date(eventDate)
+      endDateTime.setHours(endHours, endMinutes, 0, 0)
+      
+      // If end time is earlier than start time, assume it's next day
+      if (endDateTime <= startDateTime) {
+        endDateTime.setDate(endDateTime.getDate() + 1)
+      }
+
+      const bookingData = {
+        artistId: artist.id,
+        eventType: formData.eventType,
+        eventDate: eventDate.toISOString(),
+        startTime: startDateTime.toISOString(),
+        endTime: endDateTime.toISOString(),
+        duration: formData.duration,
+        venue: formData.venue,
+        venueAddress: formData.venueAddress,
+        guestCount: formData.guestCount ? parseInt(formData.guestCount) : undefined,
+        specialRequests: formData.specialRequests || undefined,
+        budgetRange: formData.budgetRange || undefined,
+        contactPhone: formData.contactPhone,
+        notes: formData.notes || undefined,
+      }
+
       const response = await fetch('/api/bookings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          artistId: artist.id,
-          customerId: userId,
-          ...formData,
-          totalAmount: artist.hourlyRate * formData.duration,
-        }),
+        body: JSON.stringify(bookingData),
       })
 
       if (!response.ok) {
-        throw new Error('Failed to create booking')
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to create booking')
       }
 
-      const booking = await response.json()
+      const result = await response.json()
       
       // Redirect to booking confirmation
-      router.push(`/bookings/${booking.id}/confirmation`)
+      router.push(`/${locale}/dashboard/customer/bookings`)
     } catch (error) {
       console.error('Booking error:', error)
       setErrorMessage(
@@ -112,19 +156,34 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
           </div>
           
           <div>
-            <label htmlFor="eventTime" className="block text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="startTime" className="block text-sm font-medium text-dark-gray mb-1">
               Start Time *
             </label>
             <input
               type="time"
-              id="eventTime"
-              name="eventTime"
+              id="startTime"
+              name="startTime"
               required
-              value={formData.eventTime}
+              value={formData.startTime}
               onChange={handleInputChange}
               className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
             />
           </div>
+        </div>
+
+        {/* End Time (auto-calculated) */}
+        <div>
+          <label htmlFor="endTime" className="block text-sm font-medium text-dark-gray mb-1">
+            End Time (calculated automatically)
+          </label>
+          <input
+            type="time"
+            id="endTime"
+            name="endTime"
+            value={formData.endTime}
+            readOnly
+            className="w-full px-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-gray-600"
+          />
         </div>
 
         {/* Duration & Event Type */}
@@ -172,15 +231,15 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
 
         {/* Venue Information */}
         <div>
-          <label htmlFor="venueName" className="block text-sm font-medium text-dark-gray mb-1">
+          <label htmlFor="venue" className="block text-sm font-medium text-dark-gray mb-1">
             Venue Name *
           </label>
           <input
             type="text"
-            id="venueName"
-            name="venueName"
+            id="venue"
+            name="venue"
             required
-            value={formData.venueName}
+            value={formData.venue}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
             placeholder="e.g., Marriott Bangkok"
@@ -204,37 +263,22 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
         </div>
 
         <div>
-          <label htmlFor="expectedGuests" className="block text-sm font-medium text-dark-gray mb-1">
+          <label htmlFor="guestCount" className="block text-sm font-medium text-dark-gray mb-1">
             Expected Number of Guests
           </label>
           <input
             type="number"
-            id="expectedGuests"
-            name="expectedGuests"
-            value={formData.expectedGuests}
+            id="guestCount"
+            name="guestCount"
+            value={formData.guestCount}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
             placeholder="Approximate number"
           />
         </div>
 
-        {/* Contact Information */}
+        {/* Contact Information & Budget */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="contactEmail" className="block text-sm font-medium text-dark-gray mb-1">
-              Contact Email *
-            </label>
-            <input
-              type="email"
-              id="contactEmail"
-              name="contactEmail"
-              required
-              value={formData.contactEmail}
-              onChange={handleInputChange}
-              className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
-            />
-          </div>
-          
           <div>
             <label htmlFor="contactPhone" className="block text-sm font-medium text-dark-gray mb-1">
               Contact Phone *
@@ -247,23 +291,60 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
               value={formData.contactPhone}
               onChange={handleInputChange}
               className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
+              placeholder="e.g., +66 9 xxxx xxxx"
             />
+          </div>
+          
+          <div>
+            <label htmlFor="budgetRange" className="block text-sm font-medium text-dark-gray mb-1">
+              Budget Range (optional)
+            </label>
+            <select
+              id="budgetRange"
+              name="budgetRange"
+              value={formData.budgetRange}
+              onChange={handleInputChange}
+              className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
+            >
+              <option value="">Select budget range</option>
+              <option value="Under ฿10,000">Under ฿10,000</option>
+              <option value="฿10,000 - ฿25,000">฿10,000 - ฿25,000</option>
+              <option value="฿25,000 - ฿50,000">฿25,000 - ฿50,000</option>
+              <option value="฿50,000 - ฿100,000">฿50,000 - ฿100,000</option>
+              <option value="Over ฿100,000">Over ฿100,000</option>
+            </select>
           </div>
         </div>
 
         {/* Special Requests */}
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-dark-gray mb-1">
-            Special Requests or Message
+          <label htmlFor="specialRequests" className="block text-sm font-medium text-dark-gray mb-1">
+            Special Requests
           </label>
           <textarea
-            id="message"
-            name="message"
-            rows={4}
-            value={formData.message}
+            id="specialRequests"
+            name="specialRequests"
+            rows={3}
+            value={formData.specialRequests}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
-            placeholder="Any special requirements, song requests, or additional information..."
+            placeholder="Any special requirements, song requests, equipment needs..."
+          />
+        </div>
+
+        {/* Additional Notes */}
+        <div>
+          <label htmlFor="notes" className="block text-sm font-medium text-dark-gray mb-1">
+            Additional Notes
+          </label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows={3}
+            value={formData.notes}
+            onChange={handleInputChange}
+            className="w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+            placeholder="Any additional information about your event..."
           />
         </div>
 
