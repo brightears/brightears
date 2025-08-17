@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl'
 import { useSession } from 'next-auth/react'
 import { useRouter } from '@/components/navigation'
 import Image from 'next/image'
-import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import ArtistProfileTabs from './ArtistProfileTabs'
 import RatingStars from '@/components/ui/RatingStars'
@@ -89,7 +88,6 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
   if (loading) {
     return (
       <>
-        <Header />
         <div className="min-h-screen bg-off-white flex items-center justify-center">
           <div className="animate-pulse">
             <div className="h-8 w-32 bg-brand-cyan/20 rounded"></div>
@@ -103,7 +101,6 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
   if (error || !artist) {
     return (
       <>
-        <Header />
         <div className="min-h-screen bg-off-white flex items-center justify-center">
           <div className="text-center">
             <h2 className="font-playfair text-2xl font-bold text-dark-gray mb-2">
@@ -247,7 +244,6 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
 
   return (
     <>
-      <Header />
       <main className="min-h-screen bg-off-white">
         {/* Hero Section */}
         <div className="relative h-96 bg-gradient-to-r from-deep-teal to-brand-cyan">
