@@ -19,45 +19,6 @@ export default async function MediaPage({
     redirect(`/${locale}/dashboard`)
   }
 
-  // Mock media data - will be replaced with real API calls
-  const mockMedia = {
-    profileImage: null,
-    coverImage: null,
-    images: [
-      '/placeholder-image-1.jpg',
-      '/placeholder-image-2.jpg',
-      '/placeholder-image-3.jpg'
-    ],
-    videos: [
-      {
-        id: '1',
-        url: 'https://youtube.com/watch?v=example1',
-        title: 'Live Performance at Wedding',
-        thumbnail: '/placeholder-video-thumb-1.jpg'
-      },
-      {
-        id: '2',
-        url: 'https://youtube.com/watch?v=example2',
-        title: 'DJ Set at Corporate Event',
-        thumbnail: '/placeholder-video-thumb-2.jpg'
-      }
-    ],
-    audioSamples: [
-      {
-        id: '1',
-        url: '/placeholder-audio-1.mp3',
-        title: 'Pop Music Mix',
-        duration: '3:45'
-      },
-      {
-        id: '2',
-        url: '/placeholder-audio-2.mp3',
-        title: 'Jazz Collection',
-        duration: '4:20'
-      }
-    ]
-  }
-
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -66,14 +27,13 @@ export default async function MediaPage({
           Media Gallery
         </h1>
         <p className="mt-2 text-dark-gray">
-          Upload and manage your photos, videos, and audio samples to showcase your work.
+          Upload and manage your photos and audio samples to showcase your work. All files are stored securely in the cloud.
         </p>
       </div>
 
       {/* Media Gallery Manager */}
       <MediaGalleryManager 
         artistId={artist.id}
-        media={mockMedia}
         locale={locale}
       />
     </div>
