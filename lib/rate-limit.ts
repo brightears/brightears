@@ -41,7 +41,7 @@ function getClientId(req: NextRequest): string {
   const realIp = req.headers.get('x-real-ip')
   const cfConnectingIp = req.headers.get('cf-connecting-ip')
   
-  const ip = forwarded?.split(',')[0] || realIp || cfConnectingIp || req.ip || 'unknown'
+  const ip = forwarded?.split(',')[0] || realIp || cfConnectingIp || 'unknown'
   
   return ip
 }

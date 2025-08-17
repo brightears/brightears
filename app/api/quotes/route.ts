@@ -11,7 +11,6 @@ const createQuoteSchema = z.object({
   quotedPrice: z.number().min(0).max(1000000),
   currency: z.string().length(3).default('THB'),
   validUntil: z.string().datetime(),
-  terms: z.string().max(2000).optional(),
   inclusions: z.array(z.string().max(200)).max(20).optional(),
   exclusions: z.array(z.string().max(200)).max(20).optional(),
   notes: z.string().max(1000).optional(),
@@ -60,7 +59,6 @@ export async function POST(request: NextRequest) {
       quotedPrice,
       currency,
       validUntil,
-      terms,
       inclusions,
       exclusions,
       notes,
@@ -160,7 +158,6 @@ export async function POST(request: NextRequest) {
 
     // Sanitize text inputs
     const sanitizedData = {
-      terms: terms ? sanitizeInput(terms) : undefined,
       inclusions: inclusions?.map(item => sanitizeInput(item)),
       exclusions: exclusions?.map(item => sanitizeInput(item)),
       notes: notes ? sanitizeInput(notes) : undefined
@@ -173,9 +170,8 @@ export async function POST(request: NextRequest) {
         quotedPrice,
         currency,
         validUntil: validUntilDate,
-        terms: sanitizedData.terms,
-        inclusions: sanitizedData.inclusions,
-        exclusions: sanitizedData.exclusions,
+        inclusions: sanitizedData.inclusions || [],
+        exclusions: sanitizedData.exclusions || [],
         notes: sanitizedData.notes,
         requiresDeposit,
         depositAmount,

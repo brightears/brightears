@@ -42,6 +42,14 @@ enum BookingStatus {
   CANCELLED
 }
 
+// Quote status enum
+enum QuoteStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
 // Verification level enum
 enum VerificationLevel {
   UNVERIFIED
@@ -290,10 +298,45 @@ model Booking {
   // Relations
   review            Review?
   messages          Message[]
+  quotes            Quote[]
   
   @@index([customerId])
   @@index([artistId])
   @@index([eventDate])
+  @@index([status])
+}
+
+// Quotes
+model Quote {
+  id                String      @id @default(uuid())
+  bookingId         String
+  booking           Booking     @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  
+  quotedPrice       Decimal     @db.Decimal(10, 2)
+  currency          String      @default("THB")
+  
+  // Deposit information
+  requiresDeposit   Boolean     @default(false)
+  depositAmount     Decimal?    @db.Decimal(10, 2)
+  depositPercentage Int?        // Alternative to fixed amount
+  
+  // Quote details
+  inclusions        String[]    // What's included
+  exclusions        String[]    // What's not included
+  notes             String?     // Additional notes from artist
+  
+  // Validity
+  validUntil        DateTime
+  status            QuoteStatus @default(PENDING)
+  
+  // Response tracking
+  customerNotes     String?     // Customer's response notes
+  respondedAt       DateTime?
+  
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  @@index([bookingId])
   @@index([status])
 }
 
