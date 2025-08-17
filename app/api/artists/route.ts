@@ -11,7 +11,10 @@ const searchSchema = z.object({
   page: z.number().min(1).max(1000).default(1),
   limit: z.number().min(1).max(100).default(12),
   featured: z.boolean().optional(),
-  sort: z.enum(['featured', 'rating', 'recent', 'bookings']).optional()
+  sort: z.enum(['featured', 'rating', 'recent', 'bookings']).optional(),
+  minPrice: z.number().min(0).optional(),
+  maxPrice: z.number().min(0).optional(),
+  availability: z.string().optional()
 })
 
 // Helper function to determine sort order
@@ -60,7 +63,10 @@ export async function GET(req: NextRequest) {
       page: parseInt(searchParams.get('page') || '1'),
       limit: parseInt(searchParams.get('limit') || '12'),
       featured: searchParams.get('featured') === 'true',
-      sort: searchParams.get('sort') || undefined
+      sort: searchParams.get('sort') || undefined,
+      minPrice: searchParams.get('minPrice') ? parseFloat(searchParams.get('minPrice')!) : undefined,
+      maxPrice: searchParams.get('maxPrice') ? parseFloat(searchParams.get('maxPrice')!) : undefined,
+      availability: searchParams.get('availability') || undefined
     })
     
     if (!inputValidation.success) {
@@ -70,7 +76,7 @@ export async function GET(req: NextRequest) {
       )
     }
     
-    const { category, city, search, page, limit, featured, sort } = inputValidation.data
+    const { category, city, search, page, limit, featured, sort, minPrice, maxPrice, availability } = inputValidation.data
     const skip = (page - 1) * limit
     
     // Base query to get active artists
@@ -115,6 +121,36 @@ export async function GET(req: NextRequest) {
           { averageRating: { gte: 4.5 } },
           { bookings: { some: { status: 'COMPLETED' } } }
         ]
+      })
+    }
+
+    // Add price filters
+    if (minPrice !== undefined || maxPrice !== undefined) {
+      const priceCondition: any = {}
+      if (minPrice !== undefined) {
+        priceCondition.gte = minPrice
+      }
+      if (maxPrice !== undefined) {
+        priceCondition.lte = maxPrice
+      }
+      conditions.push({ hourlyRate: priceCondition })
+    }
+
+    // Add availability filter (check if artist has available slots in next 30 days)
+    if (availability === 'available') {
+      const futureDate = new Date()
+      futureDate.setDate(futureDate.getDate() + 30)
+      
+      conditions.push({
+        availability: {
+          some: {
+            date: {
+              gte: new Date(),
+              lte: futureDate
+            },
+            isAvailable: true
+          }
+        }
       })
     }
 

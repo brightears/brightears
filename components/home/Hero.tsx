@@ -5,16 +5,10 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/components/navigation';
 import { partners } from '@/lib/partners';
+import EnhancedSearch from '@/components/search/EnhancedSearch';
 
 export default function Hero() {
   const t = useTranslations('hero');
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Navigate to artists page with search term
-    window.location.href = `/artists?search=${encodeURIComponent(searchTerm)}`;
-  };
 
   return (
     <section className="relative bg-gradient-to-br from-deep-teal via-earthy-brown to-deep-teal py-16 lg:py-24">
@@ -30,25 +24,9 @@ export default function Hero() {
             {t('subtitle')}
           </p>
 
-          {/* Search Form */}
-          <div className="mt-10 max-w-2xl mx-auto">
-            <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4">
-              <div className="flex-1">
-                <input
-                  type="text"
-                  placeholder={t('searchPlaceholder')}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-6 py-4 text-lg text-deep-teal bg-pure-white border-2 border-brand-cyan/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent shadow-lg placeholder-deep-teal/60"
-                />
-              </div>
-              <button
-                type="submit"
-                className="px-8 py-4 text-lg font-bold text-pure-white bg-brand-cyan rounded-lg hover:bg-brand-cyan/90 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all shadow-lg hover:shadow-xl"
-              >
-                {t('searchButton')}
-              </button>
-            </form>
+          {/* Enhanced Search */}
+          <div className="mt-10">
+            <EnhancedSearch variant="hero" />
           </div>
 
           {/* CTA Buttons */}
