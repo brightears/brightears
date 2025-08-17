@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from '@/components/navigation'
 import { useTranslations } from 'next-intl'
 import ErrorModal from '@/components/ui/ErrorModal'
+import AvailabilityCalendar from './AvailabilityCalendar'
 
 interface BookingFormProps {
   artist: any
@@ -18,6 +19,8 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
   const [showErrorModal, setShowErrorModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [estimatedTotal, setEstimatedTotal] = useState(0)
+  const [showCalendar, setShowCalendar] = useState(false)
+  const [availableSlots, setAvailableSlots] = useState<any[]>([])
   const [formData, setFormData] = useState({
     eventDate: '',
     startTime: '',
@@ -57,6 +60,19 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleDateSelect = (date: string, availability?: any[]) => {
+    setFormData(prev => ({ ...prev, eventDate: date }))
+    setAvailableSlots(availability || [])
+    setShowCalendar(false)
+    
+    // Auto-set start time to the first available slot if available
+    if (availability && availability.length > 0) {
+      const firstSlot = availability[0]
+      const startTime = firstSlot.startTime.toTimeString().slice(0, 5)
+      setFormData(prev => ({ ...prev, startTime }))
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -143,16 +159,33 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
             <label htmlFor="eventDate" className="block text-sm font-medium text-dark-gray mb-1">
               Event Date *
             </label>
-            <input
-              type="date"
-              id="eventDate"
-              name="eventDate"
-              required
-              min={new Date().toISOString().split('T')[0]}
-              value={formData.eventDate}
-              onChange={handleInputChange}
-              className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
-            />
+            <div className="relative">
+              <input
+                type="date"
+                id="eventDate"
+                name="eventDate"
+                required
+                min={new Date().toISOString().split('T')[0]}
+                value={formData.eventDate}
+                onChange={handleInputChange}
+                className={`w-full px-3 py-2 border border-brand-cyan/30 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent ${locale === 'th' ? 'font-noto-thai' : 'font-inter'}`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowCalendar(!showCalendar)}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 text-brand-cyan hover:text-brand-cyan/80 transition-colors"
+                title="View availability calendar"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </div>
+            {formData.eventDate && (
+              <p className="text-xs text-dark-gray/70 mt-1">
+                Selected: {new Date(formData.eventDate).toLocaleDateString(locale === 'th' ? 'th-TH' : 'en-US')}
+              </p>
+            )}
           </div>
           
           <div>
@@ -347,6 +380,59 @@ export default function BookingForm({ artist, userId, locale }: BookingFormProps
             placeholder="Any additional information about your event..."
           />
         </div>
+
+        {/* Availability Calendar */}
+        {showCalendar && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium text-dark-gray">Artist Availability</h3>
+              <button
+                type="button"
+                onClick={() => setShowCalendar(false)}
+                className="text-dark-gray/70 hover:text-dark-gray transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <AvailabilityCalendar
+              artistId={artist.id}
+              selectedDate={formData.eventDate}
+              onDateSelect={handleDateSelect}
+              locale={locale}
+            />
+          </div>
+        )}
+
+        {/* Available Time Slots */}
+        {availableSlots.length > 0 && formData.eventDate && (
+          <div className="bg-off-white rounded-lg p-4">
+            <h4 className="font-medium text-dark-gray mb-3">Available Time Slots</h4>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {availableSlots.map((slot, index) => {
+                const startTime = slot.startTime.toTimeString().slice(0, 5)
+                const endTime = slot.endTime.toTimeString().slice(0, 5)
+                const isSelected = formData.startTime === startTime
+                
+                return (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, startTime }))}
+                    className={`p-2 rounded-md text-sm transition-colors ${
+                      isSelected
+                        ? 'bg-brand-cyan text-white'
+                        : 'bg-pure-white text-dark-gray hover:bg-brand-cyan/10 hover:text-brand-cyan border border-brand-cyan/20'
+                    }`}
+                  >
+                    {startTime} - {endTime}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Total Cost */}
         <div className="border-t pt-6">
