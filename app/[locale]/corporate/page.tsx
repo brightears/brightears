@@ -1,18 +1,25 @@
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 import { Link } from '@/components/navigation'
-import Image from 'next/image'
 
-export default function CorporatePage() {
-  const t = useTranslations('common')
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  
+  return {
+    title: `Corporate Entertainment Solutions - Bright Ears`,
+    description: `Professional entertainment for corporate events in Thailand. Verified artists, dedicated account management, and world-class performers for your business events.`
+  }
+}
 
-  const partners = [
-    { name: 'Anantara Siam', logo: '/partners/anantara-siam.svg' },
-    { name: 'Conrad Bangkok', logo: '/partners/conrad-bangkok.svg' },
-    { name: 'Hilton Bangkok', logo: '/partners/hilton-bangkok.svg' },
-    { name: 'Marriott Sukhumvit', logo: '/partners/marriott-sukhumvit.svg' },
-    { name: 'Peninsula Bangkok', logo: '/partners/peninsula-bangkok.svg' },
-    { name: 'W Hotel Bangkok', logo: '/partners/w-hotel-bangkok.svg' },
-  ]
+export default async function CorporatePage({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
 
   return (
     <div className="min-h-screen bg-background">
@@ -78,35 +85,18 @@ export default function CorporatePage() {
           </div>
         </div>
 
-        <div className="mb-16">
-          <h2 className="font-playfair text-2xl font-semibold text-center mb-8">Trusted by Leading Companies</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center opacity-60">
-            {partners.map((partner, index) => (
-              <div key={index} className="flex items-center justify-center h-16">
-                <Image
-                  src={partner.logo}
-                  alt={partner.name}
-                  width={120}
-                  height={60}
-                  className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
         <div className="text-center bg-soft-lavender/20 p-8 rounded-lg">
           <h2 className="font-playfair text-2xl font-semibold mb-4">Ready to Elevate Your Corporate Events?</h2>
           <p className="font-inter mb-6 opacity-80">
             Contact our corporate team to discuss your entertainment needs and receive a custom proposal.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/register">
+            <Link href={`/${locale}/register`}>
               <button className="bg-brand-cyan text-white px-8 py-3 rounded-lg font-inter font-medium hover:bg-brand-cyan/90 transition-colors">
                 Create Corporate Account
               </button>
             </Link>
-            <Link href="/artists">
+            <Link href={`/${locale}/artists`}>
               <button className="border border-brand-cyan text-brand-cyan px-8 py-3 rounded-lg font-inter font-medium hover:bg-brand-cyan hover:text-white transition-colors">
                 Browse Entertainers
               </button>
