@@ -665,5 +665,88 @@
     "browseArtists": "Browse Artists",
     "discoverMore": "Looking for more entertainment options?",
     "exploreMore": "Explore All Artists"
+  },
+  "dashboard": {
+    "customer": {
+      "title": "Customer Dashboard",
+      "description": "Manage your bookings and discover new artists",
+      "welcome": "Welcome to your dashboard",
+      "welcomeBack": "Welcome back, {name}",
+      "subtitle": "Manage your bookings and discover amazing entertainment",
+      "stats": {
+        "totalBookings": "Total Bookings",
+        "favoriteArtists": "Favorite Artists",
+        "pendingRequests": "Pending Requests"
+      },
+      "awaitingResponse": "Awaiting response",
+      "allClear": "All clear",
+      "quickActions": {
+        "title": "Quick Actions",
+        "findArtists": "Find Artists",
+        "findArtistsDesc": "Browse and discover new entertainment",
+        "viewBookings": "View Bookings",
+        "viewBookingsDesc": "Manage your current and past bookings",
+        "manageFavorites": "Manage Favorites",
+        "manageFavoritesDesc": "View and organize your favorite artists",
+        "updateProfile": "Update Profile",
+        "updateProfileDesc": "Edit your personal information"
+      },
+      "recentActivity": {
+        "title": "Recent Activity",
+        "empty": "No bookings yet. Start by browsing our talented artists!",
+        "startBrowsing": "Start Browsing Artists",
+        "viewAll": "View all your booking activity",
+        "seeAllBookings": "See All Bookings"
+      },
+      "tips": {
+        "title": "Tips & Recommendations",
+        "saveFavorites": {
+          "title": "Save Your Favorites",
+          "description": "Click the heart icon on artist cards to save them for quick access later."
+        },
+        "bookEarly": {
+          "title": "Book Early",
+          "description": "Popular artists get booked quickly, especially for weekends and holidays."
+        }
+      },
+      "bookings": {
+        "title": "My Bookings",
+        "description": "Manage all your event bookings and requests",
+        "subtitle": "Track your event bookings and manage requests",
+        "filters": {
+          "all": "All",
+          "pending": "Pending",
+          "confirmed": "Confirmed", 
+          "completed": "Completed",
+          "cancelled": "Cancelled"
+        },
+        "status": {
+          "pending": "Pending",
+          "confirmed": "Confirmed",
+          "completed": "Completed", 
+          "cancelled": "Cancelled"
+        },
+        "eventType": "Event Type",
+        "eventDate": "Event Date",
+        "venue": "Venue",
+        "bookedOn": "Booked On",
+        "bookingId": "Booking ID",
+        "viewArtist": "View Artist",
+        "viewDetails": "View Details",
+        "empty": {
+          "noBookings": "No bookings yet",
+          "noBookingsForFilter": "No bookings match this filter",
+          "startBooking": "Start by browsing our talented artists and make your first booking!",
+          "tryDifferentFilter": "Try selecting a different filter to see your bookings.",
+          "browseArtists": "Browse Artists"
+        },
+        "summary": {
+          "title": "Booking Summary",
+          "totalBookings": "Total Bookings",
+          "completedEvents": "Completed Events", 
+          "totalSpent": "Total Spent"
+        }
+      }
+    }
   }
 }
