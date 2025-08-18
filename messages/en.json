@@ -57,6 +57,53 @@
       "description": "Instrumentalists and performers"
     }
   },
+  "ai": {
+    "bioEnhancer": {
+      "enhanceWithAI": "Enhance with AI",
+      "title": "AI Bio Enhancement",
+      "subtitle": "Make your profile more compelling and professional",
+      "noBioError": "Please add some content to your bio first",
+      "limitReached": "Enhancement limit reached ({used}/{limit}). Upgrade your verification for more.",
+      "enhancementError": "Failed to enhance bio. Please try again.",
+      "networkError": "Network error. Please check your connection.",
+      "usageInfo": "Monthly Usage",
+      "remainingEnhancements": "{remaining} of {total} enhancements remaining this month",
+      "language": "Language",
+      "targetAudience": "Target Audience",
+      "formalityLevel": "Formality Level",
+      "languageOptions": {
+        "english": "English Only",
+        "thai": "Thai Only", 
+        "both": "Both Languages"
+      },
+      "audiences": {
+        "corporate": "Corporate Events",
+        "wedding": "Weddings & Celebrations",
+        "nightlife": "Nightlife & Clubs",
+        "international": "International Clients",
+        "traditional": "Traditional Events"
+      },
+      "formality": {
+        "casual": "Casual & Friendly",
+        "professional": "Professional",
+        "formal": "Formal & Traditional"
+      },
+      "currentBio": "Current Biography",
+      "englishBio": "English Bio",
+      "thaiBio": "Thai Bio",
+      "cancel": "Cancel",
+      "enhancing": "Enhancing...",
+      "enhanceNow": "Enhance Now",
+      "enhancedBios": "Enhanced Biographies",
+      "enhancedEnglish": "Enhanced English Bio",
+      "enhancedThai": "Enhanced Thai Bio",
+      "improvements": "Suggested Improvements",
+      "bookingTips": "Booking Success Tips",
+      "culturalNotes": "Cultural Considerations",
+      "tryAgain": "Try Different Options",
+      "applyEnhancement": "Apply Enhancement"
+    }
+  },
   "search": {
     "findPerfectArtist": "Find Your Perfect Artist",
     "searchLabel": "Search Artists",

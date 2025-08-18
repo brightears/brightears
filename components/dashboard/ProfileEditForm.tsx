@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { ArtistCategory } from '@prisma/client'
+import BioEnhancer from '@/components/ai/BioEnhancer'
 
 interface ArtistData {
   id: string
@@ -93,6 +94,15 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
         ? prev.languages.filter(l => l !== language)
         : [...prev.languages, language]
     }))
+  }
+
+  const handleEnhancedBio = (enhancedBio: string, enhancedBioTh?: string) => {
+    setFormData(prev => ({
+      ...prev,
+      bio: enhancedBio,
+      bioTh: enhancedBioTh || prev.bioTh
+    }))
+    setMessage('Bio enhanced successfully! Don\'t forget to save your changes.')
   }
 
   return (
@@ -196,6 +206,25 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-brand-cyan focus:border-brand-cyan"
             placeholder="เล่าเกี่ยวกับตัวคุณ ประสบการณ์ และสิ่งที่ทำให้คุณพิเศษ..."
           />
+        </div>
+
+        {/* AI Bio Enhancement */}
+        <div className="bg-gradient-to-r from-soft-lavender/5 to-brand-cyan/5 border border-soft-lavender/20 rounded-lg p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <h4 className="font-medium text-deep-teal">AI Bio Enhancement</h4>
+              <p className="text-sm text-dark-gray/70">Make your profile more compelling with AI-powered suggestions</p>
+            </div>
+            <BioEnhancer
+              currentBio={formData.bio}
+              currentBioTh={formData.bioTh}
+              onEnhanced={handleEnhancedBio}
+              className="text-sm"
+            />
+          </div>
+          <div className="text-xs text-dark-gray/60">
+            ✨ Available for verified artists • Optimized for Thai entertainment market
+          </div>
         </div>
 
         {/* Languages */}

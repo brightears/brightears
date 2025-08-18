@@ -57,6 +57,53 @@
       "description": "นักดนตรีเครื่องเล่นและนักแสดง"
     }
   },
+  "ai": {
+    "bioEnhancer": {
+      "enhanceWithAI": "ปรับปรุงด้วย AI",
+      "title": "ปรับปรุงประวัติด้วย AI",
+      "subtitle": "ทำให้โปรไฟล์ของคุณน่าสนใจและเป็นมืออาชีพมากขึ้น",
+      "noBioError": "กรุณาเพิ่มเนื้อหาในประวัติของคุณก่อน",
+      "limitReached": "ใช้งานครบจำนวนแล้ว ({used}/{limit}) อัพเกรดการยืนยันตัวตนเพื่อใช้งานเพิ่ม",
+      "enhancementError": "ไม่สามารถปรับปรุงประวัติได้ กรุณาลองใหม่",
+      "networkError": "เกิดข้อผิดพลาดเครือข่าย กรุณาตรวจสอบการเชื่อมต่อ",
+      "usageInfo": "การใช้งานรายเดือน",
+      "remainingEnhancements": "เหลือ {remaining} จาก {total} ครั้งในเดือนนี้",
+      "language": "ภาษา",
+      "targetAudience": "กลุ่มเป้าหมาย",
+      "formalityLevel": "ระดับความเป็นทางการ",
+      "languageOptions": {
+        "english": "ภาษาอังกฤษเท่านั้น",
+        "thai": "ภาษาไทยเท่านั้น",
+        "both": "ทั้งสองภาษา"
+      },
+      "audiences": {
+        "corporate": "งานองค์กร",
+        "wedding": "งานแต่งงานและงานเฉลิมฉลอง",
+        "nightlife": "ไนท์ไลฟ์และคลับ",
+        "international": "ลูกค้าต่างชาติ",
+        "traditional": "งานแบบดั้งเดิม"
+      },
+      "formality": {
+        "casual": "สบายๆ เป็นกันเอง",
+        "professional": "เป็นมืออาชีพ",
+        "formal": "เป็นทางการและดั้งเดิม"
+      },
+      "currentBio": "ประวัติปัจจุบัน",
+      "englishBio": "ประวัติภาษาอังกฤษ",
+      "thaiBio": "ประวัติภาษาไทย",
+      "cancel": "ยกเลิก",
+      "enhancing": "กำลังปรับปรุง...",
+      "enhanceNow": "ปรับปรุงเลย",
+      "enhancedBios": "ประวัติที่ปรับปรุงแล้ว",
+      "enhancedEnglish": "ประวัติภาษาอังกฤษที่ปรับปรุงแล้ว",
+      "enhancedThai": "ประวัติภาษาไทยที่ปรับปรุงแล้ว",
+      "improvements": "คำแนะนำการปรับปรุง",
+      "bookingTips": "เคล็ดลับเพิ่มการจอง",
+      "culturalNotes": "ข้อควรพิจารณาทางวัฒนธรรม",
+      "tryAgain": "ลองตัวเลือกอื่น",
+      "applyEnhancement": "ใช้การปรับปรุง"
+    }
+  },
   "search": {
     "findPerfectArtist": "ค้นหาศิลปินที่เหมาะกับคุณ",
     "searchLabel": "ค้นหาศิลปิน",
