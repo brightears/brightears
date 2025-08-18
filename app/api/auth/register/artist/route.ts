@@ -88,6 +88,19 @@ export async function POST(req: NextRequest) {
       return { user, artist }
     })
     
+    // Track artist registration activity
+    try {
+      const { trackArtistRegistration } = await import('@/lib/activity-tracker')
+      await trackArtistRegistration(
+        result.artist.id,
+        validatedData.category,
+        validatedData.baseCity
+      )
+    } catch (trackingError) {
+      console.error('Failed to track artist registration:', trackingError)
+      // Don't fail the registration if tracking fails
+    }
+    
     const { password, ...userWithoutPassword } = result.user
     
     return NextResponse.json({

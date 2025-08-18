@@ -57,6 +57,23 @@
       "description": "Instrumentalists and performers"
     }
   },
+  "home": {
+    "activity": {
+      "title": "Live Activity",
+      "subtitle": "Real-time platform activity",
+      "live": "LIVE",
+      "totalBookings": "Bookings",
+      "totalArtists": "Artists", 
+      "activeInquiries": "Inquiries",
+      "justNow": "Just now",
+      "minutesAgo": "{minutes}m ago",
+      "hoursAgo": "{hours}h ago", 
+      "daysAgo": "{days}d ago",
+      "loadError": "Unable to load activity",
+      "noActivity": "No recent activity",
+      "autoRefresh": "Updates every {seconds}s"
+    }
+  },
   "ai": {
     "bioEnhancer": {
       "enhanceWithAI": "Enhance with AI",

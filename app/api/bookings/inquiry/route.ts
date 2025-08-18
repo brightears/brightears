@@ -43,6 +43,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Get artist details for activity tracking
+    const artistDetails = await prisma.artist.findUnique({
+      where: { id: artistId },
+      select: { id: true, stageName: true, category: true }
+    })
+
     // Create booking inquiry record
     const inquiry = await prisma.bookingInquiry.create({
       data: {
@@ -58,6 +64,20 @@ export async function POST(request: NextRequest) {
         userAgent: request.headers.get('user-agent') || null
       }
     })
+
+    // Track inquiry activity
+    try {
+      const { trackInquirySent } = await import('@/lib/activity-tracker')
+      await trackInquirySent(
+        userId,
+        artistId,
+        artistDetails?.category,
+        location
+      )
+    } catch (trackingError) {
+      console.error('Failed to track inquiry activity:', trackingError)
+      // Don't fail the inquiry if tracking fails
+    }
 
     // Create notification for the artist
     const artistUser = await prisma.user.findFirst({

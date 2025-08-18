@@ -57,6 +57,23 @@
       "description": "นักดนตรีเครื่องเล่นและนักแสดง"
     }
   },
+  "home": {
+    "activity": {
+      "title": "กิจกรรมสด",
+      "subtitle": "กิจกรรมแพลตฟอร์มแบบเรียลไทม์", 
+      "live": "สด",
+      "totalBookings": "การจอง",
+      "totalArtists": "ศิลปิน",
+      "activeInquiries": "คำถาม",
+      "justNow": "เมื่อสักครู่",
+      "minutesAgo": "{minutes} นาทีที่แล้ว",
+      "hoursAgo": "{hours} ชั่วโมงที่แล้ว",
+      "daysAgo": "{days} วันที่แล้ว",
+      "loadError": "ไม่สามารถโหลดกิจกรรมได้",
+      "noActivity": "ไม่มีกิจกรรมล่าสุด",
+      "autoRefresh": "อัปเดตทุก {seconds} วินาที"
+    }
+  },
   "ai": {
     "bioEnhancer": {
       "enhanceWithAI": "ปรับปรุงด้วย AI",

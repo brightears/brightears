@@ -10,6 +10,8 @@ export async function GET(
 ) {
   try {
     const { id } = await params
+    
+    // Track profile view activity
     const artist = await prisma.artist.findUnique({
       where: { id },
       include: {
@@ -89,6 +91,14 @@ export async function GET(
       valueForMoney: detailedRatings.valueForMoney.length > 0
         ? detailedRatings.valueForMoney.reduce((a, b) => a + b, 0) / detailedRatings.valueForMoney.length
         : null
+    }
+
+    // Track profile view activity (async, don't wait for it)
+    try {
+      const { trackProfileView } = await import('@/lib/activity-tracker')
+      trackProfileView(id, artist.category, artist.baseCity).catch(console.error)
+    } catch (trackingError) {
+      console.error('Failed to track profile view:', trackingError)
     }
     
     return NextResponse.json({
