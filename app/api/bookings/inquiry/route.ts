@@ -19,6 +19,10 @@ export async function POST(request: NextRequest) {
       eventDate,
       eventType,
       location,
+      duration,
+      additionalInfo,
+      contactMethod,
+      contactInfo,
       inquiryMethod = 'FORM'
     } = body
 
@@ -49,6 +53,15 @@ export async function POST(request: NextRequest) {
       select: { id: true, stageName: true, category: true }
     })
 
+    // Prepare additional details for storage
+    const additionalDetails = {
+      duration,
+      additionalInfo,
+      contactMethod,
+      contactInfo,
+      userAgent: request.headers.get('user-agent')
+    }
+
     // Create booking inquiry record
     const inquiry = await prisma.bookingInquiry.create({
       data: {
@@ -61,7 +74,8 @@ export async function POST(request: NextRequest) {
         ipAddress: request.headers.get('x-forwarded-for') || 
                    request.headers.get('x-real-ip') || 
                    '127.0.0.1',
-        userAgent: request.headers.get('user-agent') || null
+        // Store additional details as JSON in userAgent field temporarily
+        userAgent: JSON.stringify(additionalDetails)
       }
     })
 
@@ -90,14 +104,30 @@ export async function POST(request: NextRequest) {
     })
 
     if (artistUser) {
+      // Create detailed notification content
+      const eventDateStr = eventDate ? new Date(eventDate).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric', 
+        month: 'long',
+        day: 'numeric'
+      }) : ''
+      
+      const detailsText = [
+        eventType && `Event: ${eventType}`,
+        eventDateStr && `Date: ${eventDateStr}`,
+        location && `Location: ${location}`,
+        duration && `Duration: ${duration} hours`,
+        contactMethod && `Contact via: ${contactMethod}`
+      ].filter(Boolean).join('\n')
+
       await prisma.notification.create({
         data: {
           userId: artistUser.id,
           type: 'booking_inquiry',
-          title: 'New Booking Inquiry',
-          titleTh: 'มีการสอบถามจองใหม่',
-          content: `You have received a new booking inquiry${eventType ? ` for ${eventType}` : ''}.`,
-          contentTh: `คุณได้รับการสอบถามการจองใหม่${eventType ? ` สำหรับงาน${eventType}` : ''}`,
+          title: inquiryMethod === 'QUICK_MODAL' ? 'New Quick Booking Request' : 'New Booking Inquiry',
+          titleTh: inquiryMethod === 'QUICK_MODAL' ? 'คำขอจองด่วนใหม่' : 'มีการสอบถามจองใหม่',
+          content: `You have received a ${inquiryMethod === 'QUICK_MODAL' ? 'quick booking request' : 'booking inquiry'}${eventType ? ` for ${eventType}` : ''}.\n\n${detailsText}${additionalInfo ? `\n\nAdditional info: ${additionalInfo}` : ''}`,
+          contentTh: `คุณได้รับ${inquiryMethod === 'QUICK_MODAL' ? 'คำขอจองด่วน' : 'การสอบถามการจอง'}ใหม่${eventType ? ` สำหรับงาน${eventType}` : ''}\n\n${detailsText}${additionalInfo ? `\n\nข้อมูลเพิ่มเติม: ${additionalInfo}` : ''}`,
           relatedId: inquiry.id,
           relatedType: 'booking_inquiry'
         }

@@ -6,6 +6,7 @@ import { Link } from '@/components/navigation'
 import Image from 'next/image'
 import RatingStars from '@/components/ui/RatingStars'
 import VerificationBadge from '@/components/ui/VerificationBadge'
+import QuickBookingButton from '@/components/booking/QuickBookingButton'
 
 interface FeaturedArtist {
   id: string
@@ -171,12 +172,21 @@ export default function FeaturedArtists({ locale }: FeaturedArtistsProps) {
                 {/* Quick book button on hover */}
                 <div className="absolute inset-0 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-4 left-4 right-4">
-                    <Link 
-                      href={`/book/${artist.id}`}
-                      className="block w-full bg-brand-cyan text-pure-white py-2 text-center rounded-lg font-medium text-sm shadow-lg hover:bg-brand-cyan/90 transition-colors"
-                    >
-                      {t('featuredArtists.quickBook')}
-                    </Link>
+                    <QuickBookingButton
+                      artist={{
+                        id: artist.id,
+                        stageName: artist.stageName,
+                        category: artist.category,
+                        baseCity: artist.baseCity,
+                        hourlyRate: artist.hourlyRate,
+                        profileImage: artist.profileImage,
+                        averageRating: artist.averageRating,
+                        isAvailable: artist.isAvailable
+                      }}
+                      variant="primary"
+                      size="md"
+                      className="w-full shadow-lg"
+                    />
                   </div>
                 </div>
               </div>

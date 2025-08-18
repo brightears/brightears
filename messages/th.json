@@ -74,6 +74,80 @@
       "autoRefresh": "อัปเดตทุก {seconds} วินาที"
     }
   },
+  "booking": {
+    "quick": {
+      "title": "จองด่วน",
+      "step": "ขั้นตอน",
+      "estimatedTime": "~{minutes} นาที",
+      "next": "ถัดไป",
+      "back": "กลับ",
+      "cancel": "ยกเลิก", 
+      "sendInquiry": "ส่งคำร้อง",
+      "submitting": "กำลังส่ง...",
+      "step1": {
+        "title": "รายละเอียดงาน",
+        "eventDate": "วันที่จัดงาน",
+        "eventTime": "เวลาจัดงาน",
+        "eventType": "ประเภทงาน",
+        "selectEventType": "เลือกประเภทงาน"
+      },
+      "step2": {
+        "title": "สถานที่และระยะเวลา", 
+        "location": "สถานที่",
+        "duration": "ระยะเวลา",
+        "hours": "ชั่วโมง",
+        "minimum": "ขั้นต่ำ: {hours} ชม.",
+        "estimate": "ประมาณการราคา",
+        "hourlyRate": "ค่าบริการต่อชั่วโมง",
+        "estimated": "ประมาณการรวม"
+      },
+      "step3": {
+        "title": "ข้อมูลติดต่อ",
+        "preferredContact": "ช่องทางติดต่อที่ต้องการ",
+        "email": "อีเมล",
+        "lineId": "LINE ID", 
+        "phone": "เบอร์โทรศัพท์",
+        "additionalInfo": "ข้อมูลเพิ่มเติม",
+        "additionalInfoPlaceholder": "บอกศิลปินเกี่ยวกับงานของคุณ ความต้องการพิเศษ หรือคำถาม..."
+      },
+      "success": {
+        "title": "ส่งคำร้องเรียบร้อย!",
+        "message": "คำร้องจองของคุณได้ส่งให้ {artist} แล้ว เขาจะติดต่อกลับเร็วๆ นี้",
+        "autoClose": "หน้าต่างนี้จะปิดอัตโนมัติในอีกสักครู่"
+      },
+      "categories": {
+        "dj": "ดีเจ",
+        "band": "วงดนตรี",
+        "singer": "นักร้อง", 
+        "musician": "นักดนตรี",
+        "mc": "พิธีกร"
+      },
+      "eventTypes": {
+        "wedding": "งานแต่งงาน",
+        "corporate": "งานองค์กร",
+        "birthday": "งานวันเกิด",
+        "anniversary": "งานครบรอบ",
+        "festival": "งานเทศกาล",
+        "private_party": "งานปาร์ตี้ส่วนตัว",
+        "nightclub": "งานไนท์คลับ",
+        "restaurant": "งานร้านอาหาร",
+        "hotel": "งานโรงแรม",
+        "other": "อื่นๆ"
+      },
+      "contactMethods": {
+        "email": "อีเมล",
+        "line": "LINE",
+        "phone": "โทรศัพท์"
+      },
+      "validation": {
+        "completeRequired": "กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน"
+      },
+      "error": {
+        "submitFailed": "ไม่สามารถส่งคำร้องได้ กรุณาลองใหม่",
+        "networkError": "เกิดข้อผิดพลาดเครือข่าย กรุณาตรวจสอบการเชื่อมต่อ"
+      }
+    }
+  },
   "ai": {
     "bioEnhancer": {
       "enhanceWithAI": "ปรับปรุงด้วย AI",

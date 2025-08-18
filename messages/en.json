@@ -74,6 +74,80 @@
       "autoRefresh": "Updates every {seconds}s"
     }
   },
+  "booking": {
+    "quick": {
+      "title": "Quick Booking",
+      "step": "Step",
+      "estimatedTime": "~{minutes} minutes",
+      "next": "Next",
+      "back": "Back", 
+      "cancel": "Cancel",
+      "sendInquiry": "Send Inquiry",
+      "submitting": "Sending...",
+      "step1": {
+        "title": "Event Details",
+        "eventDate": "Event Date",
+        "eventTime": "Event Time", 
+        "eventType": "Event Type",
+        "selectEventType": "Select event type"
+      },
+      "step2": {
+        "title": "Location & Duration",
+        "location": "Location",
+        "duration": "Duration",
+        "hours": "hours",
+        "minimum": "Min: {hours}h",
+        "estimate": "Price Estimate",
+        "hourlyRate": "Hourly Rate",
+        "estimated": "Estimated Total"
+      },
+      "step3": {
+        "title": "Contact Information",
+        "preferredContact": "Preferred Contact Method",
+        "email": "Email Address",
+        "lineId": "LINE ID",
+        "phone": "Phone Number",
+        "additionalInfo": "Additional Information",
+        "additionalInfoPlaceholder": "Tell the artist about your event, special requirements, or questions..."
+      },
+      "success": {
+        "title": "Inquiry Sent!",
+        "message": "Your booking inquiry has been sent to {artist}. They will contact you soon.",
+        "autoClose": "This window will close automatically in a few seconds."
+      },
+      "categories": {
+        "dj": "DJ",
+        "band": "Band", 
+        "singer": "Singer",
+        "musician": "Musician",
+        "mc": "MC"
+      },
+      "eventTypes": {
+        "wedding": "Wedding",
+        "corporate": "Corporate Event",
+        "birthday": "Birthday Party",
+        "anniversary": "Anniversary",
+        "festival": "Festival",
+        "private_party": "Private Party",
+        "nightclub": "Nightclub",
+        "restaurant": "Restaurant",
+        "hotel": "Hotel Event",
+        "other": "Other"
+      },
+      "contactMethods": {
+        "email": "Email",
+        "line": "LINE",
+        "phone": "Phone"
+      },
+      "validation": {
+        "completeRequired": "Please complete all required fields"
+      },
+      "error": {
+        "submitFailed": "Failed to send inquiry. Please try again.",
+        "networkError": "Network error. Please check your connection."
+      }
+    }
+  },
   "ai": {
     "bioEnhancer": {
       "enhanceWithAI": "Enhance with AI",
