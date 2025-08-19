@@ -158,6 +158,41 @@
         "submitFailed": "ไม่สามารถส่งคำร้องได้ กรุณาลองใหม่",
         "networkError": "เกิดข้อผิดพลาดเครือข่าย กรุณาตรวจสอบการเชื่อมต่อ"
       }
+    },
+    "mobile": {
+      "title": "จองด่วน",
+      "step1": "รายละเอียด",
+      "step2": "ติดต่อ", 
+      "step3": "สำเร็จ",
+      "step1.title": "รายละเอียดงาน",
+      "step1.eventType": "ประเภทงาน",
+      "step1.date": "วันที่",
+      "step1.time": "เวลา",
+      "step1.location": "สถานที่",
+      "step1.duration": "ระยะเวลา",
+      "step1.hours": "ชั่วโมง",
+      "step1.estimate": "ประมาณการค่าใช้จ่าย",
+      "step1.estimateNote": "ราคาสุดท้ายอาจแตกต่าง",
+      "step2.title": "ข้อมูลติดต่อ",
+      "step2.contactMethod": "ต้องการให้ติดต่อกลับผ่านช่องทางไหน?",
+      "step2.lineId": "LINE ID",
+      "step2.phone": "เบอร์โทรศัพท์",
+      "step2.email": "อีเมล",
+      "step2.additionalInfo": "ข้อมูลเพิ่มเติม",
+      "step2.additionalInfoPlaceholder": "ความต้องการพิเศษ คำถาม หรือรายละเอียดเกี่ยวกับงานของคุณ...",
+      "next": "ถัดไป",
+      "back": "กลับ",
+      "cancel": "ยกเลิก",
+      "sendInquiry": "ส่งคำร้อง",
+      "submitting": "กำลังส่ง...",
+      "success.title": "ส่งคำร้องเรียบร้อย!",
+      "success.message": "คำขอจองของคุณได้ส่งให้ {artist} แล้ว เขาจะติดต่อกลับเร็วๆ นี้",
+      "success.lineMessage": "ติดต่อศิลปินโดยตรงผ่าน LINE:",
+      "success.openLine": "เปิด LINE",
+      "success.autoClose": "หน้าต่างนี้จะปิดอัตโนมัติ",
+      "validation.completeRequired": "กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน",
+      "error.submitFailed": "ไม่สามารถส่งคำร้องได้ กรุณาลองใหม่",
+      "error.networkError": "เกิดข้อผิดพลาดเครือข่าย กรุณาตรวจสอบการเชื่อมต่อ"
     }
   },
   "ai": {
@@ -270,6 +305,11 @@
       "recentlyPerformed": "เพิ่งแสดงที่",
       "startingFrom": "เริ่มต้น",
       "priceOnRequest": "สอบถามราคา"
+    },
+    "cta": {
+      "findArtist": "ค้นหาศิลปิน",
+      "browseArtists": "ดูศิลปินทั้งหมด",
+      "contactLine": "ติดต่อทาง LINE"
     }
   },
   "corporate": {

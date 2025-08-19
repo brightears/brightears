@@ -40,6 +40,8 @@
   },
   "categories": {
     "title": "Entertainment Categories",
+    "quickSelect": "Quick Select",
+    "viewAll": "View All",
     "dj": {
       "name": "DJs",
       "description": "Professional DJs for all events"
@@ -55,6 +57,22 @@
     "musician": {
       "name": "Musicians",
       "description": "Instrumentalists and performers"
+    },
+    "mc": {
+      "name": "MCs",
+      "description": "Masters of ceremony and hosts"
+    },
+    "comedian": {
+      "name": "Comedians",
+      "description": "Stand-up and entertainment comedy"
+    },
+    "magician": {
+      "name": "Magicians",
+      "description": "Magic shows and illusions"
+    },
+    "dancer": {
+      "name": "Dancers",
+      "description": "Dance performances and choreography"
     }
   },
   "home": {
@@ -158,6 +176,41 @@
         "submitFailed": "Failed to send inquiry. Please try again.",
         "networkError": "Network error. Please check your connection."
       }
+    },
+    "mobile": {
+      "title": "Quick Book",
+      "step1": "Details", 
+      "step2": "Contact",
+      "step3": "Success",
+      "step1.title": "Event Details",
+      "step1.eventType": "Event Type",
+      "step1.date": "Date",
+      "step1.time": "Time", 
+      "step1.location": "Location",
+      "step1.duration": "Duration",
+      "step1.hours": "hours",
+      "step1.estimate": "Estimated Cost",
+      "step1.estimateNote": "Final price may vary",
+      "step2.title": "Contact Information",
+      "step2.contactMethod": "How should they contact you?",
+      "step2.lineId": "LINE ID",
+      "step2.phone": "Phone Number",
+      "step2.email": "Email Address",
+      "step2.additionalInfo": "Additional Information",
+      "step2.additionalInfoPlaceholder": "Special requests, questions, or details about your event...",
+      "next": "Next",
+      "back": "Back",
+      "cancel": "Cancel",
+      "sendInquiry": "Send Inquiry",
+      "submitting": "Sending...",
+      "success.title": "Inquiry Sent!",
+      "success.message": "Your booking request has been sent to {artist}. They will contact you soon.",
+      "success.lineMessage": "Connect with the artist directly on LINE:",
+      "success.openLine": "Open LINE",
+      "success.autoClose": "This window will close automatically",
+      "validation.completeRequired": "Please complete all required fields",
+      "error.submitFailed": "Failed to send inquiry. Please try again.",
+      "error.networkError": "Network error. Please check your connection."
     }
   },
   "ai": {
@@ -270,6 +323,11 @@
       "recentlyPerformed": "Recently performed at",
       "startingFrom": "Starting from",
       "priceOnRequest": "Quote on request"
+    },
+    "cta": {
+      "findArtist": "Find Artists",
+      "browseArtists": "Browse Artists",
+      "contactLine": "Contact via LINE"
     }
   },
   "corporate": {
