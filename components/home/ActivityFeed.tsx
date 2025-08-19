@@ -180,7 +180,7 @@ export default function ActivityFeed({
         
         {/* Live indicator */}
         <div className="flex items-center space-x-2 text-sm text-green-600">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-live-pulse"></div>
           <span className="font-medium">{t('live')}</span>
         </div>
       </div>
@@ -189,15 +189,15 @@ export default function ActivityFeed({
       {showStats && stats && (
         <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-gradient-to-r from-brand-cyan/5 to-deep-teal/5 rounded-lg">
           <div className="text-center">
-            <div className="text-2xl font-bold text-brand-cyan">{stats.totalBookings}</div>
+            <div className="text-2xl font-bold text-brand-cyan animate-count-up">{stats.totalBookings}</div>
             <div className="text-xs text-dark-gray/70 uppercase tracking-wide">{t('totalBookings')}</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-deep-teal">{stats.totalArtists}</div>
+            <div className="text-2xl font-bold text-deep-teal animate-count-up" style={{ animationDelay: '200ms' }}>{stats.totalArtists}</div>
             <div className="text-xs text-dark-gray/70 uppercase tracking-wide">{t('totalArtists')}</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-earthy-brown">{stats.totalInquiries}</div>
+            <div className="text-2xl font-bold text-earthy-brown animate-count-up" style={{ animationDelay: '400ms' }}>{stats.totalInquiries}</div>
             <div className="text-xs text-dark-gray/70 uppercase tracking-wide">{t('activeInquiries')}</div>
           </div>
         </div>
@@ -216,9 +216,9 @@ export default function ActivityFeed({
           activities.map((activity, index) => (
             <div 
               key={activity.id}
-              className="flex items-start space-x-3 p-3 rounded-lg hover:bg-off-white transition-colors duration-200"
+              className="flex items-start space-x-3 p-3 rounded-lg hover:bg-off-white transition-colors duration-200 animate-activity-slide-in"
               style={{
-                animation: `slideInUp 0.5s ease-out ${index * 0.1}s both`
+                animationDelay: `${index * 100}ms`
               }}
             >
               {getActivityIcon(activity.type)}

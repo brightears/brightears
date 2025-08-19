@@ -15,6 +15,19 @@
   --background-dark: #2f6364;
   --foreground: #333333;        /* Dark text on light backgrounds */
   --foreground-light: #ffffff;  /* Light text on dark backgrounds */
+  
+  /* Bright Ears Brand Easing Functions */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);           /* Smooth, premium feel */
+  --ease-trustworthy: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Reliable, predictable */
+  --ease-thai-gentle: cubic-bezier(0.23, 1, 0.32, 1);      /* Gentle, respectful */
+  --ease-brand-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Subtle energy */
+  
+  /* Duration Standards */
+  --duration-micro: 150ms;      /* Button hovers, small UI feedback */
+  --duration-short: 250ms;      /* Card hovers, tooltips */
+  --duration-medium: 350ms;     /* Modal entrances, page sections */
+  --duration-long: 500ms;       /* Hero animations, complex transitions */
+  --duration-thai-zen: 600ms;   /* For culturally appropriate slower pacing */
 }
 
 @theme inline {
@@ -69,4 +82,116 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Brand-Consistent Animation Utilities */
+.brand-transition {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, transform;
+  transition-duration: var(--duration-short);
+  transition-timing-function: var(--ease-premium);
+}
+
+.brand-transition-slow {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, transform;
+  transition-duration: var(--duration-thai-zen);
+  transition-timing-function: var(--ease-thai-gentle);
+}
+
+.brand-hover-lift {
+  transition: all var(--duration-short) var(--ease-premium);
+}
+
+.brand-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 187, 228, 0.25);
+}
+
+.brand-hover-scale {
+  transition: all var(--duration-short) var(--ease-premium);
+}
+
+.brand-hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* Performance Optimization Classes */
+.will-animate {
+  will-change: transform, opacity;
+}
+
+.performance-optimized {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.animation-complete {
+  will-change: auto;
+}
+
+/* Touch Feedback for Mobile */
+.touch-feedback {
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-feedback::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(0, 187, 228, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width var(--duration-short) var(--ease-premium),
+              height var(--duration-short) var(--ease-premium);
+}
+
+.touch-feedback:active::before {
+  width: 200px;
+  height: 200px;
+}
+
+/* Scroll Reveal Utilities */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all var(--duration-thai-zen) var(--ease-premium);
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Accessibility Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .brand-transition,
+  .brand-transition-slow,
+  .brand-hover-lift,
+  .brand-hover-scale {
+    transition: none !important;
+  }
+  
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .brand-hover-lift:hover,
+  .brand-hover-scale:hover {
+    border: 2px solid #00bbe4;
+    box-shadow: none;
+  }
 }

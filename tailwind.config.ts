@@ -37,6 +37,20 @@ const config: Config = {
       },
       animation: {
         blob: "blob 7s infinite",
+        "hero-search-enter": "hero-search-enter 500ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "suggestion-slide-in": "suggestion-slide-in 250ms cubic-bezier(0.23, 1, 0.32, 1) both",
+        "filter-panel-expand": "filter-panel-expand 350ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "card-entrance": "card-entrance 600ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "activity-slide-in": "activity-slide-in 350ms cubic-bezier(0.23, 1, 0.32, 1) both",
+        "live-pulse": "live-pulse 2s cubic-bezier(0.16, 1, 0.3, 1) infinite",
+        "count-up": "count-up 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "step-transition": "step-transition 250ms cubic-bezier(0.23, 1, 0.32, 1)",
+        "modal-slide-up": "modal-slide-up 350ms cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+        "backdrop-fade-in": "backdrop-fade-in 250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "loader-spin": "loader-spin 1s cubic-bezier(0.16, 1, 0.3, 1) infinite",
+        "skeleton-loading": "skeleton-loading 1.5s ease-in-out infinite",
+        "thai-loader": "thai-loader 1.2s cubic-bezier(0.23, 1, 0.32, 1) infinite",
+        "swipe-hint": "swipe-hint 2s cubic-bezier(0.23, 1, 0.32, 1) infinite",
       },
       keyframes: {
         blob: {
@@ -53,8 +67,134 @@ const config: Config = {
             transform: "translate(0px, 0px) scale(1)",
           },
         },
+        "hero-search-enter": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(30px) scale(0.95)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0) scale(1)",
+          },
+        },
+        "suggestion-slide-in": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(10px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "filter-panel-expand": {
+          "0%": {
+            "max-height": "0",
+            opacity: "0",
+            transform: "translateY(-10px)",
+          },
+          "50%": {
+            opacity: "0.5",
+          },
+          "100%": {
+            "max-height": "300px",
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "card-entrance": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(40px) scale(0.9)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0) scale(1)",
+          },
+        },
+        "activity-slide-in": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(-20px) scale(0.95)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0) scale(1)",
+          },
+        },
+        "live-pulse": {
+          "0%, 100%": {
+            opacity: "1",
+            transform: "scale(1)",
+          },
+          "50%": {
+            opacity: "0.7",
+            transform: "scale(1.1)",
+          },
+        },
+        "count-up": {
+          "0%": {
+            transform: "scale(0.8)",
+            opacity: "0",
+          },
+          "50%": {
+            transform: "scale(1.05)",
+          },
+          "100%": {
+            transform: "scale(1)",
+            opacity: "1",
+          },
+        },
+        "step-transition": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
+        "modal-slide-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(50px) scale(0.9)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0) scale(1)",
+          },
+        },
+        "backdrop-fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "loader-spin": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+        "skeleton-loading": {
+          "0%": { "background-position": "200% 0" },
+          "100%": { "background-position": "-200% 0" },
+        },
+        "thai-loader": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+        "swipe-hint": {
+          "0%, 100%": { transform: "translateX(0)", opacity: "1" },
+          "50%": { transform: "translateX(10px)", opacity: "0.7" },
+        },
       },
       animationDelay: {
+        '50': '50ms',
+        '100': '100ms',
+        '150': '150ms',
+        '200': '200ms',
+        '250': '250ms',
+        '300': '300ms',
+        '400': '400ms',
+        '500': '500ms',
         '2000': '2s',
         '4000': '4s',
       },

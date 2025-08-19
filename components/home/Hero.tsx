@@ -15,17 +15,17 @@ export default function Hero() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           {/* Main Heading */}
-          <h1 className="text-4xl font-playfair font-bold tracking-tight text-pure-white sm:text-5xl lg:text-6xl">
+          <h1 className="text-4xl font-playfair font-bold tracking-tight text-pure-white sm:text-5xl lg:text-6xl animate-hero-search-enter">
             {t('title')}
           </h1>
           
           {/* Subtitle */}
-          <p className="mt-6 text-xl text-pure-white/90 sm:text-2xl">
+          <p className="mt-6 text-xl text-pure-white/90 sm:text-2xl animate-hero-search-enter" style={{ animationDelay: '200ms' }}>
             {t('subtitle')}
           </p>
 
           {/* Enhanced Search */}
-          <div className="mt-10">
+          <div className="mt-10 animate-hero-search-enter" style={{ animationDelay: '400ms' }}>
             <EnhancedSearch variant="hero" />
           </div>
 
@@ -33,13 +33,15 @@ export default function Hero() {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/artists"
-              className="px-8 py-3 text-lg font-medium text-pure-white bg-transparent border-2 border-pure-white/50 rounded-lg hover:bg-pure-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all"
+              className="px-8 py-3 text-lg font-medium text-pure-white bg-transparent border-2 border-pure-white/50 rounded-lg hover:bg-pure-white/10 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all duration-300 animate-hero-search-enter"
+              style={{ animationDelay: '600ms' }}
             >
               {t('browseButton')}
             </Link>
             <Link
               href="/corporate"
-              className="px-8 py-3 text-lg font-medium text-pure-white bg-transparent border-2 border-pure-white/50 rounded-lg hover:bg-pure-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all"
+              className="px-8 py-3 text-lg font-medium text-pure-white bg-transparent border-2 border-pure-white/50 rounded-lg hover:bg-pure-white/10 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all duration-300 animate-hero-search-enter"
+              style={{ animationDelay: '700ms' }}
             >
               {t('corporateButton')}
             </Link>

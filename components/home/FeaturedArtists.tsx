@@ -126,10 +126,9 @@ export default function FeaturedArtists({ locale }: FeaturedArtistsProps) {
           {artists.map((artist, index) => (
             <div 
               key={artist.id} 
-              className="bg-pure-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group relative artist-card"
+              className="bg-pure-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group relative artist-card transform hover:scale-[1.02] hover:-translate-y-1 animate-card-entrance"
               style={{ 
-                animationDelay: `${index * 0.1}s`,
-                animation: 'staggered-fade-in 0.6s ease-out both'
+                animationDelay: `${index * 150}ms`
               }}
             >
               {/* Featured Badge */}
@@ -142,8 +141,8 @@ export default function FeaturedArtists({ locale }: FeaturedArtistsProps) {
               {/* Availability Indicator */}
               {artist.isAvailable && (
                 <div className="absolute top-4 right-4 z-20">
-                  <div className="flex items-center space-x-1 bg-green-500 text-pure-white text-xs px-2 py-1 rounded-full">
-                    <div className="w-2 h-2 bg-pure-white rounded-full animate-pulse"></div>
+                  <div className="flex items-center space-x-1 bg-green-500 text-pure-white text-xs px-2 py-1 rounded-full animate-live-pulse">
+                    <div className="w-2 h-2 bg-pure-white rounded-full animate-live-pulse"></div>
                     <span>{t('featuredArtists.available')}</span>
                   </div>
                 </div>
@@ -170,8 +169,8 @@ export default function FeaturedArtists({ locale }: FeaturedArtistsProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-deep-teal/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                 
                 {/* Quick book button on hover */}
-                <div className="absolute inset-0 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
+                <div className="absolute inset-0 z-30 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <div className="absolute bottom-4 left-4 right-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                     <QuickBookingButton
                       artist={{
                         id: artist.id,
@@ -228,8 +227,8 @@ export default function FeaturedArtists({ locale }: FeaturedArtistsProps) {
                 {/* Price and CTA */}
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-dark-gray/60 mb-1">Starting from</p>
-                    <p className="font-bold text-earthy-brown">
+                    <p className="text-sm text-dark-gray/60 mb-1 group-hover:text-brand-cyan transition-colors duration-300">Starting from</p>
+                    <p className="font-bold text-earthy-brown group-hover:text-brand-cyan transition-colors duration-300 animate-count-up">
                       {formatPrice(artist.hourlyRate)}
                     </p>
                   </div>
