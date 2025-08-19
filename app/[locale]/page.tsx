@@ -5,6 +5,7 @@ import Features from '@/components/home/Features';
 import Categories from '@/components/home/Categories';
 import FeaturedArtists from '@/components/home/FeaturedArtists';
 import ActivityFeed from '@/components/home/ActivityFeed';
+import TestimonialsSection from '@/components/home/TestimonialsSection';
 import CorporateSection from '@/components/home/CorporateSection';
 
 export default async function HomePage({
@@ -40,6 +41,7 @@ export default async function HomePage({
       </div>
       <Features />
       <Categories />
+      <TestimonialsSection locale={locale} />
       <CorporateSection />
     </>
   );

@@ -72,6 +72,18 @@
       "loadError": "Unable to load activity",
       "noActivity": "No recent activity",
       "autoRefresh": "Updates every {seconds}s"
+    },
+    "testimonials": {
+      "title": "Success Stories",
+      "subtitle": "See how Bright Ears has helped create unforgettable events across Thailand",
+      "verified": "Verified",
+      "stats": {
+        "successfulEvents": "Successful Events",
+        "averageRating": "Average Rating",
+        "verifiedArtists": "Verified Artists", 
+        "responseTime": "Response Time"
+      },
+      "cta": "Start Your Success Story"
     }
   },
   "booking": {

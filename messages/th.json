@@ -72,6 +72,18 @@
       "loadError": "ไม่สามารถโหลดกิจกรรมได้",
       "noActivity": "ไม่มีกิจกรรมล่าสุด",
       "autoRefresh": "อัปเดตทุก {seconds} วินาที"
+    },
+    "testimonials": {
+      "title": "เรื่องราวความสำเร็จ",
+      "subtitle": "ดูว่า Bright Ears ช่วยสร้างงานอีเวนต์ที่น่าประทับใจทั่วประเทศไทยอย่างไร",
+      "verified": "ยืนยันแล้ว",
+      "stats": {
+        "successfulEvents": "งานที่สำเร็จ",
+        "averageRating": "คะแนนเฉลี่ย",
+        "verifiedArtists": "ศิลปินที่ยืนยันแล้ว",
+        "responseTime": "เวลาตอบกลับ"
+      },
+      "cta": "เริ่มเรื่องราวความสำเร็จของคุณ"
     }
   },
   "booking": {
