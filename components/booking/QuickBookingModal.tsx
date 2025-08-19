@@ -103,31 +103,13 @@ export default function QuickBookingModal({
     setForm(prev => ({ ...prev, [field]: value }))
   }
 
-  const validateStep = (currentStep: number): boolean => {
-    switch (currentStep) {
-      case 1:
-        return !!(form.eventDate && form.eventTime && form.eventType)
-      case 2:
-        return !!(form.location && form.duration >= 1)
-      case 3:
-        return !!(form.contactMethod && form.contactInfo.trim())
-      default:
-        return true
-    }
+  // SIMPLIFIED validation for 2-step process
+  const validateStep1 = (): boolean => {
+    return !!(form.eventDate && form.eventTime && form.eventType && form.location && form.duration >= 1)
   }
 
-  const nextStep = () => {
-    if (validateStep(step)) {
-      setStep(step + 1)
-      setError(null)
-    } else {
-      setError(t('validation.completeRequired'))
-    }
-  }
-
-  const prevStep = () => {
-    setStep(step - 1)
-    setError(null)
+  const validateStep2 = (): boolean => {
+    return !!(form.contactMethod && form.contactInfo.trim())
   }
 
   const calculateEstimate = () => {
@@ -234,22 +216,26 @@ export default function QuickBookingModal({
           </div>
         </div>
 
-        {/* Progress Bar */}
+        {/* Progress Bar - SIMPLIFIED to 2 steps */}
         <div className="px-6 py-3 bg-off-white border-b">
           <div className="flex items-center justify-between text-sm text-dark-gray/70 mb-2">
-            <span>{t('step')} {step}/4</span>
-            <span>{t('estimatedTime', { minutes: 2 })}</span>
+            <span>Step {step}/2</span>
+            <span>~1 minute</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div 
               className="bg-gradient-to-r from-brand-cyan to-deep-teal h-2 rounded-full transition-all duration-300"
-              style={{ width: `${(step / 4) * 100}%` }}
+              style={{ width: `${(step / 2) * 100}%` }}
             />
+          </div>
+          <div className="flex justify-between text-xs text-dark-gray/50 mt-1">
+            <span>Event Details</span>
+            <span>Contact & Send</span>
           </div>
         </div>
 
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
-          {/* Step 1: Event Details */}
+          {/* Step 1: Essential Event Details (SIMPLIFIED) */}
           {step === 1 && (
             <div className="space-y-6">
               <div>
@@ -257,140 +243,120 @@ export default function QuickBookingModal({
                   {t('step1.title')}
                 </h4>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Event Date */}
-                  <div>
-                    <label className="block text-sm font-medium text-deep-teal mb-2">
-                      {t('step1.eventDate')} *
-                    </label>
-                    <input
-                      type="date"
-                      value={form.eventDate}
-                      onChange={(e) => updateForm('eventDate', e.target.value)}
-                      min={new Date().toISOString().split('T')[0]}
-                      className="w-full px-3 py-2 border border-deep-teal/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
-                    />
-                  </div>
-
-                  {/* Event Time */}
-                  <div>
-                    <label className="block text-sm font-medium text-deep-teal mb-2">
-                      {t('step1.eventTime')} *
-                    </label>
-                    <input
-                      type="time"
-                      value={form.eventTime}
-                      onChange={(e) => updateForm('eventTime', e.target.value)}
-                      className="w-full px-3 py-2 border border-deep-teal/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
-                    />
-                  </div>
-                </div>
-
-                {/* Event Type */}
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-deep-teal mb-2">
-                    {t('step1.eventType')} *
-                  </label>
-                  <select
-                    value={form.eventType}
-                    onChange={(e) => updateForm('eventType', e.target.value)}
-                    className="w-full px-3 py-2 border border-deep-teal/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
-                  >
-                    <option value="">{t('step1.selectEventType')}</option>
-                    {EVENT_TYPES.map(type => (
-                      <option key={type} value={type}>
-                        {t(`eventTypes.${type}`)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Step 2: Location & Duration */}
-          {step === 2 && (
-            <div className="space-y-6">
-              <div>
-                <h4 className="font-playfair font-bold text-lg text-deep-teal mb-4">
-                  {t('step2.title')}
-                </h4>
-                
-                {/* Location */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-deep-teal mb-2">
-                    {t('step2.location')} *
-                  </label>
-                  <select
-                    value={form.location}
-                    onChange={(e) => updateForm('location', e.target.value)}
-                    className="w-full px-3 py-2 border border-deep-teal/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
-                  >
-                    {THAI_CITIES.map(city => (
-                      <option key={city} value={city}>{city}</option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Duration */}
-                <div>
-                  <label className="block text-sm font-medium text-deep-teal mb-2">
-                    {t('step2.duration')} *
-                  </label>
-                  <div className="flex items-center space-x-4">
-                    <input
-                      type="number"
-                      min={artist.minimumHours || 1}
-                      max={12}
-                      value={form.duration}
-                      onChange={(e) => updateForm('duration', parseInt(e.target.value))}
-                      className="w-24 px-3 py-2 border border-deep-teal/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
-                    />
-                    <span className="text-sm text-dark-gray">{t('step2.hours')}</span>
-                    {artist.minimumHours && (
-                      <span className="text-xs text-dark-gray/70">
-                        {t('step2.minimum', { hours: artist.minimumHours })}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Price Estimate */}
-                {artist.hourlyRate && (
-                  <div className="mt-6 p-4 bg-gradient-to-r from-brand-cyan/5 to-deep-teal/5 rounded-lg border border-brand-cyan/20">
-                    <h5 className="font-medium text-deep-teal mb-2">{t('step2.estimate')}</h5>
-                    <div className="text-sm space-y-1">
-                      <div className="flex justify-between">
-                        <span>{t('step2.hourlyRate')}</span>
-                        <span>฿{artist.hourlyRate.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('step2.duration')}</span>
-                        <span>{form.duration} {t('step2.hours')}</span>
-                      </div>
-                      <div className="border-t pt-1 mt-2 flex justify-between font-medium text-brand-cyan">
-                        <span>{t('step2.estimated')}</span>
-                        <span>฿{(artist.hourlyRate * form.duration).toLocaleString()}</span>
-                      </div>
+                <div className="space-y-4">
+                  {/* Date & Time in one row */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-deep-teal mb-2">
+                        {t('step1.eventDate')} *
+                      </label>
+                      <input
+                        type="date"
+                        value={form.eventDate}
+                        onChange={(e) => updateForm('eventDate', e.target.value)}
+                        min={new Date().toISOString().split('T')[0]}
+                        className="w-full px-3 py-2 border border-deep-teal/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-deep-teal mb-2">
+                        {t('step1.eventTime')} *
+                      </label>
+                      <input
+                        type="time"
+                        value={form.eventTime}
+                        onChange={(e) => updateForm('eventTime', e.target.value)}
+                        defaultValue="19:00"
+                        className="w-full px-3 py-2 border border-deep-teal/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+                      />
                     </div>
                   </div>
-                )}
+
+                  {/* Event Type & Location in one row */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-deep-teal mb-2">
+                        {t('step1.eventType')} *
+                      </label>
+                      <select
+                        value={form.eventType}
+                        onChange={(e) => updateForm('eventType', e.target.value)}
+                        className="w-full px-3 py-2 border border-deep-teal/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+                      >
+                        <option value="">{t('step1.selectEventType')}</option>
+                        {EVENT_TYPES.map(type => (
+                          <option key={type} value={type}>
+                            {t(`eventTypes.${type}`)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-deep-teal mb-2">
+                        Location *
+                      </label>
+                      <select
+                        value={form.location}
+                        onChange={(e) => updateForm('location', e.target.value)}
+                        className="w-full px-3 py-2 border border-deep-teal/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+                      >
+                        {THAI_CITIES.map(city => (
+                          <option key={city} value={city}>{city}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Duration Slider */}
+                  <div>
+                    <label className="block text-sm font-medium text-deep-teal mb-2">
+                      {t('step2.duration')}: {form.duration} {t('step2.hours')}
+                    </label>
+                    <input
+                      type="range"
+                      min={artist.minimumHours || 1}
+                      max="12"
+                      value={form.duration}
+                      onChange={(e) => updateForm('duration', parseInt(e.target.value))}
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <div className="flex justify-between text-xs text-dark-gray/70 mt-1">
+                      <span>{artist.minimumHours || 1}h</span>
+                      <span>12h</span>
+                    </div>
+                  </div>
+
+                  {/* Price Estimate */}
+                  {artist.hourlyRate && (
+                    <div className="bg-brand-cyan/5 p-4 rounded-lg border border-brand-cyan/20">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-deep-teal">{t('step2.estimate')}</span>
+                        <span className="text-lg font-bold text-brand-cyan">
+                          ฿{(artist.hourlyRate * form.duration).toLocaleString()}
+                        </span>
+                      </div>
+                      <p className="text-xs text-dark-gray/70 mt-1">
+                        {t('step2.hourlyRate')}: ฿{artist.hourlyRate?.toLocaleString()}/hr
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
 
-          {/* Step 3: Contact Info */}
-          {step === 3 && (
+          {/* Step 2: Contact & Submit (SIMPLIFIED) */}
+          {step === 2 && !success && (
             <div className="space-y-6">
               <div>
                 <h4 className="font-playfair font-bold text-lg text-deep-teal mb-4">
-                  {t('step3.title')}
+                  Contact Information
                 </h4>
 
                 {/* Contact Method */}
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-deep-teal mb-2">
-                    {t('step3.preferredContact')} *
+                    Preferred Contact Method *
                   </label>
                   <div className="grid grid-cols-3 gap-3">
                     {['email', 'line', 'phone'].map(method => (
@@ -403,8 +369,11 @@ export default function QuickBookingModal({
                             : 'border-deep-teal/30 text-dark-gray hover:border-brand-cyan/50'
                         }`}
                       >
+                        <div className="text-lg mb-1">
+                          {method === 'line' ? '💬' : method === 'phone' ? '📞' : '📧'}
+                        </div>
                         <div className="text-sm font-medium">
-                          {t(`contactMethods.${method}`)}
+                          {method === 'line' ? 'LINE' : method === 'phone' ? 'Phone' : 'Email'}
                         </div>
                       </button>
                     ))}
@@ -414,9 +383,9 @@ export default function QuickBookingModal({
                 {/* Contact Info */}
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-deep-teal mb-2">
-                    {form.contactMethod === 'email' && t('step3.email')}
-                    {form.contactMethod === 'line' && t('step3.lineId')}
-                    {form.contactMethod === 'phone' && t('step3.phone')} *
+                    {form.contactMethod === 'email' && 'Email Address'}
+                    {form.contactMethod === 'line' && 'LINE ID'}
+                    {form.contactMethod === 'phone' && 'Phone Number'} *
                   </label>
                   <input
                     type={form.contactMethod === 'email' ? 'email' : 'text'}
@@ -434,22 +403,51 @@ export default function QuickBookingModal({
                 {/* Additional Info */}
                 <div>
                   <label className="block text-sm font-medium text-deep-teal mb-2">
-                    {t('step3.additionalInfo')}
+                    Additional Information (Optional)
                   </label>
                   <textarea
                     value={form.additionalInfo}
                     onChange={(e) => updateForm('additionalInfo', e.target.value)}
-                    placeholder={t('step3.additionalInfoPlaceholder')}
+                    placeholder="Any special requests, music preferences, or questions for the artist..."
                     rows={3}
                     className="w-full px-3 py-2 border border-deep-teal/30 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent resize-none"
                   />
+                </div>
+
+                {/* Final Summary */}
+                <div className="bg-gradient-to-r from-brand-cyan/5 to-deep-teal/5 p-4 rounded-lg border border-brand-cyan/20 mt-6">
+                  <h5 className="font-medium text-deep-teal mb-2">Booking Summary</h5>
+                  <div className="text-sm space-y-1">
+                    <div className="flex justify-between">
+                      <span>Date & Time:</span>
+                      <span>{form.eventDate} at {form.eventTime}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Event Type:</span>
+                      <span>{form.eventType}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Location:</span>
+                      <span>{form.location}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Duration:</span>
+                      <span>{form.duration} hours</span>
+                    </div>
+                    {artist.hourlyRate && (
+                      <div className="border-t pt-1 mt-2 flex justify-between font-medium text-brand-cyan">
+                        <span>Estimated Cost:</span>
+                        <span>฿{(artist.hourlyRate * form.duration).toLocaleString()}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Step 4: Success */}
-          {step === 4 && success && (
+          {/* Success State */}
+          {success && (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -457,13 +455,13 @@ export default function QuickBookingModal({
                 </svg>
               </div>
               <h4 className="font-playfair font-bold text-xl text-deep-teal mb-2">
-                {t('success.title')}
+                Inquiry Sent Successfully!
               </h4>
               <p className="text-dark-gray mb-4">
-                {t('success.message', { artist: artist.stageName })}
+                Your booking inquiry has been sent to {artist.stageName}. They will contact you shortly.
               </p>
               <p className="text-sm text-dark-gray/70">
-                {t('success.autoClose')}
+                This window will close automatically in a few seconds.
               </p>
             </div>
           )}
@@ -481,29 +479,29 @@ export default function QuickBookingModal({
           )}
         </div>
 
-        {/* Footer */}
-        {step <= 3 && (
+        {/* Footer - SIMPLIFIED for 2 steps */}
+        {!success && (
           <div className="flex justify-between items-center p-6 border-t bg-off-white">
             <button
-              onClick={step === 1 ? onClose : prevStep}
+              onClick={step === 1 ? onClose : () => setStep(1)}
               className="px-6 py-2 border border-deep-teal/30 text-deep-teal rounded-lg hover:bg-deep-teal/5 transition-colors"
             >
-              {step === 1 ? t('cancel') : t('back')}
+              {step === 1 ? 'Cancel' : 'Back'}
             </button>
             
             <div className="flex items-center space-x-3">
-              {step < 3 ? (
+              {step === 1 ? (
                 <button
-                  onClick={nextStep}
-                  disabled={!validateStep(step)}
+                  onClick={() => setStep(2)}
+                  disabled={!validateStep1()}
                   className="px-6 py-2 bg-gradient-to-r from-brand-cyan to-deep-teal text-pure-white rounded-lg hover:from-brand-cyan/90 hover:to-deep-teal/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {t('next')}
+                  Next: Contact Info →
                 </button>
               ) : (
                 <button
                   onClick={submitBooking}
-                  disabled={!validateStep(step) || isSubmitting}
+                  disabled={!validateStep2() || isSubmitting}
                   className="px-6 py-2 bg-gradient-to-r from-brand-cyan to-deep-teal text-pure-white rounded-lg hover:from-brand-cyan/90 hover:to-deep-teal/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                 >
                   {isSubmitting && (
@@ -511,7 +509,7 @@ export default function QuickBookingModal({
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                   )}
-                  <span>{isSubmitting ? t('submitting') : t('sendInquiry')}</span>
+                  <span>{isSubmitting ? 'Sending Inquiry...' : 'Send Booking Inquiry'}</span>
                 </button>
               )}
             </div>
