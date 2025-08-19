@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import PromptPayModal from '../booking/PromptPayModal'
 
 interface Quote {
   id: string
@@ -42,17 +43,21 @@ interface CustomerQuoteReviewProps {
   locale: string
   onQuoteResponse: (quoteId: string, action: 'accept' | 'reject', notes?: string) => Promise<void>
   onClose: () => void
+  showPaymentOption?: boolean
 }
 
 export default function CustomerQuoteReview({ 
   booking, 
   locale, 
   onQuoteResponse, 
-  onClose 
+  onClose,
+  showPaymentOption = false
 }: CustomerQuoteReviewProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [responseNotes, setResponseNotes] = useState('')
   const [showNotesInput, setShowNotesInput] = useState<string | null>(null)
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
+  const [quoteAccepted, setQuoteAccepted] = useState(false)
 
   const activeQuote = booking.quotes?.find(q => q.status === 'PENDING')
   
@@ -85,14 +90,27 @@ export default function CustomerQuoteReview({
     setIsLoading(true)
     try {
       await onQuoteResponse(activeQuote.id, action, responseNotes || undefined)
-      onClose()
+      if (action === 'accept') {
+        setQuoteAccepted(true)
+        setShowNotesInput(null)
+        setResponseNotes('')
+        // Don't close modal if payment is needed
+        if (!showPaymentOption) {
+          onClose()
+        }
+      } else {
+        onClose()
+      }
     } catch (error) {
       console.error('Error responding to quote:', error)
     } finally {
       setIsLoading(false)
-      setResponseNotes('')
-      setShowNotesInput(null)
     }
+  }
+
+  const handlePaymentConfirmed = () => {
+    setShowPaymentModal(false)
+    onClose()
   }
 
   const getDepositInfo = () => {
@@ -275,8 +293,48 @@ export default function CustomerQuoteReview({
               </div>
             )}
 
+            {/* Quote Acceptance Success */}
+            {quoteAccepted && showPaymentOption && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                <div className="flex items-center mb-4">
+                  <svg className="w-6 h-6 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <h3 className="text-lg font-medium text-green-800">Quote Accepted!</h3>
+                </div>
+                <p className="text-green-700 mb-6">
+                  Your booking has been confirmed. {activeQuote.requiresDeposit ? 'A deposit payment' : 'Full payment'} is required to secure your booking.
+                </p>
+                
+                <div className="bg-white rounded-lg p-4 mb-4">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium text-gray-900">
+                      {activeQuote.requiresDeposit ? 'Deposit Required:' : 'Total Amount:'}
+                    </span>
+                    <span className="text-2xl font-bold text-brand-cyan">
+                      {formatCurrency(activeQuote.requiresDeposit 
+                        ? (activeQuote.depositAmount || (activeQuote.quotedPrice * (activeQuote.depositPercentage || 0) / 100))
+                        : activeQuote.quotedPrice
+                      )}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setShowPaymentModal(true)}
+                  className="w-full bg-brand-cyan text-pure-white px-6 py-4 rounded-lg font-medium hover:bg-brand-cyan/80 transition-colors text-lg"
+                >
+                  Pay with PromptPay
+                </button>
+                
+                <p className="text-sm text-gray-600 text-center mt-3">
+                  Secure payment processing • Cancel anytime before payment
+                </p>
+              </div>
+            )}
+
             {/* Action Buttons */}
-            {!isQuoteExpired && (
+            {!isQuoteExpired && !quoteAccepted && (
               <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
                 <button
                   onClick={() => {
@@ -317,9 +375,32 @@ export default function CustomerQuoteReview({
                 )}
               </div>
             )}
+
+            {/* Close button for completed quote acceptance */}
+            {quoteAccepted && !showPaymentOption && (
+              <div className="pt-6 border-t border-gray-200">
+                <button
+                  onClick={onClose}
+                  className="w-full bg-brand-cyan text-pure-white px-6 py-3 rounded-lg font-medium hover:bg-brand-cyan/80 transition-colors"
+                >
+                  Done
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
+      
+      {/* PromptPay Payment Modal */}
+      {showPaymentModal && activeQuote && (
+        <PromptPayModal
+          isOpen={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          booking={booking}
+          quote={activeQuote}
+          onPaymentConfirmed={handlePaymentConfirmed}
+        />
+      )}
     </div>
   )
 }

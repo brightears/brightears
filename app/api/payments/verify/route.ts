@@ -49,29 +49,33 @@ export async function POST(request: NextRequest) {
     // 2. Potentially use OCR or manual verification
     // 3. Store the payment record
     
-    // For now, we'll create a payment record and update booking
-    const paymentRecord = await prisma.$executeRaw`
-      INSERT INTO booking_payments (
-        booking_id, amount_thb, payment_method, 
-        payment_status, payment_proof_url, paid_at
-      ) VALUES (
-        ${bookingId}, ${amount}, 'PromptPay',
-        'pending_verification', 'payment-slip-url', NOW()
-      )
-      ON CONFLICT (booking_id) DO UPDATE SET
-        amount_thb = ${amount},
-        payment_status = 'pending_verification',
-        payment_proof_url = 'payment-slip-url',
-        paid_at = NOW()
-    `
+    // TODO: Upload slip to Cloudinary
+    const slipUrl = `payment-slip-${bookingId}-${Date.now()}.jpg` // Placeholder
+    
+    // Determine payment type based on amount
+    const paymentType = amount < Number(booking.quotedPrice) ? 'deposit' : 'full'
+    
+    // Create payment record using new Payment model
+    const payment = await prisma.payment.create({
+      data: {
+        bookingId,
+        amount,
+        currency: 'THB',
+        paymentType,
+        paymentMethod: 'PromptPay',
+        status: 'pending',
+        paymentProofUrl: slipUrl,
+        paidAt: new Date()
+      }
+    })
 
-    // Update booking status
+    // Update booking status - keep as CONFIRMED until payment is verified
     await prisma.booking.update({
       where: { id: bookingId },
       data: {
-        status: 'PAID',
-        depositPaid: true,
-        paidAt: new Date()
+        depositPaid: paymentType === 'deposit' || paymentType === 'full',
+        paymentMethod: 'PromptPay'
+        // Don't update status to PAID until verification
       }
     })
 
@@ -108,7 +112,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Payment submitted for verification',
-      paymentId: `payment-${Date.now()}`
+      paymentId: payment.id,
+      status: 'pending_verification'
     })
 
   } catch (error) {

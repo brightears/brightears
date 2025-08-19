@@ -308,6 +308,13 @@ export default function CustomerBookings({ locale, user }: CustomerBookingsProps
                       >
                         Review Quote
                       </button>
+                    ) : booking.status.toLowerCase() === 'confirmed' && !booking.totalAmount ? (
+                      <button
+                        onClick={() => setSelectedQuoteBooking(booking)}
+                        className="px-3 py-1 text-sm bg-green-600 text-pure-white rounded hover:bg-green-700 transition-colors font-inter font-medium"
+                      >
+                        Pay Now
+                      </button>
                     ) : (
                       <Link
                         href={`/${locale}/bookings/${booking.id}`}
@@ -369,6 +376,7 @@ export default function CustomerBookings({ locale, user }: CustomerBookingsProps
             locale={locale}
             onQuoteResponse={handleQuoteResponse}
             onClose={() => setSelectedQuoteBooking(null)}
+            showPaymentOption={selectedQuoteBooking.status.toLowerCase() === 'confirmed'}
           />
         )}
       </div>
