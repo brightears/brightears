@@ -86,6 +86,7 @@ model User {
   sessions          Session[]
   contactViews      ContactView[]
   bookingInquiries  BookingInquiry[]
+  typingIndicators  TypingIndicator[]
   
   @@index([email])
   @@index([phone])
@@ -300,6 +301,7 @@ model Booking {
   messages          Message[]
   quotes            Quote[]
   payments          Payment[]
+  typingIndicators  TypingIndicator[]
   
   @@index([customerId])
   @@index([artistId])
@@ -412,28 +414,72 @@ model Review {
   @@index([reviewerId])
 }
 
+// Message enums
+enum MessageType {
+  TEXT
+  IMAGE
+  FILE
+  SYSTEM
+}
+
+enum DeliveryStatus {
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
 // Messages
 model Message {
-  id                String   @id @default(uuid())
+  id                String            @id @default(uuid())
   
   senderId          String
-  sender            User     @relation(fields: [senderId], references: [id])
+  sender            User              @relation(fields: [senderId], references: [id])
   
   artistId          String
-  artist            Artist   @relation("ArtistMessages", fields: [artistId], references: [id])
+  artist            Artist            @relation("ArtistMessages", fields: [artistId], references: [id])
   
   bookingId         String?
-  booking           Booking? @relation(fields: [bookingId], references: [id])
+  booking           Booking?          @relation(fields: [bookingId], references: [id])
   
   content           String
-  isRead            Boolean  @default(false)
-  readAt            DateTime?
+  messageType       MessageType       @default(TEXT)
+  attachmentUrl     String?
   
-  createdAt         DateTime @default(now())
+  // Message threading
+  parentMessageId   String?
+  parentMessage     Message?          @relation("MessageReplies", fields: [parentMessageId], references: [id])
+  replies           Message[]         @relation("MessageReplies")
+  
+  // Read and delivery tracking
+  isRead            Boolean           @default(false)
+  readAt            DateTime?
+  deliveredAt       DateTime?
+  deliveryStatus    DeliveryStatus    @default(SENT)
+  
+  createdAt         DateTime          @default(now())
   
   @@index([senderId])
   @@index([artistId])
   @@index([bookingId])
+  @@index([bookingId, createdAt])
+  @@index([deliveryStatus])
+  @@index([parentMessageId])
+}
+
+// Typing Indicators
+model TypingIndicator {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookingId    String
+  booking      Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  isTyping     Boolean  @default(false)
+  lastTypingAt DateTime @default(now())
+  
+  @@unique([userId, bookingId])
+  @@index([bookingId])
+  @@index([userId])
 }
 
 // Notifications
