@@ -112,6 +112,25 @@ export async function GET(request: NextRequest) {
               }
             }
           }
+        },
+        quotes: {
+          orderBy: { createdAt: 'desc' },
+          select: {
+            id: true,
+            quotedPrice: true,
+            currency: true,
+            requiresDeposit: true,
+            depositAmount: true,
+            depositPercentage: true,
+            inclusions: true,
+            exclusions: true,
+            notes: true,
+            validUntil: true,
+            status: true,
+            createdAt: true,
+            customerNotes: true,
+            respondedAt: true
+          }
         }
       },
       orderBy: { createdAt: 'desc' },

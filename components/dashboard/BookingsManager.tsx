@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import BookingMessaging from '@/components/booking/BookingMessaging'
+import QuoteManagementModal from '@/components/booking/QuoteManagementModal'
 
 type BookingStatus = 'INQUIRY' | 'QUOTED' | 'CONFIRMED' | 'PAID' | 'COMPLETED' | 'CANCELLED'
 
@@ -61,6 +62,8 @@ export default function BookingsManager({ bookings, artistId, locale }: Bookings
   const [selectedFilter, setSelectedFilter] = useState('all')
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
   const [showMessaging, setShowMessaging] = useState(false)
+  const [showQuoteModal, setShowQuoteModal] = useState(false)
+  const [quoteBooking, setQuoteBooking] = useState<Booking | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const filteredBookings = selectedFilter === 'all' 
@@ -122,6 +125,18 @@ export default function BookingsManager({ bookings, artistId, locale }: Bookings
       alert('Error updating booking status')
     }
     setIsLoading(false)
+  }
+
+  const handleSendQuote = (booking: Booking) => {
+    setQuoteBooking(booking)
+    setShowQuoteModal(true)
+  }
+
+  const handleQuoteCreated = () => {
+    setShowQuoteModal(false)
+    setQuoteBooking(null)
+    // Refresh bookings to show updated status
+    window.location.reload()
   }
 
   return (
@@ -266,11 +281,11 @@ export default function BookingsManager({ bookings, artistId, locale }: Bookings
                         {booking.status === 'INQUIRY' && (
                           <>
                             <button
-                              onClick={() => handleStatusUpdate(booking.id, 'CONFIRMED')}
+                              onClick={() => handleSendQuote(booking)}
                               disabled={isLoading}
-                              className="text-green-600 hover:text-green-800 text-sm font-medium disabled:opacity-50"
+                              className="text-brand-cyan hover:text-brand-cyan/80 text-sm font-medium disabled:opacity-50"
                             >
-                              Accept
+                              Send Quote
                             </button>
                             <button
                               onClick={() => handleStatusUpdate(booking.id, 'CANCELLED')}
@@ -280,6 +295,11 @@ export default function BookingsManager({ bookings, artistId, locale }: Bookings
                               Decline
                             </button>
                           </>
+                        )}
+                        {booking.status === 'QUOTED' && (
+                          <span className="text-amber-600 text-sm">
+                            Quote Sent - Awaiting Response
+                          </span>
                         )}
                       </div>
                     </td>
@@ -463,6 +483,30 @@ export default function BookingsManager({ bookings, artistId, locale }: Bookings
           onClose={() => {
             setShowMessaging(false)
           }}
+        />
+      )}
+
+      {/* Quote Management Modal */}
+      {showQuoteModal && quoteBooking && (
+        <QuoteManagementModal
+          booking={{
+            id: quoteBooking.id,
+            bookingNumber: quoteBooking.bookingNumber,
+            customerName: quoteBooking.customerName,
+            eventType: quoteBooking.eventType,
+            eventDate: quoteBooking.eventDate,
+            startTime: quoteBooking.startTime,
+            endTime: quoteBooking.endTime,
+            duration: quoteBooking.duration,
+            venue: quoteBooking.venue,
+            venueAddress: quoteBooking.venueAddress,
+            expectedGuests: quoteBooking.guestCount,
+            specialRequests: quoteBooking.specialRequests,
+            notes: quoteBooking.notes
+          }}
+          isOpen={showQuoteModal}
+          onClose={() => setShowQuoteModal(false)}
+          onQuoteCreated={handleQuoteCreated}
         />
       )}
     </div>

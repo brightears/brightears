@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/components/navigation'
+import CustomerQuoteReview from './CustomerQuoteReview'
 
 interface User {
   id: string
@@ -15,19 +16,42 @@ interface User {
   }
 }
 
+interface Quote {
+  id: string
+  quotedPrice: number
+  currency: string
+  requiresDeposit: boolean
+  depositAmount?: number
+  depositPercentage?: number
+  inclusions: string[]
+  exclusions: string[]
+  notes?: string
+  validUntil: string
+  status: 'PENDING' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED'
+  createdAt: string
+}
+
 interface Booking {
   id: string
+  bookingNumber?: string
   artistId: string
   artist: {
     stageName: string
     profileImage?: string
   }
   eventDate: string
+  startTime: string
+  endTime: string
+  duration: number
   eventType: string
   status: string
   totalAmount?: number
   venue?: string
+  venueAddress: string
+  guestCount?: number
+  specialRequests?: string
   createdAt: string
+  quotes?: Quote[]
 }
 
 interface CustomerBookingsProps {
@@ -41,6 +65,8 @@ export default function CustomerBookings({ locale, user }: CustomerBookingsProps
   const [bookings, setBookings] = useState<Booking[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [filter, setFilter] = useState<'all' | 'pending' | 'confirmed' | 'completed' | 'cancelled'>('all')
+  const [selectedQuoteBooking, setSelectedQuoteBooking] = useState<Booking | null>(null)
+  const [isQuoteLoading, setIsQuoteLoading] = useState(false)
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -65,23 +91,13 @@ export default function CustomerBookings({ locale, user }: CustomerBookingsProps
     return booking.status.toLowerCase() === filter
   })
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800'
-      case 'confirmed':
-        return 'bg-blue-100 text-blue-800'
-      case 'completed':
-        return 'bg-green-100 text-green-800'
-      case 'cancelled':
-        return 'bg-red-100 text-red-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
-  }
 
   const getStatusLabel = (status: string) => {
     switch (status.toLowerCase()) {
+      case 'inquiry':
+        return t('status.inquiry') || 'Inquiry Sent'
+      case 'quoted':
+        return t('status.quoted') || 'Quote Received'
       case 'pending':
         return t('status.pending')
       case 'confirmed':
@@ -92,6 +108,25 @@ export default function CustomerBookings({ locale, user }: CustomerBookingsProps
         return t('status.cancelled')
       default:
         return status
+    }
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'inquiry':
+        return 'bg-blue-100 text-blue-800'
+      case 'quoted':
+        return 'bg-yellow-100 text-yellow-800'
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800'
+      case 'confirmed':
+        return 'bg-green-100 text-green-800'
+      case 'completed':
+        return 'bg-purple-100 text-purple-800'
+      case 'cancelled':
+        return 'bg-red-100 text-red-800'
+      default:
+        return 'bg-gray-100 text-gray-800'
     }
   }
 
@@ -106,6 +141,39 @@ export default function CustomerBookings({ locale, user }: CustomerBookingsProps
 
   const formatCurrency = (amount: number) => {
     return `฿${amount.toLocaleString()}`
+  }
+
+  const handleQuoteResponse = async (quoteId: string, action: 'accept' | 'reject', notes?: string) => {
+    setIsQuoteLoading(true)
+    try {
+      const response = await fetch(`/api/quotes/${quoteId}/respond`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          action, 
+          customerNotes: notes 
+        }),
+      })
+
+      if (response.ok) {
+        // Refresh bookings to show updated status
+        const bookingsResponse = await fetch('/api/bookings')
+        if (bookingsResponse.ok) {
+          const data = await bookingsResponse.json()
+          setBookings(data.bookings || [])
+        }
+        setSelectedQuoteBooking(null)
+      } else {
+        const error = await response.json()
+        alert(error.message || 'Error responding to quote')
+      }
+    } catch (error) {
+      console.error('Error responding to quote:', error)
+      alert('Error responding to quote')
+    }
+    setIsQuoteLoading(false)
   }
 
   if (isLoading) {
@@ -207,6 +275,13 @@ export default function CustomerBookings({ locale, user }: CustomerBookingsProps
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(booking.status)}`}>
                       {getStatusLabel(booking.status)}
                     </span>
+                    {booking.status.toLowerCase() === 'quoted' && booking.quotes && booking.quotes.some(q => q.status === 'PENDING') && (
+                      <div className="mt-2">
+                        <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-brand-cyan text-pure-white rounded-full animate-pulse">
+                          Action Required
+                        </span>
+                      </div>
+                    )}
                     {booking.totalAmount && (
                       <p className="text-lg font-playfair font-bold text-dark-gray mt-2">
                         {formatCurrency(booking.totalAmount)}
@@ -226,12 +301,21 @@ export default function CustomerBookings({ locale, user }: CustomerBookingsProps
                     >
                       {t('viewArtist')}
                     </Link>
-                    <Link
-                      href={`/${locale}/bookings/${booking.id}`}
-                      className="px-3 py-1 text-sm bg-brand-cyan text-pure-white rounded hover:bg-brand-cyan/80 transition-colors font-inter font-medium"
-                    >
-                      {t('viewDetails')}
-                    </Link>
+                    {booking.status.toLowerCase() === 'quoted' && booking.quotes && booking.quotes.some(q => q.status === 'PENDING') ? (
+                      <button
+                        onClick={() => setSelectedQuoteBooking(booking)}
+                        className="px-3 py-1 text-sm bg-brand-cyan text-pure-white rounded hover:bg-brand-cyan/80 transition-colors font-inter font-medium"
+                      >
+                        Review Quote
+                      </button>
+                    ) : (
+                      <Link
+                        href={`/${locale}/bookings/${booking.id}`}
+                        className="px-3 py-1 text-sm bg-brand-cyan text-pure-white rounded hover:bg-brand-cyan/80 transition-colors font-inter font-medium"
+                      >
+                        {t('viewDetails')}
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
@@ -276,6 +360,16 @@ export default function CustomerBookings({ locale, user }: CustomerBookingsProps
               </div>
             </div>
           </div>
+        )}
+
+        {/* Quote Review Modal */}
+        {selectedQuoteBooking && (
+          <CustomerQuoteReview
+            booking={selectedQuoteBooking}
+            locale={locale}
+            onQuoteResponse={handleQuoteResponse}
+            onClose={() => setSelectedQuoteBooking(null)}
+          />
         )}
       </div>
     </div>
