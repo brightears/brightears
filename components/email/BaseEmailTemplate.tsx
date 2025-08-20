@@ -17,7 +17,7 @@ interface BaseEmailTemplateProps {
   preview: string
   children: React.ReactNode
   locale?: 'en' | 'th'
-  footerText?: {
+  customFooterText?: {
     en: string
     th: string
   }
@@ -27,7 +27,7 @@ export const BaseEmailTemplate: React.FC<BaseEmailTemplateProps> = ({
   preview,
   children,
   locale = 'en',
-  footerText,
+  customFooterText,
 }) => {
   const isThaiLanguage = locale === 'th'
 
@@ -63,7 +63,7 @@ export const BaseEmailTemplate: React.FC<BaseEmailTemplateProps> = ({
           {/* Footer */}
           <Section style={footer}>
             <Text style={footerText}>
-              {footerText ? footerText[locale] : defaultFooterText[locale]}
+              {customFooterText ? customFooterText[locale] : defaultFooterText[locale]}
             </Text>
             
             <Text style={footerLinks}>

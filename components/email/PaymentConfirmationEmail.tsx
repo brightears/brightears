@@ -112,7 +112,7 @@ export const PaymentConfirmationEmail: React.FC<PaymentConfirmationEmailProps> =
           {isThaiLanguage ? 'การชำระเงินสำเร็จ!' : 'Payment Successful!'}
         </Text>
         
-        <Text style={paymentAmount}>
+        <Text style={paymentAmountStyle}>
           {paymentAmount} {currency}
         </Text>
         
@@ -223,7 +223,7 @@ const successText = {
   margin: '0 0 15px 0',
 }
 
-const paymentAmount = {
+const paymentAmountStyle = {
   fontSize: '32px',
   fontWeight: '700',
   color: '#28a745',
