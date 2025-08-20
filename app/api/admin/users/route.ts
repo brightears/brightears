@@ -8,8 +8,8 @@ import { safeErrorResponse } from '@/lib/api-auth'
 const userSearchSchema = z.object({
   search: z.string().optional(),
   role: z.enum(['ARTIST', 'CUSTOMER', 'CORPORATE', 'ADMIN']).optional(),
-  verificationStatus: z.enum(['PENDING', 'VERIFIED', 'REJECTED']).optional(),
-  sortBy: z.enum(['createdAt', 'lastActiveAt', 'email', 'name']).default('createdAt'),
+  verificationLevel: z.enum(['UNVERIFIED', 'BASIC', 'VERIFIED', 'TRUSTED']).optional(),
+  sortBy: z.enum(['createdAt', 'lastLogin', 'email', 'name']).default('createdAt'),
   sortOrder: z.enum(['asc', 'desc']).default('desc'),
   page: z.coerce.number().min(1).default(1),
   limit: z.coerce.number().min(1).max(100).default(20)
@@ -21,8 +21,7 @@ const updateUserSchema = z.object({
   name: z.string().min(1).max(100).optional(),
   role: z.enum(['ARTIST', 'CUSTOMER', 'CORPORATE', 'ADMIN']).optional(),
   isEmailVerified: z.boolean().optional(),
-  isActive: z.boolean().optional(),
-  adminNotes: z.string().max(1000).optional()
+  isActive: z.boolean().optional()
 })
 
 // GET - Get all users with filtering and pagination (Admin only)
@@ -50,7 +49,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const { search, role, verificationStatus, sortBy, sortOrder, page, limit } = validationResult.data
+    const { search, role, verificationLevel, sortBy, sortOrder, page, limit } = validationResult.data
     const offset = (page - 1) * limit
 
     // Build where clause
@@ -78,23 +77,23 @@ export async function GET(request: NextRequest) {
           select: {
             id: true,
             stageName: true,
-            verificationStatus: true,
+            verificationLevel: true,
             completedBookings: true,
-            totalEarnings: true
+            averageRating: true
           }
         },
         customer: {
           select: {
             id: true,
-            totalSpent: true,
-            bookingCount: true
+            firstName: true,
+            lastName: true
           }
         },
         corporate: {
           select: {
             id: true,
             companyName: true,
-            verificationStatus: true
+            contactPerson: true
           }
         }
       },
@@ -112,22 +111,22 @@ export async function GET(request: NextRequest) {
       isEmailVerified: !!user.emailVerified,
       isActive: user.isActive,
       createdAt: user.createdAt,
-      lastActiveAt: user.lastLogin,
+      lastLogin: user.lastLogin,
       profileImage: user.image,
       // Role-specific data
       artist: user.artist ? {
         stageName: user.artist.stageName,
-        verificationStatus: user.artist.verificationStatus,
+        verificationLevel: user.artist.verificationLevel,
         completedBookings: user.artist.completedBookings,
-        totalEarnings: Number(user.artist.totalEarnings || 0)
+        averageRating: user.artist.averageRating || 0
       } : null,
       customer: user.customer ? {
-        totalSpent: Number(user.customer.totalSpent || 0),
-        bookingCount: user.customer.bookingCount
+        firstName: user.customer.firstName,
+        lastName: user.customer.lastName
       } : null,
       corporate: user.corporate ? {
         companyName: user.corporate.companyName,
-        verificationStatus: user.corporate.verificationStatus
+        contactPerson: user.corporate.contactPerson
       } : null
     }))
 
@@ -168,8 +167,7 @@ export async function POST(request: NextRequest) {
       name: z.string().min(1).max(100),
       role: z.enum(['ARTIST', 'CUSTOMER', 'CORPORATE', 'ADMIN']),
       password: z.string().min(8),
-      isEmailVerified: z.boolean().default(false),
-      adminNotes: z.string().max(1000).optional()
+      isEmailVerified: z.boolean().default(false)
     })
 
     const validationResult = createUserSchema.safeParse(body)
@@ -180,7 +178,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { email, name, role, password, isEmailVerified, adminNotes } = validationResult.data
+    const { email, name, role, password, isEmailVerified } = validationResult.data
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
@@ -216,8 +214,8 @@ export async function POST(request: NextRequest) {
         data: {
           userId: newUser.id,
           stageName: name,
-          categories: [],
-          verificationStatus: 'PENDING'
+          category: 'DJ',
+          verificationLevel: 'UNVERIFIED'
         }
       })
     } else if (role === 'CUSTOMER') {
@@ -231,7 +229,7 @@ export async function POST(request: NextRequest) {
         data: {
           userId: newUser.id,
           companyName: `${name} Company`,
-          verificationStatus: 'PENDING'
+          contactPerson: name
         }
       })
     }

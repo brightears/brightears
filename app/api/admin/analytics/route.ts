@@ -145,10 +145,10 @@ export async function GET(request: NextRequest) {
       // Content metrics
       prisma.artist.count(),
       prisma.artist.count({
-        where: { verificationStatus: 'VERIFIED' }
+        where: { verificationLevel: 'VERIFIED' }
       }),
       prisma.artist.groupBy({
-        by: ['categories'],
+        by: ['category'],
         _count: true
       }),
       
@@ -203,13 +203,12 @@ export async function GET(request: NextRequest) {
       take: 10,
       orderBy: [
         { completedBookings: 'desc' },
-        { totalEarnings: 'desc' }
+        { averageRating: 'desc' }
       ],
       include: {
         user: {
           select: {
-            firstName: true,
-            lastName: true,
+            name: true,
             email: true
           }
         }
@@ -228,24 +227,18 @@ export async function GET(request: NextRequest) {
         },
         customer: {
           select: {
-            user: {
-              select: {
-                firstName: true,
-                lastName: true
-              }
-            }
+            firstName: true,
+            lastName: true
           }
         }
       }
     })
 
-    // Format category data (flatten array categories)
+    // Format category data
     const categoryStats: Record<string, number> = {}
     artistsByCategory.forEach(item => {
-      if (Array.isArray(item.categories)) {
-        item.categories.forEach((category: string) => {
-          categoryStats[category] = (categoryStats[category] || 0) + item._count
-        })
+      if (item.category) {
+        categoryStats[item.category] = (categoryStats[item.category] || 0) + item._count
       }
     })
 
@@ -311,11 +304,10 @@ export async function GET(request: NextRequest) {
       topArtists: topArtists.map(artist => ({
         id: artist.id,
         stageName: artist.stageName,
-        firstName: artist.user.firstName,
-        lastName: artist.user.lastName,
+        name: artist.user.name,
         completedBookings: artist.completedBookings,
-        totalEarnings: Number(artist.totalEarnings || 0),
-        verificationStatus: artist.verificationStatus
+        averageRating: artist.averageRating || 0,
+        verificationLevel: artist.verificationLevel
       })),
       
       // Recent activity
@@ -326,7 +318,7 @@ export async function GET(request: NextRequest) {
         eventDate: booking.eventDate,
         createdAt: booking.createdAt,
         artistName: booking.artist.stageName,
-        customerName: `${booking.customer.user.firstName} ${booking.customer.user.lastName}`
+        customerName: `${booking.customer.firstName} ${booking.customer.lastName}`
       })),
       
       // Platform health

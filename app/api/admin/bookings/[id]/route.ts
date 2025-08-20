@@ -30,12 +30,11 @@ export async function GET(
             user: {
               select: {
                 id: true,
-                firstName: true,
-                lastName: true,
+                name: true,
                 email: true,
-                profileImage: true,
+                image: true,
                 createdAt: true,
-                lastActiveAt: true,
+                lastLogin: true,
                 isActive: true
               }
             }
@@ -46,28 +45,18 @@ export async function GET(
             user: {
               select: {
                 id: true,
-                firstName: true,
-                lastName: true,
+                name: true,
                 email: true,
-                profileImage: true,
+                image: true,
                 createdAt: true,
-                lastActiveAt: true,
+                lastLogin: true,
                 isActive: true
               }
             }
           }
         },
         payments: {
-          orderBy: { createdAt: 'desc' },
-          include: {
-            verifiedByUser: {
-              select: {
-                firstName: true,
-                lastName: true,
-                email: true
-              }
-            }
-          }
+          orderBy: { createdAt: 'desc' }
         },
         quotes: {
           orderBy: { createdAt: 'desc' }
@@ -78,8 +67,7 @@ export async function GET(
           include: {
             sender: {
               select: {
-                firstName: true,
-                lastName: true,
+                name: true,
                 role: true
               }
             }
@@ -170,12 +158,13 @@ export async function GET(
       
       artist: {
         ...booking.artist,
-        totalEarnings: Number(booking.artist.totalEarnings || 0)
+        averageRating: booking.artist.averageRating || 0
       },
       
       customer: {
         ...booking.customer,
-        totalSpent: Number(booking.customer.totalSpent || 0)
+        firstName: booking.customer.firstName,
+        lastName: booking.customer.lastName
       },
       
       payments: booking.payments.map(payment => ({
@@ -265,7 +254,7 @@ export async function POST(
           where: { id: bookingId },
           data: {
             status: 'CANCELLED',
-            adminNotes: `${booking.adminNotes || ''}\n[${new Date().toISOString()}] Admin cancelled: ${reason || 'No reason provided'}`.trim()
+            notes: `${booking.notes || ''}\n[${new Date().toISOString()}] Admin cancelled: ${reason || 'No reason provided'}`.trim()
           }
         })
 
@@ -327,7 +316,7 @@ export async function POST(
         await prisma.booking.update({
           where: { id: bookingId },
           data: {
-            adminNotes: `${booking.adminNotes || ''}\n[${new Date().toISOString()}] Admin refund: ${amount} THB - ${reason || 'No reason provided'}`.trim()
+            notes: `${booking.notes || ''}\n[${new Date().toISOString()}] Admin refund: ${amount} THB - ${reason || 'No reason provided'}`.trim()
           }
         })
 
@@ -361,7 +350,7 @@ export async function POST(
           data: {
             status: 'COMPLETED',
             completedAt: new Date(),
-            adminNotes: `${booking.adminNotes || ''}\n[${new Date().toISOString()}] Admin force completed: ${reason || 'Administrative completion'}`.trim()
+            notes: `${booking.notes || ''}\n[${new Date().toISOString()}] Admin force completed: ${reason || 'Administrative completion'}`.trim()
           }
         })
 
@@ -380,7 +369,7 @@ export async function POST(
         await prisma.booking.update({
           where: { id: bookingId },
           data: {
-            adminNotes: `${booking.adminNotes || ''}\n[${new Date().toISOString()}] Dispute resolved: ${reason || 'Dispute resolved by admin'}`.trim()
+            notes: `${booking.notes || ''}\n[${new Date().toISOString()}] Dispute resolved: ${reason || 'Dispute resolved by admin'}`.trim()
           }
         })
 

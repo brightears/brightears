@@ -215,6 +215,57 @@ export async function POST(request: NextRequest) {
       }
     })
 
+    // Send email notification to customer
+    try {
+      const { sendQuoteReceivedEmail, getUserLocale } = await import('@/lib/email-templates')
+      
+      const customerLocale = await getUserLocale(booking.customerId)
+      const quoteUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/customer/bookings`
+      
+      // Format the quote data for email
+      const formattedEventDate = new Date(booking.eventDate).toLocaleDateString(
+        customerLocale === 'th' ? 'th-TH' : 'en-US',
+        {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }
+      )
+
+      const formattedValidUntil = validUntilDate.toLocaleDateString(
+        customerLocale === 'th' ? 'th-TH' : 'en-US',
+        {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }
+      )
+
+      await sendQuoteReceivedEmail({
+        to: booking.customer.email,
+        customerName: user?.name || 'Customer',
+        artistName: booking.artist.stageName,
+        eventType: booking.eventType,
+        eventDate: formattedEventDate,
+        quotedPrice: quotedPrice.toFixed(2),
+        currency,
+        depositAmount: depositAmount ? depositAmount.toFixed(2) : undefined,
+        inclusions: sanitizedData.inclusions || [],
+        exclusions: sanitizedData.exclusions || [],
+        notes: sanitizedData.notes,
+        validUntil: formattedValidUntil,
+        quoteUrl,
+        locale: customerLocale,
+      })
+      
+      console.log('Quote received email sent to customer:', booking.customer.email)
+    } catch (emailError) {
+      console.error('Failed to send quote received email:', emailError)
+      // Don't fail the quote creation if email fails
+    }
+
     return NextResponse.json({
       success: true,
       quote: {

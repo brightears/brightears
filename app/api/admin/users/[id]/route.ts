@@ -10,8 +10,7 @@ const updateUserSchema = z.object({
   name: z.string().min(1).max(100).optional(),
   role: z.enum(['ARTIST', 'CUSTOMER', 'CORPORATE', 'ADMIN']).optional(),
   isEmailVerified: z.boolean().optional(),
-  isActive: z.boolean().optional(),
-  adminNotes: z.string().max(1000).optional()
+  isActive: z.boolean().optional()
 })
 
 // GET - Get specific user details (Admin only)
@@ -97,12 +96,8 @@ export async function GET(
         },
         customer: {
           select: {
-            user: {
-              select: {
-                firstName: true,
-                lastName: true
-              }
-            }
+            firstName: true,
+            lastName: true
           }
         }
       }
@@ -124,13 +119,14 @@ export async function GET(
         ...userWithoutPassword,
         artist: targetUser.artist ? {
           ...targetUser.artist,
-          totalEarnings: Number(targetUser.artist.totalEarnings || 0),
+          averageRating: targetUser.artist.averageRating || 0,
           bookingsCount: targetUser.artist._count.bookings,
           reviewsCount: targetUser.artist._count.reviews
         } : null,
         customer: targetUser.customer ? {
           ...targetUser.customer,
-          totalSpent: Number(targetUser.customer.totalSpent || 0),
+          firstName: targetUser.customer.firstName,
+          lastName: targetUser.customer.lastName,
           bookingsCount: targetUser.customer._count.bookings,
           reviewsCount: targetUser.customer._count.reviews
         } : null,
@@ -237,9 +233,9 @@ export async function PATCH(
         await prisma.artist.create({
           data: {
             userId: userId,
-            stageName: `${updateData.firstName || existingUser.firstName} ${updateData.lastName || existingUser.lastName}`,
-            categories: [],
-            verificationStatus: 'PENDING'
+            stageName: `${updateData.name || existingUser.name}`,
+            category: 'DJ',
+            verificationLevel: 'UNVERIFIED'
           }
         })
       } else if (updateData.role === 'CUSTOMER') {
@@ -252,8 +248,8 @@ export async function PATCH(
         await prisma.corporate.create({
           data: {
             userId: userId,
-            companyName: `${updateData.firstName || existingUser.firstName} ${updateData.lastName || existingUser.lastName} Company`,
-            verificationStatus: 'PENDING'
+            companyName: `${updateData.name || existingUser.name} Company`,
+            contactPerson: updateData.name || existingUser.name || 'Contact Person'
           }
         })
       }
@@ -338,8 +334,7 @@ export async function DELETE(
     await prisma.user.update({
       where: { id: userId },
       data: {
-        isActive: false,
-        adminNotes: `${existingUser.adminNotes || ''}\nDeactivated by admin ${user.email} on ${new Date().toISOString()}`.trim()
+        isActive: false
       }
     })
 

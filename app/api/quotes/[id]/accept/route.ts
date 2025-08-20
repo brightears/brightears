@@ -111,6 +111,54 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
       }
     })
 
+    // Send email notification to artist
+    try {
+      const { sendQuoteAcceptedEmail, getUserLocale } = await import('@/lib/email-templates')
+      
+      const artistLocale = await getUserLocale(quote.booking.artist.userId)
+      const bookingUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/artist/bookings`
+      
+      // Format the event data for email
+      const formattedEventDate = new Date(quote.booking.eventDate).toLocaleDateString(
+        artistLocale === 'th' ? 'th-TH' : 'en-US',
+        {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }
+      )
+
+      const formattedEventTime = new Date(quote.booking.startTime).toLocaleTimeString(
+        artistLocale === 'th' ? 'th-TH' : 'en-US',
+        {
+          hour: '2-digit',
+          minute: '2-digit'
+        }
+      )
+
+      await sendQuoteAcceptedEmail({
+        to: quote.booking.artist.user.email,
+        artistName: quote.booking.artist.stageName,
+        customerName: quote.booking.customer?.name || 'Customer',
+        eventType: quote.booking.eventType,
+        eventDate: formattedEventDate,
+        eventTime: formattedEventTime,
+        venue: quote.booking.venue,
+        acceptedPrice: quote.quotedPrice.toFixed(2),
+        currency: quote.currency,
+        depositAmount: quote.depositAmount ? quote.depositAmount.toFixed(2) : undefined,
+        customerNotes: notes,
+        bookingUrl,
+        locale: artistLocale,
+      })
+      
+      console.log('Quote accepted email sent to artist:', quote.booking.artist.user.email)
+    } catch (emailError) {
+      console.error('Failed to send quote accepted email:', emailError)
+      // Don't fail the acceptance if email fails
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Quote accepted successfully'

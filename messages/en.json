@@ -38,6 +38,98 @@
       "description": "Get help whenever you need it, in English or Thai."
     }
   },
+  "emails": {
+    "subjects": {
+      "booking_inquiry": "New Booking Inquiry - {eventType}",
+      "quote_received": "Quote Received for {eventType}",
+      "quote_accepted": "Your Quote Has Been Accepted!",
+      "payment_confirmed": "Payment Confirmed - {bookingNumber}",
+      "booking_confirmed": "Booking Confirmed - {eventType}",
+      "event_reminder": "Event Reminder: {eventType} Tomorrow",
+      "booking_completed": "Booking Completed - Thank You!",
+      "admin_notification": "Admin Alert: {alertType}"
+    },
+    "common": {
+      "greeting": "Hello {name}",
+      "thanks": "Thank you",
+      "regards": "Best regards",
+      "team": "The Bright Ears Team",
+      "footer": "This email was sent by Bright Ears, Thailand's premier entertainment booking platform.",
+      "unsubscribe": "If you no longer wish to receive these emails, please",
+      "unsubscribeLink": "unsubscribe",
+      "website": "Website",
+      "support": "Support",
+      "privacy": "Privacy Policy"
+    },
+    "bookingInquiry": {
+      "title": "New Booking Inquiry",
+      "subtitle": "You have received a new booking inquiry",
+      "eventDetails": "Event Details:",
+      "eventType": "Event Type:",
+      "eventDate": "Event Date:",
+      "location": "Location:",
+      "duration": "Duration:",
+      "contactMethod": "Preferred Contact Method:",
+      "additionalInfo": "Additional Information:",
+      "cta": "View and respond to this inquiry by logging into your dashboard.",
+      "button": "View Booking Inquiry",
+      "footer": "Please respond to this inquiry as soon as possible to maintain a good response time rating."
+    },
+    "quoteReceived": {
+      "title": "Quote Received",
+      "subtitle": "You have received a quote for your event",
+      "price": "Quoted Price:",
+      "deposit": "Deposit Required:",
+      "inclusions": "What's Included:",
+      "exclusions": "What's Not Included:",
+      "notes": "Artist Notes:",
+      "validUntil": "Quote Valid Until:",
+      "cta": "Review the full quote details and accept or negotiate with the artist.",
+      "button": "View & Accept Quote",
+      "urgency": "This quote expires on {validUntil}. Please respond soon to secure your booking.",
+      "footer": "Questions? Reply to this email or contact the artist directly through our platform."
+    },
+    "paymentConfirmation": {
+      "title": "Payment Confirmed",
+      "subtitle": "Your payment has been confirmed",
+      "amount": "Payment Amount:",
+      "type": "Payment Type:",
+      "method": "Payment Method:",
+      "reference": "Transaction Reference:",
+      "bookingDetails": "Booking Details:",
+      "nextSteps": "What's Next?",
+      "cta": "You can view your complete booking details and communicate with your artist using the link below.",
+      "button": "View Booking Details",
+      "footer": "Thank you for choosing Bright Ears! We look forward to making your event memorable."
+    },
+    "eventReminder": {
+      "title": "Event Reminder",
+      "subtitle": "Your event is coming up soon",
+      "eventDetails": "Event Details:",
+      "contactInfo": "Contact Information:",
+      "preparation": "Event Preparation:",
+      "cta": "View complete booking details and communicate with your",
+      "button": "View Booking Details",
+      "contact": "If you need to contact them, please use the platform messaging or call them directly.",
+      "footer": "We hope you have a wonderful event! Please don't hesitate to contact our support team if you need any assistance."
+    },
+    "bookingCompleted": {
+      "title": "Booking Completed",
+      "subtitle": "Your event has been completed",
+      "bookingDetails": "Completed Booking Details:",
+      "nextSteps": "What's Next?",
+      "review": "We'd love to hear about your experience! Please consider leaving a review.",
+      "earnings": "Your earnings from this booking have been credited to your account.",
+      "button": "Leave a Review",
+      "buttonArtist": "View Your Dashboard",
+      "future": "Future Opportunities",
+      "futureText": "Keep your availability updated to receive more booking opportunities.",
+      "futureCustomer": "Your Next Event",
+      "futureCustomerText": "Browse our platform for your next event - we have amazing artists ready to make your events memorable.",
+      "footer": "Thank you for being part of the Bright Ears community!"
+    }
+  }
+  },
   "categories": {
     "title": "Entertainment Categories",
     "quickSelect": "Quick Select",

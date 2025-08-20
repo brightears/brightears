@@ -19,8 +19,7 @@ const bookingSearchSchema = z.object({
 // Validation schema for booking updates
 const updateBookingSchema = z.object({
   status: z.enum(['INQUIRY', 'QUOTED', 'CONFIRMED', 'PAID', 'COMPLETED', 'CANCELLED']).optional(),
-  adminNotes: z.string().max(1000).optional(),
-  priority: z.enum(['LOW', 'NORMAL', 'HIGH', 'URGENT']).optional()
+  notes: z.string().max(1000).optional()
 })
 
 // GET - Get all bookings with filtering and pagination (Admin only)
@@ -86,13 +85,12 @@ export async function GET(request: NextRequest) {
           select: {
             id: true,
             stageName: true,
-            verificationStatus: true,
+            verificationLevel: true,
             user: {
               select: {
-                firstName: true,
-                lastName: true,
+                name: true,
                 email: true,
-                profileImage: true
+                image: true
               }
             }
           }
@@ -100,12 +98,12 @@ export async function GET(request: NextRequest) {
         customer: {
           select: {
             id: true,
+            firstName: true,
+            lastName: true,
             user: {
               select: {
-                firstName: true,
-                lastName: true,
                 email: true,
-                profileImage: true
+                image: true
               }
             }
           }
@@ -153,7 +151,8 @@ export async function GET(request: NextRequest) {
         bookingNumber: booking.bookingNumber,
         status: booking.status,
         eventDate: booking.eventDate,
-        eventLocation: booking.eventLocation,
+        venue: booking.venue,
+        venueAddress: booking.venueAddress,
         eventType: booking.eventType,
         createdAt: booking.createdAt,
         finalPrice: Number(booking.finalPrice || booking.quotedPrice || 0),
@@ -164,16 +163,16 @@ export async function GET(request: NextRequest) {
         artist: {
           id: booking.artist.id,
           stageName: booking.artist.stageName,
-          name: `${booking.artist.user.firstName} ${booking.artist.user.lastName}`,
+          name: booking.artist.user.name,
           email: booking.artist.user.email,
-          profileImage: booking.artist.user.profileImage,
-          verificationStatus: booking.artist.verificationStatus
+          profileImage: booking.artist.user.image,
+          verificationLevel: booking.artist.verificationLevel
         },
         customer: {
           id: booking.customer.id,
-          name: `${booking.customer.user.firstName} ${booking.customer.user.lastName}`,
+          name: `${booking.customer.firstName} ${booking.customer.lastName}`,
           email: booking.customer.user.email,
-          profileImage: booking.customer.user.profileImage
+          profileImage: booking.customer.user.image
         },
         
         // Engagement data
@@ -269,9 +268,9 @@ export async function PATCH(request: NextRequest) {
       where: { id: bookingId },
       data: {
         ...validatedData,
-        adminNotes: validatedData.adminNotes ? 
-          `${existingBooking.adminNotes || ''}\n[${new Date().toISOString()}] Admin: ${validatedData.adminNotes}`.trim() :
-          existingBooking.adminNotes
+        notes: validatedData.notes ? 
+          `${existingBooking.notes || ''}\n[${new Date().toISOString()}] Admin: ${validatedData.notes}`.trim() :
+          existingBooking.notes
       },
       include: {
         artist: true,

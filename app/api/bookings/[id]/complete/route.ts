@@ -153,6 +153,68 @@ export async function POST(
       }
     })
 
+    // Send completion emails to both customer and artist
+    try {
+      const { sendBookingCompletedEmail, getUserLocale, sendBulkEmails } = await import('@/lib/email-templates')
+      
+      // Format the event data for email
+      const formattedEventDate = new Date(booking.eventDate).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+
+      // Send emails to both parties
+      await sendBulkEmails([
+        // Customer email
+        async () => {
+          const customerLocale = await getUserLocale(booking.customerId)
+          const reviewUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/customer/bookings?review=${bookingId}`
+          
+          return sendBookingCompletedEmail({
+            to: booking.customer.email,
+            recipientName: booking.customer.name || 'Customer',
+            recipientType: 'customer',
+            artistName: booking.artist.stageName,
+            customerName: booking.customer.name || 'Customer',
+            eventType: booking.eventType,
+            eventDate: formattedEventDate,
+            bookingNumber: booking.bookingNumber,
+            finalPrice: totalPaid.toFixed(2),
+            currency: 'THB',
+            reviewUrl,
+            locale: customerLocale,
+          })
+        },
+        // Artist email
+        async () => {
+          const artistLocale = await getUserLocale(booking.artist.userId)
+          const dashboardUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/artist/bookings`
+          
+          return sendBookingCompletedEmail({
+            to: booking.artist.user.email,
+            recipientName: booking.artist.stageName,
+            recipientType: 'artist',
+            artistName: booking.artist.stageName,
+            customerName: booking.customer.name || 'Customer',
+            eventType: booking.eventType,
+            eventDate: formattedEventDate,
+            bookingNumber: booking.bookingNumber,
+            finalPrice: totalPaid.toFixed(2),
+            currency: 'THB',
+            reviewUrl: dashboardUrl,
+            locale: artistLocale,
+          })
+        }
+      ])
+      
+      console.log('Booking completion emails sent to both customer and artist')
+    } catch (emailError) {
+      console.error('Failed to send booking completion emails:', emailError)
+      // Don't fail the completion if email fails
+    }
+
     return NextResponse.json({
       success: true,
       booking: {

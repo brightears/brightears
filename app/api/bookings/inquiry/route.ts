@@ -93,15 +93,34 @@ export async function POST(request: NextRequest) {
       // Don't fail the inquiry if tracking fails
     }
 
-    // Create notification for the artist
-    const artistUser = await prisma.user.findFirst({
-      where: {
-        artist: {
-          id: artistId
+    // Get artist and customer details for notifications and emails
+    const [artistUser, customerUser] = await Promise.all([
+      prisma.user.findFirst({
+        where: {
+          artist: {
+            id: artistId
+          }
+        },
+        select: { 
+          id: true, 
+          email: true,
+          customer: {
+            select: { preferredLanguage: true }
+          }
         }
-      },
-      select: { id: true }
-    })
+      }),
+      prisma.user.findUnique({
+        where: { id: userId },
+        select: { 
+          id: true, 
+          name: true, 
+          email: true,
+          customer: {
+            select: { preferredLanguage: true }
+          }
+        }
+      })
+    ])
 
     if (artistUser) {
       // Create detailed notification content
@@ -120,6 +139,7 @@ export async function POST(request: NextRequest) {
         contactMethod && `Contact via: ${contactMethod}`
       ].filter(Boolean).join('\n')
 
+      // Create in-app notification
       await prisma.notification.create({
         data: {
           userId: artistUser.id,
@@ -132,6 +152,33 @@ export async function POST(request: NextRequest) {
           relatedType: 'booking_inquiry'
         }
       })
+
+      // Send email notification to artist
+      try {
+        const { sendBookingInquiryEmail, getUserLocale } = await import('@/lib/email-templates')
+        
+        const artistLocale = await getUserLocale(artistUser.id)
+        const bookingUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/artist/bookings`
+        
+        await sendBookingInquiryEmail({
+          to: artistUser.email,
+          artistName: artist.stageName,
+          customerName: customerUser?.name || 'Anonymous',
+          eventType,
+          eventDate: eventDateStr,
+          location,
+          duration: duration ? `${duration} hours` : undefined,
+          additionalInfo,
+          contactMethod,
+          bookingUrl,
+          locale: artistLocale,
+        })
+        
+        console.log('Booking inquiry email sent to artist:', artistUser.email)
+      } catch (emailError) {
+        console.error('Failed to send booking inquiry email:', emailError)
+        // Don't fail the inquiry if email fails
+      }
     }
 
     // Return success response with inquiry details

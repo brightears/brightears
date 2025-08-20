@@ -176,6 +176,48 @@ export async function PATCH(request: NextRequest) {
       }
     })
 
+    // Send email notification for verified payments
+    if (status === 'verified') {
+      try {
+        const { sendPaymentConfirmationEmail, getUserLocale } = await import('@/lib/email-templates')
+        
+        const customerLocale = await getUserLocale(payment.booking.customerId)
+        const bookingUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/customer/bookings`
+        
+        // Format the event data for email
+        const formattedEventDate = new Date(payment.booking.eventDate).toLocaleDateString(
+          customerLocale === 'th' ? 'th-TH' : 'en-US',
+          {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          }
+        )
+
+        await sendPaymentConfirmationEmail({
+          to: payment.booking.customer.email,
+          customerName: payment.booking.customer.name || 'Customer',
+          artistName: payment.booking.artist.stageName,
+          bookingNumber: payment.booking.bookingNumber,
+          eventType: payment.booking.eventType,
+          eventDate: formattedEventDate,
+          paymentAmount: Number(updatedPayment.amount).toFixed(2),
+          currency: updatedPayment.currency,
+          paymentType: payment.paymentType as 'deposit' | 'full' | 'remaining',
+          paymentMethod: updatedPayment.paymentMethod,
+          transactionRef: updatedPayment.transactionRef || undefined,
+          bookingUrl,
+          locale: customerLocale,
+        })
+        
+        console.log('Payment confirmation email sent to customer:', payment.booking.customer.email)
+      } catch (emailError) {
+        console.error('Failed to send payment confirmation email:', emailError)
+        // Don't fail the payment verification if email fails
+      }
+    }
+
     return NextResponse.json({
       payment: {
         id: updatedPayment.id,
