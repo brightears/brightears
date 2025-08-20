@@ -215,7 +215,9 @@ export async function POST(request: NextRequest) {
           userId: newUser.id,
           stageName: name,
           category: 'DJ',
-          verificationLevel: 'UNVERIFIED'
+          baseCity: 'Bangkok',
+          serviceAreas: ['Bangkok'],
+          genres: []
         }
       })
     } else if (role === 'CUSTOMER') {

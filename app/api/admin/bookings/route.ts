@@ -57,9 +57,8 @@ export async function GET(request: NextRequest) {
       where.OR = [
         { bookingNumber: { contains: search, mode: 'insensitive' } },
         { artist: { stageName: { contains: search, mode: 'insensitive' } } },
-        { customer: { user: { email: { contains: search, mode: 'insensitive' } } } },
-        { customer: { user: { firstName: { contains: search, mode: 'insensitive' } } } },
-        { customer: { user: { lastName: { contains: search, mode: 'insensitive' } } } }
+        { customer: { email: { contains: search, mode: 'insensitive' } } },
+        { customer: { name: { contains: search, mode: 'insensitive' } } }
       ]
     }
     
@@ -82,12 +81,10 @@ export async function GET(request: NextRequest) {
       where,
       include: {
         artist: {
-          select: {
-            id: true,
-            stageName: true,
-            verificationLevel: true,
+          include: {
             user: {
               select: {
+                id: true,
                 name: true,
                 email: true,
                 image: true
@@ -96,14 +93,11 @@ export async function GET(request: NextRequest) {
           }
         },
         customer: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            user: {
+          include: {
+            customer: {
               select: {
-                email: true,
-                image: true
+                firstName: true,
+                lastName: true
               }
             }
           }
@@ -170,9 +164,11 @@ export async function GET(request: NextRequest) {
         },
         customer: {
           id: booking.customer.id,
-          name: `${booking.customer.firstName} ${booking.customer.lastName}`,
-          email: booking.customer.user.email,
-          profileImage: booking.customer.user.image
+          name: booking.customer.customer ? 
+            `${booking.customer.customer.firstName || ''} ${booking.customer.customer.lastName || ''}`.trim() || booking.customer.name || 'Unknown' 
+            : booking.customer.name || 'Unknown',
+          email: booking.customer.email,
+          profileImage: booking.customer.image
         },
         
         // Engagement data
@@ -283,7 +279,7 @@ export async function PATCH(request: NextRequest) {
       // Notify customer
       await prisma.notification.create({
         data: {
-          userId: existingBooking.customer.userId,
+          userId: existingBooking.customerId,
           type: 'booking_status_changed',
           title: 'Booking Status Updated',
           titleTh: 'สถานะการจองได้รับการอัพเดท',

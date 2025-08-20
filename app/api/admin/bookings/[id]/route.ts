@@ -42,15 +42,12 @@ export async function GET(
         },
         customer: {
           include: {
-            user: {
+            customer: {
               select: {
-                id: true,
-                name: true,
-                email: true,
-                image: true,
-                createdAt: true,
-                lastLogin: true,
-                isActive: true
+                firstName: true,
+                lastName: true,
+                preferredLanguage: true,
+                location: true
               }
             }
           }
@@ -72,10 +69,6 @@ export async function GET(
               }
             }
           }
-        },
-        notifications: {
-          orderBy: { createdAt: 'desc' },
-          take: 10
         }
       }
     })
@@ -88,10 +81,13 @@ export async function GET(
     }
 
     // Calculate payment summary
+    const totalPaid = booking.payments
+      .filter(p => p.status === 'verified')
+      .reduce((sum, p) => sum + Number(p.amount), 0)
+    const totalAmount = Number(booking.finalPrice || booking.quotedPrice || 0)
+    
     const paymentSummary = {
-      totalPaid: booking.payments
-        .filter(p => p.status === 'verified')
-        .reduce((sum, p) => sum + Number(p.amount), 0),
+      totalPaid,
       totalPending: booking.payments
         .filter(p => p.status === 'pending')
         .reduce((sum, p) => sum + Number(p.amount), 0),
@@ -100,11 +96,9 @@ export async function GET(
         .reduce((sum, p) => sum + Number(p.amount), 0),
       paymentCount: booking.payments.length,
       hasDeposit: booking.payments.some(p => p.paymentType === 'deposit' && p.status === 'verified'),
-      lastPaymentDate: booking.payments[0]?.createdAt || null
+      lastPaymentDate: booking.payments[0]?.createdAt || null,
+      remainingAmount: Math.max(0, totalAmount - totalPaid)
     }
-
-    const totalAmount = Number(booking.finalPrice || booking.quotedPrice || 0)
-    paymentSummary.remainingAmount = Math.max(0, totalAmount - paymentSummary.totalPaid)
 
     // Get quote summary
     const quoteSummary = {
@@ -163,8 +157,10 @@ export async function GET(
       
       customer: {
         ...booking.customer,
-        firstName: booking.customer.firstName,
-        lastName: booking.customer.lastName
+        firstName: booking.customer.customer?.firstName || null,
+        lastName: booking.customer.customer?.lastName || null,
+        preferredLanguage: booking.customer.customer?.preferredLanguage || 'en',
+        location: booking.customer.customer?.location || null
       },
       
       payments: booking.payments.map(payment => ({
@@ -262,7 +258,7 @@ export async function POST(
         await Promise.all([
           prisma.notification.create({
             data: {
-              userId: booking.customer.userId,
+              userId: booking.customer.id,
               type: 'booking_cancelled',
               title: 'Booking Cancelled by Admin',
               titleTh: 'การจองถูกยกเลิกโดยผู้ดูแลระบบ',
@@ -323,7 +319,7 @@ export async function POST(
         // Notify customer
         await prisma.notification.create({
           data: {
-            userId: booking.customer.userId,
+            userId: booking.customer.id,
             type: 'refund_processed',
             title: 'Refund Processed',
             titleTh: 'การคืนเงินได้รับการดำเนินการ',
@@ -377,7 +373,7 @@ export async function POST(
         await Promise.all([
           prisma.notification.create({
             data: {
-              userId: booking.customer.userId,
+              userId: booking.customer.id,
               type: 'dispute_resolved',
               title: 'Dispute Resolved',
               titleTh: 'ข้อพิพาทได้รับการแก้ไข',

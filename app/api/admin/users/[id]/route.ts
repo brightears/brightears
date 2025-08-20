@@ -44,25 +44,8 @@ export async function GET(
             }
           }
         },
-        customer: {
-          include: {
-            _count: {
-              select: {
-                bookings: true,
-                reviews: true
-              }
-            }
-          }
-        },
-        corporate: {
-          include: {
-            _count: {
-              select: {
-                bookings: true
-              }
-            }
-          }
-        }
+        customer: true,
+        corporate: true
       }
     })
 
@@ -95,9 +78,13 @@ export async function GET(
           }
         },
         customer: {
-          select: {
-            firstName: true,
-            lastName: true
+          include: {
+            customer: {
+              select: {
+                firstName: true,
+                lastName: true
+              }
+            }
           }
         }
       }
@@ -126,13 +113,10 @@ export async function GET(
         customer: targetUser.customer ? {
           ...targetUser.customer,
           firstName: targetUser.customer.firstName,
-          lastName: targetUser.customer.lastName,
-          bookingsCount: targetUser.customer._count.bookings,
-          reviewsCount: targetUser.customer._count.reviews
+          lastName: targetUser.customer.lastName
         } : null,
         corporate: targetUser.corporate ? {
-          ...targetUser.corporate,
-          bookingsCount: targetUser.corporate._count.bookings
+          ...targetUser.corporate
         } : null
       },
       recentActivity: {
@@ -235,7 +219,9 @@ export async function PATCH(
             userId: userId,
             stageName: `${updateData.name || existingUser.name}`,
             category: 'DJ',
-            verificationLevel: 'UNVERIFIED'
+            baseCity: 'Bangkok',
+            serviceAreas: ['Bangkok'],
+            genres: []
           }
         })
       } else if (updateData.role === 'CUSTOMER') {

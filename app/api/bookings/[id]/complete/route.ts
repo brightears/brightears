@@ -25,7 +25,11 @@ export async function POST(
       where: { id: bookingId },
       include: {
         customer: true,
-        artist: true,
+        artist: {
+          include: {
+            user: true
+          }
+        },
         payments: {
           where: { status: 'verified' },
           orderBy: { createdAt: 'asc' }
