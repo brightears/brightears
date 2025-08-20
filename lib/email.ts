@@ -2,8 +2,8 @@ import { Resend } from 'resend'
 import { render } from '@react-email/render'
 import { ReactElement } from 'react'
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Initialize Resend (only if API key is available)
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
 // Email configuration
 const EMAIL_CONFIG = {
@@ -62,6 +62,29 @@ export interface EmailLog {
  * Send an email with retry logic
  */
 export async function sendEmail(emailData: EmailData): Promise<EmailResult> {
+  // Check if Resend is configured
+  if (!resend) {
+    const error = 'Email service not configured - missing RESEND_API_KEY'
+    console.warn(error)
+    
+    // Log failed email attempt
+    await logEmail({
+      to: Array.isArray(emailData.to) ? emailData.to : [emailData.to],
+      subject: emailData.subject,
+      template: 'unknown',
+      locale: 'en',
+      status: 'failed',
+      error,
+      retryCount: 0,
+    })
+    
+    return {
+      success: false,
+      error,
+      retryCount: 0,
+    }
+  }
+
   let lastError: string = ''
   
   for (let attempt = 0; attempt <= EMAIL_CONFIG.maxRetries; attempt++) {
