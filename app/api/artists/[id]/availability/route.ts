@@ -111,7 +111,7 @@ export async function GET(
         date: true,
         startTime: true,
         endTime: true,
-        isAvailable: true,
+        status: true,
         isBooked: false // Don't expose booking status details
       },
       orderBy: { date: 'asc' }

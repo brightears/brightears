@@ -44,7 +44,7 @@ export async function GET(
         availability: {
           where: {
             date: { gte: new Date() },
-            isAvailable: true,
+            status: 'AVAILABLE',
             isBooked: false
           },
           orderBy: { date: 'asc' },

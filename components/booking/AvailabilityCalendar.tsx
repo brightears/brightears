@@ -8,7 +8,11 @@ interface AvailabilitySlot {
   date: Date
   startTime: Date
   endTime: Date
-  isAvailable: boolean
+  status: 'AVAILABLE' | 'UNAVAILABLE' | 'TENTATIVE' | 'BOOKED' | 'TRAVEL_TIME'
+  isBooked: boolean
+  priceMultiplier?: number
+  bufferBefore: number
+  bufferAfter: number
 }
 
 interface AvailabilityCalendarProps {
@@ -66,7 +70,11 @@ export default function AvailabilityCalendar({
           date: new Date(slot.date),
           startTime: new Date(slot.startTime),
           endTime: new Date(slot.endTime),
-          isAvailable: slot.isAvailable
+          status: slot.status,
+          isBooked: slot.isBooked,
+          priceMultiplier: slot.priceMultiplier,
+          bufferBefore: slot.bufferBefore,
+          bufferAfter: slot.bufferAfter
         })
       })
       
@@ -108,7 +116,7 @@ export default function AvailabilityCalendar({
     const dateKey = date.toISOString().split('T')[0]
     const slots = availability[dateKey]
     
-    return slots && slots.length > 0 && slots.some(slot => slot.isAvailable)
+    return slots && slots.length > 0 && slots.some(slot => slot.status === 'AVAILABLE' && !slot.isBooked)
   }
 
   const isDateInPast = (date: Date | null) => {
@@ -272,8 +280,12 @@ export default function AvailabilityCalendar({
               <span className="text-dark-gray/70">Available</span>
             </div>
             <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-yellow-300 rounded-full"></div>
+              <span className="text-dark-gray/70">Tentative</span>
+            </div>
+            <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-              <span className="text-dark-gray/70">Not Available</span>
+              <span className="text-dark-gray/70">Unavailable</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-gray-200 rounded-full"></div>
@@ -287,11 +299,20 @@ export default function AvailabilityCalendar({
               <h4 className="font-medium text-dark-gray mb-2">
                 Available Times - {new Date(selectedDate).toLocaleDateString(locale === 'th' ? 'th-TH' : 'en-US')}
               </h4>
-              <div className="space-y-1">
-                {availability[selectedDate].map((slot, index) => (
-                  <div key={index} className="text-sm text-dark-gray/70">
-                    {slot.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {' '}
-                    {slot.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              <div className="space-y-2">
+                {availability[selectedDate]
+                  .filter(slot => slot.status === 'AVAILABLE' && !slot.isBooked)
+                  .map((slot, index) => (
+                  <div key={index} className="flex items-center justify-between text-sm">
+                    <span className="text-dark-gray">
+                      {slot.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {' '}
+                      {slot.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                    {slot.priceMultiplier && slot.priceMultiplier !== 1.0 && (
+                      <span className="text-xs bg-brand-cyan text-white px-2 py-1 rounded">
+                        ×{slot.priceMultiplier}
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>
