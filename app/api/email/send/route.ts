@@ -225,12 +225,12 @@ async function previewEmailTemplate(emailType: string, templateData: any) {
   const { render } = await import('@react-email/render')
   
   try {
-    let component
+    let emailComponent: React.JSX.Element
     
     switch (emailType) {
-      case 'booking_inquiry':
+      case 'booking_inquiry': {
         const { default: BookingInquiryEmail } = await import('@/components/email/BookingInquiryEmail')
-        component = BookingInquiryEmail({
+        emailComponent = BookingInquiryEmail({
           artistName: templateData.artistName || 'Test Artist',
           customerName: templateData.customerName || 'Test Customer',
           eventType: templateData.eventType || 'Wedding Performance',
@@ -241,12 +241,13 @@ async function previewEmailTemplate(emailType: string, templateData: any) {
           contactMethod: templateData.contactMethod || 'Email',
           bookingUrl: generateDashboardUrl('ARTIST'),
           locale: templateData.locale || 'en'
-        })
+        }) as React.JSX.Element
         break
+      }
 
-      case 'booking_confirmed':
+      case 'booking_confirmed': {
         const { default: BookingConfirmedEmail } = await import('@/components/email/BookingConfirmedEmail')
-        component = BookingConfirmedEmail({
+        emailComponent = BookingConfirmedEmail({
           customerName: templateData.customerName || 'Test Customer',
           artistName: templateData.artistName || 'Test Artist',
           bookingNumber: templateData.bookingNumber || 'BK-2024-001',
@@ -263,15 +264,98 @@ async function previewEmailTemplate(emailType: string, templateData: any) {
           guestCount: templateData.guestCount || 100,
           dashboardUrl: generateDashboardUrl('CUSTOMER'),
           locale: templateData.locale || 'en'
-        })
+        }) as React.JSX.Element
         break
+      }
+
+      case 'quote_received': {
+        const { default: QuoteReceivedEmail } = await import('@/components/email/QuoteReceivedEmail')
+        emailComponent = QuoteReceivedEmail({
+          customerName: templateData.customerName || 'Test Customer',
+          artistName: templateData.artistName || 'Test Artist',
+          eventType: templateData.eventType || 'Wedding Performance',
+          eventDate: templateData.eventDate || '2024-06-15',
+          quotedPrice: templateData.quotedPrice || '25000',
+          currency: templateData.currency || 'THB',
+          depositAmount: templateData.depositAmount || '10000',
+          inclusions: templateData.inclusions || ['Sound system', 'DJ equipment', '4-hour performance'],
+          exclusions: templateData.exclusions || ['Transportation', 'Accommodation'],
+          notes: templateData.notes || 'Looking forward to performing at your wedding!',
+          validUntil: templateData.validUntil || '2024-05-15',
+          quoteUrl: generateDashboardUrl('CUSTOMER'),
+          locale: templateData.locale || 'en'
+        }) as React.JSX.Element
+        break
+      }
+
+      case 'payment_confirmed': {
+        const { default: PaymentConfirmationEmail } = await import('@/components/email/PaymentConfirmationEmail')
+        emailComponent = PaymentConfirmationEmail({
+          customerName: templateData.customerName || 'Test Customer',
+          artistName: templateData.artistName || 'Test Artist',
+          bookingNumber: templateData.bookingNumber || 'BK-2024-001',
+          eventType: templateData.eventType || 'Wedding Performance',
+          eventDate: templateData.eventDate || '2024-06-15',
+          paymentAmount: templateData.paymentAmount || '10000',
+          currency: templateData.currency || 'THB',
+          paymentType: templateData.paymentType || 'deposit',
+          paymentMethod: templateData.paymentMethod || 'PromptPay',
+          transactionRef: templateData.transactionRef || 'TXN-123456',
+          bookingUrl: generateDashboardUrl('CUSTOMER'),
+          locale: templateData.locale || 'en'
+        }) as React.JSX.Element
+        break
+      }
+
+      case 'event_reminder': {
+        const { default: EventReminderEmail } = await import('@/components/email/EventReminderEmail')
+        emailComponent = EventReminderEmail({
+          recipientName: templateData.recipientName || 'Test User',
+          recipientType: templateData.recipientType || 'customer',
+          artistName: templateData.artistName || 'Test Artist',
+          customerName: templateData.customerName || 'Test Customer',
+          eventType: templateData.eventType || 'Wedding Performance',
+          eventDate: templateData.eventDate || '2024-06-15',
+          eventTime: templateData.eventTime || '19:00',
+          venue: templateData.venue || 'Grand Ballroom',
+          venueAddress: templateData.venueAddress || '123 Bangkok Street, Bangkok',
+          duration: templateData.duration || '4 hours',
+          finalPrice: templateData.finalPrice || '25000',
+          currency: templateData.currency || 'THB',
+          specialRequests: templateData.specialRequests,
+          bookingUrl: generateDashboardUrl('CUSTOMER'),
+          locale: templateData.locale || 'en'
+        }) as React.JSX.Element
+        break
+      }
+
+      case 'cancellation_notice': {
+        const { default: CancellationNoticeEmail } = await import('@/components/email/CancellationNoticeEmail')
+        emailComponent = CancellationNoticeEmail({
+          recipientName: templateData.recipientName || 'Test User',
+          senderName: templateData.senderName || 'Admin',
+          senderRole: templateData.senderRole || 'admin',
+          bookingNumber: templateData.bookingNumber || 'BK-2024-001',
+          eventType: templateData.eventType || 'Wedding Performance',
+          eventDate: templateData.eventDate || '2024-06-15',
+          venue: templateData.venue || 'Grand Ballroom',
+          cancellationReason: templateData.cancellationReason || 'Customer request',
+          refundAmount: templateData.refundAmount || 10000,
+          currency: templateData.currency || 'THB',
+          refundTimeline: templateData.refundTimeline || '3-5 business days',
+          dashboardUrl: generateDashboardUrl('CUSTOMER'),
+          supportUrl: generateSupportUrl(),
+          locale: templateData.locale || 'en'
+        }) as React.JSX.Element
+        break
+      }
 
       default:
         throw new Error(`Preview not implemented for email type: ${emailType}`)
     }
 
-    const html = render(component)
-    const text = render(component, { plainText: true })
+    const html = render(emailComponent)
+    const text = render(emailComponent, { plainText: true })
 
     return {
       emailType,
