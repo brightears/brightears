@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
       // Engagement metrics
       totalMessages,
       totalNotifications,
-      averageResponseTime
+      readMessages
     ] = await Promise.all([
       // User metrics
       prisma.user.count(),
@@ -159,10 +159,11 @@ export async function GET(request: NextRequest) {
       prisma.notification.count({
         where: Object.keys(dateFilter).length > 0 ? { createdAt: dateFilter } : {}
       }),
-      // Average response time calculation (simplified)
-      prisma.message.aggregate({
-        _avg: {
-          createdAt: true
+      // Count of read messages for engagement metrics
+      prisma.message.count({
+        where: {
+          isRead: true,
+          ...(Object.keys(dateFilter).length > 0 ? { createdAt: dateFilter } : {})
         }
       })
     ])
@@ -227,8 +228,13 @@ export async function GET(request: NextRequest) {
         },
         customer: {
           select: {
-            firstName: true,
-            lastName: true
+            name: true,
+            customer: {
+              select: {
+                firstName: true,
+                lastName: true
+              }
+            }
           }
         }
       }
@@ -318,14 +324,18 @@ export async function GET(request: NextRequest) {
         eventDate: booking.eventDate,
         createdAt: booking.createdAt,
         artistName: booking.artist.stageName,
-        customerName: `${booking.customer.firstName} ${booking.customer.lastName}`
+        customerName: booking.customer.customer?.firstName && booking.customer.customer?.lastName 
+          ? `${booking.customer.customer.firstName} ${booking.customer.customer.lastName}`
+          : booking.customer.name || 'Unknown Customer'
       })),
       
       // Platform health
       platformHealth: {
         totalMessages,
+        readMessages,
         totalNotifications,
         totalPayments,
+        messageReadRate: totalMessages > 0 ? (readMessages / totalMessages) * 100 : 0,
         conversionRate: totalUsers > 0 ? (completedBookings / totalUsers) * 100 : 0,
         averageBookingValue: completedBookings > 0 ? Number(totalRevenue._sum.amount || 0) / completedBookings : 0
       }
