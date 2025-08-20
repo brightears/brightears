@@ -132,8 +132,8 @@ class EmailLogger {
   /**
    * Map internal status to database enum
    */
-  private mapStatusToDb(status: string): string {
-    const statusMap: Record<string, string> = {
+  private mapStatusToDb(status: string): 'SENT' | 'FAILED' | 'QUEUED' | 'SENDING' {
+    const statusMap: Record<string, 'SENT' | 'FAILED' | 'QUEUED' | 'SENDING'> = {
       'sent': 'SENT',
       'failed': 'FAILED',
       'queued': 'QUEUED',
