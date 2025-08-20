@@ -194,10 +194,10 @@ export async function sendBookingInquiryEmail(data: BookingInquiryEmailData): Pr
       contactMethod: data.contactMethod,
       bookingUrl: data.bookingUrl,
       locale,
-    })
+    }) as React.JSX.Element
 
-    const html = render(emailComponent)
-    const text = render(emailComponent, { plainText: true })
+    const html = await render(emailComponent)
+    const text = await render(emailComponent, { plainText: true })
 
     return await sendEmail({
       to: data.to,
@@ -228,9 +228,9 @@ export async function sendQuoteReceivedEmail(data: QuoteReceivedEmailData): Prom
       eventType: data.eventType
     })
 
-    const emailComponent = QuoteReceivedEmail(data)
-    const html = render(emailComponent)
-    const text = render(emailComponent, { plainText: true })
+    const emailComponent = QuoteReceivedEmail(data) as React.JSX.Element
+    const html = await render(emailComponent)
+    const text = await render(emailComponent, { plainText: true })
 
     return await sendEmail({
       to: data.to,
@@ -259,9 +259,9 @@ export async function sendQuoteAcceptedEmail(data: QuoteAcceptedEmailData): Prom
     const locale = data.locale || 'en'
     const subject = getLocalizedSubject('quote_accepted', locale)
 
-    const emailComponent = QuoteAcceptedEmail(data)
-    const html = render(emailComponent)
-    const text = render(emailComponent, { plainText: true })
+    const emailComponent = QuoteAcceptedEmail(data) as React.JSX.Element
+    const html = await render(emailComponent)
+    const text = await render(emailComponent, { plainText: true })
 
     return await sendEmail({
       to: data.to,
@@ -292,9 +292,9 @@ export async function sendPaymentConfirmationEmail(data: PaymentConfirmationEmai
       bookingNumber: data.bookingNumber
     })
 
-    const emailComponent = PaymentConfirmationEmail(data)
-    const html = render(emailComponent)
-    const text = render(emailComponent, { plainText: true })
+    const emailComponent = PaymentConfirmationEmail(data) as React.JSX.Element
+    const html = await render(emailComponent)
+    const text = await render(emailComponent, { plainText: true })
 
     return await sendEmail({
       to: data.to,
@@ -326,9 +326,9 @@ export async function sendEventReminderEmail(data: EventReminderEmailData): Prom
       eventType: data.eventType
     })
 
-    const emailComponent = EventReminderEmail(data)
-    const html = render(emailComponent)
-    const text = render(emailComponent, { plainText: true })
+    const emailComponent = EventReminderEmail(data) as React.JSX.Element
+    const html = await render(emailComponent)
+    const text = await render(emailComponent, { plainText: true })
 
     return await sendEmail({
       to: data.to,
@@ -358,9 +358,9 @@ export async function sendBookingCompletedEmail(data: BookingCompletedEmailData)
     const locale = data.locale || 'en'
     const subject = getLocalizedSubject('booking_completed', locale)
 
-    const emailComponent = BookingCompletedEmail(data)
-    const html = render(emailComponent)
-    const text = render(emailComponent, { plainText: true })
+    const emailComponent = BookingCompletedEmail(data) as React.JSX.Element
+    const html = await render(emailComponent)
+    const text = await render(emailComponent, { plainText: true })
 
     return await sendEmail({
       to: data.to,
@@ -437,10 +437,10 @@ export async function sendBookingConfirmedEmail(data: BookingConfirmedEmailData)
       artistContact: data.artistContact,
       dashboardUrl: data.dashboardUrl,
       locale,
-    })
+    }) as React.JSX.Element
 
-    const html = render(emailComponent)
-    const text = render(emailComponent, { plainText: true })
+    const html = await render(emailComponent)
+    const text = await render(emailComponent, { plainText: true })
 
     return await sendEmail({
       to: data.to,
@@ -487,10 +487,10 @@ export async function sendCancellationNoticeEmail(data: CancellationNoticeEmailD
       dashboardUrl: data.dashboardUrl,
       supportUrl: data.supportUrl,
       locale,
-    })
+    }) as React.JSX.Element
 
-    const html = render(emailComponent)
-    const text = render(emailComponent, { plainText: true })
+    const html = await render(emailComponent)
+    const text = await render(emailComponent, { plainText: true })
 
     return await sendEmail({
       to: data.to,
