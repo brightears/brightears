@@ -19,6 +19,16 @@ This directory contains specialized AI agents that can be called upon to handle 
 - **Color**: Blue
 - **Expertise**: React, TypeScript, Tailwind CSS, mobile-first design, accessibility
 
+### **nextjs-pro.md** - Next.js Specialist ⭐ **NEW**
+- **Use for**: Next.js 15+ optimization, App Router, SSR/SSG/ISR, performance tuning
+- **Color**: Blue
+- **Expertise**: Advanced Next.js, React Server Components, SEO optimization, full-stack development
+
+### **react-pro.md** - React Specialist ⭐ **NEW**
+- **Use for**: Advanced React patterns, component architecture, performance optimization, state management
+- **Color**: Blue
+- **Expertise**: Modern React hooks, memoization, testing, composition patterns
+
 ### **devops-automator.md** - Infrastructure & Deployment Expert
 - **Use for**: CI/CD pipelines, cloud infrastructure, monitoring, deployment automation
 - **Color**: Orange
@@ -58,6 +68,16 @@ This directory contains specialized AI agents that can be called upon to handle 
 - **Use for**: Database schema design, query optimization, data modeling
 - **Expertise**: PostgreSQL, MongoDB, database performance, data relationships
 
+### **postgresql-pro.md** - PostgreSQL Specialist ⭐ **NEW**
+- **Use for**: Advanced PostgreSQL optimization, query tuning, Pglite integration, performance analysis
+- **Color**: Green
+- **Expertise**: PostgreSQL mastery, query optimization, JSONB, PostGIS, browser databases
+
+### **performance-engineer.md** - Performance Optimization ⭐ **NEW**
+- **Use for**: Performance strategy, bottleneck analysis, load testing, capacity planning
+- **Color**: Red
+- **Expertise**: Full-stack performance tuning, monitoring, scalability architecture
+
 ### **marketplace-architect.md** - Platform Strategy & Design
 - **Use for**: Multi-sided platform strategy, marketplace mechanics, business model design
 - **Expertise**: Two-sided markets, network effects, platform monetization
@@ -76,11 +96,21 @@ This directory contains specialized AI agents that can be called upon to handle 
 - **Use for**: Booking workflows, quote systems, availability management, booking optimization
 - **Expertise**: Booking lifecycle, artist-customer flows, payment processing
 
-## 🛡️ **Security & Compliance**
+## 🛡️ **Security & Quality Assurance**
 
 ### **anti-spam-guardian.md** - Security & Fraud Prevention
 - **Use for**: Spam detection, fraud prevention, security implementation
 - **Expertise**: Security protocols, fraud detection, spam filtering
+
+### **security-auditor.md** - Application Security Expert ⭐ **NEW**
+- **Use for**: Security audits, penetration testing, vulnerability assessment, compliance checks
+- **Color**: Red
+- **Expertise**: OWASP, threat modeling, secure code review, authentication analysis
+
+### **code-reviewer-pro.md** - Code Quality Specialist ⭐ **NEW**
+- **Use for**: Comprehensive code reviews, quality assessment, mentoring, best practices
+- **Color**: Purple
+- **Expertise**: Code quality, security review, performance analysis, educational feedback
 
 ## 🔗 **Integration & API**
 
@@ -117,13 +147,21 @@ Use the `Task` tool with the appropriate `subagent_type` when you need:
 
 ## 📊 **Agent Collection Summary**
 
-**Total Agents**: 17 specialized agents
-- **Engineering**: 5 agents (AI, Backend, Frontend, DevOps, Testing)
+**Total Agents**: 23 specialized agents ⭐ **6 NEW AGENTS ADDED**
+- **Engineering**: 7 agents (AI, Backend, Frontend, Next.js Pro, React Pro, DevOps, Testing)
 - **Design**: 1 agent (UI Design)
 - **Marketing**: 3 agents (Growth, Content, SEO)
-- **Architecture**: 3 agents (Database, Marketplace, User Journey)
+- **Architecture**: 5 agents (Database, PostgreSQL Pro, Performance Engineer, Marketplace, User Journey)
 - **Specialized**: 2 agents (Thai Market, Booking Flow)
-- **Security**: 1 agent (Anti-Spam)
+- **Security & Quality**: 3 agents (Anti-Spam, Security Auditor, Code Reviewer Pro)
 - **Integration**: 2 agents (API Integration, Web Management)
+
+### ⭐ **New High-Value Agents from lst97 Repository**
+- **nextjs-pro** - Next.js 15+ specialist for your platform stack
+- **react-pro** - Advanced React patterns and performance optimization  
+- **postgresql-pro** - PostgreSQL expert for database optimization (you're using PostgreSQL)
+- **performance-engineer** - Full-stack performance optimization for your live platform
+- **security-auditor** - Critical for booking/payment platform security
+- **code-reviewer-pro** - Maintain code quality as your codebase grows
 
 This comprehensive library provides specialized expertise for every aspect of the Bright Ears platform development and growth strategy.
