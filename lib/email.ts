@@ -173,24 +173,165 @@ export async function getUserEmailPreferences(userId: string) {
     
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: {
-        email: true,
-        emailVerified: true,
-        // You could add email preferences fields to the User model
-        // emailNotifications: true,
-        // marketingEmails: true,
+      include: {
+        customer: {
+          select: {
+            preferredLanguage: true
+          }
+        },
+        artist: {
+          select: {
+            languages: true
+          }
+        }
       }
     })
 
+    if (!user) return null
+
+    // Determine user's preferred language
+    let preferredLanguage = 'en'
+    if (user.customer?.preferredLanguage) {
+      preferredLanguage = user.customer.preferredLanguage
+    } else if (user.artist?.languages?.includes('th')) {
+      preferredLanguage = 'th'
+    }
+
     return {
-      email: user?.email,
-      emailVerified: !!user?.emailVerified,
-      emailNotifications: true, // Default to true, could be user preference
-      marketingEmails: false, // Default to false for compliance
+      email: user.email,
+      emailVerified: !!user.emailVerified,
+      preferredLanguage: preferredLanguage as 'en' | 'th',
+      // Default email preferences - in production these could be stored in the database
+      emailNotifications: true, // Booking updates, quotes, etc.
+      marketingEmails: false, // Promotional emails (GDPR compliance)
+      eventReminders: true, // Event reminder notifications
+      systemNotifications: true, // Important system updates
+      // Artist-specific preferences
+      bookingInquiries: user.role === 'ARTIST' ? true : false,
+      quoteRequests: user.role === 'ARTIST' ? true : false,
+      // Customer-specific preferences  
+      quoteUpdates: user.role === 'CUSTOMER' ? true : false,
+      paymentConfirmations: user.role === 'CUSTOMER' ? true : false,
     }
   } catch (error) {
     console.error('Failed to get user email preferences:', error)
     return null
+  }
+}
+
+/**
+ * Update user email preferences
+ */
+export async function updateUserEmailPreferences(
+  userId: string, 
+  preferences: {
+    emailNotifications?: boolean
+    marketingEmails?: boolean
+    eventReminders?: boolean
+    systemNotifications?: boolean
+    bookingInquiries?: boolean
+    quoteRequests?: boolean
+    quoteUpdates?: boolean
+    paymentConfirmations?: boolean
+    preferredLanguage?: 'en' | 'th'
+  }
+) {
+  try {
+    const { prisma } = await import('./prisma')
+    
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        customer: true,
+        artist: true
+      }
+    })
+
+    if (!user) {
+      throw new Error('User not found')
+    }
+
+    // Update language preference based on user type
+    if (preferences.preferredLanguage) {
+      if (user.customer) {
+        await prisma.customer.update({
+          where: { userId: userId },
+          data: {
+            preferredLanguage: preferences.preferredLanguage
+          }
+        })
+      } else if (user.artist) {
+        // For artists, update their languages array
+        const currentLanguages = user.artist.languages || []
+        let updatedLanguages = [...currentLanguages]
+        
+        if (preferences.preferredLanguage === 'th' && !updatedLanguages.includes('th')) {
+          updatedLanguages.push('th')
+        } else if (preferences.preferredLanguage === 'en' && !updatedLanguages.includes('en')) {
+          updatedLanguages.unshift('en') // Add English to the beginning
+        }
+
+        await prisma.artist.update({
+          where: { userId: userId },
+          data: {
+            languages: updatedLanguages
+          }
+        })
+      }
+    }
+
+    // Note: Email preferences would need to be stored in a separate table or
+    // added as fields to the User model. For now, we'll just log the update.
+    console.log(`Email preferences updated for user ${userId}:`, preferences)
+
+    return {
+      success: true,
+      preferences: {
+        ...preferences,
+        updatedAt: new Date()
+      }
+    }
+
+  } catch (error) {
+    console.error('Failed to update user email preferences:', error)
+    throw error
+  }
+}
+
+/**
+ * Check if user has consented to specific email type
+ */
+export async function checkEmailConsent(userId: string, emailType: string): Promise<boolean> {
+  try {
+    const preferences = await getUserEmailPreferences(userId)
+    
+    if (!preferences) return false
+
+    // Check specific email type consent
+    switch (emailType) {
+      case 'booking_inquiry':
+        return preferences.bookingInquiries
+      case 'quote_received':
+      case 'quote_accepted':
+        return preferences.quoteUpdates || preferences.emailNotifications
+      case 'payment_confirmed':
+        return preferences.paymentConfirmations || preferences.emailNotifications
+      case 'booking_confirmed':
+      case 'cancellation_notice':
+        return preferences.emailNotifications
+      case 'event_reminder':
+        return preferences.eventReminders
+      case 'marketing':
+        return preferences.marketingEmails
+      case 'system':
+        return preferences.systemNotifications
+      default:
+        return preferences.emailNotifications
+    }
+  } catch (error) {
+    console.error('Failed to check email consent:', error)
+    // Default to allowing emails if we can't check preferences
+    return true
   }
 }
 
@@ -221,6 +362,7 @@ export function getLocalizedSubject(
       booking_confirmed: 'Booking Confirmed - {eventType}',
       event_reminder: 'Event Reminder: {eventType} Tomorrow',
       booking_completed: 'Booking Completed - Thank You!',
+      cancellation_notice: 'Booking Cancelled - {eventType}',
       admin_notification: 'Admin Alert: {alertType}',
     },
     th: {
@@ -231,6 +373,7 @@ export function getLocalizedSubject(
       booking_confirmed: 'ยืนยันการจอง - {eventType}',
       event_reminder: 'แจ้งเตือนงาน: {eventType} พรุ่งนี้',
       booking_completed: 'การจองเสร็จสิ้น - ขอบคุณ!',
+      cancellation_notice: 'ยกเลิกการจอง - {eventType}',
       admin_notification: 'แจ้งเตือนผู้ดูแลระบบ: {alertType}',
     }
   }

@@ -1,13 +1,15 @@
 import { render } from '@react-email/render'
-import { sendEmail, EmailResult, getLocalizedSubject, getUserEmailPreferences } from '../email'
+import { sendEmail, EmailResult, getLocalizedSubject, getUserEmailPreferences, checkEmailConsent } from '../email'
 
 // Import email components
 import BookingInquiryEmail from '../../components/email/BookingInquiryEmail'
 import QuoteReceivedEmail from '../../components/email/QuoteReceivedEmail'
 import QuoteAcceptedEmail from '../../components/email/QuoteAcceptedEmail'
 import PaymentConfirmationEmail from '../../components/email/PaymentConfirmationEmail'
+import BookingConfirmedEmail from '../../components/email/BookingConfirmedEmail'
 import EventReminderEmail from '../../components/email/EventReminderEmail'
 import BookingCompletedEmail from '../../components/email/BookingCompletedEmail'
+import CancellationNoticeEmail from '../../components/email/CancellationNoticeEmail'
 
 // Types for email data
 export interface BookingInquiryEmailData {
@@ -109,18 +111,74 @@ export interface BookingCompletedEmailData {
   locale?: 'en' | 'th'
 }
 
+export interface BookingConfirmedEmailData {
+  to: string
+  customerName: string
+  artistName: string
+  bookingNumber: string
+  eventType: string
+  eventDate: string
+  startTime: string
+  endTime: string
+  venue: string
+  venueAddress: string
+  finalPrice: number
+  currency: string
+  depositAmount?: number
+  depositPaid: boolean
+  guestCount?: number
+  specialRequests?: string
+  artistContact?: string
+  dashboardUrl: string
+  locale?: 'en' | 'th'
+}
+
+export interface CancellationNoticeEmailData {
+  to: string
+  recipientName: string
+  senderName: string
+  senderRole: 'customer' | 'artist' | 'admin'
+  bookingNumber: string
+  eventType: string
+  eventDate: string
+  venue: string
+  cancellationReason?: string
+  refundAmount?: number
+  currency?: string
+  refundTimeline?: string
+  cancellationPolicy?: string
+  dashboardUrl: string
+  supportUrl: string
+  locale?: 'en' | 'th'
+}
+
 /**
  * Send booking inquiry email to artist
  */
 export async function sendBookingInquiryEmail(data: BookingInquiryEmailData): Promise<EmailResult> {
   try {
-    // Check email preferences
-    const artistPrefs = await getUserEmailPreferences(data.to)
-    if (!artistPrefs?.emailNotifications) {
-      return { success: false, error: 'User has disabled email notifications' }
+    // Get artist user ID from email
+    const { prisma } = await import('../prisma')
+    const artistUser = await prisma.user.findUnique({
+      where: { email: data.to },
+      select: { id: true }
+    })
+
+    if (!artistUser) {
+      return { success: false, error: 'Artist user not found' }
     }
 
-    const locale = data.locale || 'en'
+    // Check email consent
+    const hasConsent = await checkEmailConsent(artistUser.id, 'booking_inquiry')
+    if (!hasConsent) {
+      console.log(`Email consent denied for booking inquiry to ${data.to}`)
+      return { success: false, error: 'User has not consented to receive booking inquiry emails' }
+    }
+
+    // Get user preferences for language
+    const prefs = await getUserEmailPreferences(artistUser.id)
+    const locale = data.locale || prefs?.preferredLanguage || 'en'
+    
     const subject = getLocalizedSubject('booking_inquiry', locale, {
       eventType: data.eventType || 'Event'
     })
@@ -351,6 +409,110 @@ export async function sendBulkEmails(emails: Array<() => Promise<EmailResult>>):
 }
 
 /**
+ * Send booking confirmed email to customer
+ */
+export async function sendBookingConfirmedEmail(data: BookingConfirmedEmailData): Promise<EmailResult> {
+  try {
+    const locale = data.locale || 'en'
+    const subject = getLocalizedSubject('booking_confirmed', locale, {
+      eventType: data.eventType
+    })
+
+    const emailComponent = BookingConfirmedEmail({
+      customerName: data.customerName,
+      artistName: data.artistName,
+      bookingNumber: data.bookingNumber,
+      eventType: data.eventType,
+      eventDate: data.eventDate,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      venue: data.venue,
+      venueAddress: data.venueAddress,
+      finalPrice: data.finalPrice,
+      currency: data.currency,
+      depositAmount: data.depositAmount,
+      depositPaid: data.depositPaid,
+      guestCount: data.guestCount,
+      specialRequests: data.specialRequests,
+      artistContact: data.artistContact,
+      dashboardUrl: data.dashboardUrl,
+      locale,
+    })
+
+    const html = render(emailComponent)
+    const text = render(emailComponent, { plainText: true })
+
+    return await sendEmail({
+      to: data.to,
+      subject,
+      html,
+      text,
+      tags: [
+        { name: 'email_type', value: 'booking_confirmed' },
+        { name: 'locale', value: locale },
+      ],
+    })
+  } catch (error) {
+    console.error('Error sending booking confirmed email:', error)
+    return { 
+      success: false, 
+      error: error instanceof Error ? error.message : 'Failed to send email' 
+    }
+  }
+}
+
+/**
+ * Send cancellation notice email
+ */
+export async function sendCancellationNoticeEmail(data: CancellationNoticeEmailData): Promise<EmailResult> {
+  try {
+    const locale = data.locale || 'en'
+    const subject = getLocalizedSubject('cancellation_notice', locale, {
+      eventType: data.eventType
+    })
+
+    const emailComponent = CancellationNoticeEmail({
+      recipientName: data.recipientName,
+      senderName: data.senderName,
+      senderRole: data.senderRole,
+      bookingNumber: data.bookingNumber,
+      eventType: data.eventType,
+      eventDate: data.eventDate,
+      venue: data.venue,
+      cancellationReason: data.cancellationReason,
+      refundAmount: data.refundAmount,
+      currency: data.currency,
+      refundTimeline: data.refundTimeline,
+      cancellationPolicy: data.cancellationPolicy,
+      dashboardUrl: data.dashboardUrl,
+      supportUrl: data.supportUrl,
+      locale,
+    })
+
+    const html = render(emailComponent)
+    const text = render(emailComponent, { plainText: true })
+
+    return await sendEmail({
+      to: data.to,
+      subject,
+      html,
+      text,
+      tags: [
+        { name: 'email_type', value: 'cancellation_notice' },
+        { name: 'sender_role', value: data.senderRole },
+        { name: 'locale', value: locale },
+      ],
+    })
+  } catch (error) {
+    console.error('Error sending cancellation notice email:', error)
+    return { 
+      success: false, 
+      error: error instanceof Error ? error.message : 'Failed to send email' 
+    }
+  }
+}
+
+/**
  * Helper function to get user's preferred locale
  */
 export async function getUserLocale(userId: string): Promise<'en' | 'th'> {
@@ -372,4 +534,32 @@ export async function getUserLocale(userId: string): Promise<'en' | 'th'> {
     console.error('Error getting user locale:', error)
     return 'en'
   }
+}
+
+/**
+ * Helper function to generate dashboard URLs
+ */
+export function generateDashboardUrl(userRole: string, bookingId?: string): string {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brightears.com'
+  
+  switch (userRole) {
+    case 'ARTIST':
+      return `${baseUrl}/dashboard/artist/bookings${bookingId ? `?booking=${bookingId}` : ''}`
+    case 'CUSTOMER':
+      return `${baseUrl}/dashboard/customer/bookings${bookingId ? `?booking=${bookingId}` : ''}`
+    case 'CORPORATE':
+      return `${baseUrl}/dashboard/corporate/bookings${bookingId ? `?booking=${bookingId}` : ''}`
+    case 'ADMIN':
+      return `${baseUrl}/dashboard/admin/bookings${bookingId ? `/${bookingId}` : ''}`
+    default:
+      return `${baseUrl}/dashboard`
+  }
+}
+
+/**
+ * Helper function to generate support URL
+ */
+export function generateSupportUrl(): string {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brightears.com'
+  return `${baseUrl}/support`
 }

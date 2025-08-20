@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { safeErrorResponse } from '@/lib/api-auth'
+import { 
+  sendPaymentConfirmationEmail,
+  getUserLocale,
+  generateDashboardUrl
+} from '@/lib/email-templates'
 
 export async function POST(request: NextRequest) {
   try {
@@ -108,6 +113,31 @@ export async function POST(request: NextRequest) {
         }
       })
     ])
+
+    // Send payment confirmation email
+    try {
+      const customerLocale = await getUserLocale(user.id)
+      const eventDate = new Date(booking.eventDate).toLocaleDateString()
+      
+      await sendPaymentConfirmationEmail({
+        to: user.email!,
+        customerName: user.name || 'Customer',
+        artistName: booking.artist.stageName || 'Artist',
+        bookingNumber: booking.bookingNumber,
+        eventType: booking.eventType,
+        eventDate,
+        paymentAmount: amount.toString(),
+        currency: 'THB',
+        paymentType,
+        paymentMethod: 'PromptPay',
+        transactionRef: payment.id,
+        bookingUrl: generateDashboardUrl(user.role, bookingId),
+        locale: customerLocale,
+      })
+    } catch (emailError) {
+      console.error('Error sending payment confirmation email:', emailError)
+      // Don't fail the payment submission if email fails
+    }
 
     return NextResponse.json({
       success: true,

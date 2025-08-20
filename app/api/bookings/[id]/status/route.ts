@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { safeErrorResponse } from '@/lib/api-auth'
+import { 
+  sendBookingConfirmedEmail, 
+  sendCancellationNoticeEmail,
+  getUserLocale,
+  generateDashboardUrl,
+  generateSupportUrl
+} from '@/lib/email-templates'
 
 interface RouteContext {
   params: Promise<{ id: string }>
@@ -117,6 +124,9 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
       }
     })
 
+    // Send email notifications based on status
+    await sendStatusChangeEmails(booking, status, notes, user)
+
     // Additional actions based on status
     if (status === 'COMPLETED') {
       // Could trigger review request, payment release, etc.
@@ -203,5 +213,119 @@ async function createCompletionActions(bookingId: string) {
 
   } catch (error) {
     console.error('Error creating completion actions:', error)
+  }
+}
+
+async function sendStatusChangeEmails(booking: any, status: string, notes?: string, currentUser?: any) {
+  try {
+    // Determine who should receive the email
+    const customer = booking.customer || await prisma.user.findUnique({ where: { id: booking.customerId } })
+    const artist = booking.artist?.user || await prisma.user.findUnique({ where: { id: booking.artist.userId } })
+
+    if (!customer || !artist) {
+      console.error('Could not find customer or artist for email notification')
+      return
+    }
+
+    // Get user locales
+    const customerLocale = await getUserLocale(customer.id)
+    const artistLocale = await getUserLocale(artist.id)
+
+    // Format dates and times
+    const eventDate = new Date(booking.eventDate).toLocaleDateString()
+    const startTime = new Date(booking.startTime).toLocaleTimeString()
+    const endTime = new Date(booking.endTime).toLocaleTimeString()
+
+    switch (status) {
+      case 'CONFIRMED':
+        // Send confirmation email to customer
+        try {
+          await sendBookingConfirmedEmail({
+            to: customer.email,
+            customerName: customer.name || 'Customer',
+            artistName: booking.artist.stageName || 'Artist',
+            bookingNumber: booking.bookingNumber,
+            eventType: booking.eventType,
+            eventDate,
+            startTime,
+            endTime,
+            venue: booking.venue,
+            venueAddress: booking.venueAddress || '',
+            finalPrice: Number(booking.finalPrice || booking.quotedPrice),
+            currency: booking.currency,
+            depositAmount: booking.depositAmount ? Number(booking.depositAmount) : undefined,
+            depositPaid: booking.depositPaid,
+            guestCount: booking.guestCount,
+            specialRequests: booking.specialRequests,
+            artistContact: artist.email,
+            dashboardUrl: generateDashboardUrl(customer.role, booking.id),
+            locale: customerLocale,
+          })
+        } catch (error) {
+          console.error('Error sending booking confirmed email to customer:', error)
+        }
+        break
+
+      case 'CANCELLED':
+        // Send cancellation emails to both parties
+        const senderRole = currentUser?.role === 'ARTIST' ? 'artist' : 
+                          currentUser?.role === 'ADMIN' ? 'admin' : 'customer'
+        const senderName = currentUser?.name || 'System'
+
+        // Email to customer
+        if (senderRole !== 'customer') {
+          try {
+            await sendCancellationNoticeEmail({
+              to: customer.email,
+              recipientName: customer.name || 'Customer',
+              senderName,
+              senderRole,
+              bookingNumber: booking.bookingNumber,
+              eventType: booking.eventType,
+              eventDate,
+              venue: booking.venue,
+              cancellationReason: notes,
+              refundAmount: booking.depositAmount ? Number(booking.depositAmount) : undefined,
+              currency: booking.currency,
+              refundTimeline: '3-5 business days',
+              dashboardUrl: generateDashboardUrl(customer.role, booking.id),
+              supportUrl: generateSupportUrl(),
+              locale: customerLocale,
+            })
+          } catch (error) {
+            console.error('Error sending cancellation email to customer:', error)
+          }
+        }
+
+        // Email to artist
+        if (senderRole !== 'artist') {
+          try {
+            await sendCancellationNoticeEmail({
+              to: artist.email,
+              recipientName: booking.artist.stageName || 'Artist',
+              senderName,
+              senderRole,
+              bookingNumber: booking.bookingNumber,
+              eventType: booking.eventType,
+              eventDate,
+              venue: booking.venue,
+              cancellationReason: notes,
+              dashboardUrl: generateDashboardUrl('ARTIST', booking.id),
+              supportUrl: generateSupportUrl(),
+              locale: artistLocale,
+            })
+          } catch (error) {
+            console.error('Error sending cancellation email to artist:', error)
+          }
+        }
+        break
+
+      // Add more cases for other status changes as needed
+      default:
+        console.log(`No email notification configured for status: ${status}`)
+    }
+
+  } catch (error) {
+    console.error('Error sending status change emails:', error)
   }
 }

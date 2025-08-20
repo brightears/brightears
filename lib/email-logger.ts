@@ -92,14 +92,54 @@ class EmailLogger {
         deliveryTime: logEntry.deliveryTime
       })
 
-      // Append to file
-      const logLine = JSON.stringify(logEntry) + '\n'
-      await appendFile(this.logFile, logLine, 'utf8')
+      // Log to database
+      try {
+        const { prisma } = await import('./prisma')
+        
+        const dbStatus = this.mapStatusToDb(logEntry.status)
+        
+        await prisma.emailLog.create({
+          data: {
+            toAddresses: logEntry.to,
+            subject: logEntry.subject,
+            templateName: logEntry.template,
+            locale: logEntry.locale,
+            status: dbStatus,
+            messageId: logEntry.messageId,
+            error: logEntry.error,
+            retryCount: logEntry.retryCount || 0,
+            relatedId: logEntry.metadata?.relatedId as string,
+            relatedType: logEntry.metadata?.relatedType as string,
+            userId: logEntry.metadata?.userId as string,
+            sentAt: logEntry.status === 'sent' ? new Date() : null,
+            metadata: logEntry.metadata,
+            scheduledAt: new Date()
+          }
+        })
+      } catch (dbError) {
+        console.error('Failed to log email to database:', dbError)
+        // Fall back to file logging
+        const logLine = JSON.stringify(logEntry) + '\n'
+        await appendFile(this.logFile, logLine, 'utf8')
+      }
 
     } catch (error) {
       console.error('Failed to log email:', error)
       // Don't throw error to avoid breaking email flow
     }
+  }
+
+  /**
+   * Map internal status to database enum
+   */
+  private mapStatusToDb(status: string): string {
+    const statusMap: Record<string, string> = {
+      'sent': 'SENT',
+      'failed': 'FAILED',
+      'queued': 'QUEUED',
+      'retrying': 'SENDING'
+    }
+    return statusMap[status] || 'QUEUED'
   }
 
   /**

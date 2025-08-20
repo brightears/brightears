@@ -159,27 +159,39 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// PUT - Update reminder configurations (for future enhancement)
+// PUT - Cron endpoint for scheduled reminder processing
 export async function PUT(request: NextRequest) {
   try {
-    const user = await requireAuth()
+    // Verify cron secret to prevent unauthorized access
+    const authHeader = request.headers.get('authorization')
+    const cronSecret = process.env.CRON_SECRET || 'default-secret-change-in-production'
     
-    // Only admins can update reminder configs
-    if (user.role !== 'ADMIN') {
-      return NextResponse.json(
-        { error: 'Admin access required' },
-        { status: 403 }
-      )
+    if (authHeader !== `Bearer ${cronSecret}`) {
+      console.warn('Unauthorized cron request attempted')
+      return NextResponse.json({ error: 'Unauthorized cron request' }, { status: 401 })
     }
 
-    // This would be used to update reminder configurations
-    // For now, return the current configs
+    console.log('Cron job: Starting scheduled reminder process...')
+    
+    // Run the reminder process
+    const results = await sendEventReminders()
+    
+    console.log('Cron job: Reminder process completed', results)
+    
     return NextResponse.json({
-      message: 'Reminder configuration update not yet implemented',
-      currentConfigs: DEFAULT_REMINDER_CONFIGS
+      success: true,
+      message: 'Scheduled reminders processed successfully',
+      timestamp: new Date().toISOString(),
+      results: {
+        processed: results.processed,
+        sent: results.sent,
+        failed: results.failed,
+        errorCount: results.errors.length
+      }
     })
 
   } catch (error) {
-    return safeErrorResponse(error, 'Failed to update reminder configuration')
+    console.error('Cron job: Error in scheduled reminder process:', error)
+    return safeErrorResponse(error, 'Failed to process scheduled reminders')
   }
 }
