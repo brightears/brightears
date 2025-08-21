@@ -182,8 +182,13 @@ export default function SearchResults({ searchParams, locale }: SearchResultsPro
         {artists.map((artist) => (
           <ArtistCard
             key={artist.id}
-            artist={artist}
-            locale={locale}
+            name={artist.stageName}
+            genre={artist.genres?.[0] || artist.category || 'Various'}
+            image={artist.profileImage || '/placeholder-artist.jpg'}
+            followers={artist.reviewCount?.toString() || '0'}
+            rating={artist.averageRating || 0}
+            isVerified={artist.verificationLevel === 'VERIFIED' || artist.verificationLevel === 'FEATURED'}
+            isFeatured={artist.verificationLevel === 'FEATURED'}
           />
         ))}
       </div>
