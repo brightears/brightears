@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
 
 interface PageHeroProps {
   title: string
@@ -50,7 +49,7 @@ export default function PageHero({
       {/* Animated Gradient Blobs */}
       {showGradientBlobs && (
         <div className="absolute inset-0 overflow-hidden">
-          <motion.div
+          <div
             animate={{
               x: [0, 100, 0],
               y: [0, -50, 0],
@@ -62,7 +61,7 @@ export default function PageHero({
             }}
             className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-brand-cyan/20 rounded-full blur-3xl"
           />
-          <motion.div
+          <div
             animate={{
               x: [0, -100, 0],
               y: [0, 50, 0],
@@ -75,7 +74,7 @@ export default function PageHero({
             }}
             className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-soft-lavender/20 rounded-full blur-3xl"
           />
-          <motion.div
+          <div
             animate={{
               x: [0, 50, 0],
               y: [0, 100, 0],
@@ -93,7 +92,7 @@ export default function PageHero({
 
       {/* Content Container */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -119,18 +118,18 @@ export default function PageHero({
               
               {/* Additional Content (CTAs, etc.) */}
               {children && (
-                <motion.div
+                <div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                   className="mt-8"
                 >
                   {children}
-                </motion.div>
+                </div>
               )}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Bottom Wave Divider for smooth transition */}
