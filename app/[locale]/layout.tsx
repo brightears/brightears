@@ -83,15 +83,24 @@ export default async function LocaleLayout({
       className={`${inter.variable} ${playfairDisplay.variable} ${notoSansThai.variable}`}
       suppressHydrationWarning
     >
-      <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased`}>
+      <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased bg-off-white`}>
         <SessionProvider session={validSession as Session | null}>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <FavoritesProvider>
-              <Header />
-              <main className="min-h-screen">
-                {children}
-              </main>
-              <Footer />
+              <div className="relative min-h-screen flex flex-col">
+                {/* Fixed Header with consistent styling */}
+                <Header />
+                
+                {/* Main content area with proper spacing for fixed header */}
+                <main className="flex-1 pt-[72px] md:pt-[80px]">
+                  {/* Subtle background gradient for entire app */}
+                  <div className="fixed inset-0 -z-10 bg-gradient-to-br from-off-white via-pure-white to-brand-cyan/5" />
+                  
+                  {children}
+                </main>
+                
+                <Footer />
+              </div>
             </FavoritesProvider>
           </NextIntlClientProvider>
         </SessionProvider>

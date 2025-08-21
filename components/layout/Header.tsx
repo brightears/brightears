@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled 
-            ? 'py-3 bg-white/10 backdrop-blur-xl shadow-lg border-b border-white/10' 
+            ? 'py-3 bg-off-white/90 backdrop-blur-xl shadow-lg border-b border-brand-cyan/20' 
             : 'py-6 bg-transparent'
         }`}
       >
@@ -71,7 +71,9 @@ const Header: React.FC<HeaderProps> = ({
                   <MusicalNoteIcon className="w-6 h-6 text-white" />
                 </div>
               </div>
-              <span className="font-playfair text-2xl font-bold text-white">
+              <span className={`font-playfair text-2xl font-bold transition-colors duration-300 ${
+                isScrolled ? 'text-dark-gray' : 'text-white'
+              }`}>
                 Bright Ears
               </span>
             </a>
@@ -83,7 +85,11 @@ const Header: React.FC<HeaderProps> = ({
                   key={item.label}
                   href={item.href}
                   onClick={(e) => handleSmoothScroll(e, item.href)}
-                  className="relative font-inter text-white/90 hover:text-white transition-colors duration-300 group"
+                  className={`relative font-inter transition-colors duration-300 group ${
+                    isScrolled 
+                      ? 'text-dark-gray/90 hover:text-brand-cyan' 
+                      : 'text-white/90 hover:text-white'
+                  }`}
                 >
                   <span className="relative z-10">{item.label}</span>
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-cyan transition-all duration-300 group-hover:w-full" />
@@ -97,7 +103,11 @@ const Header: React.FC<HeaderProps> = ({
               <div className="relative">
                 <button
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                  className="group flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-white hover:bg-white/20 transition-all duration-300"
+                  className={`group flex items-center gap-2 px-4 py-2 backdrop-blur-md border rounded-xl transition-all duration-300 ${
+                    isScrolled
+                      ? 'bg-white/80 border-brand-cyan/20 text-dark-gray hover:bg-white hover:border-brand-cyan/40'
+                      : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                  }`}
                 >
                   <GlobeAltIcon className="w-4 h-4" />
                   <span className="hidden sm:inline font-inter text-sm">{currentLanguage}</span>
@@ -106,7 +116,11 @@ const Header: React.FC<HeaderProps> = ({
 
                 {/* Language Dropdown */}
                 {isLangMenuOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-48 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl overflow-hidden shadow-2xl">
+                  <div className={`absolute top-full right-0 mt-2 w-48 backdrop-blur-xl border rounded-xl overflow-hidden shadow-2xl ${
+                    isScrolled
+                      ? 'bg-white/95 border-brand-cyan/20'
+                      : 'bg-white/10 border-white/20'
+                  }`}>
                     {languages.map((lang) => (
                       <button
                         key={lang.code}
@@ -114,8 +128,14 @@ const Header: React.FC<HeaderProps> = ({
                           onLanguageChange(lang.code);
                           setIsLangMenuOpen(false);
                         }}
-                        className={`w-full px-4 py-3 flex items-center gap-3 text-white hover:bg-white/10 transition-colors duration-200 ${
-                          currentLanguage === lang.code ? 'bg-brand-cyan/20' : ''
+                        className={`w-full px-4 py-3 flex items-center gap-3 transition-colors duration-200 ${
+                          isScrolled
+                            ? `text-dark-gray hover:bg-brand-cyan/10 ${
+                                currentLanguage === lang.code ? 'bg-brand-cyan/20' : ''
+                              }`
+                            : `text-white hover:bg-white/10 ${
+                                currentLanguage === lang.code ? 'bg-brand-cyan/20' : ''
+                              }`
                         }`}
                       >
                         <span className="text-lg">{lang.flag}</span>
@@ -134,7 +154,11 @@ const Header: React.FC<HeaderProps> = ({
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-white hover:bg-white/20 transition-all duration-300"
+                className={`md:hidden p-2 backdrop-blur-md border rounded-xl transition-all duration-300 ${
+                  isScrolled
+                    ? 'bg-white/80 border-brand-cyan/20 text-dark-gray hover:bg-white hover:border-brand-cyan/40'
+                    : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                }`}
               >
                 {isMobileMenuOpen ? (
                   <XMarkIcon className="w-6 h-6" />

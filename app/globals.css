@@ -81,7 +81,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
 }
 
 /* Brand-Consistent Animation Utilities */
@@ -188,10 +188,179 @@ body {
   }
 }
 
+/* Glass Morphism Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Modern Gradient Utilities */
+.gradient-mesh {
+  background: linear-gradient(135deg, var(--brand-cyan) 0%, var(--deep-teal) 50%, var(--earthy-brown) 100%);
+}
+
+.gradient-mesh-soft {
+  background: linear-gradient(135deg, 
+    rgba(0, 187, 228, 0.1) 0%, 
+    rgba(47, 99, 100, 0.1) 50%, 
+    rgba(164, 119, 100, 0.1) 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--brand-cyan), var(--soft-lavender));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Modern Card Styles */
+.card-modern {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 187, 228, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all var(--duration-short) var(--ease-premium);
+}
+
+.card-modern:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 64px rgba(0, 187, 228, 0.15);
+  border-color: rgba(0, 187, 228, 0.2);
+}
+
+/* Floating Action Button */
+.fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--brand-cyan);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 187, 228, 0.4);
+  transition: all var(--duration-short) var(--ease-premium);
+  z-index: 40;
+}
+
+.fab:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(0, 187, 228, 0.5);
+}
+
+/* Skeleton Loading */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+/* Modern Input Styles */
+.input-modern {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 187, 228, 0.2);
+  border-radius: 12px;
+  padding: 12px 16px;
+  transition: all var(--duration-short) var(--ease-premium);
+  color: var(--dark-gray);
+}
+
+.input-modern:focus {
+  outline: none;
+  border-color: var(--brand-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 187, 228, 0.1);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.input-modern::placeholder {
+  color: rgba(51, 51, 51, 0.6);
+}
+
+/* Status Indicators */
+.status-online {
+  background: #10B981;
+  border: 2px solid white;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+.status-offline {
+  background: #6B7280;
+  border: 2px solid white;
+}
+
+.status-busy {
+  background: #EF4444;
+  border: 2px solid white;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Badge Styles */
+.badge-modern {
+  background: rgba(213, 158, 201, 0.15);
+  color: var(--soft-lavender);
+  border: 1px solid rgba(213, 158, 201, 0.3);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+}
+
+/* Container Improvements */
+.container-modern {
+  background: var(--off-white);
+  min-height: 100vh;
+  position: relative;
+}
+
+.container-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(0, 187, 228, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(213, 158, 201, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(164, 119, 100, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
 @media (prefers-contrast: high) {
   .brand-hover-lift:hover,
   .brand-hover-scale:hover {
     border: 2px solid #00bbe4;
     box-shadow: none;
+  }
+  
+  .glass,
+  .glass-dark,
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #00bbe4;
   }
 }
