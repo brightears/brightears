@@ -109,13 +109,13 @@ export default function ArtistListing({ locale }: ArtistListingProps) {
                 {artists.map((artist) => (
                   <ArtistCard 
                     key={artist.id} 
-                    name={artist.name}
-                    genre={artist.genre || 'Various'}
-                    image={artist.image || '/placeholder-artist.jpg'}
-                    followers={artist.followers?.toString() || '0'}
-                    rating={artist.rating || 0}
-                    isVerified={artist.isVerified}
-                    isFeatured={artist.isFeatured}
+                    name={artist.stageName}
+                    genre={artist.genres?.[0] || artist.category || 'Various'}
+                    image={artist.profileImage || '/placeholder-artist.jpg'}
+                    followers={artist.reviewCount?.toString() || '0'}
+                    rating={artist.averageRating || 0}
+                    isVerified={artist.verificationLevel === 'VERIFIED' || artist.verificationLevel === 'FEATURED'}
+                    isFeatured={artist.verificationLevel === 'FEATURED'}
                   />
                 ))}
               </div>
