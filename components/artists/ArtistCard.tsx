@@ -1,199 +1,150 @@
-'use client'
+"use client";
 
-import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
-import { useState } from 'react'
-import { Link } from '@/components/navigation'
-import Image from 'next/image'
-import LoginPromptModal from '@/components/auth/LoginPromptModal'
-import FavoriteButton from '@/components/favorites/FavoriteButton'
+import React, { useState } from 'react';
+import { HeartIcon, PlayIcon, StarIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { HeartIcon as HeartSolidIcon, VerifiedIcon } from '@heroicons/react/24/solid';
 
 interface ArtistCardProps {
-  artist: {
-    id: string
-    stageName: string
-    bio?: string
-    bioTh?: string
-    category: string
-    baseCity: string
-    profileImage?: string
-    averageRating?: number
-    reviewCount: number
-    hourlyRate?: number
-    verificationLevel: string
-    genres: string[]
-  }
-  locale: string
+  name: string;
+  genre: string;
+  image: string;
+  followers: string;
+  rating: number;
+  isVerified?: boolean;
+  isFeatured?: boolean;
+  onPlay?: () => void;
+  onFollow?: () => void;
 }
 
-export default function ArtistCard({ artist, locale }: ArtistCardProps) {
-  const t = useTranslations('artists')
-  const { data: session } = useSession()
-  const [showLoginModal, setShowLoginModal] = useState(false)
-  
-  const bio = locale === 'th' && artist.bioTh ? artist.bioTh : artist.bio
-  
-  const handleContactClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    if (!session?.user) {
-      setShowLoginModal(true)
-    }
-  }
-  
-  const handleLoginSuccess = () => {
-    // Refresh the page to update session
-    window.location.reload()
-  }
-  
-  const formatPrice = (price?: number) => {
-    if (!price) return t('priceOnRequest')
-    return `${t('from')} ฿${price.toLocaleString()}/hr`
-  }
-  
-  const renderStars = (rating?: number) => {
-    if (!rating) return null
-    const fullStars = Math.floor(rating)
-    const hasHalfStar = rating % 1 >= 0.5
-    
-    return (
-      <div className="flex items-center">
-        {[...Array(5)].map((_, i) => (
-          <svg
-            key={i}
-            className={`w-4 h-4 ${
-              i < fullStars ? 'text-yellow-400' : 'text-gray-300'
-            }`}
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-        ))}
-        <span className="ml-1 text-sm text-dark-gray">
-          {rating.toFixed(1)} ({artist.reviewCount})
-        </span>
-      </div>
-    )
-  }
-  
-  const getVerificationBadge = () => {
-    switch (artist.verificationLevel) {
-      case 'TRUSTED':
-        return (
-          <span className="bg-soft-lavender text-pure-white text-xs px-2 py-1 rounded-full">
-            ✓ {t('trusted')}
-          </span>
-        )
-      case 'VERIFIED':
-        return (
-          <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-            ✓ {t('verified')}
-          </span>
-        )
-      default:
-        return null
-    }
-  }
-  
+const ArtistCard: React.FC<ArtistCardProps> = ({
+  name,
+  genre,
+  image,
+  followers,
+  rating,
+  isVerified = false,
+  isFeatured = false,
+  onPlay = () => {},
+  onFollow = () => {},
+}) => {
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <Link href={`/artists/${artist.id}`}>
-      <div className="bg-background rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden cursor-pointer">
-        <div className="relative h-48 bg-gray-200">
-          {artist.profileImage ? (
-            <Image
-              src={artist.profileImage}
-              alt={artist.stageName}
-              fill
-              className="object-cover"
-            />
+    <div
+      className="group relative bg-off-white rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Featured Badge */}
+      {isFeatured && (
+        <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-soft-lavender/90 backdrop-blur-sm text-white text-xs font-semibold rounded-full shadow-lg">
+          Featured Artist
+        </div>
+      )}
+
+      {/* Image Container */}
+      <div className="relative h-64 sm:h-72 overflow-hidden bg-gradient-to-br from-brand-cyan/20 to-deep-teal/20">
+        <img
+          src={image}
+          alt={name}
+          className={`w-full h-full object-cover transition-transform duration-700 ${
+            isHovered ? 'scale-110' : 'scale-100'
+          }`}
+        />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-deep-teal/80 via-transparent to-transparent opacity-60" />
+
+        {/* Play Button Overlay */}
+        <button
+          onClick={onPlay}
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-brand-cyan/90 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:bg-brand-cyan hover:scale-110 shadow-xl ${
+            isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+          }`}
+        >
+          <PlayIcon className="w-8 h-8 text-white ml-1" />
+        </button>
+
+        {/* Favorite Button */}
+        <button
+          onClick={() => setIsFavorite(!isFavorite)}
+          className="absolute top-4 right-4 z-20 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-300 hover:bg-white/30 hover:scale-110"
+        >
+          {isFavorite ? (
+            <HeartSolidIcon className="w-5 h-5 text-soft-lavender animate-pulse" />
           ) : (
-            <div className="flex items-center justify-center h-full">
-              <svg className="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-              </svg>
-            </div>
+            <HeartIcon className="w-5 h-5 text-white" />
           )}
-          
-          {/* Top right corner - Verification badge and favorite button */}
-          <div className="absolute top-2 right-2 flex items-start gap-2">
-            {getVerificationBadge()}
-            <FavoriteButton 
-              artistId={artist.id}
-              artistName={artist.stageName}
-              size="sm"
-              variant="icon"
-            />
+        </button>
+      </div>
+
+      {/* Content */}
+      <div className="p-6">
+        {/* Artist Name with Verification */}
+        <div className="flex items-center gap-2 mb-2">
+          <h3 className="font-playfair text-xl font-bold text-dark-gray truncate">
+            {name}
+          </h3>
+          {isVerified && (
+            <VerifiedIcon className="w-5 h-5 text-brand-cyan flex-shrink-0" />
+          )}
+        </div>
+
+        {/* Genre */}
+        <p className="font-inter text-sm text-dark-gray/70 mb-4">{genre}</p>
+
+        {/* Stats Row */}
+        <div className="flex items-center justify-between mb-4">
+          {/* Followers */}
+          <div className="flex items-center gap-1.5">
+            <UserGroupIcon className="w-4 h-4 text-dark-gray/50" />
+            <span className="font-inter text-sm text-dark-gray/70">{followers}</span>
           </div>
-          
-          <div className="absolute bottom-2 left-2">
-            <span className="bg-earthy-brown text-pure-white text-xs px-2 py-1 rounded">
-              {t(`category.${artist.category}`)}
+
+          {/* Rating */}
+          <div className="flex items-center gap-1">
+            {[...Array(5)].map((_, i) => (
+              <StarIcon
+                key={i}
+                className={`w-4 h-4 ${
+                  i < Math.floor(rating)
+                    ? 'fill-earthy-brown text-earthy-brown'
+                    : 'text-dark-gray/30'
+                }`}
+              />
+            ))}
+            <span className="font-inter text-sm text-dark-gray/70 ml-1">
+              {rating.toFixed(1)}
             </span>
           </div>
         </div>
-        
-        <div className="p-4">
-          <h3 className="font-playfair font-bold text-lg mb-1 text-dark-gray">{artist.stageName}</h3>
-          
-          <p className="text-dark-gray font-inter text-sm mb-2">
-            📍 {artist.baseCity}
-          </p>
-          
-          {bio && (
-            <p className="text-dark-gray font-inter text-sm mb-2 line-clamp-2">
-              {bio}
-            </p>
-          )}
-          
-          {artist.genres.length > 0 && (
-            <div className="flex flex-wrap gap-1 mb-2">
-              {artist.genres.slice(0, 3).map((genre) => (
-                <span key={genre} className="bg-off-white text-dark-gray font-inter text-xs px-2 py-1 rounded">
-                  {genre}
-                </span>
-              ))}
-            </div>
-          )}
-          
-          <div className="flex justify-between items-center mt-3 pt-3 border-t">
-            <div className="text-sm font-inter font-semibold text-brand-cyan">
-              {formatPrice(artist.hourlyRate)}
-            </div>
-            
-            {artist.averageRating ? renderStars(artist.averageRating) : (
-              <span className="text-sm text-gray-500 font-inter">{t('new')}</span>
-            )}
-          </div>
-          
-          {/* Contact Button */}
-          <div className="mt-3">
-            {session?.user ? (
-              <Link href={`/artists/${artist.id}`} className="block">
-                <button className="w-full px-3 py-2 bg-brand-cyan text-white font-inter font-medium text-sm rounded hover:bg-brand-cyan/80 transition-colors">
-                  {t('viewContact')}
-                </button>
-              </Link>
-            ) : (
-              <button
-                onClick={handleContactClick}
-                className="w-full px-3 py-2 border border-brand-cyan text-brand-cyan font-inter font-medium text-sm rounded hover:bg-brand-cyan hover:text-white transition-colors"
-              >
-                {t('loginToContact')}
-              </button>
-            )}
-          </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={onFollow}
+            className="flex-1 px-4 py-2.5 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 hover:bg-brand-cyan/90 hover:shadow-lg hover:shadow-brand-cyan/30 hover:-translate-y-0.5"
+          >
+            Follow
+          </button>
+          <button
+            onClick={onPlay}
+            className="px-4 py-2.5 bg-off-white border-2 border-deep-teal/20 text-deep-teal font-semibold rounded-xl transition-all duration-300 hover:bg-deep-teal hover:text-white hover:border-deep-teal hover:-translate-y-0.5"
+          >
+            <PlayIcon className="w-5 h-5" />
+          </button>
         </div>
       </div>
-      
-      {/* Login Prompt Modal */}
-      {showLoginModal && (
-        <LoginPromptModal
-          isOpen={showLoginModal}
-          onClose={() => setShowLoginModal(false)}
-          artistName={artist.stageName}
-          onLoginSuccess={handleLoginSuccess}
-        />
-      )}
-    </Link>
-  )
-}
+
+      {/* Hover Glow Effect */}
+      <div className={`absolute inset-0 rounded-2xl transition-opacity duration-500 pointer-events-none ${
+        isHovered ? 'opacity-100' : 'opacity-0'
+      }`}>
+        <div className="absolute inset-0 rounded-2xl shadow-[0_0_40px_rgba(0,187,228,0.2)]" />
+      </div>
+    </div>
+  );
+};
+
+export default ArtistCard;

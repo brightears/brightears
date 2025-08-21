@@ -1,142 +1,146 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import Image from 'next/image';
-import { Link } from '@/components/navigation';
-import { partners } from '@/lib/partners';
-import EnhancedSearch from '@/components/search/EnhancedSearch';
+import React, { useEffect, useState } from 'react';
+import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { PlayIcon } from '@heroicons/react/24/solid';
 
-export default function Hero() {
-  const t = useTranslations('hero');
+const Hero: React.FC = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      const x = (clientX / window.innerWidth) * 100;
+      const y = (clientY / window.innerHeight) * 100;
+      setMousePosition({ x, y });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   return (
-    <section className="relative bg-gradient-to-br from-deep-teal via-earthy-brown to-deep-teal py-16 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          {/* Main Heading */}
-          <h1 className="text-4xl font-playfair font-bold tracking-tight text-pure-white sm:text-5xl lg:text-6xl animate-hero-search-enter">
-            {t('title')}
-          </h1>
-          
-          {/* Subtitle */}
-          <p className="mt-6 text-xl text-pure-white/90 sm:text-2xl animate-hero-search-enter" style={{ animationDelay: '200ms' }}>
-            {t('subtitle')}
-          </p>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Animated Gradient Mesh Background */}
+      <div className="absolute inset-0 opacity-90">
+        <div 
+          className="absolute inset-0 bg-gradient-to-br from-brand-cyan via-deep-teal to-earthy-brown"
+          style={{
+            background: `
+              radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 187, 228, 0.4) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(165, 119, 100, 0.3) 0%, transparent 50%),
+              radial-gradient(circle at 20% 80%, rgba(47, 99, 100, 0.4) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(213, 158, 201, 0.2) 0%, transparent 70%),
+              linear-gradient(135deg, #00bbe4 0%, #2f6364 50%, #a47764 100%)
+            `
+          }}
+        />
+        
+        {/* Animated gradient orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-brand-cyan/30 rounded-full filter blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-soft-lavender/20 rounded-full filter blur-3xl animate-pulse animation-delay-2000" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-earthy-brown/20 rounded-full filter blur-3xl animate-pulse animation-delay-4000" />
+      </div>
 
-          {/* Enhanced Search */}
-          <div className="mt-10 animate-hero-search-enter" style={{ animationDelay: '400ms' }}>
-            <EnhancedSearch variant="hero" />
-          </div>
+      {/* Glass morphism overlay */}
+      <div className="absolute inset-0 backdrop-blur-[1px] bg-white/[0.02]" />
 
-          {/* CTA Buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/artists"
-              className="px-8 py-3 text-lg font-medium text-pure-white bg-transparent border-2 border-pure-white/50 rounded-lg hover:bg-pure-white/10 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all duration-300 animate-hero-search-enter"
-              style={{ animationDelay: '600ms' }}
+      {/* Content Container */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        {/* Animated Badge */}
+        <div 
+          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8 transition-all duration-1000 transform ${
+            isVisible ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
+          }`}
+        >
+          <SparklesIcon className="w-4 h-4 text-soft-lavender animate-pulse" />
+          <span className="text-sm font-medium text-white">Discover Music That Moves You</span>
+        </div>
+
+        {/* Main Heading */}
+        <h1 
+          className={`font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 transition-all duration-1000 delay-100 transform ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+          }`}
+        >
+          <span className="block">Where Artists</span>
+          <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent">
+            Connect & Create
+          </span>
+        </h1>
+
+        {/* Subheading */}
+        <p 
+          className={`font-inter text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10 transition-all duration-1000 delay-200 transform ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+          }`}
+        >
+          Join Bright Ears to showcase your talent, connect with fans, and take your music career to the next level.
+        </p>
+
+        {/* CTA Buttons */}
+        <div 
+          className={`flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-1000 delay-300 transform ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+          }`}
+        >
+          {/* Primary CTA */}
+          <button className="group relative px-8 py-4 bg-brand-cyan text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-cyan/50">
+            <span className="absolute inset-0 bg-gradient-to-r from-brand-cyan to-deep-teal opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="relative flex items-center gap-2">
+              <PlayIcon className="w-5 h-5" />
+              Start Your Journey
+              <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </span>
+          </button>
+
+          {/* Secondary CTA with Glass Effect */}
+          <button className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-white/20 hover:shadow-xl">
+            <span className="flex items-center gap-2">
+              Explore Artists
+              <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </span>
+          </button>
+        </div>
+
+        {/* Stats Section with Glass Cards */}
+        <div 
+          className={`mt-20 grid grid-cols-1 sm:grid-cols-3 gap-6 transition-all duration-1000 delay-500 transform ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+          }`}
+        >
+          {[
+            { value: '10K+', label: 'Artists' },
+            { value: '50M+', label: 'Streams' },
+            { value: '150+', label: 'Countries' }
+          ].map((stat, index) => (
+            <div 
+              key={index}
+              className="group p-6 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 hover:shadow-xl"
+              style={{ animationDelay: `${600 + index * 100}ms` }}
             >
-              {t('browseButton')}
-            </Link>
-            <Link
-              href="/corporate"
-              className="px-8 py-3 text-lg font-medium text-pure-white bg-transparent border-2 border-pure-white/50 rounded-lg hover:bg-pure-white/10 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2 transition-all duration-300 animate-hero-search-enter"
-              style={{ animationDelay: '700ms' }}
-            >
-              {t('corporateButton')}
-            </Link>
-          </div>
-
-          {/* Trusted By Section */}
-          <div className="mt-16">
-            <p className="text-sm text-pure-white/80 uppercase tracking-wide font-semibold">
-              {t('trustedBy')}
-            </p>
-            <div className="mt-6">
-              {/* Desktop: Show all logos in one row */}
-              <div className="hidden md:flex justify-center items-center space-x-8 opacity-70">
-                {partners.map((partner) => (
-                  <div 
-                    key={partner.name}
-                    className="flex-shrink-0 transition-all duration-300 hover:opacity-100 hover:scale-105"
-                  >
-                    {partner.websiteUrl ? (
-                      <a
-                        href={partner.websiteUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block"
-                      >
-                        <Image
-                          src={partner.logoPath}
-                          alt={partner.altText}
-                          width={120}
-                          height={48}
-                          className="h-12 w-auto filter brightness-0 invert"
-                          priority
-                        />
-                      </a>
-                    ) : (
-                      <Image
-                        src={partner.logoPath}
-                        alt={partner.altText}
-                        width={120}
-                        height={48}
-                        className="h-12 w-auto filter brightness-0 invert"
-                        priority
-                      />
-                    )}
-                  </div>
-                ))}
+              <div className="font-playfair text-4xl font-bold text-white mb-2 group-hover:scale-110 transition-transform duration-300">
+                {stat.value}
               </div>
-              
-              {/* Mobile: Show 2 per row, stacked */}
-              <div className="md:hidden grid grid-cols-2 gap-4 max-w-xs mx-auto opacity-70">
-                {partners.map((partner) => (
-                  <div 
-                    key={partner.name}
-                    className="flex justify-center transition-all duration-300 hover:opacity-100"
-                  >
-                    {partner.websiteUrl ? (
-                      <a
-                        href={partner.websiteUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block"
-                      >
-                        <Image
-                          src={partner.logoPath}
-                          alt={partner.altText}
-                          width={100}
-                          height={40}
-                          className="h-10 w-auto filter brightness-0 invert"
-                          priority
-                        />
-                      </a>
-                    ) : (
-                      <Image
-                        src={partner.logoPath}
-                        alt={partner.altText}
-                        width={100}
-                        height={40}
-                        className="h-10 w-auto filter brightness-0 invert"
-                        priority
-                      />
-                    )}
-                  </div>
-                ))}
+              <div className="font-inter text-white/70 text-sm uppercase tracking-wider">
+                {stat.label}
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-4 -right-4 w-72 h-72 bg-brand-cyan rounded-full mix-blend-overlay filter blur-xl opacity-10 animate-blob"></div>
-        <div className="absolute -bottom-8 -left-4 w-72 h-72 bg-brand-cyan rounded-full mix-blend-overlay filter blur-xl opacity-8 animate-blob"></div>
-        <div className="absolute top-8 left-1/2 w-72 h-72 bg-pure-white rounded-full mix-blend-soft-light filter blur-xl opacity-5 animate-blob"></div>
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-pulse" />
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export default Hero;
