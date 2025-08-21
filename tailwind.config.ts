@@ -37,6 +37,9 @@ const config: Config = {
       },
       animation: {
         blob: "blob 7s infinite",
+        "float-slow": "float 20s ease-in-out infinite",
+        "float-medium": "float 15s ease-in-out infinite",
+        "float-fast": "float 10s ease-in-out infinite",
         "hero-search-enter": "hero-search-enter 500ms cubic-bezier(0.16, 1, 0.3, 1)",
         "suggestion-slide-in": "suggestion-slide-in 250ms cubic-bezier(0.23, 1, 0.32, 1) both",
         "filter-panel-expand": "filter-panel-expand 350ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -65,6 +68,20 @@ const config: Config = {
           },
           "100%": {
             transform: "translate(0px, 0px) scale(1)",
+          },
+        },
+        float: {
+          "0%, 100%": {
+            transform: "translateY(0px) translateX(0px)",
+          },
+          "25%": {
+            transform: "translateY(-20px) translateX(10px)",
+          },
+          "50%": {
+            transform: "translateY(10px) translateX(-10px)",
+          },
+          "75%": {
+            transform: "translateY(-10px) translateX(5px)",
           },
         },
         "hero-search-enter": {

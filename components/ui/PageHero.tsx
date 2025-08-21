@@ -50,42 +50,13 @@ export default function PageHero({
       {showGradientBlobs && (
         <div className="absolute inset-0 overflow-hidden">
           <div
-            animate={{
-              x: [0, 100, 0],
-              y: [0, -50, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-brand-cyan/20 rounded-full blur-3xl"
+            className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-brand-cyan/20 rounded-full blur-3xl animate-float-slow"
           />
           <div
-            animate={{
-              x: [0, -100, 0],
-              y: [0, 50, 0],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 5
-            }}
-            className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-soft-lavender/20 rounded-full blur-3xl"
+            className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-soft-lavender/20 rounded-full blur-3xl animate-float-medium"
           />
           <div
-            animate={{
-              x: [0, 50, 0],
-              y: [0, 100, 0],
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 10
-            }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3 bg-earthy-brown/20 rounded-full blur-3xl"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3 bg-earthy-brown/20 rounded-full blur-3xl animate-float-fast"
           />
         </div>
       )}
@@ -93,9 +64,6 @@ export default function PageHero({
       {/* Content Container */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         <div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-4xl mx-auto text-center"
         >
           {/* Glass Card Background for Content */}
@@ -119,9 +87,6 @@ export default function PageHero({
               {/* Additional Content (CTAs, etc.) */}
               {children && (
                 <div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                   className="mt-8"
                 >
                   {children}
