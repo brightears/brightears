@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { HeartIcon, PlayIcon, StarIcon, UserGroupIcon } from '@heroicons/react/24/outline';
-import { HeartIcon as HeartSolidIcon, VerifiedIcon } from '@heroicons/react/24/solid';
+import { HeartIcon as HeartSolidIcon, CheckBadgeIcon } from '@heroicons/react/24/solid';
 
 interface ArtistCardProps {
   name: string;
@@ -87,7 +87,7 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
             {name}
           </h3>
           {isVerified && (
-            <VerifiedIcon className="w-5 h-5 text-brand-cyan flex-shrink-0" />
+            <CheckBadgeIcon className="w-5 h-5 text-brand-cyan flex-shrink-0" />
           )}
         </div>
 
