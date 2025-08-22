@@ -133,6 +133,9 @@ export default function MobileOptimizedHomepage({ locale }: MobileOptimizedHomep
         </div>
       </div>
 
+      {/* Artist Signup Section - Secondary Focus */}
+      <ArtistSignupSection />
+
       {/* Floating CTA */}
       <MobileFloatingCTA scrollPosition={scrollPosition} />
     </>

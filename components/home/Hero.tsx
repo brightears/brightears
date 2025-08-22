@@ -57,7 +57,7 @@ const Hero: React.FC = () => {
           }`}
         >
           <SparklesIcon className="w-4 h-4 text-soft-lavender animate-pulse" />
-          <span className="text-sm font-medium text-white">Discover Music That Moves You</span>
+          <span className="text-sm font-medium text-white">Thailand's Premier Entertainment Booking Platform</span>
         </div>
 
         {/* Main Heading */}
@@ -66,9 +66,9 @@ const Hero: React.FC = () => {
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}
         >
-          <span className="block">Where Artists</span>
+          <span className="block">Book Perfect Entertainment</span>
           <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent">
-            Connect & Create
+            For Your Event
           </span>
         </h1>
 
@@ -78,7 +78,7 @@ const Hero: React.FC = () => {
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}
         >
-          Join Bright Ears to showcase your talent, connect with fans, and take your music career to the next level.
+          Connect directly with verified DJs, bands, and musicians. No commission fees. Transparent pricing. Guaranteed quality.
         </p>
 
         {/* CTA Buttons */}
@@ -92,7 +92,7 @@ const Hero: React.FC = () => {
             <span className="absolute inset-0 bg-gradient-to-r from-brand-cyan to-deep-teal opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative flex items-center gap-2">
               <PlayIcon className="w-5 h-5" />
-              Start Your Journey
+              Find Entertainment Now
               <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
           </button>
@@ -100,7 +100,7 @@ const Hero: React.FC = () => {
           {/* Secondary CTA with Glass Effect */}
           <button className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-white/20 hover:shadow-xl">
             <span className="flex items-center gap-2">
-              Explore Artists
+              How It Works
               <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
           </button>
@@ -113,9 +113,9 @@ const Hero: React.FC = () => {
           }`}
         >
           {[
-            { value: '10K+', label: 'Artists' },
-            { value: '50M+', label: 'Streams' },
-            { value: '150+', label: 'Countries' }
+            { value: '500+', label: 'Venues Trust Us' },
+            { value: '10K+', label: 'Successful Events' },
+            { value: '4.9★', label: 'Average Rating' }
           ].map((stat, index) => (
             <div 
               key={index}
