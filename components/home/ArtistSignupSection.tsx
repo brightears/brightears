@@ -3,8 +3,11 @@
 import React from 'react';
 import { MusicalNoteIcon, CurrencyDollarIcon, UsersIcon, CheckBadgeIcon } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
+import { Link } from '@/components/navigation';
+import { useTranslations } from 'next-intl';
 
 const ArtistSignupSection: React.FC = () => {
+  const t = useTranslations('artistSignup');
   const benefits = [
     {
       icon: CurrencyDollarIcon,
@@ -63,12 +66,12 @@ const ArtistSignupSection: React.FC = () => {
             </div>
 
             {/* CTA Button */}
-            <button className="group px-8 py-4 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-cyan/50">
+            <Link href="/register" className="group px-8 py-4 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-cyan/50 inline-block">
               <span className="flex items-center gap-2">
                 Apply to Join
                 <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </span>
-            </button>
+            </Link>
 
             <p className="mt-4 text-sm text-white/70">
               Quick approval • Professional support • No hidden fees

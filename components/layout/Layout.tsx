@@ -6,20 +6,15 @@ import Header from './Header';
 interface LayoutProps {
   children: React.ReactNode;
   className?: string;
-  headerProps?: {
-    currentLanguage?: string;
-    onLanguageChange?: (lang: string) => void;
-  };
 }
 
 const Layout: React.FC<LayoutProps> = ({ 
   children, 
-  className = "",
-  headerProps = {}
+  className = ""
 }) => {
   return (
     <div className={`container-modern ${className}`}>
-      <Header {...headerProps} />
+      <Header />
       
       {/* Main Content */}
       <main className="relative pt-16 min-h-screen">

@@ -3,10 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
+import { Link } from '@/components/navigation';
+import { useTranslations } from 'next-intl';
 
 const Hero: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const t = useTranslations('hero');
 
   useEffect(() => {
     setIsVisible(true);
@@ -88,22 +91,22 @@ const Hero: React.FC = () => {
           }`}
         >
           {/* Primary CTA */}
-          <button className="group relative px-8 py-4 bg-brand-cyan text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-cyan/50">
+          <Link href="/artists" className="group relative px-8 py-4 bg-brand-cyan text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-cyan/50 inline-block">
             <span className="absolute inset-0 bg-gradient-to-r from-brand-cyan to-deep-teal opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative flex items-center gap-2">
               <PlayIcon className="w-5 h-5" />
               Find Entertainment Now
               <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
-          </button>
+          </Link>
 
           {/* Secondary CTA with Glass Effect */}
-          <button className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-white/20 hover:shadow-xl">
+          <Link href="/how-it-works" className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-white/20 hover:shadow-xl inline-block">
             <span className="flex items-center gap-2">
               How It Works
               <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
-          </button>
+          </Link>
         </div>
 
         {/* Stats Section with Glass Cards */}

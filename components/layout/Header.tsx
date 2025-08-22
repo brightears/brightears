@@ -2,33 +2,32 @@
 
 import React, { useState, useEffect } from 'react';
 import { Bars3Icon, XMarkIcon, GlobeAltIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { Link, usePathname, useRouter } from '@/components/navigation';
+import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { locales, localeNames, type Locale } from '@/i18n.config';
 
-interface HeaderProps {
-  currentLanguage?: string;
-  onLanguageChange?: (lang: string) => void;
-}
-
-const Header: React.FC<HeaderProps> = ({ 
-  currentLanguage = 'EN', 
-  onLanguageChange = () => {} 
-}) => {
+const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  
+  const t = useTranslations('nav');
+  const pathname = usePathname();
+  const router = useRouter();
+  const params = useParams();
+  const currentLocale = (params?.locale || 'en') as Locale;
 
   const languages = [
-    { code: 'EN', label: 'English', flag: '🇬🇧' },
-    { code: 'ES', label: 'Español', flag: '🇪🇸' },
-    { code: 'FR', label: 'Français', flag: '🇫🇷' },
-    { code: 'DE', label: 'Deutsch', flag: '🇩🇪' },
+    { code: 'en' as Locale, label: 'English', flag: '🇬🇧' },
+    { code: 'th' as Locale, label: 'ไทย', flag: '🇹🇭' },
   ];
 
   const navItems = [
-    { label: 'Discover', href: '#discover' },
-    { label: 'Artists', href: '#artists' },
-    { label: 'Events', href: '#events' },
-    { label: 'About', href: '#about' },
+    { label: t('browseArtists'), href: '/artists' },
+    { label: t('howItWorks'), href: '/how-it-works' },
+    { label: t('corporate'), href: '/corporate' },
   ];
 
   useEffect(() => {
@@ -40,12 +39,13 @@ const Header: React.FC<HeaderProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleLanguageChange = (locale: Locale) => {
+    setIsLangMenuOpen(false);
+    // Use Next.js router to navigate to the same page with different locale
+    router.replace(pathname, { locale });
+  };
+
+  const handleMobileMenuClose = () => {
     setIsMobileMenuOpen(false);
   };
 
@@ -61,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <a 
+            <Link 
               href="/" 
               className="group flex items-center transition-transform duration-300 hover:scale-105"
             >
@@ -73,15 +73,14 @@ const Header: React.FC<HeaderProps> = ({
                 className="h-10 w-auto"
                 priority
               />
-            </a>
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
                   href={item.href}
-                  onClick={(e) => handleSmoothScroll(e, item.href)}
                   className={`relative font-inter transition-colors duration-300 group ${
                     isScrolled 
                       ? 'text-dark-gray/90 hover:text-brand-cyan' 
@@ -90,7 +89,7 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   <span className="relative z-10">{item.label}</span>
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-cyan transition-all duration-300 group-hover:w-full" />
-                </a>
+                </Link>
               ))}
             </div>
 
@@ -107,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({
                   }`}
                 >
                   <GlobeAltIcon className="w-4 h-4" />
-                  <span className="hidden sm:inline font-inter text-sm">{currentLanguage}</span>
+                  <span className="hidden sm:inline font-inter text-sm">{currentLocale.toUpperCase()}</span>
                   <ChevronDownIcon className={`w-3 h-3 transition-transform duration-300 ${isLangMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
@@ -121,17 +120,14 @@ const Header: React.FC<HeaderProps> = ({
                     {languages.map((lang) => (
                       <button
                         key={lang.code}
-                        onClick={() => {
-                          onLanguageChange(lang.code);
-                          setIsLangMenuOpen(false);
-                        }}
+                        onClick={() => handleLanguageChange(lang.code)}
                         className={`w-full px-4 py-3 flex items-center gap-3 transition-colors duration-200 ${
                           isScrolled
                             ? `text-dark-gray hover:bg-brand-cyan/10 ${
-                                currentLanguage === lang.code ? 'bg-brand-cyan/20' : ''
+                                currentLocale === lang.code ? 'bg-brand-cyan/20' : ''
                               }`
                             : `text-white hover:bg-white/10 ${
-                                currentLanguage === lang.code ? 'bg-brand-cyan/20' : ''
+                                currentLocale === lang.code ? 'bg-brand-cyan/20' : ''
                               }`
                         }`}
                       >
@@ -144,18 +140,24 @@ const Header: React.FC<HeaderProps> = ({
               </div>
 
               {/* Artist Login Button - Desktop */}
-              <button className={`hidden sm:flex items-center gap-2 px-4 py-2.5 font-semibold rounded-xl transition-all duration-300 ${
-                isScrolled 
-                  ? 'bg-transparent border border-brand-cyan/50 text-brand-cyan hover:bg-brand-cyan/10 hover:border-brand-cyan'
-                  : 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20'
-              }`}>
-                For Artists
-              </button>
+              <Link 
+                href="/register"
+                className={`hidden sm:flex items-center gap-2 px-4 py-2.5 font-semibold rounded-xl transition-all duration-300 ${
+                  isScrolled 
+                    ? 'bg-transparent border border-brand-cyan/50 text-brand-cyan hover:bg-brand-cyan/10 hover:border-brand-cyan'
+                    : 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20'
+                }`}
+              >
+                {t('signup')}
+              </Link>
 
               {/* Get Started Button - Desktop */}
-              <button className="hidden sm:flex items-center gap-2 px-6 py-2.5 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50 hover:-translate-y-0.5">
-                Get Started
-              </button>
+              <Link 
+                href="/artists"
+                className="hidden sm:flex items-center gap-2 px-6 py-2.5 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50 hover:-translate-y-0.5"
+              >
+                {t('browseArtists')}
+              </Link>
 
               {/* Mobile Menu Toggle */}
               <button
@@ -197,26 +199,34 @@ const Header: React.FC<HeaderProps> = ({
             {/* Mobile Navigation Links */}
             <nav className="flex-1 space-y-2">
               {navItems.map((item, index) => (
-                <a
+                <Link
                   key={item.label}
                   href={item.href}
-                  onClick={(e) => handleSmoothScroll(e, item.href)}
+                  onClick={handleMobileMenuClose}
                   className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-300"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </nav>
 
             {/* Mobile CTAs */}
             <div className="space-y-3">
-              <button className="w-full px-6 py-3 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50">
-                Get Started
-              </button>
-              <button className="w-full px-6 py-3 bg-transparent border border-white/30 text-white font-semibold rounded-xl transition-all duration-300 hover:bg-white/10">
-                For Artists
-              </button>
+              <Link 
+                href="/artists"
+                onClick={handleMobileMenuClose}
+                className="w-full px-6 py-3 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50 text-center block"
+              >
+                {t('browseArtists')}
+              </Link>
+              <Link 
+                href="/register"
+                onClick={handleMobileMenuClose}
+                className="w-full px-6 py-3 bg-transparent border border-white/30 text-white font-semibold rounded-xl transition-all duration-300 hover:bg-white/10 text-center block"
+              >
+                {t('signup')}
+              </Link>
             </div>
           </div>
         </div>
