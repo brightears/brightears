@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Bars3Icon, XMarkIcon, GlobeAltIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
-import { MusicalNoteIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
 
 interface HeaderProps {
   currentLanguage?: string;
@@ -54,8 +54,8 @@ const Header: React.FC<HeaderProps> = ({
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled 
-            ? 'py-3 bg-off-white/90 backdrop-blur-xl shadow-lg border-b border-brand-cyan/20' 
-            : 'py-6 bg-transparent'
+            ? 'py-3 bg-off-white/95 backdrop-blur-xl shadow-lg border-b border-brand-cyan/20' 
+            : 'py-6 bg-deep-teal/90 backdrop-blur-md'
         }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,19 +63,16 @@ const Header: React.FC<HeaderProps> = ({
             {/* Logo */}
             <a 
               href="/" 
-              className="group flex items-center gap-3 transition-transform duration-300 hover:scale-105"
+              className="group flex items-center transition-transform duration-300 hover:scale-105"
             >
-              <div className="relative">
-                <div className="absolute inset-0 bg-brand-cyan blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative w-10 h-10 bg-gradient-to-br from-brand-cyan to-deep-teal rounded-xl flex items-center justify-center shadow-lg">
-                  <MusicalNoteIcon className="w-6 h-6 text-white" />
-                </div>
-              </div>
-              <span className={`font-playfair text-2xl font-bold transition-colors duration-300 ${
-                isScrolled ? 'text-dark-gray' : 'text-white'
-              }`}>
-                Bright Ears
-              </span>
+              <Image 
+                src="/logo.png" 
+                alt="Bright Ears" 
+                width={150} 
+                height={50} 
+                className="h-10 w-auto"
+                priority
+              />
             </a>
 
             {/* Desktop Navigation */}
@@ -88,7 +85,7 @@ const Header: React.FC<HeaderProps> = ({
                   className={`relative font-inter transition-colors duration-300 group ${
                     isScrolled 
                       ? 'text-dark-gray/90 hover:text-brand-cyan' 
-                      : 'text-white/90 hover:text-white'
+                      : 'text-pure-white hover:text-brand-cyan'
                   }`}
                 >
                   <span className="relative z-10">{item.label}</span>
