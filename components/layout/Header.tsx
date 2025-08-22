@@ -143,6 +143,15 @@ const Header: React.FC<HeaderProps> = ({
                 )}
               </div>
 
+              {/* Artist Login Button - Desktop */}
+              <button className={`hidden sm:flex items-center gap-2 px-4 py-2.5 font-semibold rounded-xl transition-all duration-300 ${
+                isScrolled 
+                  ? 'bg-transparent border border-brand-cyan/50 text-brand-cyan hover:bg-brand-cyan/10 hover:border-brand-cyan'
+                  : 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20'
+              }`}>
+                For Artists
+              </button>
+
               {/* Get Started Button - Desktop */}
               <button className="hidden sm:flex items-center gap-2 px-6 py-2.5 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50 hover:-translate-y-0.5">
                 Get Started
@@ -200,10 +209,15 @@ const Header: React.FC<HeaderProps> = ({
               ))}
             </nav>
 
-            {/* Mobile CTA */}
-            <button className="w-full px-6 py-3 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50">
-              Get Started
-            </button>
+            {/* Mobile CTAs */}
+            <div className="space-y-3">
+              <button className="w-full px-6 py-3 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50">
+                Get Started
+              </button>
+              <button className="w-full px-6 py-3 bg-transparent border border-white/30 text-white font-semibold rounded-xl transition-all duration-300 hover:bg-white/10">
+                For Artists
+              </button>
+            </div>
           </div>
         </div>
       </div>
