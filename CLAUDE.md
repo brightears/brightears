@@ -106,23 +106,30 @@ Building a commission-free entertainment booking platform for Thailand, starting
 - ✅ Build now completes successfully with only minor translation warnings (non-blocking)
 
 ### 🎯 **IMMEDIATE NEXT PRIORITIES**
-1. **Email Service Configuration**
+1. **Customer Journey Implementation** ✨ NEW
+   - Progressive signup flow (phone-first)
+   - SMS verification system
+   - Lightweight inquiry system (2 fields)
+   - PromptPay QR code generation
+   - See CUSTOMER_JOURNEY.md for full strategy
+
+2. **Email Service Configuration**
    - Set up Resend API key in Render environment
    - Test email notifications end-to-end
    - Configure email templates for production
 
-2. **Authentication System**
-   - NextAuth.js setup and configuration
-   - Login/signup page implementation
+3. **Authentication System**
+   - Phone-based authentication (SMS OTP)
+   - Progressive profile completion
    - Protected route middleware
    - Role-based access control
 
-3. **File Upload System**
+4. **File Upload System**
    - Cloudinary integration for media uploads
    - Artist profile and cover image uploads
    - Audio sample management for artist portfolios
 
-4. **Production Optimization**
+5. **Production Optimization**
    - Performance monitoring setup
    - Error tracking integration
    - SEO metadata completion
