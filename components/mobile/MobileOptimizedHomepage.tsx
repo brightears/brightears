@@ -10,6 +10,7 @@ import Categories from '@/components/home/Categories'
 import TestimonialsSection from '@/components/home/TestimonialsSection'
 import CorporateSection from '@/components/home/CorporateSection'
 import ArtistSignupSection from '@/components/home/ArtistSignupSection'
+import UserFlowSection from '@/components/home/UserFlowSection'
 import MobileCategoriesCarousel from './MobileCategoriesCarousel'
 import MobileActivitySummary from './MobileActivitySummary'
 import MobileFloatingCTA from './MobileFloatingCTA'
@@ -47,6 +48,7 @@ export default function MobileOptimizedHomepage({ locale }: MobileOptimizedHomep
     return (
       <>
         <Hero />
+        <UserFlowSection />
         <div className="py-16 bg-off-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -68,6 +70,7 @@ export default function MobileOptimizedHomepage({ locale }: MobileOptimizedHomep
         <Categories />
         <TestimonialsSection locale={locale} />
         <CorporateSection />
+        <ArtistSignupSection />
       </>
     )
   }
@@ -77,6 +80,9 @@ export default function MobileOptimizedHomepage({ locale }: MobileOptimizedHomep
     <>
       {/* Priority 1: Immediate Value */}
       <Hero />
+      
+      {/* User Flow Section - Clear paths for all users */}
+      <UserFlowSection />
       
       {/* Mobile Categories Carousel */}
       <div className="py-4 bg-off-white border-b">

@@ -139,16 +139,16 @@ const Header: React.FC = () => {
                 )}
               </div>
 
-              {/* Artist Login Button - Desktop */}
+              {/* Artist Signup Button - Desktop */}
               <Link 
-                href="/register"
+                href="/register/artist"
                 className={`hidden sm:flex items-center gap-2 px-4 py-2.5 font-semibold rounded-xl transition-all duration-300 ${
                   isScrolled 
-                    ? 'bg-transparent border border-brand-cyan/50 text-brand-cyan hover:bg-brand-cyan/10 hover:border-brand-cyan'
+                    ? 'bg-transparent border border-soft-lavender/50 text-soft-lavender hover:bg-soft-lavender/10 hover:border-soft-lavender'
                     : 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20'
                 }`}
               >
-                {t('signup')}
+                <span className="text-sm">For Artists:</span> Join
               </Link>
 
               {/* Get Started Button - Desktop */}
@@ -221,11 +221,11 @@ const Header: React.FC = () => {
                 {t('browseArtists')}
               </Link>
               <Link 
-                href="/register"
+                href="/register/artist"
                 onClick={handleMobileMenuClose}
-                className="w-full px-6 py-3 bg-transparent border border-white/30 text-white font-semibold rounded-xl transition-all duration-300 hover:bg-white/10 text-center block"
+                className="w-full px-6 py-3 bg-soft-lavender/20 border border-soft-lavender/30 text-white font-semibold rounded-xl transition-all duration-300 hover:bg-soft-lavender/30 text-center block"
               >
-                {t('signup')}
+                For Artists: Join Platform
               </Link>
             </div>
           </div>

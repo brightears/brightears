@@ -65,16 +65,27 @@ const ArtistSignupSection: React.FC = () => {
               ))}
             </div>
 
-            {/* CTA Button */}
-            <Link href="/register" className="group px-8 py-4 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-cyan/50 inline-block">
-              <span className="flex items-center gap-2">
-                Apply to Join
-                <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </span>
-            </Link>
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap gap-4">
+              <Link href="/register/artist" className="group px-8 py-4 bg-gradient-to-r from-brand-cyan to-deep-teal text-white font-semibold rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-cyan/50 inline-block">
+                <span className="flex items-center gap-2">
+                  Start Your Artist Profile
+                  <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+              </Link>
+              
+              <Link href="/login" className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-white/20 inline-block">
+                <span className="flex items-center gap-2">
+                  Already a Member? Login
+                </span>
+              </Link>
+            </div>
 
             <p className="mt-4 text-sm text-white/70">
-              Quick approval • Professional support • No hidden fees
+              <span className="text-brand-cyan font-semibold">✓</span> Quick approval • 
+              <span className="text-brand-cyan font-semibold">✓</span> Professional support • 
+              <span className="text-brand-cyan font-semibold">✓</span> No hidden fees • 
+              <span className="text-brand-cyan font-semibold">✓</span> Start earning today
             </p>
           </div>
 

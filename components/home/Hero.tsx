@@ -108,6 +108,13 @@ const Hero: React.FC = () => {
             </span>
           </Link>
         </div>
+        
+        {/* No signup required message */}
+        <p className={`mt-6 text-sm text-white/80 font-inter transition-all duration-1000 delay-400 transform ${
+          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+        }`}>
+          ✨ Browse and book artists instantly • No signup required to explore
+        </p>
 
         {/* Stats Section with Glass Cards */}
         <div 
