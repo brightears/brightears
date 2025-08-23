@@ -32,7 +32,7 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
 
   return (
     <div
-      className="group relative bg-off-white rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+      className="group relative bg-white/70 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 shadow-xl"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -79,15 +79,19 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
         </button>
       </div>
 
+      {/* Gradient border effect - matching How It Works page style */}
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-cyan via-deep-teal to-earthy-brown rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl"></div>
+      <div className="absolute inset-[1px] bg-gradient-to-r from-brand-cyan via-deep-teal to-earthy-brown rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
+
       {/* Content */}
-      <div className="p-6">
+      <div className="relative z-10 p-6">
         {/* Artist Name with Verification */}
         <div className="flex items-center gap-2 mb-2">
-          <h3 className="font-playfair text-xl font-bold text-dark-gray truncate">
+          <h3 className="font-playfair text-xl font-bold text-dark-gray truncate group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-brand-cyan group-hover:to-deep-teal group-hover:bg-clip-text transition-all duration-300">
             {name}
           </h3>
           {isVerified && (
-            <CheckBadgeIcon className="w-5 h-5 text-brand-cyan flex-shrink-0" />
+            <CheckBadgeIcon className="w-5 h-5 text-brand-cyan flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
           )}
         </div>
 
@@ -107,7 +111,7 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
             {[...Array(5)].map((_, i) => (
               <StarIcon
                 key={i}
-                className={`w-4 h-4 ${
+                className={`w-4 h-4 transition-colors duration-300 ${
                   i < Math.floor(rating)
                     ? 'fill-earthy-brown text-earthy-brown'
                     : 'text-dark-gray/30'
@@ -124,24 +128,28 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
         <div className="flex gap-3">
           <button
             onClick={onFollow}
-            className="flex-1 px-4 py-2.5 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 hover:bg-brand-cyan/90 hover:shadow-lg hover:shadow-brand-cyan/30 hover:-translate-y-0.5"
+            className="group/btn relative flex-1 px-4 py-2.5 bg-gradient-to-r from-brand-cyan to-deep-teal text-white font-semibold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/30 hover:-translate-y-0.5"
           >
-            Follow
+            <span className="absolute inset-0 bg-gradient-to-r from-deep-teal to-brand-cyan opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
+            <span className="relative">Follow</span>
           </button>
           <button
             onClick={onPlay}
-            className="px-4 py-2.5 bg-off-white border-2 border-deep-teal/20 text-deep-teal font-semibold rounded-xl transition-all duration-300 hover:bg-deep-teal hover:text-white hover:border-deep-teal hover:-translate-y-0.5"
+            className="px-4 py-2.5 bg-white/50 backdrop-blur-sm border border-deep-teal/20 text-deep-teal font-semibold rounded-xl transition-all duration-300 hover:bg-deep-teal hover:text-white hover:border-deep-teal hover:-translate-y-0.5 hover:shadow-lg hover:shadow-deep-teal/30"
           >
             <PlayIcon className="w-5 h-5" />
           </button>
         </div>
       </div>
 
+      {/* Animated pulse ring on hover */}
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-brand-cyan/20 to-soft-lavender/20 opacity-0 group-hover:opacity-100 animate-ping"></div>
+
       {/* Hover Glow Effect */}
       <div className={`absolute inset-0 rounded-2xl transition-opacity duration-500 pointer-events-none ${
         isHovered ? 'opacity-100' : 'opacity-0'
       }`}>
-        <div className="absolute inset-0 rounded-2xl shadow-[0_0_40px_rgba(0,187,228,0.2)]" />
+        <div className="absolute inset-0 rounded-2xl shadow-[0_0_40px_rgba(0,187,228,0.3)]" />
       </div>
     </div>
   );
