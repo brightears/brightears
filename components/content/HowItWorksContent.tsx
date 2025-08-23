@@ -129,7 +129,7 @@ export default function HowItWorksContent({ locale }: HowItWorksContentProps) {
           <div className="text-center">
             <div className="inline-flex items-center bg-pure-white/10 backdrop-blur-md border border-pure-white/20 rounded-full px-6 py-3 mb-8 animate-hero-search-enter">
               <span className="text-brand-cyan text-sm font-medium">
-                ✨ Simple • Fast • Professional
+                ✨ Simple • Fast • Professional • Zero Commission
               </span>
             </div>
             
