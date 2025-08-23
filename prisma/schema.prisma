@@ -101,11 +101,16 @@ model User {
   email             String   @unique
   phone             String?  @unique
   password          String?
+  firstName         String?
+  lastName          String?
   name              String?
   image             String?
   role              UserRole
   emailVerified     DateTime?
   phoneVerified     DateTime?
+  isPhoneVerified   Boolean  @default(false)
+  verificationCode  String?
+  verificationExpiry DateTime?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   lastLogin         DateTime?

@@ -119,7 +119,8 @@ export default function ArtistListing({ locale }: ArtistListingProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {artists.map((artist) => (
                   <ArtistCard 
-                    key={artist.id} 
+                    key={artist.id}
+                    id={artist.id}
                     name={artist.stageName}
                     genre={artist.genres?.[0] || artist.category || 'Various'}
                     image={artist.profileImage || '/placeholder-artist.jpg'}

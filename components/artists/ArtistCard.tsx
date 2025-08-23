@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import { HeartIcon, PlayIcon, StarIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon, CheckBadgeIcon } from '@heroicons/react/24/solid';
+import QuickInquiryModal from '@/components/booking/QuickInquiryModal';
 
 interface ArtistCardProps {
+  id: string;
   name: string;
   genre: string;
   image: string;
@@ -17,6 +19,7 @@ interface ArtistCardProps {
 }
 
 const ArtistCard: React.FC<ArtistCardProps> = ({
+  id,
   name,
   genre,
   image,
@@ -29,6 +32,7 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [showInquiryModal, setShowInquiryModal] = useState(false);
 
   return (
     <div
@@ -127,11 +131,11 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
         {/* Action Buttons */}
         <div className="flex gap-3">
           <button
-            onClick={onFollow}
+            onClick={() => setShowInquiryModal(true)}
             className="group/btn relative flex-1 px-4 py-2.5 bg-gradient-to-r from-brand-cyan to-deep-teal text-white font-semibold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/30 hover:-translate-y-0.5"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-deep-teal to-brand-cyan opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
-            <span className="relative">Follow</span>
+            <span className="relative">Get Quote</span>
           </button>
           <button
             onClick={onPlay}
@@ -151,6 +155,15 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
       }`}>
         <div className="absolute inset-0 rounded-2xl shadow-[0_0_40px_rgba(0,187,228,0.3)]" />
       </div>
+
+      {/* Quick Inquiry Modal */}
+      <QuickInquiryModal
+        isOpen={showInquiryModal}
+        onClose={() => setShowInquiryModal(false)}
+        artistId={id}
+        artistName={name}
+        artistImage={image}
+      />
     </div>
   );
 };
