@@ -93,17 +93,27 @@ export async function POST(request: NextRequest) {
       // In production, integrate with Twilio or similar service
     }
     
-    // Create the booking inquiry
+    // Create the booking inquiry with minimal required fields
+    const eventDateTime = new Date(validatedData.eventDate)
+    eventDateTime.setHours(18, 0, 0, 0) // Default to 6 PM
+    const endDateTime = new Date(eventDateTime)
+    endDateTime.setHours(23, 0, 0, 0) // Default to 11 PM (5 hours duration)
+    
     const booking = await prisma.booking.create({
       data: {
         customerId: user.id,
         artistId: validatedData.artistId,
         eventDate: validatedData.eventDate,
-        eventType: validatedData.eventType as any,
+        eventType: validatedData.eventType,
         status: 'INQUIRY',
-        totalAmount: 0, // Will be set when artist sends quote
-        depositAmount: 0,
-        message: validatedData.message || `Hi, I'm interested in booking you for my ${validatedData.eventType.toLowerCase()} on ${validatedData.eventDate.toLocaleDateString()}.`,
+        // Required fields with defaults (will be updated when artist responds)
+        startTime: eventDateTime,
+        endTime: endDateTime,
+        duration: 5, // Default 5 hours
+        venue: 'To be determined',
+        venueAddress: 'To be determined',
+        quotedPrice: 0, // Will be set when artist sends quote
+        specialRequests: validatedData.message || `Hi, I'm interested in booking you for my ${validatedData.eventType.toLowerCase()} on ${validatedData.eventDate.toLocaleDateString()}.`,
       },
       include: {
         artist: {
