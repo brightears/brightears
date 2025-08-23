@@ -80,7 +80,7 @@ export default function ArtistListing({ locale }: ArtistListingProps) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
+      <div className="mb-12">
         <ArtistSearch onSearch={handleSearch} initialValue={filters.search} />
       </div>
 
@@ -145,8 +145,10 @@ export default function ArtistListing({ locale }: ArtistListingProps) {
               )}
             </>
           ) : (
-            <div className="text-center py-12">
-              <p className="text-dark-gray font-inter text-lg">{t('noArtistsFound')}</p>
+            <div className="text-center py-16 bg-white/50 backdrop-blur-sm rounded-2xl">
+              <div className="text-6xl mb-4">🎵</div>
+              <p className="text-dark-gray font-inter text-xl mb-2">{t('noArtistsFound')}</p>
+              <p className="text-dark-gray/60 font-inter text-sm">Try adjusting your filters or search terms</p>
             </div>
           )}
         </div>

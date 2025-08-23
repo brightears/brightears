@@ -24,13 +24,14 @@ export default function ArtistSearch({ onSearch, initialValue = '' }: ArtistSear
   
   return (
     <form onSubmit={handleSubmit} className="relative max-w-2xl mx-auto">
-      <div className="relative">
+      <div className="relative group">
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-cyan to-deep-teal rounded-2xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity duration-300" />
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t('searchPlaceholder')}
-          className="w-full font-inter px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-cyan text-dark-gray"
+          className="relative w-full font-inter px-6 py-4 pr-14 bg-white/80 backdrop-blur-md border border-white/30 rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:bg-white/90 text-dark-gray shadow-lg transition-all duration-300"
         />
         
         {search && (
@@ -47,7 +48,7 @@ export default function ArtistSearch({ onSearch, initialValue = '' }: ArtistSear
         
         <button
           type="submit"
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-brand-cyan text-pure-white p-2 rounded hover:bg-brand-cyan/80 transition-colors"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-brand-cyan to-deep-teal text-pure-white p-3 rounded-xl hover:shadow-lg hover:scale-110 transition-all duration-300"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

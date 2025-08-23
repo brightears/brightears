@@ -47,7 +47,7 @@ export default function ArtistFilters({ filters, onFilterChange }: ArtistFilters
   }
   
   return (
-    <div className="bg-background rounded-lg shadow-md p-6">
+    <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 p-6 transition-all duration-300 hover:shadow-2xl">
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-playfair font-bold text-lg text-dark-gray">{t('filters')}</h3>
         {(filters.category || filters.city) && (

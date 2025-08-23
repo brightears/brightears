@@ -24,6 +24,8 @@ export default async function ArtistsPage({ params }: { params: Promise<{ locale
         title={t('title')}
         subtitle={t('subtitle')}
         variant="default"
+        showGradientBlobs={true}
+        className="bg-gradient-to-br from-deep-teal via-brand-cyan to-deep-teal"
       />
       
       {/* Content Section with improved background */}
