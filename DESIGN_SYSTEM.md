@@ -4,6 +4,51 @@
 
 This document defines the **ONLY** colors and fonts allowed in the Bright Ears project. Any deviation from these standards requires explicit approval.
 
+## 🎨 Modern Design Patterns (Updated August 23, 2024)
+
+### Glass Morphism Standard
+```css
+/* Primary glass effect */
+bg-white/70 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl
+
+/* Strong glass effect */
+bg-white/80 backdrop-blur-xl border border-white/30
+
+/* Dark glass effect */
+bg-black/10 backdrop-blur-md border border-white/10
+```
+
+### Gradient Mesh Backgrounds
+```css
+/* Dynamic gradient with mouse tracking */
+radial-gradient(circle at [mouse.x]% [mouse.y]%, rgba(0, 187, 228, 0.4) 0%, transparent 50%),
+radial-gradient(circle at 80% 20%, rgba(165, 119, 100, 0.3) 0%, transparent 50%),
+linear-gradient(135deg, #00bbe4 0%, #2f6364 50%, #a47764 100%)
+```
+
+### Animation Classes
+```css
+animate-blob         /* 7s morphing animation */
+animate-float-slow   /* 20s floating effect */
+animate-float-medium /* 15s floating effect */
+animate-float-fast   /* 10s floating effect */
+animate-pulse        /* Breathing effect */
+animation-delay-2000 /* 2s delay */
+animation-delay-4000 /* 4s delay */
+```
+
+### Hover Effects
+```css
+/* Lift effect */
+hover:-translate-y-2 hover:shadow-2xl
+
+/* Scale effect */
+hover:scale-105
+
+/* Gradient border on hover */
+group-hover:opacity-20 (on gradient overlay)
+```
+
 ## Color Palette (USE ONLY THESE)
 
 ### 4 Brand Colors + White
