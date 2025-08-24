@@ -74,7 +74,7 @@ const ArtistSignupSection: React.FC = () => {
                 </span>
               </Link>
               
-              <Link href="/login" className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-white/20 inline-block">
+              <Link href="/artist-login" className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-white/20 inline-block">
                 <span className="flex items-center gap-2">
                   Already a Member? Login
                 </span>
