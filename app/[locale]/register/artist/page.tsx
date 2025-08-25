@@ -60,6 +60,12 @@ export default function ArtistRegistrationPage() {
     }
 
     try {
+      if (!signUp) {
+        setError('Sign up service not available')
+        setIsLoading(false)
+        return
+      }
+      
       await signUp.create({
         emailAddress: authData.email,
         password: authData.password,
@@ -77,7 +83,7 @@ export default function ArtistRegistrationPage() {
 
   const handleVerification = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!signUpLoaded) return
+    if (!signUpLoaded || !signUp) return
 
     setIsLoading(true)
     try {
@@ -151,6 +157,7 @@ export default function ArtistRegistrationPage() {
               <button
                 type="button"
                 onClick={async () => {
+                  if (!signUp) return
                   try {
                     await signUp.authenticateWithRedirect({
                       strategy: 'oauth_google',
