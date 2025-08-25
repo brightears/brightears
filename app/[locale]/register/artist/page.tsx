@@ -3,14 +3,25 @@
 import { useState } from 'react'
 import { useRouter } from '@/components/navigation'
 import { useTranslations } from 'next-intl'
-import { signIn } from 'next-auth/react'
+import { useUser, useSignUp } from '@clerk/nextjs'
 import { Link } from '@/components/navigation'
+import { useMutation } from 'convex/react'
+import { api } from '../../../../convex/_generated/api'
 
 export default function ArtistRegistrationPage() {
-  const [formData, setFormData] = useState({
+  const { user } = useUser()
+  const { signUp, isLoaded: signUpLoaded, setActive } = useSignUp()
+  const createArtistProfile = useMutation(api.users.createArtistProfile)
+  const [step, setStep] = useState<'auth' | 'profile'>('auth')
+  
+  const [authData, setAuthData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
+    phone: ''
+  })
+  
+  const [profileData, setProfileData] = useState({
     stageName: '',
     realName: '',
     category: '',
@@ -20,11 +31,13 @@ export default function ArtistRegistrationPage() {
     genres: [] as string[],
     hourlyRate: '',
     minimumHours: '2',
-    phone: '',
     acceptTerms: false
   })
+  
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [verificationCode, setVerificationCode] = useState('')
+  const [pendingVerification, setPendingVerification] = useState(false)
   const router = useRouter()
   const t = useTranslations('auth')
 
@@ -33,63 +46,80 @@ export default function ArtistRegistrationPage() {
   const languageOptions = ['en', 'th', 'ja', 'zh', 'ko', 'de', 'fr']
   const genreOptions = ['Pop', 'Rock', 'Jazz', 'Classical', 'EDM', 'Hip Hop', 'R&B', 'Country', 'Folk', 'Blues']
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!signUpLoaded) return
+    
     setIsLoading(true)
     setError('')
 
-    if (formData.password !== formData.confirmPassword) {
+    if (authData.password !== authData.confirmPassword) {
       setError('Passwords do not match')
       setIsLoading(false)
       return
     }
 
-    if (!formData.acceptTerms) {
+    try {
+      await signUp.create({
+        emailAddress: authData.email,
+        password: authData.password,
+        phoneNumber: authData.phone || undefined,
+      })
+
+      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
+      setPendingVerification(true)
+    } catch (err: any) {
+      setError(err.errors?.[0]?.longMessage || 'Sign up failed')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleVerification = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!signUpLoaded) return
+
+    setIsLoading(true)
+    try {
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code: verificationCode,
+      })
+
+      if (completeSignUp.status === 'complete') {
+        await setActive({ session: completeSignUp.createdSessionId })
+        setStep('profile')
+      }
+    } catch (err: any) {
+      setError(err.errors?.[0]?.longMessage || 'Verification failed')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleProfileSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+
+    if (!profileData.acceptTerms) {
       setError('Please accept the terms and conditions')
       setIsLoading(false)
       return
     }
 
     try {
-      const response = await fetch('/api/auth/register/artist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-          stageName: formData.stageName,
-          realName: formData.realName,
-          category: formData.category,
-          bio: formData.bio,
-          baseCity: formData.baseCity,
-          languages: formData.languages,
-          genres: formData.genres,
-          hourlyRate: formData.hourlyRate ? parseInt(formData.hourlyRate) : null,
-          minimumHours: parseInt(formData.minimumHours),
-          phone: formData.phone
-        })
+      await createArtistProfile({
+        stageName: profileData.stageName,
+        category: profileData.category as any,
+        bio: profileData.bio,
+        baseCity: profileData.baseCity,
+        basePrice: profileData.hourlyRate ? parseInt(profileData.hourlyRate) : undefined,
+        phone: authData.phone,
       })
 
-      const result = await response.json()
-
-      if (response.ok) {
-        // Auto-login after successful registration
-        const signInResult = await signIn('credentials', {
-          email: formData.email,
-          password: formData.password,
-          redirect: false
-        })
-
-        if (signInResult?.ok) {
-          router.push('/dashboard/artist')
-        } else {
-          router.push('/login')
-        }
-      } else {
-        setError(result.error || 'Registration failed')
-      }
-    } catch (error) {
-      setError('An error occurred during registration')
+      router.push('/dashboard/artist')
+    } catch (error: any) {
+      setError(error.message || 'Failed to create artist profile')
     } finally {
       setIsLoading(false)
     }
@@ -108,66 +138,74 @@ export default function ArtistRegistrationPage() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {step === 'auth' && !pendingVerification && (
+            <form onSubmit={handleAuthSubmit} className="space-y-6">
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
                 {error}
               </div>
             )}
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-dark-gray mb-2">
-                  Stage Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.stageName}
-                  onChange={(e) => setFormData({...formData, stageName: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
-                />
-              </div>
+            {/* OAuth Options */}
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    await signUp.authenticateWithRedirect({
+                      strategy: 'oauth_google',
+                      redirectUrl: '/sso-callback',
+                      redirectUrlComplete: '/register/artist?step=profile'
+                    })
+                  } catch (err: any) {
+                    setError(err.errors?.[0]?.longMessage || 'Google sign up failed')
+                  }
+                }}
+                className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Continue with Google
+              </button>
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium text-dark-gray mb-2">
-                  Real Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.realName}
-                  onChange={(e) => setFormData({...formData, realName: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
-                />
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Or sign up with email</span>
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-dark-gray mb-2">
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-dark-gray mb-2">
+                Email *
+              </label>
+              <input
+                type="email"
+                required
+                value={authData.email}
+                onChange={(e) => setAuthData({...authData, email: e.target.value})}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+              />
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium text-dark-gray mb-2">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-dark-gray mb-2">
+                Phone (optional)
+              </label>
+              <input
+                type="tel"
+                value={authData.phone}
+                onChange={(e) => setAuthData({...authData, phone: e.target.value})}
+                placeholder="+66 xxx xxx xxx"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+              />
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
@@ -178,8 +216,8 @@ export default function ArtistRegistrationPage() {
                 <input
                   type="password"
                   required
-                  value={formData.password}
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  value={authData.password}
+                  onChange={(e) => setAuthData({...authData, password: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
                 />
               </div>
@@ -191,12 +229,96 @@ export default function ArtistRegistrationPage() {
                 <input
                   type="password"
                   required
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                  value={authData.confirmPassword}
+                  onChange={(e) => setAuthData({...authData, confirmPassword: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
                 />
               </div>
             </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-brand-cyan text-white py-3 px-4 rounded-md font-medium hover:bg-brand-cyan/90 transition-colors disabled:opacity-50"
+            >
+              {isLoading ? 'Creating Account...' : 'Continue to Profile'}
+            </button>
+          </form>
+          )}
+
+          {pendingVerification && (
+            <form onSubmit={handleVerification} className="space-y-6">
+              <div className="text-center">
+                <h3 className="text-lg font-medium text-dark-gray mb-2">
+                  Check your email
+                </h3>
+                <p className="text-dark-gray/70 mb-4">
+                  We sent a verification code to {authData.email}
+                </p>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-dark-gray mb-2">
+                  Verification Code *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan text-center text-lg tracking-widest"
+                  placeholder="123456"
+                  maxLength={6}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-brand-cyan text-white py-3 px-4 rounded-md font-medium hover:bg-brand-cyan/90 transition-colors disabled:opacity-50"
+              >
+                {isLoading ? 'Verifying...' : 'Verify Email'}
+              </button>
+            </form>
+          )}
+
+          {step === 'profile' && (
+            <form onSubmit={handleProfileSubmit} className="space-y-6">
+              <div className="text-center mb-6">
+                <h3 className="text-lg font-medium text-dark-gray mb-2">
+                  Complete Your Artist Profile
+                </h3>
+                <p className="text-dark-gray/70">
+                  Tell us about your talent and experience
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-dark-gray mb-2">
+                    Stage Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={profileData.stageName}
+                    onChange={(e) => setProfileData({...profileData, stageName: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-dark-gray mb-2">
+                    Real Name
+                  </label>
+                  <input
+                    type="text"
+                    value={profileData.realName}
+                    onChange={(e) => setProfileData({...profileData, realName: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+                  />
+                </div>
+              </div>
 
             <div className="grid md:grid-cols-2 gap-4">
               <div>
@@ -205,8 +327,8 @@ export default function ArtistRegistrationPage() {
                 </label>
                 <select
                   required
-                  value={formData.category}
-                  onChange={(e) => setFormData({...formData, category: e.target.value})}
+                  value={profileData.category}
+                  onChange={(e) => setProfileData({...profileData, category: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
                 >
                   <option value="">Select category</option>
@@ -222,8 +344,8 @@ export default function ArtistRegistrationPage() {
                 </label>
                 <select
                   required
-                  value={formData.baseCity}
-                  onChange={(e) => setFormData({...formData, baseCity: e.target.value})}
+                  value={profileData.baseCity}
+                  onChange={(e) => setProfileData({...profileData, baseCity: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
                 >
                   <option value="">Select city</option>
@@ -240,8 +362,8 @@ export default function ArtistRegistrationPage() {
               </label>
               <textarea
                 rows={3}
-                value={formData.bio}
-                onChange={(e) => setFormData({...formData, bio: e.target.value})}
+                value={profileData.bio}
+                onChange={(e) => setProfileData({...profileData, bio: e.target.value})}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
                 placeholder="Tell us about your experience and style..."
               />
@@ -254,8 +376,8 @@ export default function ArtistRegistrationPage() {
                 </label>
                 <input
                   type="number"
-                  value={formData.hourlyRate}
-                  onChange={(e) => setFormData({...formData, hourlyRate: e.target.value})}
+                  value={profileData.hourlyRate}
+                  onChange={(e) => setProfileData({...profileData, hourlyRate: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
                   placeholder="e.g. 5000"
                 />
@@ -268,8 +390,8 @@ export default function ArtistRegistrationPage() {
                 <input
                   type="number"
                   min="1"
-                  value={formData.minimumHours}
-                  onChange={(e) => setFormData({...formData, minimumHours: e.target.value})}
+                  value={profileData.minimumHours}
+                  onChange={(e) => setProfileData({...profileData, minimumHours: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-cyan"
                 />
               </div>
@@ -279,8 +401,8 @@ export default function ArtistRegistrationPage() {
               <input
                 type="checkbox"
                 id="terms"
-                checked={formData.acceptTerms}
-                onChange={(e) => setFormData({...formData, acceptTerms: e.target.checked})}
+                checked={profileData.acceptTerms}
+                onChange={(e) => setProfileData({...profileData, acceptTerms: e.target.checked})}
                 className="mr-2"
               />
               <label htmlFor="terms" className="text-sm text-dark-gray">
@@ -293,18 +415,21 @@ export default function ArtistRegistrationPage() {
               disabled={isLoading}
               className="w-full bg-brand-cyan text-white py-3 px-4 rounded-md font-medium hover:bg-brand-cyan/90 transition-colors disabled:opacity-50"
             >
-              {isLoading ? 'Creating Account...' : 'Create Artist Account'}
+              {isLoading ? 'Creating Profile...' : 'Complete Registration'}
             </button>
           </form>
+          )}
 
-          <div className="text-center mt-6">
-            <p className="font-inter text-dark-gray">
-              Already have an account?{' '}
-              <Link href="/login" className="text-brand-cyan hover:underline">
-                Sign in here
-              </Link>
-            </p>
-          </div>
+          {step === 'auth' && (
+            <div className="text-center mt-6">
+              <p className="font-inter text-dark-gray">
+                Already have an account?{' '}
+                <Link href="/sign-in" className="text-brand-cyan hover:underline">
+                  Sign in here
+                </Link>
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

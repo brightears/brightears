@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
+import { ConvexHttpClient } from 'convex/browser'
+import { api } from '../../../../convex/_generated/api'
 
 const prisma = new PrismaClient()
+const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
 // Validation schema for quick inquiry
 const quickInquirySchema = z.object({
@@ -71,26 +74,25 @@ export async function POST(request: NextRequest) {
       where: { phone: formattedPhone }
     })
     
-    // If no user exists, create a lightweight user account
+    // For progressive signup, we'll create a minimal inquiry record
+    // and let Clerk handle the authentication when they want to view status
     if (!user) {
-      const otp = generateOTP()
-      
+      // Create a temporary user record for the inquiry
+      // This will be converted to a full Clerk user when they authenticate
       user = await prisma.user.create({
         data: {
           phone: formattedPhone,
           firstName: validatedData.firstName,
-          // Create a temporary email from phone (can be updated later)
+          // Create a temporary email from phone (will be updated when they sign up with Clerk)
           email: `${formattedPhone.replace('+', '')}@temp.brightears.io`,
           role: 'CUSTOMER',
-          verificationCode: otp,
-          verificationExpiry: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+          // Mark as unverified - they'll verify through Clerk when checking status
           isPhoneVerified: false,
         }
       })
       
-      // TODO: Send SMS with OTP
-      console.log(`[SMS] Sending OTP ${otp} to ${formattedPhone}`)
-      // In production, integrate with Twilio or similar service
+      // Send SMS notification (optional - they can also check status via link)
+      console.log(`[SMS] New inquiry from ${validatedData.firstName} - check status at ${process.env.NEXT_PUBLIC_APP_URL}/inquiry-status?phone=${encodeURIComponent(formattedPhone)}`)
     }
     
     // Create the booking inquiry with minimal required fields
@@ -161,8 +163,10 @@ export async function POST(request: NextRequest) {
       message: 'Inquiry sent successfully!',
       data: {
         bookingId: booking.id,
-        requiresVerification: !user.isPhoneVerified,
         phoneNumber: formattedPhone,
+        statusUrl: `/inquiry-status?phone=${encodeURIComponent(formattedPhone)}&booking=${booking.id}`,
+        // Provide SMS-friendly short URL for status checking
+        shortUrl: `${process.env.NEXT_PUBLIC_APP_URL}/i/${booking.id}`,
       }
     })
     

@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Bars3Icon, XMarkIcon, GlobeAltIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon, GlobeAltIcon, ChevronDownIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { Link, usePathname, useRouter } from '@/components/navigation';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { locales, localeNames, type Locale } from '@/i18n.config';
+import { useUser, UserButton } from '@clerk/nextjs';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,6 +19,7 @@ const Header: React.FC = () => {
   const router = useRouter();
   const params = useParams();
   const currentLocale = (params?.locale || 'en') as Locale;
+  const { user, isLoaded } = useUser();
 
   const languages = [
     { code: 'en' as Locale, label: 'English', flag: '🇬🇧' },
@@ -138,6 +140,55 @@ const Header: React.FC = () => {
                   </div>
                 )}
               </div>
+
+              {/* Authentication Buttons */}
+              {isLoaded && (
+                <>
+                  {user ? (
+                    <div className="hidden sm:flex items-center gap-3">
+                      <Link
+                        href="/dashboard"
+                        className={`px-4 py-2 rounded-xl transition-all duration-300 ${
+                          isScrolled
+                            ? 'text-dark-gray hover:text-brand-cyan'
+                            : 'text-white hover:text-brand-cyan'
+                        }`}
+                      >
+                        Dashboard
+                      </Link>
+                      <UserButton 
+                        afterSignOutUrl="/"
+                        appearance={{
+                          elements: {
+                            avatarBox: "w-10 h-10"
+                          }
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="hidden sm:flex items-center gap-3">
+                      <Link
+                        href="/sign-in"
+                        className={`px-4 py-2 rounded-xl transition-all duration-300 ${
+                          isScrolled
+                            ? 'text-dark-gray hover:text-brand-cyan'
+                            : 'text-white hover:text-brand-cyan'
+                        }`}
+                      >
+                        Sign In
+                      </Link>
+                      <Link
+                        href="/sign-up"
+                        className={`px-5 py-2 bg-brand-cyan/20 border border-brand-cyan text-brand-cyan rounded-xl transition-all duration-300 hover:bg-brand-cyan hover:text-white ${
+                          isScrolled ? '' : 'backdrop-blur-md'
+                        }`}
+                      >
+                        Sign Up
+                      </Link>
+                    </div>
+                  )}
+                </>
+              )}
 
               {/* Artist Signup Button - Desktop */}
               <Link 

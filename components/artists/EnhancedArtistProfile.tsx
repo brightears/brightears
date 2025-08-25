@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser, useClerk } from '@clerk/nextjs'
 import { useRouter } from '@/components/navigation'
 import Image from 'next/image'
 import Footer from '@/components/layout/Footer'
@@ -18,7 +18,8 @@ interface EnhancedArtistProfileProps {
 
 export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArtistProfileProps) {
   const t = useTranslations('artists')
-  const { data: session } = useSession()
+  const { user } = useUser()
+  const { openSignIn } = useClerk()
   const router = useRouter()
   const [artist, setArtist] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -57,16 +58,22 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
   }
 
   const handleBookNow = () => {
-    if (!session) {
-      router.push(`/login?redirect=/book/${artistId}`)
+    if (!user) {
+      openSignIn({
+        afterSignInUrl: `/book/${artistId}`,
+        afterSignUpUrl: `/book/${artistId}`,
+      })
     } else {
       router.push(`/book/${artistId}`)
     }
   }
 
   const handleFavorite = async () => {
-    if (!session) {
-      router.push('/login')
+    if (!user) {
+      openSignIn({
+        afterSignInUrl: window.location.href,
+        afterSignUpUrl: window.location.href,
+      })
       return
     }
     setIsFavorite(!isFavorite)

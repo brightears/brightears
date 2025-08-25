@@ -1,35 +1,29 @@
-import { redirect } from 'next/navigation'
-import { getCurrentUser } from '@/lib/auth'
-import ArtistDashboardSidebar from '@/components/dashboard/ArtistDashboardSidebar'
+'use client'
 
-export default async function ArtistDashboardLayout({
+import { ProtectedRoute } from '@/components/auth/protected-route'
+import ArtistDashboardSidebar from '@/components/dashboard/ArtistDashboardSidebar'
+import { useQuery } from 'convex/react'
+import { api } from '../../../../convex/_generated/api'
+
+export default function ArtistDashboardLayout({
   children,
-  params
 }: {
   children: React.ReactNode
-  params: Promise<{ locale: string }>
 }) {
-  const { locale } = await params
-  const user = await getCurrentUser()
-  
-  if (!user) {
-    redirect(`/${locale}/login`)
-  }
-
-  if (user.role !== 'ARTIST') {
-    redirect(`/${locale}/dashboard`)
-  }
+  const userData = useQuery(api.users.getCurrentUser)
 
   return (
-    <div className="min-h-screen bg-off-white">
-      <div className="flex">
-        <ArtistDashboardSidebar locale={locale} user={user} />
-        <main className="flex-1 lg:pl-64">
-          <div className="px-4 sm:px-6 lg:px-8 py-8">
-            {children}
-          </div>
-        </main>
+    <ProtectedRoute requiredRole="ARTIST">
+      <div className="min-h-screen bg-off-white">
+        <div className="flex">
+          <ArtistDashboardSidebar user={userData} />
+          <main className="flex-1 lg:pl-64">
+            <div className="px-4 sm:px-6 lg:px-8 py-8">
+              {children}
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   )
 }

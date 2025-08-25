@@ -1,7 +1,8 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser, useClerk } from '@clerk/nextjs'
+import { useRouter } from '@/components/navigation'
 
 interface LineContactButtonProps {
   artistId: string
@@ -25,7 +26,9 @@ export default function LineContactButton({
   onInquiryTrack 
 }: LineContactButtonProps) {
   const t = useTranslations('booking')
-  const { data: session } = useSession()
+  const { user, isLoaded } = useUser()
+  const { openSignIn } = useClerk()
+  const router = useRouter()
 
   // Generate pre-filled message template
   const generateLineMessage = () => {
@@ -52,8 +55,20 @@ export default function LineContactButton({
 
   // Track inquiry when LINE button is clicked
   const handleLineClick = async () => {
+    // Check if user is authenticated
+    if (!isLoaded) return
+    
+    if (!user) {
+      // Show sign-in modal or redirect to sign-in
+      openSignIn({
+        afterSignInUrl: window.location.href,
+        afterSignUpUrl: window.location.href,
+      })
+      return
+    }
+
     // Track the inquiry in the database
-    if (session?.user && onInquiryTrack) {
+    if (user && onInquiryTrack) {
       try {
         await fetch('/api/bookings/inquiry', {
           method: 'POST',
@@ -62,7 +77,7 @@ export default function LineContactButton({
           },
           body: JSON.stringify({
             artistId,
-            userId: session.user.id,
+            userId: user.id,
             eventDate: eventDate || null,
             eventType: eventType || null,
             location: location || null,
@@ -104,6 +119,7 @@ export default function LineContactButton({
         text-white font-inter font-semibold rounded-lg 
         transition-all duration-200 hover:shadow-lg
         ${sizeClasses[size]}
+        ${!user ? 'relative overflow-hidden' : ''}
       `}
     >
       {/* LINE Icon */}
@@ -115,6 +131,13 @@ export default function LineContactButton({
       </svg>
       
       <span>{t('contactViaLine')}</span>
+      
+      {/* Lock icon for non-authenticated users */}
+      {!user && (
+        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      )}
     </button>
   )
 }
