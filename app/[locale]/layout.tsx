@@ -1,14 +1,13 @@
+import { ClerkProvider } from '@clerk/nextjs';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n.config';
 import { Inter, Playfair_Display, Noto_Sans_Thai } from 'next/font/google';
-import { SessionProvider } from '@/components/auth/SessionProvider';
 import { FavoritesProvider } from '@/components/favorites/FavoritesContext';
-import { getSession, isValidSession } from '@/lib/auth';
+import { ConvexClientProvider } from '@/components/providers/ConvexClientProvider';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import type { Session } from 'next-auth';
 import '../globals.css';
 
 const inter = Inter({ 
@@ -72,10 +71,6 @@ export default async function LocaleLayout({
 
   // Get messages for the locale
   const messages = await getMessages();
-  const session = await getSession();
-  
-  // Only pass valid sessions to the SessionProvider
-  const validSession = isValidSession(session) ? session : null;
 
   return (
     <html 
@@ -84,26 +79,28 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased bg-off-white`}>
-        <SessionProvider session={validSession as Session | null}>
-          <NextIntlClientProvider locale={locale} messages={messages}>
-            <FavoritesProvider>
-              <div className="relative min-h-screen flex flex-col">
-                {/* Fixed Header with consistent styling */}
-                <Header />
-                
-                {/* Main content area with proper spacing for fixed header */}
-                <main className="flex-1 pt-[72px] md:pt-[80px]">
-                  {/* Subtle background gradient for entire app */}
-                  <div className="fixed inset-0 -z-10 bg-gradient-to-br from-off-white via-pure-white to-brand-cyan/5" />
+        <ClerkProvider>
+          <ConvexClientProvider>
+            <NextIntlClientProvider locale={locale} messages={messages}>
+              <FavoritesProvider>
+                <div className="relative min-h-screen flex flex-col">
+                  {/* Fixed Header with consistent styling */}
+                  <Header />
                   
-                  {children}
-                </main>
-                
-                <Footer />
-              </div>
-            </FavoritesProvider>
-          </NextIntlClientProvider>
-        </SessionProvider>
+                  {/* Main content area with proper spacing for fixed header */}
+                  <main className="flex-1 pt-[72px] md:pt-[80px]">
+                    {/* Subtle background gradient for entire app */}
+                    <div className="fixed inset-0 -z-10 bg-gradient-to-br from-off-white via-pure-white to-brand-cyan/5" />
+                    
+                    {children}
+                  </main>
+                  
+                  <Footer />
+                </div>
+              </FavoritesProvider>
+            </NextIntlClientProvider>
+          </ConvexClientProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
