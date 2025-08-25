@@ -12,6 +12,17 @@ export default function ArtistDashboardLayout({
 }) {
   const userData = useQuery(api.users.getCurrentUser)
 
+  // Loading state while user data is being fetched
+  if (!userData) {
+    return (
+      <ProtectedRoute requiredRole="ARTIST">
+        <div className="min-h-screen bg-off-white flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-cyan"></div>
+        </div>
+      </ProtectedRoute>
+    )
+  }
+
   return (
     <ProtectedRoute requiredRole="ARTIST">
       <div className="min-h-screen bg-off-white">

@@ -1,5 +1,9 @@
 # Bright Ears Development Progress
 
+## 🚨 DEPLOYMENT: THIS RUNS ON RENDER, NOT LOCALHOST! 🚨
+**Live URL: https://brightears.onrender.com**
+**Auto-deploys from GitHub: https://github.com/brightears/brightears**
+
 ## Project Overview
 Building a commission-free entertainment booking platform for Thailand, starting with DJs/musicians and expanding to all entertainment categories.
 
