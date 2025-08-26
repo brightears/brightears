@@ -4,7 +4,7 @@ import { useAuth, useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useQuery } from 'convex/react'
-import { api } from '../../convex/_generated/api'
+import { api } from '@/convex/_generated/api'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
