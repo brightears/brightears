@@ -1,13 +1,8 @@
 "use client";
 
-import { ClerkProvider, useAuth } from "@clerk/nextjs";
-import { ConvexProviderWithClerk } from "convex/react-clerk";
-import { ConvexReactClient } from "convex/react";
+import { ClerkProvider } from "@clerk/nextjs";
 import { ReactNode } from "react";
 import { ThemeProvider } from "next-themes";
-
-// Initialize Convex client at module level
-const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -70,11 +65,9 @@ export function Providers({ children }: { children: ReactNode }) {
         locale: "en-US", // Can be changed to "th-TH" when Thai is needed
       }}
     >
-      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-        <ThemeProvider attribute="class" defaultTheme="light">
-          {children}
-        </ThemeProvider>
-      </ConvexProviderWithClerk>
+      <ThemeProvider attribute="class" defaultTheme="light">
+        {children}
+      </ThemeProvider>
     </ClerkProvider>
   );
 }

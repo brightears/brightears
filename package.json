@@ -11,9 +11,7 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "db:seed": "tsx prisma/seed.ts",
-    "convex:dev": "npx convex dev",
-    "convex:deploy": "npx convex deploy"
+    "db:seed": "tsx prisma/seed.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -37,8 +35,6 @@
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.7.0",
     "clsx": "^2.1.1",
-    "convex": "^1.26.1",
-    "convex-helpers": "^0.1.104",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
     "next": "15.4.6",

@@ -5,13 +5,15 @@ import { useRouter } from '@/components/navigation'
 import { useTranslations } from 'next-intl'
 import { useUser, useSignUp } from '@clerk/nextjs'
 import { Link } from '@/components/navigation'
-import { useMutation } from 'convex/react'
-import { api } from '../../../../convex/_generated/api'
+// TODO: Re-implement with Prisma or other backend when needed
+// import { useMutation } from 'convex/react'
+// import { api } from '../../../../convex/_generated/api'
 
 export default function ArtistRegistrationPage() {
   const { user } = useUser()
   const { signUp, isLoaded: signUpLoaded, setActive } = useSignUp()
-  const createArtistProfile = useMutation(api.users.createArtistProfile)
+  // TODO: Re-implement with Prisma or other backend when needed
+  // const createArtistProfile = useMutation(api.users.createArtistProfile)
   const [step, setStep] = useState<'auth' | 'profile'>('auth')
   
   const [authData, setAuthData] = useState({
@@ -114,15 +116,17 @@ export default function ArtistRegistrationPage() {
     }
 
     try {
-      await createArtistProfile({
-        stageName: profileData.stageName,
-        category: profileData.category as any,
-        bio: profileData.bio,
-        baseCity: profileData.baseCity,
-        basePrice: profileData.hourlyRate ? parseInt(profileData.hourlyRate) : undefined,
-        phone: authData.phone,
-      })
+      // TODO: Re-implement profile creation with Prisma or other backend
+      // await createArtistProfile({
+      //   stageName: profileData.stageName,
+      //   category: profileData.category as any,
+      //   bio: profileData.bio,
+      //   baseCity: profileData.baseCity,
+      //   basePrice: profileData.hourlyRate ? parseInt(profileData.hourlyRate) : undefined,
+      //   phone: authData.phone,
+      // })
 
+      // For now, just redirect to dashboard
       router.push('/dashboard/artist')
     } catch (error: any) {
       setError(error.message || 'Failed to create artist profile')

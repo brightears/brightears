@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 
 interface FavoritesContextType {
   favorites: string[] // Array of artist IDs
@@ -22,11 +22,11 @@ interface FavoritesProviderProps {
 export function FavoritesProvider({ children }: FavoritesProviderProps) {
   const [favorites, setFavorites] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(false)
-  const { data: session } = useSession()
+  const { user, isLoaded } = useUser()
 
   // Load favorites when user logs in
   const refreshFavorites = async () => {
-    if (!session?.user || session.user.role !== 'CUSTOMER') {
+    if (!isLoaded || !user) {
       setFavorites([])
       return
     }
@@ -46,17 +46,17 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
     }
   }
 
-  // Load favorites on mount and when session changes
+  // Load favorites on mount and when user changes
   useEffect(() => {
     refreshFavorites()
-  }, [session])
+  }, [user, isLoaded])
 
   const isFavorite = (artistId: string): boolean => {
     return favorites.includes(artistId)
   }
 
   const addToFavorites = async (artistId: string): Promise<boolean> => {
-    if (!session?.user || session.user.role !== 'CUSTOMER') {
+    if (!isLoaded || !user) {
       return false
     }
 
@@ -81,7 +81,7 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
   }
 
   const removeFromFavorites = async (artistId: string): Promise<boolean> => {
-    if (!session?.user || session.user.role !== 'CUSTOMER') {
+    if (!isLoaded || !user) {
       return false
     }
 

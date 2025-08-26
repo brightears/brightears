@@ -3,13 +3,15 @@
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSignUp } from '@clerk/nextjs'
-import { useMutation } from 'convex/react'
-import { api } from '../../../convex/_generated/api'
+// TODO: Re-implement with Prisma or other backend when needed
+// import { useMutation } from 'convex/react'
+// import { api } from '../../../convex/_generated/api'
 import { Link } from '@/components/navigation'
 
 export default function RegisterPage() {
   const { signUp, isLoaded: signUpLoaded, setActive } = useSignUp()
-  const createCorporateProfile = useMutation(api.users.createCorporateProfile)
+  // TODO: Re-implement with Prisma or other backend when needed
+  // const createCorporateProfile = useMutation(api.users.createCorporateProfile)
   const searchParams = useSearchParams()
   const userType = searchParams.get('type') || 'customer'
   const router = useRouter()
@@ -107,15 +109,17 @@ export default function RegisterPage() {
     }
 
     try {
-      await createCorporateProfile({
-        companyName: corporateData.companyName,
-        contactPerson: corporateData.contactPerson,
-        businessRegistration: corporateData.businessRegistration,
-        taxId: corporateData.taxId,
-        officePhone: corporateData.officePhone,
-        officeAddress: corporateData.officeAddress,
-      })
+      // TODO: Re-implement profile creation with Prisma or other backend
+      // await createCorporateProfile({
+      //   companyName: corporateData.companyName,
+      //   contactPerson: corporateData.contactPerson,
+      //   businessRegistration: corporateData.businessRegistration,
+      //   taxId: corporateData.taxId,
+      //   officePhone: corporateData.officePhone,
+      //   officeAddress: corporateData.officeAddress,
+      // })
 
+      // For now, just redirect to dashboard
       router.push('/dashboard/corporate')
     } catch (error: any) {
       setError(error.message || 'Failed to create corporate profile')

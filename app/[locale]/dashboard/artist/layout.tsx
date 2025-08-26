@@ -2,29 +2,34 @@
 
 import { ProtectedRoute } from '@/components/auth/protected-route'
 import ArtistDashboardSidebar from '@/components/dashboard/ArtistDashboardSidebar'
-import { useQuery } from 'convex/react'
-import { api } from '@/convex/_generated/api'
+// TODO: Re-implement with Prisma or other backend when needed
+// import { useQuery } from 'convex/react'
+// import { api } from '@/convex/_generated/api'
+import { useClerkUser } from '@/hooks/useClerkUser'
 
 export default function ArtistDashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const userData = useQuery(api.users.getCurrentUser)
+  // TODO: Re-implement user data fetching with backend
+  // const userData = useQuery(api.users.getCurrentUser)
+  const { clerkUser } = useClerkUser()
+  const userData = clerkUser // Use Clerk user for now
 
-  // Loading state while user data is being fetched
-  if (!userData) {
-    return (
-      <ProtectedRoute requiredRole="ARTIST">
-        <div className="min-h-screen bg-off-white flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-cyan"></div>
-        </div>
-      </ProtectedRoute>
-    )
-  }
+  // TODO: Re-implement loading state with proper user data fetching
+  // if (!userData) {
+  //   return (
+  //     <ProtectedRoute requiredRole="ARTIST">
+  //       <div className="min-h-screen bg-off-white flex items-center justify-center">
+  //         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-cyan"></div>
+  //       </div>
+  //     </ProtectedRoute>
+  //   )
+  // }
 
   return (
-    <ProtectedRoute requiredRole="ARTIST">
+    <ProtectedRoute>
       <div className="min-h-screen bg-off-white">
         <div className="flex">
           <ArtistDashboardSidebar user={userData} />

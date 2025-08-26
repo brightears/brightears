@@ -2,10 +2,11 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { ConvexHttpClient } from "convex/browser";
-import { api } from "../../../../convex/_generated/api";
+// TODO: Re-implement with Prisma or other backend when needed
+// import { ConvexHttpClient } from "convex/browser";
+// import { api } from "../../../../convex/_generated/api";
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+// const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
@@ -56,14 +57,14 @@ export async function POST(req: Request) {
     const { id, email_addresses, first_name, last_name, image_url, phone_numbers } = evt.data;
 
     try {
-      // Create or update user in Convex
-      await convex.mutation(api.users.upsertFromClerk, {
-        clerkId: id,
-        email: email_addresses[0]?.email_address || "",
-        name: first_name && last_name ? `${first_name} ${last_name}` : (first_name || ""),
-        imageUrl: image_url,
-        phone: phone_numbers[0]?.phone_number,
-      });
+      // TODO: Re-implement user creation/update with Prisma or other backend
+      // await convex.mutation(api.users.upsertFromClerk, {
+      //   clerkId: id,
+      //   email: email_addresses[0]?.email_address || "",
+      //   name: first_name && last_name ? `${first_name} ${last_name}` : (first_name || ""),
+      //   imageUrl: image_url,
+      //   phone: phone_numbers[0]?.phone_number,
+      // });
 
       console.log(`User ${eventType}:`, id);
     } catch (error) {
