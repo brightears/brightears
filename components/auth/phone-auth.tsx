@@ -27,7 +27,7 @@ export function PhoneAuth({ phone, onSuccess, onError }: PhoneAuthProps) {
           identifier: phone,
         })
         
-        const firstFactor = signIn.supportedFirstFactors.find(factor => 
+        const firstFactor = signIn.supportedFirstFactors?.find(factor => 
           factor.strategy === 'phone_code'
         )
         
