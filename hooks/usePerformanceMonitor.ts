@@ -18,7 +18,7 @@ interface PerformanceEvent {
   startTime: number
   endTime?: number
   duration?: number
-  metadata?: any
+  metadata?: Record<string, unknown>
 }
 
 interface UsePerformanceMonitorProps {
@@ -31,9 +31,9 @@ interface UsePerformanceMonitorReturn {
   metrics: PerformanceMetrics
   
   // Performance tracking
-  startTiming: (type: PerformanceEvent['type'], metadata?: any) => string
+  startTiming: (type: PerformanceEvent['type'], metadata?: Record<string, unknown>) => string
   endTiming: (timingId: string) => void
-  recordEvent: (type: PerformanceEvent['type'], duration?: number, metadata?: any) => void
+  recordEvent: (type: PerformanceEvent['type'], duration?: number, metadata?: Record<string, unknown>) => void
   
   // Getters
   getAverageLatency: (type: PerformanceEvent['type']) => number
@@ -69,7 +69,7 @@ export function usePerformanceMonitor({
   // Start a performance timing
   const startTiming = useCallback((
     type: PerformanceEvent['type'], 
-    metadata?: any
+    metadata?: Record<string, unknown>
   ): string => {
     const timingId = `timing-${++timingIdCounter.current}`
     const event: PerformanceEvent = {
@@ -112,7 +112,7 @@ export function usePerformanceMonitor({
   const recordEvent = useCallback((
     type: PerformanceEvent['type'],
     duration?: number,
-    metadata?: any
+    metadata?: Record<string, unknown>
   ) => {
     const event: PerformanceEvent = {
       type,
@@ -157,8 +157,8 @@ export function usePerformanceMonitor({
   // Get memory usage (if available)
   const getMemoryUsage = useCallback((): number => {
     if ('memory' in performance) {
-      const memory = (performance as any).memory
-      return memory.usedJSHeapSize / 1024 / 1024 // MB
+      const memory = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory
+      return memory ? memory.usedJSHeapSize / 1024 / 1024 : 0 // MB
     }
     return 0
   }, [])

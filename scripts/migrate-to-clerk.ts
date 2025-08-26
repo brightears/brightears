@@ -9,12 +9,12 @@
  */
 
 import { PrismaClient } from "@prisma/client";
-import { Clerk } from "@clerk/backend";
+import { createClerkClient } from "@clerk/backend";
 
 const prisma = new PrismaClient();
 
 // Initialize Clerk with your secret key
-const clerk = new Clerk({
+const clerk = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY!,
 });
 
@@ -44,9 +44,9 @@ async function migrateUsers() {
 
         let clerkUser;
 
-        if (existingClerkUsers.length > 0) {
+        if (existingClerkUsers.data.length > 0) {
           // User already exists in Clerk
-          clerkUser = existingClerkUsers[0];
+          clerkUser = existingClerkUsers.data[0];
           console.log(`User ${user.email} already exists in Clerk`);
         } else {
           // Create new user in Clerk

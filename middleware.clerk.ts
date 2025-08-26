@@ -37,8 +37,8 @@ const isAdminRoute = createRouteMatcher([
   "/api/admin(.*)",
 ]);
 
-export default clerkMiddleware((auth, req) => {
-  const { userId, sessionClaims } = auth();
+export default clerkMiddleware(async (auth, req) => {
+  const { userId, sessionClaims } = await auth();
   const { pathname } = req.nextUrl;
 
   // Allow public routes
@@ -54,7 +54,7 @@ export default clerkMiddleware((auth, req) => {
   }
 
   // Get user role from session claims
-  const userRole = sessionClaims?.metadata?.role as string;
+  const userRole = (sessionClaims as any)?.metadata?.role as string;
 
   // Check role-based access
   if (isArtistRoute(req) && userRole !== "ARTIST") {

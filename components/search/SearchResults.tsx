@@ -182,6 +182,7 @@ export default function SearchResults({ searchParams, locale }: SearchResultsPro
         {artists.map((artist) => (
           <ArtistCard
             key={artist.id}
+            id={artist.id}
             name={artist.stageName}
             genre={artist.genres?.[0] || artist.category || 'Various'}
             image={artist.profileImage || '/placeholder-artist.jpg'}

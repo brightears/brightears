@@ -15,7 +15,7 @@ export interface ArtistUser {
     id: string
     stageName: string
     verificationLevel: string
-    profileImage?: string
+    profileImage: string | null
   }
 }
 

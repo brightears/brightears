@@ -41,7 +41,7 @@ export async function hasAnyRole(roles: UserRole[]): Promise<boolean> {
  * Require authentication - redirects to sign-in if not authenticated
  */
 export async function requireAuth() {
-  const { userId } = auth();
+  const { userId } = await auth();
   
   if (!userId) {
     redirect("/sign-in");

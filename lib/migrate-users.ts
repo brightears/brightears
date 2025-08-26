@@ -70,7 +70,7 @@ export async function migrateExistingUsers() {
             category: user.artist.category as any,
             bio: user.artist.bio || undefined,
             baseCity: user.artist.baseCity || undefined,
-            basePrice: user.artist.hourlyRate || undefined,
+            basePrice: user.artist.hourlyRate ? Number(user.artist.hourlyRate) : undefined,
             phone: user.phone || undefined,
           })
         }

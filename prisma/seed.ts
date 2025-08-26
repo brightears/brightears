@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, ArtistCategory, VerificationLevel } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
@@ -243,7 +243,7 @@ async function main() {
             realName: artistData.realName,
             bio: artistData.bio,
             bioTh: artistData.bioTh,
-            category: artistData.category as any,
+            category: artistData.category as ArtistCategory,
             subCategories: artistData.subCategories,
             genres: artistData.genres,
             baseCity: artistData.baseCity,
@@ -251,7 +251,7 @@ async function main() {
             languages: artistData.languages,
             hourlyRate: artistData.hourlyRate,
             minimumHours: artistData.minimumHours,
-            verificationLevel: artistData.verificationLevel as any,
+            verificationLevel: artistData.verificationLevel as VerificationLevel,
             instantBooking: artistData.instantBooking,
             advanceNotice: artistData.advanceNotice,
             responseTime: Math.floor(Math.random() * 24) + 1,
