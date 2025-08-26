@@ -1,7 +1,6 @@
 "use client";
 
 import { UserButton, useUser } from "@clerk/nextjs";
-import { useClerkUser } from "@/hooks/useClerkUser";
 import Link from "next/link";
 import { 
   ChartBarIcon, 
@@ -14,7 +13,14 @@ import {
 
 export function ClerkUserMenu() {
   const { user } = useUser();
-  const { role, isArtist, isCustomer, isCorporate, isAdmin } = useClerkUser();
+  
+  // TODO: Get role from backend when implemented
+  // For now, default to customer role
+  const role = user?.publicMetadata?.role as string || "CUSTOMER";
+  const isArtist = role === "ARTIST";
+  const isCustomer = role === "CUSTOMER";
+  const isCorporate = role === "CORPORATE";
+  const isAdmin = role === "ADMIN";
 
   if (!user) return null;
 
