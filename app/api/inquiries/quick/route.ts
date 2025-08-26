@@ -140,19 +140,20 @@ export async function POST(request: NextRequest) {
     })
     
     // Track the activity
-    await prisma.activityFeed.create({
-      data: {
-        type: 'BOOKING_REQUEST',
-        description: `${validatedData.firstName} requested a quote from ${artist.stageName}`,
-        userId: user.id,
-        metadata: {
-          bookingId: booking.id,
-          artistId: artist.id,
-          eventType: validatedData.eventType,
-          eventDate: validatedData.eventDate.toISOString(),
-        }
-      }
-    })
+    // TODO: Implement activity tracking when ActivityFeed model is added to schema
+    // await prisma.activityFeed.create({
+    //   data: {
+    //     type: 'BOOKING_REQUEST',
+    //     description: `${validatedData.firstName} requested a quote from ${artist.stageName}`,
+    //     userId: user.id,
+    //     metadata: {
+    //       bookingId: booking.id,
+    //       artistId: artist.id,
+    //       eventType: validatedData.eventType,
+    //       eventDate: validatedData.eventDate.toISOString(),
+    //     }
+    //   }
+    // })
     
     // TODO: Send notification to artist (email/LINE/SMS)
     console.log(`[NOTIFICATION] New inquiry for ${artist.stageName} from ${validatedData.firstName}`)
