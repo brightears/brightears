@@ -72,7 +72,9 @@ export function PhoneAuth({ phone, onSuccess, onError }: PhoneAuthProps) {
         })
 
         if (result.status === 'complete') {
-          onSuccess(result.createdUserId!)
+          // For sign-in, use the session user ID
+          const userId = result.createdSessionId || 'authenticated'
+          onSuccess(userId)
           return
         }
       }
@@ -83,7 +85,9 @@ export function PhoneAuth({ phone, onSuccess, onError }: PhoneAuthProps) {
       })
 
       if (result.status === 'complete') {
-        onSuccess(result.createdUserId!)
+        // For sign-up, use the session ID or a placeholder
+        const userId = result.createdSessionId || 'authenticated'
+        onSuccess(userId)
       }
 
     } catch (error: any) {
