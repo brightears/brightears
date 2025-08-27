@@ -10,8 +10,8 @@ export default function SSOCallbackPage() {
   return (
     <>
       <AuthenticateWithRedirectCallback 
-        afterSignInUrl="/dashboard"
-        afterSignUpUrl="/onboarding"
+        fallbackRedirectUrl="/dashboard"
+        signUpForceRedirectUrl="/onboarding"
       />
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from '@/components/navigation'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useUser, useSignUp } from '@clerk/nextjs'
 import { Link } from '@/components/navigation'
 // TODO: Re-implement with Prisma or other backend when needed
@@ -42,6 +42,7 @@ export default function ArtistRegistrationPage() {
   const [pendingVerification, setPendingVerification] = useState(false)
   const router = useRouter()
   const t = useTranslations('auth')
+  const locale = useLocale()
 
   const categories = ['DJ', 'SINGER', 'BAND', 'MUSICIAN', 'MC', 'DANCER', 'COMEDIAN']
   const cities = ['Bangkok', 'Phuket', 'Chiang Mai', 'Pattaya', 'Hua Hin', 'Koh Samui', 'Krabi']
@@ -165,8 +166,8 @@ export default function ArtistRegistrationPage() {
                   try {
                     await signUp.authenticateWithRedirect({
                       strategy: 'oauth_google',
-                      redirectUrl: '/sso-callback',
-                      redirectUrlComplete: '/register/artist?step=profile'
+                      redirectUrl: `/${locale}/sso-callback`,
+                      redirectUrlComplete: `/${locale}/register/artist?step=profile`
                     })
                   } catch (err: any) {
                     setError(err.errors?.[0]?.longMessage || 'Google sign up failed')
