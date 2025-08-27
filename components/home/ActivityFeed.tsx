@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useTranslations } from 'next-intl'
 import { ActivityItem } from '@/lib/activity-tracker'
 
 interface ActivityFeedProps {
@@ -23,7 +22,6 @@ export default function ActivityFeed({
   autoRefresh = true,
   refreshInterval = 30 
 }: ActivityFeedProps) {
-  const t = useTranslations('home.activity')
   const [activities, setActivities] = useState<ActivityItem[]>([])
   const [stats, setStats] = useState<ActivityStats | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -120,12 +118,12 @@ export default function ActivityFeed({
     const diffMinutes = Math.floor(diffMs / (1000 * 60))
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
     
-    if (diffMinutes < 1) return t('justNow')
-    if (diffMinutes < 60) return t('minutesAgo', { minutes: diffMinutes })
-    if (diffHours < 24) return t('hoursAgo', { hours: diffHours })
+    if (diffMinutes < 1) return 'Just now'
+    if (diffMinutes < 60) return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
     
     const diffDays = Math.floor(diffHours / 24)
-    return t('daysAgo', { days: diffDays })
+    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
   }
 
   if (isLoading) {
@@ -156,7 +154,7 @@ export default function ActivityFeed({
           <svg className="w-8 h-8 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z" />
           </svg>
-          <p className="text-sm">{t('loadError')}</p>
+          <p className="text-sm">Unable to load activity feed</p>
         </div>
       </div>
     )
@@ -173,15 +171,15 @@ export default function ActivityFeed({
             </svg>
           </div>
           <div>
-            <h3 className="font-playfair font-bold text-lg text-deep-teal">{t('title')}</h3>
-            <p className="text-sm text-dark-gray/70">{t('subtitle')}</p>
+            <h3 className="font-playfair font-bold text-lg text-deep-teal">Live Activity</h3>
+            <p className="text-sm text-dark-gray/70">Real-time platform updates</p>
           </div>
         </div>
         
         {/* Live indicator */}
         <div className="flex items-center space-x-2 text-sm text-green-600">
           <div className="w-2 h-2 bg-green-500 rounded-full animate-live-pulse"></div>
-          <span className="font-medium">{t('live')}</span>
+          <span className="font-medium">LIVE</span>
         </div>
       </div>
 
@@ -190,15 +188,15 @@ export default function ActivityFeed({
         <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-gradient-to-r from-brand-cyan/5 to-deep-teal/5 rounded-lg">
           <div className="text-center">
             <div className="text-2xl font-bold text-brand-cyan animate-count-up">{stats.totalBookings}</div>
-            <div className="text-xs text-dark-gray/70 uppercase tracking-wide">{t('totalBookings')}</div>
+            <div className="text-xs text-dark-gray/70 uppercase tracking-wide">Total Bookings</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-deep-teal animate-count-up" style={{ animationDelay: '200ms' }}>{stats.totalArtists}</div>
-            <div className="text-xs text-dark-gray/70 uppercase tracking-wide">{t('totalArtists')}</div>
+            <div className="text-xs text-dark-gray/70 uppercase tracking-wide">Active Artists</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-earthy-brown animate-count-up" style={{ animationDelay: '400ms' }}>{stats.totalInquiries}</div>
-            <div className="text-xs text-dark-gray/70 uppercase tracking-wide">{t('activeInquiries')}</div>
+            <div className="text-xs text-dark-gray/70 uppercase tracking-wide">Active Inquiries</div>
           </div>
         </div>
       )}
@@ -210,7 +208,7 @@ export default function ActivityFeed({
             <svg className="w-12 h-12 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
             </svg>
-            <p className="text-sm">{t('noActivity')}</p>
+            <p className="text-sm">No recent activity</p>
           </div>
         ) : (
           activities.map((activity, index) => (
@@ -242,7 +240,7 @@ export default function ActivityFeed({
             <svg className="w-3 h-3 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
-            <span>{t('autoRefresh', { seconds: refreshInterval })}</span>
+            <span>Auto-refresh every {refreshInterval}s</span>
           </div>
         </div>
       )}

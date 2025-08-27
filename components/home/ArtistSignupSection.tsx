@@ -4,10 +4,8 @@ import React from 'react';
 import { MusicalNoteIcon, CurrencyDollarIcon, UsersIcon, CheckBadgeIcon } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import { Link } from '@/components/navigation';
-import { useTranslations } from 'next-intl';
 
 const ArtistSignupSection: React.FC = () => {
-  const t = useTranslations('artistSignup');
   const benefits = [
     {
       icon: CurrencyDollarIcon,

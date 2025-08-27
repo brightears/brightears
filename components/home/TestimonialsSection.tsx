@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 interface Testimonial {
@@ -163,7 +162,6 @@ const FEATURED_TESTIMONIALS: Testimonial[] = [
 ]
 
 export default function TestimonialsSection({ locale, className = '' }: TestimonialsSectionProps) {
-  const t = useTranslations('home.testimonials')
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
@@ -239,10 +237,10 @@ export default function TestimonialsSection({ locale, className = '' }: Testimon
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="font-playfair font-bold text-3xl md:text-4xl mb-4">
-            {t('title')}
+            What Our Clients Say
           </h2>
           <p className="text-xl text-pure-white/90 max-w-3xl mx-auto leading-relaxed">
-            {t('subtitle')}
+            Real stories from event organizers who found their perfect entertainment through Bright Ears
           </p>
         </div>
 
@@ -307,7 +305,7 @@ export default function TestimonialsSection({ locale, className = '' }: Testimon
                   <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span>{t('verified')}</span>
+                  <span>Verified</span>
                 </div>
               )}
             </div>
@@ -334,26 +332,26 @@ export default function TestimonialsSection({ locale, className = '' }: Testimon
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
             <div className="text-3xl font-bold text-pure-white mb-2">500+</div>
-            <div className="text-pure-white/80 text-sm">{t('stats.successfulEvents')}</div>
+            <div className="text-pure-white/80 text-sm">Successful Events</div>
           </div>
           <div>
             <div className="text-3xl font-bold text-pure-white mb-2">4.9★</div>
-            <div className="text-pure-white/80 text-sm">{t('stats.averageRating')}</div>
+            <div className="text-pure-white/80 text-sm">Average Rating</div>
           </div>
           <div>
             <div className="text-3xl font-bold text-pure-white mb-2">150+</div>
-            <div className="text-pure-white/80 text-sm">{t('stats.verifiedArtists')}</div>
+            <div className="text-pure-white/80 text-sm">Verified Artists</div>
           </div>
           <div>
             <div className="text-3xl font-bold text-pure-white mb-2">24h</div>
-            <div className="text-pure-white/80 text-sm">{t('stats.responseTime')}</div>
+            <div className="text-pure-white/80 text-sm">Response Time</div>
           </div>
         </div>
 
         {/* Call to Action */}
         <div className="text-center mt-12">
           <button className="bg-pure-white text-brand-cyan px-8 py-3 rounded-lg font-semibold hover:bg-pure-white/90 transition-colors shadow-lg">
-            {t('cta')}
+            Book Your Artist Today
           </button>
         </div>
       </div>
