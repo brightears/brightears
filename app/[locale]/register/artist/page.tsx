@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from '@/components/navigation'
 import { useTranslations, useLocale } from 'next-intl'
 import { useUser, useSignUp } from '@clerk/nextjs'
@@ -10,7 +10,7 @@ import { Link } from '@/components/navigation'
 // import { api } from '../../../../convex/_generated/api'
 
 export default function ArtistRegistrationPage() {
-  const { user } = useUser()
+  const { user, isLoaded: userLoaded } = useUser()
   const { signUp, isLoaded: signUpLoaded, setActive } = useSignUp()
   // TODO: Re-implement with Prisma or other backend when needed
   // const createArtistProfile = useMutation(api.users.createArtistProfile)
@@ -43,6 +43,13 @@ export default function ArtistRegistrationPage() {
   const router = useRouter()
   const t = useTranslations('auth')
   const locale = useLocale()
+
+  // Redirect to onboarding if user is already signed in
+  useEffect(() => {
+    if (userLoaded && user) {
+      router.push('/onboarding')
+    }
+  }, [userLoaded, user, router])
 
   const categories = ['DJ', 'SINGER', 'BAND', 'MUSICIAN', 'MC', 'DANCER', 'COMEDIAN']
   const cities = ['Bangkok', 'Phuket', 'Chiang Mai', 'Pattaya', 'Hua Hin', 'Koh Samui', 'Krabi']
