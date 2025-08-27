@@ -7,7 +7,8 @@ export type UserRole = "ARTIST" | "CUSTOMER" | "CORPORATE" | "ADMIN";
  */
 export async function setUserRole(userId: string, role: UserRole) {
   try {
-    await clerkClient.users.updateUser(userId, {
+    const client = await clerkClient();
+    await client.users.updateUser(userId, {
       publicMetadata: {
         role: role,
       },
@@ -26,7 +27,8 @@ export async function setUserRole(userId: string, role: UserRole) {
  */
 export async function getUserRole(userId: string): Promise<UserRole | null> {
   try {
-    const user = await clerkClient.users.getUser(userId);
+    const client = await clerkClient();
+    const user = await client.users.getUser(userId);
     return (user.publicMetadata?.role as UserRole) || "CUSTOMER";
   } catch (error) {
     console.error("Error getting user role:", error);
