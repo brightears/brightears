@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import { useTranslations } from "next-intl";
 import { 
   UserIcon, 
   MicrophoneIcon, 
@@ -19,7 +18,6 @@ interface RoleOption {
 }
 
 export default function OnboardingPage() {
-  const t = useTranslations("onboarding");
   const router = useRouter();
   const { user } = useUser();
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
