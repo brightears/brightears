@@ -1,4 +1,4 @@
-import { getSession } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import AdminBookingManagement from '@/components/admin/AdminBookingManagement'
 
@@ -8,9 +8,9 @@ export default async function AdminBookingsPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const session = await getSession()
+  const user = await getCurrentUser()
   
-  if (!session?.user || session.user.role !== 'ADMIN') {
+  if (!user || user.role !== 'ADMIN') {
     redirect(`/${locale}/login`)
   }
 
