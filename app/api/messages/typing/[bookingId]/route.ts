@@ -72,12 +72,16 @@ export async function POST(
       }
     })
 
-    // Get user name for display
-    let userName = user.name || user.email
-    if (user.role === 'CUSTOMER' && booking.customer.customer) {
-      userName = `${booking.customer.customer.firstName || ''} ${booking.customer.customer.lastName || ''}`.trim() || user.email
+    // Get user name for display based on role
+    let userName = user.email || 'User'
+    if (user.role === 'CUSTOMER') {
+      if (user.customer) {
+        userName = `${user.customer.firstName || ''} ${user.customer.lastName || ''}`.trim() || user.email || 'Customer'
+      }
     } else if (user.role === 'ARTIST') {
-      userName = booking.artist.stageName
+      userName = user.artist?.stageName || user.email || 'Artist'
+    } else if (user.role === 'CORPORATE' && user.corporate) {
+      userName = user.corporate.companyName || user.email || 'Corporate'
     }
 
     // Broadcast typing indicator to other connected clients
@@ -176,12 +180,19 @@ export async function GET(
 
     // Format response with user names
     const formattedIndicators = typingIndicators.map(indicator => {
-      let userName = indicator.user.name || indicator.user.email
+      let userName = indicator.user.email || 'User'
       
+      // Try to use the name field from database User model
+      if ('name' in indicator.user && indicator.user.name) {
+        userName = indicator.user.name
+      }
+      
+      // Override with role-specific names if available
       if (indicator.user.role === 'CUSTOMER' && indicator.user.customer) {
-        userName = `${indicator.user.customer.firstName || ''} ${indicator.user.customer.lastName || ''}`.trim() || indicator.user.email
+        const fullName = `${indicator.user.customer.firstName || ''} ${indicator.user.customer.lastName || ''}`.trim()
+        if (fullName) userName = fullName
       } else if (indicator.user.role === 'ARTIST' && indicator.user.artist) {
-        userName = indicator.user.artist.stageName
+        userName = indicator.user.artist.stageName || userName
       }
 
       return {
