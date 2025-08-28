@@ -110,7 +110,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
       {/* Basic Information */}
       <div className="bg-white rounded-xl p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
-          <UserIcon className="h-6 w-6 text-primary" />
+          <UserIcon className="h-6 w-6 text-brand-cyan" />
           <h3 className="text-xl font-semibold">Basic Information</h3>
         </div>
 
@@ -123,7 +123,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               type="text"
               value={formData.stageName}
               onChange={(e) => setFormData({ ...formData, stageName: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
               required
             />
           </div>
@@ -136,7 +136,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               type="text"
               value={formData.realName}
               onChange={(e) => setFormData({ ...formData, realName: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
             />
           </div>
 
@@ -148,7 +148,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               value={formData.bio}
               onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
               rows={4}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
               placeholder="Tell us about yourself and your performance style..."
             />
           </div>
@@ -161,7 +161,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               value={formData.bioTh}
               onChange={(e) => setFormData({ ...formData, bioTh: e.target.value })}
               rows={4}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
               placeholder="บอกเล่าเกี่ยวกับตัวคุณและสไตล์การแสดงของคุณ..."
             />
           </div>
@@ -171,7 +171,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
       {/* Performance Details */}
       <div className="bg-white rounded-xl p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
-          <MusicalNoteIcon className="h-6 w-6 text-primary" />
+          <MusicalNoteIcon className="h-6 w-6 text-brand-cyan" />
           <h3 className="text-xl font-semibold">Performance Details</h3>
         </div>
 
@@ -183,7 +183,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
             <select
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
             >
               <option value="SINGER">Singer</option>
               <option value="DJ">DJ</option>
@@ -203,7 +203,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               type="text"
               value={formData.subCategories}
               onChange={(e) => setFormData({ ...formData, subCategories: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
               placeholder="Solo, Acoustic, Wedding Singer..."
             />
           </div>
@@ -216,7 +216,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               type="text"
               value={formData.genres}
               onChange={(e) => setFormData({ ...formData, genres: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
               placeholder="Pop, Rock, Jazz..."
             />
           </div>
@@ -229,7 +229,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               type="text"
               value={formData.languages}
               onChange={(e) => setFormData({ ...formData, languages: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
               placeholder="English, Thai, Chinese..."
             />
           </div>
@@ -242,7 +242,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               type="text"
               value={formData.baseCity}
               onChange={(e) => setFormData({ ...formData, baseCity: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
               required
             />
           </div>
@@ -255,7 +255,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               type="text"
               value={formData.serviceAreas}
               onChange={(e) => setFormData({ ...formData, serviceAreas: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
               placeholder="Bangkok, Pattaya, Chiang Mai..."
             />
           </div>
@@ -265,7 +265,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
       {/* Pricing */}
       <div className="bg-white rounded-xl p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
-          <CurrencyDollarIcon className="h-6 w-6 text-primary" />
+          <CurrencyDollarIcon className="h-6 w-6 text-brand-cyan" />
           <h3 className="text-xl font-semibold">Pricing</h3>
         </div>
 
@@ -278,7 +278,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               type="number"
               value={formData.hourlyRate}
               onChange={(e) => setFormData({ ...formData, hourlyRate: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
               placeholder="5000"
             />
           </div>
@@ -291,7 +291,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               type="number"
               value={formData.minimumHours}
               onChange={(e) => setFormData({ ...formData, minimumHours: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
               min="1"
               max="8"
             />
@@ -302,7 +302,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
       {/* Social Links */}
       <div className="bg-white rounded-xl p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
-          <GlobeAltIcon className="h-6 w-6 text-primary" />
+          <GlobeAltIcon className="h-6 w-6 text-brand-cyan" />
           <h3 className="text-xl font-semibold">Social Links</h3>
         </div>
 
@@ -315,7 +315,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               type="url"
               value={formData.website}
               onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
               placeholder="https://yourwebsite.com"
             />
           </div>
@@ -329,7 +329,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
                 type="text"
                 value={formData.instagram}
                 onChange={(e) => setFormData({ ...formData, instagram: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
                 placeholder="@username"
               />
             </div>
@@ -342,7 +342,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
                 type="text"
                 value={formData.facebook}
                 onChange={(e) => setFormData({ ...formData, facebook: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
                 placeholder="facebook.com/..."
               />
             </div>
@@ -355,7 +355,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
                 type="text"
                 value={formData.tiktok}
                 onChange={(e) => setFormData({ ...formData, tiktok: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
                 placeholder="@username"
               />
             </div>
@@ -368,7 +368,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
                 type="text"
                 value={formData.youtube}
                 onChange={(e) => setFormData({ ...formData, youtube: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
                 placeholder="youtube.com/..."
               />
             </div>
@@ -381,7 +381,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
                 type="text"
                 value={formData.spotify}
                 onChange={(e) => setFormData({ ...formData, spotify: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
                 placeholder="spotify.com/artist/..."
               />
             </div>
@@ -394,7 +394,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
                 type="text"
                 value={formData.soundcloud}
                 onChange={(e) => setFormData({ ...formData, soundcloud: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
                 placeholder="soundcloud.com/..."
               />
             </div>
@@ -407,7 +407,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
                 type="text"
                 value={formData.lineId}
                 onChange={(e) => setFormData({ ...formData, lineId: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
                 placeholder="Your LINE ID"
               />
             </div>
@@ -427,7 +427,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
         <button
           type="submit"
           disabled={loading}
-          className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition disabled:opacity-50"
+          className="px-6 py-3 bg-brand-cyan text-pure-white rounded-lg hover:bg-brand-cyan/80 transition disabled:opacity-50"
         >
           {loading ? 'Saving...' : 'Save Changes'}
         </button>
