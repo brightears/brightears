@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import ArtistEarnings from '@/components/dashboard/ArtistEarnings'
 
@@ -24,21 +24,20 @@ export default async function ArtistEarningsPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const session = await getSession()
+  const user = await getCurrentUser()
   
-  // Redirect if not logged in
-  if (!session?.user) {
-    redirect(`/${locale}/login?redirect=/dashboard/artist/earnings`)
+  if (!user) {
+    redirect(`/${locale}/login`)
   }
   
   // Redirect if not an artist
-  if (session.user.role !== 'ARTIST') {
+  if (user.role !== 'ARTIST') {
     redirect(`/${locale}/dashboard`)
   }
 
   return (
     <Suspense fallback={<ArtistEarningsSkeleton />}>
-      <ArtistEarnings locale={locale} user={session.user} />
+      <ArtistEarnings locale={locale} user={user} />
     </Suspense>
   )
 }

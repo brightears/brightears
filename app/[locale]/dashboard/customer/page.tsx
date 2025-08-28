@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import CustomerDashboard from '@/components/dashboard/CustomerDashboard'
 
@@ -24,21 +24,20 @@ export default async function CustomerDashboardPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const session = await getSession()
+  const user = await getCurrentUser()
   
-  // Redirect if not logged in
-  if (!session?.user) {
-    redirect(`/${locale}/login?redirect=/dashboard/customer`)
+  if (!user) {
+    redirect(`/${locale}/login`)
   }
   
   // Redirect if not a customer
-  if (session.user.role !== 'CUSTOMER') {
+  if (user.role !== 'CUSTOMER') {
     redirect(`/${locale}/dashboard`)
   }
 
   return (
     <Suspense fallback={<CustomerDashboardSkeleton />}>
-      <CustomerDashboard locale={locale} user={session.user} />
+      <CustomerDashboard locale={locale} user={user} />
     </Suspense>
   )
 }

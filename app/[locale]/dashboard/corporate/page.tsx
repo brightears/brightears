@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import CorporateDashboard from '@/components/dashboard/CorporateDashboard'
 
@@ -24,21 +24,20 @@ export default async function CorporateDashboardPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const session = await getSession()
+  const user = await getCurrentUser()
   
-  // Redirect if not logged in
-  if (!session?.user) {
-    redirect(`/${locale}/login?redirect=/dashboard/corporate`)
+  if (!user) {
+    redirect(`/${locale}/login`)
   }
   
   // Redirect if not corporate
-  if (session.user.role !== 'CORPORATE') {
+  if (user.role !== 'CORPORATE') {
     redirect(`/${locale}/dashboard`)
   }
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <CorporateDashboard locale={locale} user={session.user} />
+      <CorporateDashboard locale={locale} user={user} />
     </Suspense>
   )
 }

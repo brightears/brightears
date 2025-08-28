@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import CustomerBookings from '@/components/dashboard/CustomerBookings'
 
@@ -24,21 +24,20 @@ export default async function CustomerBookingsPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const session = await getSession()
+  const user = await getCurrentUser()
   
-  // Redirect if not logged in
-  if (!session?.user) {
-    redirect(`/${locale}/login?redirect=/dashboard/customer/bookings`)
+  if (!user) {
+    redirect(`/${locale}/login`)
   }
   
   // Redirect if not a customer
-  if (session.user.role !== 'CUSTOMER') {
+  if (user.role !== 'CUSTOMER') {
     redirect(`/${locale}/dashboard`)
   }
 
   return (
     <Suspense fallback={<CustomerBookingsSkeleton />}>
-      <CustomerBookings locale={locale} user={session.user} />
+      <CustomerBookings locale={locale} user={user} />
     </Suspense>
   )
 }
