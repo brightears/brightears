@@ -9,6 +9,7 @@ interface ArtistProfile {
   stageName: string
   realName?: string | null
   bio?: string | null
+  bioTh?: string | null
   category: string
   subCategories?: string[]
   baseCity: string
@@ -22,6 +23,8 @@ interface ArtistProfile {
   instagram?: string | null
   tiktok?: string | null
   youtube?: string | null
+  spotify?: string | null
+  soundcloud?: string | null
   lineId?: string | null
 }
 
@@ -40,8 +43,11 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
     stageName: artist.stageName || '',
     realName: artist.realName || '',
     bio: artist.bio || '',
+    bioTh: artist.bioTh || '',
     category: artist.category || 'SINGER',
+    subCategories: artist.subCategories?.join(', ') || '',
     baseCity: artist.baseCity || 'Bangkok',
+    serviceAreas: artist.serviceAreas?.join(', ') || '',
     languages: artist.languages?.join(', ') || 'English, Thai',
     genres: artist.genres?.join(', ') || '',
     hourlyRate: artist.hourlyRate?.toString() || '',
@@ -51,6 +57,8 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
     instagram: artist.instagram || '',
     tiktok: artist.tiktok || '',
     youtube: artist.youtube || '',
+    spotify: artist.spotify || '',
+    soundcloud: artist.soundcloud || '',
     lineId: artist.lineId || ''
   })
 
@@ -66,6 +74,8 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
+          subCategories: formData.subCategories.split(',').map(s => s.trim()).filter(s => s),
+          serviceAreas: formData.serviceAreas.split(',').map(s => s.trim()).filter(s => s),
           languages: formData.languages.split(',').map(l => l.trim()).filter(l => l),
           genres: formData.genres.split(',').map(g => g.trim()).filter(g => g),
           hourlyRate: formData.hourlyRate ? parseFloat(formData.hourlyRate) : null,
@@ -132,7 +142,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Bio
+              Bio (English)
             </label>
             <textarea
               value={formData.bio}
@@ -140,6 +150,19 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               rows={4}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
               placeholder="Tell us about yourself and your performance style..."
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Bio (Thai)
+            </label>
+            <textarea
+              value={formData.bioTh}
+              onChange={(e) => setFormData({ ...formData, bioTh: e.target.value })}
+              rows={4}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              placeholder="บอกเล่าเกี่ยวกับตัวคุณและสไตล์การแสดงของคุณ..."
             />
           </div>
         </div>
@@ -170,6 +193,19 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               <option value="MAGICIAN">Magician</option>
               <option value="MC">MC/Host</option>
             </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Sub-Categories (comma separated)
+            </label>
+            <input
+              type="text"
+              value={formData.subCategories}
+              onChange={(e) => setFormData({ ...formData, subCategories: e.target.value })}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              placeholder="Solo, Acoustic, Wedding Singer..."
+            />
           </div>
 
           <div>
@@ -208,6 +244,19 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
               onChange={(e) => setFormData({ ...formData, baseCity: e.target.value })}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
               required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Service Areas (comma separated)
+            </label>
+            <input
+              type="text"
+              value={formData.serviceAreas}
+              onChange={(e) => setFormData({ ...formData, serviceAreas: e.target.value })}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              placeholder="Bangkok, Pattaya, Chiang Mai..."
             />
           </div>
         </div>
@@ -308,6 +357,45 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
                 onChange={(e) => setFormData({ ...formData, tiktok: e.target.value })}
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="@username"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                YouTube
+              </label>
+              <input
+                type="text"
+                value={formData.youtube}
+                onChange={(e) => setFormData({ ...formData, youtube: e.target.value })}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="youtube.com/..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Spotify
+              </label>
+              <input
+                type="text"
+                value={formData.spotify}
+                onChange={(e) => setFormData({ ...formData, spotify: e.target.value })}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="spotify.com/artist/..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                SoundCloud
+              </label>
+              <input
+                type="text"
+                value={formData.soundcloud}
+                onChange={(e) => setFormData({ ...formData, soundcloud: e.target.value })}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="soundcloud.com/..."
               />
             </div>
 
