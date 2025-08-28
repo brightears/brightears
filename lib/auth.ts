@@ -18,8 +18,8 @@ export type ExtendedUser = {
   }
   customer?: {
     id: string
-    firstName?: string
-    lastName?: string
+    firstName?: string | null
+    lastName?: string | null
   }
   corporate?: {
     id: string

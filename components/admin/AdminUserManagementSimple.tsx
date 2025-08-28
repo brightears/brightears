@@ -15,7 +15,7 @@ import {
 interface User {
   id: string
   email: string
-  name: string
+  name: string | null
   role: string
   isEmailVerified: boolean
   isActive: boolean
@@ -220,7 +220,7 @@ export default function AdminUserManagementSimple({ locale }: AdminUserManagemen
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">
-                                {user.name}
+                                {user.name || user.email.split('@')[0] || 'User'}
                               </div>
                               <div className="text-sm text-gray-500">{user.email}</div>
                               {user.artist && (

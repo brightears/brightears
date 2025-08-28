@@ -11,8 +11,8 @@ interface User {
   role: string
   customer?: {
     id: string
-    firstName?: string
-    lastName?: string
+    firstName?: string | null
+    lastName?: string | null
   }
 }
 

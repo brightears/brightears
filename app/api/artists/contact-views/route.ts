@@ -132,7 +132,6 @@ export async function GET(request: Request) {
         user: {
           select: {
             id: true,
-            name: true,
             email: true,
             role: true,
             customer: {
@@ -171,21 +170,25 @@ export async function GET(request: Request) {
         viewsThisWeek,
         viewsThisMonth
       },
-      contactViews: contactViews.map(cv => ({
-        id: cv.id,
-        viewedAt: cv.viewedAt,
-        user: {
-          id: cv.user.id,
-          name: cv.user.name,
-          email: cv.user.email,
-          role: cv.user.role,
-          displayName: cv.user.customer 
-            ? `${cv.user.customer.firstName} ${cv.user.customer.lastName}`.trim()
-            : cv.user.corporate
-            ? `${cv.user.corporate.contactPerson} (${cv.user.corporate.companyName})`
-            : cv.user.name
+      contactViews: contactViews.map(cv => {
+        const displayName = cv.user.customer 
+          ? `${cv.user.customer.firstName || ''} ${cv.user.customer.lastName || ''}`.trim()
+          : cv.user.corporate
+          ? `${cv.user.corporate.contactPerson} (${cv.user.corporate.companyName})`
+          : cv.user.email || 'User'
+
+        return {
+          id: cv.id,
+          viewedAt: cv.viewedAt,
+          user: {
+            id: cv.user.id,
+            name: displayName,
+            email: cv.user.email,
+            role: cv.user.role,
+            displayName: displayName
+          }
         }
-      }))
+      })
     })
 
   } catch (error) {

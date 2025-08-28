@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { auth, isValidSession } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 import { UserRole } from '@prisma/client'
 
 /**
@@ -9,13 +9,18 @@ export async function checkUserRole(
   req: NextRequest,
   allowedRoles: UserRole[]
 ): Promise<boolean> {
-  const session = await auth()
-  
-  if (!isValidSession(session) || !session?.user?.role) {
+  try {
+    const user = await getCurrentUser()
+    
+    if (!user || !user.role) {
+      return false
+    }
+    
+    return allowedRoles.includes(user.role)
+  } catch (error) {
+    console.error('Error checking user role:', error)
     return false
   }
-  
-  return allowedRoles.includes(session.user.role)
 }
 
 /**
@@ -47,16 +52,23 @@ export function withAuth() {
     req: NextRequest,
     handler: (req: NextRequest) => Promise<NextResponse>
   ) {
-    const session = await auth()
-    
-    if (!isValidSession(session)) {
+    try {
+      const user = await getCurrentUser()
+      
+      if (!user) {
+        return NextResponse.json(
+          { error: 'Authentication required' },
+          { status: 401 }
+        )
+      }
+      
+      return handler(req)
+    } catch (error) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
       )
     }
-    
-    return handler(req)
   }
 }
 
@@ -64,14 +76,22 @@ export function withAuth() {
  * Get user ID from session in API routes
  */
 export async function getUserIdFromRequest(req: NextRequest): Promise<string | null> {
-  const session = await auth()
-  return isValidSession(session) && session?.user?.id ? session.user.id : null
+  try {
+    const user = await getCurrentUser()
+    return user?.id || null
+  } catch (error) {
+    return null
+  }
 }
 
 /**
  * Get user role from session in API routes
  */
 export async function getUserRoleFromRequest(req: NextRequest): Promise<UserRole | null> {
-  const session = await auth()
-  return isValidSession(session) && session?.user?.role ? session.user.role : null
+  try {
+    const user = await getCurrentUser()
+    return user?.role || null
+  } catch (error) {
+    return null
+  }
 }

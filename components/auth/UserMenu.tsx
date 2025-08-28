@@ -36,16 +36,14 @@ export function UserMenu() {
       if (user.customer?.firstName) {
         return `${user.customer.firstName} ${user.customer.lastName || ''}`.trim()
       }
-      // For OAuth users, use name or email
-      if (user.name) {
-        return user.name.split(' ')[0]
-      }
+      // For OAuth users, fallback to email prefix
+      return user?.email?.split('@')[0] || 'Customer'
     }
     if (user?.role === 'CORPORATE' && user.corporate?.contactPerson) {
       return user.corporate.contactPerson
     }
-    // Fallback to name, email prefix, or 'User'
-    return user?.name || user?.email?.split('@')[0] || 'User'
+    // Fallback to email prefix or 'User'
+    return user?.email?.split('@')[0] || 'User'
   }
 
   const getRoleLinks = () => {

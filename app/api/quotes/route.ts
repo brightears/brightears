@@ -75,7 +75,12 @@ export async function POST(request: NextRequest) {
           include: { user: true }
         },
         customer: {
-          select: { email: true, role: true }
+          select: { 
+            email: true, 
+            role: true,
+            firstName: true,
+            lastName: true
+          }
         }
       }
     })
@@ -245,7 +250,9 @@ export async function POST(request: NextRequest) {
 
       await sendQuoteReceivedEmail({
         to: booking.customer.email,
-        customerName: user?.name || 'Customer',
+        customerName: booking.customer.firstName && booking.customer.lastName 
+          ? `${booking.customer.firstName} ${booking.customer.lastName}`.trim()
+          : 'Customer',
         artistName: booking.artist.stageName,
         eventType: booking.eventType,
         eventDate: formattedEventDate,

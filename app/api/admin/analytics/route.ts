@@ -209,7 +209,6 @@ export async function GET(request: NextRequest) {
       include: {
         user: {
           select: {
-            name: true,
             email: true
           }
         }
@@ -310,7 +309,7 @@ export async function GET(request: NextRequest) {
       topArtists: topArtists.map(artist => ({
         id: artist.id,
         stageName: artist.stageName,
-        name: artist.user.name,
+        name: artist.stageName,
         completedBookings: artist.completedBookings,
         averageRating: artist.averageRating || 0,
         verificationLevel: artist.verificationLevel

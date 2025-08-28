@@ -172,7 +172,8 @@ export async function GET(
         user: {
           include: {
             customer: true,
-            artist: true
+            artist: true,
+            corporate: true
           }
         }
       }
@@ -182,17 +183,14 @@ export async function GET(
     const formattedIndicators = typingIndicators.map(indicator => {
       let userName = indicator.user.email || 'User'
       
-      // Try to use the name field from database User model
-      if ('name' in indicator.user && indicator.user.name) {
-        userName = indicator.user.name
-      }
-      
-      // Override with role-specific names if available
+      // Use role-specific names
       if (indicator.user.role === 'CUSTOMER' && indicator.user.customer) {
         const fullName = `${indicator.user.customer.firstName || ''} ${indicator.user.customer.lastName || ''}`.trim()
         if (fullName) userName = fullName
       } else if (indicator.user.role === 'ARTIST' && indicator.user.artist) {
         userName = indicator.user.artist.stageName || userName
+      } else if (indicator.user.role === 'CORPORATE' && indicator.user.corporate) {
+        userName = indicator.user.corporate.contactPerson || indicator.user.corporate.companyName || userName
       }
 
       return {
