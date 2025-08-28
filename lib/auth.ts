@@ -1,233 +1,7 @@
-import NextAuth, { DefaultSession } from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
-import GoogleProvider from "next-auth/providers/google"
-import { PrismaAdapter } from "@auth/prisma-adapter"
+import { auth } from "@clerk/nextjs/server"
 import { PrismaClient, UserRole } from "@prisma/client"
-import bcrypt from "bcryptjs"
-import { z } from "zod"
 
 const prisma = new PrismaClient()
-
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1),
-})
-
-// Extend the default session types
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string
-      email?: string
-      role: UserRole
-      artist?: {
-        id: string
-        stageName: string
-        verificationLevel: string
-      }
-      customer?: {
-        id: string
-        firstName?: string
-        lastName?: string
-      }
-      corporate?: {
-        id: string
-        companyName: string
-        contactPerson: string
-      }
-    } & DefaultSession["user"]
-  }
-}
-
-const providers = []
-
-// Only add Google provider if credentials are available
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  providers.push(
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true,
-    })
-  )
-}
-
-providers.push(
-    CredentialsProvider({
-      name: "credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        try {
-          const validatedFields = loginSchema.safeParse(credentials)
-          
-          if (!validatedFields.success) {
-            return null
-          }
-
-          const { email, password } = validatedFields.data
-
-          const user = await prisma.user.findUnique({
-            where: { email },
-            include: {
-              artist: true,
-              customer: true,
-              corporate: true,
-            },
-          })
-
-          if (!user || !user.password) {
-            return null
-          }
-
-          const isValidPassword = await bcrypt.compare(password, user.password)
-
-          if (!isValidPassword) {
-            return null
-          }
-
-          return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            image: user.image,
-            role: user.role,
-            artist: user.artist ? {
-              id: user.artist.id,
-              stageName: user.artist.stageName,
-              verificationLevel: user.artist.verificationLevel.toString(),
-            } : undefined,
-            customer: user.customer ? {
-              id: user.customer.id,
-              firstName: user.customer.firstName,
-              lastName: user.customer.lastName,
-            } : undefined,
-            corporate: user.corporate ? {
-              id: user.corporate.id,
-              companyName: user.corporate.companyName,
-              contactPerson: user.corporate.contactPerson,
-            } : undefined,
-          } as any
-        } catch (error) {
-          console.error("Auth error:", error)
-          return null
-        }
-      },
-    })
-)
-
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
-  session: {
-    strategy: "jwt",
-  },
-  pages: {
-    signIn: "/login",
-  },
-  trustHost: true, // Required for NextAuth v5 in production
-  providers,
-  callbacks: {
-    async signIn({ user, account, profile }) {
-      // For OAuth providers, create/update user profile
-      if (account?.provider === "google") {
-        try {
-          const existingUser = await prisma.user.findUnique({
-            where: { email: user.email! },
-            include: { customer: true, corporate: true, artist: true }
-          })
-
-          if (!existingUser) {
-            // Create new customer account for Google OAuth users
-            const newUser = await prisma.user.create({
-              data: {
-                email: user.email!,
-                name: user.name,
-                image: user.image,
-                role: 'CUSTOMER',
-                customer: {
-                  create: {
-                    firstName: user.name?.split(' ')[0] || '',
-                    lastName: user.name?.split(' ').slice(1).join(' ') || '',
-                    preferredLanguage: 'en'
-                  }
-                }
-              },
-              include: { customer: true }
-            })
-            console.log("Created new Google OAuth user:", newUser.email)
-          } else {
-            console.log("Google OAuth user already exists:", existingUser.email)
-          }
-        } catch (error) {
-          console.error("Error in signIn callback:", error)
-          // Still return true to allow sign in, but log the error
-          return true
-        }
-      }
-      return true
-    },
-    async jwt({ token, user, account }) {
-      if (account?.provider === "google" && user && user.email) {
-        // For Google OAuth, the user should already be created in signIn callback
-        // Fetch the full user data from database
-        const dbUser = await prisma.user.findUnique({
-          where: { email: user.email },
-          include: { customer: true, corporate: true, artist: true }
-        })
-        
-        if (dbUser) {
-          token.id = dbUser.id
-          token.email = dbUser.email
-          token.name = dbUser.name
-          token.role = dbUser.role
-          token.artist = dbUser.artist
-          token.customer = dbUser.customer
-          token.corporate = dbUser.corporate
-        } else {
-          // This shouldn't happen if signIn callback worked correctly
-          console.error("Google OAuth user not found in database:", user.email)
-          return token // Return existing token instead of empty object
-        }
-      } else if (user && user.id && user.email) {
-        // For credentials provider - ensure we have required fields
-        token.id = user.id
-        token.email = user.email
-        token.role = (user as any).role
-        token.artist = (user as any).artist
-        token.customer = (user as any).customer
-        token.corporate = (user as any).corporate
-      }
-      
-      return token
-    },
-    async session({ session, token }) {
-      // Only return a session if we have a valid token with user ID and email
-      if (token && token.id && token.email && session.user) {
-        session.user.id = token.id as string
-        session.user.email = token.email as string
-        session.user.name = token.name as string
-        session.user.role = token.role as UserRole
-        session.user.artist = token.artist as any
-        session.user.customer = token.customer as any
-        session.user.corporate = token.corporate as any
-        return session
-      }
-      
-      // Return the original session if we don't have a valid token (NextAuth expects this)
-      return session
-    },
-  },
-  events: {
-    async signIn({ user }) {
-      console.log(`User ${user.email} signed in`)
-    },
-    async signOut() {
-      console.log(`User signed out`)
-    },
-  },
-})
 
 // Export types for use in other files
 export type ExtendedUser = {
@@ -259,11 +33,53 @@ export async function getSession() {
 }
 
 /**
- * Get the current user from the session
+ * Get the current user from Clerk auth and fetch user data from Prisma
  */
-export async function getCurrentUser() {
-  const session = await auth()
-  return session?.user || null
+export async function getCurrentUser(): Promise<ExtendedUser | null> {
+  try {
+    const { userId } = await auth()
+    
+    if (!userId) {
+      return null
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        artist: true,
+        customer: true,
+        corporate: true,
+      },
+    })
+
+    if (!user) {
+      return null
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      artist: user.artist ? {
+        id: user.artist.id,
+        stageName: user.artist.stageName,
+        verificationLevel: user.artist.verificationLevel.toString(),
+      } : undefined,
+      customer: user.customer ? {
+        id: user.customer.id,
+        firstName: user.customer.firstName,
+        lastName: user.customer.lastName,
+      } : undefined,
+      corporate: user.corporate ? {
+        id: user.corporate.id,
+        companyName: user.corporate.companyName,
+        contactPerson: user.corporate.contactPerson,
+      } : undefined,
+    }
+  } catch (error) {
+    console.error("Error fetching current user:", error)
+    return null
+  }
 }
 
 /**
@@ -324,23 +140,26 @@ export async function isAdmin(): Promise<boolean> {
 
 /**
  * Check if a session is valid and authenticated
+ * Works with both Clerk and NextAuth session objects for compatibility
  */
 export function isValidSession(session: any): boolean {
-  return !!(
-    session && 
-    session.user && 
-    session.user.id && 
-    session.user.email &&
-    session.user.role
-  )
+  // For Clerk sessions
+  if (session && session.userId) {
+    return true
+  }
+  // For NextAuth sessions (backward compatibility)
+  if (session && session.user && session.user.id && session.user.email && session.user.role) {
+    return true
+  }
+  return false
 }
 
 /**
  * Check if the current user is authenticated
  */
 export async function isAuthenticated(): Promise<boolean> {
-  const session = await auth()
-  return isValidSession(session)
+  const { userId } = await auth()
+  return !!userId
 }
 
 /**
@@ -375,3 +194,8 @@ export async function requireAnyRole(roles: UserRole[]) {
   }
   return user
 }
+
+// For backward compatibility - these exports are no longer needed but kept for compatibility
+export const signIn = () => { throw new Error("Use Clerk's SignIn component instead") }
+export const signOut = () => { throw new Error("Use Clerk's SignOut component instead") }
+export const handlers = { GET: () => {}, POST: () => {} } // Placeholder for NextAuth handlers

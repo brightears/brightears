@@ -1,5 +1,6 @@
-import { getCurrentUser } from '@/lib/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
+import { prisma } from '@/lib/prisma'
 import DashboardStatsGrid from '@/components/dashboard/DashboardStatsGrid'
 import RecentBookings from '@/components/dashboard/RecentBookings'
 import QuickActions from '@/components/dashboard/QuickActions'
@@ -23,16 +24,23 @@ export default async function ArtistDashboardPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const user = await getCurrentUser()
+  const { userId } = await auth()
   
-  if (!user || user.role !== 'ARTIST') {
-    redirect(`/${locale}/login`)
+  if (!userId) {
+    redirect(`/${locale}/sign-in`)
+  }
+
+  // Get user with artist profile
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: { artist: true }
+  })
+
+  if (!user || user.role !== 'ARTIST' || !user.artist) {
+    redirect(`/${locale}/dashboard`)
   }
 
   const artist = user.artist
-  if (!artist) {
-    redirect(`/${locale}/dashboard`)
-  }
 
   // Mock data for now - will be replaced with real API calls
   const stats = {

@@ -1,11 +1,7 @@
-import { getCurrentUser } from '@/lib/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
-import ProfileEditForm from '@/components/dashboard/ProfileEditForm'
-import PricingSettingsForm from '@/components/dashboard/PricingSettingsForm'
-import ServiceAreasForm from '@/components/dashboard/ServiceAreasForm'
-import SocialLinksForm from '@/components/dashboard/SocialLinksForm'
-import ImageUploadForm from '@/components/dashboard/ImageUploadForm'
+import ProfileEditForm from '@/components/artist/ProfileEditForm'
 
 export default async function ProfilePage({
   params
@@ -13,16 +9,23 @@ export default async function ProfilePage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const user = await getCurrentUser()
+  const { userId } = await auth()
   
-  if (!user || user.role !== 'ARTIST') {
-    redirect(`/${locale}/login`)
+  if (!userId) {
+    redirect(`/${locale}/sign-in`)
+  }
+
+  // Get user with artist profile
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: { artist: true }
+  })
+
+  if (!user || user.role !== 'ARTIST' || !user.artist) {
+    redirect(`/${locale}/dashboard`)
   }
 
   const sessionArtist = user.artist
-  if (!sessionArtist) {
-    redirect(`/${locale}/dashboard`)
-  }
 
   // Fetch full artist data from database
   const artistData = await prisma.artist.findUnique({
@@ -82,23 +85,8 @@ export default async function ProfilePage({
         </p>
       </div>
 
-      {/* Profile Forms */}
-      <div className="space-y-8">
-        {/* Profile Images */}
-        <ImageUploadForm artist={artist} locale={locale} />
-        
-        {/* Basic Information */}
-        <ProfileEditForm artist={artist} locale={locale} />
-        
-        {/* Pricing & Availability Settings */}
-        <PricingSettingsForm artist={artist} locale={locale} />
-        
-        {/* Service Areas */}
-        <ServiceAreasForm artist={artist} locale={locale} />
-        
-        {/* Social Media Links */}
-        <SocialLinksForm artist={artist} locale={locale} />
-      </div>
+      {/* Profile Form */}
+      <ProfileEditForm artist={artist} locale={locale} />
     </div>
   )
 }

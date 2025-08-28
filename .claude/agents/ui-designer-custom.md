@@ -12,7 +12,7 @@ model: sonnet
 **Brand Context**: 
 - **Colors**: brand-cyan (#00bbe4), deep-teal (#2f6364), earthy-brown (#a47764), soft-lavender (#d59ec9)
 - **Typography**: Playfair Display (headings), Inter (body text)
-- **Style**: Professional, modern, trendy but not aggressive, accessible
+- **Style**: Professional, modern, trendy but not aggressive, accessiblec
 
 **Expertise**: Visual design, interaction design, component libraries, responsive design, accessibility standards (WCAG), design systems, modern UI patterns, micro-interactions, and performance-conscious design.
 
