@@ -31,7 +31,13 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h1 className="font-playfair text-3xl font-bold text-dark-gray">
-              Welcome back, {user.name || user.email}!
+              Welcome back, {
+                user.artist?.stageName || 
+                (user.customer?.firstName ? `${user.customer.firstName} ${user.customer.lastName || ''}`.trim() : null) ||
+                user.corporate?.companyName || 
+                user.email || 
+                'User'
+              }!
             </h1>
             <p className="mt-2 text-dark-gray">
               Role: {user.role}
