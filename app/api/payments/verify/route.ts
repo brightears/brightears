@@ -121,7 +121,9 @@ export async function POST(request: NextRequest) {
       
       await sendPaymentConfirmationEmail({
         to: user.email!,
-        customerName: user.name || 'Customer',
+        customerName: user.customer ? 
+          `${user.customer.firstName || ''} ${user.customer.lastName || ''}`.trim() || 'Customer' : 
+          'Customer',
         artistName: booking.artist.stageName || 'Artist',
         bookingNumber: booking.bookingNumber,
         eventType: booking.eventType,
