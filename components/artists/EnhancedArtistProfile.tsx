@@ -60,8 +60,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
   const handleBookNow = () => {
     if (!user) {
       openSignIn({
-        afterSignInUrl: `/book/${artistId}`,
-        afterSignUpUrl: `/book/${artistId}`,
+        fallbackRedirectUrl: `/book/${artistId}`,
       })
     } else {
       router.push(`/book/${artistId}`)
@@ -71,8 +70,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
   const handleFavorite = async () => {
     if (!user) {
       openSignIn({
-        afterSignInUrl: window.location.href,
-        afterSignUpUrl: window.location.href,
+        fallbackRedirectUrl: window.location.href,
       })
       return
     }

@@ -24,6 +24,17 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
     return null // TypeScript needs this even though redirect throws
   }
 
+  // Check if user has selected a role, if not redirect to onboarding
+  if (!user.role || user.role === 'CUSTOMER' && !user.customer ||
+      user.role === 'ARTIST' && !user.artist ||
+      user.role === 'CORPORATE' && !user.corporate) {
+    redirect({
+      href: '/onboarding',
+      locale
+    })
+    return null
+  }
+
   return (
     <>
       <Header />

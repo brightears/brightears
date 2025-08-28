@@ -11,7 +11,7 @@ export default function SignUpPage() {
           },
         }}
         signInUrl="/sign-in"
-        afterSignUpUrl="/onboarding"
+        fallbackRedirectUrl="/onboarding"
       />
     </div>
   );

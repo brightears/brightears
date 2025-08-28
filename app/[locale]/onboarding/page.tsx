@@ -8,6 +8,7 @@ import {
   MicrophoneIcon, 
   BuildingOfficeIcon 
 } from "@heroicons/react/24/outline";
+import { apiFetch } from "@/lib/api";
 
 interface RoleOption {
   value: "CUSTOMER" | "ARTIST" | "CORPORATE";
@@ -55,7 +56,7 @@ export default function OnboardingPage() {
     setError(null);
 
     try {
-      const response = await fetch("/api/user/update-role", {
+      const response = await apiFetch("/api/user/update-role", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

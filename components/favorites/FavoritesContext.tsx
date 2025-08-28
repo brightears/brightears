@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { useUser } from '@clerk/nextjs'
+import { apiFetch } from '@/lib/api'
 
 interface FavoritesContextType {
   favorites: string[] // Array of artist IDs
@@ -33,7 +34,7 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
 
     setIsLoading(true)
     try {
-      const response = await fetch('/api/favorites')
+      const response = await apiFetch('/api/favorites')
       if (response.ok) {
         const data = await response.json()
         const favoriteIds = data.favorites.map((artist: any) => artist.id)
@@ -61,7 +62,7 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
     }
 
     try {
-      const response = await fetch('/api/favorites', {
+      const response = await apiFetch('/api/favorites', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +87,7 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
     }
 
     try {
-      const response = await fetch(`/api/favorites?artistId=${artistId}`, {
+      const response = await apiFetch(`/api/favorites?artistId=${artistId}`, {
         method: 'DELETE',
       })
 

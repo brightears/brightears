@@ -61,8 +61,7 @@ export default function LineContactButton({
     if (!user) {
       // Show sign-in modal or redirect to sign-in
       openSignIn({
-        afterSignInUrl: window.location.href,
-        afterSignUpUrl: window.location.href,
+        fallbackRedirectUrl: window.location.href,
       })
       return
     }
