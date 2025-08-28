@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { UserIcon, MusicNoteIcon, GlobeAltIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline'
+import { UserIcon, MusicalNoteIcon, GlobeAltIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline'
 
 interface ArtistProfile {
   id: string
@@ -148,7 +148,7 @@ export default function ProfileEditForm({ artist, locale }: ProfileEditFormProps
       {/* Performance Details */}
       <div className="bg-white rounded-xl p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
-          <MusicNoteIcon className="h-6 w-6 text-primary" />
+          <MusicalNoteIcon className="h-6 w-6 text-primary" />
           <h3 className="text-xl font-semibold">Performance Details</h3>
         </div>
 

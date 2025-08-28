@@ -1,7 +1,10 @@
-import { auth } from "@clerk/nextjs/server"
+import { auth as clerkAuth } from "@clerk/nextjs/server"
 import { PrismaClient, UserRole } from "@prisma/client"
 
 const prisma = new PrismaClient()
+
+// Re-export auth from Clerk for backward compatibility
+export const auth = clerkAuth
 
 // Export types for use in other files
 export type ExtendedUser = {
@@ -29,7 +32,7 @@ export type ExtendedUser = {
  * Get the current session (alias for auth())
  */
 export async function getSession() {
-  return await auth()
+  return await clerkAuth()
 }
 
 /**
@@ -37,7 +40,7 @@ export async function getSession() {
  */
 export async function getCurrentUser(): Promise<ExtendedUser | null> {
   try {
-    const { userId } = await auth()
+    const { userId } = await clerkAuth()
     
     if (!userId) {
       return null
