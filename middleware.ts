@@ -14,8 +14,18 @@ const isProtectedRoute = createRouteMatcher([
   '/(.*)/artist-dashboard(.*)',
 ]);
 
+// Check if the request is for an API route
+const isApiRoute = createRouteMatcher(['/api(.*)']);
+
 export default clerkMiddleware(async (auth, req) => {
-  // Handle internationalization first
+  // Skip internationalization for API routes
+  if (isApiRoute(req)) {
+    // Only handle authentication for API routes
+    // Note: Most API routes handle their own auth, but we can add global protection here if needed
+    return;
+  }
+  
+  // Handle internationalization for non-API routes
   const intlResponse = intlMiddleware(req);
   
   // Check if route requires authentication

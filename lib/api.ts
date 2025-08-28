@@ -1,18 +1,21 @@
 /**
  * Utility function to get the correct API endpoint URL
  * Handles both client and server side, and works with locale routing
+ * Ensures API routes are never prefixed with locale
  */
 export function getApiUrl(endpoint: string): string {
-  // Remove leading slash if present
-  const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
+  // Ensure endpoint starts with /api
+  if (!endpoint.startsWith('/api')) {
+    endpoint = endpoint.startsWith('/') ? `/api${endpoint}` : `/api/${endpoint}`;
+  }
   
   // In client-side, use the origin to ensure absolute URL
   if (typeof window !== 'undefined') {
-    return `${window.location.origin}/${cleanEndpoint}`;
+    return `${window.location.origin}${endpoint}`;
   }
   
   // Server-side - return the path as is (Next.js handles it)
-  return `/${cleanEndpoint}`;
+  return endpoint;
 }
 
 /**
