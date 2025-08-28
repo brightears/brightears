@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSession } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
@@ -14,16 +14,16 @@ export async function PUT(
 ) {
   try {
     const { id: quoteId } = await context.params
-    const session = await getSession()
+    const user = await getCurrentUser()
 
-    if (!session?.user) {
+    if (!user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       )
     }
 
-    if (session.user.role !== 'CUSTOMER') {
+    if (user.role !== 'CUSTOMER') {
       return NextResponse.json(
         { error: 'Only customers can respond to quotes' },
         { status: 403 }
@@ -38,7 +38,7 @@ export async function PUT(
       where: {
         id: quoteId,
         booking: {
-          customerId: session.user.id
+          customerId: user.id
         }
       },
       include: {

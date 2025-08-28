@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import FavoritesPage from '@/components/favorites/FavoritesPage'
 
@@ -24,15 +24,15 @@ export default async function Favorites({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const session = await getSession()
+  const user = await getCurrentUser()
   
   // Redirect if not logged in
-  if (!session?.user) {
+  if (!user) {
     redirect(`/${locale}/login?redirect=/favorites`)
   }
   
   // Redirect if not a customer
-  if (session.user.role !== 'CUSTOMER') {
+  if (user.role !== 'CUSTOMER') {
     redirect(`/${locale}`)
   }
 

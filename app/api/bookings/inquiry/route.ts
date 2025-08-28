@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth()
+    const user = await getCurrentUser()
     
-    if (!session?.user) {
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -206,9 +206,9 @@ export async function POST(request: NextRequest) {
 // GET endpoint to retrieve booking inquiries for artists
 export async function GET(request: NextRequest) {
   try {
-    const session = await auth()
+    const user = await getCurrentUser()
     
-    if (!session?.user) {
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -222,7 +222,7 @@ export async function GET(request: NextRequest) {
       const artist = await prisma.artist.findFirst({
         where: {
           id: artistId,
-          userId: session.user.id
+          userId: user.id
         }
       })
 
@@ -238,7 +238,7 @@ export async function GET(request: NextRequest) {
     } else {
       // If no artistId, find inquiries for current user's artist profile
       const userArtist = await prisma.artist.findUnique({
-        where: { userId: session.user.id },
+        where: { userId: user.id },
         select: { id: true }
       })
       

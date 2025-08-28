@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
-import { auth } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 
 const prisma = new PrismaClient()
 
 export async function POST(request: Request) {
   try {
-    const session = await auth()
+    const user = await getCurrentUser()
     
-    if (!session?.user?.id) {
+    if (!user) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     const contactView = await prisma.contactView.upsert({
       where: {
         userId_artistId: {
-          userId: session.user.id,
+          userId: user.id,
           artistId: artistId
         }
       },
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
         userAgent: userAgent
       },
       create: {
-        userId: session.user.id,
+        userId: user.id,
         artistId: artistId,
         ipAddress: ipAddress,
         userAgent: userAgent
@@ -85,9 +85,9 @@ export async function POST(request: Request) {
 // GET endpoint to retrieve contact view analytics (for artists/admin)
 export async function GET(request: Request) {
   try {
-    const session = await auth()
+    const user = await getCurrentUser()
     
-    if (!session?.user?.id) {
+    if (!user) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
@@ -118,7 +118,7 @@ export async function GET(request: Request) {
     }
 
     // Only allow artist themselves or admin to view analytics
-    if (artist.userId !== session.user.id && session.user.role !== 'ADMIN') {
+    if (artist.userId !== user.id && user.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Access denied' },
         { status: 403 }
