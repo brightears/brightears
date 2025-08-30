@@ -6,6 +6,7 @@ import ArtistDashboardSidebar from '@/components/dashboard/ArtistDashboardSideba
 // import { useQuery } from 'convex/react'
 // import { api } from '@/convex/_generated/api'
 import { useClerkUser } from '@/hooks/useClerkUser'
+import { usePathname } from 'next/navigation'
 
 export default function ArtistDashboardLayout({
   children,
@@ -16,6 +17,10 @@ export default function ArtistDashboardLayout({
   // const userData = useQuery(api.users.getCurrentUser)
   const { clerkUser } = useClerkUser()
   const userData = clerkUser // Use Clerk user for now
+  
+  // Extract locale from pathname
+  const pathname = usePathname()
+  const locale = pathname?.split('/')[1] || 'en'
 
   // TODO: Re-implement loading state with proper user data fetching
   // if (!userData) {
@@ -32,7 +37,7 @@ export default function ArtistDashboardLayout({
     <ProtectedRoute>
       <div className="min-h-screen bg-off-white">
         <div className="flex">
-          <ArtistDashboardSidebar user={userData} />
+          <ArtistDashboardSidebar user={userData} locale={locale} />
           <main className="flex-1 lg:pl-64">
             <div className="px-4 sm:px-6 lg:px-8 py-8">
               {children}

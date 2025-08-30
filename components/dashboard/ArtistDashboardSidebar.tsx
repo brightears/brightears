@@ -54,15 +54,18 @@ const navigationItems = [
   }
 ]
 
-export default function ArtistDashboardSidebar({ locale, user }: ArtistDashboardSidebarProps) {
+export default function ArtistDashboardSidebar({ locale = 'en', user }: ArtistDashboardSidebarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  
+  // Ensure we have a locale, fallback to extracting from pathname if needed
+  const currentLocale = locale || pathname?.split('/')[1] || 'en'
 
   const isActive = (href: string) => {
     if (href === '/dashboard/artist') {
-      return pathname === `/${locale}${href}`
+      return pathname === `/${currentLocale}${href}`
     }
-    return pathname.startsWith(`/${locale}${href}`)
+    return pathname.startsWith(`/${currentLocale}${href}`)
   }
 
   return (
@@ -128,7 +131,7 @@ export default function ArtistDashboardSidebar({ locale, user }: ArtistDashboard
             {navigationItems.map((item) => (
               <Link
                 key={item.href}
-                href={`/${locale}${item.href}`}
+                href={`/${currentLocale}${item.href}`}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`
                   flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors
@@ -147,7 +150,7 @@ export default function ArtistDashboardSidebar({ locale, user }: ArtistDashboard
           {/* Footer */}
           <div className="border-t border-gray-200 p-4">
             <Link
-              href={`/${locale}/dashboard`}
+              href={`/${currentLocale}/dashboard`}
               className="block text-sm text-gray-500 hover:text-brand-cyan transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
