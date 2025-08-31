@@ -13,43 +13,43 @@ const navigationItems = [
   {
     name: 'Dashboard',
     nameKey: 'dashboard.nav.dashboard',
-    href: '/dashboard/artist',
+    href: '/artist',
     icon: '📊'
   },
   {
     name: 'Profile',
     nameKey: 'dashboard.nav.profile',
-    href: '/dashboard/artist/profile',
+    href: '/artist/profile',
     icon: '👤'
   },
   {
     name: 'Bookings',
     nameKey: 'dashboard.nav.bookings',
-    href: '/dashboard/artist/bookings',
+    href: '/artist/bookings',
     icon: '📅'
   },
   {
     name: 'Availability',
     nameKey: 'dashboard.nav.availability',
-    href: '/dashboard/artist/availability',
+    href: '/artist/availability',
     icon: '🗓️'
   },
   {
     name: 'Media',
     nameKey: 'dashboard.nav.media',
-    href: '/dashboard/artist/media',
+    href: '/artist/media',
     icon: '🎵'
   },
   {
     name: 'Reviews',
     nameKey: 'dashboard.nav.reviews',
-    href: '/dashboard/artist/reviews',
+    href: '/artist/reviews',
     icon: '⭐'
   },
   {
     name: 'Analytics',
     nameKey: 'dashboard.nav.analytics',
-    href: '/dashboard/artist/analytics',
+    href: '/artist/analytics',
     icon: '📈'
   }
 ]
@@ -62,10 +62,11 @@ export default function ArtistDashboardSidebar({ locale = 'en', user }: ArtistDa
   const currentLocale = locale || pathname?.split('/')[1] || 'en'
 
   const isActive = (href: string) => {
-    if (href === '/dashboard/artist') {
-      return pathname === `/${currentLocale}${href}`
+    const fullPath = `/dashboard${href}`
+    if (href === '/artist') {
+      return pathname === `/${currentLocale}${fullPath}`
     }
-    return pathname.startsWith(`/${currentLocale}${href}`)
+    return pathname.startsWith(`/${currentLocale}${fullPath}`)
   }
 
   return (
@@ -131,7 +132,7 @@ export default function ArtistDashboardSidebar({ locale = 'en', user }: ArtistDa
             {navigationItems.map((item) => (
               <Link
                 key={item.href}
-                href={`/${currentLocale}${item.href}`}
+                href={`/${currentLocale}/dashboard${item.href}`}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`
                   flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors
