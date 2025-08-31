@@ -134,28 +134,35 @@ export default function QuickInquiryModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-md"
         onClick={onClose}
       />
       
       {/* Modal */}
-      <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-md bg-pure-white rounded-2xl shadow-2xl overflow-hidden transform transition-all">
         {/* Header with gradient */}
-        <div className="relative bg-gradient-to-r from-brand-cyan to-deep-teal p-6 text-white">
+        <div className="relative bg-gradient-to-br from-brand-cyan via-deep-teal to-deep-teal p-6 text-pure-white">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+            className="absolute top-4 right-4 p-2 rounded-full bg-pure-white/10 hover:bg-pure-white/20 backdrop-blur-sm transition-all duration-200"
           >
-            <XMarkIcon className="w-5 h-5" />
+            <XMarkIcon className="w-5 h-5 text-pure-white" />
           </button>
           
           <div className="flex items-center gap-4">
             {artistImage && (
-              <img 
-                src={artistImage} 
-                alt={artistName}
-                className="w-16 h-16 rounded-full border-2 border-white/50"
-              />
+              <div className="relative">
+                <img 
+                  src={artistImage} 
+                  alt={artistName}
+                  className="w-16 h-16 rounded-full border-3 border-pure-white/30 shadow-lg object-cover"
+                />
+                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-pure-white flex items-center justify-center">
+                  <svg className="w-3 h-3 text-pure-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              </div>
             )}
             <div>
               <h2 className="font-playfair text-2xl font-bold">
@@ -163,8 +170,8 @@ export default function QuickInquiryModal({
                 {step === 'verify' && 'Verify Your Phone'}
                 {step === 'success' && 'Inquiry Sent!'}
               </h2>
-              <p className="text-white/90 text-sm">
-                {step === 'inquiry' && `From ${artistName}`}
+              <p className="text-pure-white/90 text-sm mt-1">
+                {step === 'inquiry' && `Connect with ${artistName}`}
                 {step === 'verify' && 'Enter the code we sent you'}
                 {step === 'success' && `${artistName} will respond soon`}
               </p>
@@ -178,7 +185,7 @@ export default function QuickInquiryModal({
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name field */}
               <div>
-                <label className="block text-sm font-medium text-dark-gray mb-1">
+                <label className="block text-sm font-semibold text-deep-teal mb-2">
                   Your First Name
                 </label>
                 <input
@@ -186,24 +193,24 @@ export default function QuickInquiryModal({
                   required
                   value={formData.firstName}
                   onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray"
                   placeholder="John"
                 />
               </div>
               
               {/* Phone field */}
               <div>
-                <label className="block text-sm font-medium text-dark-gray mb-1">
+                <label className="block text-sm font-semibold text-deep-teal mb-2">
                   Phone Number
                 </label>
                 <div className="relative">
-                  <PhoneIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <PhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-cyan" />
                   <input
                     type="tel"
                     required
                     value={formData.phoneNumber}
                     onChange={(e) => setFormData({...formData, phoneNumber: e.target.value})}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray"
                     placeholder="081-234-5678"
                   />
                 </div>
@@ -214,31 +221,31 @@ export default function QuickInquiryModal({
               
               {/* Event date */}
               <div>
-                <label className="block text-sm font-medium text-dark-gray mb-1">
+                <label className="block text-sm font-semibold text-deep-teal mb-2">
                   Event Date
                 </label>
                 <div className="relative">
-                  <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <CalendarIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-cyan" />
                   <input
                     type="date"
                     required
                     value={formData.eventDate}
                     onChange={(e) => setFormData({...formData, eventDate: e.target.value})}
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray"
                   />
                 </div>
               </div>
               
               {/* Event type */}
               <div>
-                <label className="block text-sm font-medium text-dark-gray mb-1">
+                <label className="block text-sm font-semibold text-deep-teal mb-2">
                   Event Type
                 </label>
                 <select
                   value={formData.eventType}
                   onChange={(e) => setFormData({...formData, eventType: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray appearance-none bg-white"
                 >
                   <option value="WEDDING">Wedding</option>
                   <option value="CORPORATE">Corporate Event</option>
@@ -251,21 +258,24 @@ export default function QuickInquiryModal({
               
               {/* Optional message */}
               <div>
-                <label className="block text-sm font-medium text-dark-gray mb-1">
+                <label className="block text-sm font-semibold text-deep-teal mb-2">
                   Message (Optional)
                 </label>
                 <textarea
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray resize-none"
                   placeholder="Any special requests or details..."
                 />
               </div>
               
               {error && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
-                  {error}
+                <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm flex items-start gap-2">
+                  <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                  <span>{error}</span>
                 </div>
               )}
               
@@ -273,7 +283,7 @@ export default function QuickInquiryModal({
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-gradient-to-r from-brand-cyan to-deep-teal text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 disabled:opacity-50"
+                className="w-full py-3 bg-gradient-to-r from-brand-cyan to-deep-teal text-pure-white font-semibold rounded-xl hover:shadow-xl hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Sending...' : 'Send Inquiry'}
               </button>
@@ -306,8 +316,11 @@ export default function QuickInquiryModal({
               </div>
               
               {error && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
-                  {error}
+                <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm flex items-start gap-2">
+                  <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                  <span>{error}</span>
                 </div>
               )}
               
@@ -331,18 +344,18 @@ export default function QuickInquiryModal({
           )}
           
           {step === 'success' && (
-            <div className="text-center py-4">
-              <div className="w-20 h-20 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
-                <svg className="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <div className="text-center py-6">
+              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+                <svg className="w-10 h-10 text-pure-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
               
-              <h3 className="font-playfair text-xl font-bold text-dark-gray mb-2">
+              <h3 className="font-playfair text-2xl font-bold text-deep-teal mb-3">
                 Inquiry Sent Successfully!
               </h3>
               
-              <p className="text-gray-600 mb-6">
+              <p className="text-dark-gray mb-8 px-4">
                 {artistName} will review your request and send you a quote soon.
                 We'll notify you via SMS when they respond.
               </p>
@@ -350,13 +363,13 @@ export default function QuickInquiryModal({
               <div className="space-y-3">
                 <button
                   onClick={onClose}
-                  className="w-full py-3 bg-gradient-to-r from-brand-cyan to-deep-teal text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300"
+                  className="w-full py-3 bg-gradient-to-r from-brand-cyan to-deep-teal text-pure-white font-semibold rounded-xl hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
                 >
                   Browse More Artists
                 </button>
                 
                 <p className="text-xs text-gray-500">
-                  Booking ID: {bookingId}
+                  Booking ID: <span className="font-mono text-brand-cyan">{bookingId}</span>
                 </p>
               </div>
             </div>
