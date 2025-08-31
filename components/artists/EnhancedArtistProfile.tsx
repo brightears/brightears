@@ -347,7 +347,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
                   onClick={handleBookNow}
                   className="px-6 py-3 bg-brand-cyan text-pure-white font-inter font-medium rounded-lg hover:bg-brand-cyan/90 transition-colors shadow-md"
                 >
-                  Book Now
+                  Get Quote
                 </button>
                 
                 <LineContactButton
