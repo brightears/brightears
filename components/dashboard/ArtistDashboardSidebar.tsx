@@ -132,7 +132,7 @@ export default function ArtistDashboardSidebar({ locale = 'en', user }: ArtistDa
             {navigationItems.map((item) => (
               <Link
                 key={item.href}
-                href={`/${currentLocale}/dashboard${item.href}`}
+                href={`/dashboard${item.href}`}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`
                   flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors
@@ -151,7 +151,7 @@ export default function ArtistDashboardSidebar({ locale = 'en', user }: ArtistDa
           {/* Footer */}
           <div className="border-t border-gray-200 p-4">
             <Link
-              href={`/${currentLocale}/dashboard`}
+              href="/dashboard"
               className="block text-sm text-gray-500 hover:text-brand-cyan transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
