@@ -1,7 +1,7 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
-import ProfileEditForm from '@/components/artist/ProfileEditForm'
+import ProfileEditForm from '@/components/dashboard/ProfileEditForm'
 
 export default async function ProfilePage({
   params

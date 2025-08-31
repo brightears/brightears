@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 
 interface BioEnhancerProps {
   currentBio: string
@@ -28,7 +28,7 @@ interface Enhancement {
 
 export default function BioEnhancer({ currentBio, currentBioTh, onEnhanced, className = '' }: BioEnhancerProps) {
   const t = useTranslations('ai.bioEnhancer')
-  const { data: session } = useSession()
+  const { user } = useUser()
   
   const [isOpen, setIsOpen] = useState(false)
   const [isEnhancing, setIsEnhancing] = useState(false)
@@ -98,7 +98,7 @@ export default function BioEnhancer({ currentBio, currentBioTh, onEnhanced, clas
     setError(null)
   }
 
-  if (!session?.user) {
+  if (!user) {
     return null
   }
 
