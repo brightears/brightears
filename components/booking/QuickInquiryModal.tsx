@@ -29,7 +29,7 @@ export default function QuickInquiryModal({
   const [formData, setFormData] = useState({
     firstName: '',
     phoneNumber: '',
-    eventDate: '',
+    eventDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Default to 1 week from now
     eventType: 'WEDDING',
     message: ''
   })

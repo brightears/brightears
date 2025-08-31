@@ -8,6 +8,7 @@ import Image from 'next/image'
 import Footer from '@/components/layout/Footer'
 import ArtistProfileTabs from './ArtistProfileTabs'
 import RatingStars from '@/components/ui/RatingStars'
+import QuickInquiryModal from '@/components/booking/QuickInquiryModal'
 import VerificationBadge from '@/components/ui/VerificationBadge'
 import LineContactButton from '@/components/booking/LineContactButton'
 
@@ -25,6 +26,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isFavorite, setIsFavorite] = useState(false)
+  const [showInquiryModal, setShowInquiryModal] = useState(false)
 
   useEffect(() => {
     fetchArtist()
@@ -58,13 +60,8 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
   }
 
   const handleBookNow = () => {
-    if (!user) {
-      openSignIn({
-        fallbackRedirectUrl: `/book/${artistId}`,
-      })
-    } else {
-      router.push(`/book/${artistId}`)
-    }
+    // Open the Quick Inquiry modal instead of redirecting
+    setShowInquiryModal(true)
   }
 
   const handleFavorite = async () => {
@@ -393,6 +390,15 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
         </div>
       </main>
       <Footer />
+      
+      {/* Quick Inquiry Modal */}
+      <QuickInquiryModal
+        isOpen={showInquiryModal}
+        onClose={() => setShowInquiryModal(false)}
+        artistId={artist.id}
+        artistName={artist.stageName}
+        artistImage={artist.profileImage}
+      />
     </>
   )
 }
