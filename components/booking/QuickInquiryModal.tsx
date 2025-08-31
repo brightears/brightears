@@ -29,6 +29,7 @@ export default function QuickInquiryModal({
   const [formData, setFormData] = useState({
     firstName: '',
     phoneNumber: '',
+    contactMethod: 'phone' as 'phone' | 'line',
     eventDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Default to 1 week from now
     eventType: 'WEDDING',
     message: ''
@@ -131,17 +132,17 @@ export default function QuickInquiryModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/60 backdrop-blur-md"
         onClick={onClose}
       />
       
-      {/* Modal */}
-      <div className="relative w-full max-w-md bg-pure-white rounded-2xl shadow-2xl overflow-hidden transform transition-all">
-        {/* Header with gradient */}
-        <div className="relative bg-gradient-to-br from-brand-cyan via-deep-teal to-deep-teal p-6 text-pure-white">
+      {/* Modal - removed overflow-hidden to prevent border clipping */}
+      <div className="relative w-full max-w-lg bg-pure-white rounded-2xl shadow-2xl transform transition-all">
+        {/* Header with gradient - added rounded top corners */}
+        <div className="relative bg-gradient-to-br from-brand-cyan via-deep-teal to-deep-teal p-6 text-pure-white rounded-t-2xl">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 p-2 rounded-full bg-pure-white/10 hover:bg-pure-white/20 backdrop-blur-sm transition-all duration-200"
@@ -179,10 +180,10 @@ export default function QuickInquiryModal({
           </div>
         </div>
         
-        {/* Content */}
-        <div className="p-6">
+        {/* Content - added max-height and scroll */}
+        <div className="p-6 max-h-[60vh] overflow-y-auto">
           {step === 'inquiry' && (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Name field */}
               <div>
                 <label className="block text-sm font-semibold text-deep-teal mb-2">
@@ -198,26 +199,60 @@ export default function QuickInquiryModal({
                 />
               </div>
               
-              {/* Phone field */}
+              {/* Contact Preference */}
               <div>
-                <label className="block text-sm font-semibold text-deep-teal mb-2">
-                  Phone Number
+                <label className="block text-sm font-semibold text-deep-teal mb-3">
+                  How should we contact you?
                 </label>
-                <div className="relative">
-                  <PhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-cyan" />
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({...formData, contactMethod: 'phone'})}
+                    className={`p-3 rounded-xl border-2 transition-all ${
+                      (formData as any).contactMethod === 'phone' 
+                        ? 'border-brand-cyan bg-brand-cyan/10 text-brand-cyan' 
+                        : 'border-gray-200 hover:border-brand-cyan/50'
+                    }`}
+                  >
+                    <PhoneIcon className="w-5 h-5 mx-auto mb-1" />
+                    <span className="text-sm font-medium">Phone</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({...formData, contactMethod: 'line'})}
+                    className={`p-3 rounded-xl border-2 transition-all ${
+                      (formData as any).contactMethod === 'line' 
+                        ? 'border-brand-cyan bg-brand-cyan/10 text-brand-cyan' 
+                        : 'border-gray-200 hover:border-brand-cyan/50'
+                    }`}
+                  >
+                    <svg className="w-5 h-5 mx-auto mb-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.105.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.349 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+                    </svg>
+                    <span className="text-sm font-medium">LINE</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Contact Details based on selection */}
+              {(formData as any).contactMethod && (
+                <div>
+                  <label className="block text-sm font-semibold text-deep-teal mb-2">
+                    {(formData as any).contactMethod === 'phone' ? 'Phone Number' : 'LINE ID'}
+                  </label>
                   <input
-                    type="tel"
+                    type="text"
                     required
                     value={formData.phoneNumber}
                     onChange={(e) => setFormData({...formData, phoneNumber: e.target.value})}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray"
-                    placeholder="081-234-5678"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray"
+                    placeholder={(formData as any).contactMethod === 'phone' ? '081-234-5678' : '@yourlineid'}
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    We'll use this to contact you about your booking
+                  </p>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  We'll use this to confirm your booking
-                </p>
-              </div>
+              )}
               
               {/* Event date */}
               <div>
