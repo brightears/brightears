@@ -132,22 +132,22 @@ export default function QuickInquiryModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-md"
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       />
       
-      {/* Modal - removed overflow-hidden to prevent border clipping */}
-      <div className="relative w-full max-w-lg bg-pure-white rounded-2xl shadow-2xl transform transition-all">
-        {/* Header with gradient - added rounded top corners */}
-        <div className="relative bg-gradient-to-br from-brand-cyan via-deep-teal to-deep-teal p-6 text-pure-white rounded-t-2xl">
+      {/* Modal Container - Clean shadow and proper overflow handling */}
+      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 ease-out">
+        {/* Header with gradient - Perfect top corners */}
+        <div className="relative bg-gradient-to-br from-brand-cyan via-deep-teal to-deep-teal p-6 text-pure-white">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-pure-white/10 hover:bg-pure-white/20 backdrop-blur-sm transition-all duration-200"
+            className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 group"
           >
-            <XMarkIcon className="w-5 h-5 text-pure-white" />
+            <XMarkIcon className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
           </button>
           
           <div className="flex items-center gap-4">
@@ -156,10 +156,10 @@ export default function QuickInquiryModal({
                 <img 
                   src={artistImage} 
                   alt={artistName}
-                  className="w-16 h-16 rounded-full border-3 border-pure-white/30 shadow-lg object-cover"
+                  className="w-16 h-16 rounded-full border-2 border-white/30 shadow-lg object-cover"
                 />
-                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-pure-white flex items-center justify-center">
-                  <svg className="w-3 h-3 text-pure-white" fill="currentColor" viewBox="0 0 20 20">
+                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
@@ -171,7 +171,7 @@ export default function QuickInquiryModal({
                 {step === 'verify' && 'Verify Your Phone'}
                 {step === 'success' && 'Inquiry Sent!'}
               </h2>
-              <p className="text-pure-white/90 text-sm mt-1">
+              <p className="text-white/90 text-sm mt-1">
                 {step === 'inquiry' && `Connect with ${artistName}`}
                 {step === 'verify' && 'Enter the code we sent you'}
                 {step === 'success' && `${artistName} will respond soon`}
@@ -180,8 +180,8 @@ export default function QuickInquiryModal({
           </div>
         </div>
         
-        {/* Content - added max-height and scroll */}
-        <div className="p-6 max-h-[60vh] overflow-y-auto">
+        {/* Content - Optimized scrolling and spacing */}
+        <div className="p-6 max-h-[calc(100vh-12rem)] overflow-y-auto">
           {step === 'inquiry' && (
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Name field */}
@@ -194,7 +194,7 @@ export default function QuickInquiryModal({
                   required
                   value={formData.firstName}
                   onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-transparent transition-all duration-200 text-gray-900 bg-gray-50/50 focus:bg-white"
                   placeholder="John"
                 />
               </div>
@@ -208,10 +208,10 @@ export default function QuickInquiryModal({
                   <button
                     type="button"
                     onClick={() => setFormData({...formData, contactMethod: 'phone'})}
-                    className={`p-3 rounded-xl border-2 transition-all ${
+                    className={`p-3 rounded-xl border-2 transition-all duration-200 ${
                       (formData as any).contactMethod === 'phone' 
-                        ? 'border-brand-cyan bg-brand-cyan/10 text-brand-cyan' 
-                        : 'border-gray-200 hover:border-brand-cyan/50'
+                        ? 'border-brand-cyan bg-brand-cyan/5 text-brand-cyan shadow-sm' 
+                        : 'border-gray-200 hover:border-brand-cyan/30 hover:bg-gray-50'
                     }`}
                   >
                     <PhoneIcon className="w-5 h-5 mx-auto mb-1" />
@@ -220,10 +220,10 @@ export default function QuickInquiryModal({
                   <button
                     type="button"
                     onClick={() => setFormData({...formData, contactMethod: 'line'})}
-                    className={`p-3 rounded-xl border-2 transition-all ${
+                    className={`p-3 rounded-xl border-2 transition-all duration-200 ${
                       (formData as any).contactMethod === 'line' 
-                        ? 'border-brand-cyan bg-brand-cyan/10 text-brand-cyan' 
-                        : 'border-gray-200 hover:border-brand-cyan/50'
+                        ? 'border-brand-cyan bg-brand-cyan/5 text-brand-cyan shadow-sm' 
+                        : 'border-gray-200 hover:border-brand-cyan/30 hover:bg-gray-50'
                     }`}
                   >
                     <svg className="w-5 h-5 mx-auto mb-1" fill="currentColor" viewBox="0 0 24 24">
@@ -245,7 +245,7 @@ export default function QuickInquiryModal({
                     required
                     value={formData.phoneNumber}
                     onChange={(e) => setFormData({...formData, phoneNumber: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-transparent transition-all duration-200 text-gray-900 bg-gray-50/50 focus:bg-white"
                     placeholder={(formData as any).contactMethod === 'phone' ? '081-234-5678' : '@yourlineid'}
                   />
                   <p className="text-xs text-gray-500 mt-1">
@@ -267,7 +267,7 @@ export default function QuickInquiryModal({
                     value={formData.eventDate}
                     onChange={(e) => setFormData({...formData, eventDate: e.target.value})}
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray"
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-transparent transition-all duration-200 text-gray-900 bg-gray-50/50 focus:bg-white"
                   />
                 </div>
               </div>
@@ -280,7 +280,7 @@ export default function QuickInquiryModal({
                 <select
                   value={formData.eventType}
                   onChange={(e) => setFormData({...formData, eventType: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray appearance-none bg-white"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-transparent transition-all duration-200 text-gray-900 appearance-none bg-gray-50/50 focus:bg-white"
                 >
                   <option value="WEDDING">Wedding</option>
                   <option value="CORPORATE">Corporate Event</option>
@@ -300,7 +300,7 @@ export default function QuickInquiryModal({
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                   rows={3}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-all duration-200 text-dark-gray resize-none"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-transparent transition-all duration-200 text-gray-900 resize-none bg-gray-50/50 focus:bg-white"
                   placeholder="Any special requests or details..."
                 />
               </div>
@@ -318,7 +318,7 @@ export default function QuickInquiryModal({
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-gradient-to-r from-brand-cyan to-deep-teal text-pure-white font-semibold rounded-xl hover:shadow-xl hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-3.5 bg-gradient-to-r from-brand-cyan to-deep-teal text-white font-semibold rounded-xl hover:shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {loading ? 'Sending...' : 'Send Inquiry'}
               </button>
@@ -345,7 +345,7 @@ export default function QuickInquiryModal({
                   maxLength={6}
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                  className="w-full px-4 py-3 text-center text-2xl font-mono border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-transparent"
+                  className="w-full px-4 py-3 text-center text-2xl font-mono border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-cyan focus:border-transparent bg-gray-50/50 focus:bg-white transition-all duration-200"
                   placeholder="000000"
                 />
               </div>
@@ -362,7 +362,7 @@ export default function QuickInquiryModal({
               <button
                 type="submit"
                 disabled={loading || otp.length !== 6}
-                className="w-full py-3 bg-gradient-to-r from-brand-cyan to-deep-teal text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 disabled:opacity-50"
+                className="w-full py-3.5 bg-gradient-to-r from-brand-cyan to-deep-teal text-white font-semibold rounded-xl hover:shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 disabled:opacity-50 disabled:hover:scale-100"
               >
                 {loading ? 'Verifying...' : 'Verify & Continue'}
               </button>
@@ -380,8 +380,8 @@ export default function QuickInquiryModal({
           
           {step === 'success' && (
             <div className="text-center py-6">
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg">
-                <svg className="w-10 h-10 text-pure-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -390,7 +390,7 @@ export default function QuickInquiryModal({
                 Inquiry Sent Successfully!
               </h3>
               
-              <p className="text-dark-gray mb-8 px-4">
+              <p className="text-gray-600 mb-8 px-4">
                 {artistName} will review your request and send you a quote soon.
                 We'll notify you via SMS when they respond.
               </p>
@@ -398,7 +398,7 @@ export default function QuickInquiryModal({
               <div className="space-y-3">
                 <button
                   onClick={onClose}
-                  className="w-full py-3 bg-gradient-to-r from-brand-cyan to-deep-teal text-pure-white font-semibold rounded-xl hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+                  className="w-full py-3.5 bg-gradient-to-r from-brand-cyan to-deep-teal text-white font-semibold rounded-xl hover:shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all duration-200"
                 >
                   Browse More Artists
                 </button>
