@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 import { useTranslations } from 'next-intl'
-import { isValidSession } from '@/lib/auth'
 import { Link } from '@/components/navigation'
 
 interface Notification {
@@ -24,7 +23,7 @@ interface NotificationBellProps {
 }
 
 export default function NotificationBell({ locale }: NotificationBellProps) {
-  const { data: session } = useSession()
+  const { user } = useUser()
   const t = useTranslations('notifications')
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [unreadCount, setUnreadCount] = useState(0)
@@ -33,13 +32,13 @@ export default function NotificationBell({ locale }: NotificationBellProps) {
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (isValidSession(session)) {
+    if (user) {
       fetchNotifications()
       // Set up polling for new notifications
       const interval = setInterval(fetchNotifications, 30000) // Check every 30 seconds
       return () => clearInterval(interval)
     }
-  }, [session])
+  }, [user])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -115,13 +114,13 @@ export default function NotificationBell({ locale }: NotificationBellProps) {
     switch (notification.type) {
       case 'booking_request':
       case 'booking_update':
-        if (isValidSession(session) && session?.user?.role === 'ARTIST') {
+        if (user && user.publicMetadata?.role === 'ARTIST') {
           return `/${locale}/dashboard/artist/bookings`
         } else {
           return `/${locale}/bookings`
         }
       case 'message':
-        if (isValidSession(session) && session?.user?.role === 'ARTIST') {
+        if (user && user.publicMetadata?.role === 'ARTIST') {
           return `/${locale}/dashboard/artist/bookings`
         } else {
           return `/${locale}/bookings`
@@ -147,7 +146,7 @@ export default function NotificationBell({ locale }: NotificationBellProps) {
     }
   }
 
-  if (!isValidSession(session)) return null
+  if (!user) return null
 
   return (
     <div className="relative" ref={dropdownRef}>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 import { useFavorites } from './FavoritesContext'
 
 interface FavoriteButtonProps {
@@ -21,18 +21,18 @@ export default function FavoriteButton({
   className = '',
   showLoginPrompt = true
 }: FavoriteButtonProps) {
-  const { data: session } = useSession()
+  const { user } = useUser()
   const { isFavorite, toggleFavorite } = useFavorites()
   const [isLoading, setIsLoading] = useState(false)
-  
+
   const isUserFavorite = isFavorite(artistId)
-  const isCustomer = session?.user?.role === 'CUSTOMER'
+  const isCustomer = user?.publicMetadata?.role === 'CUSTOMER'
 
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
 
-    if (!session?.user) {
+    if (!user) {
       if (showLoginPrompt) {
         // Could trigger a login modal here
         alert('Please sign in to save favorites')
