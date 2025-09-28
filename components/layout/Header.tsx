@@ -157,7 +157,7 @@ const Header: React.FC = () => {
                         Dashboard
                       </Link>
                       <UserButton
-                        afterSignUpUrl="/"
+                        afterSignOutUrl="/"
                         appearance={{
                           elements: {
                             avatarBox: "w-10 h-10"
