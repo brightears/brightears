@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
-// TODO: Re-implement with Prisma or other backend when needed
-// import { ConvexHttpClient } from 'convex/browser'
-// import { api } from '../../../../convex/_generated/api'
 
 const prisma = new PrismaClient()
-// const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
 // Validation schema for quick inquiry
 const quickInquirySchema = z.object({
