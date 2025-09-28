@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser, useAuth } from '@clerk/nextjs'
 import Image from 'next/image'
 
 interface Message {
@@ -41,7 +41,8 @@ interface BookingMessagingProps {
 
 export default function BookingMessaging({ booking, locale, onClose }: BookingMessagingProps) {
   const t = useTranslations('messaging')
-  const { data: session } = useSession()
+  const { user, isLoaded, isSignedIn } = useUser()
+  const { userId } = useAuth()
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState('')
   const [isLoading, setIsLoading] = useState(true)

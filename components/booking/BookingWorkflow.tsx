@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser, useAuth } from '@clerk/nextjs'
 import QuoteManagementModal from './QuoteManagementModal'
 import PromptPayModal from './PromptPayModal'
 
@@ -14,7 +14,8 @@ interface BookingWorkflowProps {
 
 export default function BookingWorkflow({ bookingId, userRole, onStatusChange }: BookingWorkflowProps) {
   const t = useTranslations('booking')
-  const { data: session } = useSession()
+  const { user, isLoaded, isSignedIn } = useUser()
+  const { userId } = useAuth()
   
   const [booking, setBooking] = useState<any>(null)
   const [quotes, setQuotes] = useState<any[]>([])

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser, useAuth } from '@clerk/nextjs'
 import Image from 'next/image'
 
 interface Artist {
@@ -43,7 +43,8 @@ interface FormData {
 
 export default function BookingInquiryForm({ artist, locale, onClose }: BookingInquiryFormProps) {
   const t = useTranslations('booking')
-  const { data: session } = useSession()
+  const { user, isLoaded, isSignedIn } = useUser()
+  const { userId } = useAuth()
   const [currentStep, setCurrentStep] = useState<FormStep>('event')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -134,7 +135,7 @@ export default function BookingInquiryForm({ artist, locale, onClose }: BookingI
   }
 
   const submitBooking = async () => {
-    if (!session) {
+    if (!isSignedIn || !userId) {
       setError('Please log in to submit a booking request')
       return
     }
@@ -397,7 +398,7 @@ export default function BookingInquiryForm({ artist, locale, onClose }: BookingI
               />
             </div>
 
-            {!session && (
+            {!isSignedIn && (
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                 <p className="text-sm text-yellow-800">
                   {t('loginRequired')}
@@ -505,7 +506,7 @@ export default function BookingInquiryForm({ artist, locale, onClose }: BookingI
     }
   }
 
-  if (!session && currentStep !== 'success') {
+  if (!isSignedIn && currentStep !== 'success') {
     return (
       <div className="fixed inset-0 z-50 overflow-y-auto">
         <div className="flex items-center justify-center min-h-screen px-4">
@@ -635,7 +636,7 @@ export default function BookingInquiryForm({ artist, locale, onClose }: BookingI
                 {currentStep === 'review' ? (
                   <button
                     onClick={submitBooking}
-                    disabled={isLoading || !session}
+                    disabled={isLoading || !isSignedIn}
                     className="px-6 py-2 bg-brand-cyan text-pure-white rounded-lg hover:bg-brand-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? t('submitting') : t('submitRequest')}

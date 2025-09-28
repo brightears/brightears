@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser, useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 
 interface Artist {
@@ -53,7 +53,8 @@ export default function QuickBookingModal({
   triggerElement 
 }: QuickBookingModalProps) {
   const t = useTranslations('booking.quick')
-  const { data: session } = useSession()
+  const { user, isLoaded, isSignedIn } = useUser()
+  const { userId } = useAuth()
   const router = useRouter()
   
   const [step, setStep] = useState(1)
@@ -69,7 +70,7 @@ export default function QuickBookingModal({
     duration: artist.minimumHours || 3,
     additionalInfo: '',
     contactMethod: 'email',
-    contactInfo: session?.user?.email || ''
+    contactInfo: user?.primaryEmailAddress?.emailAddress || ''
   })
 
   // Reset form when modal opens
@@ -80,12 +81,12 @@ export default function QuickBookingModal({
       setSuccess(false)
       setForm(prev => ({
         ...prev,
-        contactInfo: session?.user?.email || '',
+        contactInfo: user?.primaryEmailAddress?.emailAddress || '',
         location: artist.baseCity || 'Bangkok',
         duration: artist.minimumHours || 3
       }))
     }
-  }, [isOpen, artist, session])
+  }, [isOpen, artist, user])
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -123,8 +124,8 @@ export default function QuickBookingModal({
   }
 
   const submitBooking = async () => {
-    if (!session?.user) {
-      router.push('/login?redirect=' + encodeURIComponent(window.location.pathname))
+    if (!isSignedIn || !userId) {
+      router.push('/sign-in?redirect=' + encodeURIComponent(window.location.pathname))
       return
     }
 
@@ -139,7 +140,7 @@ export default function QuickBookingModal({
         },
         body: JSON.stringify({
           artistId: artist.id,
-          userId: session.user.id,
+          userId: userId,
           eventDate: `${form.eventDate}T${form.eventTime}`,
           eventType: form.eventType,
           location: form.location,

@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { signIn } from 'next-auth/react'
+import { useSignIn } from '@clerk/nextjs'
 import { useState } from 'react'
 import Image from 'next/image'
 
@@ -12,13 +12,14 @@ interface LoginPromptModalProps {
   onLoginSuccess?: () => void
 }
 
-export default function LoginPromptModal({ 
-  isOpen, 
-  onClose, 
+export default function LoginPromptModal({
+  isOpen,
+  onClose,
   artistName,
-  onLoginSuccess 
+  onLoginSuccess
 }: LoginPromptModalProps) {
   const t = useTranslations('auth')
+  const { signIn, isLoaded } = useSignIn()
   const [isLoading, setIsLoading] = useState(false)
   const [showEmailForm, setShowEmailForm] = useState(false)
   const [email, setEmail] = useState('')
@@ -28,39 +29,37 @@ export default function LoginPromptModal({
   if (!isOpen) return null
 
   const handleGoogleLogin = async () => {
+    if (!isLoaded || !signIn) return
+
     setIsLoading(true)
     setError('')
     try {
-      const result = await signIn('google', { 
-        callbackUrl: window.location.href,
-        redirect: false 
+      const result = await signIn.authenticateWithRedirect({
+        strategy: 'oauth_google',
+        redirectUrl: '/sign-in/sso-callback',
+        redirectUrlComplete: window.location.href
       })
-      if (result?.ok) {
-        onLoginSuccess?.()
-        onClose()
-      } else {
-        setError(t('loginFailed'))
-      }
+      // Clerk handles the redirect, so we don't need to handle the result here
     } catch (error) {
       setError(t('loginError'))
-    } finally {
       setIsLoading(false)
     }
   }
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!isLoaded || !signIn) return
+
     setIsLoading(true)
     setError('')
-    
+
     try {
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false
+      const result = await signIn.create({
+        identifier: email,
+        password
       })
-      
-      if (result?.ok) {
+
+      if (result.status === 'complete') {
         onLoginSuccess?.()
         onClose()
       } else {

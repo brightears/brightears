@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser, useAuth } from '@clerk/nextjs'
 import LineContactButton from './LineContactButton'
 import LoginPromptModal from '@/components/auth/LoginPromptModal'
 
@@ -21,7 +21,8 @@ interface QuickBookingFormProps {
 
 export default function QuickBookingForm({ artist, locale, onDetailedBookingClick }: QuickBookingFormProps) {
   const t = useTranslations('booking')
-  const { data: session, status } = useSession()
+  const { user, isLoaded, isSignedIn } = useUser()
+  const { userId } = useAuth()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [inquiryTracked, setInquiryTracked] = useState(false)
@@ -62,7 +63,7 @@ export default function QuickBookingForm({ artist, locale, onDetailedBookingClic
   }
 
   const handleQuickInquiry = () => {
-    if (!session?.user) {
+    if (!isSignedIn || !userId) {
       setShowLoginModal(true)
       return
     }

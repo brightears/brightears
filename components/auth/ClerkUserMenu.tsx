@@ -85,7 +85,7 @@ export function ClerkUserMenu() {
 
       {/* User Button with custom menu */}
       <UserButton
-        afterSignOutUrl="/"
+        afterSignUpUrl="/"
         appearance={{
           elements: {
             avatarBox: "w-10 h-10",

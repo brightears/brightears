@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser, useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { Link } from '@/components/navigation'
@@ -69,7 +69,8 @@ interface Artist {
 
 export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) {
   const t = useTranslations('artist')
-  const { data: session, status } = useSession()
+  const { user, isLoaded, isSignedIn } = useUser()
+  const { userId } = useAuth()
   const router = useRouter()
   const [artist, setArtist] = useState<Artist | null>(null)
   const [loading, setLoading] = useState(true)
@@ -111,7 +112,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
 
   // Track contact view when user logs in and views contact info
   const trackContactView = async () => {
-    if (session?.user && artist && !hasViewedContact) {
+    if (isSignedIn && userId && artist && !hasViewedContact) {
       try {
         await fetch('/api/artists/contact-views', {
           method: 'POST',
@@ -120,7 +121,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
           },
           body: JSON.stringify({
             artistId: artist.id,
-            userId: session.user.id,
+            userId: userId,
           }),
         })
         setHasViewedContact(true)
@@ -138,7 +139,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
 
   // Handle contact button click
   const handleContactClick = () => {
-    if (session?.user) {
+    if (isSignedIn && userId) {
       trackContactView()
     } else {
       setShowLoginModal(true)
@@ -429,7 +430,7 @@ export default function ArtistProfile({ artistId, locale }: ArtistProfileProps) 
                     <div className="mt-6 pt-6 border-t">
                       <h3 className="font-playfair font-semibold mb-4 text-dark-gray">{t('connect')}</h3>
                       
-                      {session?.user ? (
+                      {isSignedIn ? (
                         <div className="space-y-2">
                           {/* Show actual contact info for logged-in users */}
                           {artist.website && (

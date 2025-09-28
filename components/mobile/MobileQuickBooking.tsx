@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser, useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 
 interface Artist {
@@ -44,7 +44,8 @@ const THAI_CITIES = [
 
 export default function MobileQuickBooking({ artist, isOpen, onClose }: MobileQuickBookingProps) {
   const t = useTranslations('booking.mobile')
-  const { data: session } = useSession()
+  const { user, isLoaded, isSignedIn } = useUser()
+  const { userId } = useAuth()
   const router = useRouter()
   
   const [step, setStep] = useState(1)
@@ -71,13 +72,13 @@ export default function MobileQuickBooking({ artist, isOpen, onClose }: MobileQu
       setForm(prev => ({ 
         ...prev, 
         eventTime: defaultTime,
-        contactInfo: session?.user?.email || ''
+        contactInfo: user?.primaryEmailAddress?.emailAddress || ''
       }))
       setStep(1)
       setError(null)
       setSuccess(false)
     }
-  }, [isOpen, session])
+  }, [isOpen, user])
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -115,8 +116,8 @@ export default function MobileQuickBooking({ artist, isOpen, onClose }: MobileQu
   }
 
   const submitBooking = async () => {
-    if (!session?.user) {
-      router.push('/login?redirect=' + encodeURIComponent(window.location.pathname))
+    if (!isSignedIn || !userId) {
+      router.push('/sign-in?redirect=' + encodeURIComponent(window.location.pathname))
       return
     }
 
@@ -131,7 +132,7 @@ export default function MobileQuickBooking({ artist, isOpen, onClose }: MobileQu
         },
         body: JSON.stringify({
           artistId: artist.id,
-          userId: session.user.id,
+          userId: userId,
           eventDate: `${form.eventDate}T${form.eventTime}`,
           eventType: form.eventType,
           location: form.location,

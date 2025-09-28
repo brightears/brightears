@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser, useAuth } from '@clerk/nextjs'
 import Image from 'next/image'
 import { useRealtimeMessaging, type Message } from '@/hooks/useRealtimeMessaging'
 import { useConnectionStatus } from '@/hooks/useConnectionStatus'
@@ -34,7 +34,8 @@ export default function EnhancedBookingMessaging({
   onClose 
 }: EnhancedBookingMessagingProps) {
   const t = useTranslations('messaging')
-  const { data: session } = useSession()
+  const { user, isLoaded, isSignedIn } = useUser()
+  const { userId } = useAuth()
   const [replyToMessage, setReplyToMessage] = useState<{
     id: string
     content: string
@@ -70,7 +71,7 @@ export default function EnhancedBookingMessaging({
     hasMore
   } = useRealtimeMessaging({
     bookingId: booking.id,
-    enabled: !!session?.user
+    enabled: !!isSignedIn && !!userId
   })
 
   // Handle reply functionality
