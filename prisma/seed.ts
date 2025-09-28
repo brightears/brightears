@@ -1,6 +1,6 @@
 import { prisma } from '../lib/prisma'
 import { hash } from 'bcryptjs'
-import { ArtistCategory } from '@prisma/client'
+import { ArtistCategory, BookingStatus } from '@prisma/client'
 
 // Thai cities for realistic data
 const THAI_CITIES = ['Bangkok', 'Phuket', 'Chiang Mai', 'Pattaya', 'Hua Hin', 'Koh Samui', 'Krabi']
@@ -254,7 +254,7 @@ async function main() {
     const endTime = new Date(startTime)
     endTime.setHours(startTime.getHours() + 3 + Math.floor(Math.random() * 3)) // 3-6 hours duration
 
-    const statuses = ['INQUIRY', 'QUOTED', 'CONFIRMED', 'COMPLETED', 'CANCELLED']
+    const statuses = ['INQUIRY', 'QUOTED', 'CONFIRMED', 'COMPLETED', 'CANCELLED'] as BookingStatus[]
     const status = statuses[Math.floor(Math.random() * statuses.length)]
 
     const booking = await prisma.booking.create({
