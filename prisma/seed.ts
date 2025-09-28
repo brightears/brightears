@@ -1,5 +1,6 @@
 import { prisma } from '../lib/prisma'
 import { hash } from 'bcryptjs'
+import { ArtistCategory } from '@prisma/client'
 
 // Thai cities for realistic data
 const THAI_CITIES = ['Bangkok', 'Phuket', 'Chiang Mai', 'Pattaya', 'Hua Hin', 'Koh Samui', 'Krabi']
@@ -108,7 +109,7 @@ async function main() {
   // Create test artists
   const artists = []
   for (let i = 0; i < 15; i++) {
-    const category = CATEGORIES[i % CATEGORIES.length]
+    const category = CATEGORIES[i % CATEGORIES.length] as ArtistCategory
     const email = `artist${i + 1}@brightears.test`
     const stageName = THAI_STAGE_NAMES[i] || `Artist ${i + 1}`
     const realName = REAL_NAMES[i % REAL_NAMES.length]
