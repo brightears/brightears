@@ -270,8 +270,8 @@ async function main() {
         venueAddress: `${Math.floor(Math.random() * 999) + 1} Sukhumvit Road, Bangkok`,
         guestCount: 50 + Math.floor(Math.random() * 450), // 50-500 guests
         status,
-        quotedPrice: status !== 'INQUIRY' ? (artist.artist.hourlyRate || 5000) * (endTime.getHours() - startTime.getHours()) : 1000,
-        finalPrice: status === 'COMPLETED' ? (artist.artist.hourlyRate || 5000) * (endTime.getHours() - startTime.getHours()) : undefined,
+        quotedPrice: status !== 'INQUIRY' ? Number(artist.artist.hourlyRate || 5000) * (endTime.getHours() - startTime.getHours()) : 1000,
+        finalPrice: status === 'COMPLETED' ? Number(artist.artist.hourlyRate || 5000) * (endTime.getHours() - startTime.getHours()) : undefined,
         specialRequests: 'Please play some international hits mixed with Thai favorites',
       }
     })
