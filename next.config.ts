@@ -40,7 +40,6 @@ const nextConfig: NextConfig = {
     },
   },
   // Production optimizations for memory efficiency
-  swcMinify: true,
   compress: true,
   poweredByHeader: false,
   // Reduce memory usage in production
