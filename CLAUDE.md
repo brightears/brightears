@@ -4,6 +4,20 @@
 **Live URL: https://brightears.onrender.com**
 **Auto-deploys from GitHub: https://github.com/brightears/brightears**
 
+## 🤖 IMPORTANT: ALWAYS USE SUB-AGENTS WHEN APPROPRIATE! 🤖
+**We have 26 specialized sub-agents in `.claude/agents/`** - Use them proactively for their domains:
+- **thai-market-expert** - Thai localization, LINE integration, cultural requirements
+- **booking-flow-expert** - Booking lifecycle, calendars, payments
+- **database-architect** - Schema design, Prisma, query optimization
+- **api-integration-specialist** - LINE, PromptPay, third-party APIs
+- **web-design-manager** - UI consistency, brand guidelines, design review
+- **user-journey-architect** - User flows, conversion optimization
+- **performance-engineer** - Performance optimization, memory issues
+- **nextjs-pro** - Next.js specific features and optimization
+- **seo-specialist** - SEO, structured data, analytics
+- **anti-spam-guardian** - Verification, rate limiting, fraud prevention
+- (And 16 more specialized agents - check `.claude/agents/` for full list)
+
 ## Project Overview
 Building a commission-free entertainment booking platform for Thailand, starting with DJs/musicians and expanding to all entertainment categories.
 

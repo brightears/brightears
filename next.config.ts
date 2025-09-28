@@ -39,6 +39,25 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '2mb',
     },
   },
+  // Production optimizations for memory efficiency
+  swcMinify: true,
+  compress: true,
+  poweredByHeader: false,
+  // Reduce memory usage in production
+  onDemandEntries: {
+    maxInactiveAge: 60 * 1000, // 60 seconds
+    pagesBufferLength: 2,
+  },
+  // Optimize for Render's free tier memory constraints
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.optimization = {
+        ...config.optimization,
+        minimize: true,
+      };
+    }
+    return config;
+  },
 };
 
 export default withNextIntl(nextConfig);
