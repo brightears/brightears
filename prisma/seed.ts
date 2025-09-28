@@ -21,7 +21,7 @@ const REAL_NAMES = [
 ]
 
 // Music genres
-const GENRES = {
+const GENRES: Record<string, string[]> = {
   DJ: ['House', 'Techno', 'Hip-Hop', 'EDM', 'Trance', 'Drum & Bass'],
   SINGER: ['Pop', 'Rock', 'Jazz', 'R&B', 'Country', 'Folk', 'Soul'],
   BAND: ['Rock', 'Pop', 'Jazz', 'Funk', 'Indie', 'Alternative'],
@@ -32,7 +32,7 @@ const GENRES = {
 }
 
 // Sample bios
-const BIOS = {
+const BIOS: Record<string, string[]> = {
   DJ: [
     "International DJ with 10+ years experience in Bangkok's hottest clubs. Specializing in house and techno that keeps the dance floor moving all night.",
     "Award-winning DJ bringing the best of electronic music to Thailand. From underground raves to luxury hotels, I create unforgettable experiences.",
