@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && NODE_OPTIONS='--max-old-space-size=512' next build",
+    "build": "prisma generate && node --max-old-space-size=1024 ./node_modules/.bin/next build",
     "start": "next start -p ${PORT:-3000} -H 0.0.0.0",
     "lint": "next lint",
     "postinstall": "prisma generate",

@@ -38,6 +38,8 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
+    // Reduce memory usage during build
+    webpackBuildWorker: true,
   },
   // Production optimizations for memory efficiency
   compress: true,
