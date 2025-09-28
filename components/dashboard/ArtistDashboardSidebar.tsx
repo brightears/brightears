@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from '@/components/navigation'
 import { usePathname } from 'next/navigation'
 
@@ -56,10 +56,31 @@ const navigationItems = [
 
 export default function ArtistDashboardSidebar({ locale = 'en', user }: ArtistDashboardSidebarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [inquiryCount, setInquiryCount] = useState(0)
   const pathname = usePathname()
-  
+
   // Ensure we have a locale, fallback to extracting from pathname if needed
   const currentLocale = locale || pathname?.split('/')[1] || 'en'
+
+  // Fetch inquiry count on mount and periodically
+  useEffect(() => {
+    const fetchInquiryCount = async () => {
+      try {
+        const response = await fetch('/api/artist/inquiry-count')
+        if (response.ok) {
+          const data = await response.json()
+          setInquiryCount(data.count)
+        }
+      } catch (error) {
+        console.error('Error fetching inquiry count:', error)
+      }
+    }
+
+    fetchInquiryCount()
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchInquiryCount, 30000)
+    return () => clearInterval(interval)
+  }, [])
 
   const isActive = (href: string) => {
     const fullPath = `/dashboard${href}`
@@ -135,15 +156,23 @@ export default function ArtistDashboardSidebar({ locale = 'en', user }: ArtistDa
                 href={`/dashboard${item.href}`}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`
-                  flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors
+                  flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors
                   ${isActive(item.href)
                     ? 'bg-brand-cyan text-pure-white'
                     : 'text-dark-gray hover:bg-off-white hover:text-brand-cyan'
                   }
                 `}
               >
-                <span className="text-lg mr-3">{item.icon}</span>
-                {item.name}
+                <div className="flex items-center">
+                  <span className="text-lg mr-3">{item.icon}</span>
+                  {item.name}
+                </div>
+                {/* Show badge for bookings/inquiries */}
+                {item.href === '/artist/bookings' && inquiryCount > 0 && (
+                  <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
+                    {inquiryCount}
+                  </span>
+                )}
               </Link>
             ))}
           </nav>

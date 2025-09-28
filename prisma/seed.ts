@@ -1,321 +1,321 @@
-import { PrismaClient, ArtistCategory, VerificationLevel } from '@prisma/client'
-import bcrypt from 'bcryptjs'
+import { prisma } from '../lib/prisma'
+import { hash } from 'bcryptjs'
 
-const prisma = new PrismaClient()
+// Thai cities for realistic data
+const THAI_CITIES = ['Bangkok', 'Phuket', 'Chiang Mai', 'Pattaya', 'Hua Hin', 'Koh Samui', 'Krabi']
+
+// Artist categories
+const CATEGORIES = ['SINGER', 'DJ', 'BAND', 'DANCER', 'MAGICIAN', 'COMEDIAN', 'MC']
+
+// Sample Thai and English names
+const THAI_STAGE_NAMES = [
+  'DJ Boom Bangkok', 'Siam Beats', 'Neon Tiger', 'Bangkok Nights', 'Temple Bass',
+  'Mango Groove', 'Sunset Sessions', 'River Flow Band', 'Golden Buddha', 'Lotus Dreams',
+  'Thai Vibes', 'Spicy Beats', 'Moonlight Orchestra', 'Paradise DJ', 'Urban Monkey'
+]
+
+const REAL_NAMES = [
+  'Somchai Jaidee', 'Nattapong Srisawat', 'Kamon Thongkham', 'Siriporn Kaewsai',
+  'Thanapon Suksamran', 'Preecha Boonmee', 'Wanchai Phongsri', 'Malee Somboon',
+  'Thanawat Chaiyo', 'Sirinya Rattana', 'Prasert Wongsawat', 'Noppadol Saetang'
+]
+
+// Music genres
+const GENRES = {
+  DJ: ['House', 'Techno', 'Hip-Hop', 'EDM', 'Trance', 'Drum & Bass'],
+  SINGER: ['Pop', 'Rock', 'Jazz', 'R&B', 'Country', 'Folk', 'Soul'],
+  BAND: ['Rock', 'Pop', 'Jazz', 'Funk', 'Indie', 'Alternative'],
+  DANCER: ['Contemporary', 'Hip-Hop', 'Traditional Thai', 'Ballet', 'Jazz'],
+  MAGICIAN: ['Close-up', 'Stage', 'Mentalism', 'Comedy Magic'],
+  COMEDIAN: ['Stand-up', 'Improv', 'Sketch', 'Musical Comedy'],
+  MC: ['Corporate', 'Wedding', 'Festival', 'Bilingual']
+}
+
+// Sample bios
+const BIOS = {
+  DJ: [
+    "International DJ with 10+ years experience in Bangkok's hottest clubs. Specializing in house and techno that keeps the dance floor moving all night.",
+    "Award-winning DJ bringing the best of electronic music to Thailand. From underground raves to luxury hotels, I create unforgettable experiences.",
+    "Your party deserves the perfect soundtrack. With extensive experience in weddings, corporate events, and festivals across Southeast Asia."
+  ],
+  SINGER: [
+    "Professional vocalist with a passion for bringing emotion to every performance. From intimate gatherings to grand stages.",
+    "Bilingual singer specializing in both Thai and English hits. Perfect for international events and diverse audiences.",
+    "Jazz and soul vocalist with a voice that captivates. Available for weddings, corporate events, and special occasions."
+  ],
+  BAND: [
+    "High-energy 5-piece band ready to rock your event. We play everything from classic rock to modern pop hits.",
+    "Professional wedding band with over 500 successful events. We read the crowd and keep the party going.",
+    "Versatile band offering acoustic sets for ceremonies and full electric performances for receptions."
+  ],
+  DANCER: [
+    "Professional dance troupe specializing in traditional Thai and contemporary fusion performances.",
+    "Award-winning dancers bringing energy and excitement to corporate events and festivals.",
+    "Elegant performances that blend modern choreography with cultural elements."
+  ],
+  MAGICIAN: [
+    "Mind-bending close-up magic that leaves guests amazed. Perfect for cocktail hours and intimate gatherings.",
+    "Grand illusions and comedy magic for all ages. Making your event magical and memorable.",
+    "Corporate magician specializing in team building and interactive performances."
+  ],
+  COMEDIAN: [
+    "Stand-up comedian with a fresh perspective on life in Thailand. Clean comedy suitable for corporate events.",
+    "Bilingual comedian bridging cultures with humor. Perfect for international audiences.",
+    "Interactive comedy that gets everyone laughing. Customized material for your special event."
+  ],
+  MC: [
+    "Professional bilingual MC with experience in corporate events, weddings, and product launches.",
+    "Energetic host who keeps your event flowing smoothly. From conferences to celebrations.",
+    "Experienced emcee bringing professionalism and personality to your special occasion."
+  ]
+}
+
+// Sample images (using placeholder URLs)
+const PROFILE_IMAGES = [
+  'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400',
+  'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400',
+  'https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=400',
+  'https://images.unsplash.com/photo-1566737236500-c8ac43014a67?w=400',
+  'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400',
+  'https://images.unsplash.com/photo-1415886541506-6efc5e4b1786?w=400',
+  'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400',
+  'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=400'
+]
+
+const COVER_IMAGES = [
+  'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1200',
+  'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1200',
+  'https://images.unsplash.com/photo-1501612780327-45045538702b?w=1200',
+  'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=1200',
+  'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1200',
+  'https://images.unsplash.com/photo-1518773553398-650c184e0bb3?w=1200'
+]
 
 async function main() {
   console.log('🌱 Starting database seed...')
 
   // Clean existing data
-  await prisma.review.deleteMany()
+  console.log('🧹 Cleaning existing data...')
   await prisma.booking.deleteMany()
-  await prisma.availability.deleteMany()
+  await prisma.review.deleteMany()
   await prisma.artist.deleteMany()
   await prisma.customer.deleteMany()
+  await prisma.corporate.deleteMany()
   await prisma.user.deleteMany()
 
-  // Create sample artists
-  const artists = [
-    {
-      email: 'dj.tempo@example.com',
-      stageName: 'DJ Tempo',
-      realName: 'Marcus Thompson',
-      bio: 'International DJ with 10+ years experience spinning at top clubs across Asia. Specializing in house, techno, and progressive beats that keep the dance floor alive all night.',
-      bioTh: 'ดีเจระดับนานาชาติที่มีประสบการณ์มากกว่า 10 ปีในการเล่นตามคลับชั้นนำทั่วเอเชีย',
-      category: 'DJ',
-      subCategories: ['CLUB_DJ', 'WEDDING_DJ'],
-      genres: ['House', 'Techno', 'Progressive House', 'Deep House'],
-      baseCity: 'Bangkok',
-      serviceAreas: ['Bangkok', 'Pattaya', 'Hua Hin', 'Phuket'],
-      languages: ['en', 'th'],
-      hourlyRate: 15000,
-      minimumHours: 3,
-      averageRating: 4.8,
-      reviewCount: 47,
-      completedBookings: 156,
-      verificationLevel: 'TRUSTED',
-      instantBooking: true,
-      advanceNotice: 3,
-    },
-    {
-      email: 'sakura.band@example.com',
-      stageName: 'Sakura Dreams',
-      realName: 'Sakura Band',
-      bio: 'Award-winning 5-piece band performing a mix of pop, rock, and jazz. Perfect for corporate events, weddings, and luxury venues. We bring energy and elegance to every performance.',
-      bioTh: 'วงดนตรี 5 ชิ้นที่ได้รับรางวัลการแสดงเพลงป๊อป ร็อค และแจ๊ส',
-      category: 'BAND',
-      subCategories: ['COVER_BAND', 'JAZZ_BAND'],
-      genres: ['Pop', 'Rock', 'Jazz', 'Soul', 'R&B'],
-      baseCity: 'Bangkok',
-      serviceAreas: ['Bangkok', 'Chiang Mai', 'Phuket'],
-      languages: ['en', 'th', 'ja'],
-      hourlyRate: 35000,
-      minimumHours: 2,
-      averageRating: 4.9,
-      reviewCount: 89,
-      completedBookings: 234,
-      verificationLevel: 'TRUSTED',
-      instantBooking: false,
-      advanceNotice: 7,
-    },
-    {
-      email: 'nina.soul@example.com',
-      stageName: 'Nina Soul',
-      realName: 'Nina Williams',
-      bio: 'Soulful vocalist with a repertoire spanning from classic jazz standards to contemporary hits. Creates intimate atmospheres perfect for cocktail parties and elegant dinners.',
-      bioTh: 'นักร้องเสียงทรงพลังที่มีเพลงตั้งแต่แจ๊สคลาสสิกไปจนถึงเพลงฮิตร่วมสมัย',
-      category: 'SINGER',
-      subCategories: ['JAZZ_SINGER', 'LOUNGE_SINGER'],
-      genres: ['Jazz', 'Soul', 'Blues', 'Acoustic'],
-      baseCity: 'Bangkok',
-      serviceAreas: ['Bangkok', 'Pattaya'],
-      languages: ['en'],
-      hourlyRate: 12000,
-      minimumHours: 2,
-      averageRating: 4.7,
-      reviewCount: 34,
-      completedBookings: 98,
-      verificationLevel: 'VERIFIED',
-      instantBooking: true,
-      advanceNotice: 5,
-    },
-    {
-      email: 'thai.groove@example.com',
-      stageName: 'Thai Groove Collective',
-      realName: 'Thai Groove Band',
-      bio: 'Modern Thai band blending traditional instruments with contemporary sounds. Specializing in Thai pop, Luk Thung, and fusion music for authentic cultural experiences.',
-      bioTh: 'วงดนตรีไทยสมัยใหม่ที่ผสมผสานเครื่องดนตรีไทยกับเสียงร่วมสมัย เชี่ยวชาญเพลงป๊อปไทย ลูกทุ่ง',
-      category: 'BAND',
-      subCategories: ['THAI_BAND', 'FUSION_BAND'],
-      genres: ['Thai Pop', 'Luk Thung', 'Mor Lam', 'Fusion'],
-      baseCity: 'Chiang Mai',
-      serviceAreas: ['Chiang Mai', 'Chiang Rai', 'Bangkok'],
-      languages: ['th', 'en'],
-      hourlyRate: 25000,
-      minimumHours: 3,
-      averageRating: 4.6,
-      reviewCount: 67,
-      completedBookings: 189,
-      verificationLevel: 'VERIFIED',
-      instantBooking: false,
-      advanceNotice: 5,
-    },
-    {
-      email: 'alex.acoustic@example.com',
-      stageName: 'Alex Rivers',
-      realName: 'Alexander Rivers',
-      bio: 'Acoustic guitarist and singer-songwriter creating warm, intimate performances. Perfect for beachside venues, cafes, and private events. Extensive repertoire of classics and originals.',
-      bioTh: 'นักกีตาร์อะคูสติกและนักร้องนักแต่งเพลงที่สร้างการแสดงที่อบอุ่นและใกล้ชิด',
-      category: 'MUSICIAN',
-      subCategories: ['GUITARIST', 'SINGER_SONGWRITER'],
-      genres: ['Acoustic', 'Folk', 'Indie', 'Pop'],
-      baseCity: 'Phuket',
-      serviceAreas: ['Phuket', 'Krabi', 'Koh Samui'],
-      languages: ['en'],
-      hourlyRate: 8000,
-      minimumHours: 2,
-      averageRating: 4.5,
-      reviewCount: 23,
-      completedBookings: 76,
-      verificationLevel: 'BASIC',
-      instantBooking: true,
-      advanceNotice: 2,
-    },
-    {
-      email: 'mc.mike@example.com',
-      stageName: 'MC Mike Bangkok',
-      realName: 'Michael Chen',
-      bio: 'Trilingual MC and event host with experience at major corporate events, weddings, and galas. Professional, engaging, and adaptable to any audience.',
-      bioTh: 'พิธีกรสามภาษาที่มีประสบการณ์ในงานองค์กรใหญ่ งานแต่งงาน และงานกาล่า',
-      category: 'MC',
-      subCategories: ['EVENT_HOST', 'WEDDING_MC'],
-      genres: [],
-      baseCity: 'Bangkok',
-      serviceAreas: ['Bangkok', 'Nonthaburi', 'Samut Prakan'],
-      languages: ['en', 'th', 'zh'],
-      hourlyRate: 20000,
-      minimumHours: 4,
-      averageRating: 4.9,
-      reviewCount: 112,
-      completedBookings: 298,
-      verificationLevel: 'TRUSTED',
-      instantBooking: false,
-      advanceNotice: 7,
-    },
-    {
-      email: 'beatbox.ben@example.com',
-      stageName: 'Beatbox Ben',
-      realName: 'Benjamin Lee',
-      bio: 'Champion beatboxer bringing unique vocal percussion performances. Perfect for modern events, youth gatherings, and creative corporate functions.',
-      bioTh: 'แชมป์บีทบ็อกซ์ที่นำการแสดงเครื่องเคาะเสียงที่ไม่เหมือนใคร',
-      category: 'MUSICIAN',
-      subCategories: ['BEATBOXER', 'PERFORMER'],
-      genres: ['Hip Hop', 'Electronic', 'Experimental'],
-      baseCity: 'Bangkok',
-      serviceAreas: ['Bangkok'],
-      languages: ['en', 'th'],
-      hourlyRate: 10000,
-      minimumHours: 1,
-      averageRating: 4.4,
-      reviewCount: 18,
-      completedBookings: 45,
-      verificationLevel: 'BASIC',
-      instantBooking: true,
-      advanceNotice: 3,
-    },
-    {
-      email: 'jazz.trio@example.com',
-      stageName: 'The Bangkok Jazz Trio',
-      realName: 'Bangkok Jazz Trio',
-      bio: 'Classic jazz trio featuring piano, bass, and drums. Sophisticated entertainment for upscale venues, hotels, and private events. Extensive repertoire of jazz standards.',
-      bioTh: 'วงแจ๊สสามชิ้นคลาสสิกที่มีเปียโน เบส และกลอง ความบันเทิงที่ซับซ้อนสำหรับสถานที่หรูหรา',
-      category: 'BAND',
-      subCategories: ['JAZZ_BAND', 'LOUNGE_BAND'],
-      genres: ['Jazz', 'Swing', 'Bebop', 'Latin Jazz'],
-      baseCity: 'Bangkok',
-      serviceAreas: ['Bangkok', 'Hua Hin'],
-      languages: ['en', 'th'],
-      hourlyRate: 30000,
-      minimumHours: 3,
-      averageRating: 4.8,
-      reviewCount: 56,
-      completedBookings: 167,
-      verificationLevel: 'VERIFIED',
-      instantBooking: false,
-      advanceNotice: 5,
-    },
-    {
-      email: 'party.starter@example.com',
-      stageName: 'DJ Party Starter',
-      realName: 'Prasit Thongchai',
-      bio: 'High-energy DJ specializing in EDM, hip-hop, and party anthems. Expert at reading the crowd and keeping the energy high. Perfect for clubs, festivals, and large events.',
-      bioTh: 'ดีเจพลังสูงที่เชี่ยวชาญ EDM ฮิปฮอป และเพลงปาร์ตี้',
-      category: 'DJ',
-      subCategories: ['CLUB_DJ', 'FESTIVAL_DJ'],
-      genres: ['EDM', 'Hip Hop', 'Trap', 'Future Bass'],
-      baseCity: 'Pattaya',
-      serviceAreas: ['Pattaya', 'Rayong', 'Bangkok'],
-      languages: ['th', 'en'],
-      hourlyRate: 12000,
-      minimumHours: 4,
-      averageRating: 4.3,
-      reviewCount: 29,
-      completedBookings: 87,
-      verificationLevel: 'BASIC',
-      instantBooking: true,
-      advanceNotice: 3,
-    },
-    {
-      email: 'classical.quartet@example.com',
-      stageName: 'Royal String Quartet',
-      realName: 'Royal String Quartet',
-      bio: 'Professional string quartet performing classical, contemporary, and popular music arrangements. Adds elegance and sophistication to weddings, galas, and corporate events.',
-      bioTh: 'วงเครื่องสายมืออาชีพที่แสดงดนตรีคลาสสิก ร่วมสมัย และการเรียบเรียงเพลงยอดนิยม',
-      category: 'BAND',
-      subCategories: ['CLASSICAL_ENSEMBLE', 'WEDDING_BAND'],
-      genres: ['Classical', 'Contemporary Classical', 'Pop Arrangements'],
-      baseCity: 'Bangkok',
-      serviceAreas: ['Bangkok', 'Hua Hin', 'Chiang Mai'],
-      languages: ['en', 'th'],
-      hourlyRate: 40000,
-      minimumHours: 2,
-      averageRating: 5.0,
-      reviewCount: 43,
-      completedBookings: 125,
-      verificationLevel: 'TRUSTED',
-      instantBooking: false,
-      advanceNotice: 10,
-    }
-  ]
+  console.log('👥 Creating test users and artists...')
 
-  // Create artists with their user accounts
-  for (const artistData of artists) {
-    const hashedPassword = await bcrypt.hash('password123', 10)
+  // Create test artists
+  const artists = []
+  for (let i = 0; i < 15; i++) {
+    const category = CATEGORIES[i % CATEGORIES.length]
+    const email = `artist${i + 1}@brightears.test`
+    const stageName = THAI_STAGE_NAMES[i] || `Artist ${i + 1}`
+    const realName = REAL_NAMES[i % REAL_NAMES.length]
+    const baseCity = THAI_CITIES[i % THAI_CITIES.length]
     
+    // Create user
     const user = await prisma.user.create({
       data: {
-        email: artistData.email,
-        password: hashedPassword,
+        email,
+        password: await hash('password123', 10),
+        firstName: realName.split(' ')[0],
+        lastName: realName.split(' ')[1],
         role: 'ARTIST',
-        artist: {
-          create: {
-            stageName: artistData.stageName,
-            realName: artistData.realName,
-            bio: artistData.bio,
-            bioTh: artistData.bioTh,
-            category: artistData.category as ArtistCategory,
-            subCategories: artistData.subCategories,
-            genres: artistData.genres,
-            baseCity: artistData.baseCity,
-            serviceAreas: artistData.serviceAreas,
-            languages: artistData.languages,
-            hourlyRate: artistData.hourlyRate,
-            minimumHours: artistData.minimumHours,
-            verificationLevel: artistData.verificationLevel as VerificationLevel,
-            instantBooking: artistData.instantBooking,
-            advanceNotice: artistData.advanceNotice,
-            responseTime: Math.floor(Math.random() * 24) + 1,
-            totalBookings: artistData.completedBookings + 10,
-            completedBookings: artistData.completedBookings,
-            averageRating: artistData.averageRating,
-            profileImage: null, // Use fallback avatar in components
-            coverImage: `https://source.unsplash.com/1200x400/?music,concert`,
-            verifiedAt: artistData.verificationLevel !== 'BASIC' ? new Date() : null,
-          }
-        }
+        emailVerified: new Date(),
+        phone: `+668${Math.floor(10000000 + Math.random() * 90000000)}`,
+        phoneVerified: new Date(),
+        isPhoneVerified: true,
       }
     })
 
-    console.log(`✅ Created artist: ${artistData.stageName}`)
+    // Create artist profile
+    const artist = await prisma.artist.create({
+      data: {
+        userId: user.id,
+        stageName,
+        realName,
+        bio: BIOS[category][i % BIOS[category].length],
+        bioTh: 'ศิลปินมืออาชีพพร้อมให้บริการในงานของคุณ', // Generic Thai bio
+        category,
+        subCategories: GENRES[category] ? GENRES[category].slice(0, 3) : [],
+        genres: GENRES[category] ? GENRES[category].slice(0, 3) : [],
+        baseCity,
+        serviceAreas: [baseCity, ...THAI_CITIES.slice(0, 3)],
+        languages: ['en', 'th'],
+        hourlyRate: 5000 + (Math.floor(Math.random() * 20) * 500), // 5000-15000 THB
+        minimumHours: Math.random() > 0.5 ? 2 : 3,
+        profileImage: PROFILE_IMAGES[i % PROFILE_IMAGES.length],
+        coverImage: COVER_IMAGES[i % COVER_IMAGES.length],
+        images: [
+          PROFILE_IMAGES[(i + 1) % PROFILE_IMAGES.length],
+          PROFILE_IMAGES[(i + 2) % PROFILE_IMAGES.length],
+          PROFILE_IMAGES[(i + 3) % PROFILE_IMAGES.length],
+        ],
+        verificationLevel: Math.random() > 0.5 ? 'VERIFIED' : 'BASIC',
+        responseTime: Math.floor(Math.random() * 24) + 1, // 1-24 hours
+        completedBookings: Math.floor(Math.random() * 100),
+        totalBookings: Math.floor(Math.random() * 150),
+        averageRating: 3.5 + (Math.random() * 1.5), // 3.5-5.0
+        // Social media (optional)
+        instagram: Math.random() > 0.5 ? `@${stageName.toLowerCase().replace(/\s+/g, '')}` : null,
+        facebook: Math.random() > 0.5 ? `facebook.com/${stageName.toLowerCase().replace(/\s+/g, '')}` : null,
+        youtube: Math.random() > 0.3 ? `youtube.com/@${stageName.toLowerCase().replace(/\s+/g, '')}` : null,
+        lineId: Math.random() > 0.7 ? `@${stageName.toLowerCase().replace(/\s+/g, '')}` : null,
+      }
+    })
+
+    artists.push({ user, artist })
+    console.log(`✅ Created artist: ${stageName} (${category})`)
   }
 
-  // Create a sample customer
-  const customerUser = await prisma.user.create({
-    data: {
-      email: 'john.doe@example.com',
-      password: await bcrypt.hash('password123', 10),
-      role: 'CUSTOMER',
-      customer: {
-        create: {
-          firstName: 'John',
-          lastName: 'Doe',
-          preferredLanguage: 'en',
-        }
+  // Create a few test customers
+  console.log('👤 Creating test customers...')
+  
+  for (let i = 0; i < 5; i++) {
+    const user = await prisma.user.create({
+      data: {
+        email: `customer${i + 1}@brightears.test`,
+        password: await hash('password123', 10),
+        firstName: `Customer`,
+        lastName: `${i + 1}`,
+        role: 'CUSTOMER',
+        emailVerified: new Date(),
+        phone: `+668${Math.floor(10000000 + Math.random() * 90000000)}`,
+        phoneVerified: new Date(),
+        isPhoneVerified: true,
       }
-    }
-  })
+    })
 
-  console.log('✅ Created sample customer: John Doe')
+    await prisma.customer.create({
+      data: {
+        userId: user.id,
+        firstName: `Customer`,
+        lastName: `${i + 1}`,
+        preferredLanguage: 'en',
+        location: THAI_CITIES[i % THAI_CITIES.length],
+        favoriteGenres: ['Pop', 'Rock', 'Jazz'].slice(0, Math.floor(Math.random() * 3) + 1),
+      }
+    })
 
-  // Create a sample corporate user
+    console.log(`✅ Created customer: customer${i + 1}@brightears.test`)
+  }
+
+  // Create one corporate account
+  console.log('🏢 Creating test corporate account...')
   const corporateUser = await prisma.user.create({
     data: {
-      email: 'hilton.bangkok@example.com',
-      password: await bcrypt.hash('password123', 10),
+      email: 'corporate@brightears.test',
+      password: await hash('password123', 10),
+      firstName: 'Corporate',
+      lastName: 'Manager',
       role: 'CORPORATE',
-      corporate: {
-        create: {
-          companyName: 'Hilton Bangkok',
-          contactPerson: 'Sarah Johnson',
-          taxId: '0105561234567',
-          companyAddress: '123 Sukhumvit Road, Bangkok',
-        }
-      }
+      emailVerified: new Date(),
+      phone: '+6681234567',
+      phoneVerified: new Date(),
+      isPhoneVerified: true,
     }
   })
 
-  console.log('✅ Created sample corporate user: Hilton Bangkok')
+  await prisma.corporate.create({
+    data: {
+      userId: corporateUser.id,
+      companyName: 'Marriott Hotels Thailand',
+      taxId: '0105561234567',
+      companyAddress: '123 Sukhumvit Road, Bangkok',
+      contactPerson: 'John Smith',
+      position: 'Events Manager',
+      companyPhone: '+6681234567',
+      venueType: 'Hotel',
+      numberOfVenues: 5,
+      monthlyBudget: 500000,
+    }
+  })
 
-  console.log('🎉 Database seeding completed!')
-  console.log('📝 Sample login credentials:')
-  console.log('   Artists: [email]@example.com / password123')
-  console.log('   Customer: john.doe@example.com / password123')
-  console.log('   Corporate: hilton.bangkok@example.com / password123')
+  console.log('✅ Created corporate account: corporate@brightears.test')
+
+  // Create some sample bookings
+  console.log('📅 Creating sample bookings...')
+  const customers = await prisma.customer.findMany({ include: { user: true } })
+  
+  for (let i = 0; i < 10; i++) {
+    const artist = artists[Math.floor(Math.random() * artists.length)]
+    const customer = customers[Math.floor(Math.random() * customers.length)]
+    
+    if (!customer) continue
+
+    const eventDate = new Date()
+    eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 60) + 1) // 1-60 days from now
+    
+    const startTime = new Date(eventDate)
+    startTime.setHours(18 + Math.floor(Math.random() * 4), 0, 0, 0) // 6PM-10PM start
+    
+    const endTime = new Date(startTime)
+    endTime.setHours(startTime.getHours() + 3 + Math.floor(Math.random() * 3)) // 3-6 hours duration
+
+    const statuses = ['INQUIRY', 'QUOTED', 'CONFIRMED', 'COMPLETED', 'CANCELLED']
+    const status = statuses[Math.floor(Math.random() * statuses.length)]
+
+    const booking = await prisma.booking.create({
+      data: {
+        customerId: customer.userId,
+        artistId: artist.artist.id,
+        eventDate,
+        startTime,
+        endTime,
+        duration: (endTime.getHours() - startTime.getHours()),
+        eventType: ['WEDDING', 'CORPORATE', 'PARTY', 'FESTIVAL'][Math.floor(Math.random() * 4)],
+        venue: ['Grand Hyatt', 'Marriott Hotel', 'Beach Club', 'Private Villa'][Math.floor(Math.random() * 4)],
+        venueAddress: `${Math.floor(Math.random() * 999) + 1} Sukhumvit Road, Bangkok`,
+        guestCount: 50 + Math.floor(Math.random() * 450), // 50-500 guests
+        status,
+        quotedPrice: status !== 'INQUIRY' ? artist.artist.hourlyRate * (endTime.getHours() - startTime.getHours()) : 1000,
+        finalPrice: status === 'COMPLETED' ? artist.artist.hourlyRate * (endTime.getHours() - startTime.getHours()) : undefined,
+        specialRequests: 'Please play some international hits mixed with Thai favorites',
+      }
+    })
+  }
+
+  console.log('✅ Created sample bookings')
+
+  // Create some reviews
+  console.log('⭐ Creating sample reviews...')
+  const completedBookings = await prisma.booking.findMany({
+    where: { status: 'COMPLETED' },
+    include: { artist: true, customer: true }
+  })
+
+  for (const booking of completedBookings.slice(0, 5)) {
+    const rating = Math.floor(4 + Math.random() * 2) // 4-5 stars
+    await prisma.review.create({
+      data: {
+        bookingId: booking.id,
+        artistId: booking.artistId,
+        reviewerId: booking.customerId,
+        rating,
+        comment: 'Great performance! Very professional and the crowd loved it.',
+        punctuality: Math.floor(4 + Math.random() * 2),
+        performance: Math.floor(4 + Math.random() * 2),
+        professionalism: Math.floor(4 + Math.random() * 2),
+        valueForMoney: Math.floor(3 + Math.random() * 3),
+        isVerified: true,
+      }
+    })
+  }
+
+  console.log('✅ Created sample reviews')
+
+  console.log('\n🎉 Database seeding completed!')
+  console.log('\n📝 Test Accounts:')
+  console.log('Artists: artist1@brightears.test to artist15@brightears.test')
+  console.log('Customers: customer1@brightears.test to customer5@brightears.test')
+  console.log('Corporate: corporate@brightears.test')
+  console.log('Password for all: password123')
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Seeding error:', e)
+    console.error('❌ Seeding failed:', e)
     process.exit(1)
   })
   .finally(async () => {

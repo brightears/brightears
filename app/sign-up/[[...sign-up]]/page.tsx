@@ -20,7 +20,7 @@ export default function SignUpPage() {
               formButtonPrimary: "bg-purple-600 hover:bg-purple-700",
             },
           }}
-          redirectUrl="/register/choice"
+          fallbackRedirectUrl="/register/choice"
           signInUrl="/sign-in"
         />
         

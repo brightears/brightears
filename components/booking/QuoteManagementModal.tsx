@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 
 interface QuoteManagementModalProps {
   isOpen: boolean
@@ -18,7 +18,7 @@ export default function QuoteManagementModal({
   onQuoteCreated 
 }: QuoteManagementModalProps) {
   const t = useTranslations('booking')
-  const { data: session } = useSession()
+  const { user } = useUser()
   const [loading, setLoading] = useState(false)
   const [step, setStep] = useState<'create' | 'review' | 'sent'>('create')
 

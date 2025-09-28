@@ -41,13 +41,19 @@ export async function getSession() {
 export async function getCurrentUser(): Promise<ExtendedUser | null> {
   try {
     const { userId } = await clerkAuth()
-    
+
     if (!userId) {
       return null
     }
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
+    // Try to find user by Clerk ID first (stored as id in our database)
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { id: userId },  // Clerk ID stored as user ID
+          { email: userId } // Fallback for email-based lookup
+        ]
+      },
       include: {
         artist: true,
         customer: true,
