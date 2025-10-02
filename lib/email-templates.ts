@@ -50,7 +50,7 @@ export async function sendArtistInquiryNotification({
     bookingId,
     dashboardUrl,
     locale,
-  })
+  }) as any
 
   const { html, text } = await renderEmailTemplate(emailComponent)
 
@@ -142,7 +142,7 @@ export async function sendBookingInquiryEmail({
     contactMethod,
     bookingUrl,
     locale,
-  })
+  }) as any
 
   const { html, text } = await renderEmailTemplate(emailComponent)
 
@@ -209,13 +209,13 @@ export async function sendQuoteReceivedEmail({
     quotedPrice,
     currency,
     depositAmount,
-    inclusions,
+    inclusions: inclusions || [],
     exclusions,
     notes,
     validUntil,
     quoteUrl,
     locale,
-  })
+  }) as any
 
   const { html, text } = await renderEmailTemplate(emailComponent)
 
@@ -231,6 +231,76 @@ export async function sendQuoteReceivedEmail({
     text,
     tags: [
       { name: 'template', value: 'quote_received' },
+      { name: 'locale', value: locale },
+    ],
+  })
+}
+
+/**
+ * Send quote accepted email to artist
+ */
+export async function sendQuoteAcceptedEmail({
+  to,
+  artistName,
+  customerName,
+  eventType,
+  eventDate,
+  eventTime,
+  venue,
+  acceptedPrice,
+  currency,
+  depositAmount,
+  customerNotes,
+  bookingUrl,
+  locale = 'en',
+}: {
+  to: string
+  artistName: string
+  customerName: string
+  eventType: string
+  eventDate: string
+  eventTime: string
+  venue: string
+  acceptedPrice: string
+  currency: string
+  depositAmount?: string
+  customerNotes?: string
+  bookingUrl: string
+  locale?: 'en' | 'th'
+}) {
+  const { default: QuoteAcceptedEmail } = await import(
+    '@/components/email/QuoteAcceptedEmail'
+  )
+
+  const emailComponent = QuoteAcceptedEmail({
+    artistName,
+    customerName,
+    eventType,
+    eventDate,
+    eventTime,
+    venue,
+    acceptedPrice,
+    currency,
+    depositAmount,
+    customerNotes,
+    bookingUrl,
+    locale,
+  }) as any
+
+  const { html, text } = await renderEmailTemplate(emailComponent)
+
+  const subject =
+    locale === 'th'
+      ? `ใบเสนอราคาของคุณได้รับการยอมรับ!`
+      : `Your Quote Has Been Accepted!`
+
+  return sendEmail({
+    to,
+    subject,
+    html,
+    text,
+    tags: [
+      { name: 'template', value: 'quote_accepted' },
       { name: 'locale', value: locale },
     ],
   })
@@ -280,12 +350,12 @@ export async function sendPaymentConfirmationEmail({
     eventDate,
     paymentAmount,
     currency,
-    paymentType,
+    paymentType: paymentType as 'deposit' | 'full' | 'remaining',
     paymentMethod,
     transactionRef,
     bookingUrl,
     locale,
-  })
+  }) as any
 
   const { html, text } = await renderEmailTemplate(emailComponent)
 
@@ -366,12 +436,12 @@ export async function sendBookingConfirmedEmail({
     finalPrice,
     currency,
     depositAmount,
-    depositPaid,
+    depositPaid: depositPaid || false,
     guestCount,
     specialRequests,
     dashboardUrl,
     locale,
-  })
+  }) as any
 
   const { html, text } = await renderEmailTemplate(emailComponent)
 
@@ -409,6 +479,8 @@ export async function sendEventReminderEmail({
   finalPrice,
   currency,
   specialRequests,
+  artistPhone,
+  customerPhone,
   bookingUrl,
   locale = 'en',
 }: {
@@ -426,6 +498,8 @@ export async function sendEventReminderEmail({
   finalPrice?: string
   currency?: string
   specialRequests?: string
+  artistPhone?: string
+  customerPhone?: string
   bookingUrl: string
   locale?: 'en' | 'th'
 }) {
@@ -435,7 +509,7 @@ export async function sendEventReminderEmail({
 
   const emailComponent = EventReminderEmail({
     recipientName,
-    recipientType,
+    recipientType: recipientType as 'customer' | 'artist',
     artistName,
     customerName,
     eventType,
@@ -443,13 +517,15 @@ export async function sendEventReminderEmail({
     eventTime,
     venue,
     venueAddress,
-    duration,
-    finalPrice,
-    currency,
+    duration: duration || '',
+    finalPrice: finalPrice || '',
+    currency: currency || 'THB',
     specialRequests,
+    artistPhone,
+    customerPhone,
     bookingUrl,
     locale,
-  })
+  }) as any
 
   const { html, text } = await renderEmailTemplate(emailComponent)
 
@@ -476,19 +552,27 @@ export async function sendEventReminderEmail({
 export async function sendBookingCompletedEmail({
   to,
   recipientName,
+  recipientType,
   artistName,
   customerName,
+  bookingNumber,
   eventType,
   eventDate,
+  finalPrice,
+  currency,
   reviewUrl,
   locale = 'en',
 }: {
   to: string
   recipientName: string
+  recipientType: string
   artistName: string
   customerName: string
+  bookingNumber: string
   eventType: string
   eventDate: string
+  finalPrice: string
+  currency: string
   reviewUrl: string
   locale?: 'en' | 'th'
 }) {
@@ -498,13 +582,17 @@ export async function sendBookingCompletedEmail({
 
   const emailComponent = BookingCompletedEmail({
     recipientName,
+    recipientType: recipientType as 'customer' | 'artist',
     artistName,
     customerName,
+    bookingNumber,
     eventType,
     eventDate,
+    finalPrice,
+    currency,
     reviewUrl,
     locale,
-  })
+  }) as any
 
   const { html, text } = await renderEmailTemplate(emailComponent)
 
@@ -566,7 +654,7 @@ export async function sendCancellationNoticeEmail({
   const emailComponent = CancellationNoticeEmail({
     recipientName,
     senderName,
-    senderRole,
+    senderRole: senderRole as 'artist' | 'customer' | 'admin',
     bookingNumber,
     eventType,
     eventDate,
@@ -578,7 +666,7 @@ export async function sendCancellationNoticeEmail({
     dashboardUrl,
     supportUrl,
     locale,
-  })
+  }) as any
 
   const { html, text } = await renderEmailTemplate(emailComponent)
 

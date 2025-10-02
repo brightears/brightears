@@ -179,10 +179,14 @@ export async function POST(
           return sendBookingCompletedEmail({
             to: booking.customer.email,
             recipientName: booking.customer.name || 'Customer',
+            recipientType: 'customer',
             artistName: booking.artist.stageName,
             customerName: booking.customer.name || 'Customer',
+            bookingNumber: booking.bookingNumber,
             eventType: booking.eventType,
             eventDate: formattedEventDate,
+            finalPrice: updatedBooking.finalPrice?.toString() || '',
+            currency: updatedBooking.currency,
             reviewUrl,
             locale: customerLocale,
           })
@@ -195,10 +199,14 @@ export async function POST(
           return sendBookingCompletedEmail({
             to: booking.artist.user.email,
             recipientName: booking.artist.stageName,
+            recipientType: 'artist',
             artistName: booking.artist.stageName,
             customerName: booking.customer.name || 'Customer',
+            bookingNumber: booking.bookingNumber,
             eventType: booking.eventType,
             eventDate: formattedEventDate,
+            finalPrice: updatedBooking.finalPrice?.toString() || '',
+            currency: updatedBooking.currency,
             reviewUrl: dashboardUrl,
             locale: artistLocale,
           })

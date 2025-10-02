@@ -148,10 +148,13 @@ export async function sendEmail(emailData: EmailData): Promise<EmailResult> {
 /**
  * Render a React email component to HTML and text
  */
-export async function renderEmailTemplate(component: ReactElement): Promise<EmailTemplate> {
-  const html = await render(component)
-  const text = await render(component, { plainText: true })
-  
+export async function renderEmailTemplate(component: ReactElement | Promise<ReactElement>): Promise<EmailTemplate> {
+  // Await the component if it's a promise
+  const resolvedComponent = await Promise.resolve(component)
+
+  const html = await render(resolvedComponent)
+  const text = await render(resolvedComponent, { plainText: true })
+
   return {
     subject: '', // Will be set by individual template functions
     html,
