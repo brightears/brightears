@@ -257,8 +257,7 @@ async function sendStatusChangeEmails(booking: any, status: string, notes?: stri
             depositPaid: booking.depositPaid,
             guestCount: booking.guestCount,
             specialRequests: booking.specialRequests,
-            artistContact: artist.email,
-            dashboardUrl: generateDashboardUrl(customer.role, booking.id),
+            dashboardUrl: generateDashboardUrl(customer.role),
             locale: customerLocale,
           })
         } catch (error) {
@@ -284,11 +283,11 @@ async function sendStatusChangeEmails(booking: any, status: string, notes?: stri
               eventType: booking.eventType,
               eventDate,
               venue: booking.venue,
-              cancellationReason: notes,
-              refundAmount: booking.depositAmount ? Number(booking.depositAmount) : undefined,
+              cancellationReason: notes || 'No reason provided',
+              refundAmount: booking.depositAmount ? Number(booking.depositAmount) : 0,
               currency: booking.currency,
               refundTimeline: '3-5 business days',
-              dashboardUrl: generateDashboardUrl(customer.role, booking.id),
+              dashboardUrl: generateDashboardUrl(customer.role),
               supportUrl: generateSupportUrl(),
               locale: customerLocale,
             })
@@ -309,8 +308,11 @@ async function sendStatusChangeEmails(booking: any, status: string, notes?: stri
               eventType: booking.eventType,
               eventDate,
               venue: booking.venue,
-              cancellationReason: notes,
-              dashboardUrl: generateDashboardUrl('ARTIST', booking.id),
+              cancellationReason: notes || 'No reason provided',
+              refundAmount: 0,
+              currency: booking.currency,
+              refundTimeline: '3-5 business days',
+              dashboardUrl: generateDashboardUrl('ARTIST'),
               supportUrl: generateSupportUrl(),
               locale: artistLocale,
             })

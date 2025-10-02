@@ -133,7 +133,7 @@ export async function POST(request: NextRequest) {
         paymentType,
         paymentMethod: 'PromptPay',
         transactionRef: payment.id,
-        bookingUrl: generateDashboardUrl(user.role, bookingId),
+        bookingUrl: generateDashboardUrl(user.role),
         locale: customerLocale,
       })
     } catch (emailError) {
