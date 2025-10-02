@@ -251,7 +251,7 @@ async function sendReminderEmails(booking: any, hoursBeforeEvent: number): Promi
     async () => {
       const customerLocale = await getUserLocale(booking.customerId)
       const bookingUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/customer/bookings`
-      
+
       return sendEventReminderEmail({
         to: booking.customer.email,
         recipientName: booking.customer.name || 'Customer',
@@ -264,11 +264,9 @@ async function sendReminderEmails(booking: any, hoursBeforeEvent: number): Promi
         venue: booking.venue,
         venueAddress: booking.venueAddress,
         duration: `${booking.duration} hours`,
-        finalPrice: (booking.finalPrice || booking.quotedPrice).toFixed(2),
+        finalPrice: (booking.finalPrice || booking.quotedPrice)?.toFixed(2),
         currency: 'THB',
         specialRequests: booking.specialRequests,
-        artistPhone: booking.artist.user.phone,
-        customerPhone: booking.customer.phone,
         bookingUrl,
         locale: customerLocale,
       })
@@ -277,7 +275,7 @@ async function sendReminderEmails(booking: any, hoursBeforeEvent: number): Promi
     async () => {
       const artistLocale = await getUserLocale(booking.artist.userId)
       const bookingUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/artist/bookings`
-      
+
       return sendEventReminderEmail({
         to: booking.artist.user.email,
         recipientName: booking.artist.stageName,
@@ -290,11 +288,9 @@ async function sendReminderEmails(booking: any, hoursBeforeEvent: number): Promi
         venue: booking.venue,
         venueAddress: booking.venueAddress,
         duration: `${booking.duration} hours`,
-        finalPrice: (booking.finalPrice || booking.quotedPrice).toFixed(2),
+        finalPrice: (booking.finalPrice || booking.quotedPrice)?.toFixed(2),
         currency: 'THB',
         specialRequests: booking.specialRequests,
-        artistPhone: booking.artist.user.phone,
-        customerPhone: booking.customer.phone,
         bookingUrl,
         locale: artistLocale,
       })

@@ -175,18 +175,14 @@ export async function POST(
         async () => {
           const customerLocale = await getUserLocale(booking.customerId)
           const reviewUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/customer/bookings?review=${bookingId}`
-          
+
           return sendBookingCompletedEmail({
             to: booking.customer.email,
             recipientName: booking.customer.name || 'Customer',
-            recipientType: 'customer',
             artistName: booking.artist.stageName,
             customerName: booking.customer.name || 'Customer',
             eventType: booking.eventType,
             eventDate: formattedEventDate,
-            bookingNumber: booking.bookingNumber,
-            finalPrice: totalPaid.toFixed(2),
-            currency: 'THB',
             reviewUrl,
             locale: customerLocale,
           })
@@ -195,18 +191,14 @@ export async function POST(
         async () => {
           const artistLocale = await getUserLocale(booking.artist.userId)
           const dashboardUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/artist/bookings`
-          
+
           return sendBookingCompletedEmail({
             to: booking.artist.user.email,
             recipientName: booking.artist.stageName,
-            recipientType: 'artist',
             artistName: booking.artist.stageName,
             customerName: booking.customer.name || 'Customer',
             eventType: booking.eventType,
             eventDate: formattedEventDate,
-            bookingNumber: booking.bookingNumber,
-            finalPrice: totalPaid.toFixed(2),
-            currency: 'THB',
             reviewUrl: dashboardUrl,
             locale: artistLocale,
           })

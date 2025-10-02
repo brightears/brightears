@@ -671,6 +671,21 @@ export function generateBookingUrl(bookingId: string): string {
 }
 
 /**
+ * Send multiple emails in bulk (for sending to multiple recipients)
+ * Useful for sending notifications to both customer and artist
+ */
+export async function sendBulkEmails(emailTasks: Array<() => Promise<any>>): Promise<void> {
+  try {
+    await Promise.all(emailTasks.map(task => task().catch(error => {
+      console.error('Failed to send bulk email:', error)
+      return null
+    })))
+  } catch (error) {
+    console.error('Error in bulk email sending:', error)
+  }
+}
+
+/**
  * Log email to database
  */
 async function logEmailToDatabase({
