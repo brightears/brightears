@@ -31,6 +31,22 @@ export default function ErrorModal({
     }
   }, [isOpen])
 
+  // Handle ESC key press
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscKey)
+      return () => {
+        document.removeEventListener('keydown', handleEscKey)
+      }
+    }
+  }, [isOpen, onClose])
+
   if (!isOpen) return null
 
   return (
@@ -44,6 +60,17 @@ export default function ErrorModal({
         
         {/* Modal */}
         <div className="relative transform overflow-hidden rounded-lg bg-pure-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 p-2 rounded-full text-dark-gray/60 hover:text-dark-gray hover:bg-gray-100 transition-all duration-200"
+            aria-label="Close modal"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
           <div>
             {/* Error Icon */}
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">

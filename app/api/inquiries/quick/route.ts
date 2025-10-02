@@ -136,24 +136,48 @@ export async function POST(request: NextRequest) {
       }
     })
     
-    // Track the activity
-    // TODO: Implement activity tracking when ActivityFeed model is added to schema
-    // await prisma.activityFeed.create({
-    //   data: {
-    //     type: 'BOOKING_REQUEST',
-    //     description: `${validatedData.firstName} requested a quote from ${artist.stageName}`,
-    //     userId: user.id,
-    //     metadata: {
-    //       bookingId: booking.id,
-    //       artistId: artist.id,
-    //       eventType: validatedData.eventType,
-    //       eventDate: validatedData.eventDate.toISOString(),
-    //     }
-    //   }
-    // })
-    
-    // TODO: Send notification to artist (email/LINE/SMS)
-    console.log(`[NOTIFICATION] New inquiry for ${artist.stageName} from ${validatedData.firstName}`)
+    // Send notifications to artist (email + SMS)
+    // This is done asynchronously to not block the API response
+    const notifyArtist = async () => {
+      try {
+        const { notifyArtistOfInquiry } = await import('@/lib/notifications')
+
+        const notificationResult = await notifyArtistOfInquiry({
+          bookingId: booking.id,
+          artistId: validatedData.artistId,
+          customerId: user.id,
+          customerName: validatedData.firstName,
+          customerPhone: formattedPhone,
+          customerLineId: undefined, // Will be added if LINE integration is implemented
+          eventType: validatedData.eventType,
+          eventDate: validatedData.eventDate.toISOString(),
+          message: validatedData.message,
+        })
+
+        console.log(`[NOTIFICATION] Inquiry notification sent to ${artist.stageName}:`, {
+          email: notificationResult.email.sent ? 'sent' : 'failed',
+          sms: notificationResult.sms.sent ? 'sent' : 'failed',
+          success: notificationResult.success,
+          errors: notificationResult.errors,
+        })
+
+        // If both email and SMS failed, log a warning
+        if (!notificationResult.success) {
+          console.warn(
+            `[NOTIFICATION] Failed to notify artist ${artist.stageName} of new inquiry ${booking.id}:`,
+            notificationResult.errors
+          )
+        }
+      } catch (error) {
+        console.error('[NOTIFICATION] Error sending artist notification:', error)
+        // Don't throw - notification failures shouldn't block inquiry creation
+      }
+    }
+
+    // Fire and forget - don't await to keep response fast
+    notifyArtist().catch((error) => {
+      console.error('[NOTIFICATION] Async notification failed:', error)
+    })
     
     // Return success response
     return NextResponse.json({

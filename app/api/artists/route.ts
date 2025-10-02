@@ -5,48 +5,71 @@ import { safeErrorResponse } from '@/lib/api-auth'
 
 // Input validation schema for artist search
 const searchSchema = z.object({
-  category: z.string().max(50).optional(),
-  city: z.string().max(100).optional(),
+  // Basic search
   search: z.string().max(200).optional(),
-  page: z.number().min(1).max(1000).default(1),
-  limit: z.number().min(1).max(100).default(12),
-  featured: z.boolean().optional(),
-  sort: z.enum(['featured', 'rating', 'recent', 'bookings']).optional(),
+
+  // Categories (multiple)
+  categories: z.array(z.string()).optional(),
+
+  // Location
+  city: z.string().max(100).optional(),
+  serviceAreas: z.array(z.string()).optional(),
+
+  // Price range
   minPrice: z.number().min(0).optional(),
   maxPrice: z.number().min(0).optional(),
-  availability: z.string().optional()
+
+  // Genres (multiple)
+  genres: z.array(z.string()).optional(),
+
+  // Languages (multiple)
+  languages: z.array(z.string()).optional(),
+
+  // Verification levels (multiple)
+  verificationLevels: z.array(z.string()).optional(),
+
+  // Availability
+  availability: z.boolean().optional(),
+
+  // Sorting
+  sort: z.enum(['featured', 'rating', 'price_low', 'price_high', 'most_booked', 'newest']).optional(),
+
+  // Pagination
+  page: z.number().min(1).max(1000).default(1),
+  limit: z.number().min(1).max(100).default(20)
 })
 
 // Helper function to determine sort order
-function getOrderBy(sort?: string, featured?: boolean) {
-  if (featured && sort === 'featured') {
-    return [
-      { verificationLevel: 'desc' as const },
-      { averageRating: 'desc' as const },
-      { createdAt: 'desc' as const }
-    ]
-  }
-  
+function getOrderBy(sort?: string) {
   switch (sort) {
     case 'rating':
       return [
         { averageRating: 'desc' as const },
-        { verificationLevel: 'desc' as const },
-        { createdAt: 'desc' as const }
+        { reviewCount: 'desc' as const }
       ]
-    case 'recent':
-      return [{ createdAt: 'desc' as const }]
-    case 'bookings':
+    case 'price_low':
       return [
-        { verificationLevel: 'desc' as const },
-        { averageRating: 'desc' as const },
-        { createdAt: 'desc' as const }
+        { hourlyRate: 'asc' as const },
+        { averageRating: 'desc' as const }
       ]
+    case 'price_high':
+      return [
+        { hourlyRate: 'desc' as const },
+        { averageRating: 'desc' as const }
+      ]
+    case 'most_booked':
+      return [
+        { completedBookings: 'desc' as const },
+        { averageRating: 'desc' as const }
+      ]
+    case 'newest':
+      return [{ createdAt: 'desc' as const }]
+    case 'featured':
     default:
       return [
         { verificationLevel: 'desc' as const },
         { averageRating: 'desc' as const },
-        { createdAt: 'desc' as const }
+        { completedBookings: 'desc' as const }
       ]
   }
 }
@@ -54,54 +77,69 @@ function getOrderBy(sort?: string, featured?: boolean) {
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams
-    
+
+    // Parse array parameters
+    const parseArray = (param: string | null) => {
+      if (!param) return undefined
+      try {
+        return JSON.parse(param)
+      } catch {
+        return param.split(',').filter(Boolean)
+      }
+    }
+
     // Validate input parameters
     const inputValidation = searchSchema.safeParse({
-      category: searchParams.get('category') || undefined,
-      city: searchParams.get('city') || undefined,
       search: searchParams.get('search') || undefined,
-      page: parseInt(searchParams.get('page') || '1'),
-      limit: parseInt(searchParams.get('limit') || '12'),
-      featured: searchParams.get('featured') === 'true',
-      sort: searchParams.get('sort') || undefined,
+      categories: parseArray(searchParams.get('categories')),
+      city: searchParams.get('city') || undefined,
+      serviceAreas: parseArray(searchParams.get('serviceAreas')),
       minPrice: searchParams.get('minPrice') ? parseFloat(searchParams.get('minPrice')!) : undefined,
       maxPrice: searchParams.get('maxPrice') ? parseFloat(searchParams.get('maxPrice')!) : undefined,
-      availability: searchParams.get('availability') || undefined
+      genres: parseArray(searchParams.get('genres')),
+      languages: parseArray(searchParams.get('languages')),
+      verificationLevels: parseArray(searchParams.get('verificationLevels')),
+      availability: searchParams.get('availability') === 'true',
+      sort: searchParams.get('sort') as any || 'featured',
+      page: parseInt(searchParams.get('page') || '1'),
+      limit: parseInt(searchParams.get('limit') || '20')
     })
-    
+
     if (!inputValidation.success) {
       return NextResponse.json(
         { error: 'Invalid search parameters', details: inputValidation.error.issues },
         { status: 400 }
       )
     }
-    
-    const { category, city, search, page, limit, featured, sort, minPrice, maxPrice, availability } = inputValidation.data
+
+    const {
+      search,
+      categories,
+      city,
+      serviceAreas,
+      minPrice,
+      maxPrice,
+      genres,
+      languages,
+      verificationLevels,
+      availability,
+      sort,
+      page,
+      limit
+    } = inputValidation.data
+
     const skip = (page - 1) * limit
-    
-    // Base query to get active artists
+
+    // Build the where clause
     const where: any = {
       user: {
         isActive: true
       }
     }
-    
-    // Build search conditions
+
     const conditions: any[] = []
-    
-    if (category) {
-      conditions.push({ category: category })
-    }
-    
-    if (city) {
-      conditions.push({
-        OR: [
-          { baseCity: { contains: city, mode: 'insensitive' } },
-          { serviceAreas: { has: city } }
-        ]
-      })
-    }
-    
+
+    // Text search across multiple fields
     if (search) {
       conditions.push({
         OR: [
@@ -112,19 +150,35 @@ export async function GET(req: NextRequest) {
         ]
       })
     }
-    
-    // Add featured filter
-    if (featured) {
+
+    // Categories filter (multiple)
+    if (categories && categories.length > 0) {
       conditions.push({
         OR: [
-          { verificationLevel: 'TRUSTED' },
-          { averageRating: { gte: 4.5 } },
-          { bookings: { some: { status: 'COMPLETED' } } }
+          { category: { in: categories } },
+          { subCategories: { hasSome: categories } }
         ]
       })
     }
 
-    // Add price filters
+    // Location filter
+    if (city) {
+      conditions.push({
+        OR: [
+          { baseCity: { contains: city, mode: 'insensitive' } },
+          { serviceAreas: { has: city } }
+        ]
+      })
+    }
+
+    // Service areas filter
+    if (serviceAreas && serviceAreas.length > 0) {
+      conditions.push({
+        serviceAreas: { hasSome: serviceAreas }
+      })
+    }
+
+    // Price range filter
     if (minPrice !== undefined || maxPrice !== undefined) {
       const priceCondition: any = {}
       if (minPrice !== undefined) {
@@ -136,21 +190,79 @@ export async function GET(req: NextRequest) {
       conditions.push({ hourlyRate: priceCondition })
     }
 
-    // Add availability filter (check if artist has available slots in next 30 days)
-    if (availability === 'available') {
+    // Genres filter (multiple)
+    if (genres && genres.length > 0) {
+      conditions.push({
+        genres: { hasSome: genres }
+      })
+    }
+
+    // Languages filter (multiple)
+    if (languages && languages.length > 0) {
+      conditions.push({
+        languages: { hasSome: languages }
+      })
+    }
+
+    // Verification levels filter (multiple)
+    if (verificationLevels && verificationLevels.length > 0) {
+      conditions.push({
+        verificationLevel: { in: verificationLevels }
+      })
+    }
+
+    // Availability filter - check for available slots in next 30 days
+    if (availability) {
+      const now = new Date()
       const futureDate = new Date()
       futureDate.setDate(futureDate.getDate() + 30)
-      
+
       conditions.push({
-        availability: {
-          some: {
-            date: {
-              gte: new Date(),
-              lte: futureDate
-            },
-            isAvailable: true
+        OR: [
+          // Has availability records marked as available
+          {
+            availability: {
+              some: {
+                date: {
+                  gte: now,
+                  lte: futureDate
+                },
+                isAvailable: true
+              }
+            }
+          },
+          // Or has no bookings in the future (assumed available)
+          {
+            AND: [
+              {
+                bookings: {
+                  none: {
+                    eventDate: {
+                      gte: now,
+                      lte: futureDate
+                    },
+                    status: {
+                      in: ['CONFIRMED', 'PAID']
+                    }
+                  }
+                }
+              },
+              // And no blackout dates
+              {
+                blackoutDates: {
+                  none: {
+                    startDate: {
+                      lte: futureDate
+                    },
+                    endDate: {
+                      gte: now
+                    }
+                  }
+                }
+              }
+            ]
           }
-        }
+        ]
       })
     }
 
@@ -158,7 +270,8 @@ export async function GET(req: NextRequest) {
     if (conditions.length > 0) {
       where.AND = conditions
     }
-    
+
+    // Execute the query with pagination
     const [artists, total] = await Promise.all([
       prisma.artist.findMany({
         where,
@@ -176,48 +289,65 @@ export async function GET(req: NextRequest) {
             select: {
               rating: true
             }
+          },
+          _count: {
+            select: {
+              bookings: {
+                where: {
+                  status: 'COMPLETED'
+                }
+              }
+            }
           }
         },
-        orderBy: getOrderBy(sort, featured)
+        orderBy: getOrderBy(sort)
       }),
       prisma.artist.count({ where })
     ])
-    
-    // Transform the data to match the expected interface
+
+    // Transform the data for the response
     const artistsWithStats = artists.map(artist => {
       const ratings = artist.reviews.map(r => r.rating)
-      const averageRating = ratings.length > 0 
-        ? ratings.reduce((a, b) => a + b, 0) / ratings.length 
+      const averageRating = ratings.length > 0
+        ? parseFloat((ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1))
         : null
-      
-      const { reviews, user, hourlyRate, ...artistData } = artist
-      
+
+      const { reviews, user, hourlyRate, _count, ...artistData } = artist
+
       return {
-        id: artist.id,
-        stageName: artist.stageName,
-        bio: artist.bio,
-        bioTh: artist.bioTh,
-        category: artist.category,
-        baseCity: artist.baseCity,
-        profileImage: artist.profileImage,
+        ...artistData,
         averageRating,
         reviewCount: ratings.length,
-        hourlyRate: hourlyRate ? parseFloat(hourlyRate.toString()) : null,
-        verificationLevel: artist.verificationLevel,
-        genres: artist.genres
+        completedBookings: _count.bookings,
+        hourlyRate: hourlyRate ? parseFloat(hourlyRate.toString()) : null
       }
     })
-    
+
     return NextResponse.json({
       artists: artistsWithStats,
       pagination: {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit)
+        totalPages: Math.ceil(total / limit),
+        hasNext: page < Math.ceil(total / limit),
+        hasPrev: page > 1
+      },
+      filters: {
+        search,
+        categories,
+        city,
+        serviceAreas,
+        minPrice,
+        maxPrice,
+        genres,
+        languages,
+        verificationLevels,
+        availability,
+        sort
       }
     })
-    
+
   } catch (error) {
     return safeErrorResponse(error, 'Failed to fetch artists')
   }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { XMarkIcon, CalendarIcon, PhoneIcon } from '@heroicons/react/24/outline'
 import { useTranslations } from 'next-intl'
 
@@ -38,7 +38,23 @@ export default function QuickInquiryModal({
   // OTP verification
   const [otp, setOtp] = useState('')
   const [phoneToVerify, setPhoneToVerify] = useState('')
-  
+
+  // Handle ESC key press
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscKey)
+      return () => {
+        document.removeEventListener('keydown', handleEscKey)
+      }
+    }
+  }, [isOpen, onClose])
+
   if (!isOpen) return null
 
   const handleSubmit = async (e: React.FormEvent) => {

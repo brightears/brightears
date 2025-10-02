@@ -100,6 +100,22 @@ export default function QuickBookingModal({
     }
   }, [isOpen])
 
+  // Handle ESC key press
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscKey)
+      return () => {
+        document.removeEventListener('keydown', handleEscKey)
+      }
+    }
+  }, [isOpen, onClose])
+
   const updateForm = (field: keyof BookingForm, value: string | number) => {
     setForm(prev => ({ ...prev, [field]: value }))
   }
@@ -187,7 +203,14 @@ export default function QuickBookingModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-pure-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+      {/* Backdrop - click to close */}
+      <div
+        className="absolute inset-0"
+        onClick={onClose}
+        aria-label="Close modal"
+      />
+
+      <div className="bg-pure-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden relative z-10">
         {/* Header */}
         <div className="bg-gradient-to-r from-brand-cyan to-deep-teal px-6 py-4 text-pure-white">
           <div className="flex items-center justify-between">
@@ -208,9 +231,10 @@ export default function QuickBookingModal({
             </div>
             <button
               onClick={onClose}
-              className="text-pure-white/80 hover:text-pure-white transition-colors"
+              className="p-2 rounded-full text-pure-white/80 hover:text-pure-white hover:bg-white/10 transition-all duration-200"
+              aria-label="Close modal"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>

@@ -1,7 +1,7 @@
 'use client'
 
 import { Suspense, useEffect, useState } from 'react'
-import ArtistListing from '@/components/artists/ArtistListing'
+import EnhancedArtistListing from '@/components/artists/EnhancedArtistListing'
 import { SparklesIcon } from '@heroicons/react/24/outline'
 
 interface ArtistsPageContentProps {
@@ -101,44 +101,9 @@ export default function ArtistsPageContent({ locale, title, subtitle }: ArtistsP
           <div className="absolute top-1/2 right-1/4 w-64 h-64 bg-earthy-brown/10 rounded-full blur-3xl animate-pulse animation-delay-4000" />
         </div>
         
-        <Suspense fallback={
-          <div className="container mx-auto px-4 py-12 relative z-10">
-            <div className="animate-pulse">
-              {/* Glass morphism skeleton loader */}
-              <div className="mb-12 text-center">
-                <div className="bg-white/70 backdrop-blur-md border border-white/30 rounded-2xl shadow-xl p-8 max-w-2xl mx-auto">
-                  <div className="h-8 bg-gradient-to-r from-brand-cyan/20 to-deep-teal/20 rounded-lg w-64 mx-auto mb-4"></div>
-                  <div className="h-4 bg-gradient-to-r from-brand-cyan/10 to-soft-lavender/10 rounded w-96 mx-auto"></div>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {[...Array(8)].map((_, i) => (
-                  <div key={i} className="group">
-                    <div className="bg-white/70 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl overflow-hidden p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-                      {/* Image skeleton with glass morphism */}
-                      <div className="bg-gradient-to-br from-brand-cyan/20 to-deep-teal/20 h-48 rounded-xl mb-4 animate-pulse backdrop-blur-sm"></div>
-                      
-                      {/* Content skeleton */}
-                      <div className="space-y-3">
-                        <div className="bg-gradient-to-r from-brand-cyan/20 to-soft-lavender/20 h-6 rounded w-3/4 animate-pulse"></div>
-                        <div className="bg-gradient-to-r from-earthy-brown/20 to-brand-cyan/20 h-4 rounded w-full animate-pulse"></div>
-                        <div className="bg-gradient-to-r from-deep-teal/20 to-brand-cyan/20 h-4 rounded w-2/3 animate-pulse"></div>
-                      </div>
-                      
-                      {/* Button skeleton */}
-                      <div className="mt-6 bg-gradient-to-r from-brand-cyan/20 to-deep-teal/20 h-10 rounded-lg animate-pulse"></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        }>
-          <div className="relative z-10">
-            <ArtistListing locale={locale} />
-          </div>
-        </Suspense>
+        <div className="relative z-10">
+          <EnhancedArtistListing locale={locale} />
+        </div>
       </section>
     </div>
   )
