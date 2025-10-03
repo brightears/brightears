@@ -65,7 +65,7 @@ export default function ActiveFilterChips({
     filters.categories.forEach(category => {
       activeFilters.push({
         type: 'category',
-        label: t(`categories.${category}`, category),
+        label: t(`categories.${category}`),
         value: category
       })
     })
@@ -74,7 +74,7 @@ export default function ActiveFilterChips({
   if (filters.city) {
     activeFilters.push({
       type: 'city',
-      label: `${t('location', 'Location')}: ${CITY_NAMES[filters.city] || filters.city}`
+      label: `${t('location')}: ${CITY_NAMES[filters.city] || filters.city}`
     })
   }
 
@@ -111,7 +111,7 @@ export default function ActiveFilterChips({
     filters.verificationLevels.forEach(level => {
       activeFilters.push({
         type: 'verificationLevel',
-        label: t(`verification.${level}`, level),
+        label: t(`verification.${level}`),
         value: level
       })
     })
@@ -120,7 +120,7 @@ export default function ActiveFilterChips({
   if (filters.availability) {
     activeFilters.push({
       type: 'availability',
-      label: t('showAvailableOnly', 'Available Now')
+      label: t('showAvailableOnly')
     })
   }
 
@@ -129,7 +129,7 @@ export default function ActiveFilterChips({
   return (
     <div className="flex flex-wrap items-center gap-3 p-4 bg-white/70 backdrop-blur-md border border-white/30 rounded-2xl shadow-lg">
       <span className="font-inter text-sm font-semibold text-dark-gray mr-2">
-        {t('activeFilters', 'Active filters')}:
+        {t('activeFilters')}:
       </span>
 
       {/* Filter Chips */}
@@ -158,7 +158,7 @@ export default function ActiveFilterChips({
         onClick={onClearAll}
         className="ml-auto px-4 py-1.5 bg-gradient-to-r from-earthy-brown/10 to-deep-teal/10 text-earthy-brown font-inter text-sm font-semibold rounded-full hover:from-earthy-brown/20 hover:to-deep-teal/20 transition-all duration-200"
       >
-        {t('clearAll', 'Clear All')}
+        {t('clearAll')}
       </button>
     </div>
   )

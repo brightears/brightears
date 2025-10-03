@@ -167,7 +167,7 @@ export default function FilterSidebar({
         <div className="flex items-center gap-2">
           <FunnelIcon className="w-5 h-5 text-brand-cyan" />
           <h3 className="font-playfair text-xl font-bold text-dark-gray">
-            {t('title', 'Filters')}
+            {t('title')}
           </h3>
         </div>
         {isMobile && (
@@ -186,7 +186,7 @@ export default function FilterSidebar({
           onClick={clearAllFilters}
           className="w-full py-2 px-4 bg-gradient-to-r from-brand-cyan/10 to-soft-lavender/10 text-brand-cyan font-semibold rounded-xl hover:from-brand-cyan/20 hover:to-soft-lavender/20 transition-all duration-300"
         >
-          {t('clearAll', 'Clear All Filters')}
+          {t('clearAll')}
         </button>
       )}
 
@@ -194,7 +194,7 @@ export default function FilterSidebar({
       <div className="space-y-3">
         <h4 className="font-inter font-semibold text-dark-gray flex items-center gap-2">
           <SparklesIcon className="w-4 h-4 text-brand-cyan" />
-          {t('category', 'Category')}
+          {t('category')}
         </h4>
         <div className="space-y-2">
           {Object.values(ArtistCategory).map(category => (
@@ -209,7 +209,7 @@ export default function FilterSidebar({
                 className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
               />
               <span className="font-inter text-sm text-dark-gray">
-                {t(`categories.${category}`, category)}
+                {t(`categories.${category}`)}
               </span>
             </label>
           ))}
@@ -220,7 +220,7 @@ export default function FilterSidebar({
       <div className="space-y-3">
         <h4 className="font-inter font-semibold text-dark-gray flex items-center gap-2">
           <MapPinIcon className="w-4 h-4 text-brand-cyan" />
-          {t('location', 'Location')}
+          {t('location')}
         </h4>
         <select
           value={localFilters.city}
@@ -231,7 +231,7 @@ export default function FilterSidebar({
           }}
           className="w-full px-4 py-3 bg-white/80 backdrop-blur-md border border-white/30 rounded-xl text-dark-gray font-inter focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan"
         >
-          <option value="">{t('allCities', 'All Cities')}</option>
+          <option value="">{t('allCities')}</option>
           {THAI_CITIES.map(city => (
             <option key={city.value} value={city.value}>
               {city.label} / {city.labelTh}
@@ -244,7 +244,7 @@ export default function FilterSidebar({
       <div className="space-y-3">
         <h4 className="font-inter font-semibold text-dark-gray flex items-center gap-2">
           <CurrencyDollarIcon className="w-4 h-4 text-brand-cyan" />
-          {t('priceRange', 'Price Range (THB/hour)')}
+          {t('priceRange')}
         </h4>
         <div className="space-y-4">
           <div className="flex items-center gap-3">
@@ -276,7 +276,7 @@ export default function FilterSidebar({
       <div className="space-y-3">
         <h4 className="font-inter font-semibold text-dark-gray flex items-center gap-2">
           <MusicalNoteIcon className="w-4 h-4 text-brand-cyan" />
-          {t('genres', 'Music Styles')}
+          {t('genres')}
         </h4>
         <div className="max-h-48 overflow-y-auto space-y-2 pr-2 scrollbar-thin scrollbar-thumb-brand-cyan/20 scrollbar-track-white/20">
           {MUSIC_GENRES.map(genre => (
@@ -300,7 +300,7 @@ export default function FilterSidebar({
       <div className="space-y-3">
         <h4 className="font-inter font-semibold text-dark-gray flex items-center gap-2">
           <LanguageIcon className="w-4 h-4 text-brand-cyan" />
-          {t('languages', 'Languages')}
+          {t('languages')}
         </h4>
         <div className="space-y-2">
           {LANGUAGES.map(lang => (
@@ -326,7 +326,7 @@ export default function FilterSidebar({
       <div className="space-y-3">
         <h4 className="font-inter font-semibold text-dark-gray flex items-center gap-2">
           <CheckBadgeIcon className="w-4 h-4 text-brand-cyan" />
-          {t('verification', 'Verification Status')}
+          {t('verification')}
         </h4>
         <div className="space-y-2">
           {Object.values(VerificationLevel).map(level => (
@@ -341,7 +341,7 @@ export default function FilterSidebar({
                 className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
               />
               <span className="font-inter text-sm text-dark-gray">
-                {t(`verification.${level}`, level)}
+                {t(`verification.${level}`)}
               </span>
             </label>
           ))}
@@ -352,7 +352,7 @@ export default function FilterSidebar({
       <div className="space-y-3">
         <h4 className="font-inter font-semibold text-dark-gray flex items-center gap-2">
           <CalendarDaysIcon className="w-4 h-4 text-brand-cyan" />
-          {t('availability', 'Availability')}
+          {t('availability')}
         </h4>
         <label className="flex items-center gap-3 p-3 bg-white/50 rounded-lg cursor-pointer hover:bg-white/70 transition-colors">
           <input
@@ -366,7 +366,7 @@ export default function FilterSidebar({
             className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
           />
           <span className="font-inter text-sm text-dark-gray">
-            {t('showAvailableOnly', 'Show only available artists')}
+            {t('showAvailableOnly')}
           </span>
         </label>
       </div>

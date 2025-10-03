@@ -54,7 +54,7 @@ export default function SearchBar({
             type="text"
             value={localValue}
             onChange={(e) => setLocalValue(e.target.value)}
-            placeholder={placeholder || t('searchPlaceholder', 'Search artists by name, genre, or style...')}
+            placeholder={placeholder || t('searchPlaceholder')}
             className="w-full pl-12 pr-12 py-4 bg-white/80 backdrop-blur-md border border-white/30 rounded-2xl shadow-xl text-dark-gray placeholder-dark-gray/40 font-inter transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-brand-cyan/20 focus:border-brand-cyan/50 hover:bg-white/90"
           />
 
@@ -81,7 +81,7 @@ export default function SearchBar({
             <div className="p-3">
               <div className="flex items-center gap-2 text-sm text-dark-gray/60">
                 <MagnifyingGlassIcon className="w-4 h-4" />
-                <span>{t('searchingFor', 'Searching for')}: <span className="font-semibold text-dark-gray">{localValue}</span></span>
+                <span>{t('searchingFor')}: <span className="font-semibold text-dark-gray">{localValue}</span></span>
               </div>
             </div>
           </div>

@@ -38,7 +38,7 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
         <Menu.Button className="group inline-flex items-center gap-3 px-5 py-3 bg-white/80 backdrop-blur-md border border-white/30 rounded-xl shadow-lg font-inter text-dark-gray transition-all duration-300 hover:bg-white/90 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-brand-cyan/20">
           <ArrowsUpDownIcon className="w-5 h-5 text-brand-cyan" />
           <span className="font-medium">
-            {t('label', 'Sort by')}: <span className="text-brand-cyan font-semibold">{t(currentOption.labelKey)}</span>
+            {t('label')}: <span className="text-brand-cyan font-semibold">{t(currentOption.labelKey)}</span>
           </span>
           <ChevronDownIcon className="w-4 h-4 text-dark-gray/60 group-hover:text-brand-cyan transition-colors" />
         </Menu.Button>

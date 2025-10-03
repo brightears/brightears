@@ -236,7 +236,7 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
         {/* Results Count */}
         <div className="flex items-center gap-2">
           <span className="font-playfair text-2xl font-bold text-dark-gray">
-            {totalCount} {t('artistsFound', 'Artists Found')}
+            {totalCount} {t('artistsFound')}
           </span>
         </div>
 
@@ -250,7 +250,7 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
             className="lg:hidden inline-flex items-center gap-2 px-5 py-3 bg-white/80 backdrop-blur-md border border-white/30 rounded-xl shadow-lg font-inter text-dark-gray transition-all duration-300 hover:bg-white/90 hover:shadow-xl hover:-translate-y-0.5"
           >
             <FunnelIcon className="w-5 h-5 text-brand-cyan" />
-            <span className="font-medium">{t('filters.title', 'Filters')}</span>
+            <span className="font-medium">{t('filters.title')}</span>
           </button>
         </div>
       </div>
@@ -334,7 +334,7 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
 
                     <div className="bg-white/50 backdrop-blur-sm border border-white/30 rounded-xl px-6 py-3">
                       <span className="font-inter text-dark-gray font-medium">
-                        {t('page', `Page ${page} of ${totalPages}`)}
+                        {t('page', { current: page, total: totalPages })}
                       </span>
                     </div>
 
@@ -354,10 +354,10 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
             <div className="text-center py-16 bg-white/70 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl">
               <div className="text-6xl mb-6 animate-bounce">🎵</div>
               <p className="text-dark-gray font-inter text-xl mb-3 font-semibold">
-                {t('noArtistsFound', 'No artists found')}
+                {t('noArtistsFound')}
               </p>
               <p className="text-dark-gray/60 font-inter text-sm">
-                {t('tryAdjustingFilters', 'Try adjusting your filters or search terms')}
+                {t('tryAdjustingFilters')}
               </p>
             </div>
           )}
