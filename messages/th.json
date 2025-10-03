@@ -1,990 +1,261 @@
 {
-  "metadata": {
-    "title": "Bright Ears - แพลตฟอร์มจองศิลปินชั้นนำ",
-    "description": "จองดีเจ วงดนตรี นักร้อง และความบันเทิงสดสำหรับงานของคุณในประเทศไทย แพลตฟอร์มไม่มีค่าคอมมิชชั่นพร้อมศิลปินที่ผ่านการตรวจสอบ"
+  "TermsOfService": {
+    "title": "เงื่อนไขการให้บริการ",
+    "lastUpdated": {
+      "title": "ปรับปรุงล่าสุด",
+      "date": "3 ตุลาคม 2568"
+    },
+    "introduction": {
+      "title": "บทนำ",
+      "description": "ยินดีต้อนรับสู่ Bright Ears แพลตฟอร์มการจองศิลปินบันเทิงแบบไม่มีค่าคอมมิชชัน"
+    },
+    "platformModel": {
+      "title": "รูปแบบแพลตฟอร์ม",
+      "commissionFree": "เราดำเนินการโดยไม่มีค่าคอมมิชชัน เชื่อมต่อศิลปินและลูกค้าโดยตรง",
+      "marketplaceRole": "Bright Ears ทำหน้าที่เป็นตลาดกลางที่เป็นกลาง ไม่ได้เป็นคู่สัญญาโดยตรงในการจอง"
+    },
+    "artistResponsibilities": {
+      "title": "ความรับผิดชอบของศิลปิน",
+      "profileAccuracy": "รักษาข้อมูลโปรไฟล์ให้ถูกต้องและเป็นปัจจุบัน",
+      "contentRights": "ตรวจสอบให้แน่ใจว่ามีลิขสิทธิ์และสิทธิ์ในเนื้อหาที่แชร์",
+      "performanceCommitment": "ปฏิบัติตามสัญญาการจองและให้บริการอย่างมืออาชีพ"
+    },
+    "bookingTerms": {
+      "title": "เงื่อนไขการจอง",
+      "deposits": "เงินมัดจำเบื้องต้นเพื่อยืนยันการจองและแสดงความมุ่งมั่น",
+      "cancellationPolicy": "นโยบายการยกเลิกและเลื่อนการแสดงที่โปร่งใส",
+      "rescheduleRules": "แนวทางที่ยุติธรรมสำหรับการเปลี่ยนแปลงกิจกรรม"
+    },
+    "payments": {
+      "title": "การชำระเงิน",
+      "promptpayDescription": "การชำระเงินที่ปลอดภัยผ่านพร้อมเพย์",
+      "processingFees": "โครงสร้างค่าธรรมเนียมที่โปร่งใสไม่มีค่าใช้จ่ายซ่อน",
+      "refundPolicy": "แนวทางการคืนเงินที่ชัดเจนสำหรับทุกธุรกรรม"
+    },
+    "disputeResolution": {
+      "title": "การระงับข้อพิพาท",
+      "process": "กระบวนการไกล่เกลี่ยที่มีโครงสร้างสำหรับความขัดแย้ง",
+      "jurisdiction": "ข้อพิพาททั้งหมดอยู่ภายใต้เขตอำนาจทางกฎหมายของไทย"
+    },
+    "intellectualProperty": {
+      "title": "ทรัพย์สินทางปัญญา",
+      "userContent": "ผู้ใช้คงไว้ซึ่งสิทธิ์ในเนื้อหาดั้งเดิม",
+      "platformRights": "Bright Ears คงสิทธิ์ในการออกแบบและโครงสร้างแพลตฟอร์ม"
+    },
+    "limitations": {
+      "title": "ข้อจำกัดความรับผิด",
+      "liability": "ความรับผิดของแพลตฟอร์มจำกัดสำหรับการปฏิสัมพันธ์ของบุคคลที่สาม",
+      "indemnification": "ผู้ใช้ตกลงที่จะปกป้อง Bright Ears จากการเรียกร้องที่อาจเกิดขึ้น"
+    },
+    "userEligibility": {
+      "title": "คุณสมบัติผู้ใช้",
+      "ageRequirement": "อายุขั้นต่ำ 18 ปีสำหรับผู้ใช้แพลตฟอร์ม",
+      "residencyRestriction": "พื้นที่ให้บริการหลักอยู่ในประเทศไทย"
+    },
+    "disclaimer": "เงื่อนไขเหล่านี้อาจมีการเปลี่ยนแปลง ขอแนะนำให้ทบทวนเป็นระยะ"
   },
-  "nav": {
-    "home": "หน้าแรก",
-    "browseArtists": "ค้นหาศิลปิน",
-    "howItWorks": "วิธีใช้งาน",
-    "corporate": "สำหรับองค์กร",
-    "login": "เข้าสู่ระบบ",
-    "signup": "สมัครเป็นศิลปิน"
-  },
-  "hero": {
-    "title": "ศิลปินคุณภาพสำหรับทุกงาน",
-    "subtitle": "จองดีเจ วงดนตรี และนักแสดงสด อย่างมั่นใจ",
-    "searchPlaceholder": "คุณกำลังมองหาศิลปินแบบไหน?",
-    "searchButton": "ค้นหาศิลปิน",
-    "browseButton": "ดูศิลปินทั้งหมด",
-    "corporateButton": "บริการสำหรับองค์กร",
-    "trustedBy": "ได้รับความไว้วางใจจากโรงแรมและสถานที่ชั้นนำ"
-  },
-  "features": {
-    "noCommission": {
-      "title": "ไม่มีค่าคอมมิชชั่น",
-      "description": "ติดต่อศิลปินโดยตรง เราไม่หักค่าใช้จ่ายจากการจอง"
+  "PrivacyPolicy": {
+    "title": "นโยบายความเป็นส่วนตัว",
+    "lastUpdated": {
+      "title": "ปรับปรุงล่าสุด",
+      "date": "3 ตุลาคม 2568"
     },
-    "verified": {
-      "title": "ศิลปินที่ผ่านการตรวจสอบ",
-      "description": "ศิลปินทุกคนผ่านการยืนยันตัวตนและมีรีวิวจากลูกค้าจริง"
+    "introduction": {
+      "title": "บทนำ",
+      "description": "Bright Ears มุ่งมั่นในการปกป้องข้อมูลผู้ใช้ตามมาตรฐาน พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคลและมาตรฐานสากล"
     },
-    "secure": {
-      "title": "การจองที่ปลอดภัย",
-      "description": "มีสัญญาและระบบติดตามการชำระเงิน"
+    "dataCollection": {
+      "title": "การเก็บรวบรวมข้อมูล",
+      "personalInfo": "เก็บรวบรวมข้อมูลส่วนตัวและข้อมูลติดต่อที่จำเป็น",
+      "contactDetails": "หมายเลขโทรศัพท์ ไลน์ไอดี อีเมล",
+      "bookingHistory": "ข้อมูลการจองและการปฏิสัมพันธ์แบบรวม"
     },
-    "support": {
-      "title": "ซัพพอร์ต 24/7",
-      "description": "ได้รับความช่วยเหลือเมื่อคุณต้องการ ทั้งภาษาไทยและอังกฤษ"
-    }
-  },
-  "categories": {
-    "title": "ประเภทความบันเทิง",
-    "dj": {
-      "name": "ดีเจ",
-      "description": "ดีเจมืออาชีพสำหรับทุกงาน"
+    "pdpaCompliance": {
+      "title": "การปฏิบัติตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล",
+      "description": "การปฏิบัติตามกฎหมายคุ้มครองข้อมูลส่วนบุคคลอย่างสมบูรณ์",
+      "consentMechanism": "การขอความยินยอมอย่างชัดแจ้งสำหรับการประมวลผลข้อมูล",
+      "dataRetention": "การเก็บข้อมูลอย่างจำกัดด้วยนโยบายการเก็บรักษาที่ชัดเจน",
+      "userRights": "สิทธิในการเข้าถึง แก้ไข และลบข้อมูล"
     },
-    "band": {
-      "name": "วงดนตรี",
-      "description": "วงดนตรีสดและนักดนตรี"
+    "gdprRights": {
+      "title": "สิทธิ GDPR สำหรับผู้ใช้ต่างประเทศ",
+      "access": "สิทธิในการเข้าถึงข้อมูลส่วนตัว",
+      "erasure": "สิทธิในการลบข้อมูล",
+      "portability": "สิทธิในการโอนย้ายข้อมูล"
     },
-    "singer": {
-      "name": "นักร้อง",
-      "description": "ศิลปินเดี่ยวและนักร้องเสียงดี"
-    },
-    "musician": {
-      "name": "นักดนตรี",
-      "description": "นักดนตรีเครื่องเล่นและนักแสดง"
-    }
-  },
-  "home": {
-    "activity": {
-      "title": "กิจกรรมสด",
-      "subtitle": "กิจกรรมแพลตฟอร์มแบบเรียลไทม์", 
-      "live": "สด",
-      "totalBookings": "การจอง",
-      "totalArtists": "ศิลปิน",
-      "activeInquiries": "คำถาม",
-      "justNow": "เมื่อสักครู่",
-      "minutesAgo": "{minutes} นาทีที่แล้ว",
-      "hoursAgo": "{hours} ชั่วโมงที่แล้ว",
-      "daysAgo": "{days} วันที่แล้ว",
-      "loadError": "ไม่สามารถโหลดกิจกรรมได้",
-      "noActivity": "ไม่มีกิจกรรมล่าสุด",
-      "autoRefresh": "อัปเดตทุก {seconds} วินาที"
-    },
-    "testimonials": {
-      "title": "เรื่องราวความสำเร็จ",
-      "subtitle": "ดูว่า Bright Ears ช่วยสร้างงานอีเวนต์ที่น่าประทับใจทั่วประเทศไทยอย่างไร",
-      "verified": "ยืนยันแล้ว",
-      "stats": {
-        "successfulEvents": "งานที่สำเร็จ",
-        "averageRating": "คะแนนเฉลี่ย",
-        "verifiedArtists": "ศิลปินที่ยืนยันแล้ว",
-        "responseTime": "เวลาตอบกลับ"
+    "thirdPartyIntegrations": {
+      "title": "การรวมระบบบุคคลที่สาม",
+      "serviceHeader": "บริการ",
+      "dataHandledHeader": "ข้อมูลที่จัดการ",
+      "clerk": {
+        "name": "Clerk การตรวจสอบ",
+        "data": "ข้อมูลการยืนยันตัวตนและโปรไฟล์ผู้ใช้"
       },
-      "cta": "เริ่มเรื่องราวความสำเร็จของคุณ"
-    }
-  },
-  "booking": {
-    "quick": {
-      "title": "จองด่วน",
-      "step": "ขั้นตอน",
-      "estimatedTime": "~{minutes} นาที",
-      "next": "ถัดไป",
-      "back": "กลับ",
-      "cancel": "ยกเลิก", 
-      "sendInquiry": "ส่งคำร้อง",
-      "submitting": "กำลังส่ง...",
-      "step1": {
-        "title": "รายละเอียดงาน",
-        "eventDate": "วันที่จัดงาน",
-        "eventTime": "เวลาจัดงาน",
-        "eventType": "ประเภทงาน",
-        "selectEventType": "เลือกประเภทงาน"
+      "promtpay": {
+        "name": "พร้อมเพย์",
+        "data": "ข้อมูลการทำธุรกรรมการชำระเงิน"
       },
-      "step2": {
-        "title": "สถานที่และระยะเวลา", 
-        "location": "สถานที่",
-        "duration": "ระยะเวลา",
-        "hours": "ชั่วโมง",
-        "minimum": "ขั้นต่ำ: {hours} ชม.",
-        "estimate": "ประมาณการราคา",
-        "hourlyRate": "ค่าบริการต่อชั่วโมง",
-        "estimated": "ประมาณการรวม"
+      "line": {
+        "name": "ไลน์",
+        "data": "ข้อมูลการส่งข้อความและการสื่อสาร"
       },
-      "step3": {
-        "title": "ข้อมูลติดต่อ",
-        "preferredContact": "ช่องทางติดต่อที่ต้องการ",
-        "email": "อีเมล",
-        "lineId": "LINE ID", 
-        "phone": "เบอร์โทรศัพท์",
-        "additionalInfo": "ข้อมูลเพิ่มเติม",
-        "additionalInfoPlaceholder": "บอกศิลปินเกี่ยวกับงานของคุณ ความต้องการพิเศษ หรือคำถาม..."
-      },
-      "success": {
-        "title": "ส่งคำร้องเรียบร้อย!",
-        "message": "คำร้องจองของคุณได้ส่งให้ {artist} แล้ว เขาจะติดต่อกลับเร็วๆ นี้",
-        "autoClose": "หน้าต่างนี้จะปิดอัตโนมัติในอีกสักครู่"
-      },
-      "categories": {
-        "dj": "ดีเจ",
-        "band": "วงดนตรี",
-        "singer": "นักร้อง", 
-        "musician": "นักดนตรี",
-        "mc": "พิธีกร"
-      },
-      "eventTypes": {
-        "wedding": "งานแต่งงาน",
-        "corporate": "งานองค์กร",
-        "birthday": "งานวันเกิด",
-        "anniversary": "งานครบรอบ",
-        "festival": "งานเทศกาล",
-        "private_party": "งานปาร์ตี้ส่วนตัว",
-        "nightclub": "งานไนท์คลับ",
-        "restaurant": "งานร้านอาหาร",
-        "hotel": "งานโรงแรม",
-        "other": "อื่นๆ"
-      },
-      "contactMethods": {
-        "email": "อีเมล",
-        "line": "LINE",
-        "phone": "โทรศัพท์"
-      },
-      "validation": {
-        "completeRequired": "กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน"
-      },
-      "error": {
-        "submitFailed": "ไม่สามารถส่งคำร้องได้ กรุณาลองใหม่",
-        "networkError": "เกิดข้อผิดพลาดเครือข่าย กรุณาตรวจสอบการเชื่อมต่อ"
+      "cloudinary": {
+        "name": "Cloudinary",
+        "data": "สื่อและรูปภาพที่อัปโหลดโดยผู้ใช้"
       }
     },
-    "mobile": {
-      "title": "จองด่วน",
-      "step1": "รายละเอียด",
-      "step2": "ติดต่อ", 
-      "step3": "สำเร็จ",
-      "step1.title": "รายละเอียดงาน",
-      "step1.eventType": "ประเภทงาน",
-      "step1.date": "วันที่",
-      "step1.time": "เวลา",
-      "step1.location": "สถานที่",
-      "step1.duration": "ระยะเวลา",
-      "step1.hours": "ชั่วโมง",
-      "step1.estimate": "ประมาณการค่าใช้จ่าย",
-      "step1.estimateNote": "ราคาสุดท้ายอาจแตกต่าง",
-      "step2.title": "ข้อมูลติดต่อ",
-      "step2.contactMethod": "ต้องการให้ติดต่อกลับผ่านช่องทางไหน?",
-      "step2.lineId": "LINE ID",
-      "step2.phone": "เบอร์โทรศัพท์",
-      "step2.email": "อีเมล",
-      "step2.additionalInfo": "ข้อมูลเพิ่มเติม",
-      "step2.additionalInfoPlaceholder": "ความต้องการพิเศษ คำถาม หรือรายละเอียดเกี่ยวกับงานของคุณ...",
-      "next": "ถัดไป",
-      "back": "กลับ",
-      "cancel": "ยกเลิก",
-      "sendInquiry": "ส่งคำร้อง",
-      "submitting": "กำลังส่ง...",
-      "success.title": "ส่งคำร้องเรียบร้อย!",
-      "success.message": "คำขอจองของคุณได้ส่งให้ {artist} แล้ว เขาจะติดต่อกลับเร็วๆ นี้",
-      "success.lineMessage": "ติดต่อศิลปินโดยตรงผ่าน LINE:",
-      "success.openLine": "เปิด LINE",
-      "success.autoClose": "หน้าต่างนี้จะปิดอัตโนมัติ",
-      "validation.completeRequired": "กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน",
-      "error.submitFailed": "ไม่สามารถส่งคำร้องได้ กรุณาลองใหม่",
-      "error.networkError": "เกิดข้อผิดพลาดเครือข่าย กรุณาตรวจสอบการเชื่อมต่อ"
-    }
-  },
-  "ai": {
-    "bioEnhancer": {
-      "enhanceWithAI": "ปรับปรุงด้วย AI",
-      "title": "ปรับปรุงประวัติด้วย AI",
-      "subtitle": "ทำให้โปรไฟล์ของคุณน่าสนใจและเป็นมืออาชีพมากขึ้น",
-      "noBioError": "กรุณาเพิ่มเนื้อหาในประวัติของคุณก่อน",
-      "limitReached": "ใช้งานครบจำนวนแล้ว ({used}/{limit}) อัพเกรดการยืนยันตัวตนเพื่อใช้งานเพิ่ม",
-      "enhancementError": "ไม่สามารถปรับปรุงประวัติได้ กรุณาลองใหม่",
-      "networkError": "เกิดข้อผิดพลาดเครือข่าย กรุณาตรวจสอบการเชื่อมต่อ",
-      "usageInfo": "การใช้งานรายเดือน",
-      "remainingEnhancements": "เหลือ {remaining} จาก {total} ครั้งในเดือนนี้",
-      "language": "ภาษา",
-      "targetAudience": "กลุ่มเป้าหมาย",
-      "formalityLevel": "ระดับความเป็นทางการ",
-      "languageOptions": {
-        "english": "ภาษาอังกฤษเท่านั้น",
-        "thai": "ภาษาไทยเท่านั้น",
-        "both": "ทั้งสองภาษา"
-      },
-      "audiences": {
-        "corporate": "งานองค์กร",
-        "wedding": "งานแต่งงานและงานเฉลิมฉลอง",
-        "nightlife": "ไนท์ไลฟ์และคลับ",
-        "international": "ลูกค้าต่างชาติ",
-        "traditional": "งานแบบดั้งเดิม"
-      },
-      "formality": {
-        "casual": "สบายๆ เป็นกันเอง",
-        "professional": "เป็นมืออาชีพ",
-        "formal": "เป็นทางการและดั้งเดิม"
-      },
-      "currentBio": "ประวัติปัจจุบัน",
-      "englishBio": "ประวัติภาษาอังกฤษ",
-      "thaiBio": "ประวัติภาษาไทย",
-      "cancel": "ยกเลิก",
-      "enhancing": "กำลังปรับปรุง...",
-      "enhanceNow": "ปรับปรุงเลย",
-      "enhancedBios": "ประวัติที่ปรับปรุงแล้ว",
-      "enhancedEnglish": "ประวัติภาษาอังกฤษที่ปรับปรุงแล้ว",
-      "enhancedThai": "ประวัติภาษาไทยที่ปรับปรุงแล้ว",
-      "improvements": "คำแนะนำการปรับปรุง",
-      "bookingTips": "เคล็ดลับเพิ่มการจอง",
-      "culturalNotes": "ข้อควรพิจารณาทางวัฒนธรรม",
-      "tryAgain": "ลองตัวเลือกอื่น",
-      "applyEnhancement": "ใช้การปรับปรุง"
-    }
-  },
-  "search": {
-    "findPerfectArtist": "ค้นหาศิลปินที่เหมาะกับคุณ",
-    "searchLabel": "ค้นหาศิลปิน",
-    "searchPlaceholder": "ค้นหาตามชื่อ แนวเพลง หรือสไตล์...",
-    "searchButton": "ค้นหา",
-    "searchArtists": "ค้นหาศิลปิน",
-    "searchDescription": "ค้นพบและจองศิลปินที่เหมาะสมสำหรับงานของคุณด้วยตัวกรองขั้นสูง",
-    "searchSubtitle": "ใช้ตัวกรองเพื่อค้นหาศิลปินที่เหมาะกับงบประมาณ สถานที่ และสไตล์ที่คุณต้องการ",
-    "filters": "ตัวกรอง",
-    "clearFilters": "ล้างตัวกรอง",
-    "clearAll": "ล้างทั้งหมด",
-    "category": "ประเภท",
-    "location": "สถานที่",
-    "budget": "งบประมาณ",
-    "budgetRange": "ช่วงงบประมาณ",
-    "allCategories": "ทุกประเภท",
-    "allLocations": "ทุกสถานที่",
-    "anyBudget": "งบประมาณใดก็ได้",
-    "under500": "ต่ำกว่า ฿500/ชม.",
-    "budget500to1000": "฿500 - ฿1,000/ชม.",
-    "budget1000to2000": "฿1,000 - ฿2,000/ชม.",
-    "budget2000to5000": "฿2,000 - ฿5,000/ชม.",
-    "over5000": "มากกว่า ฿5,000/ชม.",
-    "searching": "กำลังค้นหา...",
-    "searchError": "ไม่สามารถโหลดผลการค้นหาได้",
-    "retry": "ลองใหม่",
-    "noResults": "ไม่พบศิลปิน",
-    "noResultsDescription": "เราไม่พบศิลปินที่ตรงกับเงื่อนไขของคุณ ลองปรับการค้นหา:",
-    "tryDifferentKeywords": "ลองใช้คำค้นหาหรือแนวเพลงอื่น",
-    "expandLocation": "ขยายพื้นที่การค้นหา",
-    "adjustBudget": "ปรับช่วงงบประมาณ",
-    "searchResults": "ผลการค้นหา",
-    "showingResults": "แสดง {count} จาก {total} ศิลปิน (หน้า {page} จาก {totalPages})",
-    "sortBy": "เรียงตาม",
-    "relevance": "ความเกี่ยวข้อง",
-    "rating": "คะแนน",
-    "newest": "ใหม่ล่าสุด",
-    "mostBooked": "จองมากที่สุด",
-    "previous": "ก่อนหน้า",
-    "next": "ถัดไป",
-    "categories": {
-      "dj": "ดีเจ",
-      "band": "วงดนตรี",
-      "singer": "นักร้อง",
-      "musician": "นักดนตรี",
-      "mc": "พิธีกร",
-      "comedian": "นักตลก",
-      "magician": "นักมายากล",
-      "dancer": "นักเต้น"
-    }
-  },
-  "home": {
-    "featuredArtists": {
-      "title": "ศิลปินแนะนำ",
-      "subtitle": "ศิลปินมืออาชีพที่ได้รับความไว้วางใจจากสถานที่ชั้นนำของไทย",
-      "quickBook": "จองด่วน",
-      "viewProfile": "ดูโปรไฟล์",
-      "viewAllArtists": "ดูศิลปินทั้งหมด",
-      "available": "ว่าง",
-      "featured": "แนะนำ",
-      "recentlyPerformed": "เพิ่งแสดงที่",
-      "startingFrom": "เริ่มต้น",
-      "priceOnRequest": "สอบถามราคา"
+    "cookies": {
+      "title": "คุกกี้และการติดตาม",
+      "description": "เราใช้คุกกี้เพื่อเพิ่มประสบการณ์ผู้ใช้และฟังก์ชันการทำงานของแพลตฟอร์ม",
+      "analytics": "การวิเคราะห์การใช้งานและการติดตามประสิทธิภาพ",
+      "performance": "การเพิ่มประสิทธิภาพเว็บไซต์",
+      "userPreferences": "การจดจำค่าความชอบของผู้ใช้"
     },
-    "cta": {
-      "findArtist": "ค้นหาศิลปิน",
-      "browseArtists": "ดูศิลปินทั้งหมด",
-      "contactLine": "ติดต่อทาง LINE"
-    }
-  },
-  "corporate": {
-    "title": "บริการความบันเทิงสำหรับองค์กร",
-    "subtitle": "ได้รับความไว้วางใจจากโรงแรมและสถานที่ชั้นนำของไทย",
-    "residentDJ": {
-      "title": "โปรแกรมดีเจประจำ",
-      "description": "ความบันเทิงคุณภาพสม่ำเสมอสำหรับสถานที่ของคุณ"
+    "contactInfo": {
+      "title": "ข้อมูลติดต่อ",
+      "dataProtectionOfficer": "สำหรับข้อสงสัยเกี่ยวกับความเป็นส่วนตัว กรุณาติดต่อเจ้าหน้าที่คุ้มครองข้อมูล:",
+      "address": "บริษัท Bright Ears จำกัด\n123 ถนนสุขุมวิท\nกรุงเทพฯ 10110",
+      "email": "privacy@brightears.com",
+      "phone": "+66 2 123 4567"
     },
-    "multiVenue": {
-      "title": "จัดการหลายสาขา",
-      "description": "ระบบจองส่วนกลางสำหรับทุกสาขาของคุณ"
-    },
-    "compliance": {
-      "title": "ถูกต้องตามกฎหมาย",
-      "description": "ลิขสิทธิ์เพลงและเอกสารครบถ้วน"
-    },
-    "getQuote": "ขอใบเสนอราคาสำหรับองค์กร"
-  },
-  "footer": {
-    "about": "เกี่ยวกับ Bright Ears",
-    "description": "แพลตฟอร์มจองศิลปินชั้นนำของประเทศไทย",
-    "contact": "ติดต่อ",
-    "email": "อีเมล",
-    "phone": "โทรศัพท์",
-    "address": "กรุงเทพมหานคร, ประเทศไทย",
-    "links": "ลิงก์ด่วน",
-    "browseArtists": "ค้นหาศิลปิน",
-    "howItWorks": "วิธีใช้งาน",
-    "corporate": "องค์กร",
-    "legal": "ข้อกำหนด",
-    "terms": "เงื่อนไขการใช้บริการ",
-    "privacy": "นโยบายความเป็นส่วนตัว",
-    "copyright": "© 2567 บริษัท ไบรท์ อีสร์ เอ็นเตอร์เทนเมนต์ จำกัด สงวนลิขสิทธิ์"
-  },
-  "dashboard": {
-    "nav": {
-      "dashboard": "แดชบอร์ด",
-      "profile": "โปรไฟล์",
-      "bookings": "การจอง",
-      "availability": "ตารางเวลาว่าง",
-      "media": "สื่อ",
-      "reviews": "รีวิว",
-      "analytics": "วิเคราะห์"
-    },
-    "artist": {
-      "welcome": "ยินดีต้อนรับกลับมา {name}!",
-      "overview": "นี่คือภาพรวมผลงานและการจองที่กำลังจะมาถึงของคุณ",
-      "totalBookings": "จำนวนการจองทั้งหมด",
-      "completedBookings": "การจองที่เสร็จสิ้น",
-      "totalEarnings": "รายได้ทั้งหมด",
-      "averageRating": "คะแนนเฉลี่ย",
-      "quickActions": "การดำเนินการด่วน",
-      "updateProfile": "อัพเดทโปรไฟล์",
-      "manageCalendar": "จัดการปฏิทิน",
-      "viewBookings": "ดูการจอง",
-      "uploadMedia": "อัพโหลดสื่อ",
-      "recentBookings": "การจองล่าสุด",
-      "upcomingEvents": "งานที่กำลังจะมา",
-      "profileCompletion": "ความครบถ้วนของโปรไฟล์",
-      "recentActivity": "กิจกรรมล่าสุด"
-    },
-    "profile": {
-      "title": "จัดการโปรไฟล์",
-      "description": "อัพเดทข้อมูลโปรไฟล์ศิลปินและการตั้งค่าของคุณ",
-      "basicInfo": "ข้อมูลพื้นฐาน",
-      "stageName": "ชื่อเวที",
-      "realName": "ชื่อจริง",
-      "category": "ประเภทหลัก",
-      "baseCity": "เมืองหลัก",
-      "bio": "ประวัติ (ภาษาอังกฤษ)",
-      "bioTh": "ประวัติ (ภาษาไทย)",
-      "languages": "ภาษาที่พูดได้",
-      "genres": "แนวเพลง",
-      "pricingSettings": "การตั้งราคาและการจอง",
-      "hourlyRate": "ราคาต่อชั่วโมง",
-      "minimumHours": "จำนวนชั่วโมงขั้นต่ำ",
-      "currency": "สกุลเงิน",
-      "instantBooking": "เปิดใช้การจองทันที",
-      "advanceNotice": "ระยะเวลาแจ้งล่วงหน้า (วัน)",
-      "cancellationPolicy": "นโยบายการยกเลิก",
-      "serviceAreas": "พื้นที่ให้บริการ",
-      "socialLinks": "โซเชียลมีเดียและออนไลน์"
-    },
-    "bookings": {
-      "title": "จัดการการจอง",
-      "description": "ตรวจสอบ รับ และจัดการคำขอจองของคุณ",
-      "allBookings": "การจองทั้งหมด",
-      "newInquiries": "คำขอใหม่",
-      "confirmed": "ยืนยันแล้ว",
-      "completed": "เสร็จสิ้น",
-      "cancelled": "ยกเลิก",
-      "eventDetails": "รายละเอียดงาน",
-      "client": "ลูกค้า",
-      "dateTime": "วันและเวลา",
-      "price": "ราคา",
-      "status": "สถานะ",
-      "actions": "การดำเนินการ",
-      "view": "ดู",
-      "accept": "รับ",
-      "decline": "ปฏิเสธ",
-      "bookingDetails": "รายละเอียดการจอง",
-      "acceptBooking": "รับการจอง",
-      "declineBooking": "ปฏิเสธการจอง"
-    },
-    "availability": {
-      "title": "ตารางเวลาว่าง",
-      "description": "จัดการเวลาว่างและบล็อกวันสำหรับกิจกรรมส่วนตัว",
-      "today": "วันนี้",
-      "hasBookings": "มีการจอง",
-      "available": "ว่าง",
-      "blocked": "บล็อก",
-      "notSet": "ยังไม่ตั้งค่า",
-      "markAvailable": "เปิดให้จอง",
-      "blockDay": "บล็อกวันนี้",
-      "setAvailability": "ตั้งค่าเวลาว่าง",
-      "blockMultiple": "บล็อกหลายวัน",
-      "weeklyPattern": "ตั้งค่าตารางรายสัปดาห์",
-      "importCalendar": "นำเข้าปฏิทิน"
-    },
-    "media": {
-      "title": "แกลเลอรี่สื่อ",
-      "description": "อัพโหลดและจัดการรูปภาพ วิดีโอ และไฟล์เสียงเพื่อแสดงผลงานของคุณ",
-      "profileImage": "รูปโปรไฟล์",
-      "coverImage": "รูปปก",
-      "photos": "รูปภาพ",
-      "videos": "วิดีโอ",
-      "audio": "ไฟล์เสียง",
-      "addPhotos": "เพิ่มรูปภาพ",
-      "addVideo": "เพิ่มลิงก์วิดีโอ",
-      "addAudio": "เพิ่มไฟล์เสียง",
-      "changePhoto": "เปลี่ยนรูป",
-      "changeCover": "เปลี่ยนรูปปก",
-      "uploadPhoto": "อัพโหลดรูป",
-      "uploadCover": "อัพโหลดรูปปก"
-    },
-    "reviews": {
-      "title": "รีวิวและคะแนน",
-      "description": "ดูและตอบรีวิวจากลูกค้าเพื่อสร้างความน่าเชื่อถือและปรับปรุงบริการ",
-      "totalReviews": "รีวิวทั้งหมด",
-      "responseRate": "อัตราการตอบกลับ",
-      "pendingResponses": "รอการตอบกลับ",
-      "ratingDistribution": "การกระจายคะแนน",
-      "allReviews": "รีวิวทั้งหมด",
-      "pendingResponse": "รอการตอบกลับ",
-      "responded": "ตอบกลับแล้ว",
-      "respond": "ตอบกลับ",
-      "respondToReview": "ตอบกลับรีวิว",
-      "yourResponse": "การตอบกลับของคุณ",
-      "sendResponse": "ส่งการตอบกลับ"
-    },
-    "analytics": {
-      "title": "วิเคราะห์และรายได้",
-      "description": "ติดตามผลงาน รายได้ และทำความเข้าใจข้อมูลลูกค้าของคุณ",
-      "keyMetrics": "ตัวชี้วัดหลัก",
-      "monthlyEarnings": "รายได้รายเดือน",
-      "performanceMetrics": "ตัวชี้วัดผลงาน",
-      "profileViews": "การดูโปรไฟล์",
-      "conversionRate": "อัตราการแปลง",
-      "rebookingRate": "อัตราการจองซ้ำ",
-      "responseTime": "เวลาตอบกลับเฉลี่ย",
-      "monthlyInquiries": "คำขอรายเดือน",
-      "eventTypes": "ประเภทงาน",
-      "popularLocations": "สถานที่ยอดนิยม",
-      "popularTimeSlots": "ช่วงเวลายอดนิยม",
-      "insights": "ข้อมูลเชิงลึกและคำแนะนำ",
-      "workingWell": "สิ่งที่ทำได้ดี",
-      "growthOpportunities": "โอกาสในการเติบโต"
-    }
-  },
-  "booking": {
-    "eventType": "ประเภทงาน",
-    "selectEventType": "เลือกประเภทงาน",
-    "eventDate": "วันที่จัดงาน",
-    "startTime": "เวลาเริ่ม",
-    "endTime": "เวลาสิ้นสุด",
-    "duration": "ระยะเวลา",
-    "hours": "ชั่วโมง",
-    "minimumHours": "ขั้นต่ำ {hours} ชั่วโมง",
-    "minimumAdvanceNotice": "ต้องแจ้งล่วงหน้าขั้นต่ำ {days} วัน",
-    "estimatedPrice": "ราคาประมาณ",
-    "venueName": "ชื่อสถานที่",
-    "venueNamePlaceholder": "เช่น ห้องแกรนด์บอลรูม โรงแรม ABC",
-    "venueAddress": "ที่อยู่สถานที่",
-    "venueAddressPlaceholder": "ที่อยู่ครบถ้วนรวมเมืองและรหัสไปรษณีย์",
-    "expectedGuests": "จำนวนแขกที่คาดว่าจะมา",
-    "expectedGuestsPlaceholder": "จำนวนโดยประมาณ",
-    "specialRequests": "คำขอพิเศษ",
-    "specialRequestsPlaceholder": "เพลงที่ต้องการ อุปกรณ์ที่จำเป็น หรือข้อกำหนดการแสดงใดๆ",
-    "additionalNotes": "หมายเหตุเพิ่มเติม",
-    "additionalNotesPlaceholder": "ข้อมูลอื่นๆ ที่ศิลปินควรทราบ",
-    "budgetRange": "ช่วงงบประมาณ",
-    "selectBudgetRange": "เลือกช่วงงบประมาณของคุณ",
-    "contactPhone": "เบอร์โทรติดต่อ",
-    "contactPhonePlaceholder": "สำหรับการติดต่อเร่งด่วน",
-    "bookArtist": "จอง {name}",
-    "artist": "ศิลปิน",
-    "date": "วันที่",
-    "time": "เวลา",
-    "venue": "สถานที่",
-    "bookingSummary": "สรุปการจอง",
-    "whatHappensNext": "ขั้นตอนต่อไป",
-    "step1": "ศิลปินจะได้รับคำขอของคุณและตอบกลับภายใน 24 ชั่วโมง",
-    "step2": "คุณสามารถหารือรายละเอียดและเจรจาราคาผ่านข้อความ",
-    "step3": "เมื่อตกลงกันได้ ศิลปินจะยืนยันการจองของคุณ",
-    "previous": "ก่อนหน้า",
-    "next": "ถัดไป",
-    "submitRequest": "ส่งคำขอ",
-    "submitting": "กำลังส่ง...",
-    "bookingRequestSent": "ส่งคำขอจองแล้ว!",
-    "bookingRequestSentDescription": "คำขอจองของคุณได้ส่งไปยังศิลปินแล้ว คุณจะได้รับการแจ้งเตือนเมื่อศิลปินตอบกลับ",
-    "bookingNumber": "หมายเลขการจอง",
-    "close": "ปิด",
-    "viewBookings": "ดูการจองของฉัน",
-    "loginRequired": "ต้องเข้าสู่ระบบ",
-    "loginRequiredDescription": "คุณต้องเข้าสู่ระบบเพื่อส่งคำขอจอง",
-    "login": "เข้าสู่ระบบ",
-    "cancel": "ยกเลิก",
-    "contactViaLine": "ติดต่อผ่าน LINE",
-    "quickBooking": {
-      "title": "จองด่วน",
-      "description": "กรอกข้อมูลพื้นฐานและติดต่อศิลปินโดยตรงผ่าน LINE เพื่อการสื่อสารแบบทันที",
-      "eventDate": "วันที่จัดงาน",
-      "eventType": "ประเภทงาน", 
-      "location": "สถานที่จัดงาน",
-      "selectEventType": "เลือกประเภทงาน",
-      "locationPlaceholder": "เช่น กรุงเทพฯ โรงแรมสุขุมวิท",
-      "fillAllFields": "กรุณากรอกข้อมูลให้ครบทุกช่อง",
-      "contactArtist": "ติดต่อศิลปิน",
-      "detailedBooking": "แบบฟอร์มจองแบบละเอียด",
-      "inquirySent": "ส่งคำสอบถามแล้ว! ศิลปินจะติดต่อกลับเร็วๆ นี้",
-      "helpText": "ระบบจะส่งคำสอบถามของคุณไปยังศิลปินโดยตรง พวกเขาจะตอบกลับอย่างรวดเร็วผ่านช่องทางที่ต้องการ",
-      "contactArtistDirectly": "กรุณาติดต่อศิลปินโดยตรงโดยใช้ข้อมูลที่แสดงด้านบน"
-    },
-    "lineMessage": {
-      "greeting": "สวัสดีครับ/ค่ะ คุณ{artistName}! ผมเจอคุณใน Bright Ears และสนใจที่จะจองครับ/ค่ะ",
-      "eventDate": "วันที่จัดงาน",
-      "eventType": "ประเภทงาน",
-      "location": "สถานที่",
-      "footer": "ช่วยแจ้งความพร้อมและราคาหน่อยครับ/ค่ะ ขอบคุณครับ/ค่ะ!"
-    },
-    "eventTypes": {
-      "wedding": "งานแต่งงาน",
-      "birthday_party": "งานวันเกิด",
-      "corporate_event": "งานบริษัท", 
-      "private_party": "งานเลี้ยงส่วนตัว",
-      "bar_club_night": "งานบาร์/คลับ",
-      "restaurant_performance": "การแสดงในร้านอาหาร",
-      "hotel_event": "งานในโรงแรม",
-      "other": "อื่นๆ"
-    }
-  },
-  "customerBookings": {
-    "meta": {
-      "title": "การจองของฉัน | Bright Ears",
-      "description": "ดูและจัดการการจองบันเทิงและคำขอของคุณ"
-    },
-    "title": "การจองของฉัน",
-    "description": "ดูและจัดการคำขอการจองและการจองที่ยืนยันแล้วของคุณ",
-    "noBookings": "ยังไม่มีการจอง",
-    "noBookingsDescription": "คุณยังไม่ได้ทำการจองใดๆ เลือกดูศิลปินที่มีความสามารถของเราเพื่อเริ่มต้น",
-    "browseArtists": "เรียกดูศิลปิน",
-    "newMessages": "ใหม่",
-    "event": "งาน",
-    "dateTime": "วันที่และเวลา",
-    "venue": "สถานที่",
-    "price": "ราคา",
-    "viewDetails": "ดูรายละเอียด",
-    "message": "ส่งข้อความ",
-    "cancel": "ยกเลิก",
-    "you": "คุณ",
-    "bookingDetails": "รายละเอียดการจอง",
-    "artistInfo": "ข้อมูลศิลปิน",
-    "eventDetails": "รายละเอียดงาน",
-    "type": "ประเภท",
-    "date": "วันที่",
-    "time": "เวลา",
-    "duration": "ระยะเวลา",
-    "hours": "ชั่วโมง",
-    "guests": "แขก",
-    "venueInfo": "ข้อมูลสถานที่",
-    "name": "ชื่อ",
-    "address": "ที่อยู่",
-    "pricing": "ราคา",
-    "quotedPrice": "ราคาที่เสนอ",
-    "finalPrice": "ราคาสุดท้าย",
-    "specialRequests": "คำขอพิเศษ",
-    "notes": "หมายเหตุ",
-    "timeline": "ไทม์ไลน์",
-    "created": "สร้างเมื่อ",
-    "confirmed": "ยืนยันเมื่อ",
-    "completed": "เสร็จสิ้นเมื่อ",
-    "cancelled": "ยกเลิกเมื่อ",
-    "cancelBooking": "ยกเลิกการจอง",
-    "confirmCancel": "คุณแน่ใจหรือไม่ที่จะยกเลิกการจองนี้? การดำเนินการนี้ไม่สามารถยกเลิกได้",
-    "cancelError": "ไม่สามารถยกเลิกการจองได้ กรุณาลองอีกครั้ง",
-    "pendingResponse": "รอการตอบกลับจากศิลปิน"
-  },
-  "messaging": {
-    "loadingMessages": "กำลังโหลดข้อความ...",
-    "noMessages": "ยังไม่มีข้อความ",
-    "startConversation": "เริ่มการสนทนากับศิลปินเกี่ยวกับการจองของคุณ",
-    "typeMessage": "พิมพ์ข้อความ...",
-    "pressEnterToSend": "กด Enter เพื่อส่ง, Shift+Enter สำหรับขึ้นบรรทัดใหม่",
-    "sendError": "ไม่สามารถส่งข้อความได้ กรุณาลองอีกครั้ง",
-    "bookingCancelled": "การจองนี้ถูกยกเลิกแล้ว ไม่สามารถส่งข้อความใหม่ได้"
-  },
-  "notifications": {
-    "title": "การแจ้งเตือน",
-    "noNotifications": "ยังไม่มีการแจ้งเตือน",
-    "markAllRead": "ทำเครื่องหมายทั้งหมดว่าอ่านแล้ว",
-    "viewAll": "ดูการแจ้งเตือนทั้งหมด",
-    "justNow": "เมื่อสักครู่",
-    "minutesAgo": "{minutes} นาทีที่แล้ว",
-    "hoursAgo": "{hours} ชั่วโมงที่แล้ว",
-    "yesterday": "เมื่อวาน",
-    "daysAgo": "{days} วันที่แล้ว"
-  },
-  "bookingStatus": {
-    "quickActions": "การดำเนินการด่วน",
-    "sendQuote": "ส่งใบเสนอราคา",
-    "acceptDirectly": "ยอมรับทันที",
-    "confirmBooking": "ยืนยันการจอง",
-    "markAsPaid": "ทำเครื่องหมายว่าชำระแล้ว",
-    "markAsCompleted": "ทำเครื่องหมายว่าเสร็จสิ้น",
-    "cancelBooking": "ยกเลิกการจอง",
-    "pendingResponse": "รอการตอบกลับจากศิลปิน",
-    "pendingResponseDescription": "คำขอการจองของคุณได้ส่งไปยังศิลปินแล้ว พวกเขาจะตอบกลับภายใน 24 ชั่วโมง",
-    "cancelRequest": "ยกเลิกคำขอ",
-    "addNote": "เพิ่มหมายเหตุ",
-    "notePlaceholder": "เพิ่มหมายเหตุหรือข้อความ...",
-    "cancel": "ยกเลิก",
-    "send": "ส่ง",
-    "sending": "กำลังส่ง...",
-    "updateError": "ไม่สามารถอัปเดตสถานะการจองได้ กรุณาลองอีกครั้ง"
-  },
-  "common": {
-    "loading": "กำลังโหลด...",
-    "error": "เกิดข้อผิดพลาด",
-    "retry": "ลองอีกครั้ง",
-    "viewMore": "ดูเพิ่มเติม",
-    "viewLess": "ดูน้อยลง",
-    "from": "เริ่มต้น",
-    "perHour": "ต่อชั่วโมง",
-    "perEvent": "ต่องาน",
-    "currency": "฿"
+    "disclaimer": "นโยบายนี้อาจมีการอัปเดต ขอแนะนำให้ผู้ใช้ตรวจสอบเป็นระยะ"
   },
   "artists": {
-    "meta": {
-      "title": "ค้นหาศิลปินบันเทิง | Bright Ears",
-      "description": "ค้นหาและจองดีเจ วงดนตรี นักร้อง และศิลปินมืออาชีพในประเทศไทย ศิลปินที่ผ่านการตรวจสอบพร้อมราคาโปร่งใส"
-    },
-    "title": "ค้นหาศิลปินที่ใช่สำหรับคุณ",
-    "subtitle": "เลือกดูศิลปินที่ผ่านการตรวจสอบสำหรับทุกงาน",
-    "filters": "ตัวกรอง",
-    "clearAll": "ล้างทั้งหมด",
-    "category": "ประเภท",
-    "location": "สถานที่",
-    "searchPlaceholder": "ค้นหาด้วยชื่อ แนวเพลง หรือสไตล์...",
-    "noArtistsFound": "ไม่พบศิลปิน ลองปรับตัวกรองดู",
-    "priceOnRequest": "ราคาติดต่อสอบถาม",
+    "title": "ค้นหาศิลปิน",
+    "subtitle": "ค้นหาความบันเทิงที่สมบูรณ์แบบสำหรับงานของคุณ",
+    "searchPlaceholder": "ค้นหาศิลปินตามชื่อ แนวเพลง หรือสไตล์...",
+    "artistsFound": "พบศิลปิน",
+    "noArtistsFound": "ไม่พบศิลปิน",
+    "tryAdjustingFilters": "ลองปรับเปลี่ยนตัวกรองหรือคำค้นหาของคุณ",
     "previous": "ก่อนหน้า",
     "next": "ถัดไป",
     "page": "หน้า {{current}} จาก {{total}}",
-    "verified": "ยืนยันแล้ว",
-    "trusted": "น่าเชื่อถือ",
-    "from": "เริ่มต้น",
-    "new": "ใหม่",
-    "category.DJ": "ดีเจ",
-    "category.BAND": "วงดนตรี",
-    "category.SINGER": "นักร้อง",
-    "category.MUSICIAN": "นักดนตรี",
-    "category.MC": "พิธีกร",
-    "category.COMEDIAN": "นักตลก",
-    "category.MAGICIAN": "นักมายากล",
-    "category.DANCER": "นักเต้น",
-    "category.PHOTOGRAPHER": "ช่างภาพ",
-    "category.SPEAKER": "วิทยากร"
-  },
-  "artist": {
-    "notFound": "ไม่พบศิลปิน",
-    "backToArtists": "กลับไปหน้าศิลปิน",
-    "reviews": "รีวิว",
-    "trusted": "ศิลปินน่าเชื่อถือ",
-    "verified": "ศิลปินยืนยันแล้ว",
-    "basic": "โปรไฟล์พื้นฐาน",
-    "bookNow": "ขอใบเสนอราคา",
-    "startingPrice": "ราคาเริ่มต้น",
-    "priceOnRequest": "ราคาติดต่อสอบถาม",
-    "minimumBooking": "จองขั้นต่ำ",
-    "hours": "ชั่วโมง",
-    "completedEvents": "งานที่เสร็จสิ้น",
-    "responseTime": "เวลาตอบกลับ",
-    "fast": "เร็ว",
-    "tab.about": "เกี่ยวกับ",
-    "tab.media": "สื่อ",
-    "tab.reviews": "รีวิว",
-    "tab.availability": "ตารางว่าง",
-    "aboutArtist": "เกี่ยวกับศิลปิน",
-    "noBio": "ไม่มีประวัติ",
+    "filters": {
+      "title": "ตัวกรอง",
+      "clearAll": "ล้างทั้งหมด",
+      "activeFilters": "ตัวกรองที่ใช้งาน",
+      "category": "ประเภท",
+      "categories": {
+        "DJ": "ดีเจ",
+        "BAND": "วงดนตรี",
+        "SINGER": "นักร้อง",
+        "MUSICIAN": "นักดนตรี",
+        "MC": "พิธีกร",
+        "COMEDIAN": "นักแสดงตลก",
+        "MAGICIAN": "นักมายากล",
+        "DANCER": "นักเต้น",
+        "PHOTOGRAPHER": "ช่างภาพ",
+        "SPEAKER": "วิทยากร"
+      },
+      "location": "สถานที่",
+      "allCities": "ทุกเมือง",
+      "priceRange": "ช่วงราคา (บาท/ชั่วโมง)",
+      "genres": "รูปแบบดนตรี",
+      "languages": "ภาษา",
+      "verification": "สถานะการยืนยัน",
+      "verification": {
+        "UNVERIFIED": "ยังไม่ได้ยืนยัน",
+        "BASIC": "ยืนยันพื้นฐาน",
+        "VERIFIED": "ยืนยันแล้ว",
+        "TRUSTED": "พาร์ทเนอร์ที่เชื่อถือได้"
+      },
+      "availability": "ความพร้อม",
+      "showAvailableOnly": "แสดงเฉพาะศิลปินที่พร้อมให้บริการ"
+    },
+    "sort": {
+      "label": "เรียงตาม",
+      "featured": "แนะนำ",
+      "rating": "คะแนนสูงสุด",
+      "priceLowToHigh": "ราคา: ต่ำไปสูง",
+      "priceHighToLow": "ราคา: สูงไปต่ำ",
+      "mostBooked": "จองมากที่สุด",
+      "newest": "ใหม่ล่าสุด"
+    },
+    "searchingFor": "กำลังค้นหา",
+    "category": {
+      "DJ": "ดีเจ",
+      "BAND": "วงดนตรี",
+      "SINGER": "นักร้อง",
+      "MUSICIAN": "นักดนตรี",
+      "MC": "พิธีกร",
+      "COMEDIAN": "นักแสดงตลก",
+      "MAGICIAN": "นักมายากล",
+      "DANCER": "นักเต้น",
+      "PHOTOGRAPHER": "ช่างภาพ",
+      "SPEAKER": "วิทยากร"
+    },
+    "noResults": "ไม่พบศิลปิน",
+    "tryDifferentFilters": "ลองปรับเปลี่ยนตัวกรอง",
+    "loading": "กำลังโหลดศิลปิน...",
+    "loadMore": "โหลดเพิ่มเติม",
+    "showingResults": "แสดง {count} รายการ",
+    "featuredArtists": "ศิลปินแนะนำ",
+    "topRated": "คะแนนสูงสุด",
+    "recentlyJoined": "เข้าร่วมล่าสุด",
     "genres": "แนวเพลง",
     "languages": "ภาษา",
-    "serviceDetails": "รายละเอียดบริการ",
-    "serviceAreas": "พื้นที่ให้บริการ",
+    "serviceAreas": "พื้นที่บริการ",
     "travelRadius": "รัศมีการเดินทาง",
-    "advanceNotice": "ต้องแจ้งล่วงหน้า",
+    "advanceNotice": "การแจ้งล่วงหน้า",
+    "instantBooking": "จองทันที",
     "days": "วัน",
-    "instantBooking": "จองทันทีได้",
-    "connect": "ติดต่อ",
-    "website": "เว็บไซต์",
-    "customerReviews": "รีวิวจากลูกค้า",
-    "noReviews": "ยังไม่มีรีวิว",
-    "category.DJ": "ดีเจ",
-    "category.BAND": "วงดนตรี",
-    "category.SINGER": "นักร้อง",
-    "category.MUSICIAN": "นักดนตรี",
-    "category.MC": "พิธีกร",
-    "category.COMEDIAN": "นักตลก",
-    "category.MAGICIAN": "นักมายากล",
-    "category.DANCER": "นักเต้น",
-    "category.PHOTOGRAPHER": "ช่างภาพ",
-    "category.SPEAKER": "วิทยากร",
-    "contactInfoProtected": "ข้อมูลติดต่อได้รับการป้องกัน",
-    "signInToViewContact": "เข้าสู่ระบบเพื่อดูหมายเลขโทรศัพท์ อีเมล และ LINE ID",
-    "signInToContact": "เข้าสู่ระบบเพื่อติดต่อ",
-    "addLine": "เพิ่มใน LINE"
-  },
-  "artists": {
-    "meta": {
-      "title": "ค้นหาศิลปินนักแสดง | Bright Ears",
-      "description": "ค้นหาและจองดีเจ วงดนตรี นักร้อง และนักแสดงมืออาชีพในประเทศไทย ศิลปินที่ผ่านการตรวจสอบพร้อมราคาโปร่งใส"
+    "hours": "ชั่วโมง",
+    "reviews": "รีวิว",
+    "tab": {
+      "about": "เกี่ยวกับ",
+      "media": "สื่อ",
+      "reviews": "รีวิว",
+      "availability": "ความพร้อม"
     },
-    "title": "ค้นหาศิลปินที่เหมาะสมกับคุณ",
-    "subtitle": "เลือกศิลปินที่ผ่านการตรวจสอบสำหรับงานใดๆ",
-    "filters": "ตัวกรอง",
-    "clearAll": "ล้างทั้งหมด",
-    "category": "ประเภท",
-    "location": "สถานที่",
-    "searchPlaceholder": "ค้นหาจากชื่อ แนวเพลง หรือสไตล์...",
-    "noArtistsFound": "ไม่พบศิลปิน ลองปรับเปลี่ยนตัวกรอง",
-    "priceOnRequest": "ราคาติดต่อสอบถาม",
-    "previous": "ก่อนหน้า",
-    "next": "ถัดไป",
-    "page": "หน้าที่ {{current}} จาก {{total}}",
+    "meta": {
+      "title": "ค้นหาศิลปินความบันเทิง | Bright Ears",
+      "description": "ค้นหาและจองดีเจ วงดนตรี นักร้อง และศิลปินมืออาชีพในประเทศไทย ศิลปินที่ได้รับการยืนยันพร้อมราคาโปร่งใส"
+    },
+    "browse": "เรียกดูศิลปิน",
+    "showingResults": "แสดง {{count}} ศิลปิน",
+    "sortBy": "เรียงตาม",
+    "relevance": "ความเกี่ยวข้อง",
+    "priceLowest": "ราคา: ต่ำไปสูง",
+    "priceHighest": "ราคา: สูงไปต่ำ",
+    "rating": "คะแนน",
+    "newest": "ใหม่ล่าสุด",
+    "popular": "ยอดนิยม",
+    "availability": "ความพร้อม",
+    "instantBooking": "จองทันที",
+    "available": "พร้อมให้บริการ",
+    "priceRange": "ช่วงราคา",
+    "anyPrice": "ราคาใดก็ได้",
+    "under500": "ต่ำกว่า ฿500",
+    "500to1000": "฿500 - ฿1,000",
+    "1000to2000": "฿1,000 - ฿2,000",
+    "2000to5000": "฿2,000 - ฿5,000",
+    "over5000": "มากกว่า ฿5,000",
+    "genre": "แนวเพลง",
+    "allGenres": "ทุกแนวเพลง",
+    "experience": "ระดับประสบการณ์",
+    "allLevels": "ทุกระดับ",
+    "beginner": "มือใหม่",
+    "intermediate": "ระดับกลาง",
+    "professional": "มืออาชีพ",
+    "expert": "ผู้เชี่ยวชาญ",
+    "allRatings": "ทุกคะแนน",
+    "4plus": "4+ ดาว",
+    "45plus": "4.5+ ดาว",
+    "allLanguages": "ทุกภาษา",
+    "english": "อังกฤษ",
+    "thai": "ไทย",
+    "chinese": "จีน",
+    "japanese": "ญี่ปุ่น",
+    "korean": "เกาหลี",
+    "loadMore": "โหลดศิลปินเพิ่มเติม",
+    "noResults": "ไม่มีศิลปินที่ตรงกับเกณฑ์การค้นหา",
+    "tryDifferentFilters": "ลองใช้ตัวกรองหรือคำค้นหาที่แตกต่างกัน",
     "verified": "ยืนยันแล้ว",
-    "trusted": "น่าเชื่อถือ",
-    "from": "จาก",
+    "trusted": "เชื่อถือได้",
+    "from": "ตั้งแต่",
     "new": "ใหม่",
     "viewContact": "ดูข้อมูลติดต่อ",
     "loginToContact": "เข้าสู่ระบบเพื่อติดต่อ",
-    "category.DJ": "ดีเจ",
-    "category.BAND": "วงดนตรี",
-    "category.SINGER": "นักร้อง",
-    "category.MUSICIAN": "นักดนตรี",
-    "category.MC": "พิธีกร",
-    "category.COMEDIAN": "นักตลก",
-    "category.MAGICIAN": "นักมายากล",
-    "category.DANCER": "นักเต้น",
-    "category.PHOTOGRAPHER": "ช่างภาพ",
-    "category.SPEAKER": "วิทยากร"
-  },
-  "auth": {
-    "login": {
-      "title": "เข้าสู่ระบบบัญชีของคุณ",
-      "email": "ที่อยู่อีเมล",
-      "password": "รหัสผ่าน",
-      "signIn": "เข้าสู่ระบบ",
-      "signingIn": "กำลังเข้าสู่ระบบ...",
-      "forgotPassword": "ลืมรหัสผ่าน?",
-      "noAccount": "ยังไม่มีบัญชี?",
-      "createAccount": "สร้างบัญชีใหม่",
-      "invalidCredentials": "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
-      "error": "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
-    },
-    "register": {
-      "title": "สร้างบัญชีของคุณ",
-      "subtitle": "เข้าร่วม Bright Ears วันนี้",
-      "customerType": "ลูกค้าส่วนบุคคล",
-      "corporateType": "องค์กร/ธุรกิจ",
-      "email": "ที่อยู่อีเมล",
-      "password": "รหัสผ่าน",
-      "confirmPassword": "ยืนยันรหัสผ่าน",
-      "phone": "หมายเลขโทรศัพท์",
-      "firstName": "ชื่อ",
-      "lastName": "นามสกุล",
-      "location": "สถานที่",
-      "preferredLanguage": "ภาษาที่ต้องการ",
-      "companyName": "ชื่อบริษัท",
-      "contactPerson": "ผู้ติดต่อ",
-      "position": "ตำแหน่ง",
-      "venueType": "ประเภทสถานที่",
-      "companyAddress": "ที่อยู่บริษัท",
-      "createAccount": "สร้างบัญชี",
-      "creatingAccount": "กำลังสร้างบัญชี...",
-      "hasAccount": "มีบัญชีแล้ว?",
-      "signIn": "เข้าสู่ระบบ",
-      "artistRegister": "คุณเป็นศิลปิน?",
-      "registerAsArtist": "สมัครเป็นศิลปิน",
-      "passwordMismatch": "รหัสผ่านไม่ตรงกัน",
-      "required": "ข้อมูลที่จำเป็นหายไป"
-    },
-    "dashboard": {
-      "welcome": "ยินดีต้อนรับกลับ",
-      "quickActions": "การดำเนินการด่วน",
-      "stats": "สถิติ"
-    },
-    "signInToContact": "เข้าสู่ระบบเพื่อติดต่อ {name}",
-    "protectedContactInfo": "ข้อมูลติดต่อได้รับการป้องกันเพื่อป้องกันสแปม",
-    "continueWithGoogle": "ดำเนินการต่อด้วย Google",
-    "orContinueWith": "หรือดำเนินการต่อด้วย",
-    "useEmailPassword": "ใช้อีเมลและรหัสผ่าน",
-    "email": "อีเมล",
-    "password": "รหัสผ่าน", 
-    "enterEmail": "กรอกอีเมลของคุณ",
-    "enterPassword": "กรอกรหัสผ่านของคุณ",
-    "signIn": "เข้าสู่ระบบ",
-    "signingIn": "กำลังเข้าสู่ระบบ...",
-    "backToGoogleLogin": "กลับไปใช้ Google",
-    "loginFailed": "เข้าสู่ระบบไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
-    "loginError": "เกิดข้อผิดพลาดในการเข้าสู่ระบบ",
-    "invalidCredentials": "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
-    "whySignIn": "ทำไมต้องเข้าสู่ระบบ?",
-    "protectArtists": "ปกป้องศิลปินจากสแปมและการติดต่อที่ไม่ต้องการ",
-    "preventSpam": "ป้องกันการใช้แพลตฟอร์มในทางที่ผิด",
-    "trackInquiries": "ติดตามคำขอและการจองของคุณในที่เดียว",
-    "betterService": "ให้บริการลูกค้าที่ดีกว่า",
-    "noAccount": "ไม่มีบัญชี?",
-    "signUpHere": "สมัครที่นี่",
-    "forgotPassword": {
-      "title": "รีเซ็ตรหัสผ่าน",
-      "description": "รีเซ็ตรหัสผ่านบัญชี Bright Ears ของคุณ"
-    }
-  },
-  "favorites": {
-    "title": "ศิลปินที่ฉันชื่นชอบ",
-    "description": "คุณมีศิลปินที่ชื่นชอบ {count} คน",
-    "emptyDescription": "เริ่มสร้างรายการศิลปินที่คุณชื่นชอบ",
-    "refresh": "รีเฟรช",
-    "errorLoading": "ไม่สามารถโหลดรายการโปรดได้ กรุณาลองใหม่อีกครั้ง",
-    "emptyTitle": "ยังไม่มีรายการโปรด",
-    "emptyMessage": "บันทึกศิลปินลงในรายการโปรดเพื่อค้นหาได้อย่างรวดเร็วในภายหลัง คลิกไอคอนหัวใจในการ์ดศิลปินเพื่อเพิ่มเข้าในรายการของคุณ",
-    "browseArtists": "เรียกดูศิลปิน",
-    "discoverMore": "กำลังมองหาตัวเลือกบันเทิงเพิ่มเติม?",
-    "exploreMore": "สำรวจศิลปินทั้งหมด"
-  },
-  "dashboard": {
-    "customer": {
-      "title": "แดชบอร์ดลูกค้า",
-      "description": "จัดการการจองและค้นพบศิลปินใหม่",
-      "welcome": "ยินดีต้อนรับสู่แดชบอร์ดของคุณ",
-      "welcomeBack": "ยินดีต้อนรับกลับมา, {name}",
-      "subtitle": "จัดการการจองและค้นพบบันเทิงที่น่าตื่นตา",
-      "stats": {
-        "totalBookings": "การจองทั้งหมด",
-        "favoriteArtists": "ศิลปินที่ชื่นชอบ",
-        "pendingRequests": "คำขอที่รอดำเนินการ"
-      },
-      "awaitingResponse": "รอการตอบกลับ",
-      "allClear": "ทุกอย่างเรียบร้อย",
-      "quickActions": {
-        "title": "การดำเนินการด่วน",
-        "findArtists": "ค้นหาศิลปิน",
-        "findArtistsDesc": "เรียกดูและค้นพบบันเทิงใหม่",
-        "viewBookings": "ดูการจอง",
-        "viewBookingsDesc": "จัดการการจองปัจจุบันและที่ผ่านมา",
-        "manageFavorites": "จัดการรายการโปรด",
-        "manageFavoritesDesc": "ดูและจัดระเบียบศิลปินที่คุณชื่นชอบ",
-        "updateProfile": "อัปเดตโปรไฟล์",
-        "updateProfileDesc": "แก้ไขข้อมูลส่วนตัวของคุณ"
-      },
-      "recentActivity": {
-        "title": "กิจกรรมล่าสุด",
-        "empty": "ยังไม่มีการจอง เริ่มต้นด้วยการเรียกดูศิลปินที่มีความสามารถของเรา!",
-        "startBrowsing": "เริ่มเรียกดูศิลปิน",
-        "viewAll": "ดูกิจกรรมการจองทั้งหมด",
-        "seeAllBookings": "ดูการจองทั้งหมด"
-      },
-      "tips": {
-        "title": "เคล็ดลับและคำแนะนำ",
-        "saveFavorites": {
-          "title": "บันทึกรายการโปรด",
-          "description": "คลิกไอคอนหัวใจในการ์ดศิลปินเพื่อบันทึกไว้สำหรับการเข้าถึงอย่างรวดเร็วในภายหลัง"
-        },
-        "bookEarly": {
-          "title": "จองล่วงหน้า",
-          "description": "ศิลปินที่ได้รับความนิยมจะถูกจองอย่างรวดเร็ว โดยเฉพาะในช่วงสุดสัปดาห์และวันหยุด"
-        }
-      },
-      "bookings": {
-        "title": "การจองของฉัน",
-        "description": "จัดการการจองงานเหตุการณ์และคำขอทั้งหมด",
-        "subtitle": "ติดตามการจองงานเหตุการณ์และจัดการคำขอ",
-        "filters": {
-          "all": "ทั้งหมด",
-          "pending": "รอดำเนินการ",
-          "confirmed": "ยืนยันแล้ว",
-          "completed": "เสร็จสิ้น",
-          "cancelled": "ยกเลิก"
-        },
-        "status": {
-          "pending": "รอดำเนินการ",
-          "confirmed": "ยืนยันแล้ว",
-          "completed": "เสร็จสิ้น",
-          "cancelled": "ยกเลิก"
-        },
-        "eventType": "ประเภทงาน",
-        "eventDate": "วันที่จัดงาน",
-        "venue": "สถานที่",
-        "bookedOn": "จองเมื่อ",
-        "bookingId": "รหัสการจอง",
-        "viewArtist": "ดูศิลปิน",
-        "viewDetails": "ดูรายละเอียด",
-        "empty": {
-          "noBookings": "ยังไม่มีการจอง",
-          "noBookingsForFilter": "ไม่มีการจองที่ตรงกับตัวกรองนี้",
-          "startBooking": "เริ่มต้นด้วยการเรียกดูศิลปินที่มีความสามารถและทำการจองครั้งแรก!",
-          "tryDifferentFilter": "ลองเลือกตัวกรองอื่นเพื่อดูการจองของคุณ",
-          "browseArtists": "เรียกดูศิลปิน"
-        },
-        "summary": {
-          "title": "สรุปการจอง",
-          "totalBookings": "การจองทั้งหมด",
-          "completedEvents": "งานที่เสร็จสิ้น",
-          "totalSpent": "ยอดใช้จ่ายทั้งหมด"
-        }
-      },
-      "profile": {
-        "title": "การตั้งค่าโปรไฟล์",
-        "description": "จัดการข้อมูลส่วนตัวและการตั้งค่าบัญชี",
-        "subtitle": "อัปเดตข้อมูลส่วนตัวและการตั้งค่าของคุณ",
-        "personalInfo": {
-          "title": "ข้อมูลส่วนตัว",
-          "description": "ข้อมูลนี้จะใช้สำหรับการจองและการติดต่อกับศิลปิน"
-        },
-        "fields": {
-          "firstName": "ชื่อ",
-          "lastName": "นามสกุล",
-          "email": "ที่อยู่อีเมล",
-          "phone": "หมายเลขโทรศัพท์",
-          "location": "ที่อยู่",
-          "preferredLanguage": "ภาษาที่ต้องการ"
-        },
-        "placeholders": {
-          "firstName": "กรอกชื่อของคุณ",
-          "lastName": "กรอกนามสกุลของคุณ",
-          "email": "กรอกที่อยู่อีเมลของคุณ",
-          "phone": "กรอกหมายเลขโทรศัพท์ของคุณ",
-          "location": "กรอกเมืองหรือที่อยู่ของคุณ"
-        },
-        "languages": {
-          "en": "English (อังกฤษ)",
-          "th": "ไทย"
-        },
-        "privacy": {
-          "title": "ความเป็นส่วนตัวและความปลอดภัย",
-          "description": "ข้อมูลส่วนตัวของคุณได้รับการเข้ารหัสและจะไม่ถูกแชร์กับบุคคลที่สามโดยไม่ได้รับความยินยอมจากคุณ"
-        },
-        "actions": {
-          "save": "บันทึกการเปลี่ยนแปลง",
-          "saving": "กำลังบันทึก...",
-          "cancel": "ยกเลิก"
-        },
-        "updateSuccess": "อัปเดตโปรไฟล์สำเร็จ!",
-        "updateError": "ไม่สามารถอัปเดตโปรไฟล์ได้ กรุณาลองใหม่อีกครั้ง",
-        "accountSettings": {
-          "title": "การตั้งค่าบัญชี",
-          "description": "จัดการความปลอดภัยบัญชีและการตั้งค่า",
-          "changePassword": "เปลี่ยนรหัสผ่าน",
-          "changePasswordDesc": "อัปเดตรหัสผ่านบัญชีของคุณ",
-          "changePasswordBtn": "เปลี่ยนรหัสผ่าน",
-          "deleteAccount": "ลบบัญชี",
-          "deleteAccountDesc": "ลบบัญชีและข้อมูลทั้งหมดอย่างถาวร",
-          "deleteAccountBtn": "ลบบัญชี"
-        }
-      }
-    }
+    "priceOnRequest": "ราคาตามคำขอ"
   }
 }
