@@ -13,6 +13,7 @@ interface ArtistCardProps {
   image: string;
   followers: string;
   rating: number;
+  reviewCount?: number;
   isVerified?: boolean;
   isFeatured?: boolean;
   hourlyRate?: number;
@@ -28,6 +29,7 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
   image,
   followers,
   rating,
+  reviewCount = 0,
   isVerified = false,
   isFeatured = false,
   hourlyRate,
@@ -178,19 +180,32 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
 
           {/* Rating */}
           <div className="flex items-center gap-1">
-            {[...Array(5)].map((_, i) => (
-              <StarIcon
-                key={i}
-                className={`w-4 h-4 transition-colors duration-300 ${
-                  i < Math.floor(rating)
-                    ? 'fill-earthy-brown text-earthy-brown'
-                    : 'text-dark-gray/30'
-                }`}
-              />
-            ))}
-            <span className="font-inter text-sm text-dark-gray/70 ml-1">
-              {rating.toFixed(1)}
-            </span>
+            {reviewCount > 0 ? (
+              <>
+                {[...Array(5)].map((_, i) => (
+                  <StarIcon
+                    key={i}
+                    className={`w-4 h-4 transition-colors duration-300 ${
+                      i < Math.floor(rating)
+                        ? 'fill-earthy-brown text-earthy-brown'
+                        : 'text-dark-gray/30'
+                    }`}
+                  />
+                ))}
+                <span className="font-inter text-sm text-dark-gray/70 ml-1">
+                  {rating.toFixed(1)} ({reviewCount})
+                </span>
+              </>
+            ) : (
+              <div className="flex items-center gap-1.5">
+                <span className="px-2 py-0.5 bg-brand-cyan/10 text-brand-cyan text-xs font-semibold rounded-full">
+                  New Artist
+                </span>
+                <span className="font-inter text-xs text-dark-gray/50">
+                  No reviews yet
+                </span>
+              </div>
+            )}
           </div>
         </div>
 

@@ -29,6 +29,11 @@ export const RATE_LIMITS = {
   profile: {
     windowMs: 5 * 60 * 1000, // 5 minutes
     maxRequests: 10 // 10 profile updates per 5 minutes
+  },
+  // Search requests (more lenient)
+  search: {
+    windowMs: 60 * 1000, // 1 minute
+    maxRequests: 60 // 60 search requests per minute
   }
 }
 

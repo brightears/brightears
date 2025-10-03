@@ -16,7 +16,9 @@ interface FeaturedArtist {
   hourlyRate?: number
   profileImage?: string
   averageRating?: number
+  reviewCount?: number
   totalBookings: number
+  completedBookings?: number
   verificationLevel: string
   recentVenue?: string
   isAvailable?: boolean
@@ -209,10 +211,29 @@ export default function FeaturedArtists({ locale }: FeaturedArtistsProps) {
 
                 {/* Rating and Reviews */}
                 <div className="flex items-center space-x-3 mb-3">
-                  <RatingStars rating={artist.averageRating || 0} />
-                  <span className="text-sm text-dark-gray/70">
-                    ({artist.totalBookings} events)
-                  </span>
+                  {artist.reviewCount && artist.reviewCount > 0 ? (
+                    <>
+                      <RatingStars rating={artist.averageRating || 0} />
+                      <span className="text-sm text-dark-gray/70">
+                        {artist.averageRating?.toFixed(1)} ({artist.reviewCount} {artist.reviewCount === 1 ? 'review' : 'reviews'})
+                      </span>
+                    </>
+                  ) : (
+                    <div className="flex items-center space-x-2">
+                      <span className="px-2.5 py-1 bg-brand-cyan/10 text-brand-cyan text-xs font-semibold rounded-full">
+                        New Artist
+                      </span>
+                      {artist.completedBookings && artist.completedBookings > 0 ? (
+                        <span className="text-sm text-dark-gray/60">
+                          {artist.completedBookings} completed {artist.completedBookings === 1 ? 'event' : 'events'}
+                        </span>
+                      ) : (
+                        <span className="text-sm text-dark-gray/50 italic">
+                          Available for bookings
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Recent Activity */}

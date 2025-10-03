@@ -56,6 +56,20 @@ export default function RatingStars({
     )
   }
 
+  // Handle no reviews case
+  if (reviewCount === 0) {
+    return (
+      <div className="flex items-center space-x-2">
+        <span className="px-2.5 py-1 bg-brand-cyan/10 text-brand-cyan text-xs font-semibold rounded-full">
+          New Artist
+        </span>
+        <span className={`font-inter text-dark-gray/50 ${textSizeClasses[size]}`}>
+          No reviews yet
+        </span>
+      </div>
+    )
+  }
+
   return (
     <div className="flex items-center space-x-1">
       <div className="flex">
@@ -66,7 +80,7 @@ export default function RatingStars({
           {rating.toFixed(1)}
         </span>
       )}
-      {reviewCount !== undefined && (
+      {reviewCount !== undefined && reviewCount > 0 && (
         <span className={`font-inter text-dark-gray/60 ${textSizeClasses[size]} ml-1`}>
           ({reviewCount} {reviewCount === 1 ? 'review' : 'reviews'})
         </span>

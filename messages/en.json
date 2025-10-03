@@ -721,6 +721,13 @@
       "newest": "Newest First"
     },
     "searchingFor": "Searching for",
+    "searchTips": {
+      "title": "Search Tips",
+      "tryDifferentKeywords": "Try different keywords or genres",
+      "expandLocation": "Expand your location search area",
+      "adjustBudget": "Adjust your budget range",
+      "removeFilters": "Remove some filters to see more results"
+    },
     "category": {
       "DJ": "DJ",
       "BAND": "Band",

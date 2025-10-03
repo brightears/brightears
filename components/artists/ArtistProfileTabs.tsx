@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import MediaGallery from './MediaGallery'
 import RatingStars from '@/components/ui/RatingStars'
+import PublicAvailabilityCalendar from './PublicAvailabilityCalendar'
 import Image from 'next/image'
 
 interface Package {
@@ -93,7 +94,7 @@ export default function ArtistProfileTabs({ artist }: ArtistProfileTabsProps) {
               </div>
             </div>
           )}
-          
+
           {artist.languages && artist.languages.length > 0 && (
             <div className="flex items-start space-x-3">
               <svg className="w-5 h-5 text-brand-cyan mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -132,21 +133,21 @@ export default function ArtistProfileTabs({ artist }: ArtistProfileTabsProps) {
         </div>
       </div>
 
-      {/* Availability Calendar Preview */}
-      <div className="bg-pure-white rounded-lg p-6">
+      {/* Availability Calendar - Now with actual calendar component */}
+      <div className="bg-transparent">
         <h3 className="font-playfair text-xl font-bold text-dark-gray mb-4">Availability</h3>
-        <div className="bg-off-white rounded-lg p-4 text-center">
-          <p className="text-dark-gray/60">Calendar view coming soon</p>
-          <p className="text-sm text-brand-cyan mt-2">Contact artist for availability</p>
-        </div>
+        <PublicAvailabilityCalendar
+          artistId={artist.id}
+          locale="en"
+        />
       </div>
     </div>
   )
 
   const renderMediaTab = () => (
     <div className="bg-pure-white rounded-lg p-6">
-      <MediaGallery 
-        media={artist.media || []} 
+      <MediaGallery
+        media={artist.media || []}
         artistName={artist.stageName}
       />
     </div>
@@ -201,9 +202,9 @@ export default function ArtistProfileTabs({ artist }: ArtistProfileTabsProps) {
           <div className="bg-pure-white rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-playfair text-xl font-bold text-dark-gray">Customer Reviews</h3>
-              <RatingStars 
-                rating={4.8} 
-                showNumber={true} 
+              <RatingStars
+                rating={4.8}
+                showNumber={true}
                 reviewCount={artist.reviews.length}
               />
             </div>
@@ -282,7 +283,7 @@ export default function ArtistProfileTabs({ artist }: ArtistProfileTabsProps) {
           <h3 className="font-playfair text-xl font-bold text-dark-gray mb-4">Past Venues & Events</h3>
           <div className="flex flex-wrap gap-2">
             {artist.pastVenues.map((venue, index) => (
-              <span 
+              <span
                 key={index}
                 className="px-3 py-1 bg-off-white rounded-full text-sm text-dark-gray"
               >
@@ -299,7 +300,7 @@ export default function ArtistProfileTabs({ artist }: ArtistProfileTabsProps) {
           <h3 className="font-playfair text-xl font-bold text-dark-gray mb-4">Follow Me</h3>
           <div className="flex space-x-4">
             {artist.socialLinks.facebook && (
-              <a 
+              <a
                 href={artist.socialLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -311,7 +312,7 @@ export default function ArtistProfileTabs({ artist }: ArtistProfileTabsProps) {
               </a>
             )}
             {artist.socialLinks.instagram && (
-              <a 
+              <a
                 href={artist.socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -323,7 +324,7 @@ export default function ArtistProfileTabs({ artist }: ArtistProfileTabsProps) {
               </a>
             )}
             {artist.socialLinks.youtube && (
-              <a 
+              <a
                 href={artist.socialLinks.youtube}
                 target="_blank"
                 rel="noopener noreferrer"

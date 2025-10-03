@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { safeErrorResponse } from '@/lib/api-auth'
+import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit'
+import { searchCache, CACHE_TTL } from '@/lib/search-cache'
 
 // Input validation schema for artist search
 const searchSchema = z.object({
@@ -76,6 +78,12 @@ function getOrderBy(sort?: string) {
 
 export async function GET(req: NextRequest) {
   try {
+    // Rate limiting check - 60 requests per minute for search
+    const rateLimitResult = await rateLimit(req, RATE_LIMITS.search)
+    if (!rateLimitResult.success && rateLimitResult.response) {
+      return rateLimitResult.response
+    }
+
     const searchParams = req.nextUrl.searchParams
 
     // Parse array parameters
@@ -129,6 +137,33 @@ export async function GET(req: NextRequest) {
     } = inputValidation.data
 
     const skip = (page - 1) * limit
+
+    // Generate cache key for this search
+    const cacheKey = searchCache.generateKey({
+      search,
+      categories,
+      city,
+      serviceAreas,
+      minPrice,
+      maxPrice,
+      genres,
+      languages,
+      verificationLevels,
+      availability,
+      sort,
+      page,
+      limit
+    })
+
+    // Check cache first
+    const cachedResult = searchCache.get(cacheKey)
+    if (cachedResult) {
+      return NextResponse.json({
+        ...cachedResult,
+        cached: true,
+        cacheTimestamp: new Date().toISOString()
+      })
+    }
 
     // Build the where clause
     const where: any = {
@@ -310,7 +345,7 @@ export async function GET(req: NextRequest) {
       const ratings = artist.reviews.map(r => r.rating)
       const averageRating = ratings.length > 0
         ? parseFloat((ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1))
-        : null
+        : 0
 
       const { reviews, user, hourlyRate, _count, ...artistData } = artist
 
@@ -323,7 +358,7 @@ export async function GET(req: NextRequest) {
       }
     })
 
-    return NextResponse.json({
+    const response = {
       artists: artistsWithStats,
       pagination: {
         page,
@@ -346,7 +381,12 @@ export async function GET(req: NextRequest) {
         availability,
         sort
       }
-    })
+    }
+
+    // Cache the result (3 minutes for search results)
+    searchCache.set(cacheKey, response, CACHE_TTL.SEARCH_RESULTS)
+
+    return NextResponse.json(response)
 
   } catch (error) {
     return safeErrorResponse(error, 'Failed to fetch artists')

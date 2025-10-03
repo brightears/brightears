@@ -352,13 +352,45 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
             </>
           ) : (
             <div className="text-center py-16 bg-white/70 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl">
-              <div className="text-6xl mb-6 animate-bounce">🎵</div>
-              <p className="text-dark-gray font-inter text-xl mb-3 font-semibold">
+              <div className="text-6xl mb-6">🔍</div>
+              <h3 className="text-dark-gray font-playfair text-2xl mb-4 font-bold">
                 {t('noArtistsFound')}
-              </p>
-              <p className="text-dark-gray/60 font-inter text-sm">
+              </h3>
+              <p className="text-dark-gray/60 font-inter text-base mb-6 max-w-md mx-auto">
                 {t('tryAdjustingFilters')}
               </p>
+
+              {/* Helpful suggestions */}
+              <div className="bg-brand-cyan/10 border border-brand-cyan/20 rounded-xl p-6 max-w-lg mx-auto text-left">
+                <h4 className="font-inter font-semibold text-dark-gray mb-3">
+                  💡 {t('searchTips.title')}
+                </h4>
+                <ul className="space-y-2 text-sm text-dark-gray/80">
+                  <li className="flex items-start gap-2">
+                    <span className="text-brand-cyan flex-shrink-0">✓</span>
+                    <span>{t('searchTips.tryDifferentKeywords')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-brand-cyan flex-shrink-0">✓</span>
+                    <span>{t('searchTips.expandLocation')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-brand-cyan flex-shrink-0">✓</span>
+                    <span>{t('searchTips.adjustBudget')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-brand-cyan flex-shrink-0">✓</span>
+                    <span>{t('searchTips.removeFilters')}</span>
+                  </li>
+                </ul>
+              </div>
+
+              <button
+                onClick={handleClearAllFilters}
+                className="mt-6 px-8 py-3 bg-gradient-to-r from-brand-cyan to-deep-teal text-pure-white font-semibold rounded-xl hover:shadow-lg hover:shadow-brand-cyan/30 transition-all duration-300"
+              >
+                {t('filters.clearAll')}
+              </button>
             </div>
           )}
         </div>
