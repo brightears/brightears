@@ -9,6 +9,7 @@ import FilterSidebar from './FilterSidebar'
 import SortDropdown, { SortOption } from './SortDropdown'
 import ActiveFilterChips from './ActiveFilterChips'
 import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import CardSkeleton from '@/components/ui/CardSkeleton'
 
 interface Artist {
   id: string
@@ -286,17 +287,12 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="group">
-                  <div className="bg-white/70 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl overflow-hidden p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-                    <div className="bg-gradient-to-br from-brand-cyan/20 to-deep-teal/20 h-48 rounded-xl mb-4 animate-pulse backdrop-blur-sm" />
-                    <div className="space-y-3">
-                      <div className="bg-gradient-to-r from-brand-cyan/20 to-soft-lavender/20 h-6 rounded w-3/4 animate-pulse" />
-                      <div className="bg-gradient-to-r from-earthy-brown/20 to-brand-cyan/20 h-4 rounded w-full animate-pulse" />
-                      <div className="bg-gradient-to-r from-deep-teal/20 to-brand-cyan/20 h-4 rounded w-2/3 animate-pulse" />
-                    </div>
-                    <div className="mt-6 bg-gradient-to-r from-brand-cyan/20 to-deep-teal/20 h-10 rounded-lg animate-pulse" />
-                  </div>
-                </div>
+                <CardSkeleton
+                  key={i}
+                  layout="artist"
+                  animated={true}
+                  animationDelay={i * 100}
+                />
               ))}
             </div>
           ) : artists.length > 0 ? (

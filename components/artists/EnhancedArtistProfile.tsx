@@ -11,6 +11,9 @@ import RatingStars from '@/components/ui/RatingStars'
 import QuickInquiryModal from '@/components/booking/QuickInquiryModal'
 import VerificationBadge from '@/components/ui/VerificationBadge'
 import LineContactButton from '@/components/booking/LineContactButton'
+import ProfileSkeleton from '@/components/ui/ProfileSkeleton'
+import ImageSkeleton from '@/components/ui/ImageSkeleton'
+import HourlyRateDisplay from '@/components/ui/HourlyRateDisplay'
 
 interface EnhancedArtistProfileProps {
   artistId: string
@@ -27,6 +30,9 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
   const [error, setError] = useState<string | null>(null)
   const [isFavorite, setIsFavorite] = useState(false)
   const [showInquiryModal, setShowInquiryModal] = useState(false)
+  const [profileImageLoaded, setProfileImageLoaded] = useState(false)
+  const [profileImageError, setProfileImageError] = useState(false)
+  const [coverImageLoaded, setCoverImageLoaded] = useState(false)
 
   useEffect(() => {
     fetchArtist()
@@ -90,11 +96,11 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
   if (loading) {
     return (
       <>
-        <div className="min-h-screen bg-off-white flex items-center justify-center">
-          <div className="animate-pulse">
-            <div className="h-8 w-32 bg-brand-cyan/20 rounded"></div>
-          </div>
-        </div>
+        <ProfileSkeleton
+          showHero={true}
+          showTabs={true}
+          contentSections={4}
+        />
         <Footer />
       </>
     )
@@ -249,31 +255,82 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
       <main className="min-h-screen bg-off-white">
         {/* Hero Section */}
         <div className="relative h-96 bg-gradient-to-r from-deep-teal to-brand-cyan">
-          {/* Skip cover image for now to avoid loading issues */}
+          {/* Cover Image with Loading State */}
+          {artist.coverImage && (
+            <>
+              {!coverImageLoaded && (
+                <div className="absolute inset-0">
+                  <ImageSkeleton
+                    aspectRatio="hero"
+                    size="full"
+                    rounded="none"
+                    showShimmer={true}
+                  />
+                </div>
+              )}
+              <Image
+                src={artist.coverImage}
+                alt={`${artist.stageName} cover`}
+                fill
+                sizes="100vw"
+                className={`object-cover transition-opacity duration-500 ${
+                  coverImageLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+                onLoad={() => setCoverImageLoaded(true)}
+                loading="eager"
+                priority
+                quality={90}
+              />
+            </>
+          )}
+
           <div className="absolute inset-0 bg-gradient-to-br from-deep-teal/90 to-brand-cyan/90" />
-          
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-          
+
           <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-end pb-8">
             <div className="flex items-end space-x-6 w-full">
-              {/* Profile Image */}
-              <div className="relative">
-                {/* Always use fallback for now to avoid image loading issues */}
-                {false && artist.profileImage ? (
+              {/* Profile Image with Loading State */}
+              <div className="relative w-40 h-40">
+                {!profileImageLoaded && !profileImageError && (
+                  <div className="absolute inset-0">
+                    <ImageSkeleton
+                      aspectRatio="square"
+                      size="md"
+                      rounded="full"
+                      showShimmer={true}
+                      className="border-4 border-pure-white shadow-xl"
+                    />
+                  </div>
+                )}
+
+                {artist.profileImage && !profileImageError ? (
                   <Image
                     src={artist.profileImage}
-                    alt={artist.stageName}
+                    alt={`${artist.stageName} profile`}
                     width={160}
                     height={160}
-                    className="rounded-full border-4 border-pure-white shadow-xl object-cover"
+                    className={`rounded-full border-4 border-pure-white shadow-xl object-cover transition-opacity duration-500 ${
+                      profileImageLoaded ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    onLoad={() => setProfileImageLoaded(true)}
+                    onError={() => {
+                      setProfileImageError(true)
+                      setProfileImageLoaded(true)
+                    }}
+                    loading="eager"
+                    priority
+                    quality={90}
                   />
                 ) : (
-                  <div className="w-40 h-40 bg-brand-cyan rounded-full border-4 border-pure-white shadow-xl flex items-center justify-center">
+                  <div className={`w-40 h-40 bg-brand-cyan rounded-full border-4 border-pure-white shadow-xl flex items-center justify-center transition-opacity duration-500 ${
+                    profileImageLoaded ? 'opacity-100' : 'opacity-0'
+                  }`}>
                     <span className="text-4xl font-bold text-pure-white">
                       {artist.stageName?.charAt(0)}
                     </span>
                   </div>
                 )}
+
                 {verificationLevel !== 'BASIC' && (
                   <div className="absolute bottom-2 right-2">
                     <VerificationBadge level={verificationLevel as any} showLabel={false} />
@@ -331,15 +388,12 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between py-4">
               <div className="flex items-center space-x-4">
-                <span className="text-2xl font-bold text-brand-cyan">
-                  From ฿{artist.hourlyRate?.toLocaleString() || artist.baseRate?.toLocaleString() || '2,500'}
-                </span>
-                <span className="text-dark-gray/60">/hour</span>
-                {artist.minimumHours && (
-                  <span className="text-sm text-dark-gray/60">
-                    (Min. {artist.minimumHours} hours)
-                  </span>
-                )}
+                <HourlyRateDisplay
+                  rate={artist.hourlyRate || artist.baseRate}
+                  minimumHours={artist.minimumHours}
+                  variant="default"
+                  showFromLabel={true}
+                />
               </div>
               
               <div className="flex items-center space-x-3">

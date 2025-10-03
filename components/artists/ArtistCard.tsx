@@ -5,6 +5,9 @@ import { HeartIcon, PlayIcon, StarIcon, UserGroupIcon } from '@heroicons/react/2
 import { HeartIcon as HeartSolidIcon, CheckBadgeIcon } from '@heroicons/react/24/solid';
 import QuickInquiryModal from '@/components/booking/QuickInquiryModal';
 import { useRouter } from '@/components/navigation';
+import Image from 'next/image';
+import ImageSkeleton from '@/components/ui/ImageSkeleton';
+import HourlyRateDisplay from '@/components/ui/HourlyRateDisplay';
 
 interface ArtistCardProps {
   id: string;
@@ -40,6 +43,8 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
   const [isFavorite, setIsFavorite] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [showInquiryModal, setShowInquiryModal] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const router = useRouter();
 
   const handleCardClick = () => {
@@ -86,13 +91,46 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
 
       {/* Image Container */}
       <div className="relative h-64 sm:h-72 overflow-hidden bg-gradient-to-br from-brand-cyan/20 to-deep-teal/20">
-        <img
-          src={image}
-          alt={name}
-          className={`w-full h-full object-cover transition-transform duration-700 ${
-            isHovered ? 'scale-110' : 'scale-100'
-          }`}
-        />
+        {/* Image Skeleton - shown while loading */}
+        {!imageLoaded && !imageError && (
+          <div className="absolute inset-0">
+            <ImageSkeleton
+              aspectRatio="custom"
+              customAspectRatio="4/3"
+              size="full"
+              rounded="none"
+              showShimmer={true}
+            />
+          </div>
+        )}
+
+        {/* Next.js Optimized Image */}
+        {!imageError ? (
+          <Image
+            src={image}
+            alt={`${name} - ${genre} artist profile`}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className={`object-cover transition-all duration-700 ${
+              isHovered ? 'scale-110' : 'scale-100'
+            } ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            onLoad={() => setImageLoaded(true)}
+            onError={() => {
+              setImageError(true);
+              setImageLoaded(true);
+            }}
+            loading="lazy"
+            quality={85}
+          />
+        ) : (
+          // Fallback for failed image loads
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-brand-cyan/30 to-deep-teal/30">
+            <div className="text-center">
+              <div className="text-6xl text-brand-cyan/60 mb-2">🎵</div>
+              <p className="text-sm text-dark-gray/60 font-inter">{name}</p>
+            </div>
+          </div>
+        )}
 
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-deep-teal/80 via-transparent to-transparent opacity-60" />
@@ -164,9 +202,9 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
             </p>
           )}
           {hourlyRate && (
-            <p className="font-inter text-sm font-semibold text-brand-cyan mt-1">
-              ฿{hourlyRate.toLocaleString()}/hr
-            </p>
+            <div className="mt-1">
+              <HourlyRateDisplay rate={hourlyRate} variant="compact" showFromLabel={true} />
+            </div>
           )}
         </div>
 

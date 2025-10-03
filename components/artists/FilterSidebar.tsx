@@ -14,6 +14,7 @@ import {
   SparklesIcon
 } from '@heroicons/react/24/outline'
 import { ArtistCategory, VerificationLevel } from '@prisma/client'
+import { formatPrice } from '@/lib/pricing'
 
 interface FilterSidebarProps {
   filters: {
@@ -267,7 +268,7 @@ export default function FilterSidebar({
             />
           </div>
           <div className="text-xs text-dark-gray/60 text-center">
-            ฿{priceRange.min.toLocaleString()} - ฿{priceRange.max.toLocaleString()}
+            {formatPrice(priceRange.min, { showCurrency: true, locale: 'en' })} - {formatPrice(priceRange.max, { showCurrency: true, locale: 'en' })}
           </div>
         </div>
       </div>

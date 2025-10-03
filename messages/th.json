@@ -264,5 +264,24 @@
     "viewContact": "ดูข้อมูลติดต่อ",
     "loginToContact": "เข้าสู่ระบบเพื่อติดต่อ",
     "priceOnRequest": "ราคาตามคำขอ"
+  },
+  "pricing": {
+    "from": "เริ่มต้นที่",
+    "perHour": "ต่อชั่วโมง",
+    "perEvent": "ต่องาน",
+    "perPackage": "ต่อแพ็คเกจ",
+    "minimum": "ขั้นต่ำ {hours} ชั่วโมง",
+    "startingAt": "เริ่มต้นที่",
+    "priceRange": "{min} - {max} บาท",
+    "deposit": "มัดจำ: {amount} บาท",
+    "depositPercent": "ต้องชำระมัดจำ {percent}%",
+    "contactForPrice": "ติดต่อสอบถามราคา",
+    "negotiable": "ราคาต่อรองได้",
+    "includes": "รวม",
+    "hour": "ชั่วโมง",
+    "hours": "ชั่วโมง",
+    "perHourShort": "/ชม.",
+    "estimatedTotal": "ราคาโดยประมาณ",
+    "finalPrice": "ราคาสุทธิ"
   }
 }

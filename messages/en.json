@@ -1173,6 +1173,25 @@
       }
     }
   },
+  "pricing": {
+    "from": "From",
+    "perHour": "per hour",
+    "perEvent": "per event",
+    "perPackage": "per package",
+    "minimum": "Min. {hours} hours",
+    "startingAt": "Starting at",
+    "priceRange": "{min} - {max}",
+    "deposit": "Deposit: {amount}",
+    "depositPercent": "{percent}% deposit required",
+    "contactForPrice": "Contact for pricing",
+    "negotiable": "Negotiable",
+    "includes": "Includes",
+    "hour": "hour",
+    "hours": "hours",
+    "perHourShort": "/hr",
+    "estimatedTotal": "Estimated Total",
+    "finalPrice": "Final Price"
+  },
   "howItWorks": {
     "title": "How It Works",
     "description": "Learn how Bright Ears connects you with Thailand's finest entertainment talent",
