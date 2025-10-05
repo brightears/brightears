@@ -332,19 +332,19 @@ export default function TestimonialsSection({ locale, className = '' }: Testimon
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
             <div className="text-3xl font-bold text-pure-white mb-2">500+</div>
-            <div className="text-pure-white/80 text-sm">Successful Events</div>
+            <div className="text-pure-white/80 text-sm">Bangkok Venues & Hotels</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-pure-white mb-2">10K+</div>
+            <div className="text-pure-white/80 text-sm">Events Delivered</div>
           </div>
           <div>
             <div className="text-3xl font-bold text-pure-white mb-2">4.9★</div>
             <div className="text-pure-white/80 text-sm">Average Rating</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-pure-white mb-2">150+</div>
-            <div className="text-pure-white/80 text-sm">Verified Artists</div>
-          </div>
-          <div>
-            <div className="text-3xl font-bold text-pure-white mb-2">24h</div>
-            <div className="text-pure-white/80 text-sm">Response Time</div>
+            <div className="text-3xl font-bold text-pure-white mb-2">98%</div>
+            <div className="text-pure-white/80 text-sm">Client Satisfaction</div>
           </div>
         </div>
 

@@ -12,7 +12,6 @@ import { useParams } from 'next/navigation';
 const Hero: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
-  const t = useTranslations('hero');
   const params = useParams();
   const locale = params?.locale as string || 'en';
 
@@ -67,7 +66,7 @@ const Hero: React.FC = () => {
           }`}
         >
           <SparklesIcon className="w-4 h-4 text-soft-lavender animate-pulse" />
-          <span className="text-sm font-medium text-white">Thailand's Premier Entertainment Booking Platform</span>
+          <span className="text-sm font-medium text-white">Trusted by 500+ Bangkok Hotels & Premium Venues</span>
         </div>
 
         {/* Main Heading */}
@@ -76,9 +75,9 @@ const Hero: React.FC = () => {
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}
         >
-          <span className="block">Book Perfect Entertainment</span>
+          <span className="block">Deliver Unforgettable</span>
           <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent">
-            For Your Event
+            Guest Experiences, Every Time
           </span>
         </h1>
 
@@ -88,7 +87,7 @@ const Hero: React.FC = () => {
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}
         >
-          Connect directly with verified DJs, bands, and musicians. No commission fees. Transparent pricing. Guaranteed quality.
+          Access Thailand's largest network of verified performers. Book in minutes, pay nothing extra, guarantee exceptional entertainment.
         </p>
 
         {/* CTA Buttons */}
@@ -102,10 +101,24 @@ const Hero: React.FC = () => {
             <span className="absolute inset-0 bg-gradient-to-r from-brand-cyan to-deep-teal opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative flex items-center gap-2">
               <PlayIcon className="w-5 h-5" />
-              Find Entertainment Now
+              See Who's Available
               <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
           </Link>
+
+          {/* LINE CTA for Thai Market */}
+          <a
+            href="https://line.me/R/ti/p/@brightears"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group px-8 py-4 bg-[#00B900] text-white font-semibold rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl inline-flex items-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+            </svg>
+            <span>Chat on LINE</span>
+            <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </a>
 
           {/* Secondary CTA with Glass Effect */}
           <Link href="/how-it-works" className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-white/20 hover:shadow-xl inline-block">
@@ -116,11 +129,11 @@ const Hero: React.FC = () => {
           </Link>
         </div>
         
-        {/* No signup required message */}
+        {/* Trust message */}
         <p className={`mt-6 text-sm text-white/80 font-inter transition-all duration-1000 delay-400 transform ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
         }`}>
-          ✨ Browse and book artists instantly • No signup required to explore
+          ✨ Instant availability • Transparent pricing • Backed by our venue satisfaction guarantee
         </p>
 
         {/* Stats Section with Glass Cards */}
@@ -130,8 +143,8 @@ const Hero: React.FC = () => {
           }`}
         >
           {[
-            { value: '500+', label: 'Venues Trust Us' },
-            { value: '10K+', label: 'Successful Events' },
+            { value: '500+', label: 'Bangkok Venues & Hotels' },
+            { value: '10K+', label: 'Events Delivered' },
             { value: '4.9★', label: 'Average Rating' }
           ].map((stat, index) => (
             <div 

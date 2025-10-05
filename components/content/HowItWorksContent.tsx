@@ -430,8 +430,8 @@ export default function HowItWorksContent({ locale }: HowItWorksContentProps) {
             {/* Stats Section matching landing page */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
               {[
-                { value: '500+', label: 'Venues Trust Us' },
-                { value: '10K+', label: 'Successful Events' },
+                { value: '500+', label: 'Bangkok Venues & Hotels' },
+                { value: '10K+', label: 'Events Delivered' },
                 { value: '4.9★', label: 'Average Rating' }
               ].map((stat, index) => (
                 <div 

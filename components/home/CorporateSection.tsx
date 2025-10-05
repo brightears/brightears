@@ -107,15 +107,15 @@ export default function CorporateSection() {
             {/* Floating Stats */}
             <div className="absolute -bottom-6 -left-6 bg-pure-white rounded-xl p-6 shadow-xl">
               <div className="text-center">
-                <div className="text-2xl font-bold text-deep-teal">500+</div>
-                <div className="text-sm text-deep-teal/70">Events Monthly</div>
+                <div className="text-2xl font-bold text-deep-teal">10K+</div>
+                <div className="text-sm text-deep-teal/70">Events Delivered</div>
               </div>
             </div>
 
             <div className="absolute -top-6 -right-6 bg-brand-cyan text-pure-white rounded-xl p-6 shadow-xl">
               <div className="text-center">
-                <div className="text-2xl font-bold">98%</div>
-                <div className="text-sm text-pure-white/80">Client Satisfaction</div>
+                <div className="text-2xl font-bold">4.9★</div>
+                <div className="text-sm text-pure-white/80">Average Rating</div>
               </div>
             </div>
           </div>

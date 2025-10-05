@@ -49,7 +49,7 @@ export default function CorporateContent({ locale }: CorporateContentProps) {
     {
       icon: TrophyIcon,
       title: 'Premium Quality',
-      description: 'World-class performers trusted by Fortune 500 companies',
+      description: 'World-class performers with proven corporate event experience',
       color: 'soft-lavender'
     },
     {
@@ -205,9 +205,9 @@ export default function CorporateContent({ locale }: CorporateContentProps) {
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}>
             {[
-              { value: '500+', label: 'Corporate Clients' },
+              { value: '500+', label: 'Bangkok Venues & Hotels' },
               { value: '10K+', label: 'Events Delivered' },
-              { value: '99%', label: 'Satisfaction Rate' }
+              { value: '4.9★', label: 'Average Rating' }
             ].map((stat, index) => (
               <div 
                 key={index}
@@ -230,7 +230,7 @@ export default function CorporateContent({ locale }: CorporateContentProps) {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="font-playfair text-4xl md:text-5xl font-bold text-dark-gray mb-6">
-              Why Fortune 500 Companies Choose Us
+              Why Leading Companies Choose Us
             </h2>
             <p className="font-inter text-lg text-dark-gray/70 max-w-2xl mx-auto">
               We understand corporate excellence because we live it every day
@@ -388,7 +388,7 @@ export default function CorporateContent({ locale }: CorporateContentProps) {
             <div className="flex flex-wrap justify-center gap-8 text-white/70 text-sm">
               <span className="flex items-center gap-2">
                 <CheckCircleIcon className="w-4 h-4" />
-                Fortune 500 Trusted
+                Corporate Trusted
               </span>
               <span className="flex items-center gap-2">
                 <CheckCircleIcon className="w-4 h-4" />
