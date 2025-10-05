@@ -389,7 +389,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
             <div className="flex items-center justify-between py-4">
               <div className="flex items-center space-x-4">
                 <HourlyRateDisplay
-                  rate={artist.hourlyRate || artist.baseRate}
+                  rate={artist.hourlyRate}
                   minimumHours={artist.minimumHours}
                   variant="default"
                   showFromLabel={true}

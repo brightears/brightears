@@ -7,9 +7,12 @@
     "home": "Home",
     "browseArtists": "Browse Artists",
     "howItWorks": "How It Works",
-    "corporate": "Corporate Solutions",
-    "login": "Login",
-    "signup": "Sign Up"
+    "corporate": "Corporate",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "entertainerSignUp": "Join as Entertainer",
+    "findEntertainment": "Find Entertainment",
+    "dashboard": "Dashboard"
   },
   "hero": {
     "title": "Premium Entertainment for Every Event",

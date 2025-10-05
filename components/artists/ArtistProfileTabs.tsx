@@ -32,7 +32,8 @@ interface ArtistProfileTabsProps {
     id: string
     stageName: string
     bio?: string
-    baseRate?: number
+    hourlyRate?: number
+    minimumHours?: number
     experience?: number
     equipment?: string[]
     languages?: string[]
@@ -70,10 +71,15 @@ export default function ArtistProfileTabs({ artist }: ArtistProfileTabsProps) {
         <h3 className="font-playfair text-xl font-bold text-dark-gray mb-4">Pricing</h3>
         <div className="flex items-baseline space-x-2">
           <span className="text-3xl font-bold text-brand-cyan">
-            ฿{artist.baseRate?.toLocaleString() || '2,500'}
+            ฿{artist.hourlyRate?.toLocaleString() || 'Contact for pricing'}
           </span>
           <span className="text-dark-gray/60">/hour</span>
         </div>
+        {artist.minimumHours && artist.minimumHours > 1 && (
+          <p className="text-sm text-brand-cyan/80 mt-1">
+            Minimum booking: {artist.minimumHours} hours
+          </p>
+        )}
         <p className="text-sm text-dark-gray/60 mt-2">
           * Prices may vary based on event type and requirements
         </p>

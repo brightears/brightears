@@ -53,27 +53,51 @@ export default function Footer() {
               <h4 className="text-lg font-playfair font-semibold text-pure-white mb-6">{t('links')}</h4>
               <ul className="space-y-4">
                 <li>
-                  <Link 
-                    href="/artists" 
+                  <Link
+                    href="/artists"
                     className="text-pure-white/70 hover:text-pure-white transition-colors"
                   >
                     {t('browseArtists')}
                   </Link>
                 </li>
                 <li>
-                  <Link 
-                    href="/how-it-works" 
+                  <Link
+                    href="/how-it-works"
                     className="text-pure-white/70 hover:text-pure-white transition-colors"
                   >
                     {t('howItWorks')}
                   </Link>
                 </li>
                 <li>
-                  <Link 
-                    href="/corporate" 
+                  <Link
+                    href="/corporate"
                     className="text-pure-white/70 hover:text-pure-white transition-colors"
                   >
                     {t('corporate')}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/faq"
+                    className="text-pure-white/70 hover:text-pure-white transition-colors"
+                  >
+                    {t('faq')}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/about"
+                    className="text-pure-white/70 hover:text-pure-white transition-colors"
+                  >
+                    {t('about')}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/contact"
+                    className="text-pure-white/70 hover:text-pure-white transition-colors"
+                  >
+                    {t('contact')}
                   </Link>
                 </li>
               </ul>
@@ -84,16 +108,16 @@ export default function Footer() {
               <h4 className="text-lg font-playfair font-semibold text-pure-white mb-6">{t('legal')}</h4>
               <ul className="space-y-4">
                 <li>
-                  <Link 
-                    href="/terms" 
+                  <Link
+                    href="/terms"
                     className="text-pure-white/70 hover:text-pure-white transition-colors"
                   >
                     {t('terms')}
                   </Link>
                 </li>
                 <li>
-                  <Link 
-                    href="/privacy" 
+                  <Link
+                    href="/privacy"
                     className="text-pure-white/70 hover:text-pure-white transition-colors"
                   >
                     {t('privacy')}

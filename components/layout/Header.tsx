@@ -153,8 +153,9 @@ const Header: React.FC = () => {
                             ? 'text-dark-gray hover:text-brand-cyan'
                             : 'text-white hover:text-brand-cyan'
                         }`}
+                        aria-label={t('dashboard')}
                       >
-                        Dashboard
+                        {t('dashboard')}
                       </Link>
                       <UserButton
                         afterSignOutUrl="/"
@@ -169,46 +170,30 @@ const Header: React.FC = () => {
                     <div className="hidden sm:flex items-center gap-3">
                       <Link
                         href="/sign-in"
-                        className={`px-4 py-2 rounded-xl transition-all duration-300 ${
+                        className={`px-4 py-2 rounded-xl transition-all duration-300 font-inter ${
                           isScrolled
                             ? 'text-dark-gray hover:text-brand-cyan'
                             : 'text-white hover:text-brand-cyan'
                         }`}
+                        aria-label={t('signIn')}
                       >
-                        Sign In
+                        {t('signIn')}
                       </Link>
                       <Link
-                        href="/sign-up"
-                        className={`px-5 py-2 bg-brand-cyan/20 border border-brand-cyan text-brand-cyan rounded-xl transition-all duration-300 hover:bg-brand-cyan hover:text-white ${
-                          isScrolled ? '' : 'backdrop-blur-md'
+                        href="/register/artist"
+                        className={`px-4 py-2.5 font-inter font-semibold rounded-xl transition-all duration-300 border ${
+                          isScrolled
+                            ? 'bg-soft-lavender/10 border-soft-lavender text-soft-lavender hover:bg-soft-lavender hover:text-white'
+                            : 'bg-soft-lavender/20 backdrop-blur-md border-soft-lavender/40 text-white hover:bg-soft-lavender/30 hover:border-soft-lavender'
                         }`}
+                        aria-label={t('entertainerSignUp')}
                       >
-                        Sign Up
+                        {t('entertainerSignUp')}
                       </Link>
                     </div>
                   )}
                 </>
               )}
-
-              {/* Artist Signup Button - Desktop */}
-              <Link 
-                href="/register/artist"
-                className={`hidden sm:flex items-center gap-2 px-4 py-2.5 font-semibold rounded-xl transition-all duration-300 ${
-                  isScrolled 
-                    ? 'bg-transparent border border-soft-lavender/50 text-soft-lavender hover:bg-soft-lavender/10 hover:border-soft-lavender'
-                    : 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20'
-                }`}
-              >
-                <span className="text-sm">For Artists:</span> Join
-              </Link>
-
-              {/* Get Started Button - Desktop */}
-              <Link 
-                href="/artists"
-                className="hidden sm:flex items-center gap-2 px-6 py-2.5 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50 hover:-translate-y-0.5"
-              >
-                {t('browseArtists')}
-              </Link>
 
               {/* Mobile Menu Toggle */}
               <button
@@ -262,22 +247,41 @@ const Header: React.FC = () => {
               ))}
             </nav>
 
+            {/* Mobile Actions Divider */}
+            <div className="border-t border-white/10 my-4"></div>
+
             {/* Mobile CTAs */}
             <div className="space-y-3">
-              <Link 
-                href="/artists"
-                onClick={handleMobileMenuClose}
-                className="w-full px-6 py-3 bg-brand-cyan text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50 text-center block"
-              >
-                {t('browseArtists')}
-              </Link>
-              <Link 
-                href="/register/artist"
-                onClick={handleMobileMenuClose}
-                className="w-full px-6 py-3 bg-soft-lavender/20 border border-soft-lavender/30 text-white font-semibold rounded-xl transition-all duration-300 hover:bg-soft-lavender/30 text-center block"
-              >
-                For Artists: Join Platform
-              </Link>
+              {!user && (
+                <>
+                  <Link
+                    href="/sign-in"
+                    onClick={handleMobileMenuClose}
+                    className="w-full px-6 py-3 bg-white/10 border border-white/20 text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:bg-white/20 text-center block"
+                    aria-label={t('signIn')}
+                  >
+                    {t('signIn')}
+                  </Link>
+                  <Link
+                    href="/register/artist"
+                    onClick={handleMobileMenuClose}
+                    className="w-full px-6 py-3 bg-soft-lavender/20 border border-soft-lavender/30 text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:bg-soft-lavender/30 text-center block"
+                    aria-label={t('entertainerSignUp')}
+                  >
+                    {t('entertainerSignUp')}
+                  </Link>
+                </>
+              )}
+              {user && (
+                <Link
+                  href="/dashboard"
+                  onClick={handleMobileMenuClose}
+                  className="w-full px-6 py-3 bg-brand-cyan text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50 text-center block"
+                  aria-label={t('dashboard')}
+                >
+                  {t('dashboard')}
+                </Link>
+              )}
             </div>
           </div>
         </div>
