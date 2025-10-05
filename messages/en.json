@@ -1266,5 +1266,30 @@
       "browseArtists": "Browse Artists",
       "joinAsArtist": "Join as Artist"
     }
+  },
+  "roleSelection": {
+    "badge": "Welcome to Bright Ears",
+    "title": "How can we help you today?",
+    "subtitle": "Choose your path to get started with Thailand's premier entertainment booking platform",
+    "close": "Close",
+    "skipForNow": "I'll decide later",
+    "customer": {
+      "title": "I'm Looking to Book Entertainment",
+      "description": "Browse verified artists, compare options, and book entertainment for your event with confidence.",
+      "feature1": "Browse 500+ verified artists",
+      "feature2": "Transparent pricing, no hidden fees",
+      "feature3": "Secure booking with contract protection",
+      "cta": "Browse Artists",
+      "ariaLabel": "Select customer path to browse and book entertainment"
+    },
+    "artist": {
+      "title": "I'm an Entertainer",
+      "description": "Join Thailand's leading platform and connect with clients seeking premium entertainment.",
+      "feature1": "Zero commission on bookings",
+      "feature2": "Professional profile & calendar tools",
+      "feature3": "Direct communication with clients",
+      "cta": "Join as Entertainer",
+      "ariaLabel": "Select entertainer path to register and start receiving bookings"
+    }
   }
 }

@@ -5,11 +5,18 @@ import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import { Link } from '@/components/navigation';
 import { useTranslations } from 'next-intl';
+import RoleSelectionModal from '@/components/modals/RoleSelectionModal';
+import { useRoleSelection } from '@/hooks/useRoleSelection';
+import { useParams } from 'next/navigation';
 
 const Hero: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const t = useTranslations('hero');
+  const params = useParams();
+  const locale = params?.locale as string || 'en';
+
+  const { shouldShowModal, hideModal } = useRoleSelection();
 
   useEffect(() => {
     setIsVisible(true);
@@ -149,6 +156,13 @@ const Hero: React.FC = () => {
           <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-pulse" />
         </div>
       </div>
+
+      {/* Role Selection Modal */}
+      <RoleSelectionModal
+        isOpen={shouldShowModal}
+        onClose={hideModal}
+        locale={locale}
+      />
     </section>
   );
 };
