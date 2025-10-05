@@ -49,7 +49,7 @@ export default function FAQContent() {
 
         <SearchBar
           value={searchTerm}
-          onChange={setSearchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           placeholder={t('searchPlaceholder')}
         />
 
