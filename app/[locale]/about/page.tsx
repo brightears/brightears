@@ -2,10 +2,12 @@ import { useTranslations } from 'next-intl';
 import { Metadata } from 'next';
 import StatCounter from '@/components/StatCounter';
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+
   return {
-    title: params.locale === 'th' ? 'เกี่ยวกับเรา | Bright Ears' : 'About Us | Bright Ears',
-    description: params.locale === 'th'
+    title: locale === 'th' ? 'เกี่ยวกับเรา | Bright Ears' : 'About Us | Bright Ears',
+    description: locale === 'th'
       ? 'เรื่องราวของ Bright Ears - แพลตฟอร์มการจองศิลปินที่ไร้ค่าธรรมเนียม'
       : 'The story of Bright Ears - Thailand\'s commission-free artist booking platform'
   };
