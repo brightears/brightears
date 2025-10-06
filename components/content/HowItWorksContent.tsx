@@ -3,16 +3,17 @@
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/components/navigation'
-import { 
-  MagnifyingGlassIcon, 
-  ChatBubbleLeftRightIcon, 
+import StatCard from '@/components/StatCard'
+import {
+  MagnifyingGlassIcon,
+  ChatBubbleLeftRightIcon,
   CheckBadgeIcon,
   BanknotesIcon,
   ShieldCheckIcon,
   HeartIcon,
   LockClosedIcon,
   SparklesIcon,
-  ArrowRightIcon 
+  ArrowRightIcon
 } from '@heroicons/react/24/outline'
 
 interface HowItWorksContentProps {
@@ -116,8 +117,8 @@ export default function HowItWorksContent({ locale }: HowItWorksContentProps) {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-earthy-brown/20 rounded-full filter blur-3xl animate-pulse animation-delay-4000" />
         </div>
 
-        {/* Glass morphism overlay - matching landing page */}
-        <div className="absolute inset-0 backdrop-blur-[1px] bg-white/[0.02]" />
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 bg-black/20" />
 
         {/* Content Container */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -132,20 +133,20 @@ export default function HowItWorksContent({ locale }: HowItWorksContentProps) {
           </div>
 
           {/* Main Heading */}
-          <h1 
-            className={`font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 transition-all duration-1000 delay-100 transform ${
+          <h1
+            className={`font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 transition-all duration-1000 delay-100 transform drop-shadow-lg ${
               isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            <span className="block">{t('hero.title')}</span>
-            <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent">
+            <span className="block drop-shadow-lg">{t('hero.title')}</span>
+            <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent drop-shadow-lg">
               Made Simple
             </span>
           </h1>
 
           {/* Subheading */}
-          <p 
-            className={`font-inter text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10 transition-all duration-1000 delay-200 transform ${
+          <p
+            className={`font-inter text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10 transition-all duration-1000 delay-200 transform drop-shadow-md ${
               isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
@@ -387,19 +388,19 @@ export default function HowItWorksContent({ locale }: HowItWorksContentProps) {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-earthy-brown/20 rounded-full filter blur-3xl animate-blob animation-delay-4000" />
         </div>
 
-        {/* Glass morphism overlay - matching landing page */}
-        <div className="absolute inset-0 backdrop-blur-[2px] bg-white/[0.01]" />
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 bg-black/15" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-12 lg:p-16">
-            <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              <span className="block">{t('cta.title')}</span>
-              <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent">
+            <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+              <span className="block drop-shadow-lg">{t('cta.title')}</span>
+              <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent drop-shadow-lg">
                 Start Today
               </span>
             </h2>
-            
-            <p className="font-inter text-lg md:text-xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed">
+
+            <p className="font-inter text-lg md:text-xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed drop-shadow-md">
               {t('cta.subtitle')}
             </p>
             
@@ -427,24 +428,19 @@ export default function HowItWorksContent({ locale }: HowItWorksContentProps) {
               </Link>
             </div>
 
-            {/* Stats Section matching landing page */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
+            {/* Stats Section with Enhanced Visual Hierarchy */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
               {[
-                { value: '500+', label: 'Bangkok Venues & Hotels' },
-                { value: '10K+', label: 'Events Delivered' },
-                { value: '4.9★', label: 'Average Rating' }
+                { value: '500+', label: 'Bangkok Venues & Hotels', primary: true },
+                { value: '10K+', label: 'Events Delivered', primary: false },
+                { value: '4.9★', label: 'Average Rating', primary: false }
               ].map((stat, index) => (
-                <div 
+                <StatCard
                   key={index}
-                  className="p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 hover:shadow-xl"
-                >
-                  <div className="font-playfair text-2xl font-bold text-white mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="font-inter text-white/70 text-xs uppercase tracking-wider">
-                    {stat.label}
-                  </div>
-                </div>
+                  value={stat.value}
+                  label={stat.label}
+                  primary={stat.primary}
+                />
               ))}
             </div>
           </div>

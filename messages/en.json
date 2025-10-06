@@ -175,11 +175,11 @@
       "subtitle": "Real-time platform activity",
       "live": "LIVE",
       "totalBookings": "Bookings",
-      "totalArtists": "Artists", 
+      "totalArtists": "Artists",
       "activeInquiries": "Inquiries",
       "justNow": "Just now",
       "minutesAgo": "{minutes}m ago",
-      "hoursAgo": "{hours}h ago", 
+      "hoursAgo": "{hours}h ago",
       "daysAgo": "{days}d ago",
       "loadError": "Unable to load activity",
       "noActivity": "No recent activity",
@@ -192,7 +192,7 @@
       "stats": {
         "successfulEvents": "Successful Events",
         "averageRating": "Average Rating",
-        "verifiedArtists": "Verified Artists", 
+        "verifiedArtists": "Verified Artists",
         "responseTime": "Response Time"
       },
       "cta": "Start Your Success Story"
@@ -204,14 +204,14 @@
       "step": "Step",
       "estimatedTime": "~{minutes} minutes",
       "next": "Next",
-      "back": "Back", 
+      "back": "Back",
       "cancel": "Cancel",
       "sendInquiry": "Send Inquiry",
       "submitting": "Sending...",
       "step1": {
         "title": "Event Details",
         "eventDate": "Event Date",
-        "eventTime": "Event Time", 
+        "eventTime": "Event Time",
         "eventType": "Event Type",
         "selectEventType": "Select event type"
       },
@@ -241,7 +241,7 @@
       },
       "categories": {
         "dj": "DJ",
-        "band": "Band", 
+        "band": "Band",
         "singer": "Singer",
         "musician": "Musician",
         "mc": "MC"
@@ -273,13 +273,13 @@
     },
     "mobile": {
       "title": "Quick Book",
-      "step1": "Details", 
+      "step1": "Details",
       "step2": "Contact",
       "step3": "Success",
       "step1.title": "Event Details",
       "step1.eventType": "Event Type",
       "step1.date": "Date",
-      "step1.time": "Time", 
+      "step1.time": "Time",
       "step1.location": "Location",
       "step1.duration": "Duration",
       "step1.hours": "hours",
@@ -403,7 +403,7 @@
       "formalityLevel": "Formality Level",
       "languageOptions": {
         "english": "English Only",
-        "thai": "Thai Only", 
+        "thai": "Thai Only",
         "both": "Both Languages"
       },
       "audiences": {
@@ -446,7 +446,7 @@
     "clearFilters": "Clear Filters",
     "clearAll": "Clear All",
     "category": "Category",
-    "location": "Location", 
+    "location": "Location",
     "budget": "Budget",
     "budgetRange": "Budget Range",
     "allCategories": "All Categories",
@@ -454,7 +454,7 @@
     "anyBudget": "Any Budget",
     "under500": "Under ฿500/hr",
     "budget500to1000": "฿500 - ฿1,000/hr",
-    "budget1000to2000": "฿1,000 - ฿2,000/hr", 
+    "budget1000to2000": "฿1,000 - ฿2,000/hr",
     "budget2000to5000": "฿2,000 - ฿5,000/hr",
     "over5000": "Over ฿5,000/hr",
     "searching": "Searching...",
@@ -463,7 +463,7 @@
     "noResults": "No artists found",
     "noResultsDescription": "We couldn't find any artists matching your criteria. Try adjusting your search:",
     "tryDifferentKeywords": "Try different keywords or genres",
-    "expandLocation": "Expand your location search area", 
+    "expandLocation": "Expand your location search area",
     "adjustBudget": "Adjust your budget range",
     "searchResults": "Search Results",
     "showingResults": "Showing {count} of {total} artists (Page {page} of {totalPages})",
@@ -917,7 +917,7 @@
     "backToArtists": "Back to Artists",
     "reviews": "reviews",
     "trusted": "Trusted Artist",
-    "verified": "Verified Artist", 
+    "verified": "Verified Artist",
     "basic": "Basic Profile",
     "bookNow": "Request Quote",
     "startingPrice": "Starting Price",
@@ -1011,7 +1011,7 @@
     "orContinueWith": "or continue with",
     "useEmailPassword": "Use email and password",
     "email": "Email",
-    "password": "Password", 
+    "password": "Password",
     "enterEmail": "Enter your email",
     "enterPassword": "Enter your password",
     "signIn": "Sign In",
@@ -1094,14 +1094,14 @@
         "filters": {
           "all": "All",
           "pending": "Pending",
-          "confirmed": "Confirmed", 
+          "confirmed": "Confirmed",
           "completed": "Completed",
           "cancelled": "Cancelled"
         },
         "status": {
           "pending": "Pending",
           "confirmed": "Confirmed",
-          "completed": "Completed", 
+          "completed": "Completed",
           "cancelled": "Cancelled"
         },
         "eventType": "Event Type",
@@ -1121,7 +1121,7 @@
         "summary": {
           "title": "Booking Summary",
           "totalBookings": "Total Bookings",
-          "completedEvents": "Completed Events", 
+          "completedEvents": "Completed Events",
           "totalSpent": "Total Spent"
         }
       },
@@ -1135,7 +1135,7 @@
         },
         "fields": {
           "firstName": "First Name",
-          "lastName": "Last Name", 
+          "lastName": "Last Name",
           "email": "Email Address",
           "phone": "Phone Number",
           "location": "Location",
@@ -1265,6 +1265,95 @@
       "subtitle": "Join thousands of satisfied customers who found their perfect entertainment",
       "browseArtists": "Browse Artists",
       "joinAsArtist": "Join as Artist"
+    }
+  },
+  "howItWorksArtists": {
+    "title": "How It Works for Artists",
+    "description": "Join Thailand's premier entertainment booking platform and start earning more with zero commission fees",
+    "hero": {
+      "badge": "Zero Commission • Premium Clients • Instant Payments",
+      "title": "Earn More with Zero Commission",
+      "subtitle": "Join 500+ Bangkok artists getting direct bookings from hotels, venues, and corporate events",
+      "stat": "Artists earn 30% more on average vs. traditional platforms",
+      "cta": "Join as Entertainer"
+    },
+    "steps": {
+      "badge": "Your Journey",
+      "title": "5 Steps to Success",
+      "subtitle": "From signup to getting paid - here's how it works",
+      "signup": {
+        "title": "Sign Up Free (0% Commission)",
+        "description": "Create Your Profile - It's Free",
+        "details": "No signup fees, no monthly costs, no hidden charges. Ever. Unlike other platforms charging 15-30% commission, Bright Ears is 100% free for artists. You keep everything you earn."
+      },
+      "verification": {
+        "title": "Get Verified in 24 Hours",
+        "description": "ID + Police Check = Trust from Premium Clients",
+        "details": "Our verification process opens doors to corporate events and luxury venues. Premium clients book verified artists 5x more."
+      },
+      "pricing": {
+        "title": "Set Your Rates",
+        "description": "You Control Your Pricing",
+        "details": "Set hourly rates, minimum hours, travel fees - your rules. No platform dictating your worth. Charge what you deserve and adjust anytime based on demand."
+      },
+      "bookings": {
+        "title": "Get Direct Bookings",
+        "description": "Customers Book You Directly",
+        "details": "Hotels, venues, and event planners browse and book. Access to Bangkok's largest network of corporate clients. No bidding wars, no race to the bottom pricing."
+      },
+      "payment": {
+        "title": "Get Paid Instantly",
+        "description": "PromptPay Instant Payments",
+        "details": "Deposits paid upfront, balance on completion. No waiting 30 days for payouts. Get paid via PromptPay instantly when booking is confirmed."
+      }
+    },
+    "benefits": {
+      "badge": "Why Artists Choose Us",
+      "title": "The Bright Ears Advantage",
+      "subtitle": "Built for artists, by people who understand the entertainment industry",
+      "commission": {
+        "title": "Zero Commission Forever",
+        "description": "Keep 100% of your earnings. No hidden fees, no surprises. What you charge is what you earn."
+      },
+      "clients": {
+        "title": "Premium Client Access",
+        "description": "Direct bookings from 500+ Bangkok hotels and corporate venues. Access to high-quality clients who value professional entertainment."
+      },
+      "support": {
+        "title": "Professional Support",
+        "description": "24/7 Thai/English support, booking protection, payment guarantee. We've got your back."
+      }
+    },
+    "comparison": {
+      "badge": "See the Difference",
+      "title": "Us vs. Traditional Platforms",
+      "subtitle": "Compare and see why thousands of artists are switching to Bright Ears",
+      "feature": "Feature",
+      "traditional": "Traditional Platforms",
+      "commission": "Commission",
+      "monthlyFees": "Monthly Fees",
+      "free": "Free",
+      "clientQuality": "Client Quality",
+      "hotels": "Hotels & Corporates",
+      "mixed": "Mixed",
+      "paymentSpeed": "Payment Speed",
+      "instant": "Instant",
+      "days": "days",
+      "verification": "Verification",
+      "required": "Required",
+      "optional": "Optional"
+    },
+    "testimonials": {
+      "badge": "Success Stories",
+      "title": "What Artists Are Saying",
+      "djNatcha": "I earn ฿50,000 more per month since joining. Zero commission means I can finally save for my studio.",
+      "theGroove": "Corporate clients trust verified artists. We get booked 3x more now."
+    },
+    "cta": {
+      "title": "Ready to Earn What You Deserve?",
+      "subtitle": "Join 500+ artists already earning more on Thailand's only zero-commission entertainment platform",
+      "button": "Create Artist Profile",
+      "trust": "Join 500+ artists already earning more"
     }
   },
   "roleSelection": {

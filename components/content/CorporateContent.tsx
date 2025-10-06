@@ -2,6 +2,7 @@
 
 import { Link } from '@/components/navigation'
 import { useEffect, useState } from 'react'
+import StatCard from '@/components/StatCard'
 import { ArrowRightIcon, SparklesIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
 import { BuildingOfficeIcon, UserGroupIcon, TrophyIcon, StarIcon } from '@heroicons/react/24/solid'
 
@@ -171,8 +172,8 @@ export default function CorporateContent({ locale }: CorporateContentProps) {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-earthy-brown/20 rounded-full filter blur-3xl animate-blob animation-delay-4000" />
         </div>
 
-        {/* Glass morphism overlay */}
-        <div className="absolute inset-0 backdrop-blur-[2px] bg-white/[0.01]" />
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 bg-black/15" />
 
         {/* Content */}
         <div className="relative z-10 max-w-6xl mx-auto px-4 py-20 text-center">
@@ -184,42 +185,37 @@ export default function CorporateContent({ locale }: CorporateContentProps) {
             <span className="text-sm font-medium text-white">Enterprise Entertainment Solutions</span>
           </div>
 
-          <h1 className={`font-playfair text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 transition-all duration-1000 delay-100 transform ${
+          <h1 className={`font-playfair text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 transition-all duration-1000 delay-100 transform drop-shadow-lg ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}>
-            <span className="block">Corporate Events</span>
-            <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent">
+            <span className="block drop-shadow-lg">Corporate Events</span>
+            <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent drop-shadow-lg">
               Elevated
             </span>
           </h1>
           
-          <p className={`font-inter text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed transition-all duration-1000 delay-200 transform ${
+          <p className={`font-inter text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed transition-all duration-1000 delay-200 transform drop-shadow-md ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}>
-            World-class entertainment for Thailand's leading companies. 
+            World-class entertainment for Thailand's leading companies.
             From intimate executive dinners to grand celebrations, we deliver excellence.
           </p>
 
-          {/* Stats */}
+          {/* Stats with Enhanced Visual Hierarchy */}
           <div className={`grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto transition-all duration-1000 delay-300 transform ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}>
             {[
-              { value: '500+', label: 'Bangkok Venues & Hotels' },
-              { value: '10K+', label: 'Events Delivered' },
-              { value: '4.9★', label: 'Average Rating' }
+              { value: '500+', label: 'Bangkok Venues & Hotels', primary: true },
+              { value: '10K+', label: 'Events Delivered', primary: false },
+              { value: '4.9★', label: 'Average Rating', primary: false }
             ].map((stat, index) => (
-              <div 
+              <StatCard
                 key={index}
-                className="p-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl hover:bg-white/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-              >
-                <div className="font-playfair text-4xl font-bold text-white mb-2">
-                  {stat.value}
-                </div>
-                <div className="font-inter text-white/70 text-sm uppercase tracking-wider">
-                  {stat.label}
-                </div>
-              </div>
+                value={stat.value}
+                label={stat.label}
+                primary={stat.primary}
+              />
             ))}
           </div>
         </div>

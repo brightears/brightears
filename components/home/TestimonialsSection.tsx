@@ -328,24 +328,31 @@ export default function TestimonialsSection({ locale, className = '' }: Testimon
           ))}
         </div>
 
-        {/* Trust Indicators */}
+        {/* Trust Indicators with Enhanced Visual Hierarchy */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div>
-            <div className="text-3xl font-bold text-pure-white mb-2">500+</div>
-            <div className="text-pure-white/80 text-sm">Bangkok Venues & Hotels</div>
-          </div>
-          <div>
-            <div className="text-3xl font-bold text-pure-white mb-2">10K+</div>
-            <div className="text-pure-white/80 text-sm">Events Delivered</div>
-          </div>
-          <div>
-            <div className="text-3xl font-bold text-pure-white mb-2">4.9★</div>
-            <div className="text-pure-white/80 text-sm">Average Rating</div>
-          </div>
-          <div>
-            <div className="text-3xl font-bold text-pure-white mb-2">98%</div>
-            <div className="text-pure-white/80 text-sm">Client Satisfaction</div>
-          </div>
+          {[
+            { value: '500+', label: 'Bangkok Venues & Hotels', primary: true },
+            { value: '10K+', label: 'Events Delivered', primary: false },
+            { value: '4.9★', label: 'Average Rating', primary: false },
+            { value: '98%', label: 'Client Satisfaction', primary: false }
+          ].map((stat, index) => (
+            <div key={index} className="group">
+              <div
+                className={`
+                  ${stat.primary ? 'text-4xl' : 'text-3xl'}
+                  font-bold mb-2
+                  ${stat.primary ? 'text-brand-cyan' : 'text-pure-white'}
+                  ${stat.primary ? 'scale-110' : ''}
+                  transition-all duration-300 group-hover:scale-110
+                `}
+              >
+                {stat.value}
+              </div>
+              <div className="text-pure-white/80 text-sm uppercase tracking-wider">
+                {stat.label}
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Call to Action */}

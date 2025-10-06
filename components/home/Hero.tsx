@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import RoleSelectionModal from '@/components/modals/RoleSelectionModal';
 import { useRoleSelection } from '@/hooks/useRoleSelection';
 import { useParams } from 'next/navigation';
+import StatCard from '@/components/StatCard';
 
 const Hero: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -54,8 +55,8 @@ const Hero: React.FC = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-earthy-brown/20 rounded-full filter blur-3xl animate-pulse animation-delay-4000" />
       </div>
 
-      {/* Glass morphism overlay */}
-      <div className="absolute inset-0 backdrop-blur-[1px] bg-white/[0.02]" />
+      {/* Dark overlay for contrast */}
+      <div className="absolute inset-0 bg-black/20" />
 
       {/* Content Container */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -70,20 +71,20 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Main Heading */}
-        <h1 
-          className={`font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 transition-all duration-1000 delay-100 transform ${
+        <h1
+          className={`font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 transition-all duration-1000 delay-100 transform drop-shadow-lg ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}
         >
-          <span className="block">Deliver Unforgettable</span>
-          <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent">
+          <span className="block drop-shadow-lg">Deliver Unforgettable</span>
+          <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent drop-shadow-lg">
             Guest Experiences, Every Time
           </span>
         </h1>
 
         {/* Subheading */}
-        <p 
-          className={`font-inter text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10 transition-all duration-1000 delay-200 transform ${
+        <p
+          className={`font-inter text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10 transition-all duration-1000 delay-200 transform drop-shadow-md ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}
         >
@@ -136,29 +137,24 @@ const Hero: React.FC = () => {
           ✨ Instant availability • Transparent pricing • Backed by our venue satisfaction guarantee
         </p>
 
-        {/* Stats Section with Glass Cards */}
-        <div 
+        {/* Stats Section with Enhanced Visual Hierarchy */}
+        <div
           className={`mt-20 grid grid-cols-1 sm:grid-cols-3 gap-6 transition-all duration-1000 delay-500 transform ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}
         >
           {[
-            { value: '500+', label: 'Bangkok Venues & Hotels' },
-            { value: '10K+', label: 'Events Delivered' },
-            { value: '4.9★', label: 'Average Rating' }
+            { value: '500+', label: 'Bangkok Venues & Hotels', primary: true },
+            { value: '10K+', label: 'Events Delivered', primary: false },
+            { value: '4.9★', label: 'Average Rating', primary: false }
           ].map((stat, index) => (
-            <div 
+            <StatCard
               key={index}
-              className="group p-6 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 hover:shadow-xl"
-              style={{ animationDelay: `${600 + index * 100}ms` }}
-            >
-              <div className="font-playfair text-4xl font-bold text-white mb-2 group-hover:scale-110 transition-transform duration-300">
-                {stat.value}
-              </div>
-              <div className="font-inter text-white/70 text-sm uppercase tracking-wider">
-                {stat.label}
-              </div>
-            </div>
+              value={stat.value}
+              label={stat.label}
+              primary={stat.primary}
+              className={`${index === 0 ? 'sm:col-span-1' : ''}`}
+            />
           ))}
         </div>
       </div>
