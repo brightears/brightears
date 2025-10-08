@@ -155,6 +155,7 @@ export default function MobileOptimizedHero() {
                           alt={partner.altText}
                           width={120}
                           height={48}
+                          sizes="120px"
                           className="h-12 w-auto filter brightness-0 invert"
                           priority
                         />
@@ -165,6 +166,7 @@ export default function MobileOptimizedHero() {
                         alt={partner.altText}
                         width={120}
                         height={48}
+                        sizes="120px"
                         className="h-12 w-auto filter brightness-0 invert"
                         priority
                       />
