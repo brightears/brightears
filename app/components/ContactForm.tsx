@@ -1,6 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import useFormValidation from '@/hooks/useFormValidation';
+import ValidatedInput from '@/components/forms/ValidatedInput';
+import ValidatedTextarea from '@/components/forms/ValidatedTextarea';
+import ValidatedSelect from '@/components/forms/ValidatedSelect';
+import ThaiPhoneInput from '@/components/forms/ThaiPhoneInput';
+import { validateEmail, validateThaiPhone, validateDate } from '@/lib/validation/validators';
+import { validationMessages } from '@/lib/validation/validationMessages';
+import { EnvelopeIcon, UserIcon, CalendarIcon, BuildingOfficeIcon } from '@heroicons/react/24/outline';
 
 type ContactTab = 'general' | 'corporate' | 'artistSupport';
 
@@ -8,70 +16,178 @@ interface ContactFormProps {
   tab: ContactTab;
 }
 
-const contactTypes = {
-  general: {
-    fields: ['name', 'email', 'subject', 'message'],
-    subjectOptions: ['general', 'technical', 'other']
-  },
-  corporate: {
-    fields: ['companyName', 'contactPerson', 'email', 'phone', 'eventType', 'eventDate', 'message'],
-    eventTypeOptions: ['annualParty', 'productLaunch', 'conference', 'other']
-  },
-  artistSupport: {
-    fields: ['artistName', 'email', 'artistId', 'supportTopic', 'message'],
-    supportTopicOptions: ['profileHelp', 'paymentIssue', 'verification', 'technical', 'other']
-  }
-};
-
 export default function ContactForm({ tab }: ContactFormProps) {
-  const [formData, setFormData] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = React.useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  // Determine initial values based on tab
+  const getInitialValues = () => {
+    const base = {
+      name: '',
+      email: '',
+      message: '',
+    };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Basic validation
-    const requiredFields = contactTypes[tab].fields.filter(field =>
-      field !== 'artistId' // Optional field
-    );
-
-    const missingFields = requiredFields.filter(field => !formData[field]);
-
-    if (missingFields.length > 0) {
-      setError(`Please fill out all required fields: ${missingFields.join(', ')}`);
-      return;
+    if (tab === 'general') {
+      return { ...base, subject: '' };
     }
 
-    // TODO: Implement actual submission logic
-    console.log('Submitting form:', { tab, formData });
+    if (tab === 'corporate') {
+      return {
+        companyName: '',
+        contactPerson: '',
+        email: '',
+        phone: '',
+        eventType: '',
+        eventDate: '',
+        message: '',
+      };
+    }
+
+    // artistSupport
+    return {
+      artistName: '',
+      email: '',
+      artistId: '',
+      supportTopic: '',
+      message: '',
+    };
+  };
+
+  // Define validation rules based on tab
+  const getValidationRules = () => {
+    const baseRules = {
+      email: {
+        required: validationMessages.required.email,
+        custom: validateEmail,
+      },
+      message: {
+        required: validationMessages.required.message,
+        minLength: {
+          value: 10,
+          message: validationMessages.message.tooShort,
+        },
+        maxLength: {
+          value: 500,
+          message: validationMessages.message.tooLong,
+        },
+      },
+    };
+
+    if (tab === 'general') {
+      return {
+        name: {
+          required: validationMessages.required.name,
+          minLength: {
+            value: 2,
+            message: validationMessages.name.tooShort,
+          },
+          maxLength: {
+            value: 50,
+            message: validationMessages.name.tooLong,
+          },
+        },
+        subject: {
+          required: 'Please select a subject',
+        },
+        ...baseRules,
+      };
+    }
+
+    if (tab === 'corporate') {
+      return {
+        companyName: {
+          required: 'Please enter your company name',
+          minLength: { value: 2, message: 'Company name is too short' },
+          maxLength: { value: 100, message: 'Company name is too long' },
+        },
+        contactPerson: {
+          required: 'Please enter contact person name',
+          minLength: { value: 2, message: validationMessages.name.tooShort },
+          maxLength: { value: 50, message: validationMessages.name.tooLong },
+        },
+        phone: {
+          required: validationMessages.required.phone,
+          custom: validateThaiPhone,
+        },
+        eventType: {
+          required: validationMessages.required.eventType,
+        },
+        eventDate: {
+          required: validationMessages.required.eventDate,
+          custom: (value: string) =>
+            validateDate(value, { futureOnly: true, minDaysAhead: 7 }),
+        },
+        ...baseRules,
+      };
+    }
+
+    // artistSupport
+    return {
+      artistName: {
+        required: 'Please enter your artist name',
+        minLength: { value: 3, message: validationMessages.stageName.tooShort },
+        maxLength: { value: 30, message: validationMessages.stageName.tooLong },
+      },
+      supportTopic: {
+        required: 'Please select a support topic',
+      },
+      ...baseRules,
+    };
+  };
+
+  const {
+    values,
+    errors,
+    touched,
+    isValid,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    resetForm,
+  } = useFormValidation(getInitialValues(), getValidationRules());
+
+  const onSubmit = async (formData: Record<string, any>) => {
+    // TODO: Implement actual API submission
+    console.log('Submitting contact form:', { tab, formData });
+
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     setSubmitted(true);
-    setError(null);
   };
 
   if (submitted) {
     return (
       <div className="text-center p-8">
-        <h2 className="text-2xl font-bold text-cyan-500 mb-4">
-          Thank you for your message!
+        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+          <svg
+            className="w-10 h-10 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={3}
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+
+        <h2 className="font-playfair text-2xl font-bold text-dark-gray mb-4">
+          Message Sent Successfully!
         </h2>
-        <p className="text-gray-600">
+        <p className="font-inter text-gray-600 mb-6">
           We'll get back to you within 24 hours.
         </p>
         <button
-          onClick={() => setSubmitted(false)}
-          className="
-            mt-6 px-6 py-3
-            bg-cyan-500 text-white
-            rounded-full
-            hover:bg-cyan-600
-            transition-colors
-          "
+          onClick={() => {
+            setSubmitted(false);
+            resetForm();
+          }}
+          className="inline-flex items-center gap-2 px-6 py-3 bg-brand-cyan text-white font-inter font-medium rounded-full hover:bg-deep-teal transition-colors duration-300"
         >
           Send Another Message
         </button>
@@ -79,172 +195,284 @@ export default function ContactForm({ tab }: ContactFormProps) {
     );
   }
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {error && (
-        <div className="
-          bg-red-100 border border-red-400
-          text-red-700 px-4 py-3 rounded relative
-        " role="alert">
-          {error}
-        </div>
-      )}
+  const subjectOptions = [
+    { value: 'general', label: 'General Question' },
+    { value: 'technical', label: 'Technical Support' },
+    { value: 'other', label: 'Other' },
+  ];
 
+  const eventTypeOptions = [
+    { value: 'annualParty', label: 'Annual Party' },
+    { value: 'productLaunch', label: 'Product Launch' },
+    { value: 'conference', label: 'Conference' },
+    { value: 'other', label: 'Other' },
+  ];
+
+  const supportTopicOptions = [
+    { value: 'profileHelp', label: 'Profile Help' },
+    { value: 'paymentIssue', label: 'Payment Issue' },
+    { value: 'verification', label: 'Verification' },
+    { value: 'technical', label: 'Technical Support' },
+    { value: 'other', label: 'Other' },
+  ];
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      {/* General Tab Fields */}
       {tab === 'general' && (
         <>
-          <input
-            type="text"
+          <ValidatedInput
             name="name"
-            placeholder="Your Name"
-            value={formData.name || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
+            label="Your Name"
+            type="text"
+            placeholder="John Doe"
+            required
+            value={values.name || ''}
+            onChange={handleChange('name')}
+            onBlur={handleBlur('name')}
+            error={errors.name}
+            touched={touched.name}
+            icon={<UserIcon className="w-5 h-5" />}
           />
-          <input
-            type="email"
+
+          <ValidatedInput
             name="email"
-            placeholder="Your Email"
-            value={formData.email || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
+            label="Email Address"
+            type="email"
+            placeholder="john@example.com"
+            required
+            value={values.email || ''}
+            onChange={handleChange('email')}
+            onBlur={handleBlur('email')}
+            error={errors.email}
+            touched={touched.email}
+            icon={<EnvelopeIcon className="w-5 h-5" />}
+            helpText="We'll never share your email with anyone"
           />
-          <select
+
+          <ValidatedSelect
             name="subject"
-            value={formData.subject || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
-          >
-            <option value="">Select Subject</option>
-            {contactTypes.general.subjectOptions.map(subject => (
-              <option key={subject} value={subject}>
-                {subject.charAt(0).toUpperCase() + subject.slice(1)} Question
-              </option>
-            ))}
-          </select>
+            label="Subject"
+            options={subjectOptions}
+            placeholder="Select a subject"
+            required
+            value={values.subject || ''}
+            onChange={handleChange('subject')}
+            onBlur={handleBlur('subject')}
+            error={errors.subject}
+            touched={touched.subject}
+          />
         </>
       )}
 
+      {/* Corporate Tab Fields */}
       {tab === 'corporate' && (
         <>
-          <input
-            type="text"
+          <ValidatedInput
             name="companyName"
-            placeholder="Company Name"
-            value={formData.companyName || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
-          />
-          <input
+            label="Company Name"
             type="text"
+            placeholder="Acme Corporation"
+            required
+            value={values.companyName || ''}
+            onChange={handleChange('companyName')}
+            onBlur={handleBlur('companyName')}
+            error={errors.companyName}
+            touched={touched.companyName}
+            icon={<BuildingOfficeIcon className="w-5 h-5" />}
+          />
+
+          <ValidatedInput
             name="contactPerson"
-            placeholder="Contact Person"
-            value={formData.contactPerson || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
+            label="Contact Person"
+            type="text"
+            placeholder="Jane Smith"
+            required
+            value={values.contactPerson || ''}
+            onChange={handleChange('contactPerson')}
+            onBlur={handleBlur('contactPerson')}
+            error={errors.contactPerson}
+            touched={touched.contactPerson}
+            icon={<UserIcon className="w-5 h-5" />}
           />
-          <input
-            type="email"
+
+          <ValidatedInput
             name="email"
-            placeholder="Corporate Email"
-            value={formData.email || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
+            label="Corporate Email"
+            type="email"
+            placeholder="jane@company.com"
+            required
+            value={values.email || ''}
+            onChange={handleChange('email')}
+            onBlur={handleBlur('email')}
+            error={errors.email}
+            touched={touched.email}
+            icon={<EnvelopeIcon className="w-5 h-5" />}
           />
-          <input
-            type="tel"
+
+          <ThaiPhoneInput
             name="phone"
-            placeholder="Phone Number"
-            value={formData.phone || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
+            label="Phone Number"
+            placeholder="081-234-5678"
+            required
+            value={values.phone || ''}
+            onChange={handleChange('phone')}
+            onBlur={handleBlur('phone')}
+            error={errors.phone}
+            touched={touched.phone}
+            helpText="We'll use this to contact you about your event"
           />
-          <select
+
+          <ValidatedSelect
             name="eventType"
-            value={formData.eventType || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
-          >
-            <option value="">Select Event Type</option>
-            {contactTypes.corporate.eventTypeOptions.map(eventType => (
-              <option key={eventType} value={eventType}>
-                {eventType.charAt(0).toUpperCase() + eventType.slice(1).replace(/([A-Z])/g, ' $1')}
-              </option>
-            ))}
-          </select>
-          <input
-            type="date"
+            label="Event Type"
+            options={eventTypeOptions}
+            placeholder="Select event type"
+            required
+            value={values.eventType || ''}
+            onChange={handleChange('eventType')}
+            onBlur={handleBlur('eventType')}
+            error={errors.eventType}
+            touched={touched.eventType}
+          />
+
+          <ValidatedInput
             name="eventDate"
-            placeholder="Expected Event Date"
-            value={formData.eventDate || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
+            label="Expected Event Date"
+            type="date"
+            required
+            value={values.eventDate || ''}
+            onChange={handleChange('eventDate')}
+            onBlur={handleBlur('eventDate')}
+            error={errors.eventDate}
+            touched={touched.eventDate}
+            icon={<CalendarIcon className="w-5 h-5" />}
+            helpText="Event must be at least 7 days from today"
           />
         </>
       )}
 
+      {/* Artist Support Tab Fields */}
       {tab === 'artistSupport' && (
         <>
-          <input
-            type="text"
+          <ValidatedInput
             name="artistName"
-            placeholder="Artist Name"
-            value={formData.artistName || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Artist Email"
-            value={formData.email || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
-          />
-          <input
+            label="Artist Name"
             type="text"
-            name="artistId"
-            placeholder="Artist ID (Optional)"
-            value={formData.artistId || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
+            placeholder="DJ Awesome"
+            required
+            value={values.artistName || ''}
+            onChange={handleChange('artistName')}
+            onBlur={handleBlur('artistName')}
+            error={errors.artistName}
+            touched={touched.artistName}
+            icon={<UserIcon className="w-5 h-5" />}
           />
-          <select
+
+          <ValidatedInput
+            name="email"
+            label="Artist Email"
+            type="email"
+            placeholder="artist@example.com"
+            required
+            value={values.email || ''}
+            onChange={handleChange('email')}
+            onBlur={handleBlur('email')}
+            error={errors.email}
+            touched={touched.email}
+            icon={<EnvelopeIcon className="w-5 h-5" />}
+          />
+
+          <ValidatedInput
+            name="artistId"
+            label="Artist ID (Optional)"
+            type="text"
+            placeholder="e.g., ARTIST-12345"
+            value={values.artistId || ''}
+            onChange={handleChange('artistId')}
+            onBlur={handleBlur('artistId')}
+            error={errors.artistId}
+            touched={touched.artistId}
+            helpText="If you know your artist ID, it helps us find your account faster"
+          />
+
+          <ValidatedSelect
             name="supportTopic"
-            value={formData.supportTopic || ''}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-cyan-500"
-          >
-            <option value="">Select Support Topic</option>
-            {contactTypes.artistSupport.supportTopicOptions.map(topic => (
-              <option key={topic} value={topic}>
-                {topic.charAt(0).toUpperCase() + topic.slice(1).replace(/([A-Z])/g, ' $1')}
-              </option>
-            ))}
-          </select>
+            label="Support Topic"
+            options={supportTopicOptions}
+            placeholder="Select a topic"
+            required
+            value={values.supportTopic || ''}
+            onChange={handleChange('supportTopic')}
+            onBlur={handleBlur('supportTopic')}
+            error={errors.supportTopic}
+            touched={touched.supportTopic}
+          />
         </>
       )}
 
-      <textarea
+      {/* Message Field (All Tabs) */}
+      <ValidatedTextarea
         name="message"
-        placeholder="Your Message"
+        label="Your Message"
+        placeholder="Please describe your inquiry in detail..."
+        required
         rows={5}
-        value={formData.message || ''}
-        onChange={handleChange}
-        className="w-full p-3 border rounded-lg focus:ring-cyan-500"
-      ></textarea>
+        value={values.message || ''}
+        onChange={handleChange('message')}
+        onBlur={handleBlur('message')}
+        error={errors.message}
+        touched={touched.message}
+        showCharCount
+        maxLength={500}
+        minLength={10}
+        helpText="Please provide as much detail as possible"
+      />
 
+      {/* Submit Button */}
       <button
         type="submit"
-        className="
-          w-full p-3
-          bg-cyan-500 text-white
-          rounded-full
-          hover:bg-cyan-600
-          transition-colors
-        "
+        disabled={isSubmitting || !isValid}
+        className={`
+          w-full py-3.5 px-6
+          bg-gradient-to-r from-brand-cyan to-deep-teal
+          text-white font-inter font-semibold rounded-full
+          transition-all duration-300
+          ${
+            isSubmitting || !isValid
+              ? 'opacity-50 cursor-not-allowed'
+              : 'hover:shadow-lg hover:scale-[1.01] active:scale-[0.99]'
+          }
+        `}
       >
-        Send Message
+        {isSubmitting ? (
+          <span className="flex items-center justify-center gap-2">
+            <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+            Sending...
+          </span>
+        ) : (
+          'Send Message'
+        )}
       </button>
+
+      {/* Form Footer */}
+      <p className="text-xs text-center text-gray-500 font-inter">
+        We typically respond within 2 hours during business hours (9 AM - 6 PM Bangkok Time)
+      </p>
     </form>
   );
 }
