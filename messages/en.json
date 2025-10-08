@@ -14,6 +14,58 @@
     "findEntertainment": "Find Entertainment",
     "dashboard": "Dashboard"
   },
+  "notFound": {
+    "title": "This Beat Dropped Off the Map",
+    "description": "Looks like this page went backstage and forgot to come back. No worries—let's get you to where the action is! 🎵",
+    "actions": {
+      "goHome": "Go to Homepage",
+      "browseArtists": "Browse Artists"
+    },
+    "quickLinks": {
+      "title": "Or try these popular pages:",
+      "howItWorks": "How It Works",
+      "faq": "FAQ",
+      "contact": "Contact Support"
+    },
+    "footer": "Error 404: This page is like a one-hit wonder—briefly here, now it's gone! 🎸"
+  },
+  "emptyState": {
+    "noResults": {
+      "title": "No artists found",
+      "description": "Try adjusting your filters or search terms to find the perfect entertainer.",
+      "action": "Clear Filters"
+    },
+    "noBookings": {
+      "title": "You haven't booked any entertainment yet",
+      "description": "Browse our talented artists and book your first performance to get started.",
+      "action": "Browse Artists"
+    },
+    "noReviews": {
+      "title": "No reviews yet",
+      "description": "Be the first to share your experience and help others make informed decisions.",
+      "action": "Leave a Review"
+    },
+    "noFavorites": {
+      "title": "You haven't saved any favorites yet",
+      "description": "Browse artists and save your favorites to easily find them later.",
+      "action": "Discover Artists"
+    },
+    "noMessages": {
+      "title": "Your inbox is empty",
+      "description": "Start a conversation with artists to discuss your event needs and get quotes.",
+      "action": "Browse Artists"
+    },
+    "noEvents": {
+      "title": "No upcoming events",
+      "description": "Book entertainment for your next event and create memorable experiences.",
+      "action": "Book Entertainment"
+    },
+    "error": {
+      "title": "Something went wrong",
+      "description": "We're having trouble loading this content. Please try again.",
+      "action": "Retry"
+    }
+  },
   "hero": {
     "title": "Premium Entertainment for Every Event",
     "subtitle": "Book DJs, Bands, and Live Entertainment with Confidence",
