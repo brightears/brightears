@@ -8,6 +8,7 @@ import { useRouter } from '@/components/navigation';
 import Image from 'next/image';
 import ImageSkeleton from '@/components/ui/ImageSkeleton';
 import HourlyRateDisplay from '@/components/ui/HourlyRateDisplay';
+import PopularityIndicator from '@/components/ui/PopularityIndicator';
 
 interface ArtistCardProps {
   id: string;
@@ -23,6 +24,9 @@ interface ArtistCardProps {
   location?: string;
   onPlay?: () => void;
   onFollow?: () => void;
+  totalEvents?: number; // For popularity indicators
+  isPopular?: boolean; // Popular this month
+  isTrending?: boolean; // Trending this week
 }
 
 const ArtistCard: React.FC<ArtistCardProps> = ({
@@ -39,6 +43,9 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
   location,
   onPlay = () => {},
   onFollow = () => {},
+  totalEvents = 0,
+  isPopular = false,
+  isTrending = false,
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -82,12 +89,28 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
       }}
       aria-label={`View ${name}'s profile`}
     >
-      {/* Featured Badge */}
-      {isFeatured && (
-        <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-soft-lavender/90 backdrop-blur-sm text-white text-xs font-semibold rounded-full shadow-lg">
-          Featured Artist
-        </div>
-      )}
+      {/* Social Proof Badges - Top Left */}
+      <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
+        {isFeatured && (
+          <div className="px-3 py-1 bg-soft-lavender/90 backdrop-blur-sm text-white text-xs font-semibold rounded-full shadow-lg">
+            Featured Artist
+          </div>
+        )}
+        {isTrending && !isFeatured && (
+          <PopularityIndicator
+            type="trending"
+            animated={true}
+            size="sm"
+          />
+        )}
+        {isPopular && !isTrending && !isFeatured && (
+          <PopularityIndicator
+            type="popular"
+            animated={false}
+            size="sm"
+          />
+        )}
+      </div>
 
       {/* Image Container */}
       <div className="relative h-64 sm:h-72 overflow-hidden bg-gradient-to-br from-brand-cyan/20 to-deep-teal/20">
@@ -246,6 +269,20 @@ const ArtistCard: React.FC<ArtistCardProps> = ({
             )}
           </div>
         </div>
+
+        {/* Social Proof Stats - If high performance */}
+        {totalEvents >= 100 && (
+          <div className="mb-3 px-3 py-1.5 bg-brand-cyan/5 border border-brand-cyan/20 rounded-lg">
+            <div className="flex items-center justify-between">
+              <span className="font-inter text-xs text-dark-gray/60">
+                Completed Events
+              </span>
+              <span className="font-inter text-sm font-bold text-brand-cyan">
+                {totalEvents}+
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Action Buttons */}
         <div className="flex gap-3">

@@ -14,6 +14,9 @@ import LineContactButton from '@/components/booking/LineContactButton'
 import ProfileSkeleton from '@/components/ui/ProfileSkeleton'
 import ImageSkeleton from '@/components/ui/ImageSkeleton'
 import HourlyRateDisplay from '@/components/ui/HourlyRateDisplay'
+import PopularityIndicator from '@/components/ui/PopularityIndicator'
+import TrustSignals from '@/components/sections/TrustSignals'
+import TrustBadge from '@/components/ui/TrustBadge'
 
 interface EnhancedArtistProfileProps {
   artistId: string
@@ -340,9 +343,19 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
 
               {/* Artist Info */}
               <div className="flex-1 pb-2">
-                <h1 className="font-playfair text-4xl font-bold text-pure-white mb-2">
-                  {artist.stageName}
-                </h1>
+                <div className="flex items-start gap-3 mb-2">
+                  <h1 className="font-playfair text-4xl font-bold text-pure-white">
+                    {artist.stageName}
+                  </h1>
+                  {/* Social Proof Indicators */}
+                  {enrichedArtist.stats.totalEvents > 400 && (
+                    <PopularityIndicator
+                      type="trending"
+                      animated={true}
+                      size="md"
+                    />
+                  )}
+                </div>
                 <div className="flex flex-wrap items-center gap-4 text-pure-white/90">
                   <span className="bg-pure-white/20 px-3 py-1 rounded-full text-sm">
                     {t(`category.${artist.category}`)}
@@ -353,11 +366,29 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
                     </svg>
                     {artist.baseCity}
                   </span>
-                  <RatingStars 
-                    rating={enrichedArtist.stats.rating} 
+                  <RatingStars
+                    rating={enrichedArtist.stats.rating}
                     showNumber={true}
                     reviewCount={enrichedArtist.reviews.length}
                   />
+                  {/* Highly Rated Badge */}
+                  {enrichedArtist.stats.rating >= 4.8 && (
+                    <PopularityIndicator
+                      type="highly-rated"
+                      metric={enrichedArtist.stats.rating.toFixed(1)}
+                      animated={false}
+                      size="sm"
+                    />
+                  )}
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {/* Social Proof Badges */}
+                  <TrustBadge variant="verified" size="sm" showTooltip={true} />
+                  {enrichedArtist.stats.totalEvents >= 100 && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-brand-cyan/20 text-pure-white border border-brand-cyan/30">
+                      {enrichedArtist.stats.totalEvents}+ Events Completed
+                    </span>
+                  )}
                 </div>
                 {enrichedArtist.tagline && (
                   <p className="mt-2 text-pure-white/80 italic">{enrichedArtist.tagline}</p>
@@ -442,6 +473,9 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <ArtistProfileTabs artist={enrichedArtist} />
         </div>
+
+        {/* Trust Signals Section - Above Footer */}
+        <TrustSignals variant="compact" className="border-t" />
       </main>
       <Footer />
       

@@ -14,6 +14,8 @@ import UserFlowSection from '@/components/home/UserFlowSection'
 import MobileCategoriesCarousel from './MobileCategoriesCarousel'
 import MobileActivitySummary from './MobileActivitySummary'
 import MobileFloatingCTA from './MobileFloatingCTA'
+import TrustSignals from '@/components/sections/TrustSignals'
+import RecentActivity from '@/components/ui/RecentActivity'
 
 interface MobileOptimizedHomepageProps {
   locale: string
@@ -44,10 +46,24 @@ export default function MobileOptimizedHomepage({ locale }: MobileOptimizedHomep
   }, [])
 
   if (!isMobile) {
-    // Desktop layout - existing structure
+    // Desktop layout - existing structure with social proof
     return (
       <>
         <Hero />
+
+        {/* Trust Signals - Desktop */}
+        <TrustSignals variant="compact" className="shadow-md" />
+
+        {/* Recent Activity - Desktop Only */}
+        <RecentActivity
+          position="bottom-left"
+          enabled={true}
+          maxItems={3}
+          autoHide={true}
+          autoHideDuration={10000}
+          showDelay={5000}
+        />
+
         <UserFlowSection />
         <div className="py-16 bg-off-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,7 +72,7 @@ export default function MobileOptimizedHomepage({ locale }: MobileOptimizedHomep
                 <FeaturedArtists locale={locale} />
               </div>
               <div className="lg:col-span-1">
-                <ActivityFeed 
+                <ActivityFeed
                   showStats={true}
                   autoRefresh={true}
                   refreshInterval={30}
@@ -80,7 +96,10 @@ export default function MobileOptimizedHomepage({ locale }: MobileOptimizedHomep
     <>
       {/* Priority 1: Immediate Value */}
       <Hero />
-      
+
+      {/* Trust Signals - Mobile Compact Version */}
+      <TrustSignals variant="compact" className="shadow-sm" />
+
       {/* User Flow Section - Clear paths for all users */}
       <UserFlowSection />
       
