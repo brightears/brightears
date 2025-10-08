@@ -1,0 +1,52 @@
+# Bright Ears Entertainment Booking Platform
+# https://brightears.onrender.com
+
+# Allow all legitimate search engines
+User-agent: *
+Allow: /
+
+# Block sensitive routes
+Disallow: /api/admin/
+Disallow: /api/auth/
+Disallow: /dashboard/
+Disallow: /register/
+
+# Allow public API routes
+Allow: /api/artists
+Allow: /api/search
+
+# Block development and testing paths
+Disallow: /test/
+Disallow: /_next/static/development/
+
+# Crawl delay for polite crawling (1 second)
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0.5
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0.5
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Block bad bots and scrapers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Sitemap location
+Sitemap: https://brightears.onrender.com/sitemap.xml
