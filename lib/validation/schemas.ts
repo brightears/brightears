@@ -168,7 +168,7 @@ export const artistRegistrationSchema = z.object({
 
   // Artist Details
   category: z.enum(['DJ', 'BAND', 'MUSICIAN', 'SINGER', 'MC', 'DANCER', 'OTHER'], {
-    errorMap: () => ({ message: 'Please select a category' })
+    message: 'Please select a category'
   }),
 
   bio: z.string()
@@ -434,7 +434,7 @@ export function conditionalRequired<T extends z.ZodTypeAny>(
   message: string = 'This field is required'
 ) {
   return condition
-    ? schema.min(1, message)
+    ? (schema as any).min(1, message)
     : schema.optional();
 }
 
