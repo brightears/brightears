@@ -1246,7 +1246,201 @@
     "hours": "hours",
     "perHourShort": "/hr",
     "estimatedTotal": "Estimated Total",
-    "finalPrice": "Final Price"
+    "finalPrice": "Final Price",
+    "artist": {
+      "hero": {
+        "badge": "Zero Commission Forever • Premium Features • Instant Upgrades",
+        "title": "Choose Your Success Level",
+        "subtitle": "Start free, upgrade when you're ready. Zero commission on all tiers.",
+        "stats": {
+          "professionalPrice": {
+            "value": "฿799/mo",
+            "label": "Professional Tier"
+          },
+          "artists": {
+            "value": "500+",
+            "label": "Artists Earning More"
+          },
+          "visibility": {
+            "value": "3x",
+            "label": "More Visibility"
+          }
+        }
+      },
+      "tiers": {
+        "free": {
+          "name": "Free Forever",
+          "badge": "Always Free",
+          "price": "฿0",
+          "period": "month",
+          "subtitle": "Forever Free",
+          "cta": "Start Free",
+          "features": [
+            "Profile listing on platform",
+            "Unlimited quote requests",
+            "Direct customer contact",
+            "0% commission on all bookings",
+            "Basic analytics dashboard",
+            "Standard search placement",
+            "Community support",
+            "Payment via PromptPay",
+            "Profile customization (limited)"
+          ],
+          "excludedFeatures": [
+            "Featured homepage placement",
+            "Priority search ranking",
+            "Verified badge (available as ฿1,500 add-on)",
+            "Advanced analytics",
+            "Social media promotion",
+            "Video uploads",
+            "Priority customer support"
+          ]
+        },
+        "professional": {
+          "name": "Professional",
+          "badge": "Most Popular",
+          "price": "฿799",
+          "period": "month",
+          "billingNote": "Billed monthly • Cancel anytime",
+          "valueProposition": "Get 3x more bookings with priority placement",
+          "cta": "Upgrade to Professional",
+          "trustSignal": "Join 150+ professional artists earning more",
+          "features": [
+            "Everything in Free, plus:",
+            "Priority search ranking (top 10%)",
+            "Verified badge included (฿1,500 value)",
+            "Advanced analytics dashboard",
+            "Social media profile promotion",
+            "Video upload capability (5 videos)",
+            "Enhanced profile customization",
+            "Priority email support (24hr response)",
+            "Monthly performance report",
+            "Featured in weekly newsletter",
+            "Calendar integration tools"
+          ],
+          "excludedFeatures": [
+            "Homepage featured carousel",
+            "Guaranteed top 3 placement",
+            "Dedicated account manager",
+            "Custom branding options"
+          ]
+        },
+        "featured": {
+          "name": "Featured",
+          "badge": "Premium",
+          "price": "฿1,499",
+          "period": "month",
+          "billingNote": "Billed monthly • 10% discount on annual",
+          "valueProposition": "Get 5x more bookings with homepage exposure",
+          "cta": "Go Featured",
+          "trustSignal": "Top 5% of artists earn an average of ฿45,000/month",
+          "features": [
+            "Everything in Professional, plus:",
+            "Featured homepage carousel (guaranteed)",
+            "Top 3 search placement guarantee",
+            "Social media highlights (monthly)",
+            "Unlimited video uploads",
+            "Custom profile URL",
+            "Featured artist badge (special color)",
+            "Priority customer support (2hr response)",
+            "Dedicated account manager",
+            "Weekly performance insights",
+            "Corporate client access",
+            "Event booking priority notification",
+            "Professional photoshoot discount (20%)",
+            "API access for calendar sync",
+            "Featured in monthly marketing campaigns",
+            "Direct outreach to corporate clients",
+            "Early access to new features"
+          ]
+        }
+      },
+      "addOns": {
+        "title": "Optional Add-Ons",
+        "subtitle": "Enhance your profile with these one-time or recurring services",
+        "verification": {
+          "title": "Verification Badge",
+          "price": "฿1,500",
+          "priceNote": "One-time fee",
+          "badge": "Trust Builder",
+          "description": "Stand out with ID + Police background check verification. Verified artists get 40% more bookings.",
+          "features": [
+            "Government ID verification",
+            "Police background check",
+            "Portfolio review",
+            "Phone number verification",
+            "Verified badge on profile",
+            "Priority in corporate searches"
+          ],
+          "cta": "Get Verified Now"
+        },
+        "photography": {
+          "title": "Professional Photography Package",
+          "price": "฿3,500",
+          "priceNote": "20% discount for Featured tier",
+          "badge": "Stand Out",
+          "description": "Professional photoshoot for your profile and promotional materials.",
+          "features": [
+            "2-hour photography session",
+            "50+ edited high-res photos",
+            "Rights to use images",
+            "Profile banner design",
+            "Social media content pack"
+          ],
+          "cta": "Book Photoshoot"
+        }
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "questions": [
+          {
+            "q": "Can I switch between tiers anytime?",
+            "a": "Yes, upgrade or downgrade at any time. Changes take effect immediately."
+          },
+          {
+            "q": "Do you really charge 0% commission?",
+            "a": "Absolutely. We never take a percentage of your earnings. Ever."
+          },
+          {
+            "q": "What happens if I cancel my subscription?",
+            "a": "You return to the Free tier. Your profile stays active, but premium features are removed."
+          },
+          {
+            "q": "How does the verification process work?",
+            "a": "Submit ID + documents → Review within 24 hours → Badge activated on approval."
+          },
+          {
+            "q": "Can I try Professional or Featured before committing?",
+            "a": "Yes! We offer a 7-day money-back guarantee on all paid tiers."
+          },
+          {
+            "q": "How do Featured artists get chosen for homepage?",
+            "a": "All Featured tier subscribers rotate through homepage carousel automatically."
+          },
+          {
+            "q": "What payment methods do you accept?",
+            "a": "PromptPay, credit card, bank transfer. Monthly auto-billing available."
+          },
+          {
+            "q": "Do I need to sign a contract?",
+            "a": "No contracts. Cancel anytime with one click from your dashboard."
+          }
+        ]
+      },
+      "cta": {
+        "title": "Ready to Earn What You Deserve?",
+        "subtitle": "Join 500+ artists already earning more with zero commission",
+        "startFree": "Start Free",
+        "viewProfessional": "View Professional",
+        "goFeatured": "Go Featured",
+        "trustSignals": {
+          "cancelAnytime": "Cancel Anytime",
+          "noCreditCard": "No Credit Card Required (Free)",
+          "moneyBack": "7-Day Money-Back Guarantee",
+          "support": "24/7 Support"
+        }
+      }
+    }
   },
   "howItWorks": {
     "title": "How It Works",
