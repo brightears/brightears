@@ -9,6 +9,13 @@ export default function SignInPage() {
             rootBox: "mx-auto",
             card: "shadow-xl",
             footer: "hidden", // Hide development mode badge
+            formButtonPrimary: "bg-brand-cyan hover:bg-deep-teal",
+            headerTitle: "text-dark-gray",
+            headerSubtitle: "text-gray-600",
+          },
+          layout: {
+            socialButtonsPlacement: "bottom",
+            socialButtonsVariant: "iconButton",
           },
         }}
         signUpUrl="/sign-up"

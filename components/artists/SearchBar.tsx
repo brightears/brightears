@@ -22,10 +22,14 @@ export default function SearchBar({
   const [localValue, setLocalValue] = useState(value)
   const debouncedValue = useDebounce(localValue, 300)
 
+  // Track if currently searching (typing but not yet debounced)
+  const [isSearching, setIsSearching] = useState(false)
+
   // Update parent when debounced value changes
   useEffect(() => {
     if (debouncedValue !== value) {
       onChange(debouncedValue)
+      setIsSearching(false)
     }
   }, [debouncedValue])
 
@@ -36,9 +40,17 @@ export default function SearchBar({
     }
   }, [value])
 
+  // Mark as searching when user types
+  useEffect(() => {
+    if (localValue !== debouncedValue) {
+      setIsSearching(true)
+    }
+  }, [localValue, debouncedValue])
+
   const handleClear = useCallback(() => {
     setLocalValue('')
     onChange('')
+    setIsSearching(false)
   }, [onChange])
 
   return (
@@ -74,13 +86,13 @@ export default function SearchBar({
         <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-cyan via-soft-lavender to-earthy-brown rounded-2xl opacity-0 group-focus-within:opacity-100 blur transition-all duration-300 -z-10" />
       </div>
 
-      {/* Search Suggestions (Optional - can be extended) */}
-      {localValue && (
+      {/* Search Indicator - Only show while actively searching */}
+      {localValue && isSearching && (
         <div className="absolute top-full left-0 right-0 mt-2 z-50">
           <div className="bg-white/95 backdrop-blur-lg border border-white/30 rounded-2xl shadow-2xl overflow-hidden">
             <div className="p-3">
               <div className="flex items-center gap-2 text-sm text-dark-gray/60">
-                <MagnifyingGlassIcon className="w-4 h-4" />
+                <MagnifyingGlassIcon className="w-4 h-4 animate-pulse" />
                 <span>{t('searchingFor')}: <span className="font-semibold text-dark-gray">{localValue}</span></span>
               </div>
             </div>
