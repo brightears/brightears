@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 import QRCode from 'qrcode'
 
 interface PromptPayModalProps {
@@ -190,7 +191,14 @@ export default function PromptPayModal({
               {qrCodeUrl && (
                 <div className="flex flex-col items-center space-y-3">
                   <div className="bg-white p-4 rounded-lg shadow-md">
-                    <img src={qrCodeUrl} alt="PromptPay QR Code" className="w-64 h-64" />
+                    <Image
+                      src={qrCodeUrl}
+                      alt="PromptPay QR Code"
+                      width={256}
+                      height={256}
+                      className="w-64 h-64"
+                      unoptimized
+                    />
                   </div>
                   <p className="text-sm text-gray-600 text-center">
                     Scan this QR code with your mobile banking app
@@ -241,10 +249,13 @@ export default function PromptPayModal({
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                 {slipPreview ? (
                   <div className="space-y-3">
-                    <img 
-                      src={slipPreview} 
-                      alt="Payment slip preview" 
+                    <Image
+                      src={slipPreview}
+                      alt="Payment slip preview"
+                      width={400}
+                      height={192}
                       className="max-w-full h-48 object-contain mx-auto rounded"
+                      unoptimized
                     />
                     <button
                       onClick={() => document.getElementById('slip-upload')?.click()}

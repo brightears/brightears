@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 // Thai mobile-specific touch targets and UI patterns
@@ -169,7 +170,15 @@ export const ThaiMobileArtistCard = ({ artist }: { artist: any }) => {
     <div className="bg-pure-white rounded-xl shadow-lg overflow-hidden mb-4 touch-manipulation">
       {/* Image with overlay controls */}
       <div className="relative h-48">
-        <img src={artist.image} alt={artist.name} className="w-full h-full object-cover" />
+        <Image
+          src={artist.image}
+          alt={artist.name}
+          fill
+          sizes="(max-width: 640px) 100vw, 400px"
+          className="object-cover"
+          loading="lazy"
+          quality={85}
+        />
         
         {/* Favorite button - larger for mobile */}
         <button
@@ -238,8 +247,16 @@ export const ThaiMobileGallery = ({ images }: { images: string[] }) => {
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {images.map((image, index) => (
-            <div key={index} className="w-full flex-shrink-0">
-              <img src={image} alt={`Gallery ${index + 1}`} className="w-full h-64 object-cover" />
+            <div key={index} className="relative w-full h-64 flex-shrink-0">
+              <Image
+                src={image}
+                alt={`Gallery ${index + 1}`}
+                fill
+                sizes="100vw"
+                className="object-cover"
+                loading="lazy"
+                quality={85}
+              />
             </div>
           ))}
         </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { XMarkIcon, CalendarIcon, PhoneIcon } from '@heroicons/react/24/outline'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 
 interface QuickInquiryModalProps {
   isOpen: boolean
@@ -168,11 +169,15 @@ export default function QuickInquiryModal({
           
           <div className="flex items-center gap-4">
             {artistImage && (
-              <div className="relative">
-                <img 
-                  src={artistImage} 
+              <div className="relative w-16 h-16">
+                <Image
+                  src={artistImage}
                   alt={artistName}
-                  className="w-16 h-16 rounded-full border-2 border-white/30 shadow-lg object-cover"
+                  width={64}
+                  height={64}
+                  className="rounded-full border-2 border-white/30 shadow-lg object-cover"
+                  loading="lazy"
+                  quality={85}
                 />
                 <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
                   <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">

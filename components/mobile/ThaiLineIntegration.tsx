@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 // LINE integration optimized for Thai mobile users
@@ -262,7 +263,15 @@ export const LineRichMessage = ({
     <div className="bg-pure-white rounded-xl overflow-hidden shadow-lg border border-gray-200 max-w-sm mx-auto">
       {/* Image */}
       <div className="relative h-48">
-        <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+        <Image
+          src={imageUrl}
+          alt={title}
+          fill
+          sizes="(max-width: 640px) 100vw, 400px"
+          className="object-cover"
+          loading="lazy"
+          quality={85}
+        />
         <div className="absolute top-3 right-3">
           <div className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
             LINE
