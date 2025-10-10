@@ -26,15 +26,11 @@ CREATE INDEX IF NOT EXISTS idx_artist_genres_gin
 -- Add composite index for common search + filter combinations
 -- This speeds up queries that search + filter by category/location/verification
 CREATE INDEX IF NOT EXISTS idx_artist_search_composite
-  ON "Artist" ("category", "baseCity", "verificationLevel", "isActive");
+  ON "Artist" ("category", "baseCity", "verificationLevel");
 
 -- Add index for hourly rate for price range filtering
 CREATE INDEX IF NOT EXISTS idx_artist_hourly_rate
   ON "Artist" ("hourlyRate") WHERE "hourlyRate" IS NOT NULL;
-
--- Add partial index for active artists (most common query)
-CREATE INDEX IF NOT EXISTS idx_artist_active
-  ON "Artist" ("id") WHERE "isActive" = true;
 
 -- Add index for service areas array
 CREATE INDEX IF NOT EXISTS idx_artist_service_areas_gin

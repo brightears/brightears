@@ -516,7 +516,9 @@ model Booking {
   // Payment
   paymentMethod     String?
   paidAt            DateTime?
-  
+  paymentSlipUrl    String?       // Cloudinary URL for uploaded payment slip
+  paymentSlipUploadedAt DateTime?  // Timestamp when slip was uploaded
+
   // Travel information
   travelTime        Int?          // minutes
   travelDistance    Int?          // km

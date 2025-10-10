@@ -1627,5 +1627,64 @@
       "cta": "Join as Entertainer",
       "ariaLabel": "Select entertainer path to register and start receiving bookings"
     }
+  },
+  "upload": {
+    "uploading": "Uploading...",
+    "uploadComplete": "Upload complete!",
+    "uploadFailed": "Upload failed",
+    "dragAndDrop": "Drag and drop or click to upload",
+    "selectFile": "Select file",
+    "selectFiles": "Select files",
+    "fileSelected": "File selected",
+    "filesSelected": "{count} files selected",
+    "removeFile": "Remove file",
+    "uploadProgress": "Uploading... {progress}%",
+    "maxFileSize": "Max file size: {size}MB",
+    "supportedFormats": "Supported formats: {formats}",
+    "errors": {
+      "fileTooLarge": "File is too large. Maximum size is {maxSize}MB",
+      "invalidFileType": "Invalid file type. Supported formats: {formats}",
+      "uploadFailed": "Upload failed. Please try again",
+      "networkError": "Network error. Please check your connection"
+    },
+    "paymentSlip": {
+      "title": "Upload Payment Slip",
+      "description": "Upload your payment confirmation slip or screenshot",
+      "formats": "JPG, PNG, WebP, or PDF",
+      "supportedFormats": "Accepted: JPG, PNG, WebP, PDF",
+      "maxSize": "Maximum file size: 10MB",
+      "pdfUploaded": "PDF Payment Slip",
+      "changePrompt": "Click to change payment slip",
+      "remove": "Remove slip",
+      "errors": {
+        "invalidType": "Invalid file type. Please upload JPG, PNG, WebP, or PDF",
+        "tooLarge": "File is too large. Maximum size is 10MB",
+        "uploadFailed": "Failed to upload payment slip. Please try again"
+      }
+    },
+    "profile": {
+      "title": "Profile Photo",
+      "description": "Upload your profile photo",
+      "recommended": "Recommended: 400x400px",
+      "maxSize": "Max: 2MB"
+    },
+    "cover": {
+      "title": "Cover Image",
+      "description": "Upload your cover image",
+      "recommended": "Recommended: 1200x400px",
+      "maxSize": "Max: 5MB"
+    },
+    "gallery": {
+      "title": "Gallery Images",
+      "description": "Upload photos to your gallery",
+      "multiple": "You can upload multiple images",
+      "maxSize": "Max: 5MB per image"
+    },
+    "audio": {
+      "title": "Audio Samples",
+      "description": "Upload audio samples of your work",
+      "formats": "MP3, WAV, M4A, AAC",
+      "maxSize": "Max: 10MB per file"
+    }
   }
 }
