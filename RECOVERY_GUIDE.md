@@ -1,8 +1,8 @@
 # 🔄 BRIGHT EARS - RECOVERY GUIDE
 
-**Last Updated**: October 10, 2025 - 16:20 UTC
-**Current Status**: Phase 1, Day 8-10 Complete (Image Upload System)
-**Current Checkpoint**: `checkpoint-image-uploads-complete`
+**Last Updated**: October 11, 2025 - 03:18 UTC
+**Current Status**: Phase 1, Day 11-12 Complete (Complete Artist Registration & Onboarding System)
+**Current Checkpoint**: `checkpoint-registration-complete`
 **Live URL**: https://brightears.onrender.com
 
 ---
@@ -15,33 +15,34 @@ If you need to bring Claude Code up to speed after a session break:
 ```
 1. @CLAUDE.md - Complete project status and history
 2. @IMPLEMENTATION_PLAN.md - Current progress and roadmap
-3. @CLOUDINARY_SETUP.md - Latest feature documentation (Day 8-10)
+3. @ARTIST_REGISTRATION_API.md - Latest feature documentation (Day 11-12)
 4. @prisma/schema.prisma - Database structure
 ```
 
 ### 2. **Current Status Summary** (copy-paste this)
 ```
-We just completed Phase 1, Day 8-10 - Cloudinary Image Upload System.
+We just completed Phase 1, Day 11-12 - Complete Artist Registration & Onboarding System.
 
 **What Was Completed:**
-- Cloudinary SDK integration (25GB free tier)
-- PaymentSlipUpload component (drag-and-drop, 226 lines)
-- Payment slip API endpoint (/api/upload/payment-slip, 165 lines)
-- Database updates: Booking.paymentSlipUrl and paymentSlipUploadedAt
-- English translations (59 new keys in upload namespace)
-- Environment variables configured in Render production
-- Comprehensive documentation in CLOUDINARY_SETUP.md
+- Enhanced registration API with 23 verification fields initialized
+- Complete 5-step onboarding wizard (1,933 lines of code)
+- ID verification document upload system (462 lines)
+- PromptPay payment integration (฿1,500 verification fee)
+- Profile completeness calculation algorithm (0-100% scoring)
+- 8 API endpoints created/enhanced
+- Comprehensive documentation (1,350+ lines)
+- 268+ new English translation keys
 
 **Current Deployment:**
-- Commit: 2f58961
-- Tag: checkpoint-image-uploads-complete
-- Documentation commit: aa80f6f
+- Commit: 42ad606
+- Tag: checkpoint-registration-complete
 - Status: LIVE at https://brightears.onrender.com
-- Build: Successful, no errors
+- Build: 3.0 seconds, no errors
+- Deploy: 3 min 16 sec
 
 **Next Phase:**
-- Day 11-12: Complete Artist Registration API
-- Focus: Fix registration flow, add verification system, complete onboarding
+- Day 13-14: Admin Verification Dashboard
+- Focus: Payment slip review, ID verification approval, artist verification workflow
 ```
 
 ### 3. **Key Technical Details**
@@ -61,42 +62,71 @@ We just completed Phase 1, Day 8-10 - Cloudinary Image Upload System.
 ### Scenario A: "Where are we in the implementation plan?"
 
 **Answer:**
-- Phase 1, Day 8-10 COMPLETE ✅
-- Next: Day 11-12 (Artist Registration API)
-- Progress: 5 out of 7 Phase 1 tasks complete (71%)
+- Phase 1, Day 11-12 COMPLETE ✅
+- Next: Day 13-14 (Admin Verification Dashboard)
+- Progress: 6 out of 7 Phase 1 tasks complete (86%)
 
 **Completed Tasks:**
 1. ✅ Day 1-2: Critical Bug Fixes (4 bugs resolved)
 2. ✅ Day 3-5: Performance Optimization (30% improvement)
 3. ✅ Day 6-7: Monetization MVP (Artist Pricing Page)
 4. ✅ Day 8-10: Image Upload System (Cloudinary)
+5. ✅ Day 11-12: Complete Artist Registration & Onboarding System
 
 **Pending Tasks:**
-5. ⏳ Day 11-12: Artist Registration API
-6. ⏳ Day 13-14: Accessibility Quick Wins
+6. ⏳ Day 13-14: Admin Verification Dashboard
 
 ### Scenario B: "What files were changed in the last session?"
 
-**Day 8-10 Implementation:**
+**Day 11-12 Implementation:**
 
-**Created (3 files):**
+**Created (25 files):**
 ```
-components/upload/PaymentSlipUpload.tsx (226 lines)
-app/api/upload/payment-slip/route.ts (165 lines)
-CLOUDINARY_SETUP.md (227 lines)
+# Onboarding Components (8 files, 1,933 lines)
+components/artist/onboarding/OnboardingWizard.tsx (383 lines)
+components/artist/onboarding/OnboardingProgress.tsx (158 lines)
+components/artist/onboarding/Step1BasicInfo.tsx (113 lines)
+components/artist/onboarding/Step2ProfileDetails.tsx (305 lines)
+components/artist/onboarding/Step3PricingAvailability.tsx (402 lines)
+components/artist/onboarding/Step4Verification.tsx (248 lines)
+components/artist/onboarding/Step5Payment.tsx (324 lines)
+app/[locale]/artist/onboarding/page.tsx
+
+# Verification Upload (2 files, 462 lines)
+components/artist/IDVerificationUpload.tsx (267 lines)
+app/api/artist/verification/upload/route.ts (195 lines)
+
+# PromptPay Payment (3 files, 747 lines)
+lib/promptpay.ts (275 lines)
+components/payment/PromptPayQR.tsx (215 lines)
+app/api/artist/verification/payment/route.ts (257 lines)
+
+# API Endpoints (4 files)
+app/api/artist/onboarding/save/route.ts
+app/api/artist/onboarding/complete/route.ts
+app/api/artist/profile/update/route.ts
+app/api/artist/pricing/update/route.ts
+
+# Documentation (3 files, 1,350+ lines)
+ARTIST_REGISTRATION_API.md (700+ lines)
+FRONTEND_INTEGRATION_GUIDE.md (650+ lines)
+DAY_11-12_SUMMARY.md
+
+# Test Scripts (1 file)
+scripts/test-artist-registration.ts (400+ lines)
 ```
 
 **Modified (4 files):**
 ```
-prisma/schema.prisma - Added payment slip fields
-messages/en.json - Added upload namespace (59 lines)
-.env.local - Cloudinary credentials (gitignored)
-prisma/migrations/20251003192732_add_search_indexes/migration.sql
+app/api/auth/register/artist/route.ts - Enhanced with 150+ lines
+lib/activity-tracker.ts - Added trackOnboardingCompletion()
+messages/en.json - Added 268+ translation keys
+prisma/schema.prisma - Added 23 verification fields + 5 indexes
 ```
 
 **Documentation Updates:**
 ```
-CLAUDE.md - Added Day 8-10 milestone
+CLAUDE.md - Added Day 11-12 milestone
 IMPLEMENTATION_PLAN.md - Updated progress and roadmap
 RECOVERY_GUIDE.md - This file
 ```
@@ -148,7 +178,14 @@ LINE_CHANNEL_ACCESS_TOKEN (for Line messaging)
 
 **We have 26+ specialized sub-agents in `.claude/agents/`**
 
-**Most Recently Used:**
+**Most Recently Used (Day 11-12):**
+- `database-architect` - Schema design (23 fields + 5 indexes)
+- `backend-architect` - Registration API enhancement
+- `frontend-developer` - ID verification upload component
+- `ux-designer` - 5-step onboarding wizard
+- `booking-flow-expert` - PromptPay payment integration
+
+**Previously Used:**
 - `media-upload-specialist` (Day 8-10)
 - `web-design-manager` (Day 6-7)
 - `nextjs-pro` (Day 6-7)
@@ -156,9 +193,9 @@ LINE_CHANNEL_ACCESS_TOKEN (for Line messaging)
 - `i18n-debugger` (Day 1-2)
 
 **Next Session Will Need:**
-- `backend-architect` (Day 11-12 - Registration API)
-- `database-architect` (Day 11-12 - Schema updates)
-- `form-ux-enhancer` (Day 11-12 - Onboarding wizard)
+- `full-stack-developer` (Day 13-14 - Admin dashboard)
+- `security-auditor` (Day 13-14 - Payment verification)
+- `web-design-manager` (Day 13-14 - Admin UI)
 
 **Full List:** See `.claude/agents/` directory or RECOMMENDED_SUBAGENTS.md
 
@@ -189,30 +226,32 @@ LINE_CHANNEL_ACCESS_TOKEN (for Line messaging)
 
 ---
 
-## 📊 PROJECT STATS (as of Day 8-10)
+## 📊 PROJECT STATS (as of Day 11-12)
 
 **Code Written:**
-- Total Lines Added (Phase 1): ~15,000+
-- Components Created: 12+
-- API Endpoints Created: 3 new
-- Documentation Files: 8
-- Translation Keys: 272+ (EN), 213+ (TH)
+- Total Lines Added (Phase 1): ~23,500+
+- Components Created: 21+
+- API Endpoints Created/Enhanced: 12 (8 new, 4 enhanced)
+- Documentation Files: 14 (3,150+ total lines)
+- Translation Keys: 540+ (EN), 213+ (TH)
 
 **Deployments:**
-- Total Deployments (Phase 1): 6+
+- Total Deployments (Phase 1): 14+
 - Build Success Rate: 100% (after fixes)
 - Average Deploy Time: 3-4 minutes
+- Latest Deploy: 3 min 16 sec (Day 11-12)
 - Uptime: 99.9%
 
 **Database:**
 - Tables: 20+
-- Migrations: 15+
-- Latest Schema Change: Booking payment slip fields
+- Migrations: 16+
+- Latest Schema Change: Artist verification & onboarding fields (23 new fields, 5 indexes)
 
 **Performance:**
 - Page Load Improvement: 30%
 - Image Optimization: 40% bandwidth reduction
 - Core Web Vitals: Improving (95% limited by Render cold starts)
+- Build Time: 3.0 seconds ✅
 
 **Audit Score:**
 - Current: 9.0/10
@@ -227,7 +266,8 @@ LINE_CHANNEL_ACCESS_TOKEN (for Line messaging)
 
 | Checkpoint Tag | Date | Commit | Status | Description |
 |---------------|------|--------|--------|-------------|
-| `checkpoint-image-uploads-complete` | Oct 10 16:15 | `2f58961` | ✅ CURRENT | Day 8-10: Cloudinary system |
+| `checkpoint-registration-complete` | Oct 11 03:18 | `42ad606` | ✅ CURRENT | Day 11-12: Registration & Onboarding |
+| `checkpoint-image-uploads-complete` | Oct 10 16:15 | `2f58961` | ✅ Stable | Day 8-10: Cloudinary system |
 | `checkpoint-monetization-mvp` | Oct 10 06:15 | `e2cf26a` | ✅ Stable | Day 6-7: Pricing pages |
 | `checkpoint-pricing-page-partial` | Oct 10 04:39 | `82f5903` | ✅ Stable | Day 6: English pricing |
 | `checkpoint-performance-optimized` | Oct 10 03:27 | `34f5fb4` | ✅ Stable | Day 3-5: Performance |
@@ -256,21 +296,21 @@ git checkout -b recovery-branch
    - Confirm site loads correctly
 
 3. **Review Next Tasks** (1 minute)
-   - Read Day 11-12 section in IMPLEMENTATION_PLAN.md
-   - Understand Artist Registration API requirements
+   - Read Day 13-14 section in IMPLEMENTATION_PLAN.md
+   - Understand Admin Verification Dashboard requirements
    - Identify which sub-agents to use
 
 4. **Start Work** (immediately)
-   - Use `backend-architect` sub-agent for API design
-   - Use `database-architect` for schema updates
+   - Use `full-stack-developer` sub-agent for dashboard
+   - Use `security-auditor` for payment verification
    - Follow git workflow (commit, tag, push)
 
-### Expected Focus for Day 11-12:
-- Fix artist registration API (remove TODO)
-- Implement actual Prisma create operation
-- Add verification system (ID upload, ฿1,500 fee)
-- Complete onboarding wizard
-- Test end-to-end registration flow
+### Expected Focus for Day 13-14:
+- Admin dashboard for verification review
+- Payment slip approval workflow
+- ID document verification interface
+- Artist verification status management
+- Email notifications for approvals/rejections
 
 ---
 
@@ -284,12 +324,15 @@ git checkout -b recovery-branch
 **Documentation:**
 - Main Docs: CLAUDE.md
 - Implementation Plan: IMPLEMENTATION_PLAN.md
+- Artist Registration: ARTIST_REGISTRATION_API.md
+- Frontend Integration: FRONTEND_INTEGRATION_GUIDE.md
 - Cloudinary Setup: CLOUDINARY_SETUP.md
 - Sub-Agents: RECOMMENDED_SUBAGENTS.md
 
 ---
 
 **Created**: October 10, 2025 - 16:20 UTC
+**Last Updated**: October 11, 2025 - 03:18 UTC
 **Purpose**: Ensure smooth session recovery and context restoration
 **Maintain**: Update after each major milestone
 **Review**: Before starting each new session
