@@ -266,3 +266,13 @@ export async function trackProfileView(artistId: string, artistCategory?: string
     location
   })
 }
+
+export async function trackOnboardingCompletion(artistId: string, category?: string, location?: string, completedStep?: number) {
+  // Track when an artist completes onboarding
+  await trackActivity('artist_registered', {
+    artistId,
+    artistCategory: category,
+    location
+  })
+  console.log(`Artist ${artistId} completed onboarding at step ${completedStep}`)
+}

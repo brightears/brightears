@@ -53,9 +53,11 @@ enum QuoteStatus {
 // Verification level enum
 enum VerificationLevel {
   UNVERIFIED
+  PENDING
   BASIC
   VERIFIED
   TRUSTED
+  REJECTED
 }
 
 // Enhanced availability system enums
@@ -154,7 +156,35 @@ model Artist {
   // Verification
   verificationLevel VerificationLevel @default(UNVERIFIED)
   verifiedAt        DateTime?
-  
+
+  // ID Verification Documents
+  verificationDocumentUrl      String?           // Cloudinary URL for ID/passport document
+  verificationDocumentType     String?           // "national_id", "passport", "driver_license"
+  verificationSubmittedAt      DateTime?         // When documents were submitted for review
+  verificationReviewedAt       DateTime?         // When admin reviewed the documents
+  verificationReviewedBy       String?           // Admin user ID who reviewed
+  verificationRejectionReason  String?   @db.Text // Detailed reason if rejected
+
+  // Verification Fee Tracking (฿1,500 one-time fee)
+  verificationFeeRequired      Boolean   @default(true)  // Can be waived for special cases
+  verificationFeePaid         Boolean   @default(false)
+  verificationFeePaidAt       DateTime?         // When the fee was paid
+  verificationFeeAmount       Decimal?  @db.Decimal(10, 2) @default(1500.00) // THB
+  verificationFeeTransactionId String?           // Payment gateway transaction ID
+
+  // Onboarding Progress Tracking
+  onboardingStep              Int       @default(1) // Current step (1-5)
+  onboardingStartedAt         DateTime  @default(now()) // When they started onboarding
+  onboardingCompletedAt       DateTime?         // When all steps completed
+
+  // Profile Completeness
+  profileCompleteness         Int       @default(0) // Percentage (0-100)
+
+  // Profile Management
+  isDraft                     Boolean   @default(true) // Profile not publicly visible until false
+  lastProfileUpdate           DateTime?         // Last time any profile field was updated
+  profilePublishedAt          DateTime?         // When profile went live (isDraft -> false)
+
   // Location
   baseCity          String
   serviceAreas      String[]         // Cities/districts they serve
@@ -233,6 +263,11 @@ model Artist {
   @@index([category])
   @@index([baseCity])
   @@index([verificationLevel])
+  @@index([verificationFeePaid, verificationFeeRequired])
+  @@index([onboardingStep, isDraft])
+  @@index([profileCompleteness])
+  @@index([verificationSubmittedAt])
+  @@index([isDraft, profilePublishedAt])
 }
 
 // Customer profile (individual)
