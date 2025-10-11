@@ -10,6 +10,7 @@
 import { forwardRef } from 'react';
 import { FieldError } from 'react-hook-form';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/solid';
+import { useTranslations } from 'next-intl';
 
 export interface RHFInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -51,6 +52,7 @@ const RHFInput = forwardRef<HTMLInputElement, RHFInputProps>(
     },
     ref
   ) => {
+    const tA11y = useTranslations('accessibility');
     const hasError = !!error;
     const isValid = showSuccess && !hasError && value && String(value).length > 0;
     const valueLength = value ? String(value).length : 0;
@@ -64,7 +66,7 @@ const RHFInput = forwardRef<HTMLInputElement, RHFInputProps>(
         >
           {label}
           {required && (
-            <span className="text-red-500 ml-1" aria-label="required">
+            <span className="text-red-500 ml-1" aria-label={tA11y('required')}>
               *
             </span>
           )}

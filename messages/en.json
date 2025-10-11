@@ -3,6 +3,21 @@
     "title": "Bright Ears - Premium Entertainment Booking Platform",
     "description": "Book DJs, bands, singers, and live entertainment for your events in Thailand. Commission-free platform with verified artists."
   },
+  "accessibility": {
+    "skipToMain": "Skip to main content",
+    "chooseLanguage": "Choose language",
+    "search": "Search",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "closeDialog": "Close dialog",
+    "required": "required",
+    "uploadProgress": "Upload progress: {progress}%",
+    "uploadSuccess": "Upload successful",
+    "uploadFailed": "Upload failed: {error}",
+    "uploading": "Uploading file",
+    "removeDocument": "Remove document",
+    "selectLanguage": "Select language: {language}"
+  },
   "nav": {
     "home": "Home",
     "browseArtists": "Browse Artists",

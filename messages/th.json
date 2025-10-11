@@ -3,6 +3,21 @@
     "title": "Bright Ears - แพลตฟอร์มจองนักแสดงระดับพรีเมียม",
     "description": "จองดีเจ วงดนตรี นักร้อง และความบันเทิงสดสำหรับงานอีเวนต์ของคุณในประเทศไทย แพลตฟอร์มไร้ค่าคอมมิชชันพร้อมศิลปินที่ผ่านการตรวจสอบ"
   },
+  "accessibility": {
+    "skipToMain": "ข้ามไปยังเนื้อหาหลัก",
+    "chooseLanguage": "เลือกภาษา",
+    "search": "ค้นหา",
+    "openMenu": "เปิดเมนู",
+    "closeMenu": "ปิดเมนู",
+    "closeDialog": "ปิดหน้าต่าง",
+    "required": "จำเป็น",
+    "uploadProgress": "ความคืบหน้าการอัปโหลด: {progress}%",
+    "uploadSuccess": "อัปโหลดสำเร็จ",
+    "uploadFailed": "การอัปโหลดล้มเหลว: {error}",
+    "uploading": "กำลังอัปโหลดไฟล์",
+    "removeDocument": "ลบเอกสาร",
+    "selectLanguage": "เลือกภาษา: {language}"
+  },
   "nav": {
     "home": "หน้าหลัก",
     "browseArtists": "เรียกดูศิลปิน",

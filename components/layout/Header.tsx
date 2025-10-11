@@ -13,13 +13,14 @@ const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
-  
+
   const t = useTranslations('nav');
+  const tA11y = useTranslations('accessibility');
   const pathname = usePathname();
   const router = useRouter();
   const params = useParams();
   const currentLocale = (params?.locale || 'en') as Locale;
-  const { user, isLoaded } = useUser();
+  const { user, isLoaded} = useUser();
 
   const languages = [
     { code: 'en' as Locale, label: 'English', flag: '🇬🇧' },
@@ -53,10 +54,18 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header 
+      {/* Skip Link for Keyboard Navigation - WCAG 2.4.1 (A) */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only"
+      >
+        {tA11y('skipToMain')}
+      </a>
+
+      <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled 
-            ? 'py-3 bg-off-white/95 backdrop-blur-xl shadow-lg border-b border-brand-cyan/20' 
+          isScrolled
+            ? 'py-3 bg-off-white/95 backdrop-blur-xl shadow-lg border-b border-brand-cyan/20'
             : 'py-6 bg-deep-teal/90 backdrop-blur-md'
         }`}
       >
@@ -97,32 +106,42 @@ const Header: React.FC = () => {
 
             {/* Right Actions */}
             <div className="flex items-center gap-4">
-              {/* Language Selector */}
+              {/* Language Selector - WCAG 4.1.2 (A) */}
               <div className="relative">
                 <button
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                  aria-label={tA11y('chooseLanguage')}
+                  aria-expanded={isLangMenuOpen}
+                  aria-haspopup="true"
                   className={`group flex items-center gap-2 px-4 py-2 backdrop-blur-md border rounded-xl transition-all duration-300 ${
                     isScrolled
                       ? 'bg-white/80 border-brand-cyan/20 text-dark-gray hover:bg-white hover:border-brand-cyan/40'
                       : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
                   }`}
                 >
-                  <GlobeAltIcon className="w-4 h-4" />
+                  <GlobeAltIcon className="w-4 h-4" aria-hidden="true" />
                   <span className="hidden sm:inline font-inter text-sm">{currentLocale.toUpperCase()}</span>
-                  <ChevronDownIcon className={`w-3 h-3 transition-transform duration-300 ${isLangMenuOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDownIcon className={`w-3 h-3 transition-transform duration-300 ${isLangMenuOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
                 </button>
 
                 {/* Language Dropdown */}
                 {isLangMenuOpen && (
-                  <div className={`absolute top-full right-0 mt-2 w-48 backdrop-blur-xl border rounded-xl overflow-hidden shadow-2xl ${
-                    isScrolled
-                      ? 'bg-white/95 border-brand-cyan/20'
-                      : 'bg-white/10 border-white/20'
-                  }`}>
+                  <div
+                    className={`absolute top-full right-0 mt-2 w-48 backdrop-blur-xl border rounded-xl overflow-hidden shadow-2xl ${
+                      isScrolled
+                        ? 'bg-white/95 border-brand-cyan/20'
+                        : 'bg-white/10 border-white/20'
+                    }`}
+                    role="menu"
+                    aria-label={tA11y('chooseLanguage')}
+                  >
                     {languages.map((lang) => (
                       <button
                         key={lang.code}
                         onClick={() => handleLanguageChange(lang.code)}
+                        role="menuitem"
+                        aria-label={tA11y('selectLanguage', { language: lang.label })}
+                        aria-current={currentLocale === lang.code ? 'true' : 'false'}
                         className={`w-full px-4 py-3 flex items-center gap-3 transition-colors duration-200 ${
                           isScrolled
                             ? `text-dark-gray hover:bg-brand-cyan/10 ${
@@ -133,7 +152,7 @@ const Header: React.FC = () => {
                               }`
                         }`}
                       >
-                        <span className="text-lg">{lang.flag}</span>
+                        <span className="text-lg" aria-hidden="true">{lang.flag}</span>
                         <span className="font-inter text-sm">{lang.label}</span>
                       </button>
                     ))}
@@ -195,9 +214,12 @@ const Header: React.FC = () => {
                 </>
               )}
 
-              {/* Mobile Menu Toggle */}
+              {/* Mobile Menu Toggle - WCAG 4.1.2 (A) */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label={isMobileMenuOpen ? tA11y('closeMenu') : tA11y('openMenu')}
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-menu"
                 className={`md:hidden p-2 backdrop-blur-md border rounded-xl transition-all duration-300 ${
                   isScrolled
                     ? 'bg-white/80 border-brand-cyan/20 text-dark-gray hover:bg-white hover:border-brand-cyan/40'
@@ -205,9 +227,9 @@ const Header: React.FC = () => {
                 }`}
               >
                 {isMobileMenuOpen ? (
-                  <XMarkIcon className="w-6 h-6" />
+                  <XMarkIcon className="w-6 h-6" aria-hidden="true" />
                 ) : (
-                  <Bars3Icon className="w-6 h-6" />
+                  <Bars3Icon className="w-6 h-6" aria-hidden="true" />
                 )}
               </button>
             </div>
@@ -216,21 +238,31 @@ const Header: React.FC = () => {
       </header>
 
       {/* Mobile Menu */}
-      <div className={`fixed inset-0 z-40 md:hidden transition-all duration-500 ${
-        isMobileMenuOpen ? 'visible' : 'invisible'
-      }`}>
+      <div
+        id="mobile-menu"
+        className={`fixed inset-0 z-40 md:hidden transition-all duration-500 ${
+          isMobileMenuOpen ? 'visible' : 'invisible'
+        }`}
+        aria-hidden={!isMobileMenuOpen}
+      >
         {/* Backdrop */}
-        <div 
+        <div
           className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-500 ${
             isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={() => setIsMobileMenuOpen(false)}
+          aria-label={tA11y('closeMenu')}
+          role="button"
+          tabIndex={isMobileMenuOpen ? 0 : -1}
         />
 
         {/* Menu Panel */}
-        <div className={`absolute right-0 top-0 h-full w-72 bg-deep-teal/95 backdrop-blur-xl border-l border-white/10 transform transition-transform duration-500 ${
-          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}>
+        <nav
+          className={`absolute right-0 top-0 h-full w-72 bg-deep-teal/95 backdrop-blur-xl border-l border-white/10 transform transition-transform duration-500 ${
+            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+          aria-label="Mobile navigation"
+        >
           <div className="flex flex-col h-full pt-20 pb-6 px-6">
             {/* Mobile Navigation Links */}
             <nav className="flex-1 space-y-2">
@@ -284,7 +316,7 @@ const Header: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
+        </nav>
       </div>
     </>
   );

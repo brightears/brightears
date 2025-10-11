@@ -25,31 +25,42 @@ export default function IDVerificationUpload({
   className = ''
 }: IDVerificationUploadProps) {
   const t = useTranslations('verification')
+  const tA11y = useTranslations('accessibility')
   const [isUploading, setIsUploading] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const [preview, setPreview] = useState<string | null>(currentDocument || null)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [selectedDocType, setSelectedDocType] = useState<DocumentType>(currentDocumentType || 'national_id')
   const [fileName, setFileName] = useState<string>('')
+  const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState<string>('')
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const uploadFile = async (file: File) => {
     // Validate file type
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'application/pdf']
     if (!validTypes.includes(file.type)) {
-      onUploadError(t('errors.invalidType'))
+      const error = t('errors.invalidType')
+      onUploadError(error)
+      setUploadStatus('error')
+      setErrorMessage(error)
       return
     }
 
     // Validate file size (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
-      onUploadError(t('errors.tooLarge'))
+      const error = t('errors.tooLarge')
+      onUploadError(error)
+      setUploadStatus('error')
+      setErrorMessage(error)
       return
     }
 
     setIsUploading(true)
+    setUploadStatus('uploading')
     setUploadProgress(0)
     setFileName(file.name)
+    setErrorMessage('')
 
     try {
       const formData = new FormData()
@@ -77,10 +88,13 @@ export default function IDVerificationUpload({
       }
 
       setPreview(result.url)
+      setUploadStatus('success')
       onUploadSuccess(result.url, selectedDocType)
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : t('errors.uploadFailed')
-      onUploadError(errorMessage)
+      const errorMsg = error instanceof Error ? error.message : t('errors.uploadFailed')
+      setUploadStatus('error')
+      setErrorMessage(errorMsg)
+      onUploadError(errorMsg)
     } finally {
       setIsUploading(false)
       setUploadProgress(0)
@@ -240,9 +254,9 @@ export default function IDVerificationUpload({
                       removeDocument()
                     }}
                     className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-                    aria-label={t('remove')}
+                    aria-label={tA11y('removeDocument')}
                   >
-                    <XMarkIcon className="w-4 h-4" />
+                    <XMarkIcon className="w-4 h-4" aria-hidden="true" />
                   </button>
                 )}
               </div>
@@ -304,6 +318,18 @@ export default function IDVerificationUpload({
           </svg>
           {t('security.encrypted')}
         </p>
+      </div>
+
+      {/* Live Region for Screen Readers - WCAG 4.1.3 (AA) */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {uploadStatus === 'uploading' && tA11y('uploadProgress', { progress: uploadProgress })}
+        {uploadStatus === 'success' && tA11y('uploadSuccess')}
+        {uploadStatus === 'error' && tA11y('uploadFailed', { error: errorMessage })}
       </div>
     </div>
   )

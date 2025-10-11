@@ -84,12 +84,12 @@ export default async function LocaleLayout({
               <div className="relative min-h-screen flex flex-col">
                 {/* Fixed Header with consistent styling */}
                 <Header />
-                
-                {/* Main content area with proper spacing for fixed header */}
-                <main className="flex-1 pt-[72px] md:pt-[80px]">
+
+                {/* Main content area with proper spacing for fixed header - WCAG 2.4.1 (A) */}
+                <main id="main-content" tabIndex={-1} className="flex-1 pt-[72px] md:pt-[80px]">
                   {/* Subtle background gradient for entire app */}
                   <div className="fixed inset-0 -z-10 bg-gradient-to-br from-off-white via-pure-white to-brand-cyan/5" />
-                  
+
                   {children}
                 </main>
                 
