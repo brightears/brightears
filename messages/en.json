@@ -812,5 +812,30 @@
         }
       }
     }
+  },
+  "roleSelection": {
+    "badge": "Welcome to Bright Ears",
+    "title": "How can we help you today?",
+    "subtitle": "Choose your path to get started with the perfect entertainment booking experience",
+    "close": "Close dialog",
+    "customer": {
+      "ariaLabel": "I'm looking to book entertainment",
+      "title": "Book Entertainment",
+      "description": "Find and book talented DJs, bands, singers, and performers for your events",
+      "feature1": "Browse verified artists across Thailand",
+      "feature2": "Get instant quotes with no commission fees",
+      "feature3": "Direct communication with artists",
+      "cta": "Find Artists"
+    },
+    "artist": {
+      "ariaLabel": "I'm an artist or entertainer",
+      "title": "Join as Entertainer",
+      "description": "Showcase your talent and get booked for events with zero commission",
+      "feature1": "Create your professional profile for free",
+      "feature2": "Set your own rates, keep 100% of earnings",
+      "feature3": "Get discovered by event organizers",
+      "cta": "Sign Up Now"
+    },
+    "skipForNow": "Skip for now"
   }
 }
