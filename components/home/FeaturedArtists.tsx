@@ -40,14 +40,28 @@ export default function FeaturedArtists({ locale }: FeaturedArtistsProps) {
 
   const fetchFeaturedArtists = async () => {
     try {
-      // Fetch top artists with high ratings and recent activity
-      const response = await fetch('/api/artists?featured=true&limit=6&sort=featured')
-      if (response.ok) {
-        const data = await response.json()
-        setArtists(data.artists || [])
+      // Fetch top artists sorted by verification level, rating, and bookings
+      // This matches the "featured" sort order in the API
+      const response = await fetch('/api/artists?limit=6&sort=featured')
+
+      if (!response.ok) {
+        console.error('Failed to fetch featured artists:', response.status, response.statusText)
+        // Still set loading to false even on error
+        setLoading(false)
+        return
       }
+
+      const data = await response.json()
+
+      // Log for debugging (remove in production)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Featured artists fetched:', data.artists?.length || 0, 'artists')
+      }
+
+      setArtists(data.artists || [])
     } catch (error) {
       console.error('Error fetching featured artists:', error)
+      // Ensure loading is set to false even on error
     } finally {
       setLoading(false)
     }
@@ -100,6 +114,38 @@ export default function FeaturedArtists({ locale }: FeaturedArtistsProps) {
     )
   }
 
+  // Empty state if no artists found
+  if (!artists || artists.length === 0) {
+    return (
+      <section className="bg-off-white py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-playfair font-bold text-3xl text-deep-teal sm:text-4xl mb-4">
+              {t('featuredArtists.title')}
+            </h2>
+            <div className="w-24 h-1 bg-brand-cyan mx-auto mb-6"></div>
+          </div>
+
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">🎵</div>
+            <p className="text-dark-gray/70 text-lg mb-6">
+              {t('featuredArtists.noArtistsFound') || 'No featured artists available at the moment.'}
+            </p>
+            <Link
+              href="/artists"
+              className="inline-flex items-center space-x-2 bg-brand-cyan text-pure-white px-6 py-3 rounded-lg font-medium hover:bg-brand-cyan/90 transition-colors"
+            >
+              <span>{t('featuredArtists.browseAllArtists') || 'Browse All Artists'}</span>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section className="bg-off-white py-16 lg:py-20 relative overflow-hidden">
       {/* Subtle background pattern */}
@@ -123,13 +169,15 @@ export default function FeaturedArtists({ locale }: FeaturedArtistsProps) {
         </div>
 
         {/* Artists Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {artists.map((artist, index) => (
-            <div 
-              key={artist.id} 
-              className="bg-pure-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group relative artist-card transform hover:scale-[1.02] hover:-translate-y-1 animate-card-entrance"
-              style={{ 
-                animationDelay: `${index * 150}ms`
+            <div
+              key={artist.id}
+              className="bg-pure-white/90 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl border border-white/20 transition-all duration-300 overflow-hidden group relative artist-card transform hover:scale-[1.02] hover:-translate-y-1"
+              style={{
+                animationDelay: `${index * 150}ms`,
+                animation: 'fadeInUp 0.6s ease-out forwards',
+                opacity: 0
               }}
             >
               {/* Featured Badge */}
@@ -268,13 +316,13 @@ export default function FeaturedArtists({ locale }: FeaturedArtistsProps) {
         </div>
 
         {/* View All Artists CTA */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-12 sm:mt-16">
           <Link
             href="/artists"
-            className="inline-flex items-center space-x-2 bg-earthy-brown text-pure-white px-8 py-3 rounded-lg font-medium hover:bg-earthy-brown/90 transition-colors"
+            className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-cyan/80 text-pure-white px-8 py-4 rounded-xl font-medium hover:shadow-lg hover:scale-105 transition-all duration-300 group"
           >
-            <span>{t('featuredArtists.viewAllArtists')}</span>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span className="text-base sm:text-lg">{t('featuredArtists.viewAllArtists')}</span>
+            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
@@ -282,9 +330,34 @@ export default function FeaturedArtists({ locale }: FeaturedArtistsProps) {
       </div>
 
       <style jsx>{`
-        @keyframes staggered-fade-in {
-          0% { opacity: 0; transform: translateY(20px); }
-          100% { opacity: 1; transform: translateY(0); }
+        @keyframes fadeInUp {
+          0% {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @media (max-width: 640px) {
+          .artist-card {
+            max-width: 100%;
+          }
+        }
+
+        /* Glass morphism enhancement */
+        .artist-card {
+          box-shadow:
+            0 8px 32px 0 rgba(47, 99, 100, 0.08),
+            0 2px 8px 0 rgba(0, 187, 228, 0.05);
+        }
+
+        .artist-card:hover {
+          box-shadow:
+            0 20px 48px 0 rgba(47, 99, 100, 0.15),
+            0 4px 16px 0 rgba(0, 187, 228, 0.1);
         }
       `}</style>
     </section>
