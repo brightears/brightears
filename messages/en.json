@@ -837,5 +837,70 @@
       "cta": "Sign Up Now"
     },
     "skipForNow": "Skip for now"
+  },
+  "artists": {
+    "title": "Browse 500+ Verified Artists",
+    "subtitle": "Find the perfect DJ, band, or entertainer for your event in Thailand",
+    "searchPlaceholder": "Search by name, genre, or style...",
+    "searchingFor": "Searching for",
+    "artistsFound": "artists found",
+    "noArtistsFound": "No Artists Found",
+    "tryAdjustingFilters": "Try adjusting your filters or search terms to find more artists",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {current} of {total}",
+    "searchTips": {
+      "title": "Search Tips",
+      "tip1": "Try searching for a specific genre like 'Jazz' or 'Rock'",
+      "tip2": "Browse by category using the filters on the left",
+      "tip3": "Filter by location to find artists in your area",
+      "tip4": "Use the price range filter to match your budget",
+      "tip5": "Check verification levels for trusted professionals"
+    },
+    "filters": {
+      "title": "Filters",
+      "clearAll": "Clear All Filters",
+      "category": "Category",
+      "location": "Location",
+      "allCities": "All Cities",
+      "priceRange": "Price Range (per hour)",
+      "minPrice": "Min Price",
+      "maxPrice": "Max Price",
+      "verificationLevel": "Verification Level",
+      "allLevels": "All Levels",
+      "availability": "Availability",
+      "anyTime": "Any Time",
+      "thisWeek": "This Week",
+      "thisMonth": "This Month",
+      "categories": {
+        "DJ": "DJ",
+        "BAND": "Band",
+        "SINGER": "Singer",
+        "MUSICIAN": "Musician",
+        "MC": "MC / Host",
+        "COMEDIAN": "Comedian",
+        "MAGICIAN": "Magician",
+        "DANCER": "Dancer",
+        "PHOTOGRAPHER": "Photographer",
+        "SPEAKER": "Speaker"
+      },
+      "verification": {
+        "UNVERIFIED": "Unverified",
+        "PENDING": "Verification Pending",
+        "ID_VERIFIED": "ID Verified",
+        "POLICE_CHECKED": "Police Background Check",
+        "BUSINESS_VERIFIED": "Business Verified",
+        "TRUSTED": "Trusted Professional"
+      }
+    },
+    "sort": {
+      "label": "Sort by",
+      "featured": "Featured",
+      "rating": "Highest Rated",
+      "priceLowToHigh": "Price: Low to High",
+      "priceHighToLow": "Price: High to Low",
+      "mostBooked": "Most Booked",
+      "newest": "Newest First"
+    }
   }
 }
