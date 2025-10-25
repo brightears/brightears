@@ -8,9 +8,10 @@ interface ArtistsPageContentProps {
   locale: string
   title: string
   subtitle: string
+  matchTitle: string
 }
 
-export default function ArtistsPageContent({ locale, title, subtitle }: ArtistsPageContentProps) {
+export default function ArtistsPageContent({ locale, title, subtitle, matchTitle }: ArtistsPageContentProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState(false)
 
@@ -70,14 +71,14 @@ export default function ArtistsPageContent({ locale, title, subtitle }: ArtistsP
           </div>
 
           {/* Main Heading */}
-          <h1 
+          <h1
             className={`font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 transition-all duration-1000 delay-100 transform ${
               isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
             <span className="block">{title}</span>
             <span className="block bg-gradient-to-r from-brand-cyan via-white to-soft-lavender bg-clip-text text-transparent">
-              Find Your Perfect Match
+              {matchTitle}
             </span>
           </h1>
 

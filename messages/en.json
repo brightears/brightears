@@ -841,6 +841,7 @@
   "artists": {
     "title": "Browse 500+ Verified Artists",
     "subtitle": "Find the perfect DJ, band, or entertainer for your event in Thailand",
+    "matchTitle": "Find Your Perfect Match",
     "searchPlaceholder": "Search by name, genre, or style...",
     "searchingFor": "Searching for",
     "artistsFound": "artists found",
@@ -866,6 +867,10 @@
       "priceRange": "Price Range (per hour)",
       "minPrice": "Min Price",
       "maxPrice": "Max Price",
+      "genres": "Music Genres",
+      "languages": "Languages",
+      "verification": "Verification Level",
+      "showAvailableOnly": "Show only available artists",
       "verificationLevel": "Verification Level",
       "allLevels": "All Levels",
       "availability": "Availability",
@@ -887,10 +892,21 @@
       "verification": {
         "UNVERIFIED": "Unverified",
         "PENDING": "Verification Pending",
-        "ID_VERIFIED": "ID Verified",
-        "POLICE_CHECKED": "Police Background Check",
-        "BUSINESS_VERIFIED": "Business Verified",
-        "TRUSTED": "Trusted Professional"
+        "BASIC": "Basic Verification",
+        "VERIFIED": "Verified Artist",
+        "TRUSTED": "Trusted Professional",
+        "REJECTED": "Verification Rejected"
+      },
+      "pricePresets": {
+        "budget": "Budget",
+        "budgetRange": "฿0 - ฿5,000/hr",
+        "standard": "Standard",
+        "standardRange": "฿5,000 - ฿15,000/hr",
+        "premium": "Premium",
+        "premiumRange": "฿15,000 - ฿30,000/hr",
+        "luxury": "Luxury",
+        "luxuryRange": "฿30,000+/hr",
+        "custom": "Custom Range"
       }
     },
     "sort": {

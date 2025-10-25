@@ -59,6 +59,7 @@ export default async function ArtistsPage({
       locale={locale}
       title={t('title')}
       subtitle={t('subtitle')}
+      matchTitle={t('matchTitle')}
     />
   );
 }

@@ -63,6 +63,14 @@ const LANGUAGES = [
   { value: 'ru', label: 'Russian', labelTh: 'รัสเซีย' }
 ]
 
+// Price presets based on Thai entertainment market
+const PRICE_PRESETS = [
+  { id: 'budget', min: 0, max: 5000 },
+  { id: 'standard', min: 5000, max: 15000 },
+  { id: 'premium', min: 15000, max: 30000 },
+  { id: 'luxury', min: 30000, max: 50000 }
+]
+
 export default function FilterSidebar({
   filters,
   onFiltersChange,
@@ -72,6 +80,8 @@ export default function FilterSidebar({
   const t = useTranslations('artists.filters')
   const [localFilters, setLocalFilters] = useState(filters)
   const [priceRange, setPriceRange] = useState({ min: filters.minPrice || 0, max: filters.maxPrice || 50000 })
+  const [selectedPreset, setSelectedPreset] = useState<string | null>(null)
+  const [showCustom, setShowCustom] = useState(false)
 
   // Update local filters when props change
   useEffect(() => {
@@ -132,6 +142,19 @@ export default function FilterSidebar({
     onFiltersChange(newFilters)
   }
 
+  const handlePresetClick = (preset: typeof PRICE_PRESETS[0]) => {
+    setSelectedPreset(preset.id)
+    setShowCustom(false)
+    setPriceRange({ min: preset.min, max: preset.max })
+    const newFilters = {
+      ...localFilters,
+      minPrice: preset.min,
+      maxPrice: preset.max
+    }
+    setLocalFilters(newFilters)
+    onFiltersChange(newFilters)
+  }
+
   const clearAllFilters = () => {
     const clearedFilters = {
       category: [],
@@ -145,6 +168,8 @@ export default function FilterSidebar({
     }
     setLocalFilters(clearedFilters)
     setPriceRange({ min: 0, max: 50000 })
+    setSelectedPreset(null)
+    setShowCustom(false)
     onFiltersChange(clearedFilters)
   }
 
@@ -247,30 +272,67 @@ export default function FilterSidebar({
           <CurrencyDollarIcon className="w-4 h-4 text-brand-cyan" />
           {t('priceRange')}
         </h4>
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <input
-              type="number"
-              value={priceRange.min}
-              onChange={(e) => setPriceRange({ ...priceRange, min: parseInt(e.target.value) || 0 })}
-              onBlur={handlePriceChange}
-              placeholder="Min"
-              className="flex-1 px-3 py-2 bg-white/80 backdrop-blur-md border border-white/30 rounded-lg text-dark-gray font-inter text-sm focus:outline-none focus:ring-2 focus:ring-brand-cyan"
-            />
-            <span className="text-dark-gray">-</span>
-            <input
-              type="number"
-              value={priceRange.max}
-              onChange={(e) => setPriceRange({ ...priceRange, max: parseInt(e.target.value) || 50000 })}
-              onBlur={handlePriceChange}
-              placeholder="Max"
-              className="flex-1 px-3 py-2 bg-white/80 backdrop-blur-md border border-white/30 rounded-lg text-dark-gray font-inter text-sm focus:outline-none focus:ring-2 focus:ring-brand-cyan"
-            />
-          </div>
-          <div className="text-xs text-dark-gray/60 text-center">
-            {formatPrice(priceRange.min, { showCurrency: true, locale: 'en' })} - {formatPrice(priceRange.max, { showCurrency: true, locale: 'en' })}
-          </div>
+
+        {/* Preset Buttons Grid */}
+        <div className="grid grid-cols-2 gap-2">
+          {PRICE_PRESETS.map(preset => (
+            <button
+              key={preset.id}
+              onClick={() => handlePresetClick(preset)}
+              className={`p-3 rounded-xl border-2 transition-all duration-200 ${
+                selectedPreset === preset.id
+                  ? 'border-brand-cyan bg-brand-cyan/10'
+                  : 'border-white/30 bg-white/50 hover:border-brand-cyan/50'
+              }`}
+            >
+              <div className="text-sm font-semibold text-dark-gray">
+                {t(`pricePresets.${preset.id}`)}
+              </div>
+              <div className="text-xs text-dark-gray/60 mt-1">
+                {t(`pricePresets.${preset.id}Range`)}
+              </div>
+            </button>
+          ))}
         </div>
+
+        {/* Custom Range Toggle */}
+        <button
+          onClick={() => {
+            setShowCustom(!showCustom)
+            setSelectedPreset(null)
+          }}
+          className="w-full py-2 px-4 bg-white/50 border border-white/30 rounded-xl text-sm font-medium text-dark-gray hover:bg-white/70 transition-colors"
+        >
+          {t('pricePresets.custom')} {showCustom ? '▲' : '▼'}
+        </button>
+
+        {/* Existing Custom Inputs (Collapsible) */}
+        {showCustom && (
+          <div className="space-y-4 pt-2">
+            <div className="flex items-center gap-3">
+              <input
+                type="number"
+                value={priceRange.min}
+                onChange={(e) => setPriceRange({ ...priceRange, min: parseInt(e.target.value) || 0 })}
+                onBlur={handlePriceChange}
+                placeholder="Min"
+                className="flex-1 px-3 py-2 bg-white/80 backdrop-blur-md border border-white/30 rounded-lg text-dark-gray font-inter text-sm focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+              />
+              <span className="text-dark-gray">-</span>
+              <input
+                type="number"
+                value={priceRange.max}
+                onChange={(e) => setPriceRange({ ...priceRange, max: parseInt(e.target.value) || 50000 })}
+                onBlur={handlePriceChange}
+                placeholder="Max"
+                className="flex-1 px-3 py-2 bg-white/80 backdrop-blur-md border border-white/30 rounded-lg text-dark-gray font-inter text-sm focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+              />
+            </div>
+            <div className="text-xs text-dark-gray/60 text-center">
+              {formatPrice(priceRange.min, { showCurrency: true, locale: 'en' })} - {formatPrice(priceRange.max, { showCurrency: true, locale: 'en' })}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Genres Filter */}
