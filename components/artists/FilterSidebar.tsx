@@ -11,7 +11,8 @@ import {
   LanguageIcon,
   CheckBadgeIcon,
   CalendarDaysIcon,
-  SparklesIcon
+  SparklesIcon,
+  ChevronDownIcon
 } from '@heroicons/react/24/outline'
 import { ArtistCategory, VerificationLevel } from '@prisma/client'
 import { formatPrice } from '@/lib/pricing'
@@ -82,6 +83,21 @@ export default function FilterSidebar({
   const [priceRange, setPriceRange] = useState({ min: filters.minPrice || 0, max: filters.maxPrice || 50000 })
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null)
   const [showCustom, setShowCustom] = useState(false)
+
+  // State for collapsible sections
+  const [expandedSections, setExpandedSections] = useState({
+    category: true,      // Start expanded (most important filter)
+    genres: false,       // Start collapsed
+    languages: false,    // Start collapsed
+    verification: false  // Start collapsed
+  })
+
+  const toggleSection = (section: keyof typeof expandedSections) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
+  }
 
   // Update local filters when props change
   useEffect(() => {
@@ -218,28 +234,42 @@ export default function FilterSidebar({
 
       {/* Category Filter */}
       <div className="space-y-3">
-        <h4 className="font-inter font-semibold text-dark-gray flex items-center gap-2">
-          <SparklesIcon className="w-4 h-4 text-brand-cyan" />
-          {t('category')}
-        </h4>
-        <div className="space-y-2">
-          {Object.values(ArtistCategory).map(category => (
-            <label
-              key={category}
-              className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/50 cursor-pointer transition-colors"
-            >
-              <input
-                type="checkbox"
-                checked={localFilters.category.includes(category)}
-                onChange={() => handleCategoryToggle(category)}
-                className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
-              />
-              <span className="font-inter text-sm text-dark-gray">
-                {t(`categories.${category}`)}
-              </span>
-            </label>
-          ))}
-        </div>
+        <button
+          onClick={() => toggleSection('category')}
+          className="w-full flex items-center justify-between font-inter font-semibold text-dark-gray hover:text-brand-cyan transition-colors py-1"
+          aria-expanded={expandedSections.category}
+        >
+          <div className="flex items-center gap-2">
+            <SparklesIcon className="w-4 h-4 text-brand-cyan" />
+            <span>{t('category')}</span>
+          </div>
+          <ChevronDownIcon
+            className={`w-4 h-4 text-brand-cyan transition-transform duration-200 ${
+              expandedSections.category ? 'rotate-180' : ''
+            }`}
+          />
+        </button>
+
+        {expandedSections.category && (
+          <div className="space-y-2 pl-6 animate-in fade-in duration-200">
+            {Object.values(ArtistCategory).map(category => (
+              <label
+                key={category}
+                className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/50 cursor-pointer transition-colors"
+              >
+                <input
+                  type="checkbox"
+                  checked={localFilters.category.includes(category)}
+                  onChange={() => handleCategoryToggle(category)}
+                  className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
+                />
+                <span className="font-inter text-sm text-dark-gray">
+                  {t(`categories.${category}`)}
+                </span>
+              </label>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Location Filter */}
@@ -337,78 +367,120 @@ export default function FilterSidebar({
 
       {/* Genres Filter */}
       <div className="space-y-3">
-        <h4 className="font-inter font-semibold text-dark-gray flex items-center gap-2">
-          <MusicalNoteIcon className="w-4 h-4 text-brand-cyan" />
-          {t('genres')}
-        </h4>
-        <div className="max-h-48 overflow-y-auto space-y-2 pr-2 scrollbar-thin scrollbar-thumb-brand-cyan/20 scrollbar-track-white/20">
-          {MUSIC_GENRES.map(genre => (
-            <label
-              key={genre}
-              className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/50 cursor-pointer transition-colors"
-            >
-              <input
-                type="checkbox"
-                checked={localFilters.genres.includes(genre)}
-                onChange={() => handleGenreToggle(genre)}
-                className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
-              />
-              <span className="font-inter text-sm text-dark-gray">{genre}</span>
-            </label>
-          ))}
-        </div>
+        <button
+          onClick={() => toggleSection('genres')}
+          className="w-full flex items-center justify-between font-inter font-semibold text-dark-gray hover:text-brand-cyan transition-colors py-1"
+          aria-expanded={expandedSections.genres}
+        >
+          <div className="flex items-center gap-2">
+            <MusicalNoteIcon className="w-4 h-4 text-brand-cyan" />
+            <span>{t('genres')}</span>
+          </div>
+          <ChevronDownIcon
+            className={`w-4 h-4 text-brand-cyan transition-transform duration-200 ${
+              expandedSections.genres ? 'rotate-180' : ''
+            }`}
+          />
+        </button>
+
+        {expandedSections.genres && (
+          <div className="max-h-48 overflow-y-auto space-y-2 pl-6 pr-2 scrollbar-thin scrollbar-thumb-brand-cyan/20 scrollbar-track-white/20 animate-in fade-in duration-200">
+            {MUSIC_GENRES.map(genre => (
+              <label
+                key={genre}
+                className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/50 cursor-pointer transition-colors"
+              >
+                <input
+                  type="checkbox"
+                  checked={localFilters.genres.includes(genre)}
+                  onChange={() => handleGenreToggle(genre)}
+                  className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
+                />
+                <span className="font-inter text-sm text-dark-gray">{genre}</span>
+              </label>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Languages Filter */}
       <div className="space-y-3">
-        <h4 className="font-inter font-semibold text-dark-gray flex items-center gap-2">
-          <LanguageIcon className="w-4 h-4 text-brand-cyan" />
-          {t('languages')}
-        </h4>
-        <div className="space-y-2">
-          {LANGUAGES.map(lang => (
-            <label
-              key={lang.value}
-              className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/50 cursor-pointer transition-colors"
-            >
-              <input
-                type="checkbox"
-                checked={localFilters.languages.includes(lang.value)}
-                onChange={() => handleLanguageToggle(lang.value)}
-                className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
-              />
-              <span className="font-inter text-sm text-dark-gray">
-                {lang.label} / {lang.labelTh}
-              </span>
-            </label>
-          ))}
-        </div>
+        <button
+          onClick={() => toggleSection('languages')}
+          className="w-full flex items-center justify-between font-inter font-semibold text-dark-gray hover:text-brand-cyan transition-colors py-1"
+          aria-expanded={expandedSections.languages}
+        >
+          <div className="flex items-center gap-2">
+            <LanguageIcon className="w-4 h-4 text-brand-cyan" />
+            <span>{t('languages')}</span>
+          </div>
+          <ChevronDownIcon
+            className={`w-4 h-4 text-brand-cyan transition-transform duration-200 ${
+              expandedSections.languages ? 'rotate-180' : ''
+            }`}
+          />
+        </button>
+
+        {expandedSections.languages && (
+          <div className="space-y-2 pl-6 animate-in fade-in duration-200">
+            {LANGUAGES.map(lang => (
+              <label
+                key={lang.value}
+                className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/50 cursor-pointer transition-colors"
+              >
+                <input
+                  type="checkbox"
+                  checked={localFilters.languages.includes(lang.value)}
+                  onChange={() => handleLanguageToggle(lang.value)}
+                  className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
+                />
+                <span className="font-inter text-sm text-dark-gray">
+                  {lang.label} / {lang.labelTh}
+                </span>
+              </label>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Verification Level Filter */}
       <div className="space-y-3">
-        <h4 className="font-inter font-semibold text-dark-gray flex items-center gap-2">
-          <CheckBadgeIcon className="w-4 h-4 text-brand-cyan" />
-          {t('verification')}
-        </h4>
-        <div className="space-y-2">
-          {Object.values(VerificationLevel).map(level => (
-            <label
-              key={level}
-              className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/50 cursor-pointer transition-colors"
-            >
-              <input
-                type="checkbox"
-                checked={localFilters.verificationLevel.includes(level)}
-                onChange={() => handleVerificationToggle(level)}
-                className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
-              />
-              <span className="font-inter text-sm text-dark-gray">
-                {t(`verification.${level}`)}
-              </span>
-            </label>
-          ))}
-        </div>
+        <button
+          onClick={() => toggleSection('verification')}
+          className="w-full flex items-center justify-between font-inter font-semibold text-dark-gray hover:text-brand-cyan transition-colors py-1"
+          aria-expanded={expandedSections.verification}
+        >
+          <div className="flex items-center gap-2">
+            <CheckBadgeIcon className="w-4 h-4 text-brand-cyan" />
+            <span>{t('verificationLevel')}</span>
+          </div>
+          <ChevronDownIcon
+            className={`w-4 h-4 text-brand-cyan transition-transform duration-200 ${
+              expandedSections.verification ? 'rotate-180' : ''
+            }`}
+          />
+        </button>
+
+        {expandedSections.verification && (
+          <div className="space-y-2 pl-6 animate-in fade-in duration-200">
+            {Object.values(VerificationLevel).map(level => (
+              <label
+                key={level}
+                className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/50 cursor-pointer transition-colors"
+              >
+                <input
+                  type="checkbox"
+                  checked={localFilters.verificationLevel.includes(level)}
+                  onChange={() => handleVerificationToggle(level)}
+                  className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
+                />
+                <span className="font-inter text-sm text-dark-gray">
+                  {t(`verification.${level}`)}
+                </span>
+              </label>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Availability Filter */}

@@ -582,7 +582,6 @@
       "maxPrice": "ราคาสูงสุด",
       "genres": "แนวเพลง",
       "languages": "ภาษา",
-      "verification": "ระดับการตรวจสอบ",
       "showAvailableOnly": "แสดงเฉพาะศิลปินที่พร้อม",
       "verificationLevel": "ระดับการตรวจสอบ",
       "allLevels": "ทุกระดับ",
