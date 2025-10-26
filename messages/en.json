@@ -870,6 +870,7 @@
       "genres": "Music Genres",
       "languages": "Languages",
       "showAvailableOnly": "Show only available artists",
+      "showVerifiedOnly": "Show only verified artists",
       "verificationLevel": "Verification Level",
       "allLevels": "All Levels",
       "availability": "Availability",

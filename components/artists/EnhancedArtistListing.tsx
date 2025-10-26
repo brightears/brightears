@@ -55,12 +55,7 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
       search: searchParams.get('search') || '',
       categories: searchParams.get('categories')?.split(',').filter(Boolean) || [],
       city: searchParams.get('city') || '',
-      minPrice: searchParams.get('minPrice') ? Number(searchParams.get('minPrice')) : null,
-      maxPrice: searchParams.get('maxPrice') ? Number(searchParams.get('maxPrice')) : null,
-      genres: searchParams.get('genres')?.split(',').filter(Boolean) || [],
-      languages: searchParams.get('languages')?.split(',').filter(Boolean) || [],
-      verificationLevels: searchParams.get('verificationLevels')?.split(',').filter(Boolean) || [],
-      availability: searchParams.get('availability') === 'true',
+      verifiedOnly: searchParams.get('verifiedOnly') === 'true',
       sort: (searchParams.get('sort') as SortOption) || 'featured'
     }
   }, [searchParams])
@@ -80,12 +75,7 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
     if (newFilters.search) params.set('search', newFilters.search)
     if (newFilters.categories.length) params.set('categories', newFilters.categories.join(','))
     if (newFilters.city) params.set('city', newFilters.city)
-    if (newFilters.minPrice !== null) params.set('minPrice', newFilters.minPrice.toString())
-    if (newFilters.maxPrice !== null) params.set('maxPrice', newFilters.maxPrice.toString())
-    if (newFilters.genres.length) params.set('genres', newFilters.genres.join(','))
-    if (newFilters.languages.length) params.set('languages', newFilters.languages.join(','))
-    if (newFilters.verificationLevels.length) params.set('verificationLevels', newFilters.verificationLevels.join(','))
-    if (newFilters.availability) params.set('availability', 'true')
+    if (newFilters.verifiedOnly) params.set('verifiedOnly', 'true')
     if (newFilters.sort !== 'featured') params.set('sort', newFilters.sort)
     if (newPage && newPage > 1) params.set('page', newPage.toString())
 
@@ -105,12 +95,7 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
         ...(filters.search && { search: filters.search }),
         ...(filters.categories.length && { categories: filters.categories.join(',') }),
         ...(filters.city && { city: filters.city }),
-        ...(filters.minPrice !== null && { minPrice: filters.minPrice.toString() }),
-        ...(filters.maxPrice !== null && { maxPrice: filters.maxPrice.toString() }),
-        ...(filters.genres.length && { genres: filters.genres.join(',') }),
-        ...(filters.languages.length && { languages: filters.languages.join(',') }),
-        ...(filters.verificationLevels.length && { verificationLevels: filters.verificationLevels.join(',') }),
-        ...(filters.availability && { availability: 'true' }),
+        ...(filters.verifiedOnly && { verifiedOnly: 'true' }),
         ...(filters.sort && { sort: filters.sort })
       })
 
@@ -146,12 +131,7 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
       ...filters,
       categories: newFilters.category || [],
       city: newFilters.city || '',
-      minPrice: newFilters.minPrice,
-      maxPrice: newFilters.maxPrice,
-      genres: newFilters.genres || [],
-      languages: newFilters.languages || [],
-      verificationLevels: newFilters.verificationLevel || [],
-      availability: newFilters.availability || false
+      verifiedOnly: newFilters.verifiedOnly || false
     }
     setFilters(updatedFilters)
     updateUrl(updatedFilters, 1)
@@ -176,21 +156,8 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
       case 'city':
         newFilters.city = ''
         break
-      case 'price':
-        newFilters.minPrice = null
-        newFilters.maxPrice = null
-        break
-      case 'genre':
-        newFilters.genres = newFilters.genres.filter(g => g !== value)
-        break
-      case 'language':
-        newFilters.languages = newFilters.languages.filter(l => l !== value)
-        break
-      case 'verificationLevel':
-        newFilters.verificationLevels = newFilters.verificationLevels.filter(v => v !== value)
-        break
-      case 'availability':
-        newFilters.availability = false
+      case 'verifiedOnly':
+        newFilters.verifiedOnly = false
         break
     }
 
@@ -203,12 +170,7 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
       search: '',
       categories: [],
       city: '',
-      minPrice: null,
-      maxPrice: null,
-      genres: [],
-      languages: [],
-      verificationLevels: [],
-      availability: false,
+      verifiedOnly: false,
       sort: 'featured' as SortOption
     }
     setFilters(clearedFilters)
@@ -271,12 +233,7 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
             filters={{
               category: filters.categories,
               city: filters.city,
-              minPrice: filters.minPrice,
-              maxPrice: filters.maxPrice,
-              genres: filters.genres,
-              languages: filters.languages,
-              verificationLevel: filters.verificationLevels,
-              availability: filters.availability
+              verifiedOnly: filters.verifiedOnly
             }}
             onFiltersChange={handleFiltersChange}
           />
@@ -398,12 +355,7 @@ export default function EnhancedArtistListing({ locale }: EnhancedArtistListingP
           filters={{
             category: filters.categories,
             city: filters.city,
-            minPrice: filters.minPrice,
-            maxPrice: filters.maxPrice,
-            genres: filters.genres,
-            languages: filters.languages,
-            verificationLevel: filters.verificationLevels,
-            availability: filters.availability
+            verifiedOnly: filters.verifiedOnly
           }}
           onFiltersChange={handleFiltersChange}
           isMobile

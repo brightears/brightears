@@ -583,6 +583,7 @@
       "genres": "แนวเพลง",
       "languages": "ภาษา",
       "showAvailableOnly": "แสดงเฉพาะศิลปินที่พร้อม",
+      "showVerifiedOnly": "แสดงเฉพาะศิลปินที่ตรวจสอบแล้ว",
       "verificationLevel": "ระดับการตรวจสอบ",
       "allLevels": "ทุกระดับ",
       "availability": "ความพร้อม",

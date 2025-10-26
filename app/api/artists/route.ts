@@ -5,6 +5,26 @@ import { safeErrorResponse } from '@/lib/api-auth'
 import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit'
 import { searchCache, CACHE_TTL } from '@/lib/search-cache'
 
+/**
+ * Browse Artists API - Simplified Filters for Early-Stage Marketplace
+ *
+ * Supported query parameters:
+ * - search: string (searches stageName, bio, bioTh)
+ * - categories: comma-separated string (DJ, BAND, SINGER, etc.)
+ * - city: string (bangkok, phuket, etc.)
+ * - verifiedOnly: boolean (true = only VERIFIED/TRUSTED artists)
+ * - sort: string (featured, rating, price_low, price_high, most_booked, newest)
+ * - page: number
+ * - limit: number
+ *
+ * Removed parameters (no longer supported):
+ * - minPrice, maxPrice (pricing is flexible, shown on artist cards)
+ * - genres (category-specific, shown on artist profiles)
+ * - languages (shown on artist profiles)
+ * - verificationLevels array (simplified to verifiedOnly boolean)
+ * - availability (dynamic, handled in search logic)
+ */
+
 // Input validation schema for artist search
 const searchSchema = z.object({
   // Basic search
@@ -15,23 +35,9 @@ const searchSchema = z.object({
 
   // Location
   city: z.string().max(100).optional(),
-  serviceAreas: z.array(z.string()).optional(),
 
-  // Price range
-  minPrice: z.number().min(0).optional(),
-  maxPrice: z.number().min(0).optional(),
-
-  // Genres (multiple)
-  genres: z.array(z.string()).optional(),
-
-  // Languages (multiple)
-  languages: z.array(z.string()).optional(),
-
-  // Verification levels (multiple)
-  verificationLevels: z.array(z.string()).optional(),
-
-  // Availability
-  availability: z.boolean().optional(),
+  // Simplified verification filter (replaces verificationLevels array)
+  verifiedOnly: z.boolean().optional(),
 
   // Sorting
   sort: z.enum(['featured', 'rating', 'price_low', 'price_high', 'most_booked', 'newest']).optional(),
@@ -101,13 +107,7 @@ export async function GET(req: NextRequest) {
       search: searchParams.get('search') || undefined,
       categories: parseArray(searchParams.get('categories')),
       city: searchParams.get('city') || undefined,
-      serviceAreas: parseArray(searchParams.get('serviceAreas')),
-      minPrice: searchParams.get('minPrice') ? parseFloat(searchParams.get('minPrice')!) : undefined,
-      maxPrice: searchParams.get('maxPrice') ? parseFloat(searchParams.get('maxPrice')!) : undefined,
-      genres: parseArray(searchParams.get('genres')),
-      languages: parseArray(searchParams.get('languages')),
-      verificationLevels: parseArray(searchParams.get('verificationLevels')),
-      availability: searchParams.get('availability') === 'true',
+      verifiedOnly: searchParams.get('verifiedOnly') === 'true',
       sort: searchParams.get('sort') as any || 'featured',
       page: parseInt(searchParams.get('page') || '1'),
       limit: parseInt(searchParams.get('limit') || '20')
@@ -124,13 +124,7 @@ export async function GET(req: NextRequest) {
       search,
       categories,
       city,
-      serviceAreas,
-      minPrice,
-      maxPrice,
-      genres,
-      languages,
-      verificationLevels,
-      availability,
+      verifiedOnly,
       sort,
       page,
       limit
@@ -143,13 +137,7 @@ export async function GET(req: NextRequest) {
       search,
       categories,
       city,
-      serviceAreas,
-      minPrice,
-      maxPrice,
-      genres,
-      languages,
-      verificationLevels,
-      availability,
+      verifiedOnly,
       sort,
       page,
       limit
@@ -206,98 +194,15 @@ export async function GET(req: NextRequest) {
       })
     }
 
-    // Service areas filter
-    if (serviceAreas && serviceAreas.length > 0) {
+    // Simplified verification filter - show only verified artists if requested
+    // VERIFIED = Artists who have completed verification
+    // TRUSTED = Top-tier verified artists with proven track record
+    // Excludes: UNVERIFIED, PENDING, BASIC, REJECTED
+    if (verifiedOnly) {
       conditions.push({
-        serviceAreas: { hasSome: serviceAreas }
-      })
-    }
-
-    // Price range filter
-    if (minPrice !== undefined || maxPrice !== undefined) {
-      const priceCondition: any = {}
-      if (minPrice !== undefined) {
-        priceCondition.gte = minPrice
-      }
-      if (maxPrice !== undefined) {
-        priceCondition.lte = maxPrice
-      }
-      conditions.push({ hourlyRate: priceCondition })
-    }
-
-    // Genres filter (multiple)
-    if (genres && genres.length > 0) {
-      conditions.push({
-        genres: { hasSome: genres }
-      })
-    }
-
-    // Languages filter (multiple)
-    if (languages && languages.length > 0) {
-      conditions.push({
-        languages: { hasSome: languages }
-      })
-    }
-
-    // Verification levels filter (multiple)
-    if (verificationLevels && verificationLevels.length > 0) {
-      conditions.push({
-        verificationLevel: { in: verificationLevels }
-      })
-    }
-
-    // Availability filter - check for available slots in next 30 days
-    if (availability) {
-      const now = new Date()
-      const futureDate = new Date()
-      futureDate.setDate(futureDate.getDate() + 30)
-
-      conditions.push({
-        OR: [
-          // Has availability records marked as available
-          {
-            availability: {
-              some: {
-                date: {
-                  gte: now,
-                  lte: futureDate
-                },
-                isAvailable: true
-              }
-            }
-          },
-          // Or has no bookings in the future (assumed available)
-          {
-            AND: [
-              {
-                bookings: {
-                  none: {
-                    eventDate: {
-                      gte: now,
-                      lte: futureDate
-                    },
-                    status: {
-                      in: ['CONFIRMED', 'PAID']
-                    }
-                  }
-                }
-              },
-              // And no blackout dates
-              {
-                blackoutDates: {
-                  none: {
-                    startDate: {
-                      lte: futureDate
-                    },
-                    endDate: {
-                      gte: now
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        ]
+        verificationLevel: {
+          in: ['VERIFIED', 'TRUSTED']
+        }
       })
     }
 
@@ -372,13 +277,7 @@ export async function GET(req: NextRequest) {
         search,
         categories,
         city,
-        serviceAreas,
-        minPrice,
-        maxPrice,
-        genres,
-        languages,
-        verificationLevels,
-        availability,
+        verifiedOnly,
         sort
       }
     }

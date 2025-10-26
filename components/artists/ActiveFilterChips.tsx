@@ -8,12 +8,7 @@ interface ActiveFilterChipsProps {
     search?: string
     categories?: string[]
     city?: string
-    minPrice?: number | null
-    maxPrice?: number | null
-    genres?: string[]
-    languages?: string[]
-    verificationLevels?: string[]
-    availability?: boolean
+    verifiedOnly?: boolean
     sort?: string
   }
   onRemoveFilter: (filterType: string, value?: string) => void
@@ -34,15 +29,6 @@ const CITY_NAMES: Record<string, string> = {
   nakhonratchasima: 'Nakhon Ratchasima'
 }
 
-// Map of language codes to display names
-const LANGUAGE_NAMES: Record<string, string> = {
-  th: 'Thai',
-  en: 'English',
-  zh: 'Chinese',
-  ja: 'Japanese',
-  ko: 'Korean',
-  ru: 'Russian'
-}
 
 export default function ActiveFilterChips({
   filters,
@@ -78,49 +64,10 @@ export default function ActiveFilterChips({
     })
   }
 
-  if (filters.minPrice !== null || filters.maxPrice !== null) {
-    const min = filters.minPrice || 0
-    const max = filters.maxPrice || '∞'
+  if (filters.verifiedOnly) {
     activeFilters.push({
-      type: 'price',
-      label: `Price: ฿${min.toLocaleString()} - ฿${max.toLocaleString()}`
-    })
-  }
-
-  if (filters.genres?.length) {
-    filters.genres.forEach(genre => {
-      activeFilters.push({
-        type: 'genre',
-        label: genre,
-        value: genre
-      })
-    })
-  }
-
-  if (filters.languages?.length) {
-    filters.languages.forEach(language => {
-      activeFilters.push({
-        type: 'language',
-        label: LANGUAGE_NAMES[language] || language,
-        value: language
-      })
-    })
-  }
-
-  if (filters.verificationLevels?.length) {
-    filters.verificationLevels.forEach(level => {
-      activeFilters.push({
-        type: 'verificationLevel',
-        label: t(`verification.${level}`),
-        value: level
-      })
-    })
-  }
-
-  if (filters.availability) {
-    activeFilters.push({
-      type: 'availability',
-      label: t('showAvailableOnly')
+      type: 'verifiedOnly',
+      label: t('showVerifiedOnly')
     })
   }
 
