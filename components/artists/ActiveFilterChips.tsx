@@ -8,7 +8,6 @@ interface ActiveFilterChipsProps {
     search?: string
     categories?: string[]
     city?: string
-    verifiedOnly?: boolean
     sort?: string
   }
   onRemoveFilter: (filterType: string, value?: string) => void
@@ -61,13 +60,6 @@ export default function ActiveFilterChips({
     activeFilters.push({
       type: 'city',
       label: `${t('location')}: ${CITY_NAMES[filters.city] || filters.city}`
-    })
-  }
-
-  if (filters.verifiedOnly) {
-    activeFilters.push({
-      type: 'verifiedOnly',
-      label: t('showVerifiedOnly')
     })
   }
 

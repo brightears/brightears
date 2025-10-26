@@ -6,7 +6,6 @@ import {
   FunnelIcon,
   XMarkIcon,
   MapPinIcon,
-  CheckBadgeIcon,
   SparklesIcon,
   ChevronDownIcon
 } from '@heroicons/react/24/outline'
@@ -16,7 +15,6 @@ interface FilterSidebarProps {
   filters: {
     category: string[]
     city: string
-    verifiedOnly: boolean
   }
   onFiltersChange: (filters: any) => void
   isMobile?: boolean
@@ -49,8 +47,7 @@ export default function FilterSidebar({
 
   // State for collapsible sections
   const [expandedSections, setExpandedSections] = useState({
-    category: true,      // Start expanded (most important filter)
-    verification: false  // Start collapsed
+    category: true      // Start expanded (most important filter)
   })
 
   const toggleSection = (section: keyof typeof expandedSections) => {
@@ -79,8 +76,7 @@ export default function FilterSidebar({
   const clearAllFilters = () => {
     const clearedFilters = {
       category: [],
-      city: '',
-      verifiedOnly: false
+      city: ''
     }
     setLocalFilters(clearedFilters)
     onFiltersChange(clearedFilters)
@@ -89,8 +85,7 @@ export default function FilterSidebar({
   const hasActiveFilters = () => {
     return (
       localFilters.category.length > 0 ||
-      localFilters.city !== '' ||
-      localFilters.verifiedOnly
+      localFilters.city !== ''
     )
   }
 
@@ -186,45 +181,6 @@ export default function FilterSidebar({
             </option>
           ))}
         </select>
-      </div>
-
-      {/* Verification Filter - Simplified to single checkbox */}
-      <div className="space-y-3">
-        <button
-          onClick={() => toggleSection('verification')}
-          className="w-full flex items-center justify-between font-inter font-semibold text-dark-gray hover:text-brand-cyan transition-colors py-1"
-          aria-expanded={expandedSections.verification}
-        >
-          <div className="flex items-center gap-2">
-            <CheckBadgeIcon className="w-4 h-4 text-brand-cyan" />
-            <span>{t('verificationLevel')}</span>
-          </div>
-          <ChevronDownIcon
-            className={`w-4 h-4 text-brand-cyan transition-transform duration-200 ${
-              expandedSections.verification ? 'rotate-180' : ''
-            }`}
-          />
-        </button>
-
-        {expandedSections.verification && (
-          <div className="pl-6 animate-in fade-in duration-200">
-            <label className="flex items-center gap-3 p-3 bg-white/50 rounded-lg hover:bg-white/70 cursor-pointer transition-colors">
-              <input
-                type="checkbox"
-                checked={localFilters.verifiedOnly || false}
-                onChange={(e) => {
-                  const newFilters = { ...localFilters, verifiedOnly: e.target.checked }
-                  setLocalFilters(newFilters)
-                  onFiltersChange(newFilters)
-                }}
-                className="w-4 h-4 text-brand-cyan rounded border-dark-gray/20 focus:ring-brand-cyan focus:ring-offset-0"
-              />
-              <span className="font-inter text-sm text-dark-gray">
-                {t('showVerifiedOnly')}
-              </span>
-            </label>
-          </div>
-        )}
       </div>
     </div>
   )
