@@ -159,8 +159,7 @@ export async function GET(request: NextRequest) {
           stageName: booking.artist.stageName,
           name: booking.artist.user.name || booking.artist.stageName,
           email: booking.artist.user.email,
-          profileImage: booking.artist.user.image,
-          verificationLevel: booking.artist.verificationLevel
+          profileImage: booking.artist.user.image
         },
         customer: {
           id: booking.customer.id,

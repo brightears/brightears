@@ -14,7 +14,6 @@ export interface ArtistUser {
   artist?: {
     id: string
     stageName: string
-    verificationLevel: string
     profileImage: string | null
   }
 }
@@ -39,7 +38,6 @@ export async function getCurrentArtist(): Promise<ArtistUser | null> {
           select: {
             id: true,
             stageName: true,
-            verificationLevel: true,
             profileImage: true,
             category: true,
             baseCity: true,

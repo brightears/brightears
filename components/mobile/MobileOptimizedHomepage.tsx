@@ -8,8 +8,6 @@ import Features from '@/components/home/Features'
 import Categories from '@/components/home/Categories'
 import TestimonialsSection from '@/components/home/TestimonialsSection'
 import CorporateSection from '@/components/home/CorporateSection'
-import ArtistSignupSection from '@/components/home/ArtistSignupSection'
-import UserFlowSection from '@/components/home/UserFlowSection'
 import MobileCategoriesCarousel from './MobileCategoriesCarousel'
 import MobileActivitySummary from './MobileActivitySummary'
 import MobileFloatingCTA from './MobileFloatingCTA'
@@ -63,13 +61,11 @@ export default function MobileOptimizedHomepage({ locale }: MobileOptimizedHomep
           showDelay={5000}
         />
 
-        <UserFlowSection />
         <FeaturedArtists locale={locale} />
         <Features />
         <Categories />
         <TestimonialsSection locale={locale} />
         <CorporateSection />
-        <ArtistSignupSection />
       </>
     )
   }
@@ -83,9 +79,6 @@ export default function MobileOptimizedHomepage({ locale }: MobileOptimizedHomep
       {/* Trust Signals - Mobile Compact Version */}
       <TrustSignals variant="compact" className="shadow-sm" />
 
-      {/* User Flow Section - Clear paths for all users */}
-      <UserFlowSection />
-      
       {/* Mobile Categories Carousel */}
       <div className="py-4 bg-off-white border-b">
         <MobileCategoriesCarousel locale={locale} />
@@ -141,9 +134,6 @@ export default function MobileOptimizedHomepage({ locale }: MobileOptimizedHomep
           </button>
         </div>
       </div>
-
-      {/* Artist Signup Section - Secondary Focus */}
-      <ArtistSignupSection />
 
       {/* Floating CTA */}
       <MobileFloatingCTA scrollPosition={scrollPosition} />

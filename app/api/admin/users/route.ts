@@ -8,7 +8,6 @@ import { safeErrorResponse } from '@/lib/api-auth'
 const userSearchSchema = z.object({
   search: z.string().optional(),
   role: z.enum(['ARTIST', 'CUSTOMER', 'CORPORATE', 'ADMIN']).optional(),
-  verificationLevel: z.enum(['UNVERIFIED', 'BASIC', 'VERIFIED', 'TRUSTED']).optional(),
   sortBy: z.enum(['createdAt', 'lastLogin', 'email', 'name']).default('createdAt'),
   sortOrder: z.enum(['asc', 'desc']).default('desc'),
   page: z.coerce.number().min(1).default(1),
@@ -49,7 +48,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const { search, role, verificationLevel, sortBy, sortOrder, page, limit } = validationResult.data
+    const { search, role, sortBy, sortOrder, page, limit } = validationResult.data
     const offset = (page - 1) * limit
 
     // Build where clause
@@ -77,7 +76,6 @@ export async function GET(request: NextRequest) {
           select: {
             id: true,
             stageName: true,
-            verificationLevel: true,
             completedBookings: true,
             averageRating: true
           }
@@ -116,7 +114,6 @@ export async function GET(request: NextRequest) {
       // Role-specific data
       artist: user.artist ? {
         stageName: user.artist.stageName,
-        verificationLevel: user.artist.verificationLevel,
         completedBookings: user.artist.completedBookings,
         averageRating: user.artist.averageRating || 0
       } : null,

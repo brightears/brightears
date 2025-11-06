@@ -29,7 +29,6 @@ async function auditPricingConsistency() {
       holidayPricing: true,
       category: true,
       baseCity: true,
-      verificationLevel: true,
       completedBookings: true
     },
     orderBy: { stageName: 'asc' }
@@ -166,7 +165,6 @@ async function auditPricingConsistency() {
       console.log(`Minimum Hours: ${templeBass.minimumHours || 'Not set'}`)
       console.log(`Category: ${templeBass.category}`)
       console.log(`Location: ${templeBass.baseCity}`)
-      console.log(`Verification: ${templeBass.verificationLevel}`)
       console.log(`Completed Bookings: ${templeBass.completedBookings}`)
 
       // Check if it's reasonable for a magician

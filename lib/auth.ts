@@ -14,7 +14,6 @@ export type ExtendedUser = {
   artist?: {
     id: string
     stageName: string
-    verificationLevel: string
   }
   customer?: {
     id: string
@@ -72,7 +71,6 @@ export async function getCurrentUser(): Promise<ExtendedUser | null> {
       artist: user.artist ? {
         id: user.artist.id,
         stageName: user.artist.stageName,
-        verificationLevel: user.artist.verificationLevel.toString(),
       } : undefined,
       customer: user.customer ? {
         id: user.customer.id,

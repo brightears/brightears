@@ -62,11 +62,8 @@ async function seedFeaturedArtistReviews() {
   try {
     // Get featured artists (VERIFIED or TRUSTED) without reviews
     const featuredArtists = await prisma.artist.findMany({
-      where: {
-        verificationLevel: {
-          in: ['VERIFIED', 'TRUSTED']
-        }
-      },
+      // Note: All artists are owner-verified in agency model
+      where: {},
       include: {
         reviews: true,
         bookings: true,
@@ -232,11 +229,8 @@ async function seedFeaturedArtistReviews() {
 
     // Re-audit to show improvements
     const updatedArtists = await prisma.artist.findMany({
-      where: {
-        verificationLevel: {
-          in: ['VERIFIED', 'TRUSTED']
-        }
-      },
+      // All artists included in agency model
+      where: {},
       include: {
         reviews: true
       }

@@ -25,7 +25,6 @@ async function checkTempleBass() {
     console.log('Category:', artist.category);
     console.log('Genres:', artist.genres);
     console.log('Base City:', artist.baseCity);
-    console.log('Verification Level:', artist.verificationLevel);
   } else {
     console.log('Temple Bass not found in database');
   }

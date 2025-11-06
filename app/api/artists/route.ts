@@ -75,7 +75,6 @@ function getOrderBy(sort?: string) {
     case 'featured':
     default:
       return [
-        { verificationLevel: 'desc' as const },
         { averageRating: 'desc' as const },
         { completedBookings: 'desc' as const }
       ]
@@ -194,17 +193,8 @@ export async function GET(req: NextRequest) {
       })
     }
 
-    // Simplified verification filter - show only verified artists if requested
-    // VERIFIED = Artists who have completed verification
-    // TRUSTED = Top-tier verified artists with proven track record
-    // Excludes: UNVERIFIED, PENDING, BASIC, REJECTED
-    if (verifiedOnly) {
-      conditions.push({
-        verificationLevel: {
-          in: ['VERIFIED', 'TRUSTED']
-        }
-      })
-    }
+    // Note: Verification filter removed - all artists are owner-verified in agency model
+    // verifiedOnly parameter is now ignored
 
     // Combine all conditions
     if (conditions.length > 0) {

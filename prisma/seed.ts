@@ -153,8 +153,7 @@ async function main() {
           PROFILE_IMAGES[(i + 2) % PROFILE_IMAGES.length],
           PROFILE_IMAGES[(i + 3) % PROFILE_IMAGES.length],
         ],
-        verificationLevel: Math.random() > 0.5 ? 'VERIFIED' : 'BASIC',
-        responseTime: Math.floor(Math.random() * 24) + 1, // 1-24 hours
+        // Note: verificationLevel removed - all artists are owner-verified in agency model
         completedBookings: Math.floor(Math.random() * 100),
         totalBookings: Math.floor(Math.random() * 150),
         averageRating: 3.5 + (Math.random() * 1.5), // 3.5-5.0

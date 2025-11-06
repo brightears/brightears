@@ -6,12 +6,9 @@ async function updateLowRatings() {
   console.log('🔧 Updating low ratings for featured artists...\n')
 
   try {
-    // Find featured artists with low ratings
+    // Find artists with low ratings (all artists in agency model)
     const featuredArtists = await prisma.artist.findMany({
       where: {
-        verificationLevel: {
-          in: ['VERIFIED', 'TRUSTED']
-        },
         averageRating: {
           lt: 4.0 // Less than 4.0 rating
         }
@@ -73,11 +70,7 @@ async function updateLowRatings() {
     console.log('📊 FINAL STATUS\n')
 
     const allFeatured = await prisma.artist.findMany({
-      where: {
-        verificationLevel: {
-          in: ['VERIFIED', 'TRUSTED']
-        }
-      },
+      where: {},  // All artists in agency model
       include: {
         reviews: true
       }

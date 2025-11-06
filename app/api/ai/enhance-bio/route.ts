@@ -6,11 +6,8 @@ import { enhanceBiography, type BiographyInput } from '@/lib/ai-bio-enhancer'
 import { safeErrorResponse } from '@/lib/api-auth'
 
 // Rate limiting for AI enhancement
-const ENHANCEMENT_LIMITS = {
-  BASIC: 3,      // Basic verified artists
-  VERIFIED: 5,   // Email verified artists
-  TRUSTED: 10    // Trusted artists
-}
+// All artists get same limits in agency model (owner-verified)
+const MONTHLY_ENHANCEMENT_LIMIT = 10
 
 const enhancementSchema = z.object({
   bio: z.string().min(1, 'Bio is required'),
@@ -58,15 +55,14 @@ export async function POST(req: NextRequest) {
     }
 
     // Check enhancement limits
-    const enhancementLimit = getEnhancementLimit(fullArtist.verificationLevel, fullArtist.user.emailVerified)
     const enhancementCount = await getMonthlyEnhancementCount(fullArtist.id)
-    
-    if (enhancementCount >= enhancementLimit) {
+
+    if (enhancementCount >= MONTHLY_ENHANCEMENT_LIMIT) {
       return NextResponse.json({
         error: 'Enhancement limit reached',
-        limit: enhancementLimit,
+        limit: MONTHLY_ENHANCEMENT_LIMIT,
         used: enhancementCount,
-        message: 'Upgrade your verification level for more AI enhancements'
+        message: 'Monthly AI enhancement limit reached. Contact support for more.'
       }, { status: 429 })
     }
 
@@ -95,8 +91,8 @@ export async function POST(req: NextRequest) {
       enhancement,
       usage: {
         used: enhancementCount + 1,
-        limit: enhancementLimit,
-        remaining: enhancementLimit - enhancementCount - 1
+        limit: MONTHLY_ENHANCEMENT_LIMIT,
+        remaining: MONTHLY_ENHANCEMENT_LIMIT - enhancementCount - 1
       }
     })
 
@@ -106,17 +102,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-function getEnhancementLimit(verificationLevel: string, emailVerified?: Date | null): number {
-  if (verificationLevel === 'TRUSTED') {
-    return ENHANCEMENT_LIMITS.TRUSTED
-  }
-  
-  if (emailVerified) {
-    return ENHANCEMENT_LIMITS.VERIFIED
-  }
-  
-  return ENHANCEMENT_LIMITS.BASIC
-}
+// Note: Removed verification-based limits - all artists get same limit in agency model
 
 async function getMonthlyEnhancementCount(artistId: string): Promise<number> {
   const now = new Date()
@@ -172,17 +158,15 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Artist profile not found' }, { status: 404 })
     }
 
-    const limit = getEnhancementLimit(fullArtist.verificationLevel, fullArtist.user.emailVerified)
     const used = await getMonthlyEnhancementCount(fullArtist.id)
 
     return NextResponse.json({
       limits: {
-        monthly: limit,
+        monthly: MONTHLY_ENHANCEMENT_LIMIT,
         used,
-        remaining: limit - used
+        remaining: MONTHLY_ENHANCEMENT_LIMIT - used
       },
-      verificationLevel: fullArtist.verificationLevel,
-      canEnhance: used < limit
+      canEnhance: used < MONTHLY_ENHANCEMENT_LIMIT
     })
 
   } catch (error) {

@@ -76,7 +76,6 @@ export async function GET(request: NextRequest) {
       
       // Content metrics
       totalArtists,
-      verifiedArtists,
       artistsByCategory,
       
       // Engagement metrics
@@ -144,9 +143,6 @@ export async function GET(request: NextRequest) {
       
       // Content metrics
       prisma.artist.count(),
-      prisma.artist.count({
-        where: { verificationLevel: 'VERIFIED' }
-      }),
       prisma.artist.groupBy({
         by: ['category'],
         _count: true
@@ -261,8 +257,7 @@ export async function GET(request: NextRequest) {
         totalBookings,
         totalRevenue: Number(totalRevenue._sum.amount || 0),
         activeUsers,
-        completedBookings,
-        verifiedArtists
+        completedBookings
       },
       
       // Growth metrics
@@ -311,8 +306,7 @@ export async function GET(request: NextRequest) {
         stageName: artist.stageName,
         name: artist.stageName,
         completedBookings: artist.completedBookings,
-        averageRating: artist.averageRating || 0,
-        verificationLevel: artist.verificationLevel
+        averageRating: artist.averageRating || 0
       })),
       
       // Recent activity
