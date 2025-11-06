@@ -198,17 +198,6 @@ const Header: React.FC = () => {
                       >
                         {t('signIn')}
                       </Link>
-                      <Link
-                        href="/register/artist"
-                        className={`px-4 py-2.5 font-inter font-semibold rounded-xl transition-all duration-300 border ${
-                          isScrolled
-                            ? 'bg-soft-lavender/10 border-soft-lavender text-soft-lavender hover:bg-soft-lavender hover:text-white'
-                            : 'bg-soft-lavender/20 backdrop-blur-md border-soft-lavender/40 text-white hover:bg-soft-lavender/30 hover:border-soft-lavender'
-                        }`}
-                        aria-label={t('entertainerSignUp')}
-                      >
-                        {t('entertainerSignUp')}
-                      </Link>
                     </div>
                   )}
                 </>
@@ -285,24 +274,14 @@ const Header: React.FC = () => {
             {/* Mobile CTAs */}
             <div className="space-y-3">
               {!user && (
-                <>
-                  <Link
-                    href="/sign-in"
-                    onClick={handleMobileMenuClose}
-                    className="w-full px-6 py-3 bg-white/10 border border-white/20 text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:bg-white/20 text-center block"
-                    aria-label={t('signIn')}
-                  >
-                    {t('signIn')}
-                  </Link>
-                  <Link
-                    href="/register/artist"
-                    onClick={handleMobileMenuClose}
-                    className="w-full px-6 py-3 bg-soft-lavender/20 border border-soft-lavender/30 text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:bg-soft-lavender/30 text-center block"
-                    aria-label={t('entertainerSignUp')}
-                  >
-                    {t('entertainerSignUp')}
-                  </Link>
-                </>
+                <Link
+                  href="/sign-in"
+                  onClick={handleMobileMenuClose}
+                  className="w-full px-6 py-3 bg-white/10 border border-white/20 text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:bg-white/20 text-center block"
+                  aria-label={t('signIn')}
+                >
+                  {t('signIn')}
+                </Link>
               )}
               {user && (
                 <Link

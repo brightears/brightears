@@ -27,12 +27,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: currentDate
     },
     {
-      path: 'how-it-works-artists',
-      priority: 0.7,
-      changefreq: 'monthly' as const,
-      lastModified: currentDate
-    },
-    {
       path: 'faq',
       priority: 0.6,
       changefreq: 'monthly' as const,
