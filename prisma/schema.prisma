@@ -50,6 +50,13 @@ enum QuoteStatus {
   EXPIRED
 }
 
+// Application status enum
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 // *** REMOVED: VerificationLevel enum ***
 
 // Enhanced availability system enums
@@ -280,6 +287,52 @@ model Corporate {
   updatedAt         DateTime @updatedAt
 
   @@index([companyName])
+}
+
+// Artist Application Model - NEW FOR APPLICATION FEATURE
+model Application {
+  id                     String            @id @default(uuid())
+
+  // Basic Information (Required)
+  applicantName          String            // Full name
+  email                  String            // Email with validation
+  phone                  String            // Thai phone number (10 digits)
+  lineId                 String            // LINE ID (with @ prepended)
+  stageName              String            // Artist/Stage name
+  bio                    String            @db.Text // 100-500 characters
+  category               ArtistCategory    // DJ, Band, Singer, etc.
+  genres                 String[]          // Music genres/specialties
+  profilePhotoUrl        String            // URL to profile photo
+
+  // Optional Information
+  website                String?           // Website URL
+  socialMediaLinks       String?           @db.Text // Social media links
+  yearsExperience        Int?              // Years of experience
+  equipmentOwned         String?           @db.Text // Equipment description
+  portfolioLinks         String?           @db.Text // Portfolio/sample work links
+  baseLocation           String?           // Base city (Bangkok, Phuket, etc.)
+  hourlyRateExpectation  String?           // Expected hourly rate in THB
+
+  // Music Design Service Interest (NEW)
+  interestedInMusicDesign Boolean          @default(false)
+  designFee              String?           // One-time design fee (THB)
+  monthlyFee             String?           // Monthly curation fee (THB)
+
+  // Application Status
+  status                 ApplicationStatus @default(PENDING)
+  submittedAt            DateTime          @default(now())
+  reviewedAt             DateTime?
+  reviewNotes            String?           @db.Text // Admin review notes
+
+  // Timestamps
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+
+  @@index([email])
+  @@index([phone])
+  @@index([status])
+  @@index([submittedAt])
+  @@index([category])
 }
 
 // Enhanced availability model with time slots and recurring patterns

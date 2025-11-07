@@ -27,7 +27,8 @@
     "signUp": "Sign Up",
     "entertainerSignUp": "Join as Entertainer",
     "findEntertainment": "Find Entertainment",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "applyAsDJ": "Apply as DJ"
   },
   "payment": {
     "verification": {
@@ -918,5 +919,93 @@
       "mostBooked": "Most Booked",
       "newest": "Newest First"
     }
+  },
+  "apply": {
+    "badge": "Join Our Artist Community",
+    "title": "Apply to Join Bright Ears",
+    "subtitle": "Fill out the application below and we'll review it within 3-5 business days. We manually vet all artists to ensure quality for our clients.",
+    "stats": {
+      "artists": "Active Artists",
+      "events": "Events Delivered",
+      "commission": "Commission Fee"
+    },
+    "benefits": {
+      "title": "Why Join Bright Ears?",
+      "item1Title": "Zero Commission",
+      "item1Desc": "Keep 100% of your booking fees. We make money from premium features, not your hard work.",
+      "item2Title": "Quality Clients",
+      "item2Desc": "Get booked by hotels, venues, and event organizers who value professional entertainment.",
+      "item3Title": "Your Own Dashboard",
+      "item3Desc": "Manage your calendar, bookings, and client communications all in one place.",
+      "item4Title": "Marketing Support",
+      "item4Desc": "Be featured on our platform with professional SEO and social media promotion."
+    },
+    "sections": {
+      "basic": "Basic Information",
+      "professional": "Professional Details",
+      "optional": "Optional Information",
+      "musicDesign": "Music Design Services (Optional)"
+    },
+    "fields": {
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "phoneHelp": "Thai mobile number (10 digits, starting with 06, 08, or 09)",
+      "lineId": "LINE ID",
+      "lineIdHelp": "We'll prepend @ automatically if you don't include it",
+      "stageName": "Stage Name / Artist Name",
+      "bio": "About You / Bio",
+      "bioPlaceholder": "Tell us about your experience, style, and what makes you unique as an artist. What kind of events do you specialize in? What's your performance style?",
+      "bioHelp": "100-500 characters. This will be shown on your profile.",
+      "category": "Primary Category",
+      "categoryPlaceholder": "Select your primary category...",
+      "genres": "Music Genres / Specialties",
+      "genresHelp": "Select all that apply",
+      "profilePhoto": "Profile Photo URL",
+      "profilePhotoHelp": "Provide a URL to your professional headshot or profile photo (e.g., from Google Drive, Dropbox, or your website)",
+      "website": "Website / Personal URL",
+      "socialMedia": "Social Media Links",
+      "socialMediaPlaceholder": "Instagram: @yourhandle\nFacebook: facebook.com/yourpage\nSoundCloud: soundcloud.com/yourprofile",
+      "socialMediaHelp": "One link per line",
+      "experience": "Years of Experience",
+      "equipment": "Equipment Owned",
+      "equipmentPlaceholder": "List your DJ equipment, instruments, sound system, lighting, etc.",
+      "portfolio": "Sample Work / Portfolio Links",
+      "portfolioPlaceholder": "SoundCloud mixes:\nYouTube performances:\nSpotify artist page:",
+      "portfolioHelp": "Links to mixes, videos, performances, or your portfolio",
+      "location": "Base Location",
+      "locationPlaceholder": "Select your base city...",
+      "rate": "Hourly Rate Expectation (THB)",
+      "rateHelp": "Your expected hourly rate in Thai Baht",
+      "musicDesignInterest": "I'm interested in offering music design/curation services for hotels and venues",
+      "musicDesignHelp": "Music design involves creating custom playlists and audio branding for businesses. This is separate from live performances.",
+      "designFee": "One-Time Design Fee (THB)",
+      "designFeeHelp": "Fee for initial music system design and playlist creation",
+      "monthlyFee": "Monthly Curation Fee (THB)",
+      "monthlyFeeHelp": "Ongoing fee for playlist updates and music management"
+    },
+    "categories": {
+      "dj": "DJ",
+      "band": "Band",
+      "singer": "Singer",
+      "musician": "Musician",
+      "mc": "MC / Host",
+      "comedian": "Comedian",
+      "magician": "Magician",
+      "dancer": "Dancer",
+      "photographer": "Photographer",
+      "speaker": "Speaker"
+    },
+    "submit": "Submit Application",
+    "submitting": "Submitting...",
+    "success": {
+      "title": "Application Submitted!",
+      "message": "Thank you for applying to join Bright Ears. We've received your application and will review it carefully.",
+      "timeline": "You'll hear back from us within 3-5 business days via email or LINE."
+    },
+    "footer": {
+      "privacy": "Your information is kept confidential and used only for application review purposes."
+    },
+    "required": "required"
   }
 }
