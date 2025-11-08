@@ -1007,5 +1007,11 @@
       "privacy": "Your information is kept confidential and used only for application review purposes."
     },
     "required": "required"
+  },
+  "lineContact": {
+    "cta": "Contact on LINE",
+    "inquire": "Inquire on LINE",
+    "chat": "Chat on LINE",
+    "id": "LINE Official Account"
   }
 }

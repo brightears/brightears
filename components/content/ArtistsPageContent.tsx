@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import EnhancedArtistListing from '@/components/artists/EnhancedArtistListing'
 import { SparklesIcon } from '@heroicons/react/24/outline'
+import LineContactButton from '@/components/buttons/LineContactButton'
 
 interface ArtistsPageContentProps {
   locale: string
@@ -18,14 +19,14 @@ export default function ArtistsPageContent({ locale, title, subtitle, matchTitle
   // Mouse tracking for floating orb effects - exactly like How It Works
   useEffect(() => {
     setIsVisible(true)
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e
       const x = (clientX / window.innerWidth) * 100
       const y = (clientY / window.innerHeight) * 100
       setMousePosition({ x, y })
     }
-    
+
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
@@ -36,7 +37,7 @@ export default function ArtistsPageContent({ locale, title, subtitle, matchTitle
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         {/* Animated Gradient Mesh Background - EXACTLY like How It Works page */}
         <div className="absolute inset-0 opacity-90">
-          <div 
+          <div
             className="absolute inset-0"
             style={{
               background: `
@@ -48,7 +49,7 @@ export default function ArtistsPageContent({ locale, title, subtitle, matchTitle
               `
             }}
           />
-          
+
           {/* Animated gradient orbs - exactly like How It Works page */}
           <div className="absolute top-20 left-10 w-72 h-72 bg-brand-cyan/30 rounded-full filter blur-3xl animate-pulse" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-soft-lavender/20 rounded-full filter blur-3xl animate-pulse animation-delay-2000" />
@@ -61,7 +62,7 @@ export default function ArtistsPageContent({ locale, title, subtitle, matchTitle
         {/* Content Container */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Animated Badge */}
-          <div 
+          <div
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8 transition-all duration-1000 transform ${
               isVisible ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
             }`}
@@ -83,16 +84,29 @@ export default function ArtistsPageContent({ locale, title, subtitle, matchTitle
           </h1>
 
           {/* Subheading */}
-          <p 
-            className={`font-inter text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10 transition-all duration-1000 delay-200 transform ${
+          <p
+            className={`font-inter text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-8 transition-all duration-1000 delay-200 transform ${
               isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
             {subtitle}
           </p>
+
+          {/* LINE Contact Button - For general artist inquiries */}
+          <div
+            className={`flex justify-center transition-all duration-1000 delay-300 transform ${
+              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+            }`}
+          >
+            <LineContactButton
+              variant="secondary"
+              message="Hi! I'd like to inquire about booking an artist."
+              className="px-6 py-3 rounded-xl shadow-lg hover:shadow-xl bg-white/10 backdrop-blur-md border-2 border-white/20 hover:bg-white/20"
+            />
+          </div>
         </div>
       </section>
-      
+
       {/* Content Section with vibrant background matching How It Works style */}
       <section className="py-20 bg-gradient-to-b from-transparent to-off-white/50">
         {/* Decorative Elements matching How It Works page style */}
@@ -101,7 +115,7 @@ export default function ArtistsPageContent({ locale, title, subtitle, matchTitle
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-soft-lavender/10 rounded-full blur-3xl animate-pulse animation-delay-2000" />
           <div className="absolute top-1/2 right-1/4 w-64 h-64 bg-earthy-brown/10 rounded-full blur-3xl animate-pulse animation-delay-4000" />
         </div>
-        
+
         <div className="relative z-10">
           <EnhancedArtistListing locale={locale} />
         </div>

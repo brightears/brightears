@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import ContactForm from '@/app/components/ContactForm';
 import { EnvelopeIcon, PhoneIcon, ClockIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import LineContactButton from '@/components/buttons/LineContactButton';
 
 type ContactTab = 'general' | 'corporate' | 'artistSupport';
 
@@ -73,9 +74,18 @@ export default function ContactContent() {
             </h1>
 
             {/* Subheading */}
-            <p className="font-inter text-xl text-dark-gray/70 max-w-2xl mx-auto mb-12">
+            <p className="font-inter text-xl text-dark-gray/70 max-w-2xl mx-auto mb-8">
               {t('subtitle')}
             </p>
+
+            {/* LINE Contact Button - Prominent */}
+            <div className="flex justify-center mb-12">
+              <LineContactButton
+                variant="primary"
+                message="Hi! I have a question about booking."
+                className="shadow-lg hover:shadow-xl"
+              />
+            </div>
 
             {/* Contact Methods Icons - Clean Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
