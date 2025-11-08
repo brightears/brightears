@@ -1013,5 +1013,123 @@
     "inquire": "Inquire on LINE",
     "chat": "Chat on LINE",
     "id": "LINE Official Account"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "subtitle": "Manage applications, bookings, and platform analytics",
+      "viewAll": "View All"
+    },
+    "navigation": {
+      "dashboard": "Dashboard",
+      "applications": "Applications",
+      "bookings": "Bookings",
+      "artists": "Artists",
+      "backToPlatform": "Back to Platform"
+    },
+    "stats": {
+      "pendingApplications": "Pending Applications",
+      "totalApplications": "total",
+      "totalArtists": "Total Artists",
+      "newThisMonth": "new this month",
+      "activeBookings": "Active Bookings",
+      "thisMonth": "this month",
+      "monthlyRevenue": "Monthly Revenue",
+      "vsLastMonth": "vs last month"
+    },
+    "quickActions": {
+      "reviewApplications": "Review Applications",
+      "pendingReview": "pending review",
+      "manageBookings": "Manage Bookings",
+      "activeBookings": "active bookings",
+      "viewArtists": "View Artists",
+      "totalArtists": "total artists",
+      "confirmed": "Confirmed",
+      "paid": "Paid",
+      "active": "Active"
+    },
+    "applications": {
+      "title": "Application Management",
+      "subtitle": "Review and approve artist applications",
+      "searchPlaceholder": "Search by name, email, phone...",
+      "allStatuses": "All Statuses",
+      "allCategories": "All Categories",
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "table": {
+        "applicant": "Applicant",
+        "contact": "Contact",
+        "category": "Category",
+        "status": "Status",
+        "submitted": "Submitted",
+        "actions": "Actions",
+        "viewDetails": "View Details",
+        "noResults": "No applications found",
+        "tryAdjustingFilters": "Try adjusting your filters"
+      },
+      "pagination": {
+        "page": "Page {current} of {total}",
+        "total": "total",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "detail": {
+        "title": "Application Details",
+        "basicInfo": "Basic Information",
+        "applicantName": "Applicant Name",
+        "stageName": "Stage Name",
+        "email": "Email",
+        "phone": "Phone",
+        "lineId": "LINE ID",
+        "category": "Category",
+        "baseLocation": "Base Location",
+        "yearsExperience": "Years of Experience",
+        "notSpecified": "Not specified",
+        "bio": "Bio",
+        "genresSpecialties": "Genres / Specialties",
+        "hourlyRateExpectation": "Hourly Rate Expectation",
+        "musicDesignService": "Music Design Service Interest",
+        "designFee": "Design Fee",
+        "monthlyFee": "Monthly Fee",
+        "website": "Website",
+        "socialMedia": "Social Media",
+        "portfolio": "Portfolio",
+        "equipmentOwned": "Equipment Owned",
+        "reviewNotes": "Review Notes"
+      },
+      "actions": {
+        "approve": "Approve & Create Artist",
+        "reject": "Reject",
+        "approveTitle": "Approve Application",
+        "approveMessage": "This will create an Artist profile for {stageName}. Are you sure?",
+        "reviewNotesLabel": "Review Notes (Optional)",
+        "reviewNotesPlaceholder": "Notes about this approval...",
+        "cancel": "Cancel",
+        "approving": "Approving...",
+        "rejectTitle": "Reject Application",
+        "rejectionReasonLabel": "Rejection Reason",
+        "rejectionReasonMin": "Min 10 characters",
+        "rejectionReasonPlaceholder": "Explain why this application is being rejected...",
+        "rejecting": "Rejecting...",
+        "approvalSuccess": "Application approved! Artist profile created successfully.",
+        "rejectionSuccess": "Application rejected.",
+        "approvalError": "Failed to approve application",
+        "rejectionError": "Failed to reject application",
+        "rejectionReasonRequired": "Please provide a rejection reason (minimum 10 characters)"
+      }
+    },
+    "bookings": {
+      "title": "Booking Management",
+      "subtitle": "Manage all platform bookings",
+      "placeholder": "Booking management interface coming soon..."
+    },
+    "artists": {
+      "title": "Artist Management",
+      "subtitle": "View and manage all artists",
+      "placeholder": "Artist management interface coming soon..."
+    }
   }
 }
