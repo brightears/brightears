@@ -178,14 +178,16 @@ export async function POST(
               role: 'ARTIST',
               name: application.applicantName,
               isActive: true
-            }
+            },
+            include: { artist: true }
           })
         } else {
           // Update existing user to ARTIST role if not already
           if (user.role !== 'ARTIST') {
             user = await tx.user.update({
               where: { id: user.id },
-              data: { role: 'ARTIST' }
+              data: { role: 'ARTIST' },
+              include: { artist: true }
             })
           }
         }

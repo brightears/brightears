@@ -133,6 +133,7 @@ model User {
   emailLogs         EmailLog[]
   emailPreference   EmailPreference?
   emailQueue        EmailQueue[]
+  documents         Document[] @relation("CustomerDocuments")
 
   @@index([email])
   @@index([phone])
@@ -585,6 +586,7 @@ model Booking {
   quotes            Quote[]
   payments          Payment[]
   typingIndicators  TypingIndicator[]
+  documents         Document[]
 
   @@index([customerId])
   @@index([artistId])
@@ -1022,4 +1024,43 @@ enum EmailQueueStatus {
   SENT                // Successfully sent
   FAILED              // Failed after all retries
   CANCELLED           // Manually cancelled
+}
+
+// Document types for quotations, invoices, contracts
+enum DocumentType {
+  QUOTATION
+  INVOICE
+  CONTRACT
+}
+
+// Document model to track generated PDFs
+model Document {
+  id              String       @id @default(uuid())
+  type            DocumentType
+  documentNumber  String       @unique
+
+  // Related entities
+  bookingId       String?
+  booking         Booking?     @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  customerId      String?
+  customer        User?        @relation("CustomerDocuments", fields: [customerId], references: [id], onDelete: SetNull)
+
+  // Document data
+  pdfUrl          String?      // Cloudinary URL
+  metadata        Json?        // Store document data (line items, totals, etc.)
+
+  // Status tracking
+  issuedDate      DateTime     @default(now())
+  validUntil      DateTime?    // For quotations
+  paidDate        DateTime?    // For invoices
+  signedDate      DateTime?    // For contracts
+
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@index([type])
+  @@index([bookingId])
+  @@index([customerId])
+  @@index([documentNumber])
+  @@index([createdAt])
 }
