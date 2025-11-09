@@ -6,7 +6,6 @@ import DJMusicDesignHero from '@/components/dj-music-design/DJMusicDesignHero';
 import ProblemSolution from '@/components/dj-music-design/ProblemSolution';
 import ServiceCategories from '@/components/dj-music-design/ServiceCategories';
 import HowItWorks from '@/components/dj-music-design/HowItWorks';
-import Portfolio from '@/components/dj-music-design/Portfolio';
 import PricingTiers from '@/components/dj-music-design/PricingTiers';
 import Benefits from '@/components/dj-music-design/Benefits';
 import Testimonials from '@/components/dj-music-design/Testimonials';
@@ -40,7 +39,6 @@ export default function DJMusicDesignContent({ locale }: DJMusicDesignContentPro
       <ProblemSolution />
       <ServiceCategories />
       <HowItWorks />
-      <Portfolio />
       <div className="bg-gradient-to-b from-off-white to-white">
         <PricingTiers />
       </div>

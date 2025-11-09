@@ -108,32 +108,76 @@ This document explains the pricing strategy for BMAsia's background music curati
 
 ---
 
-## Revenue Projections
+## Revenue Projections (REALISTIC SCENARIO)
 
-### Year 1 Targets (Conservative)
+### Year 1 Targets (Conservative & Realistic)
 
 **Customer Acquisition Goals**:
-- Month 1-3: 10 customers (5 Starter, 4 Professional, 1 Enterprise)
-- Month 4-6: 25 customers total (+15)
-- Month 7-9: 50 customers total (+25)
-- Month 10-12: 75 customers total (+25)
+- Month 1-3 (Launch & Testing): 2-3 customers (2 Starter, 1 Professional)
+- Month 4-6 (Early Growth): 8 customers total (+5, mostly Starter)
+- Month 7-9 (Building Trust): 15 customers total (+7, mix of tiers)
+- Month 10-12 (Momentum): 25 customers total (+10, more Professional)
 
-**Revenue Breakdown (Year 1 End)**:
-- 30 Starter customers: 30 × ฿2,999 = ฿89,970/month
-- 40 Professional customers: 40 × ฿7,999 = ฿319,960/month
-- 5 Enterprise customers (avg ฿30,000): 5 × ฿30,000 = ฿150,000/month
+**Revenue Breakdown (Year 1 End - 25 customers)**:
+- 12 Starter customers: 12 × ฿2,999 = ฿35,988/month
+- 11 Professional customers: 11 × ฿7,999 = ฿87,989/month
+- 2 Enterprise customers (avg ฿25,000): 2 × ฿25,000 = ฿50,000/month
 
-**Total MRR**: ฿559,930 (~US $16,000)
-**Total ARR**: ฿6,719,160 (~US $191,000)
+**Total MRR (Year 1 End)**: ฿173,977 (~US $4,970)
+**Total ARR (Year 1)**: ฿2,087,724 (~US $59,600)
 
-### Year 2 Targets (Growth)
+**Important Notes for Year 1:**
+- First 3-6 months require significant portfolio building
+- Trust development in B2B SaaS takes time in Thai market
+- Many potential customers will "wait and see" before committing
+- Churn rate expected: 15-20% in first year (learning period)
 
-**Customer Goals**: 200 total customers
-- 60 Starter
-- 120 Professional (tier upgrade strategy)
-- 20 Enterprise
+### Year 2 Targets (Moderate Growth)
 
-**Total ARR**: ฿23,438,280 (~US $667,000)
+**Customer Goals**: 60 total customers (assuming 15% year 1 churn = 5 lost, 40 new)
+- 20 Starter (many upgrade to Professional)
+- 35 Professional (sweet spot tier)
+- 5 Enterprise (harder to acquire, longer sales cycle)
+
+**Revenue Breakdown (Year 2 End)**:
+- 20 Starter: 20 × ฿2,999 = ฿59,980/month
+- 35 Professional: 35 × ฿7,999 = ฿279,965/month
+- 5 Enterprise (avg ฿30,000): 5 × ฿30,000 = ฿150,000/month
+
+**Total MRR (Year 2 End)**: ฿489,945 (~US $14,000)
+**Total ARR (Year 2)**: ฿5,879,340 (~US $168,000)
+
+### Year 3 Targets (Established Business)
+
+**Customer Goals**: 120 total customers (assuming 10% year 2 churn = 6 lost, 66 new)
+- 30 Starter
+- 75 Professional
+- 15 Enterprise
+
+**Total MRR (Year 3 End)**: ฿1,139,895 (~US $32,500)
+**Total ARR (Year 3)**: ฿13,678,740 (~US $390,000)
+
+### Reality Check
+
+**Why These Numbers Are More Realistic:**
+- B2B SaaS in Thailand typically takes 12-18 months to gain market trust
+- Background music curation is a NEW service category (education required)
+- Many venues still use Spotify illegally (behavior change needed)
+- Enterprise sales cycles: 3-6 months minimum
+- Word-of-mouth growth takes time in hospitality industry
+- First customers are "guinea pigs" - expect slower initial adoption
+
+**Churn Rate Assumptions:**
+- Year 1: 15-20% (experimentation phase)
+- Year 2: 10-12% (product-market fit improving)
+- Year 3: 5-8% (established business, sticky customers)
+
+**Growth Drivers After Year 1:**
+- Customer case studies and testimonials
+- Referral program rewards
+- Industry event presence
+- Partnership with hotel/restaurant associations
+- Proven ROI data (increased dwell time, sales)
 
 ---
 

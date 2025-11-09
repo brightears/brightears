@@ -1520,41 +1520,6 @@
         "description": "Receive high-quality WAV/MP3 files + stems (if purchased)"
       }
     },
-    "portfolio": {
-      "title": "Example Projects",
-      "subtitle": "Hear what we've created for DJs like you",
-      "example1": {
-        "category": "Wedding Mix",
-        "title": "Romantic Journey Mix",
-        "description": "60-minute seamless wedding mix blending Thai and international love songs"
-      },
-      "example2": {
-        "category": "EDM Festival Set",
-        "title": "Bangkok Beats Festival Mix",
-        "description": "High-energy 90-minute festival set with custom drops and transitions"
-      },
-      "example3": {
-        "category": "Thai Pop Remix",
-        "title": "Thai Pop EDM Crossover",
-        "description": "Popular Thai ballad transformed into club-ready EDM remix"
-      },
-      "example4": {
-        "category": "Corporate Event",
-        "title": "Luxury Brand Launch Mix",
-        "description": "Sophisticated 45-minute background mix for high-end product launch"
-      },
-      "example5": {
-        "category": "Radio Show",
-        "title": "Weekly Radio Episode",
-        "description": "Branded radio show with intro/outro jingles and smooth transitions"
-      },
-      "example6": {
-        "category": "Signature Track",
-        "title": "DJ Signature Intro",
-        "description": "Custom 2-minute intro track with branded effects and memorable hook"
-      },
-      "audioNote": "Audio players will be embedded here in production (Spotify/SoundCloud)"
-    },
     "pricing": {
       "title": "Transparent Pricing",
       "subtitle": "Choose the package that fits your budget and timeline",

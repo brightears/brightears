@@ -343,7 +343,7 @@ npm run build
 
 ---
 
-## REVENUE PROJECTIONS
+## REVENUE PROJECTIONS (REALISTIC SCENARIO)
 
 **Service Pricing:**
 - Basic Package: ฿8,000 (avg turnaround: 2 weeks)
@@ -351,24 +351,38 @@ npm run build
 - Premium Package: ฿50,000+ (avg turnaround: 4 weeks)
 - Education/Mentorship: ฿3,000/hour (ongoing revenue)
 
-**Conservative Estimates (First 6 Months):**
-- 10 inquiries/month × 30% conversion = 3 clients/month
-- Average package value: ฿25,000 (professional tier)
-- Monthly revenue: ฿75,000
-- Annual revenue (first year): ฿900,000
+**Year 1 (Realistic, Conservative):**
+- Months 1-3 (Launch Phase): 2-3 inquiries/month × 20% conversion = 0-1 client/month
+- Months 4-6 (Growth Phase): 5 inquiries/month × 25% conversion = 1-2 clients/month
+- Months 7-12 (Steady State): 8 inquiries/month × 30% conversion = 2-3 clients/month
+- Average package value: ฿20,000 (mix of basic + professional)
+- **Year 1 Total Revenue: ฿400,000 - ฿500,000 THB**
 
-**Optimistic Estimates (After 1 Year):**
-- 30 inquiries/month × 40% conversion = 12 clients/month
+**Year 2 (Moderate Growth):**
+- 10-15 inquiries/month × 35% conversion = 3-5 clients/month
+- Average package value: ฿25,000 (more professional tier)
+- Monthly revenue: ฿75,000 - ฿125,000
+- **Year 2 Annual Revenue: ฿900,000 - ฿1,500,000 THB**
+
+**Year 3 (Established Business):**
+- 20 inquiries/month × 40% conversion = 8 clients/month
 - Average package value: ฿30,000 (mix of professional + premium)
-- Monthly revenue: ฿360,000
-- Annual revenue: ฿4,320,000
+- Monthly revenue: ฿240,000
+- **Year 3 Annual Revenue: ฿2,880,000 THB**
 
-**Additional Revenue Streams:**
-- Rush fees (+50% on premium): ~฿25,000 extra per rush order
-- Education sessions: ฿3,000/hour × 10 hours/month = ฿30,000/month
-- Recurring curation: ฿10,000/month × 5 clients = ฿50,000/month
+**Additional Revenue Streams (Conservative):**
+- Rush fees (+50%): ~฿10,000/month average (1-2 rush orders)
+- Education sessions: ฿3,000/hour × 5 hours/month = ฿15,000/month
+- Recurring curation: ฿10,000/month × 2 clients = ฿20,000/month
 
-**Total Potential Annual Revenue:** ฿4.3M - ฿5.2M THB
+**Realistic Total Potential (Year 3):** ฿3.4M - ฿3.8M THB annually
+
+**Important Notes:**
+- These projections assume active marketing and referral network development
+- Conversion rates depend heavily on portfolio quality and testimonials
+- DJ market in Thailand is competitive - requires differentiation
+- First 6 months may see minimal revenue while building reputation
+- Quality over quantity approach - focus on delivering exceptional work
 
 ---
 
