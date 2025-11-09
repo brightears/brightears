@@ -314,6 +314,84 @@
       "contactLine": "Contact via LINE"
     }
   },
+  "howItWorks": {
+    "hero": {
+      "title": "Booking Entertainment",
+      "subtitle": "Find, connect, and book verified entertainers for your event in three simple steps"
+    },
+    "steps": {
+      "title": "How It Works",
+      "subtitle": "Get professional entertainment for your event in 3 simple steps",
+      "browse": {
+        "title": "Browse Artists",
+        "description": "Search our curated network of verified DJs, musicians, bands, and entertainers. Filter by category, location, price range, and availability."
+      },
+      "connect": {
+        "title": "Connect & Discuss",
+        "description": "Contact artists directly via LINE or phone to discuss your event details, timing, and specific requirements. Get personalized quotes."
+      },
+      "enjoy": {
+        "title": "Book & Enjoy",
+        "description": "Confirm your booking, finalize details, and enjoy professional entertainment at your event. Zero commission - artists keep 100% of their fees."
+      }
+    },
+    "features": {
+      "title": "Why Choose Bright Ears",
+      "subtitle": "The trusted platform for booking entertainment in Thailand",
+      "noCommission": {
+        "title": "Zero Commission",
+        "description": "We don't take a cut from bookings. Artists set their own prices and keep 100% of what they earn. Better value for everyone."
+      },
+      "verified": {
+        "title": "Verified Professionals",
+        "description": "All artists are verified with ID checks and customer reviews. Book with confidence knowing you're working with legitimate professionals."
+      },
+      "support": {
+        "title": "Dedicated Support",
+        "description": "Our team is here to help if you need assistance finding the right entertainer or have questions about the booking process."
+      },
+      "secure": {
+        "title": "Secure Platform",
+        "description": "Your inquiries and communications are handled securely. We protect your privacy and ensure safe transactions between you and artists."
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know about booking entertainment through Bright Ears",
+      "q1": {
+        "question": "How do I book an artist?",
+        "answer": "Browse our artist directory, find someone who matches your needs, and contact them directly via LINE or phone. Discuss your event details, get a quote, and confirm the booking. It's that simple!"
+      },
+      "q2": {
+        "question": "Do you charge booking fees or commissions?",
+        "answer": "No! Bright Ears is 100% commission-free. Artists set their own prices and keep everything they earn. You pay the artist directly - we just provide the platform to connect you."
+      },
+      "q3": {
+        "question": "How far in advance should I book?",
+        "answer": "We recommend booking at least 2-4 weeks in advance for popular dates (weekends, holidays). However, some artists may be available for last-minute bookings - just check their calendar availability."
+      },
+      "q4": {
+        "question": "What types of events can I book artists for?",
+        "answer": "Any event! Weddings, corporate events, private parties, hotel residencies, club nights, festivals, and more. Our artists perform at all types of events across Thailand."
+      },
+      "q5": {
+        "question": "What if I need to cancel or reschedule?",
+        "answer": "Cancellation and rescheduling policies vary by artist. Always discuss this upfront when booking. Most artists are flexible but may require advance notice for cancellations."
+      },
+      "q6": {
+        "question": "Are the artists really verified?",
+        "answer": "Yes! All artists on our platform complete ID verification before their profiles go live. You can also see customer reviews and ratings to help you choose."
+      },
+      "q7": {
+        "question": "Can I hire the same artist for multiple events?",
+        "answer": "Absolutely! Many customers build ongoing relationships with artists they love. You can book the same performer as often as you like for regular events or residencies."
+      },
+      "q8": {
+        "question": "What payment methods do artists accept?",
+        "answer": "Payment arrangements are made directly with the artist. Most accept bank transfer, PromptPay, or cash. Discuss payment terms when you confirm your booking."
+      }
+    }
+  },
   "corporate": {
     "title": "Corporate Entertainment Solutions",
     "subtitle": "Trusted by Thailand's Leading Hotels & Venues",
