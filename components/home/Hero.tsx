@@ -68,7 +68,7 @@ const Hero: React.FC = () => {
           }`}
         >
           <SparklesIcon className="w-4 h-4 text-soft-lavender animate-pulse" />
-          <span className="text-sm font-medium text-white">Trusted by 500+ Bangkok Hotels & Premium Venues</span>
+          <span className="text-sm font-medium text-white">Trusted by 500+ Bangkok Venues & Hotels</span>
         </div>
 
         {/* Main Heading */}
