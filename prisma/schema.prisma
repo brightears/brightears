@@ -1110,3 +1110,54 @@ model BMAsiaInquiry {
   @@index([status])
   @@index([industry])
 }
+
+// DJ Music Design service inquiry status enum
+enum DJMusicDesignInquiryStatus {
+  NEW                 // New inquiry not yet contacted
+  CONTACTED           // Initial contact made
+  QUOTE_SENT          // Quote/proposal sent to client
+  IN_PRODUCTION       // Project in production
+  COMPLETED           // Project completed
+  DECLINED            // Client declined service
+}
+
+// DJ Music Design & Production Service inquiries
+model DJMusicDesignInquiry {
+  id                String                        @id @default(uuid())
+
+  // Contact Information
+  contactName       String
+  djName            String?                       // Their DJ name/brand
+  email             String
+  phone             String?
+
+  // Service Details
+  serviceType       String                        // custom_mix, original_track, remix, curation, branding, education
+  projectDescription String?                      @db.Text
+  budgetRange       String?                       // basic, professional, premium, custom
+  timeline          String?                       // rush, normal, flexible
+
+  // Additional Information
+  referralSource    String?                       // How they heard about us
+  message           String?                       @db.Text
+
+  // Status Tracking
+  status            DJMusicDesignInquiryStatus    @default(NEW)
+
+  // Metadata
+  ipAddress         String?
+  userAgent         String?
+
+  // Timestamps
+  createdAt         DateTime                      @default(now())
+  updatedAt         DateTime                      @updatedAt
+  contactedAt       DateTime?
+  quoteSentAt       DateTime?
+  productionStartedAt DateTime?
+  completedAt       DateTime?
+
+  @@index([email])
+  @@index([createdAt])
+  @@index([status])
+  @@index([serviceType])
+}

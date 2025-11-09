@@ -1377,5 +1377,399 @@
         "enterprise": "Enterprise (Custom Pricing)"
       }
     }
+  },
+  "djMusicDesign": {
+    "hero": {
+      "badge": "Professional DJ Music Production",
+      "title": "Elevate Your DJ Career",
+      "titleHighlight": "with Custom Music Production",
+      "subtitle": "Professional music design services for DJs who want to stand out. Custom mixes, original tracks, remixes, and signature sound development.",
+      "cta": "Get Your Custom Mix",
+      "ctaSecondary": "Explore Services",
+      "trustMessage": "Trusted by professional DJs across Thailand"
+    },
+    "problemSolution": {
+      "title": "Stand Out in a Crowded DJ Scene",
+      "subtitle": "The challenges you face and how we solve them",
+      "problemsTitle": "Common Challenges",
+      "solutionsTitle": "Our Solutions",
+      "problem1": {
+        "title": "Generic mixes sound amateur",
+        "description": "Downloaded tracks and templates make your sets blend in with everyone else's"
+      },
+      "problem2": {
+        "title": "Can't find your signature sound",
+        "description": "Struggling to develop a unique brand identity that sets you apart"
+      },
+      "problem3": {
+        "title": "Lack production skills or time",
+        "description": "Want professional quality but don't have the equipment, software knowledge, or hours to produce"
+      },
+      "problem4": {
+        "title": "Need professional quality fast",
+        "description": "Upcoming gigs require polished tracks but you're running out of time"
+      },
+      "solution1": {
+        "title": "Custom-crafted for your style",
+        "description": "Expert producers create tracks tailored to your genre, vibe, and brand identity"
+      },
+      "solution2": {
+        "title": "Develop your sonic brand",
+        "description": "Build a recognizable signature sound that makes you memorable and bookable"
+      },
+      "solution3": {
+        "title": "Professional studio production",
+        "description": "Access to pro-level equipment, software, and 10+ years of production expertise"
+      },
+      "solution4": {
+        "title": "1-4 week turnaround (3-day rush available)",
+        "description": "Fast delivery without compromising quality. Premium rush options for urgent needs"
+      }
+    },
+    "services": {
+      "title": "DJ Music Design Services",
+      "subtitle": "Choose the service that fits your creative needs",
+      "customMixes": {
+        "title": "Custom DJ Mixes",
+        "price": "฿8,000 - ฿15,000",
+        "description": "Professional mixes tailored to your events, radio shows, or portfolio. Stand out with seamless transitions and perfect energy flow.",
+        "features": {
+          "0": "Event-specific mixes (weddings, clubs, corporate)",
+          "1": "Portfolio showcase mixes for bookings",
+          "2": "Radio show episodes with branding",
+          "3": "30-90 minute sets, fully mastered"
+        }
+      },
+      "originalTracks": {
+        "title": "Original Track Production",
+        "price": "฿25,000 - ฿50,000",
+        "description": "Your signature sound created from scratch. Intro/outro tracks, drops, effects, and release-ready production.",
+        "features": {
+          "0": "Signature intro/outro tracks",
+          "1": "Custom drops and effects",
+          "2": "Branded jingles and DJ IDs",
+          "3": "Release-ready production quality"
+        }
+      },
+      "remixes": {
+        "title": "Remix Services",
+        "price": "฿15,000 - ฿35,000",
+        "description": "Transform existing tracks into something uniquely yours. Genre crossovers, festival edits, and extended mixes.",
+        "features": {
+          "0": "Transform any track to your style",
+          "1": "Genre crossovers (Thai pop to EDM, etc.)",
+          "2": "Festival/club edits for maximum impact",
+          "3": "Extended mixes with clean loops"
+        }
+      },
+      "curation": {
+        "title": "Track Curation & Selection",
+        "price": "฿5,000 - ฿10,000/month",
+        "description": "Monthly curated track lists tailored to your genre and style. Stay ahead with fresh music and organized libraries.",
+        "features": {
+          "0": "Curated track lists for your genre/style",
+          "1": "Monthly new release recommendations",
+          "2": "Set list planning for upcoming events",
+          "3": "Music library organization consulting"
+        }
+      },
+      "branding": {
+        "title": "DJ Branding & Sound Design",
+        "price": "฿20,000 - ฿40,000",
+        "description": "Develop your complete sonic identity. From signature sound to branded transitions and custom effects.",
+        "features": {
+          "0": "Develop your signature sound",
+          "1": "Brand identity through music",
+          "2": "Custom transitions and effects library",
+          "3": "Sonic logo creation"
+        }
+      },
+      "education": {
+        "title": "DJ Education & Mentorship",
+        "price": "฿3,000/hour",
+        "description": "One-on-one production lessons and mixing technique training. Learn from the pros to level up your skills.",
+        "features": {
+          "0": "One-on-one production lessons",
+          "1": "Mixing technique training",
+          "2": "Software tutorials (Ableton, Serato, Rekordbox)",
+          "3": "Career development coaching"
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "From consultation to delivery in 5 simple steps",
+      "step1": {
+        "title": "Consultation",
+        "description": "30-min free call to discuss your vision, style, and goals"
+      },
+      "step2": {
+        "title": "Brief & Quote",
+        "description": "Get detailed project scope and custom pricing"
+      },
+      "step3": {
+        "title": "Production",
+        "description": "Our producers create your custom music (1-4 week turnaround)"
+      },
+      "step4": {
+        "title": "Review & Revisions",
+        "description": "2 rounds of revisions included, unlimited on premium packages"
+      },
+      "step5": {
+        "title": "Delivery",
+        "description": "Receive high-quality WAV/MP3 files + stems (if purchased)"
+      }
+    },
+    "portfolio": {
+      "title": "Example Projects",
+      "subtitle": "Hear what we've created for DJs like you",
+      "example1": {
+        "category": "Wedding Mix",
+        "title": "Romantic Journey Mix",
+        "description": "60-minute seamless wedding mix blending Thai and international love songs"
+      },
+      "example2": {
+        "category": "EDM Festival Set",
+        "title": "Bangkok Beats Festival Mix",
+        "description": "High-energy 90-minute festival set with custom drops and transitions"
+      },
+      "example3": {
+        "category": "Thai Pop Remix",
+        "title": "Thai Pop EDM Crossover",
+        "description": "Popular Thai ballad transformed into club-ready EDM remix"
+      },
+      "example4": {
+        "category": "Corporate Event",
+        "title": "Luxury Brand Launch Mix",
+        "description": "Sophisticated 45-minute background mix for high-end product launch"
+      },
+      "example5": {
+        "category": "Radio Show",
+        "title": "Weekly Radio Episode",
+        "description": "Branded radio show with intro/outro jingles and smooth transitions"
+      },
+      "example6": {
+        "category": "Signature Track",
+        "title": "DJ Signature Intro",
+        "description": "Custom 2-minute intro track with branded effects and memorable hook"
+      },
+      "audioNote": "Audio players will be embedded here in production (Spotify/SoundCloud)"
+    },
+    "pricing": {
+      "title": "Transparent Pricing",
+      "subtitle": "Choose the package that fits your budget and timeline",
+      "mostPopular": "Most Popular",
+      "basic": {
+        "name": "Basic",
+        "price": "฿8,000",
+        "description": "Perfect for one-time projects or trying out our services",
+        "features": {
+          "0": "1 custom 30-minute mix",
+          "1": "1 revision round",
+          "2": "MP3 delivery (320kbps)",
+          "3": "2-week turnaround",
+          "4": "Standard mastering"
+        }
+      },
+      "professional": {
+        "name": "Professional",
+        "price": "฿25,000",
+        "description": "Best value for serious DJs building their brand",
+        "features": {
+          "0": "1 custom 60-minute mix OR 1 original track",
+          "1": "2 revision rounds",
+          "2": "WAV + MP3 delivery",
+          "3": "1-week turnaround",
+          "4": "Professional mastering",
+          "5": "Basic stems included"
+        }
+      },
+      "premium": {
+        "name": "Premium",
+        "price": "฿50,000+",
+        "description": "For professionals who demand the best quality and flexibility",
+        "features": {
+          "0": "Unlimited length/tracks",
+          "1": "Unlimited revisions",
+          "2": "All file formats (WAV, MP3, FLAC, stems)",
+          "3": "3-day rush option available",
+          "4": "Advanced mastering + mixing",
+          "5": "Full stems and project files",
+          "6": "Exclusive rights to your tracks",
+          "7": "Priority support"
+        }
+      },
+      "cta": "Get Started"
+    },
+    "benefits": {
+      "title": "Why Choose Bright Ears DJ Services",
+      "subtitle": "What sets us apart from other music production services",
+      "benefit1": {
+        "title": "Professional producers with 10+ years experience",
+        "description": "Worked with top DJs, clubs, and events across Thailand"
+      },
+      "benefit2": {
+        "title": "Specialize in Thai music market and local genres",
+        "description": "Deep understanding of Luk Thung, Mor Lam, Thai pop, and regional styles"
+      },
+      "benefit3": {
+        "title": "Fast turnaround (1-4 weeks typical)",
+        "description": "Rush delivery available for urgent projects (3-7 days)"
+      },
+      "benefit4": {
+        "title": "Unlimited revisions on premium packages",
+        "description": "We won't stop until you're 100% satisfied with the result"
+      },
+      "benefit5": {
+        "title": "Commercial licensing included",
+        "description": "Use your tracks for performances, social media, and broadcasts"
+      },
+      "benefit6": {
+        "title": "Exclusive rights to your custom tracks",
+        "description": "Your signature sound stays uniquely yours"
+      }
+    },
+    "testimonials": {
+      "title": "What DJs Are Saying",
+      "subtitle": "Real feedback from real clients",
+      "testimonial1": {
+        "quote": "The custom mix elevated my wedding gigs from good to unforgettable. My clients keep asking how I create such seamless energy.",
+        "author": "DJ Sarah",
+        "role": "Wedding DJ, Bangkok"
+      },
+      "testimonial2": {
+        "quote": "Finally found my signature sound after working with Bright Ears. Bookings increased 40% in 3 months.",
+        "author": "DJ Mike",
+        "role": "Club DJ, Phuket"
+      },
+      "testimonial3": {
+        "quote": "Their remixes get the whole club moving every time. The production quality is unmatched.",
+        "author": "Club Owner",
+        "role": "Thonglor Nightlife District"
+      },
+      "testimonial4": {
+        "quote": "The mentorship program completely changed my production game. I went from bedroom DJ to festival stage in 6 months.",
+        "author": "DJ Beam",
+        "role": "Festival DJ, Chiang Mai"
+      }
+    },
+    "timeline": {
+      "title": "Production Timeline",
+      "subtitle": "What to expect from inquiry to final delivery",
+      "week1": {
+        "week": "Week 1",
+        "title": "Consultation + Briefing",
+        "description": "Free 30-min call to discuss your vision, followed by detailed brief and custom quote"
+      },
+      "week2": {
+        "week": "Week 2-3",
+        "title": "Production + First Draft",
+        "description": "Our producers work their magic and deliver your first draft for review"
+      },
+      "week3": {
+        "week": "Week 3-4",
+        "title": "Revisions + Refinement",
+        "description": "Incorporate your feedback with 2 revision rounds (unlimited on premium)"
+      },
+      "week4": {
+        "week": "Week 4",
+        "title": "Final Delivery",
+        "description": "Receive final files in all agreed formats, ready to use immediately"
+      },
+      "rush": {
+        "title": "Need It Faster?",
+        "description": "Rush option available: 3-7 days turnaround (premium tier only, +50% fee)"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know about our DJ music production services",
+      "q1": {
+        "question": "What's the difference between a mix and an original track?",
+        "answer": "A mix is a curated selection of existing tracks blended together with transitions. An original track is created from scratch with original melodies, beats, and production elements unique to you."
+      },
+      "q2": {
+        "question": "How long does production take?",
+        "answer": "Typical turnaround is 1-4 weeks depending on complexity. Basic mixes take 1-2 weeks. Original tracks and complex remixes take 3-4 weeks. Rush delivery (3-7 days) is available for premium tier with +50% fee."
+      },
+      "q3": {
+        "question": "Can I request specific genres or styles?",
+        "answer": "Absolutely! We specialize in all genres including EDM, house, hip-hop, Thai pop, Luk Thung, Mor Lam, and more. Tell us your style and we'll match it perfectly."
+      },
+      "q4": {
+        "question": "Do I get exclusive rights to the music?",
+        "answer": "Yes, on Professional and Premium packages you get full commercial licensing. Premium tier includes exclusive rights, meaning we won't reuse any elements for other clients."
+      },
+      "q5": {
+        "question": "What if I need rush delivery?",
+        "answer": "Rush delivery (3-7 days) is available for Premium tier only with a +50% rush fee. Contact us immediately to check availability as rush slots are limited."
+      },
+      "q6": {
+        "question": "Can you work with Thai songs and artists?",
+        "answer": "Yes! We specialize in the Thai music market. We can create remixes of Thai pop hits, blend Luk Thung with modern beats, or curate sets featuring Thai and international tracks."
+      },
+      "q7": {
+        "question": "What file formats do you provide?",
+        "answer": "Basic tier: MP3 (320kbps). Professional tier: WAV + MP3. Premium tier: WAV, MP3, FLAC, and full stems. All files are professionally mastered and ready to use."
+      },
+      "q8": {
+        "question": "How many revisions are included?",
+        "answer": "Basic tier: 1 revision round. Professional tier: 2 revision rounds. Premium tier: Unlimited revisions until you're 100% satisfied."
+      },
+      "q9": {
+        "question": "Can I use the music commercially?",
+        "answer": "Yes, all packages include commercial licensing. You can use your tracks for live performances, social media, radio/streaming shows, and promotional content. Premium tier includes broadcast rights."
+      },
+      "q10": {
+        "question": "Do you offer DJ equipment recommendations?",
+        "answer": "Yes! Our education/mentorship service includes gear consulting. We can recommend controllers, mixers, speakers, and software based on your budget and goals. 1-hour consulting session: ฿3,000."
+      }
+    },
+    "contact": {
+      "title": "Ready to Create Your Signature Sound?",
+      "subtitle": "Fill out the form below or schedule a free 30-minute consultation call",
+      "name": "Your Name",
+      "namePlaceholder": "e.g., John Smith",
+      "djName": "DJ Name / Brand",
+      "djNamePlaceholder": "e.g., DJ Phoenix (optional)",
+      "email": "Email",
+      "emailPlaceholder": "your.email@example.com",
+      "phone": "Phone Number",
+      "phonePlaceholder": "+66 XX XXX XXXX (optional)",
+      "serviceType": "Service Type",
+      "serviceTypePlaceholder": "Select a service",
+      "serviceTypes": {
+        "custom_mix": "Custom DJ Mix",
+        "original_track": "Original Track Production",
+        "remix": "Remix Service",
+        "curation": "Track Curation & Selection",
+        "branding": "DJ Branding & Sound Design",
+        "education": "DJ Education & Mentorship"
+      },
+      "budgetRange": "Budget Range",
+      "budgetRangePlaceholder": "Select your budget",
+      "budgetRanges": {
+        "basic": "฿8,000 - ฿15,000 (Basic)",
+        "professional": "฿15,000 - ฿30,000 (Professional)",
+        "premium": "฿30,000+ (Premium)",
+        "custom": "Custom Budget"
+      },
+      "timeline": "Timeline",
+      "timelinePlaceholder": "When do you need it?",
+      "timelines": {
+        "rush": "Rush (3-7 days) - Premium only",
+        "normal": "Normal (1-4 weeks)",
+        "flexible": "Flexible (no rush)"
+      },
+      "projectDescription": "Project Description",
+      "projectDescriptionPlaceholder": "Tell us about your project, style, and what you're looking for...",
+      "message": "Additional Message",
+      "messagePlaceholder": "Any other details we should know?",
+      "submit": "Submit Inquiry",
+      "submitting": "Submitting...",
+      "successTitle": "Inquiry Submitted Successfully!",
+      "successMessage": "Thank you! We'll review your project and get back to you within 24 hours with a custom quote and next steps.",
+      "submitAnother": "Submit Another Inquiry"
+    }
   }
 }

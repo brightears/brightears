@@ -98,6 +98,14 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
+                    href="/dj-music-design"
+                    className="text-pure-white/70 hover:text-pure-white transition-colors"
+                  >
+                    DJ Music Design
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/faq"
                     className="text-pure-white/70 hover:text-pure-white transition-colors"
                   >
