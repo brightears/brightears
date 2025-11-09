@@ -168,7 +168,7 @@ export default function HowItWorksContent({ locale }: HowItWorksContentProps) {
               </span>
             </Link>
 
-            <Link href={`/${locale}/register/artist`} className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-white/20 hover:shadow-xl inline-block">
+            <Link href={`/${locale}/apply`} className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-white/20 hover:shadow-xl inline-block">
               <span className="flex items-center gap-2">
                 Join as Artist
                 <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -418,7 +418,7 @@ export default function HowItWorksContent({ locale }: HowItWorksContentProps) {
               </Link>
               
               <Link
-                href={`/${locale}/register/artist`}
+                href={`/${locale}/apply`}
                 className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-white/20 hover:shadow-xl inline-block"
               >
                 <span className="flex items-center gap-2">

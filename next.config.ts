@@ -4,6 +4,46 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./i18n.ts');
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      // Marketplace-to-Agency transformation redirects
+      {
+        source: '/register/artist',
+        destination: '/apply',
+        permanent: true, // 301 redirect
+      },
+      {
+        source: '/en/register/artist',
+        destination: '/en/apply',
+        permanent: true,
+      },
+      {
+        source: '/th/register/artist',
+        destination: '/th/apply',
+        permanent: true,
+      },
+      {
+        source: '/artist/onboarding',
+        destination: '/apply',
+        permanent: true,
+      },
+      {
+        source: '/artist/onboarding/:path*',
+        destination: '/apply',
+        permanent: true,
+      },
+      {
+        source: '/pricing/artist',
+        destination: '/apply',
+        permanent: true,
+      },
+      {
+        source: '/how-it-works-artists',
+        destination: '/how-it-works',
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

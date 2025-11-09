@@ -169,11 +169,11 @@ export default function LoginPage() {
         <div className="text-center">
           <p className="text-sm text-dark-gray">
             Are you an artist?{' '}
-            <Link 
-              href="/register/artist" 
+            <Link
+              href="/apply"
               className="font-medium text-earthy-brown hover:text-earthy-brown/80"
             >
-              Register as an artist
+              Apply as an artist
             </Link>
           </p>
         </div>

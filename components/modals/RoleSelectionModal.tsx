@@ -75,7 +75,7 @@ export default function RoleSelectionModal({
     setTimeout(() => {
       const targetPath = role === 'customer'
         ? `/${locale}/artists`
-        : `/${locale}/register/artist`
+        : `/${locale}/apply`
       router.push(targetPath)
       onClose()
     }, 300)

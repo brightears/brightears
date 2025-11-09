@@ -21,6 +21,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: currentDate
     },
     {
+      path: 'apply',
+      priority: 0.8,
+      changefreq: 'monthly' as const,
+      lastModified: currentDate
+    },
+    {
       path: 'how-it-works',
       priority: 0.7,
       changefreq: 'monthly' as const,

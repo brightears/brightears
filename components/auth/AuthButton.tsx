@@ -49,7 +49,7 @@ export function AuthButton() {
       </Link>
       <div className="flex items-center space-x-2">
         <Link
-          href="/register/artist"
+          href="/apply"
           className="bg-earthy-brown text-pure-white px-4 py-2 rounded-md text-sm font-medium hover:bg-earthy-brown/90 transition-colors"
         >
           Artist Portal

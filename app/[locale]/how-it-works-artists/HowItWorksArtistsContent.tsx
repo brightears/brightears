@@ -173,7 +173,7 @@ export default function HowItWorksArtistsContent({ locale }: HowItWorksArtistsCo
             }`}
           >
             <Link
-              href={`/${locale}/register/artist`}
+              href={`/${locale}/apply`}
               className="group relative px-8 py-4 bg-white text-deep-teal font-semibold rounded-2xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-white/50 inline-block"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-white to-soft-lavender opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -446,7 +446,7 @@ export default function HowItWorksArtistsContent({ locale }: HowItWorksArtistsCo
             </p>
 
             <Link
-              href={`/${locale}/register/artist`}
+              href={`/${locale}/apply`}
               className="group relative inline-block px-8 py-4 bg-white text-deep-teal font-semibold rounded-2xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-white/50"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-white to-soft-lavender opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
