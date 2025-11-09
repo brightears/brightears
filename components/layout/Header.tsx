@@ -31,6 +31,7 @@ const Header: React.FC = () => {
     { label: t('browseArtists'), href: '/artists' },
     { label: t('howItWorks'), href: '/how-it-works' },
     { label: t('corporate'), href: '/corporate' },
+    { label: 'BMAsia', href: '/bmasia' },
     { label: t('applyAsDJ'), href: '/apply' },
   ];
 

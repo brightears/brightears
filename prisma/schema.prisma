@@ -1033,6 +1033,15 @@ enum DocumentType {
   CONTRACT
 }
 
+// BMAsia inquiry status enum
+enum BMAsiaInquiryStatus {
+  NEW                 // New inquiry not yet contacted
+  CONTACTED           // Initial contact made
+  QUOTE_SENT          // Quote/proposal sent to client
+  CONVERTED           // Converted to paying customer
+  DECLINED            // Client declined service
+}
+
 // Document model to track generated PDFs
 model Document {
   id              String       @id @default(uuid())
@@ -1063,4 +1072,41 @@ model Document {
   @@index([customerId])
   @@index([documentNumber])
   @@index([createdAt])
+}
+
+// BMAsia background music curation service inquiries
+model BMAsiaInquiry {
+  id              String                @id @default(uuid())
+
+  // Business Information
+  businessName    String
+  industry        String                // Hotels, Restaurants, Retail, Corporate, Spas, Gyms
+  locations       Int                   // Number of locations
+
+  // Contact Information
+  contactName     String
+  email           String
+  phone           String?
+
+  // Inquiry Details
+  message         String?               @db.Text
+  tier            String?               // Starter, Professional, Enterprise
+
+  // Status Tracking
+  status          BMAsiaInquiryStatus   @default(NEW)
+
+  // Metadata
+  ipAddress       String?
+  userAgent       String?
+
+  // Timestamps
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  contactedAt     DateTime?
+  convertedAt     DateTime?
+
+  @@index([email])
+  @@index([createdAt])
+  @@index([status])
+  @@index([industry])
 }

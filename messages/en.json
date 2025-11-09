@@ -1131,5 +1131,251 @@
       "subtitle": "View and manage all artists",
       "placeholder": "Artist management interface coming soon..."
     }
+  },
+  "bmasia": {
+    "hero": {
+      "badge": "Professional Music Curation Service",
+      "title": "Transform Your Business Atmosphere",
+      "titleHighlight": "with Curated Music",
+      "subtitle": "Professional background music curation for hotels, restaurants, retail stores, and offices in Thailand. Curated playlists tailored to your brand.",
+      "cta": "Get Started",
+      "ctaSecondary": "View Pricing",
+      "trustMessage": "✨ Trusted by leading Bangkok businesses • Expert music supervision • Seamless setup"
+    },
+    "problemSolution": {
+      "title": "Stop Struggling with Generic Playlists",
+      "subtitle": "Your business deserves better than random music. Let us create the perfect atmosphere.",
+      "problemsTitle": "Common Problems",
+      "solutionsTitle": "Our Solutions",
+      "problem1": {
+        "title": "Generic Playlists Don't Match Your Brand",
+        "description": "Spotify's generic playlists don't reflect your unique business identity and values."
+      },
+      "problem2": {
+        "title": "Repetitive Music Annoys Customers",
+        "description": "Hearing the same songs repeatedly creates a poor experience and reduces dwell time."
+      },
+      "problem3": {
+        "title": "Manual Playlist Management Wastes Time",
+        "description": "Your staff spends valuable hours searching for and updating playlists instead of serving customers."
+      },
+      "problem4": {
+        "title": "Licensing Compliance is Confusing",
+        "description": "Using music commercially without proper licenses exposes you to legal risks and fines."
+      },
+      "solution1": {
+        "title": "Brand-Aligned Music Selection",
+        "description": "Expert curators create playlists that perfectly match your brand identity, atmosphere goals, and customer demographics."
+      },
+      "solution2": {
+        "title": "Vast Library with Smart Rotation",
+        "description": "Access to millions of tracks with intelligent rotation algorithms ensure customers never hear repetition."
+      },
+      "solution3": {
+        "title": "Fully Managed Service",
+        "description": "We handle everything - playlist creation, updates, seasonal changes - freeing your team to focus on business."
+      },
+      "solution4": {
+        "title": "100% Licensed & Compliant",
+        "description": "All music fully licensed for commercial use in Thailand. We handle compliance so you don't have to worry."
+      }
+    },
+    "tiers": {
+      "badge": "CHOOSE YOUR PLAN",
+      "title": "Flexible Service Tiers",
+      "subtitle": "From startups to enterprise chains, we have the perfect plan for your business",
+      "mostPopular": "Most Popular",
+      "perMonth": "/month",
+      "ctaButton": "Get Started",
+      "starter": {
+        "name": "Starter",
+        "price": "฿2,999",
+        "features": [
+          "1 location",
+          "10 curated playlists",
+          "Monthly playlist updates",
+          "Basic mood categories",
+          "Email support",
+          "Cancel anytime"
+        ]
+      },
+      "professional": {
+        "name": "Professional",
+        "price": "฿7,999",
+        "features": [
+          "Up to 3 locations",
+          "Unlimited playlists",
+          "Weekly playlist updates",
+          "Advanced mood & time-of-day scheduling",
+          "Custom music requests",
+          "Priority support",
+          "Seasonal campaigns"
+        ]
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Custom Pricing",
+        "features": [
+          "Unlimited locations",
+          "Dedicated music curator",
+          "Real-time playlist updates",
+          "Multi-zone management",
+          "Brand-specific music strategy",
+          "24/7 VIP support",
+          "Analytics & reporting"
+        ]
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Get professional music curation in 4 simple steps",
+      "step1": {
+        "title": "1. Consultation",
+        "description": "We learn about your brand, atmosphere goals, target customers, and business hours to understand your unique needs."
+      },
+      "step2": {
+        "title": "2. Curation",
+        "description": "Our expert music supervisors create custom playlists tailored to your brand identity and different times of day."
+      },
+      "step3": {
+        "title": "3. Delivery",
+        "description": "Access your curated music through your preferred platform - Spotify, Apple Music, or YouTube Music."
+      },
+      "step4": {
+        "title": "4. Management",
+        "description": "We continuously update your playlists with seasonal changes, new releases, and customer feedback."
+      }
+    },
+    "industries": {
+      "title": "Trusted by Leading Industries",
+      "subtitle": "Specialized music curation for every type of business",
+      "hotels": {
+        "title": "Hotels & Resorts",
+        "description": "Create the perfect ambiance for lobby, restaurant, spa, and pool areas with sophisticated music selection."
+      },
+      "restaurants": {
+        "title": "Restaurants & Cafés",
+        "description": "Enhance dining experiences with genre-appropriate music that matches your cuisine and service style."
+      },
+      "retail": {
+        "title": "Retail Stores",
+        "description": "Boost sales and increase dwell time with energy-appropriate music for peak and off-peak hours."
+      },
+      "corporate": {
+        "title": "Corporate Offices",
+        "description": "Improve productivity and employee satisfaction with focus-friendly music for workspaces and common areas."
+      },
+      "spas": {
+        "title": "Spas & Wellness",
+        "description": "Create ultimate relaxation with carefully curated meditation and ambient music for treatments."
+      },
+      "gyms": {
+        "title": "Gyms & Fitness",
+        "description": "Motivate members with high-energy music perfectly timed for cardio, weights, and class schedules."
+      }
+    },
+    "benefits": {
+      "title": "Why Choose BMAsia",
+      "subtitle": "The complete music solution for Thai businesses",
+      "benefit1": {
+        "title": "Enhance Brand Identity",
+        "description": "Music becomes part of your brand experience, creating memorable moments for customers."
+      },
+      "benefit2": {
+        "title": "Increase Customer Dwell Time & Sales",
+        "description": "Well-curated music keeps customers in your space longer, directly impacting revenue."
+      },
+      "benefit3": {
+        "title": "Reduce Staff Effort",
+        "description": "No more manual playlist management - we handle everything so your team can focus on service."
+      },
+      "benefit4": {
+        "title": "Mood-Based Time-of-Day Music",
+        "description": "Different music for breakfast, lunch, dinner, and late hours to match customer energy levels."
+      },
+      "benefit5": {
+        "title": "Legal Compliance Guaranteed",
+        "description": "All music fully licensed for commercial use in Thailand - no risk of fines or legal issues."
+      },
+      "benefit6": {
+        "title": "Expert Music Supervision",
+        "description": "Professional curators with years of experience in hospitality and retail music design."
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know about BMAsia music curation service",
+      "q1": {
+        "question": "What makes BMAsia different from Spotify playlists?",
+        "answer": "While Spotify offers generic playlists, BMAsia provides expert-curated music specifically designed for your business type, brand identity, and customer demographics. We handle all commercial licensing, provide ongoing management, and create custom playlists that match different times of day and seasons."
+      },
+      "q2": {
+        "question": "How does music licensing work?",
+        "answer": "All music through BMAsia is fully licensed for commercial use in Thailand. We handle all licensing compliance with performance rights organizations (PROs) so you don't have to worry about legal issues or fines. Standard streaming services like personal Spotify accounts are NOT licensed for commercial use."
+      },
+      "q3": {
+        "question": "Can we request specific genres or artists?",
+        "answer": "Absolutely! We encourage you to share your music preferences, favorite genres, and artists to avoid. Our curators will incorporate your preferences while ensuring variety and maintaining the right atmosphere for your business."
+      },
+      "q4": {
+        "question": "How often are playlists updated?",
+        "answer": "Starter plan: Monthly updates. Professional plan: Weekly updates. Enterprise plan: Real-time updates as needed. We also refresh playlists seasonally and add new releases that match your brand."
+      },
+      "q5": {
+        "question": "What music streaming services do you support?",
+        "answer": "We support Spotify Business, Apple Music for Business, and YouTube Music Premium. We'll help you set up the right platform for your needs during onboarding."
+      },
+      "q6": {
+        "question": "Can we have different music for different times of day?",
+        "answer": "Yes! This is one of our key features. We create different playlists for breakfast, lunch, dinner, and late hours to match customer energy levels and business flow."
+      },
+      "q7": {
+        "question": "Is there a setup fee?",
+        "answer": "No setup fee! Your first month includes full onboarding, brand consultation, and initial playlist creation at no additional cost."
+      },
+      "q8": {
+        "question": "Can we cancel anytime?",
+        "answer": "Yes, all plans are month-to-month with no long-term contracts. Cancel anytime with 30 days notice. We believe in earning your business every month."
+      }
+    },
+    "contact": {
+      "badge": "GET IN TOUCH",
+      "title": "Ready to Transform Your Business Atmosphere?",
+      "subtitle": "Schedule a free consultation and discover how curated music can enhance your brand experience.",
+      "alternativeContact": "Or contact us directly:",
+      "businessName": "Business Name",
+      "businessNamePlaceholder": "Your Hotel/Restaurant/Store Name",
+      "industry": "Industry",
+      "industryPlaceholder": "Select your industry",
+      "contactName": "Contact Name",
+      "contactNamePlaceholder": "Your full name",
+      "email": "Email Address",
+      "emailPlaceholder": "you@business.com",
+      "phone": "Phone Number",
+      "phonePlaceholder": "+66 XX XXX XXXX",
+      "locations": "Number of Locations",
+      "tier": "Interested in Plan",
+      "tierPlaceholder": "Select a plan (optional)",
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your music needs and atmosphere goals...",
+      "submit": "Submit Inquiry",
+      "submitting": "Submitting...",
+      "successTitle": "Thank You!",
+      "successMessage": "We've received your inquiry and will contact you within 24 hours to schedule a consultation.",
+      "submitAnother": "Submit Another Inquiry",
+      "industries": {
+        "hotels": "Hotels & Resorts",
+        "restaurants": "Restaurants & Cafés",
+        "retail": "Retail Stores",
+        "corporate": "Corporate Offices",
+        "spas": "Spas & Wellness",
+        "gyms": "Gyms & Fitness"
+      },
+      "tiers": {
+        "starter": "Starter (฿2,999/mo)",
+        "professional": "Professional (฿7,999/mo)",
+        "enterprise": "Enterprise (Custom Pricing)"
+      }
+    }
   }
 }

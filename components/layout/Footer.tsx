@@ -90,6 +90,14 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
+                    href="/bmasia"
+                    className="text-pure-white/70 hover:text-pure-white transition-colors"
+                  >
+                    BMAsia
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/faq"
                     className="text-pure-white/70 hover:text-pure-white transition-colors"
                   >
