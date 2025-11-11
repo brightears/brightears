@@ -21,14 +21,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: currentDate
     },
     {
-      path: 'apply',
+      path: 'corporate',
       priority: 0.8,
-      changefreq: 'monthly' as const,
+      changefreq: 'weekly' as const,
       lastModified: currentDate
     },
     {
       path: 'how-it-works',
       priority: 0.7,
+      changefreq: 'monthly' as const,
+      lastModified: currentDate
+    },
+    {
+      path: 'apply',
+      priority: 0.8,
       changefreq: 'monthly' as const,
       lastModified: currentDate
     },
@@ -51,9 +57,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: currentDate
     },
     {
-      path: 'corporate',
-      priority: 0.6,
-      changefreq: 'monthly' as const,
+      path: 'bmasia',
+      priority: 0.7,
+      changefreq: 'weekly' as const,
+      lastModified: currentDate
+    },
+    {
+      path: 'dj-music-design',
+      priority: 0.7,
+      changefreq: 'weekly' as const,
       lastModified: currentDate
     },
   ];

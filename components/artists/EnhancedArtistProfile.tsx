@@ -17,6 +17,7 @@ import HourlyRateDisplay from '@/components/ui/HourlyRateDisplay'
 import PopularityIndicator from '@/components/ui/PopularityIndicator'
 import TrustSignals from '@/components/sections/TrustSignals'
 import TrustBadge from '@/components/ui/TrustBadge'
+import ArtistSchema from '@/components/schema/ArtistSchema'
 
 interface EnhancedArtistProfileProps {
   artistId: string
@@ -46,7 +47,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
       const response = await fetch(`/api/artists/${artistId}`)
       if (!response.ok) throw new Error('Artist not found')
       const data = await response.json()
-      
+
       // Ensure arrays are initialized
       const artistData = {
         ...data,
@@ -131,7 +132,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
   }
 
   // Enhanced data with sample content for demo
-  const sampleMedia = artist.images?.length > 0 || artist.videos?.length > 0 ? 
+  const sampleMedia = artist.images?.length > 0 || artist.videos?.length > 0 ?
     [...(artist.images || []).map((url: string, i: number) => ({
       id: `img-${i}`,
       type: 'image' as const,
@@ -143,7 +144,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
       type: 'video' as const,
       url,
       title: `Video ${i + 1}`
-    }))] : 
+    }))] :
     [
       { id: '1', type: 'image' as const, url: 'https://via.placeholder.com/600x400?text=Performance+1', title: 'Live Performance' },
       { id: '2', type: 'image' as const, url: 'https://via.placeholder.com/600x400?text=Event+Photo', title: 'Event Photo' },
@@ -250,11 +251,14 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
     }
   }
 
-  const verificationLevel = artist.verificationLevel === 'TRUSTED' ? 'PREMIUM' : 
+  const verificationLevel = artist.verificationLevel === 'TRUSTED' ? 'PREMIUM' :
                            artist.verificationLevel === 'VERIFIED' ? 'VERIFIED' : 'BASIC'
 
   return (
     <>
+      {/* AI-Discoverability: Structured Data for SEO and AI Systems */}
+      <ArtistSchema artist={artist} locale={locale} />
+
       <main className="min-h-screen bg-off-white">
         {/* Hero Section */}
         <div className="relative h-96 bg-gradient-to-r from-deep-teal to-brand-cyan">
@@ -426,7 +430,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
                   showFromLabel={true}
                 />
               </div>
-              
+
               <div className="flex items-center space-x-3">
                 <button
                   onClick={handleBookNow}
@@ -434,18 +438,18 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
                 >
                   Get Quote
                 </button>
-                
+
                 <LineContactButton
                   artistName={artist.stageName}
                   artistId={artist.id}
                   lineId={artist.lineId || '@brightears'}
                 />
-                
+
                 <button
                   onClick={handleFavorite}
                   className={`p-3 rounded-lg border transition-all ${
-                    isFavorite 
-                      ? 'bg-red-50 border-red-200 text-red-500' 
+                    isFavorite
+                      ? 'bg-red-50 border-red-200 text-red-500'
                       : 'bg-pure-white border-gray-200 text-dark-gray hover:text-red-500'
                   }`}
                   title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
@@ -454,7 +458,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                 </button>
-                
+
                 <button
                   onClick={handleShare}
                   className="p-3 bg-pure-white rounded-lg border border-gray-200 text-dark-gray hover:text-brand-cyan transition-colors"
@@ -478,7 +482,7 @@ export default function EnhancedArtistProfile({ artistId, locale }: EnhancedArti
         <TrustSignals variant="compact" className="border-t" />
       </main>
       <Footer />
-      
+
       {/* Quick Inquiry Modal */}
       <QuickInquiryModal
         isOpen={showInquiryModal}

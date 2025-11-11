@@ -21,14 +21,42 @@ export async function generateMetadata({
   return {
     title,
     description,
+    keywords: locale === 'th'
+      ? 'สมัครดีเจ, สมัครวงดนตรี, สมัครศิลปิน, Bright Ears, งานดีเจ, รายได้ดีเจ'
+      : 'apply DJ, apply band, apply artist, Bright Ears, DJ jobs, musician jobs, entertainment gigs',
     openGraph: {
       title,
       description,
-      url: `https://brightears.onrender.com/${locale}/apply`,
+      url: `/${locale}/apply`,
       siteName: 'Bright Ears',
       locale: locale === 'th' ? 'th_TH' : 'en_US',
       type: 'website',
+      images: [{
+        url: '/og-images/og-image-apply.jpg',
+        width: 1200,
+        height: 630,
+        alt: locale === 'th'
+          ? 'Bright Ears - สมัครเป็นศิลปิน'
+          : 'Bright Ears - Apply as Artist'
+      }]
     },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/og-images/og-image-apply.jpg']
+    },
+    alternates: {
+      canonical: `/${locale}/apply`,
+      languages: {
+        'en': '/en/apply',
+        'th': '/th/apply',
+      }
+    },
+    robots: {
+      index: true,
+      follow: true,
+    }
   };
 }
 

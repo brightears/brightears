@@ -20,10 +20,13 @@ export async function generateMetadata({
   return {
     title,
     description,
+    keywords: locale === 'th'
+      ? 'งานบริษัท, ความบันเทิงองค์กร, ดีเจงานบริษัท, วงดนตรีงานเลี้ยง, กรุงเทพ, โรงแรม, Bright Ears'
+      : 'corporate events, enterprise entertainment, corporate DJ, gala band, Bangkok, hotels, executive events, Bright Ears',
     openGraph: {
       title,
       description,
-      url: `https://brightears.onrender.com/${locale}/corporate`,
+      url: `/${locale}/corporate`,
       siteName: 'Bright Ears',
       locale: locale === 'th' ? 'th_TH' : 'en_US',
       type: 'website',
@@ -41,6 +44,17 @@ export async function generateMetadata({
       title,
       description,
       images: ['/og-images/og-image-corporate.jpg']
+    },
+    alternates: {
+      canonical: `/${locale}/corporate`,
+      languages: {
+        'en': '/en/corporate',
+        'th': '/th/corporate',
+      }
+    },
+    robots: {
+      index: true,
+      follow: true,
     }
   };
 }

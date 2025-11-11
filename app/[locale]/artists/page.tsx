@@ -21,10 +21,13 @@ export async function generateMetadata({
   return {
     title,
     description,
+    keywords: locale === 'th'
+      ? 'ดีเจ กรุงเทพ, วงดนตรี, นักดนตรี, ศิลปินมืออาชีพ, จองศิลปิน, ดีเจงานแต่ง, วงดนตรีงานบริษัท, Bright Ears'
+      : 'DJ Bangkok, bands, musicians, professional artists, book entertainment, wedding DJ, corporate band, verified artists, Bright Ears',
     openGraph: {
       title,
       description,
-      url: `https://brightears.onrender.com/${locale}/artists`,
+      url: `/${locale}/artists`,
       siteName: 'Bright Ears',
       locale: locale === 'th' ? 'th_TH' : 'en_US',
       type: 'website',
@@ -42,6 +45,17 @@ export async function generateMetadata({
       title,
       description,
       images: ['/og-images/og-image-artists-listing.jpg']
+    },
+    alternates: {
+      canonical: `/${locale}/artists`,
+      languages: {
+        'en': '/en/artists',
+        'th': '/th/artists',
+      }
+    },
+    robots: {
+      index: true,
+      follow: true,
     }
   };
 }

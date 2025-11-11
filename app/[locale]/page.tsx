@@ -34,10 +34,13 @@ export async function generateMetadata({
   return {
     title,
     description,
+    keywords: locale === 'th'
+      ? 'จองดีเจ, วงดนตรี, ศิลปิน, กรุงเทพ, โรงแรม, งานบริษัท, ไม่มีค่าคอมมิชชั่น, PromptPay, Bright Ears'
+      : 'book DJ, band booking, musicians, Bangkok, hotels, corporate events, zero commission, PromptPay, entertainment booking, Bright Ears',
     openGraph: {
       title,
       description,
-      url: `https://brightears.onrender.com/${locale}`,
+      url: `/${locale}`,
       siteName: 'Bright Ears',
       locale: locale === 'th' ? 'th_TH' : 'en_US',
       type: 'website',
@@ -54,7 +57,28 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title,
       description,
-      images: ['/og-images/og-image-home.jpg']
+      images: ['/og-images/og-image-home.jpg'],
+      site: '@brightears',
+      creator: '@brightears',
+    },
+    alternates: {
+      canonical: `/${locale}`,
+      languages: {
+        'en': '/en',
+        'th': '/th',
+        'x-default': '/en',
+      }
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     }
   };
 }
