@@ -17,7 +17,42 @@ export default function FAQContent() {
       question: t('questions.customer.1.question'),
       answer: t('questions.customer.1.answer')
     },
-    // Add all 10 customer questions here
+    {
+      question: t('questions.customer.2.question'),
+      answer: t('questions.customer.2.answer')
+    },
+    {
+      question: t('questions.customer.3.question'),
+      answer: t('questions.customer.3.answer')
+    },
+    {
+      question: t('questions.customer.4.question'),
+      answer: t('questions.customer.4.answer')
+    },
+    {
+      question: t('questions.customer.5.question'),
+      answer: t('questions.customer.5.answer')
+    },
+    {
+      question: t('questions.customer.6.question'),
+      answer: t('questions.customer.6.answer')
+    },
+    {
+      question: t('questions.customer.7.question'),
+      answer: t('questions.customer.7.answer')
+    },
+    {
+      question: t('questions.customer.8.question'),
+      answer: t('questions.customer.8.answer')
+    },
+    {
+      question: t('questions.customer.9.question'),
+      answer: t('questions.customer.9.answer')
+    },
+    {
+      question: t('questions.customer.10.question'),
+      answer: t('questions.customer.10.answer')
+    }
   ];
 
   const artistQuestions = [
@@ -25,17 +60,77 @@ export default function FAQContent() {
       question: t('questions.artist.1.question'),
       answer: t('questions.artist.1.answer')
     },
-    // Add all 10 artist questions here
+    {
+      question: t('questions.artist.2.question'),
+      answer: t('questions.artist.2.answer')
+    },
+    {
+      question: t('questions.artist.3.question'),
+      answer: t('questions.artist.3.answer')
+    },
+    {
+      question: t('questions.artist.4.question'),
+      answer: t('questions.artist.4.answer')
+    },
+    {
+      question: t('questions.artist.5.question'),
+      answer: t('questions.artist.5.answer')
+    },
+    {
+      question: t('questions.artist.6.question'),
+      answer: t('questions.artist.6.answer')
+    },
+    {
+      question: t('questions.artist.7.question'),
+      answer: t('questions.artist.7.answer')
+    },
+    {
+      question: t('questions.artist.8.question'),
+      answer: t('questions.artist.8.answer')
+    },
+    {
+      question: t('questions.artist.9.question'),
+      answer: t('questions.artist.9.answer')
+    },
+    {
+      question: t('questions.artist.10.question'),
+      answer: t('questions.artist.10.answer')
+    }
+  ];
+
+  const generalQuestions = [
+    {
+      question: t('questions.general.1.question'),
+      answer: t('questions.general.1.answer')
+    },
+    {
+      question: t('questions.general.2.question'),
+      answer: t('questions.general.2.answer')
+    },
+    {
+      question: t('questions.general.3.question'),
+      answer: t('questions.general.3.answer')
+    },
+    {
+      question: t('questions.general.4.question'),
+      answer: t('questions.general.4.answer')
+    },
+    {
+      question: t('questions.general.5.question'),
+      answer: t('questions.general.5.answer')
+    }
   ];
 
   const filteredQuestions = [
     ...customerQuestions,
-    ...artistQuestions
+    ...artistQuestions,
+    ...generalQuestions
   ].filter(
     (faq) =>
       (activeCategory === 'all' ||
       (activeCategory === 'customers' && customerQuestions.includes(faq)) ||
-      (activeCategory === 'artists' && artistQuestions.includes(faq))) &&
+      (activeCategory === 'artists' && artistQuestions.includes(faq)) ||
+      (activeCategory === 'general' && generalQuestions.includes(faq))) &&
       (faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
        faq.answer.toLowerCase().includes(searchTerm.toLowerCase()))
   );

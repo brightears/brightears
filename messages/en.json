@@ -426,6 +426,163 @@
     "privacy": "Privacy Policy",
     "copyright": "© 2024 Bright Ears Entertainment Co., Ltd. All rights reserved."
   },
+  "about": {
+    "title": "Revolutionizing Entertainment Booking",
+    "subtitle": "Thailand's first commission-free entertainment platform connecting talented artists with venues and events",
+    "mission": "Our Mission",
+    "missionStatement": "To empower Thai artists by providing a transparent, commission-free platform where talent meets opportunity, while delivering exceptional entertainment experiences to our customers.",
+    "story": "Our Story",
+    "storyParagraph1": "Bright Ears was born from a simple observation: Thailand's entertainment industry was broken. Artists were paying up to 30% commission, venues struggled to find verified talent, and customers had no transparent way to discover and book entertainers.",
+    "storyParagraph2": "We built Bright Ears to fix this. As Thailand's first commission-free entertainment booking platform, we connect Bangkok's best DJs, musicians, bands, and artists directly with premium venues and event organizers. No middlemen, no hidden fees, just transparent connections that benefit everyone.",
+    "values": "Our Values",
+    "platformStats": "Platform by the Numbers",
+    "readyToConnect": "Ready to Connect?",
+    "contactCTA": "Contact Us",
+    "stats": {
+      "verifiedartists": "Verified Artists",
+      "eventsdelivered": "Events Delivered",
+      "clientsatisfaction": "Client Satisfaction",
+      "supporthours": "Support Hours"
+    },
+    "values": {
+      "transparency": {
+        "title": "Complete Transparency",
+        "description": "No hidden fees, no commissions. What you see is what you pay. Artists keep 100% of their booking fees."
+      },
+      "artistEmpowerment": {
+        "title": "Artist Empowerment",
+        "description": "We believe artists deserve fair compensation. Our zero-commission model means more earnings for talented performers."
+      },
+      "customerSatisfaction": {
+        "title": "Customer-First Approach",
+        "description": "From inquiry to event completion, we ensure smooth communication, verified quality, and exceptional service."
+      },
+      "thaiMarketFocus": {
+        "title": "Built for Thailand",
+        "description": "LINE integration, PromptPay payments, Thai-English bilingual support, and deep understanding of local market needs."
+      }
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "searchPlaceholder": "Search questions...",
+    "stillHaveQuestions": "Still Have Questions?",
+    "contactUs": "Contact Us",
+    "categories": {
+      "all": "All Questions",
+      "customers": "For Customers",
+      "artists": "For Artists",
+      "general": "General"
+    },
+    "questions": {
+      "customer": {
+        "1": {
+          "question": "How do I book an artist on Bright Ears?",
+          "answer": "Browse our verified artists, view their profiles and pricing, then contact them directly via LINE or phone to discuss your event details. Once you agree on terms, the artist will send you a quotation and booking confirmation."
+        },
+        "2": {
+          "question": "What payment methods do you accept?",
+          "answer": "We support PromptPay QR code payments (most popular), bank transfers, and cash payments. All payment details will be provided in your booking quotation from the artist."
+        },
+        "3": {
+          "question": "How far in advance should I book?",
+          "answer": "We recommend booking 2-4 weeks in advance for popular dates, especially weekends and holidays. However, some artists accept last-minute bookings within 3-7 days depending on availability."
+        },
+        "4": {
+          "question": "Can I cancel or reschedule my booking?",
+          "answer": "Cancellation and rescheduling policies vary by artist and are specified in your booking contract. Typically, cancellations 7+ days before the event receive partial refunds, while last-minute cancellations may forfeit deposits."
+        },
+        "5": {
+          "question": "Are all artists verified?",
+          "answer": "Yes! All artists on Bright Ears go through a verification process including ID verification, police background checks, and portfolio reviews. You'll see verification badges (ID Verified, Police Verified, Business Verified) on artist profiles."
+        },
+        "6": {
+          "question": "Does Bright Ears charge commission fees?",
+          "answer": "No! Bright Ears is 100% commission-free. Artists set their own rates and keep 100% of their booking fees. We make money from optional premium features for artists, not from taking a cut of your bookings."
+        },
+        "7": {
+          "question": "What happens if my booked artist cancels?",
+          "answer": "In the rare event an artist must cancel, they will notify you immediately and help find a suitable replacement from our network. If no replacement is suitable, you'll receive a full refund of any deposits paid."
+        },
+        "8": {
+          "question": "Can I request specific songs or music genres?",
+          "answer": "Absolutely! Discuss your music preferences, must-play songs, and songs to avoid directly with the artist when booking. Most artists are happy to accommodate special requests and create custom setlists for your event."
+        },
+        "9": {
+          "question": "What's typically included in the booking price?",
+          "answer": "Standard bookings include the artist's performance for the agreed duration, basic sound equipment (microphone, speakers), and travel within Bangkok. Additional costs may apply for extended hours, premium equipment, travel outside Bangkok, or special requests."
+        },
+        "10": {
+          "question": "How do I contact the artist after booking?",
+          "answer": "After booking confirmation, you'll receive the artist's direct LINE ID and phone number for easy communication. You can discuss event details, song requests, equipment needs, and any special requirements directly with them."
+        }
+      },
+      "artist": {
+        "1": {
+          "question": "How do I join Bright Ears as an artist?",
+          "answer": "Click 'Apply as Entertainer' in the navigation menu and fill out our application form. We review all applications within 3-5 business days. Once approved, you'll create your profile, upload media, and go through our verification process."
+        },
+        "2": {
+          "question": "Does Bright Ears charge commission fees?",
+          "answer": "No commission fees ever! You keep 100% of your booking revenue. We offer optional paid subscription tiers (Professional ฿799/month, Featured ฿1,499/month) for enhanced visibility and premium features, but the Free tier works perfectly for getting started."
+        },
+        "3": {
+          "question": "How does the verification process work?",
+          "answer": "Verification has 3 levels: ID Verification (government ID upload), Police Verification (฿1,500 background check), and Business Verification (business registration documents). Higher verification levels increase customer trust and booking rates."
+        },
+        "4": {
+          "question": "How do I receive payments from customers?",
+          "answer": "Customers pay you directly via PromptPay, bank transfer, or cash on the day of the event. Bright Ears never holds your money - you receive 100% of payments directly. We provide invoice templates to make billing professional and easy."
+        },
+        "5": {
+          "question": "How do I manage my availability calendar?",
+          "answer": "Use your artist dashboard to set available dates, block out booked dates, and mark holidays or personal time off. Your calendar is visible to customers when they view your profile, helping prevent double-booking conflicts."
+        },
+        "6": {
+          "question": "Can I set my own pricing?",
+          "answer": "Yes! You have complete control over your rates. Set your hourly rate, minimum booking hours, and any additional fees (travel, equipment, special requests). You can adjust pricing anytime based on demand and your experience level."
+        },
+        "7": {
+          "question": "What happens if I need to cancel a confirmed booking?",
+          "answer": "Contact the customer immediately via LINE or phone. Professional cancellations 7+ days in advance usually allow rescheduling. Last-minute cancellations may result in negative reviews and affect your platform standing. Always communicate early if issues arise."
+        },
+        "8": {
+          "question": "How do I communicate with potential customers?",
+          "answer": "Customers contact you via LINE or phone (displayed on your profile). Respond within 24 hours to booking inquiries. Use our quotation templates to send professional proposals. Quick, professional communication leads to higher booking conversion rates."
+        },
+        "9": {
+          "question": "What equipment do I need to provide?",
+          "answer": "Most bookings expect basic sound equipment (microphone, portable speakers for small venues). Specify what equipment you provide in your profile. For large events, discuss equipment needs upfront - some venues provide house sound systems."
+        },
+        "10": {
+          "question": "How can I get more bookings on Bright Ears?",
+          "answer": "Key strategies: (1) Complete your profile with high-quality photos/videos, (2) Get verified (Police Verification increases bookings by 3x), (3) Respond quickly to inquiries, (4) Collect customer reviews after every gig, (5) Consider Professional or Featured tier for homepage exposure."
+        }
+      },
+      "general": {
+        "1": {
+          "question": "What areas of Thailand does Bright Ears serve?",
+          "answer": "We primarily serve Bangkok and surrounding areas (Nonthaburi, Pathum Thani, Samut Prakan). Many artists also travel to Pattaya, Hua Hin, Phuket, and Chiang Mai for events. Check individual artist profiles for their service areas and travel fees."
+        },
+        "2": {
+          "question": "What types of entertainers are available on Bright Ears?",
+          "answer": "We feature DJs, live bands, solo singers, musicians (guitar, saxophone, piano), MCs/hosts, comedians, magicians, dancers, photographers, and keynote speakers. Browse by category to find the perfect entertainment for your event type."
+        },
+        "3": {
+          "question": "Is there customer support if I have issues?",
+          "answer": "Yes! Our support team is available via LINE and email 7 days a week. For urgent booking issues (cancellations, no-shows), we provide emergency phone support. We're here to ensure both customers and artists have great experiences."
+        },
+        "4": {
+          "question": "How does pricing work on Bright Ears?",
+          "answer": "Artists set their own rates displayed on their profiles (hourly rates, minimum hours). Final pricing depends on event duration, date (weekends/holidays cost more), location, and special requests. Always get a written quotation before confirming bookings."
+        },
+        "5": {
+          "question": "What is your refund policy?",
+          "answer": "Refund policies are set by individual artists and specified in booking contracts. Standard practice: cancellations 7+ days before events receive 50-80% refunds. Cancellations within 7 days may forfeit deposits. Artist no-shows receive full refunds plus compensation."
+        }
+      }
+    }
+  },
   "dashboard": {
     "nav": {
       "dashboard": "Dashboard",
