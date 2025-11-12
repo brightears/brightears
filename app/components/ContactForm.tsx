@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import useFormValidation from '@/hooks/useFormValidation';
 import ValidatedInput from '@/components/forms/ValidatedInput';
 import ValidatedTextarea from '@/components/forms/ValidatedTextarea';
@@ -17,6 +18,7 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ tab }: ContactFormProps) {
+  const t = useTranslations('contact');
   const [submitted, setSubmitted] = React.useState(false);
 
   // Determine initial values based on tab
@@ -148,13 +150,39 @@ export default function ContactForm({ tab }: ContactFormProps) {
   } = useFormValidation(getInitialValues(), getValidationRules());
 
   const onSubmit = async (formData: Record<string, any>) => {
-    // TODO: Implement actual API submission
-    console.log('Submitting contact form:', { tab, formData });
+    try {
+      const response = await fetch('/api/contact/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: tab,
+          ...formData,
+        }),
+      });
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+      const data = await response.json();
 
-    setSubmitted(true);
+      if (!response.ok) {
+        // Handle errors
+        if (response.status === 429) {
+          alert(t('errors.rateLimit'));
+          return;
+        }
+        throw new Error(data.error || t('errors.failed'));
+      }
+
+      // Success
+      setSubmitted(true);
+    } catch (error) {
+      console.error('Contact form submission error:', error);
+      alert(
+        error instanceof Error
+          ? error.message
+          : t('errors.failed')
+      );
+    }
   };
 
   if (submitted) {
@@ -177,10 +205,10 @@ export default function ContactForm({ tab }: ContactFormProps) {
         </div>
 
         <h2 className="font-playfair text-2xl font-bold text-dark-gray mb-4">
-          Message Sent Successfully!
+          {t('success.title')}
         </h2>
         <p className="font-inter text-gray-600 mb-6">
-          We'll get back to you within 24 hours.
+          {t('success.message')}
         </p>
         <button
           onClick={() => {
@@ -189,31 +217,31 @@ export default function ContactForm({ tab }: ContactFormProps) {
           }}
           className="inline-flex items-center gap-2 px-6 py-3 bg-brand-cyan text-white font-inter font-medium rounded-full hover:bg-deep-teal transition-colors duration-300"
         >
-          Send Another Message
+          {t('success.sendAnother')}
         </button>
       </div>
     );
   }
 
   const subjectOptions = [
-    { value: 'general', label: 'General Question' },
-    { value: 'technical', label: 'Technical Support' },
-    { value: 'other', label: 'Other' },
+    { value: 'general', label: t('subjectOptions.general') },
+    { value: 'technical', label: t('subjectOptions.technical') },
+    { value: 'other', label: t('subjectOptions.other') },
   ];
 
   const eventTypeOptions = [
-    { value: 'annualParty', label: 'Annual Party' },
-    { value: 'productLaunch', label: 'Product Launch' },
-    { value: 'conference', label: 'Conference' },
-    { value: 'other', label: 'Other' },
+    { value: 'annualParty', label: t('eventTypeOptions.annualParty') },
+    { value: 'productLaunch', label: t('eventTypeOptions.productLaunch') },
+    { value: 'conference', label: t('eventTypeOptions.conference') },
+    { value: 'other', label: t('eventTypeOptions.other') },
   ];
 
   const supportTopicOptions = [
-    { value: 'profileHelp', label: 'Profile Help' },
-    { value: 'paymentIssue', label: 'Payment Issue' },
-    { value: 'verification', label: 'Verification' },
-    { value: 'technical', label: 'Technical Support' },
-    { value: 'other', label: 'Other' },
+    { value: 'profileHelp', label: t('supportTopicOptions.profileHelp') },
+    { value: 'paymentIssue', label: t('supportTopicOptions.paymentIssue') },
+    { value: 'verification', label: t('supportTopicOptions.verification') },
+    { value: 'technical', label: t('supportTopicOptions.technical') },
+    { value: 'other', label: t('supportTopicOptions.other') },
   ];
 
   return (
@@ -462,16 +490,16 @@ export default function ContactForm({ tab }: ContactFormProps) {
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               />
             </svg>
-            Sending...
+            {t('form.submitting')}
           </span>
         ) : (
-          'Send Message'
+          t('form.submit')
         )}
       </button>
 
       {/* Form Footer */}
       <p className="text-xs text-center text-gray-500 font-inter">
-        We typically respond within 2 hours during business hours (9 AM - 6 PM Bangkok Time)
+        {t('form.formFooter')}
       </p>
     </form>
   );

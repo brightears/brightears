@@ -1490,5 +1490,87 @@
         "custom": "งบประมาณกำหนดเอง"
       }
     }
+  },
+  "contact": {
+    "title": "ติดต่อ Bright Ears",
+    "subtitle": "เรายินดีให้ความช่วยเหลือ! ติดต่อเราผ่านแบบฟอร์มด้านล่างหรือติดต่อโดยตรง",
+    "email": "อีเมล",
+    "line": "LINE",
+    "hours": "เวลาทำการ",
+    "location": "สถานที่",
+    "contactInfo": "ข้อมูลติดต่อ",
+    "contactMethods": "วิธีการติดต่อ",
+    "operatingHours": "เวลาทำการ",
+    "responseTime": "เราจะตอบกลับภายใน 24 ชั่วโมง",
+    "checkFAQ": "ดูคำถามที่พบบ่อย",
+    "tabs": {
+      "general": "สอบถามทั่วไป",
+      "corporate": "องค์กร & อีเว้นท์",
+      "artistSupport": "ฝ่ายสนับสนุนศิลปิน"
+    },
+    "form": {
+      "name": "ชื่อของคุณ",
+      "namePlaceholder": "สมชาย ใจดี",
+      "email": "ที่อยู่อีเมล",
+      "emailPlaceholder": "somchai@example.com",
+      "emailHelp": "เราจะไม่แชร์อีเมลของคุณกับผู้อื่น",
+      "subject": "หัวข้อ",
+      "subjectPlaceholder": "เลือกหัวข้อ",
+      "companyName": "ชื่อบริษัท",
+      "companyNamePlaceholder": "บริษัท จำกัด",
+      "contactPerson": "ผู้ติดต่อ",
+      "contactPersonPlaceholder": "สมหญิง ใจดี",
+      "corporateEmail": "อีเมลบริษัท",
+      "corporateEmailPlaceholder": "somying@company.com",
+      "phone": "เบอร์โทรศัพท์",
+      "phonePlaceholder": "081-234-5678",
+      "phoneHelp": "เราจะใช้ข้อมูลนี้เพื่อติดต่อคุณเกี่ยวกับอีเว้นท์ของคุณ",
+      "eventType": "ประเภทอีเว้นท์",
+      "eventTypePlaceholder": "เลือกประเภทอีเว้นท์",
+      "eventDate": "วันที่อีเว้นท์ที่คาดไว้",
+      "eventDateHelp": "อีเว้นท์ต้องเป็นอย่างน้อย 7 วันนับจากวันนี้",
+      "artistName": "ชื่อศิลปิน",
+      "artistNamePlaceholder": "DJ Awesome",
+      "artistEmail": "อีเมลศิลปิน",
+      "artistEmailPlaceholder": "artist@example.com",
+      "artistId": "รหัสศิลปิน (ไม่บังคับ)",
+      "artistIdPlaceholder": "เช่น ARTIST-12345",
+      "artistIdHelp": "หากคุณทราบรหัสศิลปินของคุณ จะช่วยให้เราค้นหาบัญชีของคุณได้เร็วขึ้น",
+      "supportTopic": "หัวข้อที่ต้องการความช่วยเหลือ",
+      "supportTopicPlaceholder": "เลือกหัวข้อ",
+      "message": "ข้อความของคุณ",
+      "messagePlaceholder": "โปรดอธิบายคำถามของคุณโดยละเอียด...",
+      "messageHelp": "โปรดให้รายละเอียดมากที่สุดเท่าที่จะเป็นไปได้",
+      "submit": "ส่งข้อความ",
+      "submitting": "กำลังส่ง...",
+      "formFooter": "เราตอบกลับภายใน 2 ชั่วโมงในเวลาทำการ (9:00 - 18:00 น. เวลากรุงเทพฯ)"
+    },
+    "subjectOptions": {
+      "general": "คำถามทั่วไป",
+      "technical": "ฝ่ายสนับสนุนทางเทคนิค",
+      "other": "อื่นๆ"
+    },
+    "eventTypeOptions": {
+      "annualParty": "งานปาร์ตี้ประจำปี",
+      "productLaunch": "งานเปิดตัวสินค้า",
+      "conference": "งานประชุม",
+      "other": "อื่นๆ"
+    },
+    "supportTopicOptions": {
+      "profileHelp": "ความช่วยเหลือเกี่ยวกับโปรไฟล์",
+      "paymentIssue": "ปัญหาการชำระเงิน",
+      "verification": "การตรวจสอบ",
+      "technical": "ฝ่ายสนับสนุนทางเทคนิค",
+      "other": "อื่นๆ"
+    },
+    "success": {
+      "title": "ส่งข้อความสำเร็จ!",
+      "message": "เราจะติดต่อกลับภายใน 24 ชั่วโมง",
+      "sendAnother": "ส่งข้อความอีกครั้ง"
+    },
+    "errors": {
+      "rateLimit": "คำขอมากเกินไป กรุณาลองใหม่อีกครั้งในอีกหนึ่งชั่วโมง",
+      "failed": "ไม่สามารถส่งแบบฟอร์มได้ กรุณาลองใหม่อีกครั้ง"
+    }
   }
 }

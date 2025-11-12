@@ -1971,5 +1971,87 @@
       "successMessage": "Thank you! We'll review your project and get back to you within 24 hours with a custom quote and next steps.",
       "submitAnother": "Submit Another Inquiry"
     }
+  },
+  "contact": {
+    "title": "Contact Bright Ears",
+    "subtitle": "We're here to help! Reach out via the form below or contact us directly.",
+    "email": "Email",
+    "line": "LINE",
+    "hours": "Business Hours",
+    "location": "Location",
+    "contactInfo": "Contact Information",
+    "contactMethods": "Contact Methods",
+    "operatingHours": "Operating Hours",
+    "responseTime": "We respond within 24 hours",
+    "checkFAQ": "Check our FAQ",
+    "tabs": {
+      "general": "General Inquiry",
+      "corporate": "Corporate & Events",
+      "artistSupport": "Artist Support"
+    },
+    "form": {
+      "name": "Your Name",
+      "namePlaceholder": "John Doe",
+      "email": "Email Address",
+      "emailPlaceholder": "john@example.com",
+      "emailHelp": "We'll never share your email with anyone",
+      "subject": "Subject",
+      "subjectPlaceholder": "Select a subject",
+      "companyName": "Company Name",
+      "companyNamePlaceholder": "Acme Corporation",
+      "contactPerson": "Contact Person",
+      "contactPersonPlaceholder": "Jane Smith",
+      "corporateEmail": "Corporate Email",
+      "corporateEmailPlaceholder": "jane@company.com",
+      "phone": "Phone Number",
+      "phonePlaceholder": "081-234-5678",
+      "phoneHelp": "We'll use this to contact you about your event",
+      "eventType": "Event Type",
+      "eventTypePlaceholder": "Select event type",
+      "eventDate": "Expected Event Date",
+      "eventDateHelp": "Event must be at least 7 days from today",
+      "artistName": "Artist Name",
+      "artistNamePlaceholder": "DJ Awesome",
+      "artistEmail": "Artist Email",
+      "artistEmailPlaceholder": "artist@example.com",
+      "artistId": "Artist ID (Optional)",
+      "artistIdPlaceholder": "e.g., ARTIST-12345",
+      "artistIdHelp": "If you know your artist ID, it helps us find your account faster",
+      "supportTopic": "Support Topic",
+      "supportTopicPlaceholder": "Select a topic",
+      "message": "Your Message",
+      "messagePlaceholder": "Please describe your inquiry in detail...",
+      "messageHelp": "Please provide as much detail as possible",
+      "submit": "Send Message",
+      "submitting": "Sending...",
+      "formFooter": "We typically respond within 2 hours during business hours (9 AM - 6 PM Bangkok Time)"
+    },
+    "subjectOptions": {
+      "general": "General Question",
+      "technical": "Technical Support",
+      "other": "Other"
+    },
+    "eventTypeOptions": {
+      "annualParty": "Annual Party",
+      "productLaunch": "Product Launch",
+      "conference": "Conference",
+      "other": "Other"
+    },
+    "supportTopicOptions": {
+      "profileHelp": "Profile Help",
+      "paymentIssue": "Payment Issue",
+      "verification": "Verification",
+      "technical": "Technical Support",
+      "other": "Other"
+    },
+    "success": {
+      "title": "Message Sent Successfully!",
+      "message": "We'll get back to you within 24 hours.",
+      "sendAnother": "Send Another Message"
+    },
+    "errors": {
+      "rateLimit": "Too many requests. Please try again in an hour.",
+      "failed": "Failed to submit form. Please try again."
+    }
   }
 }
