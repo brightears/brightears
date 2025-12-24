@@ -1,0 +1,46 @@
+
+> brightears@0.1.0 build
+> prisma generate && node --max-old-space-size=1024 ./node_modules/.bin/next build
+
+warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
+For more information, see: https://pris.ly/prisma-config
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+
+✔ Generated Prisma Client (v6.13.0) to ./node_modules/@prisma/client in 93ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+
+   ▲ Next.js 15.4.6
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · serverActions
+     ✓ webpackBuildWorker
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./app/api/contact/submit/route.ts
+Error:   [31mx[0m Expected ',', got 'll'
+     ,-[[36;1;4m/Users/benorbe/Documents/Coding Projects/brightears/brightears/app/api/contact/submit/route.ts[0m:164:1]
+ [2m161[0m |     return NextResponse.json(
+ [2m162[0m |       {
+ [2m163[0m |         success: true,
+ [2m164[0m |         message: 'Your message has been received. We'll get back to you within 24 hours.',
+     : [35;1m                                                     ^^[0m
+ [2m165[0m |         emailSent,
+ [2m166[0m |         ...(emailError && { emailError }),
+ [2m167[0m |       },
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/api/contact/submit/route.ts
+
+
+> Build failed because of webpack errors

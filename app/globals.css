@@ -586,3 +586,36 @@ body {
     border: 2px solid #00bbe4;
   }
 }
+
+/* ===================================
+   THE LISTENING ROOM ANIMATIONS
+   =================================== */
+
+/* Fade in animation */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s var(--ease-premium) forwards;
+}
+
+/* Animation delays */
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+
+.animation-delay-1000 {
+  animation-delay: 1000ms;
+}
