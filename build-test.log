@@ -1,0 +1,40 @@
+
+> the-listening-room@1.0.0 build
+> next build
+
+   ▲ Next.js 15.4.6
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · serverActions
+     ✓ webpackBuildWorker
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./app/[locale]/layout.tsx
+Module not found: Can't resolve '@clerk/nextjs'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/[locale]/layout.tsx
+Module not found: Can't resolve '@/components/favorites/FavoritesContext'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/[locale]/layout.tsx
+Module not found: Can't resolve '@/components/layout/Header'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/[locale]/layout.tsx
+Module not found: Can't resolve '@/components/layout/Footer'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/[locale]/loading.tsx
+Module not found: Can't resolve '@/components/ui/HeroSkeleton'
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors
