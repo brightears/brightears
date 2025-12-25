@@ -1,0 +1,1272 @@
+{
+  "metadata": {
+    "title": "Bright Ears - Premium Entertainment Booking Platform",
+    "description": "Book DJs, bands, singers, and live entertainment for your events in Thailand. Commission-free platform with verified artists."
+  },
+  "nav": {
+    "home": "Home",
+    "browseArtists": "Browse Artists",
+    "howItWorks": "How It Works",
+    "corporate": "Corporate Solutions",
+    "login": "Login",
+    "signup": "Sign Up"
+  },
+  "hero": {
+    "title": "Premium Entertainment for Every Event",
+    "subtitle": "Book DJs, Bands, and Live Entertainment with Confidence",
+    "searchPlaceholder": "What kind of entertainment do you need?",
+    "searchButton": "Search Artists",
+    "browseButton": "Browse All Artists",
+    "corporateButton": "Corporate Solutions",
+    "trustedBy": "Trusted by Leading Hotels & Venues"
+  },
+  "features": {
+    "noCommission": {
+      "title": "No Commission Fees",
+      "description": "Connect directly with artists. We don't take a cut from bookings."
+    },
+    "verified": {
+      "title": "Verified Professionals",
+      "description": "All artists are verified and reviewed by real clients."
+    },
+    "secure": {
+      "title": "Secure Bookings",
+      "description": "Protected bookings with contracts and payment tracking."
+    },
+    "support": {
+      "title": "24/7 Support",
+      "description": "Get help whenever you need it, in English or Thai."
+    }
+  },
+  "emails": {
+    "subjects": {
+      "booking_inquiry": "New Booking Inquiry - {eventType}",
+      "quote_received": "Quote Received for {eventType}",
+      "quote_accepted": "Your Quote Has Been Accepted!",
+      "payment_confirmed": "Payment Confirmed - {bookingNumber}",
+      "booking_confirmed": "Booking Confirmed - {eventType}",
+      "event_reminder": "Event Reminder: {eventType} Tomorrow",
+      "booking_completed": "Booking Completed - Thank You!",
+      "admin_notification": "Admin Alert: {alertType}"
+    },
+    "common": {
+      "greeting": "Hello {name}",
+      "thanks": "Thank you",
+      "regards": "Best regards",
+      "team": "The Bright Ears Team",
+      "footer": "This email was sent by Bright Ears, Thailand's premier entertainment booking platform.",
+      "unsubscribe": "If you no longer wish to receive these emails, please",
+      "unsubscribeLink": "unsubscribe",
+      "website": "Website",
+      "support": "Support",
+      "privacy": "Privacy Policy"
+    },
+    "bookingInquiry": {
+      "title": "New Booking Inquiry",
+      "subtitle": "You have received a new booking inquiry",
+      "eventDetails": "Event Details:",
+      "eventType": "Event Type:",
+      "eventDate": "Event Date:",
+      "location": "Location:",
+      "duration": "Duration:",
+      "contactMethod": "Preferred Contact Method:",
+      "additionalInfo": "Additional Information:",
+      "cta": "View and respond to this inquiry by logging into your dashboard.",
+      "button": "View Booking Inquiry",
+      "footer": "Please respond to this inquiry as soon as possible to maintain a good response time rating."
+    },
+    "quoteReceived": {
+      "title": "Quote Received",
+      "subtitle": "You have received a quote for your event",
+      "price": "Quoted Price:",
+      "deposit": "Deposit Required:",
+      "inclusions": "What's Included:",
+      "exclusions": "What's Not Included:",
+      "notes": "Artist Notes:",
+      "validUntil": "Quote Valid Until:",
+      "cta": "Review the full quote details and accept or negotiate with the artist.",
+      "button": "View & Accept Quote",
+      "urgency": "This quote expires on {validUntil}. Please respond soon to secure your booking.",
+      "footer": "Questions? Reply to this email or contact the artist directly through our platform."
+    },
+    "paymentConfirmation": {
+      "title": "Payment Confirmed",
+      "subtitle": "Your payment has been confirmed",
+      "amount": "Payment Amount:",
+      "type": "Payment Type:",
+      "method": "Payment Method:",
+      "reference": "Transaction Reference:",
+      "bookingDetails": "Booking Details:",
+      "nextSteps": "What's Next?",
+      "cta": "You can view your complete booking details and communicate with your artist using the link below.",
+      "button": "View Booking Details",
+      "footer": "Thank you for choosing Bright Ears! We look forward to making your event memorable."
+    },
+    "eventReminder": {
+      "title": "Event Reminder",
+      "subtitle": "Your event is coming up soon",
+      "eventDetails": "Event Details:",
+      "contactInfo": "Contact Information:",
+      "preparation": "Event Preparation:",
+      "cta": "View complete booking details and communicate with your",
+      "button": "View Booking Details",
+      "contact": "If you need to contact them, please use the platform messaging or call them directly.",
+      "footer": "We hope you have a wonderful event! Please don't hesitate to contact our support team if you need any assistance."
+    },
+    "bookingCompleted": {
+      "title": "Booking Completed",
+      "subtitle": "Your event has been completed",
+      "bookingDetails": "Completed Booking Details:",
+      "nextSteps": "What's Next?",
+      "review": "We'd love to hear about your experience! Please consider leaving a review.",
+      "earnings": "Your earnings from this booking have been credited to your account.",
+      "button": "Leave a Review",
+      "buttonArtist": "View Your Dashboard",
+      "future": "Future Opportunities",
+      "futureText": "Keep your availability updated to receive more booking opportunities.",
+      "futureCustomer": "Your Next Event",
+      "futureCustomerText": "Browse our platform for your next event - we have amazing artists ready to make your events memorable.",
+      "footer": "Thank you for being part of the Bright Ears community!"
+    }
+  },
+  "categories": {
+    "title": "Entertainment Categories",
+    "quickSelect": "Quick Select",
+    "viewAll": "View All",
+    "dj": {
+      "name": "DJs",
+      "description": "Professional DJs for all events"
+    },
+    "band": {
+      "name": "Bands",
+      "description": "Live bands and musicians"
+    },
+    "singer": {
+      "name": "Singers",
+      "description": "Solo artists and vocalists"
+    },
+    "musician": {
+      "name": "Musicians",
+      "description": "Instrumentalists and performers"
+    },
+    "mc": {
+      "name": "MCs",
+      "description": "Masters of ceremony and hosts"
+    },
+    "comedian": {
+      "name": "Comedians",
+      "description": "Stand-up and entertainment comedy"
+    },
+    "magician": {
+      "name": "Magicians",
+      "description": "Magic shows and illusions"
+    },
+    "dancer": {
+      "name": "Dancers",
+      "description": "Dance performances and choreography"
+    }
+  },
+  "home": {
+    "activity": {
+      "title": "Live Activity",
+      "subtitle": "Real-time platform activity",
+      "live": "LIVE",
+      "totalBookings": "Bookings",
+      "totalArtists": "Artists", 
+      "activeInquiries": "Inquiries",
+      "justNow": "Just now",
+      "minutesAgo": "{minutes}m ago",
+      "hoursAgo": "{hours}h ago", 
+      "daysAgo": "{days}d ago",
+      "loadError": "Unable to load activity",
+      "noActivity": "No recent activity",
+      "autoRefresh": "Updates every {seconds}s"
+    },
+    "testimonials": {
+      "title": "Success Stories",
+      "subtitle": "See how Bright Ears has helped create unforgettable events across Thailand",
+      "verified": "Verified",
+      "stats": {
+        "successfulEvents": "Successful Events",
+        "averageRating": "Average Rating",
+        "verifiedArtists": "Verified Artists", 
+        "responseTime": "Response Time"
+      },
+      "cta": "Start Your Success Story"
+    }
+  },
+  "booking": {
+    "quick": {
+      "title": "Quick Booking",
+      "step": "Step",
+      "estimatedTime": "~{minutes} minutes",
+      "next": "Next",
+      "back": "Back", 
+      "cancel": "Cancel",
+      "sendInquiry": "Send Inquiry",
+      "submitting": "Sending...",
+      "step1": {
+        "title": "Event Details",
+        "eventDate": "Event Date",
+        "eventTime": "Event Time", 
+        "eventType": "Event Type",
+        "selectEventType": "Select event type"
+      },
+      "step2": {
+        "title": "Location & Duration",
+        "location": "Location",
+        "duration": "Duration",
+        "hours": "hours",
+        "minimum": "Min: {hours}h",
+        "estimate": "Price Estimate",
+        "hourlyRate": "Hourly Rate",
+        "estimated": "Estimated Total"
+      },
+      "step3": {
+        "title": "Contact Information",
+        "preferredContact": "Preferred Contact Method",
+        "email": "Email Address",
+        "lineId": "LINE ID",
+        "phone": "Phone Number",
+        "additionalInfo": "Additional Information",
+        "additionalInfoPlaceholder": "Tell the artist about your event, special requirements, or questions..."
+      },
+      "success": {
+        "title": "Inquiry Sent!",
+        "message": "Your booking inquiry has been sent to {artist}. They will contact you soon.",
+        "autoClose": "This window will close automatically in a few seconds."
+      },
+      "categories": {
+        "dj": "DJ",
+        "band": "Band", 
+        "singer": "Singer",
+        "musician": "Musician",
+        "mc": "MC"
+      },
+      "eventTypes": {
+        "wedding": "Wedding",
+        "corporate": "Corporate Event",
+        "birthday": "Birthday Party",
+        "anniversary": "Anniversary",
+        "festival": "Festival",
+        "private_party": "Private Party",
+        "nightclub": "Nightclub",
+        "restaurant": "Restaurant",
+        "hotel": "Hotel Event",
+        "other": "Other"
+      },
+      "contactMethods": {
+        "email": "Email",
+        "line": "LINE",
+        "phone": "Phone"
+      },
+      "validation": {
+        "completeRequired": "Please complete all required fields"
+      },
+      "error": {
+        "submitFailed": "Failed to send inquiry. Please try again.",
+        "networkError": "Network error. Please check your connection."
+      }
+    },
+    "mobile": {
+      "title": "Quick Book",
+      "step1": "Details", 
+      "step2": "Contact",
+      "step3": "Success",
+      "step1.title": "Event Details",
+      "step1.eventType": "Event Type",
+      "step1.date": "Date",
+      "step1.time": "Time", 
+      "step1.location": "Location",
+      "step1.duration": "Duration",
+      "step1.hours": "hours",
+      "step1.estimate": "Estimated Cost",
+      "step1.estimateNote": "Final price may vary",
+      "step2.title": "Contact Information",
+      "step2.contactMethod": "How should they contact you?",
+      "step2.lineId": "LINE ID",
+      "step2.phone": "Phone Number",
+      "step2.email": "Email Address",
+      "step2.additionalInfo": "Additional Information",
+      "step2.additionalInfoPlaceholder": "Special requests, questions, or details about your event...",
+      "next": "Next",
+      "back": "Back",
+      "cancel": "Cancel",
+      "sendInquiry": "Send Inquiry",
+      "submitting": "Sending...",
+      "success.title": "Inquiry Sent!",
+      "success.message": "Your booking request has been sent to {artist}. They will contact you soon.",
+      "success.lineMessage": "Connect with the artist directly on LINE:",
+      "success.openLine": "Open LINE",
+      "success.autoClose": "This window will close automatically",
+      "validation.completeRequired": "Please complete all required fields",
+      "error.submitFailed": "Failed to send inquiry. Please try again.",
+      "error.networkError": "Network error. Please check your connection."
+    },
+    "eventType": "Event Type",
+    "selectEventType": "Select event type",
+    "eventDate": "Event Date",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "duration": "Duration",
+    "hours": "hours",
+    "minimumHours": "Minimum {hours} hours",
+    "minimumAdvanceNotice": "Minimum {days} days advance notice required",
+    "estimatedPrice": "Estimated Price",
+    "venueName": "Venue Name",
+    "venueNamePlaceholder": "e.g., The Grand Ballroom, ABC Hotel",
+    "venueAddress": "Venue Address",
+    "venueAddressPlaceholder": "Full address including city and postal code",
+    "expectedGuests": "Expected Number of Guests",
+    "expectedGuestsPlaceholder": "Approximate number",
+    "specialRequests": "Special Requests",
+    "specialRequestsPlaceholder": "Any specific music requests, equipment needs, or performance requirements",
+    "additionalNotes": "Additional Notes",
+    "additionalNotesPlaceholder": "Any other information the artist should know",
+    "budgetRange": "Budget Range",
+    "selectBudgetRange": "Select your budget range",
+    "contactPhone": "Contact Phone Number",
+    "contactPhonePlaceholder": "For urgent communication",
+    "bookArtist": "Book {name}",
+    "artist": "Artist",
+    "date": "Date",
+    "time": "Time",
+    "venue": "Venue",
+    "bookingSummary": "Booking Summary",
+    "whatHappensNext": "What happens next?",
+    "step1": "The artist will receive your request and respond within 24 hours",
+    "step2": "You can discuss details and negotiate pricing through messages",
+    "step3": "Once agreed, the artist will confirm your booking",
+    "previous": "Previous",
+    "next": "Next",
+    "submitRequest": "Submit Request",
+    "submitting": "Submitting...",
+    "bookingRequestSent": "Booking Request Sent!",
+    "bookingRequestSentDescription": "Your booking request has been sent to the artist. You'll receive a notification when they respond.",
+    "bookingNumber": "Booking Number",
+    "close": "Close",
+    "viewBookings": "View My Bookings",
+    "loginRequired": "Login Required",
+    "loginRequiredDescription": "You need to be logged in to submit a booking request.",
+    "login": "Login",
+    "cancel": "Cancel",
+    "contactViaLine": "Contact via LINE",
+    "quickBooking": {
+      "title": "Quick Booking",
+      "description": "Fill in basic details and contact the artist directly via LINE for instant communication.",
+      "eventDate": "Event Date",
+      "eventType": "Event Type",
+      "location": "Event Location",
+      "selectEventType": "Select event type",
+      "locationPlaceholder": "e.g., Bangkok, Sukhumvit Hotel",
+      "fillAllFields": "Please fill in all required fields",
+      "contactArtist": "Contact Artist",
+      "detailedBooking": "Detailed Booking Form",
+      "inquirySent": "Inquiry sent! The artist will contact you soon.",
+      "helpText": "This sends your inquiry directly to the artist. They'll respond quickly via their preferred communication method.",
+      "contactArtistDirectly": "Please contact the artist directly using the information provided above."
+    },
+    "lineMessage": {
+      "greeting": "Hi {artistName}! I found you on Bright Ears and I'm interested in booking you.",
+      "eventDate": "Event Date",
+      "eventType": "Event Type",
+      "location": "Location",
+      "footer": "Please let me know your availability and rate. Thank you!"
+    },
+    "eventTypes": {
+      "wedding": "Wedding",
+      "birthday_party": "Birthday Party",
+      "corporate_event": "Corporate Event",
+      "private_party": "Private Party",
+      "bar_club_night": "Bar/Club Night",
+      "restaurant_performance": "Restaurant Performance",
+      "hotel_event": "Hotel Event",
+      "other": "Other"
+    }
+  },
+  "ai": {
+    "bioEnhancer": {
+      "enhanceWithAI": "Enhance with AI",
+      "title": "AI Bio Enhancement",
+      "subtitle": "Make your profile more compelling and professional",
+      "noBioError": "Please add some content to your bio first",
+      "limitReached": "Enhancement limit reached ({used}/{limit}). Upgrade your verification for more.",
+      "enhancementError": "Failed to enhance bio. Please try again.",
+      "networkError": "Network error. Please check your connection.",
+      "usageInfo": "Monthly Usage",
+      "remainingEnhancements": "{remaining} of {total} enhancements remaining this month",
+      "language": "Language",
+      "targetAudience": "Target Audience",
+      "formalityLevel": "Formality Level",
+      "languageOptions": {
+        "english": "English Only",
+        "thai": "Thai Only", 
+        "both": "Both Languages"
+      },
+      "audiences": {
+        "corporate": "Corporate Events",
+        "wedding": "Weddings & Celebrations",
+        "nightlife": "Nightlife & Clubs",
+        "international": "International Clients",
+        "traditional": "Traditional Events"
+      },
+      "formality": {
+        "casual": "Casual & Friendly",
+        "professional": "Professional",
+        "formal": "Formal & Traditional"
+      },
+      "currentBio": "Current Biography",
+      "englishBio": "English Bio",
+      "thaiBio": "Thai Bio",
+      "cancel": "Cancel",
+      "enhancing": "Enhancing...",
+      "enhanceNow": "Enhance Now",
+      "enhancedBios": "Enhanced Biographies",
+      "enhancedEnglish": "Enhanced English Bio",
+      "enhancedThai": "Enhanced Thai Bio",
+      "improvements": "Suggested Improvements",
+      "bookingTips": "Booking Success Tips",
+      "culturalNotes": "Cultural Considerations",
+      "tryAgain": "Try Different Options",
+      "applyEnhancement": "Apply Enhancement"
+    }
+  },
+  "search": {
+    "findPerfectArtist": "Find Your Perfect Artist",
+    "searchLabel": "Search Artists",
+    "searchPlaceholder": "Search by name, genre, or style...",
+    "searchButton": "Search",
+    "searchArtists": "Search Artists",
+    "searchDescription": "Discover and book the perfect entertainment for your event with our advanced search filters",
+    "searchSubtitle": "Use our filters to find artists that match your budget, location, and style preferences",
+    "filters": "Filters",
+    "clearFilters": "Clear Filters",
+    "clearAll": "Clear All",
+    "category": "Category",
+    "location": "Location", 
+    "budget": "Budget",
+    "budgetRange": "Budget Range",
+    "allCategories": "All Categories",
+    "allLocations": "All Locations",
+    "anyBudget": "Any Budget",
+    "under500": "Under ฿500/hr",
+    "budget500to1000": "฿500 - ฿1,000/hr",
+    "budget1000to2000": "฿1,000 - ฿2,000/hr", 
+    "budget2000to5000": "฿2,000 - ฿5,000/hr",
+    "over5000": "Over ฿5,000/hr",
+    "searching": "Searching...",
+    "searchError": "Failed to load search results",
+    "retry": "Try Again",
+    "noResults": "No artists found",
+    "noResultsDescription": "We couldn't find any artists matching your criteria. Try adjusting your search:",
+    "tryDifferentKeywords": "Try different keywords or genres",
+    "expandLocation": "Expand your location search area", 
+    "adjustBudget": "Adjust your budget range",
+    "searchResults": "Search Results",
+    "showingResults": "Showing {count} of {total} artists (Page {page} of {totalPages})",
+    "sortBy": "Sort by",
+    "relevance": "Relevance",
+    "rating": "Rating",
+    "newest": "Newest",
+    "mostBooked": "Most Booked",
+    "previous": "Previous",
+    "next": "Next",
+    "categories": {
+      "dj": "DJ",
+      "band": "Band",
+      "singer": "Singer",
+      "musician": "Musician",
+      "mc": "MC / Host",
+      "comedian": "Comedian",
+      "magician": "Magician",
+      "dancer": "Dancer"
+    }
+  },
+  "home": {
+    "featuredArtists": {
+      "title": "Featured Artists",
+      "subtitle": "Handpicked professionals trusted by Thailand's leading venues",
+      "quickBook": "Quick Book Now",
+      "viewProfile": "View Profile",
+      "viewAllArtists": "View All Artists",
+      "available": "Available",
+      "featured": "Featured",
+      "recentlyPerformed": "Recently performed at",
+      "startingFrom": "Starting from",
+      "priceOnRequest": "Quote on request"
+    },
+    "cta": {
+      "findArtist": "Find Artists",
+      "browseArtists": "Browse Artists",
+      "contactLine": "Contact via LINE"
+    }
+  },
+  "corporate": {
+    "title": "Corporate Entertainment Solutions",
+    "subtitle": "Trusted by Thailand's Leading Hotels & Venues",
+    "residentDJ": {
+      "title": "Resident DJ Programs",
+      "description": "Consistent quality entertainment for your venue"
+    },
+    "multiVenue": {
+      "title": "Multi-Venue Management",
+      "description": "Centralized booking for all your properties"
+    },
+    "compliance": {
+      "title": "Full Compliance",
+      "description": "Licensed music and proper documentation"
+    },
+    "getQuote": "Get Corporate Quote"
+  },
+  "footer": {
+    "about": "About Bright Ears",
+    "description": "Thailand's premier entertainment booking platform",
+    "contact": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Bangkok, Thailand",
+    "links": "Quick Links",
+    "browseArtists": "Browse Artists",
+    "howItWorks": "How It Works",
+    "corporate": "Corporate",
+    "legal": "Legal",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "copyright": "© 2024 Bright Ears Entertainment Co., Ltd. All rights reserved."
+  },
+  "dashboard": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "profile": "Profile",
+      "bookings": "Bookings",
+      "availability": "Availability",
+      "media": "Media",
+      "reviews": "Reviews",
+      "analytics": "Analytics"
+    },
+    "artist": {
+      "welcome": "Welcome back, {name}!",
+      "overview": "Here's your performance overview and upcoming bookings.",
+      "totalBookings": "Total Bookings",
+      "completedBookings": "Completed Bookings",
+      "totalEarnings": "Total Earnings",
+      "averageRating": "Average Rating",
+      "quickActions": "Quick Actions",
+      "updateProfile": "Update Profile",
+      "manageCalendar": "Manage Calendar",
+      "viewBookings": "View Bookings",
+      "uploadMedia": "Upload Media",
+      "recentBookings": "Recent Bookings",
+      "upcomingEvents": "Upcoming Events",
+      "profileCompletion": "Profile Completion",
+      "recentActivity": "Recent Activity"
+    },
+    "profile": {
+      "title": "Profile Management",
+      "description": "Update your artist profile information and settings.",
+      "basicInfo": "Basic Information",
+      "stageName": "Stage Name",
+      "realName": "Real Name",
+      "category": "Primary Category",
+      "baseCity": "Base City",
+      "bio": "Bio (English)",
+      "bioTh": "Bio (Thai)",
+      "languages": "Languages Spoken",
+      "genres": "Musical Genres",
+      "pricingSettings": "Pricing & Booking Settings",
+      "hourlyRate": "Hourly Rate",
+      "minimumHours": "Minimum Hours",
+      "currency": "Currency",
+      "instantBooking": "Enable Instant Booking",
+      "advanceNotice": "Advance Notice Required (days)",
+      "cancellationPolicy": "Cancellation Policy",
+      "serviceAreas": "Service Areas",
+      "socialLinks": "Social Media & Online Presence"
+    },
+    "bookings": {
+      "title": "Bookings Management",
+      "description": "Review, accept, and manage your booking requests.",
+      "allBookings": "All Bookings",
+      "newInquiries": "New Inquiries",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "eventDetails": "Event Details",
+      "client": "Client",
+      "dateTime": "Date & Time",
+      "price": "Price",
+      "status": "Status",
+      "actions": "Actions",
+      "view": "View",
+      "accept": "Accept",
+      "decline": "Decline",
+      "bookingDetails": "Booking Details",
+      "acceptBooking": "Accept Booking",
+      "declineBooking": "Decline Booking"
+    },
+    "availability": {
+      "title": "Availability Calendar",
+      "description": "Manage your availability and block dates for personal events.",
+      "today": "Today",
+      "hasBookings": "Has Bookings",
+      "available": "Available",
+      "blocked": "Blocked",
+      "notSet": "Not Set",
+      "markAvailable": "Mark as Available",
+      "blockDay": "Block This Day",
+      "setAvailability": "Set Availability",
+      "blockMultiple": "Block Multiple Days",
+      "weeklyPattern": "Set Weekly Pattern",
+      "importCalendar": "Import Calendar"
+    },
+    "media": {
+      "title": "Media Gallery",
+      "description": "Upload and manage your photos, videos, and audio samples to showcase your work.",
+      "profileImage": "Profile Image",
+      "coverImage": "Cover Image",
+      "photos": "Photos",
+      "videos": "Videos",
+      "audio": "Audio",
+      "addPhotos": "Add Photos",
+      "addVideo": "Add Video Link",
+      "addAudio": "Add Audio Sample",
+      "changePhoto": "Change Photo",
+      "changeCover": "Change Cover",
+      "uploadPhoto": "Upload Photo",
+      "uploadCover": "Upload Cover"
+    },
+    "reviews": {
+      "title": "Reviews & Ratings",
+      "description": "View and respond to client reviews to build trust and improve your service.",
+      "totalReviews": "Total Reviews",
+      "responseRate": "Response Rate",
+      "pendingResponses": "Pending Responses",
+      "ratingDistribution": "Rating Distribution",
+      "allReviews": "All Reviews",
+      "pendingResponse": "Pending Response",
+      "responded": "Responded",
+      "respond": "Respond",
+      "respondToReview": "Respond to Review",
+      "yourResponse": "Your Response",
+      "sendResponse": "Send Response"
+    },
+    "analytics": {
+      "title": "Analytics & Earnings",
+      "description": "Track your performance, earnings, and understand your client demographics.",
+      "keyMetrics": "Key Metrics",
+      "monthlyEarnings": "Monthly Earnings",
+      "performanceMetrics": "Performance Metrics",
+      "profileViews": "Profile Views",
+      "conversionRate": "Conversion Rate",
+      "rebookingRate": "Rebooking Rate",
+      "responseTime": "Avg Response Time",
+      "monthlyInquiries": "Monthly Inquiries",
+      "eventTypes": "Event Types",
+      "popularLocations": "Popular Locations",
+      "popularTimeSlots": "Popular Time Slots",
+      "insights": "Insights & Recommendations",
+      "workingWell": "What's Working Well",
+      "growthOpportunities": "Growth Opportunities"
+    }
+  },
+  "artists": {
+    "title": "Browse Artists",
+    "subtitle": "Find the perfect entertainment for your event",
+    "searchPlaceholder": "Search artists by name, genre, or style...",
+    "artistsFound": "Artists Found",
+    "noArtistsFound": "No artists found",
+    "tryAdjustingFilters": "Try adjusting your filters or search terms",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {{current}} of {{total}}",
+    "filters": {
+      "title": "Filters",
+      "clearAll": "Clear All",
+      "activeFilters": "Active filters",
+      "category": "Category",
+      "categories": {
+        "DJ": "DJ",
+        "BAND": "Band",
+        "SINGER": "Singer",
+        "MUSICIAN": "Musician",
+        "MC": "MC / Host",
+        "COMEDIAN": "Comedian",
+        "MAGICIAN": "Magician",
+        "DANCER": "Dancer",
+        "PHOTOGRAPHER": "Photographer",
+        "SPEAKER": "Speaker"
+      },
+      "location": "Location",
+      "allCities": "All Cities",
+      "priceRange": "Price Range (THB/hour)",
+      "genres": "Music Styles",
+      "languages": "Languages",
+      "verification": "Verification Status",
+      "verification": {
+        "UNVERIFIED": "Unverified",
+        "BASIC": "Basic Verified",
+        "VERIFIED": "Verified",
+        "TRUSTED": "Trusted Partner"
+      },
+      "availability": "Availability",
+      "showAvailableOnly": "Show only available artists"
+    },
+    "sort": {
+      "label": "Sort by",
+      "featured": "Featured First",
+      "rating": "Highest Rating",
+      "priceLowToHigh": "Price: Low to High",
+      "priceHighToLow": "Price: High to Low",
+      "mostBooked": "Most Booked",
+      "newest": "Newest First"
+    },
+    "searchingFor": "Searching for",
+    "category": {
+      "DJ": "DJ",
+      "BAND": "Band",
+      "SINGER": "Singer",
+      "MUSICIAN": "Musician",
+      "MC": "MC / Host",
+      "COMEDIAN": "Comedian",
+      "MAGICIAN": "Magician",
+      "DANCER": "Dancer",
+      "PHOTOGRAPHER": "Photographer",
+      "SPEAKER": "Speaker"
+    },
+    "noResults": "No artists found",
+    "tryDifferentFilters": "Try adjusting your filters",
+    "loading": "Loading artists...",
+    "loadMore": "Load More",
+    "showingResults": "Showing {count} results",
+    "featuredArtists": "Featured Artists",
+    "topRated": "Top Rated",
+    "recentlyJoined": "Recently Joined",
+    "genres": "Genres",
+    "languages": "Languages",
+    "serviceAreas": "Service Areas",
+    "travelRadius": "Travel Radius",
+    "advanceNotice": "Advance Notice",
+    "instantBooking": "Instant Booking",
+    "days": "days",
+    "hours": "hours",
+    "reviews": "reviews",
+    "tab": {
+      "about": "About",
+      "media": "Media",
+      "reviews": "Reviews",
+      "availability": "Availability"
+    }
+  },
+  "customerBookings": {
+    "meta": {
+      "title": "My Bookings | Bright Ears",
+      "description": "View and manage your entertainment bookings and requests."
+    },
+    "title": "My Bookings",
+    "description": "View and manage your booking requests and confirmed bookings.",
+    "noBookings": "No bookings yet",
+    "noBookingsDescription": "You haven't made any booking requests yet. Browse our talented artists to get started.",
+    "browseArtists": "Browse Artists",
+    "newMessages": "new",
+    "event": "Event",
+    "dateTime": "Date & Time",
+    "venue": "Venue",
+    "price": "Price",
+    "viewDetails": "View Details",
+    "message": "Message",
+    "cancel": "Cancel",
+    "you": "You",
+    "bookingDetails": "Booking Details",
+    "artistInfo": "Artist Information",
+    "eventDetails": "Event Details",
+    "type": "Type",
+    "date": "Date",
+    "time": "Time",
+    "duration": "Duration",
+    "hours": "hours",
+    "guests": "Guests",
+    "venueInfo": "Venue Information",
+    "name": "Name",
+    "address": "Address",
+    "pricing": "Pricing",
+    "quotedPrice": "Quoted Price",
+    "finalPrice": "Final Price",
+    "specialRequests": "Special Requests",
+    "notes": "Notes",
+    "timeline": "Timeline",
+    "created": "Created",
+    "confirmed": "Confirmed",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "cancelBooking": "Cancel Booking",
+    "confirmCancel": "Are you sure you want to cancel this booking? This action cannot be undone.",
+    "cancelError": "Failed to cancel booking. Please try again.",
+    "pendingResponse": "Waiting for artist response"
+  },
+  "messaging": {
+    "loadingMessages": "Loading messages...",
+    "noMessages": "No messages yet",
+    "startConversation": "Start a conversation with the artist about your booking.",
+    "typeMessage": "Type your message...",
+    "pressEnterToSend": "Press Enter to send, Shift+Enter for new line",
+    "sendError": "Failed to send message. Please try again.",
+    "bookingCancelled": "This booking has been cancelled. No new messages can be sent."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "No notifications yet",
+    "markAllRead": "Mark all read",
+    "viewAll": "View all notifications",
+    "justNow": "Just now",
+    "minutesAgo": "{minutes}m ago",
+    "hoursAgo": "{hours}h ago",
+    "yesterday": "Yesterday",
+    "daysAgo": "{days}d ago"
+  },
+  "bookingStatus": {
+    "quickActions": "Quick Actions",
+    "sendQuote": "Send Quote",
+    "acceptDirectly": "Accept Directly",
+    "confirmBooking": "Confirm Booking",
+    "markAsPaid": "Mark as Paid",
+    "markAsCompleted": "Mark as Completed",
+    "cancelBooking": "Cancel Booking",
+    "pendingResponse": "Waiting for Artist Response",
+    "pendingResponseDescription": "Your booking request has been sent to the artist. They will respond within 24 hours.",
+    "cancelRequest": "Cancel Request",
+    "addNote": "Add Note",
+    "notePlaceholder": "Add a note or message...",
+    "cancel": "Cancel",
+    "send": "Send",
+    "sending": "Sending...",
+    "updateError": "Failed to update booking status. Please try again."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try Again",
+    "viewMore": "View More",
+    "viewLess": "View Less",
+    "from": "From",
+    "perHour": "per hour",
+    "perEvent": "per event",
+    "currency": "฿"
+  },
+  "artists": {
+    "meta": {
+      "title": "Browse Entertainment Artists | Bright Ears",
+      "description": "Find and book professional DJs, bands, singers, and entertainers in Thailand. Verified artists with transparent pricing."
+    },
+    "title": "Find Your Perfect Entertainment",
+    "subtitle": "Browse verified artists for any event",
+    "filters": "Filters",
+    "clearAll": "Clear All",
+    "category": "Category",
+    "location": "Location",
+    "searchPlaceholder": "Search by name, genre, or style...",
+    "noArtistsFound": "No artists found. Try adjusting your filters.",
+    "priceOnRequest": "Price on request",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {{current}} of {{total}}",
+    "verified": "Verified",
+    "trusted": "Trusted",
+    "from": "From",
+    "new": "New",
+    "viewContact": "View Contact",
+    "loginToContact": "Login to Contact",
+    "browse": "Browse Artists",
+    "showingResults": "Showing {{count}} artists",
+    "sortBy": "Sort by",
+    "relevance": "Relevance",
+    "priceLowest": "Price: Low to High",
+    "priceHighest": "Price: High to Low",
+    "rating": "Rating",
+    "newest": "Newest",
+    "popular": "Popular",
+    "availability": "Availability",
+    "instantBooking": "Instant Booking",
+    "available": "Available",
+    "priceRange": "Price Range",
+    "anyPrice": "Any Price",
+    "under500": "Under ฿500",
+    "500to1000": "฿500 - ฿1,000",
+    "1000to2000": "฿1,000 - ฿2,000",
+    "2000to5000": "฿2,000 - ฿5,000",
+    "over5000": "Over ฿5,000",
+    "genre": "Genre",
+    "allGenres": "All Genres",
+    "experience": "Experience Level",
+    "allLevels": "All Levels",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "professional": "Professional",
+    "expert": "Expert",
+    "rating": "Rating",
+    "allRatings": "All Ratings",
+    "4plus": "4+ Stars",
+    "45plus": "4.5+ Stars",
+    "languages": "Languages",
+    "allLanguages": "All Languages",
+    "english": "English",
+    "thai": "Thai",
+    "chinese": "Chinese",
+    "japanese": "Japanese",
+    "korean": "Korean",
+    "loadMore": "Load More Artists",
+    "loading": "Loading artists...",
+    "noResults": "No artists match your search criteria",
+    "tryDifferentFilters": "Try different filters or search terms",
+    "featuredArtists": "Featured Artists",
+    "topRated": "Top Rated",
+    "recentlyJoined": "Recently Joined",
+    "category": {
+      "DJ": "DJ",
+      "BAND": "Band", 
+      "SINGER": "Singer",
+      "MUSICIAN": "Musician",
+      "MC": "MC / Host",
+      "COMEDIAN": "Comedian",
+      "MAGICIAN": "Magician",
+      "DANCER": "Dancer",
+      "PHOTOGRAPHER": "Photographer",
+      "SPEAKER": "Speaker"
+    }
+  },
+  "artist": {
+    "notFound": "Artist not found",
+    "backToArtists": "Back to Artists",
+    "reviews": "reviews",
+    "trusted": "Trusted Artist",
+    "verified": "Verified Artist", 
+    "basic": "Basic Profile",
+    "bookNow": "Request Quote",
+    "startingPrice": "Starting Price",
+    "priceOnRequest": "Price on request",
+    "minimumBooking": "Minimum Booking",
+    "hours": "hours",
+    "completedEvents": "Completed Events",
+    "responseTime": "Response Time",
+    "fast": "Fast",
+    "tab.about": "About",
+    "tab.media": "Media",
+    "tab.reviews": "Reviews",
+    "tab.availability": "Availability",
+    "aboutArtist": "About the Artist",
+    "noBio": "No biography available",
+    "genres": "Music Genres",
+    "languages": "Languages",
+    "serviceDetails": "Service Details",
+    "serviceAreas": "Service Areas",
+    "travelRadius": "Travel Radius",
+    "advanceNotice": "Advance Notice Required",
+    "days": "days",
+    "instantBooking": "Instant Booking Available",
+    "connect": "Connect",
+    "website": "Website",
+    "customerReviews": "Customer Reviews",
+    "noReviews": "No reviews yet",
+    "category.DJ": "DJ",
+    "category.BAND": "Band",
+    "category.SINGER": "Singer",
+    "category.MUSICIAN": "Musician",
+    "category.MC": "MC / Host",
+    "category.COMEDIAN": "Comedian",
+    "category.MAGICIAN": "Magician",
+    "category.DANCER": "Dancer",
+    "category.PHOTOGRAPHER": "Photographer",
+    "category.SPEAKER": "Speaker",
+    "contactInfoProtected": "Contact Information Protected",
+    "signInToViewContact": "Sign in to view phone number, email, and LINE ID",
+    "signInToContact": "Sign In to Contact",
+    "addLine": "Add on LINE"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to your account",
+      "email": "Email address",
+      "password": "Password",
+      "signIn": "Sign in",
+      "signingIn": "Signing in...",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create a new account",
+      "invalidCredentials": "Invalid email or password",
+      "error": "An error occurred. Please try again."
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Join Bright Ears today",
+      "customerType": "Individual Customer",
+      "corporateType": "Corporate/Business",
+      "email": "Email address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "phone": "Phone number",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "location": "Location",
+      "preferredLanguage": "Preferred Language",
+      "companyName": "Company Name",
+      "contactPerson": "Contact Person",
+      "position": "Position",
+      "venueType": "Venue Type",
+      "companyAddress": "Company Address",
+      "createAccount": "Create account",
+      "creatingAccount": "Creating account...",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "artistRegister": "Are you an artist?",
+      "registerAsArtist": "Register as an artist instead",
+      "passwordMismatch": "Passwords do not match",
+      "required": "Required fields are missing"
+    },
+    "dashboard": {
+      "welcome": "Welcome back",
+      "quickActions": "Quick Actions",
+      "stats": "Statistics"
+    },
+    "signInToContact": "Sign in to contact {name}",
+    "protectedContactInfo": "Contact information is protected to prevent spam",
+    "continueWithGoogle": "Continue with Google",
+    "orContinueWith": "or continue with",
+    "useEmailPassword": "Use email and password",
+    "email": "Email",
+    "password": "Password", 
+    "enterEmail": "Enter your email",
+    "enterPassword": "Enter your password",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "backToGoogleLogin": "Back to Google login",
+    "loginFailed": "Login failed. Please try again.",
+    "loginError": "An error occurred during login",
+    "invalidCredentials": "Invalid email or password",
+    "whySignIn": "Why do I need to sign in?",
+    "protectArtists": "Protect artists from spam and unwanted contact",
+    "preventSpam": "Prevent abuse of the platform",
+    "trackInquiries": "Track your inquiries and bookings in one place",
+    "betterService": "Provide better customer service",
+    "noAccount": "Don't have an account?",
+    "signUpHere": "Sign up here",
+    "forgotPassword": {
+      "title": "Reset Password",
+      "description": "Reset your Bright Ears account password"
+    }
+  },
+  "favorites": {
+    "title": "My Favorite Artists",
+    "description": "You have {count} favorite artists",
+    "emptyDescription": "Start building your list of favorite artists",
+    "refresh": "Refresh",
+    "errorLoading": "Failed to load favorites. Please try again.",
+    "emptyTitle": "No favorites yet",
+    "emptyMessage": "Save artists to your favorites to quickly find them later. Click the heart icon on any artist card to add them to your list.",
+    "browseArtists": "Browse Artists",
+    "discoverMore": "Looking for more entertainment options?",
+    "exploreMore": "Explore All Artists"
+  },
+  "dashboard": {
+    "customer": {
+      "title": "Customer Dashboard",
+      "description": "Manage your bookings and discover new artists",
+      "welcome": "Welcome to your dashboard",
+      "welcomeBack": "Welcome back, {name}",
+      "subtitle": "Manage your bookings and discover amazing entertainment",
+      "stats": {
+        "totalBookings": "Total Bookings",
+        "favoriteArtists": "Favorite Artists",
+        "pendingRequests": "Pending Requests"
+      },
+      "awaitingResponse": "Awaiting response",
+      "allClear": "All clear",
+      "quickActions": {
+        "title": "Quick Actions",
+        "findArtists": "Find Artists",
+        "findArtistsDesc": "Browse and discover new entertainment",
+        "viewBookings": "View Bookings",
+        "viewBookingsDesc": "Manage your current and past bookings",
+        "manageFavorites": "Manage Favorites",
+        "manageFavoritesDesc": "View and organize your favorite artists",
+        "updateProfile": "Update Profile",
+        "updateProfileDesc": "Edit your personal information"
+      },
+      "recentActivity": {
+        "title": "Recent Activity",
+        "empty": "No bookings yet. Start by browsing our talented artists!",
+        "startBrowsing": "Start Browsing Artists",
+        "viewAll": "View all your booking activity",
+        "seeAllBookings": "See All Bookings"
+      },
+      "tips": {
+        "title": "Tips & Recommendations",
+        "saveFavorites": {
+          "title": "Save Your Favorites",
+          "description": "Click the heart icon on artist cards to save them for quick access later."
+        },
+        "bookEarly": {
+          "title": "Book Early",
+          "description": "Popular artists get booked quickly, especially for weekends and holidays."
+        }
+      },
+      "bookings": {
+        "title": "My Bookings",
+        "description": "Manage all your event bookings and requests",
+        "subtitle": "Track your event bookings and manage requests",
+        "filters": {
+          "all": "All",
+          "pending": "Pending",
+          "confirmed": "Confirmed", 
+          "completed": "Completed",
+          "cancelled": "Cancelled"
+        },
+        "status": {
+          "pending": "Pending",
+          "confirmed": "Confirmed",
+          "completed": "Completed", 
+          "cancelled": "Cancelled"
+        },
+        "eventType": "Event Type",
+        "eventDate": "Event Date",
+        "venue": "Venue",
+        "bookedOn": "Booked On",
+        "bookingId": "Booking ID",
+        "viewArtist": "View Artist",
+        "viewDetails": "View Details",
+        "empty": {
+          "noBookings": "No bookings yet",
+          "noBookingsForFilter": "No bookings match this filter",
+          "startBooking": "Start by browsing our talented artists and make your first booking!",
+          "tryDifferentFilter": "Try selecting a different filter to see your bookings.",
+          "browseArtists": "Browse Artists"
+        },
+        "summary": {
+          "title": "Booking Summary",
+          "totalBookings": "Total Bookings",
+          "completedEvents": "Completed Events", 
+          "totalSpent": "Total Spent"
+        }
+      },
+      "profile": {
+        "title": "Profile Settings",
+        "description": "Manage your personal information and account preferences",
+        "subtitle": "Update your personal information and preferences",
+        "personalInfo": {
+          "title": "Personal Information",
+          "description": "This information will be used for bookings and communication with artists."
+        },
+        "fields": {
+          "firstName": "First Name",
+          "lastName": "Last Name", 
+          "email": "Email Address",
+          "phone": "Phone Number",
+          "location": "Location",
+          "preferredLanguage": "Preferred Language"
+        },
+        "placeholders": {
+          "firstName": "Enter your first name",
+          "lastName": "Enter your last name",
+          "email": "Enter your email address",
+          "phone": "Enter your phone number",
+          "location": "Enter your city or location"
+        },
+        "languages": {
+          "en": "English",
+          "th": "ไทย (Thai)"
+        },
+        "privacy": {
+          "title": "Privacy & Security",
+          "description": "Your personal information is encrypted and never shared with third parties without your consent."
+        },
+        "actions": {
+          "save": "Save Changes",
+          "saving": "Saving...",
+          "cancel": "Cancel"
+        },
+        "updateSuccess": "Profile updated successfully!",
+        "updateError": "Failed to update profile. Please try again.",
+        "accountSettings": {
+          "title": "Account Settings",
+          "description": "Manage your account security and preferences",
+          "changePassword": "Change Password",
+          "changePasswordDesc": "Update your account password",
+          "changePasswordBtn": "Change Password",
+          "deleteAccount": "Delete Account",
+          "deleteAccountDesc": "Permanently delete your account and all data",
+          "deleteAccountBtn": "Delete Account"
+        }
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "description": "Learn how Bright Ears connects you with Thailand's finest entertainment talent",
+    "hero": {
+      "title": "How Bright Ears Works",
+      "subtitle": "Connecting you with Thailand's finest entertainment talent in three simple steps"
+    },
+    "steps": {
+      "title": "Simple Process",
+      "subtitle": "Get started in just three easy steps",
+      "browse": {
+        "title": "Browse & Discover",
+        "description": "Browse our curated selection of verified entertainers. Filter by location, category, and budget to find your perfect match."
+      },
+      "connect": {
+        "title": "Connect & Book",
+        "description": "Contact artists directly through our platform. Discuss your event details and receive personalized quotes."
+      },
+      "enjoy": {
+        "title": "Enjoy Your Event",
+        "description": "Relax and enjoy exceptional entertainment at your event. Leave reviews to help other customers."
+      }
+    },
+    "features": {
+      "title": "Why Choose Bright Ears?",
+      "subtitle": "We make booking entertainment simple, secure, and transparent",
+      "noCommission": {
+        "title": "No Commission Fees",
+        "description": "Connect directly with artists. We don't take a cut from bookings."
+      },
+      "verified": {
+        "title": "Verified Professionals",
+        "description": "All artists are verified and reviewed by real clients."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Get help whenever you need it, in English or Thai."
+      },
+      "secure": {
+        "title": "Secure Platform",
+        "description": "Protected bookings with secure payment and communication."
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Common questions about using Bright Ears",
+      "questions": {
+        "q1": {
+          "question": "How much does it cost to use Bright Ears?",
+          "answer": "Bright Ears is completely free for customers. We don't charge any commission fees - you pay the artist directly."
+        },
+        "q2": {
+          "question": "Are all artists verified?",
+          "answer": "Yes, all artists go through our verification process including identity verification and portfolio review."
+        },
+        "q3": {
+          "question": "How do I communicate with artists?",
+          "answer": "You can message artists directly through our secure platform to discuss your event details and requirements."
+        },
+        "q4": {
+          "question": "What if I need to cancel my booking?",
+          "answer": "Cancellation policies vary by artist. Please check the specific terms when booking and contact support if needed."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "subtitle": "Join thousands of satisfied customers who found their perfect entertainment",
+      "browseArtists": "Browse Artists",
+      "joinAsArtist": "Join as Artist"
+    }
+  }
+}

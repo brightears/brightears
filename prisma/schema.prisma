@@ -1,0 +1,1163 @@
+// This is your Prisma schema file AFTER removing marketplace features
+// Rename this to schema.prisma after successful migration
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User types enum
+enum UserRole {
+  ARTIST
+  CUSTOMER
+  CORPORATE
+  ADMIN
+}
+
+// Artist category enum
+enum ArtistCategory {
+  DJ
+  BAND
+  SINGER
+  MUSICIAN
+  MC
+  COMEDIAN
+  MAGICIAN
+  DANCER
+  PHOTOGRAPHER
+  SPEAKER
+}
+
+// Booking status enum
+enum BookingStatus {
+  INQUIRY
+  QUOTED
+  CONFIRMED
+  PAID
+  COMPLETED
+  CANCELLED
+}
+
+// Quote status enum
+enum QuoteStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+// Application status enum
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// *** REMOVED: VerificationLevel enum ***
+
+// Enhanced availability system enums
+enum AvailabilityStatus {
+  AVAILABLE      // Available for booking
+  UNAVAILABLE    // Blocked/busy
+  TENTATIVE      // Pending confirmation
+  BOOKED         // Confirmed booking
+  TRAVEL_TIME    // Travel buffer
+}
+
+enum RecurrenceFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  CUSTOM
+}
+
+enum ExceptionType {
+  SKIP           // Skip this occurrence
+  MODIFY         // Modify time/pricing
+  UNAVAILABLE    // Mark as unavailable
+}
+
+enum BlackoutType {
+  PERSONAL       // Personal time off
+  HOLIDAY        // Public/cultural holiday
+  MAINTENANCE    // System/equipment maintenance
+  OTHER          // Other reasons
+}
+
+enum ThaiHolidayType {
+  NATIONAL       // National holidays
+  ROYAL          // Royal ceremonies
+  RELIGIOUS      // Buddhist/religious holidays
+  CULTURAL       // Cultural celebrations
+  REGIONAL       // Regional holidays
+}
+
+// Main user model
+model User {
+  id                String   @id @default(uuid())
+  email             String   @unique
+  phone             String?  @unique
+  password          String?
+  firstName         String?
+  lastName          String?
+  name              String?
+  image             String?
+  role              UserRole
+  emailVerified     DateTime?
+  phoneVerified     DateTime?
+  isPhoneVerified   Boolean  @default(false)
+  verificationCode  String?
+  verificationExpiry DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  lastLogin         DateTime?
+  isActive          Boolean  @default(true)
+
+  // Relations
+  artist            Artist?
+  customer          Customer?
+  corporate         Corporate?
+  bookingsAsCustomer Booking[] @relation("CustomerBookings")
+  reviews           Review[]
+  messages          Message[]
+  notifications     Notification[]
+  accounts          Account[]
+  sessions          Session[]
+  contactViews      ContactView[]
+  bookingInquiries  BookingInquiry[]
+  typingIndicators  TypingIndicator[]
+  emailLogs         EmailLog[]
+  emailPreference   EmailPreference?
+  emailQueue        EmailQueue[]
+  documents         Document[] @relation("CustomerDocuments")
+
+  @@index([email])
+  @@index([phone])
+}
+
+// Artist profile - SIMPLIFIED VERSION WITHOUT MARKETPLACE FEATURES
+model Artist {
+  id                String           @id @default(uuid())
+  userId            String           @unique
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Basic info
+  stageName         String
+  realName          String?
+  bio               String?
+  bioTh             String?
+  category          ArtistCategory
+  subCategories     String[]         // Additional categories
+
+  // *** REMOVED: All verification fields (8) ***
+  // *** REMOVED: All verification fee fields (5) ***
+  // *** REMOVED: All onboarding fields (3) ***
+  // *** REMOVED: Profile management fields (isDraft, profileCompleteness, etc.) ***
+
+  // Location
+  baseCity          String
+  serviceAreas      String[]         // Cities/districts they serve
+  travelRadius      Int?             // km willing to travel
+
+  // Pricing
+  hourlyRate        Decimal?         @db.Decimal(10, 2)
+  minimumHours      Int              @default(2)
+  currency          String           @default("THB")
+
+  // Languages
+  languages         String[]         @default(["en", "th"])
+
+  // Music/Performance specifics
+  genres            String[]
+  equipment         Json?            // Equipment details
+  technicalRider    String?
+
+  // Media
+  profileImage      String?
+  coverImage        String?
+  images            String[]
+  videos            String[]
+  audioSamples      String[]
+
+  // Social/External links
+  website           String?
+  facebook          String?
+  instagram         String?
+  tiktok            String?
+  youtube           String?
+  spotify           String?
+  soundcloud        String?
+  mixcloud          String?
+  lineId            String?
+
+  // Stats
+  totalBookings     Int              @default(0)
+  completedBookings Int              @default(0)
+  averageRating     Float?
+  // NOTE: responseTime kept as it's useful for customer service
+
+  // Settings
+  instantBooking    Boolean          @default(false)
+  advanceNotice     Int              @default(7) // Days required
+  cancellationPolicy String?
+
+  // Enhanced availability settings
+  defaultBufferTime  Int      @default(30) // minutes
+  minAdvanceBooking  Int      @default(24) // hours
+  maxAdvanceBooking  Int      @default(365) // days
+  autoAcceptBookings Boolean  @default(false)
+  weekendPricing     Decimal? @db.Decimal(3, 2) // Weekend price multiplier
+  holidayPricing     Decimal? @db.Decimal(3, 2) // Holiday price multiplier
+
+  // Travel settings
+  maxTravelDistance  Int?     // km
+  travelTimeBuffer   Int      @default(60) // minutes
+  travelRate         Decimal? @db.Decimal(10, 2) // per km
+
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  // Relations
+  availability      Availability[]
+  recurringPatterns RecurringPattern[]
+  blackoutDates     BlackoutDate[]
+  timeSlotTemplates TimeSlotTemplate[]
+  bookings          Booking[]        @relation("ArtistBookings")
+  reviews           Review[]         @relation("ArtistReviews")
+  messages          Message[]        @relation("ArtistMessages")
+  favoriteBy        Customer[]       @relation("FavoriteArtists")
+  contactViews      ContactView[]
+  bookingInquiries  BookingInquiry[]
+
+  // Simplified indexes - removed marketplace-related ones
+  @@index([category])
+  @@index([baseCity])
+}
+
+// Customer profile (individual)
+model Customer {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  firstName         String?
+  lastName          String?
+  preferredLanguage String   @default("en")
+  location          String?
+
+  // Preferences
+  favoriteGenres    String[]
+  preferredBudget   Json?
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  favoriteArtists   Artist[] @relation("FavoriteArtists")
+
+  @@index([userId])
+}
+
+// Corporate customer
+model Corporate {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  companyName       String
+  taxId             String?
+  contactPerson     String
+  position          String?
+  companyAddress    String?
+  companyPhone      String?
+
+  // Business details
+  venueType         String?  // Hotel, Restaurant, Bar, etc.
+  numberOfVenues    Int      @default(1)
+  monthlyBudget     Decimal? @db.Decimal(10, 2)
+
+  // Billing
+  billingAddress    String?
+  paymentTerms      String   @default("NET30")
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([companyName])
+}
+
+// Artist Application Model - NEW FOR APPLICATION FEATURE
+model Application {
+  id                     String            @id @default(uuid())
+
+  // Basic Information (Required)
+  applicantName          String            // Full name
+  email                  String            // Email with validation
+  phone                  String            // Thai phone number (10 digits)
+  lineId                 String            // LINE ID (with @ prepended)
+  stageName              String            // Artist/Stage name
+  bio                    String            @db.Text // 100-500 characters
+  category               ArtistCategory    // DJ, Band, Singer, etc.
+  genres                 String[]          // Music genres/specialties
+  profilePhotoUrl        String            // URL to profile photo
+
+  // Optional Information
+  website                String?           // Website URL
+  socialMediaLinks       String?           @db.Text // Social media links
+  yearsExperience        Int?              // Years of experience
+  equipmentOwned         String?           @db.Text // Equipment description
+  portfolioLinks         String?           @db.Text // Portfolio/sample work links
+  baseLocation           String?           // Base city (Bangkok, Phuket, etc.)
+  hourlyRateExpectation  String?           // Expected hourly rate in THB
+
+  // Music Design Service Interest (NEW)
+  interestedInMusicDesign Boolean          @default(false)
+  designFee              String?           // One-time design fee (THB)
+  monthlyFee             String?           // Monthly curation fee (THB)
+
+  // Application Status
+  status                 ApplicationStatus @default(PENDING)
+  submittedAt            DateTime          @default(now())
+  reviewedAt             DateTime?
+  reviewNotes            String?           @db.Text // Admin review notes
+
+  // Timestamps
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+
+  @@index([email])
+  @@index([phone])
+  @@index([status])
+  @@index([submittedAt])
+  @@index([category])
+}
+
+// Enhanced availability model with time slots and recurring patterns
+model Availability {
+  id                String   @id @default(uuid())
+  artistId          String
+  artist            Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  // Date and time
+  date              DateTime
+  startTime         DateTime
+  endTime           DateTime
+  timezone          String   @default("Asia/Bangkok")
+
+  // Availability status
+  status            AvailabilityStatus @default(AVAILABLE)
+  isBooked          Boolean  @default(false)
+  bookingId         String?
+  booking           Booking? @relation(fields: [bookingId], references: [id])
+
+  // Pricing variations
+  priceMultiplier   Decimal? @db.Decimal(3, 2) @default(1.00) // e.g., 1.5 for weekend pricing
+  minimumHours      Int?     // Override artist's default minimum hours
+
+  // Recurring pattern reference
+  recurringPatternId String?
+  recurringPattern   RecurringPattern? @relation(fields: [recurringPatternId], references: [id])
+
+  // Buffer time management
+  bufferBefore      Int      @default(0) // minutes
+  bufferAfter       Int      @default(0) // minutes
+
+  // Notes and requirements
+  notes             String?
+  requirements      String? // Special requirements for this time slot
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([artistId, date, startTime])
+  @@index([artistId, date])
+  @@index([status])
+  @@index([recurringPatternId])
+}
+
+// Recurring availability patterns
+model RecurringPattern {
+  id                String   @id @default(uuid())
+  artistId          String
+  artist            Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  name              String   // e.g., "Weekday Evenings", "Weekend Shows"
+  description       String?
+
+  // Pattern configuration
+  frequency         RecurrenceFrequency
+  dayOfWeek         Int?     // 0-6 (Sunday=0)
+  dayOfMonth        Int?     // 1-31
+  weekOfMonth       Int?     // 1-5
+
+  // Time configuration
+  startTime         String   // HH:MM format
+  endTime           String   // HH:MM format
+  timezone          String   @default("Asia/Bangkok")
+
+  // Duration and pricing
+  priceMultiplier   Decimal  @db.Decimal(3, 2) @default(1.00)
+  minimumHours      Int?
+
+  // Pattern validity period
+  validFrom         DateTime
+  validUntil        DateTime?
+
+  // Pattern status
+  isActive          Boolean  @default(true)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  availability      Availability[]
+  exceptions        PatternException[]
+
+  @@index([artistId])
+  @@index([frequency])
+  @@index([dayOfWeek])
+}
+
+// Exceptions to recurring patterns
+model PatternException {
+  id                String           @id @default(uuid())
+  recurringPatternId String
+  recurringPattern   RecurringPattern @relation(fields: [recurringPatternId], references: [id], onDelete: Cascade)
+
+  date              DateTime
+  reason            String?
+  exceptionType     ExceptionType
+
+  // Override availability for this date
+  newStatus         AvailabilityStatus?
+  newStartTime      String? // HH:MM
+  newEndTime        String? // HH:MM
+  newPriceMultiplier Decimal? @db.Decimal(3, 2)
+
+  createdAt         DateTime @default(now())
+
+  @@unique([recurringPatternId, date])
+  @@index([date])
+}
+
+// Blackout dates for holidays, personal time off
+model BlackoutDate {
+  id                String           @id @default(uuid())
+  artistId          String
+  artist            Artist           @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  startDate         DateTime
+  endDate           DateTime
+  title             String           // e.g., "Songkran Holiday", "Personal Time Off"
+  description       String?
+
+  blackoutType      BlackoutType
+  isRecurring       Boolean          @default(false)
+
+  // For recurring holidays (e.g., annual holidays)
+  recurringRule     Json?            // Store recurrence rules
+
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  @@index([artistId])
+  @@index([startDate, endDate])
+  @@index([blackoutType])
+}
+
+// Time slot templates for quick setup
+model TimeSlotTemplate {
+  id                String   @id @default(uuid())
+  artistId          String
+  artist            Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  name              String   // e.g., "Evening Show", "Wedding Package"
+  description       String?
+
+  duration          Int      // Duration in minutes
+  bufferBefore      Int      @default(0)
+  bufferAfter       Int      @default(0)
+
+  priceMultiplier   Decimal  @db.Decimal(3, 2) @default(1.00)
+  minimumAdvanceHours Int    @default(24)
+
+  // Template settings
+  isDefault         Boolean  @default(false)
+  isActive          Boolean  @default(true)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([artistId])
+  @@index([isDefault])
+}
+
+// Thai calendar integration
+model ThaiHoliday {
+  id                String   @id @default(uuid())
+
+  date              DateTime
+  nameTh            String
+  nameEn            String
+  description       String?
+  holidayType       ThaiHolidayType
+
+  // Buddhist calendar date
+  buddhistYear      Int?
+  buddhistMonth     Int?
+  buddhistDay       Int?
+
+  isNationalHoliday Boolean  @default(false)
+  isRecurring       Boolean  @default(false)
+
+  createdAt         DateTime @default(now())
+
+  @@unique([date])
+  @@index([holidayType])
+  @@index([isNationalHoliday])
+}
+
+// Bookings
+model Booking {
+  id                String        @id @default(uuid())
+  bookingNumber     String        @unique @default(cuid())
+
+  customerId        String
+  customer          User          @relation("CustomerBookings", fields: [customerId], references: [id])
+
+  artistId          String
+  artist            Artist        @relation("ArtistBookings", fields: [artistId], references: [id])
+
+  // Event details
+  eventType         String
+  eventDate         DateTime
+  startTime         DateTime
+  endTime           DateTime
+  duration          Int           // in hours
+
+  venue             String
+  venueAddress      String
+  guestCount        Int?
+
+  // Pricing
+  quotedPrice       Decimal       @db.Decimal(10, 2)
+  finalPrice        Decimal?      @db.Decimal(10, 2)
+  currency          String        @default("THB")
+  depositAmount     Decimal?      @db.Decimal(10, 2)
+  depositPaid       Boolean       @default(false)
+
+  // Status
+  status            BookingStatus @default(INQUIRY)
+
+  // Additional details
+  specialRequests   String?
+  notes             String?
+  cancellationReason String?
+
+  // Contract
+  contractUrl       String?
+  contractSignedAt  DateTime?
+
+  // Payment
+  paymentMethod     String?
+  paidAt            DateTime?
+  paymentSlipUrl    String?       // Cloudinary URL for uploaded payment slip
+  paymentSlipUploadedAt DateTime?  // Timestamp when slip was uploaded
+
+  // Travel information
+  travelTime        Int?          // minutes
+  travelDistance    Int?          // km
+  travelCost        Decimal?      @db.Decimal(10, 2)
+
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  confirmedAt       DateTime?
+  completedAt       DateTime?
+  cancelledAt       DateTime?
+
+  // Relations
+  availabilitySlot  Availability[]
+  review            Review?
+  messages          Message[]
+  quotes            Quote[]
+  payments          Payment[]
+  typingIndicators  TypingIndicator[]
+  documents         Document[]
+
+  @@index([customerId])
+  @@index([artistId])
+  @@index([eventDate])
+  @@index([status])
+}
+
+// Quotes
+model Quote {
+  id                String      @id @default(uuid())
+  bookingId         String
+  booking           Booking     @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  quotedPrice       Decimal     @db.Decimal(10, 2)
+  currency          String      @default("THB")
+
+  // Deposit information
+  requiresDeposit   Boolean     @default(false)
+  depositAmount     Decimal?    @db.Decimal(10, 2)
+  depositPercentage Int?        // Alternative to fixed amount
+
+  // Quote details
+  inclusions        String[]    // What's included
+  exclusions        String[]    // What's not included
+  notes             String?     // Additional notes from artist
+
+  // Validity
+  validUntil        DateTime
+  status            QuoteStatus @default(PENDING)
+
+  // Response tracking
+  customerNotes     String?     // Customer's response notes
+  respondedAt       DateTime?
+
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  @@index([bookingId])
+  @@index([status])
+}
+
+// Payments
+model Payment {
+  id                String   @id @default(uuid())
+  bookingId         String
+  booking           Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  amount            Decimal  @db.Decimal(10, 2)
+  currency          String   @default("THB")
+  paymentType       String   // 'deposit' or 'full' or 'remaining'
+
+  // Payment method details
+  paymentMethod     String   // 'PromptPay', 'Bank Transfer', etc.
+
+  // Payment status
+  status            String   @default("pending") // 'pending', 'verified', 'rejected', 'cancelled'
+
+  // Proof and verification
+  paymentProofUrl   String?  // URL to uploaded payment slip
+  verifiedAt        DateTime?
+  verifiedBy        String?  // Admin user ID who verified
+  rejectionReason   String?
+
+  // Transaction details
+  transactionRef    String?  // Bank transaction reference
+  promptPayRef      String?  // PromptPay transaction reference
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  paidAt            DateTime?
+
+  @@index([bookingId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// Reviews
+model Review {
+  id                String   @id @default(uuid())
+  bookingId         String   @unique
+  booking           Booking  @relation(fields: [bookingId], references: [id])
+
+  reviewerId        String
+  reviewer          User     @relation(fields: [reviewerId], references: [id])
+
+  artistId          String
+  artist            Artist   @relation("ArtistReviews", fields: [artistId], references: [id])
+
+  rating            Int      // 1-5 stars
+  comment           String?
+  commentTh         String?
+
+  // Detailed ratings
+  punctuality       Int?     // 1-5
+  performance       Int?     // 1-5
+  professionalism   Int?     // 1-5
+  valueForMoney     Int?     // 1-5
+
+  isVerified        Boolean  @default(false) // Verified booking
+  isPublic          Boolean  @default(true)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Artist response
+  artistResponse    String?
+  respondedAt       DateTime?
+
+  @@index([artistId])
+  @@index([reviewerId])
+}
+
+// Message enums
+enum MessageType {
+  TEXT
+  IMAGE
+  FILE
+  SYSTEM
+}
+
+enum DeliveryStatus {
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+// Messages
+model Message {
+  id                String            @id @default(uuid())
+
+  senderId          String
+  sender            User              @relation(fields: [senderId], references: [id])
+
+  artistId          String
+  artist            Artist            @relation("ArtistMessages", fields: [artistId], references: [id])
+
+  bookingId         String?
+  booking           Booking?          @relation(fields: [bookingId], references: [id])
+
+  content           String
+  messageType       MessageType       @default(TEXT)
+  attachmentUrl     String?
+
+  // Message threading
+  parentMessageId   String?
+  parentMessage     Message?          @relation("MessageReplies", fields: [parentMessageId], references: [id])
+  replies           Message[]         @relation("MessageReplies")
+
+  // Read and delivery tracking
+  isRead            Boolean           @default(false)
+  readAt            DateTime?
+  deliveredAt       DateTime?
+  deliveryStatus    DeliveryStatus    @default(SENT)
+
+  createdAt         DateTime          @default(now())
+
+  @@index([senderId])
+  @@index([artistId])
+  @@index([bookingId])
+  @@index([bookingId, createdAt])
+  @@index([deliveryStatus])
+  @@index([parentMessageId])
+}
+
+// Typing Indicators
+model TypingIndicator {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookingId    String
+  booking      Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  isTyping     Boolean  @default(false)
+  lastTypingAt DateTime @default(now())
+
+  @@unique([userId, bookingId])
+  @@index([bookingId])
+  @@index([userId])
+}
+
+// Notifications
+model Notification {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type              String   // booking_request, message, review, etc.
+  title             String
+  titleTh           String?
+  content           String
+  contentTh         String?
+
+  relatedId         String?  // ID of related entity
+  relatedType       String?  // Type of related entity
+
+  isRead            Boolean  @default(false)
+  readAt            DateTime?
+
+  createdAt         DateTime @default(now())
+
+  @@index([userId, isRead])
+}
+
+// NextAuth OAuth models
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+// Contact views tracking for analytics and anti-spam
+model ContactView {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  artistId  String
+  artist    Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  viewedAt  DateTime @default(now())
+  ipAddress String?
+  userAgent String?
+
+  @@unique([userId, artistId])
+  @@index([artistId])
+  @@index([userId])
+  @@index([viewedAt])
+}
+
+// Booking inquiries tracking for LINE integration and analytics
+model BookingInquiry {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  artistId      String
+  artist        Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  // Event details from quick form
+  eventDate     DateTime?
+  eventType     String?
+  location      String?
+
+  // Inquiry metadata
+  inquiryMethod String   @default("FORM") // FORM, LINE, PHONE, etc.
+  ipAddress     String?
+  userAgent     String?
+
+  createdAt     DateTime @default(now())
+
+  @@index([artistId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// Email tracking and logging
+model EmailLog {
+  id                String            @id @default(uuid())
+
+  // Recipients and sender info
+  toAddresses       String[]          // Email addresses that received this email
+  fromAddress       String            @default("noreply@brightears.com")
+  replyToAddress    String?
+
+  // Email content
+  subject           String
+  templateName      String            // e.g., 'booking_inquiry', 'quote_received'
+  locale            String            @default("en")
+
+  // Delivery tracking
+  status            EmailStatus       @default(QUEUED)
+  messageId         String?           // From email service (Resend, SendGrid, etc.)
+
+  // Error handling
+  error             String?
+  retryCount        Int               @default(0)
+  maxRetries        Int               @default(3)
+
+  // Related entities
+  relatedId         String?           // ID of related booking, quote, etc.
+  relatedType       String?           // 'booking', 'quote', 'user', etc.
+  userId            String?           // User who triggered this email
+  user              User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  // Timing
+  scheduledAt       DateTime          @default(now())
+  sentAt            DateTime?
+  deliveredAt       DateTime?
+  openedAt          DateTime?
+  clickedAt         DateTime?
+
+  // Metadata
+  metadata          Json?             // Additional data (tags, custom fields, etc.)
+
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([status])
+  @@index([templateName])
+  @@index([relatedId, relatedType])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([sentAt])
+}
+
+// Email preferences and subscriptions
+model EmailPreference {
+  id                     String   @id @default(uuid())
+  userId                 String   @unique
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // General preferences
+  emailNotifications     Boolean  @default(true)
+  marketingEmails        Boolean  @default(false)
+  eventReminders         Boolean  @default(true)
+  systemNotifications    Boolean  @default(true)
+
+  // Role-specific preferences
+  bookingInquiries       Boolean  @default(true)  // For artists
+  quoteRequests          Boolean  @default(true)  // For artists
+  quoteUpdates          Boolean  @default(true)  // For customers
+  paymentConfirmations   Boolean  @default(true)  // For customers
+
+  // Communication preferences
+  preferredLanguage      String   @default("en")
+  frequency              EmailFrequency @default(IMMEDIATE)
+
+  // Unsubscribe tracking
+  unsubscribedAt         DateTime?
+  unsubscribeReason      String?
+
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// Email delivery status enum
+enum EmailStatus {
+  QUEUED              // Email is queued for sending
+  SENDING             // Email is being sent
+  SENT                // Email was sent successfully
+  DELIVERED           // Email was delivered to recipient
+  OPENED              // Recipient opened the email
+  CLICKED             // Recipient clicked a link in the email
+  BOUNCED             // Email bounced (invalid address, etc.)
+  FAILED              // Email failed to send
+  CANCELLED           // Email was cancelled before sending
+}
+
+// Email frequency preferences
+enum EmailFrequency {
+  IMMEDIATE           // Send emails immediately
+  HOURLY              // Batch emails hourly
+  DAILY               // Daily digest
+  WEEKLY              // Weekly summary
+  DISABLED            // No emails
+}
+
+// Email queue for reliable delivery
+model EmailQueue {
+  id                String            @id @default(uuid())
+
+  // Email data
+  toAddresses       String[]
+  fromAddress       String            @default("noreply@brightears.com")
+  replyToAddress    String?
+  subject           String
+  htmlContent       String            @db.Text
+  textContent       String?           @db.Text
+
+  // Template info
+  templateName      String
+  templateData      Json?             // Data used to render the template
+  locale            String            @default("en")
+
+  // Queue management
+  status            EmailQueueStatus  @default(PENDING)
+  priority          Int               @default(5) // 1 = highest, 10 = lowest
+  maxRetries        Int               @default(3)
+  retryCount        Int               @default(0)
+
+  // Scheduling
+  scheduledAt       DateTime          @default(now())
+  processedAt       DateTime?
+
+  // Related entities
+  relatedId         String?
+  relatedType       String?
+  userId            String?
+  user              User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  // Error tracking
+  lastError         String?
+
+  // Metadata
+  metadata          Json?
+  tags              String[]          @default([])
+
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([status])
+  @@index([scheduledAt])
+  @@index([priority])
+  @@index([templateName])
+  @@index([relatedId, relatedType])
+  @@index([userId])
+}
+
+enum EmailQueueStatus {
+  PENDING             // Waiting to be processed
+  PROCESSING          // Currently being processed
+  SENT                // Successfully sent
+  FAILED              // Failed after all retries
+  CANCELLED           // Manually cancelled
+}
+
+// Document types for quotations, invoices, contracts
+enum DocumentType {
+  QUOTATION
+  INVOICE
+  CONTRACT
+}
+
+// BMAsia inquiry status enum
+enum BMAsiaInquiryStatus {
+  NEW                 // New inquiry not yet contacted
+  CONTACTED           // Initial contact made
+  QUOTE_SENT          // Quote/proposal sent to client
+  CONVERTED           // Converted to paying customer
+  DECLINED            // Client declined service
+}
+
+// Document model to track generated PDFs
+model Document {
+  id              String       @id @default(uuid())
+  type            DocumentType
+  documentNumber  String       @unique
+
+  // Related entities
+  bookingId       String?
+  booking         Booking?     @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  customerId      String?
+  customer        User?        @relation("CustomerDocuments", fields: [customerId], references: [id], onDelete: SetNull)
+
+  // Document data
+  pdfUrl          String?      // Cloudinary URL
+  metadata        Json?        // Store document data (line items, totals, etc.)
+
+  // Status tracking
+  issuedDate      DateTime     @default(now())
+  validUntil      DateTime?    // For quotations
+  paidDate        DateTime?    // For invoices
+  signedDate      DateTime?    // For contracts
+
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@index([type])
+  @@index([bookingId])
+  @@index([customerId])
+  @@index([documentNumber])
+  @@index([createdAt])
+}
+
+// BMAsia background music curation service inquiries
+model BMAsiaInquiry {
+  id              String                @id @default(uuid())
+
+  // Business Information
+  businessName    String
+  industry        String                // Hotels, Restaurants, Retail, Corporate, Spas, Gyms
+  locations       Int                   // Number of locations
+
+  // Contact Information
+  contactName     String
+  email           String
+  phone           String?
+
+  // Inquiry Details
+  message         String?               @db.Text
+  tier            String?               // Starter, Professional, Enterprise
+
+  // Status Tracking
+  status          BMAsiaInquiryStatus   @default(NEW)
+
+  // Metadata
+  ipAddress       String?
+  userAgent       String?
+
+  // Timestamps
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  contactedAt     DateTime?
+  convertedAt     DateTime?
+
+  @@index([email])
+  @@index([createdAt])
+  @@index([status])
+  @@index([industry])
+}
+
+// DJ Music Design service inquiry status enum
+enum DJMusicDesignInquiryStatus {
+  NEW                 // New inquiry not yet contacted
+  CONTACTED           // Initial contact made
+  QUOTE_SENT          // Quote/proposal sent to client
+  IN_PRODUCTION       // Project in production
+  COMPLETED           // Project completed
+  DECLINED            // Client declined service
+}
+
+// DJ Music Design & Production Service inquiries
+model DJMusicDesignInquiry {
+  id                String                        @id @default(uuid())
+
+  // Contact Information
+  contactName       String
+  djName            String?                       // Their DJ name/brand
+  email             String
+  phone             String?
+
+  // Service Details
+  serviceType       String                        // custom_mix, original_track, remix, curation, branding, education
+  projectDescription String?                      @db.Text
+  budgetRange       String?                       // basic, professional, premium, custom
+  timeline          String?                       // rush, normal, flexible
+
+  // Additional Information
+  referralSource    String?                       // How they heard about us
+  message           String?                       @db.Text
+
+  // Status Tracking
+  status            DJMusicDesignInquiryStatus    @default(NEW)
+
+  // Metadata
+  ipAddress         String?
+  userAgent         String?
+
+  // Timestamps
+  createdAt         DateTime                      @default(now())
+  updatedAt         DateTime                      @updatedAt
+  contactedAt       DateTime?
+  quoteSentAt       DateTime?
+  productionStartedAt DateTime?
+  completedAt       DateTime?
+
+  @@index([email])
+  @@index([createdAt])
+  @@index([status])
+  @@index([serviceType])
+}
