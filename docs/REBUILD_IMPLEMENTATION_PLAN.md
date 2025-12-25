@@ -8,6 +8,26 @@
 
 ---
 
+## 🚨 CRITICAL: DEPLOYMENT WORKFLOW
+
+**NEVER use localhost for testing. ALWAYS deploy to Render.**
+
+### Standard Workflow:
+1. **Write Code** → Make changes in local editor
+2. **Commit to GitHub** → `git add .` && `git commit -m "message"`
+3. **Push to GitHub** → `git push origin main`
+4. **Render Auto-Deploys** → Automatic deployment triggered
+5. **Test Live** → Test at https://brightears.onrender.com/listening-room
+
+### Why This Matters:
+- Production environment testing catches issues early
+- Auto-deploy ensures consistency between dev and production
+- No localhost confusion or environment mismatches
+
+**Remember:** Code → GitHub → Render → Test Live (NEVER localhost)
+
+---
+
 ## Table of Contents
 
 1. [User Experience Architecture](#1-user-experience-architecture)

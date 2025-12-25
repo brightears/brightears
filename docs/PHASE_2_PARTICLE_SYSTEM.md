@@ -6,6 +6,21 @@
 
 ---
 
+## 🚨 CRITICAL: DEPLOYMENT WORKFLOW
+
+**NEVER use localhost for testing. ALWAYS deploy to Render.**
+
+### Standard Workflow:
+1. **Write Code** → Make changes in local editor
+2. **Commit to GitHub** → `git add .` && `git commit -m "message"`
+3. **Push to GitHub** → `git push origin main`
+4. **Render Auto-Deploys** → Automatic deployment triggered
+5. **Test Live** → Test at https://brightears.onrender.com/listening-room
+
+**Remember:** Code → GitHub → Render → Test Live (NEVER localhost)
+
+---
+
 ## Overview
 
 Phase 2 implements a high-performance p5.js particle system with TeamLab Borderless-inspired organic movement, delivering 60 FPS on desktop and 30 FPS on mobile with adaptive quality scaling.
