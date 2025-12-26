@@ -39,38 +39,58 @@ This checkpoint marks a **verified stable state** after successful deployment re
 
 ## Current Status (December 26, 2025) - 🎯 **ENHANCED LANDING PAGE LIVE** ✅
 
-### ✅ **LATEST MILESTONE: CHAT UX IMPROVEMENTS (December 26, 2025)**
+### ✅ **LATEST MILESTONE: AI TRAINING & DESIGN REFINEMENT (December 26, 2025)**
+
+**Session: Trained User Journeys + Design Polish**
+
+**Based on Research:**
+- "Resonant Interfaces" research on psychoacoustics and sound-emotion correlation
+- UC Berkeley's 13 Emotions of Music study
+- Genre-specific aesthetic mappings
+
+**AI Training (System Prompts Rewrite):**
+
+1. **4 User Personas** - Based on research:
+   - High-Energy Venue (Club, Festival) → Pumped Up, Triumph, Joy
+   - Intimate/Upscale (Hotel Bar, Lounge) → Beauty, Relaxation, Eroticism
+   - Corporate Event (Conference, Gala) → Triumph, Beauty
+   - Celebration (Wedding, Party) → Joy, Triumph
+
+2. **5-Stage Conversation Flow:**
+   - Stage 1: Energy Level Discovery
+   - Stage 2: Emotional Target (13 emotions mapping)
+   - Stage 3: Sound Characteristics
+   - Stage 4: Visual Atmosphere
+   - Stage 5: Summary & Recommendation
+
+3. **Professional Error Messages** - Replaced mystical language:
+   - "My thoughts wandered..." → "Something went wrong. Let's try that again."
+   - "The resonance falters..." → "Request timed out. Please try again."
+
+**Design Refinement:**
+- Header gradient: `from-soft-lavender to-brand-cyan` → `from-deep-teal to-brand-cyan/80`
+- More sophisticated, professional look (less "candy")
+
+**Files Modified:**
+- `lib/api/system-prompts.ts` - Complete rewrite with trained user journeys (300 lines)
+- `components/chat/ChatWidget.tsx` - Header gradient, storage key v3, error message
+- Storage key: `brightears-chat-v2` → `brightears-chat-v3`
+
+---
+
+### ✅ **PREVIOUS: CHAT UX IMPROVEMENTS (December 26, 2025)**
 
 **Session: Chat Widget Repositioning & UX Enhancement**
 
-**Problems Fixed (from user feedback):**
-1. Chat opened on right side (looked like generic support chat)
-2. Old mystical prompts cached in localStorage
-3. Visitors didn't understand the purpose of the chat
+**Problems Fixed:**
+1. Chat opened on right side → Centered modal
+2. Old prompts cached → New storage key
+3. No guidance → Added explanation text
 
-**Solutions Implemented:**
-1. **Centered Chat Modal** - Changed from right-aligned to centered for intentional, focused experience
-2. **Cache Invalidation** - New storage key (`brightears-chat-v2`) clears old mystical prompts
-3. **Guidance Text** - Added explanation: "Answer a few questions and we'll help you discover the perfect atmosphere"
-4. **Atmosphere Discovery Prompts** - Complete rewrite from mystical to purposeful questions
-
-**Chat Flow (New):**
+**Chat Flow:**
 - Opens from Hero section button: "Create Your Atmosphere"
-- Starts with clear question about venue atmosphere
-- Guides through: Feeling → Music → Lighting → Summary
+- Guides through: Energy → Emotion → Sound → Visual → Summary
 - Leads to actionable outcome (connecting with Bright Ears)
-
-**Files Modified:**
-- `components/chat/ChatWidget.tsx` - Centered modal, new storage key, guidance section
-- `lib/api/system-prompts.ts` - Complete rewrite of AI prompts
-- `components/home/HeroSection.tsx` - "Create Your Atmosphere" button
-- `messages/en.json` - Added `chat.guidance` translation
-- `messages/th.json` - Thai guidance translation
-
-**Technical Notes:**
-- Storage key changed: `brightears-chat-history` → `brightears-chat-v2`
-- Modal position: `justify-end` → `justify-center`
-- Build: 59 static pages, zero errors
 
 ---
 

@@ -54,7 +54,7 @@ interface ChatWidgetProps {
   onClose?: () => void;
 }
 
-const STORAGE_KEY = 'brightears-chat-v2'; // v2 invalidates old cached mystical prompts
+const STORAGE_KEY = 'brightears-chat-v3'; // v3 invalidates cache for new trained prompts
 const MAX_MESSAGES = 50; // Limit storage size
 
 export default function ChatWidget({
@@ -224,7 +224,7 @@ export default function ChatWidget({
       // Add error message to chat
       const errorMessage: Message = {
         role: 'assistant',
-        content: "My thoughts wandered for a moment... let's try again",
+        content: "Something went wrong. Let's try that again.",
         timestamp: Date.now()
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -318,7 +318,7 @@ export default function ChatWidget({
             className="relative w-full md:w-[400px] h-[600px] md:h-[520px] bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl flex flex-col animate-modal-slide-up border border-white/20"
           >
             {/* Header */}
-            <div className="p-4 border-b border-gray-200/50 bg-gradient-to-r from-soft-lavender to-brand-cyan rounded-t-2xl">
+            <div className="p-4 border-b border-gray-200/50 bg-gradient-to-r from-deep-teal to-brand-cyan/80 rounded-t-2xl">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   {/* Sparkle icon */}
