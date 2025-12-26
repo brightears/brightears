@@ -202,9 +202,6 @@ export default async function HomePage({
 
             {/* Steps */}
             <div className="relative">
-              {/* Timeline line */}
-              <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-[60px] bottom-[60px] w-0.5 bg-brand-cyan/20" />
-
               <div className="space-y-16">
                 {/* Step 1 */}
                 <div className="flex flex-col md:flex-row items-center gap-8">
