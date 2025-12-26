@@ -2148,6 +2148,7 @@
   "chat": {
     "title": "Create Your Atmosphere",
     "subtitle": "Discover the perfect sound, light, and feeling for your venue",
+    "guidance": "Answer a few questions and we'll help you discover the perfect atmosphere for your venue",
     "openChat": "Create Your Atmosphere",
     "close": "Close",
     "placeholder": "Describe your vision...",

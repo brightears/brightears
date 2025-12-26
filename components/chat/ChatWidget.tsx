@@ -54,7 +54,7 @@ interface ChatWidgetProps {
   onClose?: () => void;
 }
 
-const STORAGE_KEY = 'brightears-chat-history';
+const STORAGE_KEY = 'brightears-chat-v2'; // v2 invalidates old cached mystical prompts
 const MAX_MESSAGES = 50; // Limit storage size
 
 export default function ChatWidget({
@@ -300,7 +300,7 @@ export default function ChatWidget({
       {/* Chat Modal */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-end p-4 md:items-center md:justify-end"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="chat-title"
@@ -362,6 +362,15 @@ export default function ChatWidget({
                 {t('subtitle')}
               </p>
             </div>
+
+            {/* Guidance - show when conversation just started */}
+            {messages.length <= 1 && (
+              <div className="px-4 py-3 bg-brand-cyan/5 border-b border-gray-100">
+                <p className="text-sm text-gray-600 text-center">
+                  {t('guidance')}
+                </p>
+              </div>
+            )}
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">

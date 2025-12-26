@@ -39,14 +39,49 @@ This checkpoint marks a **verified stable state** after successful deployment re
 
 ## Current Status (December 26, 2025) - 🎯 **ENHANCED LANDING PAGE LIVE** ✅
 
-### ✅ **LATEST MILESTONE: ARTISTIC/SCIENTIFIC ENHANCEMENTS (December 26, 2025)**
+### ✅ **LATEST MILESTONE: CHAT UX IMPROVEMENTS (December 26, 2025)**
+
+**Session: Chat Widget Repositioning & UX Enhancement**
+
+**Problems Fixed (from user feedback):**
+1. Chat opened on right side (looked like generic support chat)
+2. Old mystical prompts cached in localStorage
+3. Visitors didn't understand the purpose of the chat
+
+**Solutions Implemented:**
+1. **Centered Chat Modal** - Changed from right-aligned to centered for intentional, focused experience
+2. **Cache Invalidation** - New storage key (`brightears-chat-v2`) clears old mystical prompts
+3. **Guidance Text** - Added explanation: "Answer a few questions and we'll help you discover the perfect atmosphere"
+4. **Atmosphere Discovery Prompts** - Complete rewrite from mystical to purposeful questions
+
+**Chat Flow (New):**
+- Opens from Hero section button: "Create Your Atmosphere"
+- Starts with clear question about venue atmosphere
+- Guides through: Feeling → Music → Lighting → Summary
+- Leads to actionable outcome (connecting with Bright Ears)
+
+**Files Modified:**
+- `components/chat/ChatWidget.tsx` - Centered modal, new storage key, guidance section
+- `lib/api/system-prompts.ts` - Complete rewrite of AI prompts
+- `components/home/HeroSection.tsx` - "Create Your Atmosphere" button
+- `messages/en.json` - Added `chat.guidance` translation
+- `messages/th.json` - Thai guidance translation
+
+**Technical Notes:**
+- Storage key changed: `brightears-chat-history` → `brightears-chat-v2`
+- Modal position: `justify-end` → `justify-center`
+- Build: 59 static pages, zero errors
+
+---
+
+### ✅ **PREVIOUS: ARTISTIC/SCIENTIFIC ENHANCEMENTS (December 26, 2025)**
 
 **Session: Landing Page Subtle Enhancements**
 
 **New Features Added:**
-1. **AI Chat Widget** - Floating button (bottom-right) with Gemini 1.5 Flash integration
+1. **AI Chat Widget** - "Create Your Atmosphere" button in Hero section with Gemini 1.5 Flash integration
    - Glass morphism modal design
-   - Mystical conversation prompts
+   - Purposeful atmosphere discovery prompts
    - LocalStorage persistence
    - Component: `components/chat/ChatWidget.tsx`
 
@@ -62,18 +97,12 @@ This checkpoint marks a **verified stable state** after successful deployment re
    - Atmosphere: "60-80 BPM optimal, 2700K ambient lighting"
    - Corporate: "Strategic sound design boosts engagement 31%"
 
-4. **Bilingual Translations** - New `chat` and `mood` namespaces (38 keys EN/TH)
+4. **Bilingual Translations** - `chat` and `mood` namespaces (40+ keys EN/TH)
 
 **Files Created:**
-- `components/chat/ChatWidget.tsx` (426 lines)
+- `components/chat/ChatWidget.tsx` (480 lines)
 - `components/mood/MoodSelector.tsx` (250 lines)
-- Documentation files in `components/chat/` and `components/mood/`
-
-**Files Modified:**
-- `app/[locale]/layout.tsx` - Added ChatWidget
-- `app/[locale]/page.tsx` - Added MoodSelector, imports
-- `messages/en.json` - Service descriptions + chat/mood translations
-- `messages/th.json` - Thai translations
+- `lib/api/system-prompts.ts` (226 lines - atmosphere discovery prompts)
 
 **Technical Notes:**
 - Uses existing Gemini API at `/api/conversation/send`
