@@ -10,6 +10,7 @@ import {
 import Image from 'next/image';
 import LineContactButton from '@/components/buttons/LineContactButton';
 import ContactForm from '@/app/components/ContactForm';
+import HeroSection from '@/components/home/HeroSection';
 import {
   MusicalNoteIcon,
   UserGroupIcon,
@@ -120,66 +121,8 @@ export default async function HomePage({
       <JsonLd data={breadcrumbSchema} />
 
       <main className="min-h-screen bg-off-white">
-        {/* Hero Section */}
-        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-brand-cyan via-deep-teal to-earthy-brown">
-          {/* Background gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-cyan/80 via-deep-teal/80 to-earthy-brown/80" />
-
-          {/* Animated orbs (static, no mouse tracking) */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-soft-lavender/20 rounded-full filter blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-brand-cyan/20 rounded-full filter blur-3xl animate-pulse animation-delay-2000" />
-
-          {/* Content */}
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
-            {/* Logo */}
-            <div className="mb-8 flex justify-center">
-              <Image
-                src="/logo.png"
-                alt="Bright Ears Logo"
-                width={120}
-                height={120}
-                className="drop-shadow-2xl"
-                priority
-              />
-            </div>
-
-            {/* Main Headline */}
-            <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-lg">
-              {t('landing.hero.headline')}
-            </h1>
-
-            {/* Subheadline */}
-            <p className="font-inter text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10 drop-shadow-md">
-              {t('landing.hero.subheadline')}
-            </p>
-
-            {/* CTA Button */}
-            <div className="mb-12">
-              <a
-                href="#contact"
-                className="inline-block px-10 py-5 bg-white text-deep-teal font-inter font-bold text-lg rounded-full shadow-2xl hover:shadow-brand-cyan/50 hover:scale-105 transition-all duration-300"
-              >
-                {t('landing.hero.cta')}
-              </a>
-            </div>
-
-            {/* Trust Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto mt-16">
-              <div className="glass-strong rounded-2xl p-6 backdrop-blur-lg">
-                <div className="text-4xl font-playfair font-bold text-white mb-2">500+</div>
-                <div className="text-white/80 font-inter">{t('landing.hero.stats.venues')}</div>
-              </div>
-              <div className="glass-strong rounded-2xl p-6 backdrop-blur-lg">
-                <div className="text-4xl font-playfair font-bold text-white mb-2">10,000+</div>
-                <div className="text-white/80 font-inter">{t('landing.hero.stats.events')}</div>
-              </div>
-              <div className="glass-strong rounded-2xl p-6 backdrop-blur-lg">
-                <div className="text-4xl font-playfair font-bold text-white mb-2">4.9★</div>
-                <div className="text-white/80 font-inter">{t('landing.hero.stats.rating')}</div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Hero Section with Mouse Tracking */}
+        <HeroSection />
 
         {/* What We Do Section */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
