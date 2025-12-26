@@ -11,6 +11,7 @@ import Image from 'next/image';
 import LineContactButton from '@/components/buttons/LineContactButton';
 import ContactForm from '@/app/components/ContactForm';
 import HeroSection from '@/components/home/HeroSection';
+import MoodSelector from '@/components/mood/MoodSelector';
 import {
   MusicalNoteIcon,
   UserGroupIcon,
@@ -129,9 +130,14 @@ export default async function HomePage({
             <h2 className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal text-center mb-4">
               {t('landing.whatWeDo.title')}
             </h2>
-            <p className="font-inter text-xl text-gray-600 text-center mb-16 max-w-2xl mx-auto">
+            <p className="font-inter text-xl text-gray-600 text-center mb-8 max-w-2xl mx-auto">
               {t('landing.whatWeDo.subtitle')}
             </p>
+
+            {/* Mood Selector - Interactive element */}
+            <div className="flex justify-center mb-12">
+              <MoodSelector />
+            </div>
 
             {/* Service Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

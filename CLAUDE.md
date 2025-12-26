@@ -37,9 +37,53 @@ This checkpoint marks a **verified stable state** after successful deployment re
 
 ---
 
-## Current Status (December 26, 2025) - 🎯 **SIMPLIFIED LANDING PAGE LIVE** ✅
+## Current Status (December 26, 2025) - 🎯 **ENHANCED LANDING PAGE LIVE** ✅
 
-### ✅ **LATEST MILESTONE: UI CLEANUP COMPLETE (December 26, 2025)**
+### ✅ **LATEST MILESTONE: ARTISTIC/SCIENTIFIC ENHANCEMENTS (December 26, 2025)**
+
+**Session: Landing Page Subtle Enhancements**
+
+**New Features Added:**
+1. **AI Chat Widget** - Floating button (bottom-right) with Gemini 1.5 Flash integration
+   - Glass morphism modal design
+   - Mystical conversation prompts
+   - LocalStorage persistence
+   - Component: `components/chat/ChatWidget.tsx`
+
+2. **Mood Selector** - Interactive mood exploration in "What We Do" section
+   - 5 moods: Energetic, Romantic, Happy, Calming, Partying
+   - BPM indicators and color-coded pills
+   - CSS-only animations
+   - Component: `components/mood/MoodSelector.tsx`
+
+3. **Service Card Enhancements** - Scientific stats added to descriptions
+   - DJs: "120-140 BPM sets proven to increase dance floor engagement"
+   - Bands: "Live music shown to increase venue dwell time by 23%"
+   - Atmosphere: "60-80 BPM optimal, 2700K ambient lighting"
+   - Corporate: "Strategic sound design boosts engagement 31%"
+
+4. **Bilingual Translations** - New `chat` and `mood` namespaces (38 keys EN/TH)
+
+**Files Created:**
+- `components/chat/ChatWidget.tsx` (426 lines)
+- `components/mood/MoodSelector.tsx` (250 lines)
+- Documentation files in `components/chat/` and `components/mood/`
+
+**Files Modified:**
+- `app/[locale]/layout.tsx` - Added ChatWidget
+- `app/[locale]/page.tsx` - Added MoodSelector, imports
+- `messages/en.json` - Service descriptions + chat/mood translations
+- `messages/th.json` - Thai translations
+
+**Technical Notes:**
+- Uses existing Gemini API at `/api/conversation/send`
+- CSS-only animations (no framer-motion)
+- Zero new dependencies
+- Build: 59 static pages, zero errors
+
+---
+
+### ✅ **PREVIOUS: UI CLEANUP COMPLETE (December 26, 2025)**
 
 **Session: Landing Page UI Cleanup (Multiple Commits)**
 

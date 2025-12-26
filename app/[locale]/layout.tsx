@@ -6,6 +6,7 @@ import { locales } from '@/i18n.config';
 import { Inter, Playfair_Display, Noto_Sans_Thai } from 'next/font/google';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import ChatWidget from '@/components/chat/ChatWidget';
 import '../globals.css';
 
 const inter = Inter({
@@ -135,6 +136,9 @@ export default async function LocaleLayout({
               </main>
 
               <Footer />
+
+              {/* AI Chat Widget - Floating button bottom-right */}
+              <ChatWidget />
             </div>
           </NextIntlClientProvider>
         </ClerkProvider>

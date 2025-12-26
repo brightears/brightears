@@ -1992,19 +1992,19 @@
       "services": {
         "djs": {
           "title": "Professional DJs",
-          "description": "Experienced DJs for clubs, hotels, and events. All genres, verified professionals."
+          "description": "Experienced DJs for clubs, hotels, and events. 120-140 BPM sets proven to increase dance floor engagement."
         },
         "bands": {
           "title": "Live Bands",
-          "description": "From acoustic duos to full bands. Perfect for restaurants, hotels, and corporate events."
+          "description": "From acoustic duos to full bands. Live music shown to increase venue dwell time by 23%."
         },
         "atmosphere": {
           "title": "Atmosphere Design",
-          "description": "Curated playlists and background music packages for your venue's unique vibe."
+          "description": "Curated playlists at optimal 60-80 BPM. 2700K ambient lighting recommendations included."
         },
         "corporate": {
           "title": "Corporate Events",
-          "description": "Professional entertainment for conferences, product launches, and company celebrations."
+          "description": "Professional entertainment for conferences. Strategic sound design boosts audience engagement 31%."
         }
       }
     },
@@ -2142,6 +2142,31 @@
     "errors": {
       "rateLimit": "Too many requests. Please try again in an hour.",
       "failed": "Failed to submit form. Please try again."
+    }
+  },
+  "chat": {
+    "title": "Bright Ears AI",
+    "openButton": "Open AI chat",
+    "closeButton": "Close chat",
+    "inputPlaceholder": "Type your message...",
+    "sendButton": "Send message",
+    "clearButton": "Clear conversation history",
+    "clearConfirm": "Clear chat?",
+    "greeting": "Ask me anything about atmosphere, music, and mood design..."
+  },
+  "mood": {
+    "title": "What mood are you creating?",
+    "energetic": "Energetic",
+    "romantic": "Romantic",
+    "happy": "Happy",
+    "calming": "Calming",
+    "partying": "Partying",
+    "bpm": {
+      "energetic": "120-140 BPM",
+      "romantic": "60-80 BPM",
+      "happy": "100-120 BPM",
+      "calming": "50-80 BPM",
+      "partying": "120-140 BPM"
     }
   }
 }
