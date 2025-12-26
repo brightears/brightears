@@ -1980,6 +1980,7 @@
       "headline": "Book Perfect Entertainment For Your Event",
       "subheadline": "Verified DJs and live entertainment in Bangkok. Professional service, transparent pricing, guaranteed quality.",
       "cta": "Get in Touch",
+      "createAtmosphere": "Create Your Atmosphere",
       "stats": {
         "venues": "Venues",
         "events": "Events",
@@ -2145,14 +2146,14 @@
     }
   },
   "chat": {
-    "title": "Bright Ears AI",
-    "openButton": "Open AI chat",
-    "closeButton": "Close chat",
-    "inputPlaceholder": "Type your message...",
-    "sendButton": "Send message",
-    "clearButton": "Clear conversation history",
-    "clearConfirm": "Clear chat?",
-    "greeting": "Ask me anything about atmosphere, music, and mood design..."
+    "title": "Create Your Atmosphere",
+    "subtitle": "Discover the perfect sound, light, and feeling for your venue",
+    "openChat": "Create Your Atmosphere",
+    "close": "Close",
+    "placeholder": "Describe your vision...",
+    "inputLabel": "Describe your venue atmosphere",
+    "send": "Send",
+    "startNew": "Start new session"
   },
   "mood": {
     "title": "What mood are you creating?",

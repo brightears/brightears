@@ -1,13 +1,14 @@
 'use client';
 
 /**
- * AI Chat Widget Component
+ * AI Chat Widget Component - "Create Your Atmosphere"
  *
- * Floating chat widget that connects to Bright Ears Gemini API
- * Uses mystical prompts from system-prompts.ts
+ * Interactive atmosphere discovery chat that guides venue owners
+ * through finding their ideal sound, light, and feeling.
  *
  * Features:
- * - Floating Action Button (FAB) with pulse animation
+ * - Optional Floating Action Button (FAB)
+ * - External control via isOpen/onClose props
  * - Glass morphism chat modal
  * - Persistent conversation history (localStorage)
  * - Real-time typing indicator
@@ -15,20 +16,18 @@
  *
  * Usage:
  * ```tsx
- * import ChatWidget from '@/components/chat/ChatWidget';
+ * // With FAB (floating button)
+ * <ChatWidget showFAB={true} />
  *
- * export default function Layout() {
- *   return (
- *     <>
- *       <main>{children}</main>
- *       <ChatWidget />
- *     </>
- *   );
- * }
+ * // Controlled externally (e.g., from Hero section)
+ * const [isOpen, setIsOpen] = useState(false);
+ * <Button onClick={() => setIsOpen(true)}>Create Your Atmosphere</Button>
+ * <ChatWidget isOpen={isOpen} onClose={() => setIsOpen(false)} showFAB={false} />
  * ```
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { getRandomOpeningPrompt } from '@/lib/api/system-prompts';
 
 // Message interface matching API expectations
@@ -45,12 +44,31 @@ interface ApiResponse {
   error?: string;
 }
 
+// Component props
+interface ChatWidgetProps {
+  /** Show floating action button (default: true) */
+  showFAB?: boolean;
+  /** Controlled open state (external control) */
+  isOpen?: boolean;
+  /** Callback when chat is closed */
+  onClose?: () => void;
+}
+
 const STORAGE_KEY = 'brightears-chat-history';
 const MAX_MESSAGES = 50; // Limit storage size
 
-export default function ChatWidget() {
-  // State management
-  const [isOpen, setIsOpen] = useState(false);
+export default function ChatWidget({
+  showFAB = true,
+  isOpen: externalIsOpen,
+  onClose
+}: ChatWidgetProps) {
+  const t = useTranslations('chat');
+
+  // State management - use external control if provided
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isControlled = externalIsOpen !== undefined;
+  const isOpen = isControlled ? externalIsOpen : internalIsOpen;
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +78,28 @@ export default function ChatWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * Handle opening the chat
+   */
+  const handleOpen = () => {
+    if (isControlled) {
+      // External control - do nothing, parent manages state
+    } else {
+      setInternalIsOpen(true);
+    }
+  };
+
+  /**
+   * Handle closing the chat
+   */
+  const handleClose = () => {
+    if (isControlled && onClose) {
+      onClose();
+    } else {
+      setInternalIsOpen(false);
+    }
+  };
 
   /**
    * Initialize chat with greeting on first mount
@@ -184,7 +224,7 @@ export default function ChatWidget() {
       // Add error message to chat
       const errorMessage: Message = {
         role: 'assistant',
-        content: 'The resonance falters... breathe and try once more',
+        content: "My thoughts wandered for a moment... let's try again",
         timestamp: Date.now()
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -209,7 +249,7 @@ export default function ChatWidget() {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
-        setIsOpen(false);
+        handleClose();
       }
     };
 
@@ -221,7 +261,7 @@ export default function ChatWidget() {
    * Clear conversation history
    */
   const handleClearHistory = () => {
-    if (confirm('Clear all conversation history?')) {
+    if (confirm('Start a new atmosphere design session?')) {
       const greeting: Message = {
         role: 'assistant',
         content: getRandomOpeningPrompt(),
@@ -234,32 +274,28 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* Floating Action Button (FAB) */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 right-4 z-40 w-14 h-14 bg-brand-cyan hover:bg-brand-cyan/90 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
-        style={{
-          animation: 'live-pulse 2s cubic-bezier(0.16, 1, 0.3, 1) infinite'
-        }}
-        aria-label="Open AI chat"
-        title="Chat with Bright Ears AI"
-      >
-        {/* Chat bubble icon */}
-        <svg
-          className="w-6 h-6 transform group-hover:scale-110 transition-transform"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
+      {/* Floating Action Button (FAB) - only if showFAB is true */}
+      {showFAB && (
+        <button
+          onClick={handleOpen}
+          className="fixed bottom-4 right-4 z-40 w-14 h-14 bg-brand-cyan hover:bg-brand-cyan/90 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
+          style={{
+            animation: 'live-pulse 2s cubic-bezier(0.16, 1, 0.3, 1) infinite'
+          }}
+          aria-label={t('openChat')}
+          title={t('title')}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-          />
-        </svg>
-      </button>
+          {/* Sparkles icon for atmosphere theme */}
+          <svg
+            className="w-6 h-6 transform group-hover:scale-110 transition-transform"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        </button>
+      )}
 
       {/* Chat Modal */}
       {isOpen && (
@@ -272,53 +308,59 @@ export default function ChatWidget() {
           {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/40 backdrop-blur-sm animate-backdrop-fade-in"
-            onClick={() => setIsOpen(false)}
+            onClick={handleClose}
             aria-hidden="true"
           />
 
           {/* Chat Container */}
           <div
             ref={chatContainerRef}
-            className="relative w-full md:w-[360px] h-[600px] md:h-[480px] bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl flex flex-col animate-modal-slide-up border border-white/20"
+            className="relative w-full md:w-[400px] h-[600px] md:h-[520px] bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl flex flex-col animate-modal-slide-up border border-white/20"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200/50 bg-gradient-to-r from-brand-cyan to-brand-cyan/80 rounded-t-2xl">
-              <div className="flex items-center space-x-2">
-                {/* Sparkle icon */}
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <h2 id="chat-title" className="text-lg font-semibold text-white font-playfair">
-                  Bright Ears AI
-                </h2>
-              </div>
+            <div className="p-4 border-b border-gray-200/50 bg-gradient-to-r from-soft-lavender to-brand-cyan rounded-t-2xl">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  {/* Sparkle icon */}
+                  <svg
+                    className="w-5 h-5 text-white"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <h2 id="chat-title" className="text-lg font-semibold text-white font-playfair">
+                    {t('title')}
+                  </h2>
+                </div>
 
-              {/* Close button */}
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-white/80 hover:text-white transition-colors"
-                aria-label="Close chat"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
+                {/* Close button */}
+                <button
+                  onClick={handleClose}
+                  className="text-white/80 hover:text-white transition-colors"
+                  aria-label={t('close')}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              {/* Subtitle */}
+              <p className="text-white/90 text-sm mt-1">
+                {t('subtitle')}
+              </p>
             </div>
 
             {/* Messages */}
@@ -330,7 +372,7 @@ export default function ChatWidget() {
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                    className={`max-w-[85%] rounded-2xl px-4 py-2 ${
                       msg.role === 'user'
                         ? 'bg-brand-cyan text-white rounded-br-sm'
                         : 'bg-gray-100 text-gray-800 rounded-bl-sm'
@@ -375,17 +417,17 @@ export default function ChatWidget() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Type your message..."
+                  placeholder={t('placeholder')}
                   disabled={isLoading}
                   maxLength={500}
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-                  aria-label="Message input"
+                  aria-label={t('inputLabel')}
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim() || isLoading}
                   className="px-4 py-2 bg-brand-cyan text-white rounded-full hover:bg-brand-cyan/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
-                  aria-label="Send message"
+                  aria-label={t('send')}
                 >
                   <svg
                     className="w-5 h-5"
@@ -409,9 +451,9 @@ export default function ChatWidget() {
                 <button
                   onClick={handleClearHistory}
                   className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
-                  aria-label="Clear conversation history"
+                  aria-label={t('startNew')}
                 >
-                  Clear history
+                  {t('startNew')}
                 </button>
                 <span className="text-xs text-gray-400">
                   {inputValue.length}/500
