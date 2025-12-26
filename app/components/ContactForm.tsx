@@ -30,7 +30,7 @@ export default function ContactForm({ tab }: ContactFormProps) {
     };
 
     if (tab === 'general') {
-      return { ...base, subject: '' };
+      return { ...base };
     }
 
     if (tab === 'corporate') {
@@ -87,9 +87,6 @@ export default function ContactForm({ tab }: ContactFormProps) {
             value: 50,
             message: validationMessages.name.tooLong,
           },
-        },
-        subject: {
-          required: 'Please select a subject',
         },
         ...baseRules,
       };
@@ -223,12 +220,6 @@ export default function ContactForm({ tab }: ContactFormProps) {
     );
   }
 
-  const subjectOptions = [
-    { value: 'general', label: t('subjectOptions.general') },
-    { value: 'technical', label: t('subjectOptions.technical') },
-    { value: 'other', label: t('subjectOptions.other') },
-  ];
-
   const eventTypeOptions = [
     { value: 'annualParty', label: t('eventTypeOptions.annualParty') },
     { value: 'productLaunch', label: t('eventTypeOptions.productLaunch') },
@@ -276,19 +267,6 @@ export default function ContactForm({ tab }: ContactFormProps) {
             touched={touched.email}
             icon={<EnvelopeIcon className="w-5 h-5" />}
             helpText="We'll never share your email with anyone"
-          />
-
-          <ValidatedSelect
-            name="subject"
-            label="Subject"
-            options={subjectOptions}
-            placeholder="Select a subject"
-            required
-            value={values.subject || ''}
-            onChange={handleChange('subject')}
-            onBlur={handleBlur('subject')}
-            error={errors.subject}
-            touched={touched.subject}
           />
         </>
       )}
