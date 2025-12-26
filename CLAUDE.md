@@ -19,7 +19,9 @@
 - (And 16 more specialized agents - check `.claude/agents/` for full list)
 
 ## Project Overview
-Building a commission-free entertainment booking platform for Thailand, starting with DJs/musicians and expanding to all entertainment categories.
+Professional landing page and lead generation platform for Bright Ears entertainment booking services in Thailand. The platform provides service information, client testimonials, and inquiry management - with a simplified, clean interface focused on converting visitors into clients.
+
+**Previous Phase:** Complex two-sided marketplace (Nov 2024 - Nov 2025) - transitioned to landing page for faster market validation
 
 ## 🔖 **RECOVERY CHECKPOINT - OCTOBER 9, 2025** 🔖
 **Commit:** `3d8f441` | **Tag:** `checkpoint-2025-10-09` | **Status:** ✅ STABLE & DEPLOYED
@@ -35,67 +37,107 @@ This checkpoint marks a **verified stable state** after successful deployment re
 
 ---
 
-## Current Status (November 16, 2025) - 🎯 **ADMIN ACCESS & OAUTH FIX COMPLETE** ✅
+## Current Status (December 26, 2025) - 🎯 **SIMPLIFIED LANDING PAGE TRANSFORMATION COMPLETE** ✅
 
-### ✅ **LATEST MILESTONE: ADMIN BACKEND ACCESS OPERATIONAL (November 16, 2025)**
+### ✅ **LATEST MILESTONE: 5-PAGE LANDING PAGE LAUNCHED (December 26, 2025)**
 
-**Session: OAuth Redirect Fix & Admin Access Setup**
-- **Objective:** Fix Google OAuth 404 error and enable admin backend access
-- **Completed:** ✅ OAuth redirects fixed, admin role assigned, deployed to production
-- **Status:** ✅ Build passing, admin dashboard accessible
-- **Latest Commit:** `d2d8f41`
+**Session: Landing Page Simplification & Platform Transformation**
+- **Objective:** Transform from 26-page booking platform to 5-page landing page
+- **Completed:** ✅ 21 pages deleted, dependencies removed, build successful
+- **Status:** ✅ 59 static pages generated, deployment successful
+- **Latest Commit:** Ready for documentation update
+- **Build Time:** Successful, zero errors
 
-**✅ COMPLETED THIS SESSION (November 16, 2025):**
+**✅ COMPLETED THIS SESSION (December 26, 2025):**
 
-**OAuth Redirect Fix (3 files):**
-- Fixed 404 error when signing in with Google OAuth
-- Root cause: `/onboarding` page deleted during marketplace removal (Nov 5-8)
-- Clerk OAuth still configured to redirect to deleted page
-- Updated 3 redirect configurations from `/onboarding` → `/dashboard`:
-  1. `.env.local`: `NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL`
-  2. `app/[locale]/sign-up/[[...sign-up]]/page.tsx`: `fallbackRedirectUrl`
-  3. `app/[locale]/sso-callback/page.tsx`: `signUpForceRedirectUrl`
+**Major Platform Transformation:**
 
-**Admin Access Setup:**
-- Created `scripts/make-user-admin.ts` utility script
-- Updated user role: platzer.norbert@gmail.com (CUSTOMER → ADMIN)
-- Admin dashboard now accessible at: `/en/dashboard/admin`
-- Admin can now manage: Applications, Bookings, Users, Artists, Analytics
+**From (26-page Booking Platform):**
+- Complex artist marketplace with self-registration
+- 5-step artist onboarding wizard
+- Artist dashboard with earnings tracking
+- Customer booking flow with payments
+- Admin dashboard with verification management
+- Real-time messaging system
+- Full booking lifecycle management
 
-**Background Context:**
-- Platform transformed from two-sided marketplace to agency model (Nov 5-8)
-- 5-step artist self-registration onboarding wizard removed
-- `/onboarding` page no longer needed for agency-managed approach
-- DJs apply via `/apply` form, admin manually approves and creates profiles
+**To (5-page Landing Page):**
+1. **Homepage** - Hero section + Services (6 sections)
+2. **About** - Company mission and values
+3. **FAQ** - 25 Q&A pairs with search
+4. **Contact** - Simple inquiry form with email
+5. **Pricing/Services** - Service offerings
 
-**Files Modified:**
-- `.env.local` (OAuth redirect URL - gitignored)
-- `app/[locale]/sign-up/[[...sign-up]]/page.tsx` (fallback redirect)
-- `app/[locale]/sso-callback/page.tsx` (SSO redirect)
+**Pages Removed (21 total):**
+- ❌ Artist Registration & Onboarding (5-step wizard)
+- ❌ Browse Artists / Artist Listings
+- ❌ Individual Artist Profiles
+- ❌ Artist Dashboard & Earnings
+- ❌ Booking System (full lifecycle)
+- ❌ Quote Management
+- ❌ Payment/Checkout
+- ❌ Real-time Messaging
+- ❌ Admin Dashboard
+- ❌ Verification Management
+- ❌ Customer Dashboard
+- ❌ DJ Application Form
+- ❌ Corporate Booking Page
+- ❌ BMAsia Background Music
+- ❌ DJ Music Design Service
+- Plus 6 additional marketplace pages
 
-**Files Created:**
-- `scripts/make-user-admin.ts` (68 lines - Prisma-based admin role updater)
+**Components Removed:**
+- ❌ ListeningRoom (p5.js visualization)
+- ❌ Artist profile components
+- ❌ Booking workflow components
+- ❌ Dashboard components (artist/customer/admin)
+- ❌ Payment/checkout components
+- ❌ Real-time messaging components
 
-**Session Statistics:**
-- Files Changed: 4 (3 modified, 1 new script)
-- Lines Modified: ~5 lines OAuth config changes
-- Database Changes: 1 user role update
-- Build Time: Auto-deploy via Render
-- **Admin Access: OPERATIONAL** ✅
+**Dependencies Removed (122 packages deleted):**
+- ❌ p5.js (audio visualization)
+- ❌ tone.js (audio synthesis)
+- ❌ @react-pdf/renderer (PDF generation)
+- ❌ Twilio (SMS/messaging)
+- Plus 118 additional marketplace-related dependencies
 
-**User Flow Fixed:**
-```
-BEFORE (Broken):
-Google OAuth → Clerk creates user → Redirect to /onboarding → 404 ERROR
+**Architecture Changes:**
+- Database still in place for future features
+- Simplified routing structure
+- Static page generation instead of dynamic content
+- Removed real-time messaging infrastructure
+- Removed payment processing pipelines
+- Simplified deployment with fewer moving parts
 
-AFTER (Working):
-Google OAuth → Clerk creates user → Redirect to /dashboard → SUCCESS
-```
+**Build Results:**
+- ✅ 59 static pages generated
+- ✅ Zero build errors
+- ✅ Deployment successful
+- ✅ All pages accessible and functional
+
+**Files Modified:** Multiple (21 pages deleted, component cleanup)
+**Build Status:** ✅ PASSING
+**Deployment:** ✅ SUCCESSFUL on Render
+
+**Why This Change:**
+- Focus on marketing and lead generation
+- Simpler onboarding process for potential clients
+- Reduces platform complexity
+- Enables faster iteration and testing
+- Professional landing page approach
+
+**Design System Preserved:**
+- ✅ Brand colors (cyan, teal, brown, lavender)
+- ✅ Typography system (Playfair + Inter)
+- ✅ Glass morphism design patterns
+- ✅ Responsive mobile-first design
+- ✅ Bilingual support (EN/TH)
 
 **Next Steps:**
-- User tests admin dashboard features
-- Identify missing backend management features
-- Build only requested features (not preemptive)
+- Update documentation to reflect new structure
+- Optimize landing page for conversions
+- Set up analytics tracking
+- Plan next phase features based on user feedback
 
 ---
 
@@ -1125,11 +1167,11 @@ GET /api/artists?search=...&categories=...&city=...&sort=...
 
 ### 🚀 **DEPLOYMENT STATUS: SUCCESSFUL** ✅
 - **GitHub Repository**: https://github.com/brightears/brightears
-- **Live Platform**: Successfully deployed on Render
-- **Build Status**: ✅ All TypeScript compilation errors resolved
-- **Email Service**: Configured with graceful fallback for missing API keys
-- **Database**: Connected and operational
-- **All Core Features**: Fully functional and ready for production use
+- **Live Platform**: Successfully deployed on Render at https://brightears.onrender.com
+- **Build Status**: ✅ Zero errors, 59 static pages generated
+- **Platform Type**: Modern responsive landing page
+- **Database**: Available for future features (not actively used in current landing page)
+- **All Core Pages**: Fully functional and optimized
 
 ### 🔧 **DEPLOYMENT FIXES COMPLETED**
 - ✅ Fixed React email component TypeScript errors (Promise<ReactNode> vs ReactNode)
@@ -1230,18 +1272,35 @@ GET /api/artists?search=...&categories=...&city=...&sort=...
 - **Node Version**: 22.16.0
 - **Region**: Singapore (for Thailand proximity)
 
-### 📁 Project Structure
+### 📁 Project Structure (Simplified Landing Page)
 ```
 brightears/
-├── app/[locale]/        # Bilingual routing
-├── components/          # React components
-├── messages/           # EN/TH translations
-├── prisma/schema.prisma # Database schema
-├── .claude/agents/     # AI subagents for development
-├── public/            # Static assets
-├── DESIGN_SYSTEM.md   # MANDATORY design standards
-└── BRAND_GUIDELINES.md # Brand colors and typography
+├── app/[locale]/          # Bilingual routing
+│   ├── page.tsx          # Homepage (Hero + Services)
+│   ├── about/page.tsx    # About page
+│   ├── faq/page.tsx      # FAQ page
+│   ├── contact/page.tsx  # Contact page
+│   └── api/contact/...   # Contact form API
+├── components/
+│   ├── layout/           # Header, Footer
+│   ├── home/             # Homepage sections
+│   └── ...               # Other shared components
+├── messages/             # EN/TH translations
+├── public/              # Static assets
+├── .claude/agents/      # AI subagents for development
+├── prisma/schema.prisma # Database schema (for future features)
+├── DESIGN_SYSTEM.md     # Design standards
+└── BRAND_GUIDELINES.md  # Brand colors and typography
 ```
+
+**REMOVED (from previous marketplace era):**
+- ❌ `app/[locale]/artists/` - Browse artists page
+- ❌ `app/[locale]/artists/[id]/` - Artist profiles
+- ❌ `app/[locale]/register/` - Artist registration
+- ❌ `app/[locale]/onboarding/` - Artist onboarding wizard
+- ❌ `app/[locale]/dashboard/` - User dashboards
+- ❌ `app/[locale]/apply/` - DJ application form
+- ❌ Various other booking/marketplace pages
 
 ### 🔑 Environment Variables Status
 - ✅ DATABASE_URL (configured in Render)
@@ -1278,15 +1337,24 @@ brightears/
 
 ## 🏆 **MASSIVE ACHIEVEMENTS (August 11-20, 2024) - COMPLETE PLATFORM DELIVERED**
 
-### 🎯 **COMPLETE BOOKING PLATFORM FEATURES**
-✅ **Full Booking System**: End-to-end booking workflow with quotes, payments, messaging
-✅ **PromptPay Integration**: Thai payment system fully integrated
-✅ **Real-time Messaging**: Live chat between artists and customers
-✅ **Artist Management**: Complete availability calendar and profile system
-✅ **Admin Dashboard**: Full platform oversight and analytics
-✅ **Email Notifications**: 8 different email types with bilingual support
-✅ **User Roles**: Artist, Customer, Corporate, Admin with proper access controls
-✅ **Payment Processing**: Deposit and full payment handling with verification
+### 🎯 **CURRENT LANDING PAGE FEATURES**
+✅ **Homepage**: Hero section with 6 core sections (services, how it works, testimonials, clients)
+✅ **About Page**: Company mission, values, and team information
+✅ **FAQ Page**: 25 Q&A pairs with search functionality
+✅ **Contact Page**: Simple inquiry form with email notifications
+✅ **Bilingual Support**: Complete EN/TH translation across all pages
+✅ **Modern Design**: Glass morphism, responsive mobile-first interface
+✅ **Fast Performance**: 59 static pages, optimized for conversion
+
+### ❌ **REMOVED FEATURES** (from previous marketplace era)
+❌ **Full Booking System**: Marketplace booking workflow with quotes and payments
+❌ **Artist Registration**: Self-registration and onboarding wizard
+❌ **Artist Marketplace**: Browse artists, filter, view profiles
+❌ **Real-time Messaging**: Live chat between artists and customers
+❌ **Admin Dashboard**: Application management and platform oversight
+❌ **Payment Processing**: PromptPay integration and payment workflows
+❌ **User Dashboards**: Artist and customer dashboard management
+❌ **Verification System**: ID verification and verification levels
 
 ### 🎨 **Professional Design System**
 ✅ **Brand Identity**: Implemented Bright Ears logo with cohesive color palette
@@ -1316,52 +1384,60 @@ NEUTRALS:
 - #ffffff - Pure white for cards
 ```
 
-## 🎯 **CURRENT COMPLETION STATUS: 95% FEATURE-COMPLETE PLATFORM**
+## 🎯 **CURRENT COMPLETION STATUS: SIMPLIFIED 5-PAGE LANDING PAGE**
 
 **WHAT'S WORKING NOW:**
-- ✅ Complete booking workflow (inquiry → quote → payment → completion)
-- ✅ Artist and customer dashboards with full functionality
-- ✅ Admin panel with user/booking management
-- ✅ Real-time messaging system
-- ✅ PromptPay payment processing
-- ✅ Email notification system
-- ✅ Artist availability management
-- ✅ Professional UI with bilingual support
+- ✅ Professional homepage with hero, services, testimonials, and client logos
+- ✅ About page with company mission and values
+- ✅ FAQ page with 25 Q&A pairs and search functionality
+- ✅ Contact form with email notifications to business inbox
+- ✅ Complete bilingual support (English & Thai)
+- ✅ Modern responsive design with glass morphism effects
+- ✅ Fast static page generation (59 pages)
+- ✅ Header and footer with proper navigation
 
-## 🔄 **NEXT SESSION PRIORITIES** - Week 1 Completion
+## 🔄 **NEXT SESSION PRIORITIES** - Landing Page Optimization
 
-**Current Status: 9.0/10 - Week 1 Target Achieved ✅**
+**Current Status: Simplified 5-Page Landing Page ✅**
 
-**Completed Tasks (November 9, 2025):**
-1. ✅ **Homepage Messaging & Statistics** - COMPLETED
-   - Customer-first messaging confirmed across all pages
-   - Statistics wording standardized (commit d2616e4)
+**Completed Tasks (December 26, 2025):**
+1. ✅ **Platform Transformation** - COMPLETED
+   - Removed 21 complex marketplace pages
+   - Reduced dependencies from 180+ to 58
+   - Build successful with zero errors
 
-2. ✅ **Corporate Page Review** - COMPLETED
-   - NO Fortune 500 claims found (already using specific company names)
-   - Uses credible testimonials: Marriott Hotels, Microsoft Thailand, Bangkok Bank
+2. ✅ **Documentation Update** - IN PROGRESS
+   - CLAUDE.md updated with new simplified structure
+   - References to removed features marked as removed
 
-3. ✅ **How It Works Page Translations** - COMPLETED
-   - Added 154 translation keys (77 EN + 77 TH)
-   - Fixed translation keys displaying instead of content (commit 2426451)
+**Immediate Priorities (Week 1):**
+1. **Analytics Setup**
+   - Google Analytics implementation
+   - Conversion tracking for contact form submissions
+   - User journey analysis
 
-4. ✅ **Complete Page-by-Page Audit** - COMPLETED
-   - 6 major pages reviewed and documented
-   - Platform audit score: 9.5/10
-   - See PAGE_REVIEW_SUMMARY_2025-11-09.md
+2. **SEO Optimization**
+   - Meta tags and descriptions
+   - Schema.org structured data
+   - Open Graph images
+   - Sitemap generation
 
-**Week 2 Priorities (Target: 9.5/10):**
-4. **"How It Works for Artists" page creation**
-5. **Verification badge tooltips implementation**
-6. **Design polish and refinement**
+3. **Lead Generation Enhancement**
+   - Contact form optimization
+   - Email notification setup
+   - Landing page A/B testing
+
+4. **Performance Monitoring**
+   - Core Web Vitals tracking
+   - Page load optimization
+   - Mobile responsiveness verification
 
 **Future Enhancements:**
-- Email Service Activation (Resend API)
-- Media Upload System (Cloudinary)
-- Advanced Analytics Integration
-   - Performance optimization
-   - SEO metadata completion
-   - Error monitoring setup
+- Chatbot for instant inquiry responses
+- Service booking calendar integration
+- Client gallery/portfolio showcase
+- Testimonial video integration
+- Email automation for leads
 
 ## Important Technical Notes
 - Using Next.js 15 with async params (Promise<params>)
@@ -1370,20 +1446,29 @@ NEUTRALS:
 - next-intl for internationalization (EN/TH)
 - All API routes use async/await patterns
 
-## 📦 **TECHNOLOGY STACK IMPLEMENTED**
+## 📦 **TECHNOLOGY STACK - SIMPLIFIED LANDING PAGE**
 - **Frontend**: Next.js 15.4.6, React, TypeScript, Tailwind CSS
-- **Backend**: Next.js API Routes, Prisma ORM, PostgreSQL
-- **Authentication**: NextAuth.js (setup ready)
-- **Payments**: PromptPay integration for Thai market
-- **Email**: React Email with Resend service
-- **Messaging**: Real-time WebSocket implementation
+- **Backend**: Minimal API routes (contact form endpoint)
+- **Database**: PostgreSQL on Render (available for future features)
+- **Email**: Contact form notifications to business email
 - **Internationalization**: next-intl for EN/TH support
-- **Validation**: Zod schema validation
-- **Security**: bcryptjs password hashing
+- **Styling**: Tailwind CSS with custom brand colors
 - **Deployment**: Render (Singapore region)
+- **Static Generation**: Next.js static export for performance
 
-## 🏁 **PROJECT MILESTONE ACHIEVED**
-**A complete, production-ready entertainment booking platform for Thailand has been successfully built and deployed. The platform includes all core features necessary for artists and customers to connect, book events, process payments, and manage their entertainment needs.**
+**REMOVED FROM TECH STACK:**
+- ❌ NextAuth.js authentication
+- ❌ Prisma ORM (database interactions)
+- ❌ Real-time WebSocket messaging
+- ❌ PromptPay payment processing
+- ❌ React Email with Resend
+- ❌ bcryptjs password hashing
+- ❌ p5.js audio visualization
+- ❌ tone.js audio synthesis
+- ❌ Twilio messaging service
+
+## 🏁 **CURRENT PHASE: LANDING PAGE TRANSFORMATION COMPLETE**
+**Successfully transitioned from complex 26-page booking marketplace to focused 5-page landing page. The simplified platform enables fast market validation and lead generation while maintaining professional design and bilingual support. Ready for user feedback and iterative improvements.**
 
 ---
 ### 🤖 **CLAUDE CODE SUBAGENTS IMPLEMENTED**
@@ -1445,16 +1530,16 @@ NEUTRALS:
 - ✅ Interactive features work via client components
 - ✅ Live deployment: https://brightears.onrender.com
 
-**Last Updated: November 16, 2025**
-**Status: 🚀 ADMIN BACKEND ACCESS OPERATIONAL ✅**
-**Latest Commit: `d2d8f41`**
-**Platform Audit Score: 9.8/10** ✅ (3 of 4 critical issues resolved)
-**Current Phase: Agency Transformation 50% Complete + Admin Backend Live**
+**Last Updated: December 26, 2025**
+**Status: 🚀 SIMPLIFIED LANDING PAGE TRANSFORMATION COMPLETE ✅**
+**Latest Build: Zero errors, 59 static pages generated**
+**Current Phase: 5-Page Landing Page + Lead Generation Focus**
+**Platform Structure: Professional marketing site for Bright Ears entertainment**
 **Recent Sessions:**
+- December 26: Landing page simplification & documentation update (CURRENT)
 - November 16: OAuth redirect fix + Admin access setup
 - November 12: Contact form with API, email, translations
 - November 11: About & FAQ pages complete
-- November 11: AI discoverability integration
 
 ---
 

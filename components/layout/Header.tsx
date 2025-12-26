@@ -28,12 +28,10 @@ const Header: React.FC = () => {
   ];
 
   const navItems = [
-    { label: t('browseArtists'), href: '/artists' },
-    { label: t('howItWorks'), href: '/how-it-works' },
-    { label: t('corporate'), href: '/corporate' },
-    { label: 'BMAsia', href: '/bmasia' },
-    { label: 'DJ Music Design', href: '/dj-music-design' },
-    { label: t('applyAsDJ'), href: '/apply' },
+    { label: t('home'), href: '/' },
+    { label: t('about'), href: '/about' },
+    { label: t('faq'), href: '/faq' },
+    { label: t('contact'), href: '/contact' },
   ];
 
   useEffect(() => {

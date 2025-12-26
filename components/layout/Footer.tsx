@@ -13,9 +13,9 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-12 lg:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Company Info */}
-            <div className="lg:col-span-2">
+            <div>
               <div className="flex items-center mb-4">
                 <span className="text-2xl font-playfair font-bold text-pure-white">Bright Ears</span>
               </div>
@@ -60,58 +60,10 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Quick Links */}
+            {/* Company Links */}
             <div>
               <h4 className="text-lg font-playfair font-semibold text-pure-white mb-6">{t('links')}</h4>
               <ul className="space-y-4">
-                <li>
-                  <Link
-                    href="/artists"
-                    className="text-pure-white/70 hover:text-pure-white transition-colors"
-                  >
-                    {t('browseArtists')}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/how-it-works"
-                    className="text-pure-white/70 hover:text-pure-white transition-colors"
-                  >
-                    {t('howItWorks')}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/corporate"
-                    className="text-pure-white/70 hover:text-pure-white transition-colors"
-                  >
-                    {t('corporate')}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/bmasia"
-                    className="text-pure-white/70 hover:text-pure-white transition-colors"
-                  >
-                    BMAsia
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dj-music-design"
-                    className="text-pure-white/70 hover:text-pure-white transition-colors"
-                  >
-                    DJ Music Design
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/faq"
-                    className="text-pure-white/70 hover:text-pure-white transition-colors"
-                  >
-                    {t('faq')}
-                  </Link>
-                </li>
                 <li>
                   <Link
                     href="/about"
@@ -128,27 +80,12 @@ export default function Footer() {
                     {t('contact')}
                   </Link>
                 </li>
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h4 className="text-lg font-playfair font-semibold text-pure-white mb-6">{t('legal')}</h4>
-              <ul className="space-y-4">
                 <li>
                   <Link
-                    href="/terms"
+                    href="/faq"
                     className="text-pure-white/70 hover:text-pure-white transition-colors"
                   >
-                    {t('terms')}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/privacy"
-                    className="text-pure-white/70 hover:text-pure-white transition-colors"
-                  >
-                    {t('privacy')}
+                    {t('faq')}
                   </Link>
                 </li>
               </ul>
@@ -189,18 +126,10 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-earthy-brown py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between">
+          <div className="flex flex-col items-center justify-center">
             <p className="text-pure-white/70 text-sm">
               {t('copyright')}
             </p>
-            <div className="mt-4 md:mt-0 flex space-x-6 text-sm text-pure-white/70">
-              <Link href="/terms" className="hover:text-pure-white transition-colors">
-                {t('terms')}
-              </Link>
-              <Link href="/privacy" className="hover:text-pure-white transition-colors">
-                {t('privacy')}
-              </Link>
-            </div>
           </div>
         </div>
       </div>

@@ -20,6 +20,9 @@
   },
   "nav": {
     "home": "Home",
+    "about": "About",
+    "faq": "FAQ",
+    "contact": "Contact",
     "browseArtists": "Browse Artists",
     "howItWorks": "How It Works",
     "corporate": "Corporate",
@@ -1971,6 +1974,93 @@
       "successMessage": "Thank you! We'll review your project and get back to you within 24 hours with a custom quote and next steps.",
       "submitAnother": "Submit Another Inquiry"
     }
+  },
+  "landing": {
+    "hero": {
+      "headline": "Book Perfect Entertainment For Your Event",
+      "subheadline": "Verified DJs and live entertainment in Bangkok. Professional service, transparent pricing, guaranteed quality.",
+      "cta": "Get in Touch",
+      "stats": {
+        "venues": "Venues",
+        "events": "Events",
+        "rating": "Rating"
+      }
+    },
+    "whatWeDo": {
+      "title": "What We Do",
+      "subtitle": "Complete entertainment solutions for your venue or event",
+      "services": {
+        "djs": {
+          "title": "Professional DJs",
+          "description": "Experienced DJs for clubs, hotels, and events. All genres, verified professionals."
+        },
+        "bands": {
+          "title": "Live Bands",
+          "description": "From acoustic duos to full bands. Perfect for restaurants, hotels, and corporate events."
+        },
+        "atmosphere": {
+          "title": "Atmosphere Design",
+          "description": "Curated playlists and background music packages for your venue's unique vibe."
+        },
+        "corporate": {
+          "title": "Corporate Events",
+          "description": "Professional entertainment for conferences, product launches, and company celebrations."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Simple, fast, and transparent booking process",
+      "steps": {
+        "contact": {
+          "title": "Contact Us",
+          "description": "Tell us about your event via form, LINE, or phone. We respond within 24 hours."
+        },
+        "quote": {
+          "title": "Get a Quote",
+          "description": "Receive a detailed quote with artist options, pricing, and availability."
+        },
+        "enjoy": {
+          "title": "Book & Enjoy",
+          "description": "Confirm your booking and enjoy professional entertainment at your event."
+        }
+      }
+    },
+    "testimonials": {
+      "title": "What Clients Say",
+      "subtitle": "Trusted by Bangkok's leading venues and hotels",
+      "items": {
+        "0": {
+          "quote": "Bright Ears consistently delivers exceptional DJs for our rooftop bar. Their professionalism and music selection are unmatched.",
+          "name": "Somchai Tanaka",
+          "company": "Vertigo Sky Bar, Banyan Tree Bangkok"
+        },
+        "1": {
+          "quote": "We've used Bright Ears for over 50 corporate events. Always reliable, always professional, always perfect.",
+          "name": "Sarah Johnson",
+          "company": "Event Manager, Marriott Marquis Bangkok"
+        },
+        "2": {
+          "quote": "The best entertainment booking platform in Thailand. Fast responses, transparent pricing, and quality artists every time.",
+          "name": "Pim Wattana",
+          "company": "General Manager, W Hotel Bangkok"
+        }
+      }
+    },
+    "clients": {
+      "title": "Trusted By"
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "subtitle": "Ready to book? Have questions? We're here to help.",
+      "linePrompt": "Prefer instant messaging? Contact us on LINE:",
+      "lineMessage": "Hi Bright Ears! I'm interested in booking entertainment for my event.",
+      "responseTime": "We reply within 24 hours"
+    }
+  },
+  "lineContact": {
+    "chat": "Chat on LINE",
+    "cta": "Contact on LINE"
   },
   "contact": {
     "title": "Contact Bright Ears",

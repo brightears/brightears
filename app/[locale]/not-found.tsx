@@ -85,13 +85,13 @@ export default function LocaleNotFound() {
                 </svg>
               </Link>
 
-              {/* Secondary CTA - Browse Artists */}
+              {/* Secondary CTA - About */}
               <Link
-                href="/artists"
+                href="/about"
                 className="group inline-flex items-center justify-center gap-3 bg-white/50 backdrop-blur-sm text-dark-gray border border-gray-300 px-8 py-4 rounded-full hover:bg-white hover:border-brand-cyan transition-all duration-300 font-inter font-semibold hover:scale-105 transform"
               >
                 <UserGroupIcon className="w-5 h-5" />
-                {t('actions.browseArtists')}
+                {t('actions.about')}
                 <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
@@ -105,11 +105,11 @@ export default function LocaleNotFound() {
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
                 <Link
-                  href="/how-it-works"
+                  href="/about"
                   className="inline-flex items-center gap-2 px-4 py-2 text-sm font-inter text-brand-cyan hover:text-deep-teal transition-colors duration-200"
                 >
-                  <MagnifyingGlassIcon className="w-4 h-4" />
-                  {t('quickLinks.howItWorks')}
+                  <UserGroupIcon className="w-4 h-4" />
+                  {t('quickLinks.about')}
                 </Link>
                 <Link
                   href="/faq"

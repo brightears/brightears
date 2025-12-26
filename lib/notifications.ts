@@ -1,5 +1,4 @@
 import { sendArtistInquiryNotification, getUserLocale } from './email-templates'
-import { sendArtistInquirySMS, checkSMSConsent } from './sms'
 import { prisma } from './prisma'
 
 /**
@@ -80,7 +79,6 @@ export async function notifyArtistOfInquiry(
 
     // Check notification preferences
     const emailEnabled = artist.user.emailPreference?.bookingInquiries ?? true
-    const smsEnabled = artist.user.phone && (await checkSMSConsent(artist.user.id))
 
     // Send email notification
     if (emailEnabled && artist.user.email) {
@@ -116,34 +114,9 @@ export async function notifyArtistOfInquiry(
       result.email.error = emailEnabled ? 'No email address' : 'Email notifications disabled'
     }
 
-    // Send SMS notification
-    if (smsEnabled && artist.user.phone) {
-      try {
-        const smsResult = await sendArtistInquirySMS({
-          to: artist.user.phone,
-          customerName: data.customerName,
-          eventType: data.eventType,
-          eventDate: data.eventDate,
-          bookingId: data.bookingId,
-          locale,
-        })
-
-        result.sms.sent = smsResult.success
-        result.sms.messageId = smsResult.messageId
-        result.sms.error = smsResult.error
-
-        if (!smsResult.success) {
-          result.errors.push(`SMS failed: ${smsResult.error}`)
-        }
-      } catch (error) {
-        const errorMsg = error instanceof Error ? error.message : 'Unknown SMS error'
-        result.sms.error = errorMsg
-        result.errors.push(`SMS exception: ${errorMsg}`)
-      }
-    } else {
-      result.sms.sent = false
-      result.sms.error = smsEnabled ? 'No phone number' : 'SMS notifications disabled'
-    }
+    // SMS notifications disabled for landing page
+    result.sms.sent = false
+    result.sms.error = 'SMS notifications not available'
 
     // Consider success if at least one notification method succeeded
     result.success = result.email.sent || result.sms.sent
@@ -286,7 +259,6 @@ export async function notifyCustomerOfQuote({
 
     // Check if customer wants quote notifications
     const emailEnabled = customer.emailPreference?.quoteUpdates ?? true
-    const smsEnabled = customer.phone && (await checkSMSConsent(customerId))
 
     // Send email (implementation would use existing email templates)
     if (emailEnabled && customer.email) {
@@ -294,25 +266,9 @@ export async function notifyCustomerOfQuote({
       result.email.sent = true
     }
 
-    // Send SMS
-    if (smsEnabled && customer.phone) {
-      const { generateQuoteReceivedSMS } = await import('./sms')
-      const smsTemplate = generateQuoteReceivedSMS({
-        artistName: artist.stageName,
-        eventType: 'Event', // Would get from booking
-        price: quotedPrice,
-        currency,
-        bookingId,
-        locale,
-      })
-
-      const { sendSMS } = await import('./sms')
-      const smsResult = await sendSMS(customer.phone, smsTemplate.message)
-
-      result.sms.sent = smsResult.success
-      result.sms.messageId = smsResult.messageId
-      result.sms.error = smsResult.error
-    }
+    // SMS notifications disabled for landing page
+    result.sms.sent = false
+    result.sms.error = 'SMS notifications not available'
 
     result.success = result.email.sent || result.sms.sent
 
