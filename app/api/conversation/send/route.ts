@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: "Message is required",
-          response: "The silence listens... but heard no words"
+          response: "Please enter a message."
         },
         { status: 400 }
       );
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: "Message cannot be empty",
-          response: "The void echoes... speak into the resonance"
+          response: "Please enter a message."
         },
         { status: 400 }
       );
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: "Message too long (max 500 characters)",
-          response: "Brevity sharpens vision... try fewer words"
+          response: "Message too long. Please keep it under 500 characters."
         },
         { status: 400 }
       );
@@ -75,13 +75,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: "Rate limit exceeded",
-          response: "The voices are silent... try asking again in a moment"
+          response: "Too many requests. Please wait a moment and try again."
         },
         { status: 429 }
       );
     }
 
-    // Generate mystical response from Gemini
+    // Generate AI response from Gemini
     const aiResponse = await generateMysticalResponse(
       trimmedMessage,
       conversationHistory
@@ -96,11 +96,11 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error("Conversation API error:", error);
 
-    // Return graceful error with mystical message
+    // Return graceful error with professional message
     return NextResponse.json(
       {
         error: "Internal server error",
-        response: "The resonance falters... breathe and try once more"
+        response: "Something went wrong. Let's try that again."
       },
       { status: 500 }
     );

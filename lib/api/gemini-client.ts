@@ -51,7 +51,7 @@ export async function generateMysticalResponse(
   systemPrompt?: string
 ): Promise<string> {
   if (!genAI) {
-    return "The voices are silent... (API key not configured)";
+    return "Chat is currently unavailable. Please try again later.";
   }
 
   try {
@@ -68,7 +68,7 @@ export async function generateMysticalResponse(
     // Build conversation history with system prompt
     const history: Message[] = [
       { role: "user", parts: [{ text: prompt }] },
-      { role: "model", parts: [{ text: "I understand. I will respond with cryptic, poetic questions using synesthetic metaphors. I will never use therapeutic language." }] },
+      { role: "model", parts: [{ text: "I understand. I will guide venue owners through discovering their ideal atmosphere using the 5-stage conversation flow." }] },
       ...conversationHistory
     ];
 
@@ -88,17 +88,17 @@ export async function generateMysticalResponse(
   } catch (error: any) {
     console.error("Gemini API error:", error);
 
-    // Graceful error handling with mystical messages
+    // Graceful error handling with professional messages
     if (error.status === 429 || error.message?.includes("quota")) {
-      return "The voices are silent... try asking again in a moment";
+      return "Too many requests. Please wait a moment and try again.";
     }
 
     if (error.message?.includes("SAFETY")) {
-      return "The resonance shifts... ask from a different angle";
+      return "Let's try a different direction.";
     }
 
     // Generic error
-    return "The resonance falters... breathe and try once more";
+    return "Something went wrong. Let's try that again.";
   }
 }
 
