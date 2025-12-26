@@ -17,8 +17,7 @@ import {
   SparklesIcon,
   ChatBubbleLeftRightIcon,
   DocumentTextIcon,
-  CheckCircleIcon,
-  StarIcon
+  CheckCircleIcon
 } from '@heroicons/react/24/outline';
 
 export async function generateMetadata({
@@ -204,7 +203,7 @@ export default async function HomePage({
             {/* Steps */}
             <div className="relative">
               {/* Timeline line */}
-              <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-20 bottom-20 w-1 bg-brand-cyan/30" />
+              <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-[60px] bottom-[60px] w-0.5 bg-brand-cyan/20" />
 
               <div className="space-y-16">
                 {/* Step 1 */}
@@ -265,81 +264,6 @@ export default async function HomePage({
                       <CheckCircleIcon className="w-10 h-10 text-soft-lavender" />
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonials Section */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal text-center mb-4">
-              {t('landing.testimonials.title')}
-            </h2>
-            <p className="font-inter text-xl text-gray-600 text-center mb-16 max-w-2xl mx-auto">
-              {t('landing.testimonials.subtitle')}
-            </p>
-
-            {/* Testimonials Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Testimonial 1 */}
-              <div className="card-modern p-8">
-                <div className="flex gap-1 mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <StarIcon key={star} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="font-inter text-gray-700 mb-6 italic">
-                  "{t('landing.testimonials.items.0.quote')}"
-                </p>
-                <div className="border-t border-gray-200 pt-4">
-                  <p className="font-inter font-semibold text-deep-teal">
-                    {t('landing.testimonials.items.0.name')}
-                  </p>
-                  <p className="font-inter text-sm text-gray-500">
-                    {t('landing.testimonials.items.0.company')}
-                  </p>
-                </div>
-              </div>
-
-              {/* Testimonial 2 */}
-              <div className="card-modern p-8">
-                <div className="flex gap-1 mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <StarIcon key={star} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="font-inter text-gray-700 mb-6 italic">
-                  "{t('landing.testimonials.items.1.quote')}"
-                </p>
-                <div className="border-t border-gray-200 pt-4">
-                  <p className="font-inter font-semibold text-deep-teal">
-                    {t('landing.testimonials.items.1.name')}
-                  </p>
-                  <p className="font-inter text-sm text-gray-500">
-                    {t('landing.testimonials.items.1.company')}
-                  </p>
-                </div>
-              </div>
-
-              {/* Testimonial 3 */}
-              <div className="card-modern p-8">
-                <div className="flex gap-1 mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <StarIcon key={star} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="font-inter text-gray-700 mb-6 italic">
-                  "{t('landing.testimonials.items.2.quote')}"
-                </p>
-                <div className="border-t border-gray-200 pt-4">
-                  <p className="font-inter font-semibold text-deep-teal">
-                    {t('landing.testimonials.items.2.name')}
-                  </p>
-                  <p className="font-inter text-sm text-gray-500">
-                    {t('landing.testimonials.items.2.company')}
-                  </p>
                 </div>
               </div>
             </div>

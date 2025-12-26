@@ -162,46 +162,28 @@ const Header: React.FC = () => {
               </div>
 
               {/* Authentication Buttons */}
-              {isLoaded && (
-                <>
-                  {user ? (
-                    <div className="hidden sm:flex items-center gap-3">
-                      <Link
-                        href="/dashboard"
-                        className={`px-4 py-2 rounded-xl transition-all duration-300 ${
-                          isScrolled
-                            ? 'text-dark-gray hover:text-brand-cyan'
-                            : 'text-white hover:text-brand-cyan'
-                        }`}
-                        aria-label={t('dashboard')}
-                      >
-                        {t('dashboard')}
-                      </Link>
-                      <UserButton
-                        afterSignOutUrl="/"
-                        appearance={{
-                          elements: {
-                            avatarBox: "w-10 h-10"
-                          }
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <div className="hidden sm:flex items-center gap-3">
-                      <Link
-                        href="/sign-in"
-                        className={`px-4 py-2 rounded-xl transition-all duration-300 font-inter ${
-                          isScrolled
-                            ? 'text-dark-gray hover:text-brand-cyan'
-                            : 'text-white hover:text-brand-cyan'
-                        }`}
-                        aria-label={t('signIn')}
-                      >
-                        {t('signIn')}
-                      </Link>
-                    </div>
-                  )}
-                </>
+              {isLoaded && user && (
+                <div className="hidden sm:flex items-center gap-3">
+                  <Link
+                    href="/dashboard"
+                    className={`px-4 py-2 rounded-xl transition-all duration-300 ${
+                      isScrolled
+                        ? 'text-dark-gray hover:text-brand-cyan'
+                        : 'text-white hover:text-brand-cyan'
+                    }`}
+                    aria-label={t('dashboard')}
+                  >
+                    {t('dashboard')}
+                  </Link>
+                  <UserButton
+                    afterSignOutUrl="/"
+                    appearance={{
+                      elements: {
+                        avatarBox: "w-10 h-10"
+                      }
+                    }}
+                  />
+                </div>
               )}
 
               {/* Mobile Menu Toggle - WCAG 4.1.2 (A) */}
@@ -273,18 +255,8 @@ const Header: React.FC = () => {
             <div className="border-t border-white/10 my-4"></div>
 
             {/* Mobile CTAs */}
-            <div className="space-y-3">
-              {!user && (
-                <Link
-                  href="/sign-in"
-                  onClick={handleMobileMenuClose}
-                  className="w-full px-6 py-3 bg-white/10 border border-white/20 text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:bg-white/20 text-center block"
-                  aria-label={t('signIn')}
-                >
-                  {t('signIn')}
-                </Link>
-              )}
-              {user && (
+            {user && (
+              <div className="space-y-3">
                 <Link
                   href="/dashboard"
                   onClick={handleMobileMenuClose}
@@ -293,8 +265,8 @@ const Header: React.FC = () => {
                 >
                   {t('dashboard')}
                 </Link>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </nav>
       </div>
