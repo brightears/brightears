@@ -56,7 +56,7 @@ export default async function HomePage({
   ];
 
   return (
-    <main className="min-h-screen bg-luxury-black flex flex-col">
+    <main className="min-h-screen flex flex-col" style={{ backgroundColor: '#0a0a0a' }}>
       {/* Navigation - Minimal */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
