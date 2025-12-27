@@ -2,13 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { SparklesIcon } from '@heroicons/react/24/outline';
-import ChatWidget from '@/components/chat/ChatWidget';
 
 export default function HeroSection() {
   const t = useTranslations();
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
-  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -51,24 +48,14 @@ export default function HeroSection() {
           {t('landing.hero.subheadline')}
         </p>
 
-        {/* CTA Buttons - Side by Side */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-          {/* Primary CTA - Get in Touch */}
+        {/* CTA Button */}
+        <div className="flex items-center justify-center mb-12">
           <a
             href="#contact"
             className="inline-block px-10 py-5 bg-white text-deep-teal font-inter font-bold text-lg rounded-full shadow-2xl hover:shadow-brand-cyan/50 hover:scale-105 transition-all duration-300"
           >
             {t('landing.hero.cta')}
           </a>
-
-          {/* Secondary CTA - Create Your Atmosphere */}
-          <button
-            onClick={() => setIsChatOpen(true)}
-            className="inline-flex items-center gap-2 px-8 py-5 bg-transparent border-2 border-white/70 text-white font-inter font-semibold text-lg rounded-full hover:bg-white/10 hover:border-white hover:scale-105 transition-all duration-300 backdrop-blur-sm"
-          >
-            <SparklesIcon className="w-5 h-5" />
-            {t('landing.hero.createAtmosphere')}
-          </button>
         </div>
 
         {/* Trust Stats */}
@@ -87,13 +74,6 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-
-      {/* Chat Widget - controlled externally, no FAB */}
-      <ChatWidget
-        showFAB={false}
-        isOpen={isChatOpen}
-        onClose={() => setIsChatOpen(false)}
-      />
     </section>
   );
 }
