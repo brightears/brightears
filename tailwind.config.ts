@@ -14,14 +14,15 @@ const config: Config = {
         'noto-thai': ['var(--font-noto-thai)', 'sans-serif'],
       },
       colors: {
-        // NEW EARTH-TONE PALETTE (professionally analyzed)
-        'brand-cyan': '#00bbe4',      // Brand Cyan (Primary/Action) - CTAs, links, headlines, icons
-        'deep-teal': '#2f6364',       // Deep Teal (Secondary/Anchor) - dark backgrounds, footers, body text
-        'earthy-brown': '#a47764',    // Earthy Brown/Taupe (Accent/Warmth) - secondary buttons, cards, info boxes
-        'soft-lavender': '#d59ec9',   // Soft Lavender (Highlight) - badges, tags, special callouts (use sparingly)
-        'off-white': '#f7f7f7',       // Off-white (backgrounds)
-        'dark-gray': '#333333',       // Dark Gray (text)
-        'pure-white': '#ffffff',      // Pure white (for cards on dark backgrounds)
+        // LUXURY MINIMAL PALETTE
+        'luxury-black': '#0a0a0a',    // Near-black for luxury backgrounds
+        'brand-cyan': '#00bbe4',      // Brand Cyan - use with opacity for luxury feel
+        'deep-teal': '#2f6364',       // Deep Teal (Secondary/Anchor)
+        'earthy-brown': '#a47764',    // Earthy Brown/Taupe
+        'soft-lavender': '#d59ec9',   // Soft Lavender (sparingly)
+        'off-white': '#f7f7f7',       // Off-white
+        'dark-gray': '#333333',       // Dark Gray
+        'pure-white': '#ffffff',      // Pure white
         
         // Keep these standard overrides for system compatibility
         background: {

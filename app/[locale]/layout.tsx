@@ -4,8 +4,6 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n.config';
 import { Inter, Playfair_Display, Noto_Sans_Thai } from 'next/font/google';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import '../globals.css';
 
 const inter = Inter({
@@ -119,23 +117,10 @@ export default async function LocaleLayout({
       className={`${inter.variable} ${playfairDisplay.variable} ${notoSansThai.variable}`}
       suppressHydrationWarning
     >
-      <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased bg-off-white`}>
+      <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased`}>
         <ClerkProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
-            <div className="relative min-h-screen flex flex-col">
-              {/* Fixed Header with consistent styling */}
-              <Header />
-
-              {/* Main content area with proper spacing for fixed header - WCAG 2.4.1 (A) */}
-              <main id="main-content" tabIndex={-1} className="flex-1 pt-[72px] md:pt-[80px]">
-                {/* Subtle background gradient for entire app */}
-                <div className="fixed inset-0 -z-10 bg-gradient-to-br from-off-white via-pure-white to-brand-cyan/5" />
-
-                {children}
-              </main>
-
-              <Footer />
-            </div>
+            {children}
           </NextIntlClientProvider>
         </ClerkProvider>
       </body>
