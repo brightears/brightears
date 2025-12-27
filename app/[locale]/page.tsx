@@ -46,28 +46,46 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
 
-  // Venue placeholder names for grayscale logos
-  const venues = [
-    'Four Seasons',
-    'Mandarin Oriental',
-    'The Peninsula',
-    'Capella',
-    'Rosewood',
-  ];
-
   return (
-    <main className="min-h-screen flex flex-col" style={{ backgroundColor: '#0a0a0a' }}>
+    <main className="min-h-screen flex flex-col relative overflow-hidden" style={{ backgroundColor: '#0a0a0a' }}>
+      {/* Ambient Background - Subtle radial gradients for depth */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Primary ambient glow - very subtle cyan */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-[0.03]"
+          style={{
+            background: 'radial-gradient(circle, #00bbe4 0%, transparent 70%)',
+          }}
+        />
+        {/* Secondary ambient - warm undertone */}
+        <div
+          className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full opacity-[0.02]"
+          style={{
+            background: 'radial-gradient(circle, #a47764 0%, transparent 70%)',
+          }}
+        />
+        {/* Subtle vignette for cinematic feel */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%)',
+          }}
+        />
+      </div>
+
       {/* Navigation - Minimal */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo - crisp rendering */}
           <Image
             src="/logo.png"
             alt="Bright Ears"
-            width={120}
-            height={40}
+            width={512}
+            height={514}
             className="h-8 w-auto opacity-90"
+            quality={100}
             priority
+            unoptimized
           />
 
           {/* Contact Link */}
@@ -81,61 +99,56 @@ export default async function HomePage({
       </nav>
 
       {/* Hero - Centered, Full Viewport */}
-      <section className="flex-1 flex flex-col items-center justify-center px-8 py-24">
-        {/* Large Logo */}
-        <div className="mb-12">
+      <section className="flex-1 flex flex-col items-center justify-center px-8 py-24 relative z-10">
+        {/* Large Logo - crisp at any size */}
+        <div className="mb-16">
           <Image
             src="/logo.png"
             alt="Bright Ears"
-            width={280}
-            height={93}
-            className="h-20 md:h-24 w-auto"
+            width={512}
+            height={514}
+            className="h-24 md:h-32 lg:h-36 w-auto"
+            quality={100}
             priority
+            unoptimized
           />
         </div>
 
-        {/* Tagline */}
-        <h1 className="font-inter text-2xl md:text-3xl lg:text-4xl text-white font-light tracking-[0.2em] text-center mb-16">
+        {/* Tagline - refined typography */}
+        <h1 className="font-inter text-xl md:text-2xl lg:text-3xl text-white/90 font-extralight tracking-[0.25em] text-center mb-20 uppercase">
           20 years. One standard.
         </h1>
 
-        {/* Venue Logos - Grayscale Placeholders */}
-        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 mb-16 max-w-4xl">
-          {venues.map((venue) => (
-            <div
-              key={venue}
-              className="h-6 md:h-8 px-4 flex items-center justify-center"
-            >
-              <span className="font-inter text-xs md:text-sm text-white/40 tracking-[0.15em] uppercase whitespace-nowrap">
-                {venue}
-              </span>
-            </div>
-          ))}
-        </div>
+        {/* Subtle divider line */}
+        <div className="w-16 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent mb-20" />
 
         {/* Contact Buttons */}
-        <div id="contact" className="flex flex-col sm:flex-row items-center gap-4">
+        <div id="contact" className="flex flex-col sm:flex-row items-center gap-6">
           <a
             href="mailto:info@brightears.io"
-            className="group px-8 py-3 border border-brand-cyan/60 text-brand-cyan/80 hover:text-brand-cyan hover:border-brand-cyan rounded-none font-inter text-sm tracking-[0.15em] uppercase transition-all duration-300"
+            className="group relative px-10 py-4 border border-white/20 hover:border-white/40 text-white/70 hover:text-white font-inter text-sm tracking-[0.2em] uppercase transition-all duration-500 overflow-hidden"
           >
-            Email
+            {/* Hover fill effect */}
+            <span className="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+            <span className="relative">Email</span>
           </a>
           <a
             href="https://line.me/R/ti/p/@brightears"
             target="_blank"
             rel="noopener noreferrer"
-            className="group px-8 py-3 border border-brand-cyan/60 text-brand-cyan/80 hover:text-brand-cyan hover:border-brand-cyan rounded-none font-inter text-sm tracking-[0.15em] uppercase transition-all duration-300"
+            className="group relative px-10 py-4 border border-white/20 hover:border-white/40 text-white/70 hover:text-white font-inter text-sm tracking-[0.2em] uppercase transition-all duration-500 overflow-hidden"
           >
-            LINE
+            {/* Hover fill effect */}
+            <span className="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+            <span className="relative">LINE</span>
           </a>
         </div>
       </section>
 
       {/* Footer - Minimal */}
-      <footer className="px-8 py-6">
-        <p className="text-center font-inter text-xs text-white/30 tracking-widest">
-          © 2025 Bright Ears
+      <footer className="px-8 py-8 relative z-10">
+        <p className="text-center font-inter text-xs text-white/25 tracking-[0.2em] uppercase">
+          &copy; 2025 Bright Ears
         </p>
       </footer>
     </main>
