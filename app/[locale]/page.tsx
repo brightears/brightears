@@ -11,11 +11,7 @@ import Image from 'next/image';
 import LineContactButton from '@/components/buttons/LineContactButton';
 import ContactForm from '@/app/components/ContactForm';
 import HeroSection from '@/components/home/HeroSection';
-import {
-  ChatBubbleLeftRightIcon,
-  DocumentTextIcon,
-  CheckCircleIcon
-} from '@heroicons/react/24/outline';
+// Icons are now custom SVGs inline
 
 export async function generateMetadata({
   params
@@ -210,68 +206,54 @@ export default async function HomePage({
               {t('landing.howItWorks.subtitle')}
             </p>
 
-            {/* Steps */}
-            <div className="relative">
-              <div className="space-y-16">
-                {/* Step 1 */}
-                <div className="flex flex-col md:flex-row items-center gap-8">
-                  <div className="md:flex-1 md:text-right">
-                    <h3 className="font-playfair text-2xl font-bold text-white mb-3">
-                      {t('landing.howItWorks.steps.contact.title')}
-                    </h3>
-                    <p className="font-inter text-white/70">
-                      {t('landing.howItWorks.steps.contact.description')}
-                    </p>
-                  </div>
-                  <div className="relative z-10 w-20 h-20 bg-brand-cyan rounded-full flex items-center justify-center shadow-xl ring-4 ring-brand-cyan/30">
-                    <span className="text-3xl font-playfair font-bold text-white">1</span>
-                  </div>
-                  <div className="md:flex-1">
-                    <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/20">
-                      <ChatBubbleLeftRightIcon className="w-10 h-10 text-brand-cyan" />
-                    </div>
-                  </div>
+            {/* Steps - Minimal 3-column grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-4xl mx-auto">
+              {/* Step 1 - Contact */}
+              <div className="text-center">
+                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-4">01</span>
+                <div className="w-10 h-10 mx-auto mb-4 text-white/70">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full">
+                    <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
+                <h3 className="font-playfair text-xl font-semibold text-white mb-2">
+                  {t('landing.howItWorks.steps.contact.title')}
+                </h3>
+                <p className="font-inter text-sm text-white/60 max-w-xs mx-auto">
+                  {t('landing.howItWorks.steps.contact.description')}
+                </p>
+              </div>
 
-                {/* Step 2 */}
-                <div className="flex flex-col md:flex-row items-center gap-8">
-                  <div className="md:flex-1 md:text-right md:order-2">
-                    <h3 className="font-playfair text-2xl font-bold text-white mb-3">
-                      {t('landing.howItWorks.steps.quote.title')}
-                    </h3>
-                    <p className="font-inter text-white/70">
-                      {t('landing.howItWorks.steps.quote.description')}
-                    </p>
-                  </div>
-                  <div className="relative z-10 w-20 h-20 bg-earthy-brown rounded-full flex items-center justify-center shadow-xl ring-4 ring-earthy-brown/30 md:order-1">
-                    <span className="text-3xl font-playfair font-bold text-white">2</span>
-                  </div>
-                  <div className="md:flex-1 md:order-3">
-                    <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/20">
-                      <DocumentTextIcon className="w-10 h-10 text-earthy-brown" />
-                    </div>
-                  </div>
+              {/* Step 2 - Quote */}
+              <div className="text-center">
+                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-4">02</span>
+                <div className="w-10 h-10 mx-auto mb-4 text-white/70">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full">
+                    <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
+                <h3 className="font-playfair text-xl font-semibold text-white mb-2">
+                  {t('landing.howItWorks.steps.quote.title')}
+                </h3>
+                <p className="font-inter text-sm text-white/60 max-w-xs mx-auto">
+                  {t('landing.howItWorks.steps.quote.description')}
+                </p>
+              </div>
 
-                {/* Step 3 */}
-                <div className="flex flex-col md:flex-row items-center gap-8">
-                  <div className="md:flex-1 md:text-right">
-                    <h3 className="font-playfair text-2xl font-bold text-white mb-3">
-                      {t('landing.howItWorks.steps.enjoy.title')}
-                    </h3>
-                    <p className="font-inter text-white/70">
-                      {t('landing.howItWorks.steps.enjoy.description')}
-                    </p>
-                  </div>
-                  <div className="relative z-10 w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl ring-4 ring-white/30">
-                    <span className="text-3xl font-playfair font-bold text-deep-teal">3</span>
-                  </div>
-                  <div className="md:flex-1">
-                    <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/20">
-                      <CheckCircleIcon className="w-10 h-10 text-white" />
-                    </div>
-                  </div>
+              {/* Step 3 - Enjoy */}
+              <div className="text-center">
+                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-4">03</span>
+                <div className="w-10 h-10 mx-auto mb-4 text-white/70">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
+                <h3 className="font-playfair text-xl font-semibold text-white mb-2">
+                  {t('landing.howItWorks.steps.enjoy.title')}
+                </h3>
+                <p className="font-inter text-sm text-white/60 max-w-xs mx-auto">
+                  {t('landing.howItWorks.steps.enjoy.description')}
+                </p>
               </div>
             </div>
           </div>
