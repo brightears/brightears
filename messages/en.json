@@ -1992,20 +1992,16 @@
       "subtitle": "Complete entertainment solutions for your venue or event",
       "services": {
         "djs": {
-          "title": "Professional DJs",
-          "description": "Experienced DJs for clubs, hotels, and events. 120-140 BPM sets proven to increase dance floor engagement."
+          "title": "DJs",
+          "description": "Transform your venue's energy with the perfect soundtrack. From hotel lounges to high-energy events, we match you with DJs who understand your space."
         },
         "bands": {
           "title": "Live Bands",
-          "description": "From acoustic duos to full bands. Live music shown to increase venue dwell time by 23%."
+          "description": "Nothing beats live music. Acoustic duos to full bands—we find performers who elevate your event and keep guests talking."
         },
-        "atmosphere": {
-          "title": "Atmosphere Design",
-          "description": "Curated playlists at optimal 60-80 BPM. 2700K ambient lighting recommendations included."
-        },
-        "corporate": {
-          "title": "Corporate Events",
-          "description": "Professional entertainment for conferences. Strategic sound design boosts audience engagement 31%."
+        "backgroundMusic": {
+          "title": "Background Music",
+          "description": "Curated playlists designed for your space. Set the mood without the complexity. Powered by BMAsia."
         }
       }
     },

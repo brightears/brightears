@@ -12,9 +12,6 @@ import LineContactButton from '@/components/buttons/LineContactButton';
 import ContactForm from '@/app/components/ContactForm';
 import HeroSection from '@/components/home/HeroSection';
 import {
-  MusicalNoteIcon,
-  UserGroupIcon,
-  SparklesIcon,
   ChatBubbleLeftRightIcon,
   DocumentTextIcon,
   CheckCircleIcon
@@ -137,12 +134,17 @@ export default async function HomePage({
               {t('landing.whatWeDo.subtitle')}
             </p>
 
-            {/* Service Cards - Glass morphism on dark */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {/* DJs */}
+            {/* Service Cards - 3 cards with custom SVG icons */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {/* DJs - Vinyl Record Icon */}
               <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 group hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1">
                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-brand-cyan to-deep-teal rounded-full flex items-center justify-center ring-4 ring-brand-cyan/20 group-hover:ring-brand-cyan/40 transition-all">
-                  <MusicalNoteIcon className="w-8 h-8 text-white" />
+                  <svg className="w-8 h-8 text-white" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="2"/>
+                    <circle cx="16" cy="16" r="5" stroke="currentColor" strokeWidth="2"/>
+                    <circle cx="16" cy="16" r="2" fill="currentColor"/>
+                    <path d="M16 2C16 2 20 8 20 16C20 24 16 30 16 30" stroke="currentColor" strokeWidth="1" opacity="0.4"/>
+                  </svg>
                 </div>
                 <h3 className="font-playfair text-2xl font-bold text-white mb-3">
                   {t('landing.whatWeDo.services.djs.title')}
@@ -152,10 +154,15 @@ export default async function HomePage({
                 </p>
               </div>
 
-              {/* Live Bands */}
+              {/* Live Bands - Microphone Icon */}
               <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 group hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1">
                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-earthy-brown to-deep-teal rounded-full flex items-center justify-center ring-4 ring-earthy-brown/20 group-hover:ring-earthy-brown/40 transition-all">
-                  <UserGroupIcon className="w-8 h-8 text-white" />
+                  <svg className="w-8 h-8 text-white" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="11" y="2" width="10" height="16" rx="5" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M6 14C6 14 6 22 16 22C26 22 26 14 26 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M16 22V28" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M10 28H22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
                 </div>
                 <h3 className="font-playfair text-2xl font-bold text-white mb-3">
                   {t('landing.whatWeDo.services.bands.title')}
@@ -165,29 +172,24 @@ export default async function HomePage({
                 </p>
               </div>
 
-              {/* Atmosphere Design */}
+              {/* Background Music - Sound Wave Icon */}
               <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 group hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1">
                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-deep-teal to-brand-cyan rounded-full flex items-center justify-center ring-4 ring-deep-teal/20 group-hover:ring-deep-teal/40 transition-all">
-                  <SparklesIcon className="w-8 h-8 text-white" />
+                  <svg className="w-8 h-8 text-white" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 16H4.01" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+                    <path d="M8 12V20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M12 8V24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M16 4V28" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M20 8V24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M24 12V20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M28 16H28.01" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+                  </svg>
                 </div>
                 <h3 className="font-playfair text-2xl font-bold text-white mb-3">
-                  {t('landing.whatWeDo.services.atmosphere.title')}
+                  {t('landing.whatWeDo.services.backgroundMusic.title')}
                 </h3>
                 <p className="font-inter text-stone-400">
-                  {t('landing.whatWeDo.services.atmosphere.description')}
-                </p>
-              </div>
-
-              {/* Corporate Events */}
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 group hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1">
-                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-deep-teal to-earthy-brown rounded-full flex items-center justify-center ring-4 ring-deep-teal/20 group-hover:ring-deep-teal/40 transition-all">
-                  <UserGroupIcon className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="font-playfair text-2xl font-bold text-white mb-3">
-                  {t('landing.whatWeDo.services.corporate.title')}
-                </h3>
-                <p className="font-inter text-stone-400">
-                  {t('landing.whatWeDo.services.corporate.description')}
+                  {t('landing.whatWeDo.services.backgroundMusic.description')}
                 </p>
               </div>
             </div>
