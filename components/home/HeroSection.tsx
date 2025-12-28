@@ -49,7 +49,7 @@ export default function HeroSection() {
         </p>
 
         {/* CTA Button */}
-        <div className="flex items-center justify-center mb-12">
+        <div className="flex items-center justify-center mb-16">
           <a
             href="#contact"
             className="inline-block px-10 py-5 bg-white text-deep-teal font-inter font-bold text-lg rounded-full shadow-2xl hover:shadow-brand-cyan/50 hover:scale-105 transition-all duration-300"
@@ -58,21 +58,34 @@ export default function HeroSection() {
           </a>
         </div>
 
-        {/* Trust Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto mt-16">
-          <div className="glass-strong rounded-2xl p-6 backdrop-blur-lg">
-            <div className="text-4xl font-playfair font-bold text-white mb-2">500+</div>
-            <div className="text-white/80 font-inter">{t('landing.hero.stats.venues')}</div>
-          </div>
-          <div className="glass-strong rounded-2xl p-6 backdrop-blur-lg">
-            <div className="text-4xl font-playfair font-bold text-white mb-2">10,000+</div>
-            <div className="text-white/80 font-inter">{t('landing.hero.stats.events')}</div>
-          </div>
-          <div className="glass-strong rounded-2xl p-6 backdrop-blur-lg">
-            <div className="text-4xl font-playfair font-bold text-white mb-2">4.9★</div>
-            <div className="text-white/80 font-inter">{t('landing.hero.stats.rating')}</div>
-          </div>
+        {/* Audio Equalizer Visualization */}
+        <div className="flex items-end justify-center gap-1 h-16 mt-8">
+          {[...Array(24)].map((_, i) => (
+            <div
+              key={i}
+              className="w-1 bg-white/40 rounded-full"
+              style={{
+                height: `${20 + Math.sin(i * 0.5) * 15 + Math.cos(i * 0.3) * 10}%`,
+                animation: `equalizer ${0.8 + (i % 5) * 0.2}s ease-in-out infinite alternate`,
+                animationDelay: `${i * 0.05}s`,
+              }}
+            />
+          ))}
         </div>
+
+        {/* Inline keyframes for equalizer animation */}
+        <style jsx>{`
+          @keyframes equalizer {
+            0% {
+              height: 20%;
+              opacity: 0.3;
+            }
+            100% {
+              height: 80%;
+              opacity: 0.6;
+            }
+          }
+        `}</style>
       </div>
     </section>
   );
