@@ -210,12 +210,7 @@ export default async function HomePage({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-4xl mx-auto">
               {/* Step 1 - Contact */}
               <div className="text-center">
-                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-4">01</span>
-                <div className="w-10 h-10 mx-auto mb-4 text-white/70">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full">
-                    <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
+                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-6">01</span>
                 <h3 className="font-playfair text-xl font-semibold text-white mb-2">
                   {t('landing.howItWorks.steps.contact.title')}
                 </h3>
@@ -226,12 +221,7 @@ export default async function HomePage({
 
               {/* Step 2 - Quote */}
               <div className="text-center">
-                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-4">02</span>
-                <div className="w-10 h-10 mx-auto mb-4 text-white/70">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full">
-                    <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
+                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-6">02</span>
                 <h3 className="font-playfair text-xl font-semibold text-white mb-2">
                   {t('landing.howItWorks.steps.quote.title')}
                 </h3>
@@ -242,12 +232,7 @@ export default async function HomePage({
 
               {/* Step 3 - Enjoy */}
               <div className="text-center">
-                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-4">03</span>
-                <div className="w-10 h-10 mx-auto mb-4 text-white/70">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full">
-                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
+                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-6">03</span>
                 <h3 className="font-playfair text-xl font-semibold text-white mb-2">
                   {t('landing.howItWorks.steps.enjoy.title')}
                 </h3>
