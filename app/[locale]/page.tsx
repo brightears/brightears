@@ -123,69 +123,70 @@ export default async function HomePage({
         {/* Hero Section with Mouse Tracking */}
         <HeroSection />
 
-        {/* What We Do Section - Warm cream background */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-stone-50 to-stone-100 relative overflow-hidden">
+        {/* What We Do Section - Sophisticated dark background */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-stone-800 via-stone-900 to-stone-800 relative overflow-hidden">
           {/* Subtle decorative orb */}
-          <div className="absolute top-10 right-10 w-64 h-64 bg-brand-cyan/5 rounded-full filter blur-3xl" />
+          <div className="absolute top-10 right-10 w-64 h-64 bg-brand-cyan/10 rounded-full filter blur-3xl" />
+          <div className="absolute bottom-10 left-10 w-48 h-48 bg-earthy-brown/10 rounded-full filter blur-3xl" />
 
           <div className="max-w-7xl mx-auto relative z-10">
-            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal text-center mb-4">
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-white text-center mb-4">
               {t('landing.whatWeDo.title')}
             </h2>
-            <p className="font-inter text-xl text-gray-600 text-center mb-16 max-w-2xl mx-auto">
+            <p className="font-inter text-xl text-stone-300 text-center mb-16 max-w-2xl mx-auto">
               {t('landing.whatWeDo.subtitle')}
             </p>
 
-            {/* Service Cards - Enhanced styling */}
+            {/* Service Cards - Glass morphism on dark */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {/* DJs */}
-              <div className="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-stone-200/50 group hover:-translate-y-1">
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 group hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1">
                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-brand-cyan to-deep-teal rounded-full flex items-center justify-center ring-4 ring-brand-cyan/20 group-hover:ring-brand-cyan/40 transition-all">
                   <MusicalNoteIcon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="font-playfair text-2xl font-bold text-deep-teal mb-3">
+                <h3 className="font-playfair text-2xl font-bold text-white mb-3">
                   {t('landing.whatWeDo.services.djs.title')}
                 </h3>
-                <p className="font-inter text-gray-600">
+                <p className="font-inter text-stone-400">
                   {t('landing.whatWeDo.services.djs.description')}
                 </p>
               </div>
 
               {/* Live Bands */}
-              <div className="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-stone-200/50 group hover:-translate-y-1">
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 group hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1">
                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-earthy-brown to-deep-teal rounded-full flex items-center justify-center ring-4 ring-earthy-brown/20 group-hover:ring-earthy-brown/40 transition-all">
                   <UserGroupIcon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="font-playfair text-2xl font-bold text-deep-teal mb-3">
+                <h3 className="font-playfair text-2xl font-bold text-white mb-3">
                   {t('landing.whatWeDo.services.bands.title')}
                 </h3>
-                <p className="font-inter text-gray-600">
+                <p className="font-inter text-stone-400">
                   {t('landing.whatWeDo.services.bands.description')}
                 </p>
               </div>
 
               {/* Atmosphere Design */}
-              <div className="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-stone-200/50 group hover:-translate-y-1">
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 group hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1">
                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-deep-teal to-brand-cyan rounded-full flex items-center justify-center ring-4 ring-deep-teal/20 group-hover:ring-deep-teal/40 transition-all">
                   <SparklesIcon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="font-playfair text-2xl font-bold text-deep-teal mb-3">
+                <h3 className="font-playfair text-2xl font-bold text-white mb-3">
                   {t('landing.whatWeDo.services.atmosphere.title')}
                 </h3>
-                <p className="font-inter text-gray-600">
+                <p className="font-inter text-stone-400">
                   {t('landing.whatWeDo.services.atmosphere.description')}
                 </p>
               </div>
 
               {/* Corporate Events */}
-              <div className="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-stone-200/50 group hover:-translate-y-1">
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 group hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1">
                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-deep-teal to-earthy-brown rounded-full flex items-center justify-center ring-4 ring-deep-teal/20 group-hover:ring-deep-teal/40 transition-all">
                   <UserGroupIcon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="font-playfair text-2xl font-bold text-deep-teal mb-3">
+                <h3 className="font-playfair text-2xl font-bold text-white mb-3">
                   {t('landing.whatWeDo.services.corporate.title')}
                 </h3>
-                <p className="font-inter text-gray-600">
+                <p className="font-inter text-stone-400">
                   {t('landing.whatWeDo.services.corporate.description')}
                 </p>
               </div>
@@ -274,22 +275,22 @@ export default async function HomePage({
           </div>
         </section>
 
-        {/* Client Logos Section - Warm cream background */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-50 to-stone-100">
+        {/* Client Logos Section - Sophisticated dark background */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-800 to-stone-900">
           <div className="max-w-7xl mx-auto">
-            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal text-center mb-16">
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-white text-center mb-16">
               {t('landing.clients.title')}
             </h2>
 
-            {/* Logo Grid - Improved styling */}
+            {/* Logo Grid - Glass morphism on dark */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
               {[1, 2, 3, 4, 5, 6].map((logo) => (
                 <div
                   key={logo}
-                  className="bg-white rounded-xl shadow-md p-8 flex items-center justify-center h-28 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 border border-stone-100"
+                  className="bg-white/5 backdrop-blur-sm rounded-xl p-8 flex items-center justify-center h-28 hover:bg-white/10 transition-all duration-300 border border-white/10"
                 >
                   {/* Placeholder - subtle styling */}
-                  <div className="w-16 h-8 bg-stone-200 rounded opacity-40" />
+                  <div className="w-16 h-8 bg-white/20 rounded" />
                 </div>
               ))}
             </div>
