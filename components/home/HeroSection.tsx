@@ -59,7 +59,9 @@ export default function HeroSection() {
 
         {/* Subheadline */}
         <p className="font-inter text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10 drop-shadow-md">
-          {t('landing.hero.subheadline')}
+          {t('landing.hero.subheadline1')}
+          <br />
+          {t('landing.hero.subheadline2')}
         </p>
 
         {/* CTA Button */}

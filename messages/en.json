@@ -1978,7 +1978,8 @@
   "landing": {
     "hero": {
       "headline": "20 years. One standard.",
-      "subheadline": "Bangkok's trusted entertainment agency. DJs, bands, and live music for hotels, venues, and corporate events.",
+      "subheadline1": "Bangkok's trusted entertainment agency.",
+      "subheadline2": "DJs, bands, and live music for hotels, venues, and corporate events.",
       "cta": "Get in Touch",
       "createAtmosphere": "Create Your Atmosphere",
       "stats": {
