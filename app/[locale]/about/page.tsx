@@ -194,30 +194,37 @@ export default async function AboutPage({
         </section>
 
         {/* What You Get - Features & Benefits */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-off-white to-white">
-          <div className="max-w-6xl mx-auto">
+        <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          {/* Dark gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-deep-teal via-deep-teal/95 to-deep-teal" />
+
+          {/* Decorative orbs */}
+          <div className="absolute top-10 right-10 w-64 h-64 bg-brand-cyan/10 rounded-full filter blur-3xl" />
+          <div className="absolute bottom-10 left-10 w-80 h-80 bg-soft-lavender/10 rounded-full filter blur-3xl" />
+
+          <div className="relative z-10 max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="font-playfair text-3xl sm:text-4xl font-bold text-dark-gray mb-4">
+              <h2 className="font-playfair text-3xl sm:text-4xl font-bold text-white mb-4">
                 {t('whatYouGet.title')}
               </h2>
-              <p className="font-inter text-lg text-dark-gray/70 max-w-2xl mx-auto">
+              <p className="font-inter text-lg text-white/70 max-w-2xl mx-auto">
                 {t('whatYouGet.subtitle')}
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {features.map((item, index) => (
                 <div
                   key={index}
-                  className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 hover:border-brand-cyan/20 hover:-translate-y-1"
+                  className="group bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:bg-white/15 hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-1"
                 >
-                  <div className="w-14 h-14 bg-gradient-to-br from-brand-cyan/10 to-deep-teal/10 rounded-xl flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-14 h-14 bg-brand-cyan/20 rounded-xl flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
                     {item.icon}
                   </div>
-                  <h3 className="font-inter font-semibold text-lg text-dark-gray mb-3">
+                  <h3 className="font-inter font-semibold text-lg text-white mb-3">
                     {item.feature}
                   </h3>
-                  <p className="font-inter text-dark-gray/70 leading-relaxed">
+                  <p className="font-inter text-white/70 leading-relaxed">
                     {item.benefit}
                   </p>
                 </div>
@@ -226,25 +233,25 @@ export default async function AboutPage({
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-deep-teal">
+        {/* Stats Section - Light contrast */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-off-white">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div>
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-white mb-2">20+</div>
-                <div className="font-inter text-white/70 text-sm uppercase tracking-wider">{locale === 'th' ? 'ปีประสบการณ์' : 'Years Experience'}</div>
+                <div className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal mb-2">20+</div>
+                <div className="font-inter text-dark-gray/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'ปีประสบการณ์' : 'Years Experience'}</div>
               </div>
               <div>
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-white mb-2">500+</div>
-                <div className="font-inter text-white/70 text-sm uppercase tracking-wider">{locale === 'th' ? 'ศิลปินในเครือข่าย' : 'Artists Network'}</div>
+                <div className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal mb-2">500+</div>
+                <div className="font-inter text-dark-gray/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'ศิลปินในเครือข่าย' : 'Artists Network'}</div>
               </div>
               <div>
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-white mb-2">50+</div>
-                <div className="font-inter text-white/70 text-sm uppercase tracking-wider">{locale === 'th' ? 'สถานที่พาร์ทเนอร์' : 'Venue Partners'}</div>
+                <div className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal mb-2">50+</div>
+                <div className="font-inter text-dark-gray/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'สถานที่พาร์ทเนอร์' : 'Venue Partners'}</div>
               </div>
               <div>
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-white mb-2">1000+</div>
-                <div className="font-inter text-white/70 text-sm uppercase tracking-wider">{locale === 'th' ? 'งานอีเวนต์' : 'Events Delivered'}</div>
+                <div className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal mb-2">1000+</div>
+                <div className="font-inter text-dark-gray/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'งานอีเวนต์' : 'Events Delivered'}</div>
               </div>
             </div>
           </div>
