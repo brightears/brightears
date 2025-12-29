@@ -430,40 +430,50 @@
     "copyright": "© 2026 Bright Ears Entertainment Co., Ltd. All rights reserved."
   },
   "about": {
-    "title": "Revolutionizing Entertainment Booking",
-    "subtitle": "Thailand's first commission-free entertainment platform connecting talented artists with venues and events",
-    "mission": "Our Mission",
-    "missionStatement": "To empower Thai artists by providing a transparent, commission-free platform where talent meets opportunity, while delivering exceptional entertainment experiences to our customers.",
-    "story": "Our Story",
-    "storyParagraph1": "Bright Ears was born from a simple observation: Thailand's entertainment industry was broken. Artists were paying up to 30% commission, venues struggled to find verified talent, and customers had no transparent way to discover and book entertainers.",
-    "storyParagraph2": "We built Bright Ears to fix this. As Thailand's first commission-free entertainment booking platform, we connect Bangkok's best DJs, musicians, bands, and artists directly with premium venues and event organizers. No middlemen, no hidden fees, just transparent connections that benefit everyone.",
-    "values": "Our Values",
-    "platformStats": "Platform by the Numbers",
-    "readyToConnect": "Ready to Connect?",
-    "contactCTA": "Contact Us",
-    "stats": {
-      "verifiedartists": "Verified Artists",
-      "eventsdelivered": "Events Delivered",
-      "clientsatisfaction": "Client Satisfaction",
-      "supporthours": "Support Hours"
+    "hero": {
+      "title": "Entertainment That Matches Your Brand",
+      "subtitle": "Since 2007, we've partnered with Thailand's finest hotels and venues to create seamless, bespoke entertainment experiences."
     },
-    "values": {
-      "transparency": {
-        "title": "Complete Transparency",
-        "description": "No hidden fees, no commissions. What you see is what you pay. Artists keep 100% of their booking fees."
+    "story": {
+      "title": "It Started With Four Seasons",
+      "p1": "In 2007, we began working with Four Seasons Hotels across Thailand, the Maldives, and China — not just booking DJs, but designing complete music experiences. On-site training. Curated playlists. Artists prepped on dress code, attitude, and brand values. The idea was simple: hotels train their staff to perfection. Why should entertainment be any different?",
+      "p2": "What started with DJs and background music has grown into a full-service entertainment agency — live bands, dancers, magicians, bespoke music production, custom apps, and AI-powered solutions. We've worked with venues like ABar at Marriott Sukhumvit, CRU at Centara Central World, Horizon at Hilton Pattaya, Escape Bangkok, and Tribe Bangkok.",
+      "p3": "The tools evolved, but the philosophy stayed the same: entertainment should feel like part of your team, not an outsourced afterthought. Today, we're a small core team partnering with hundreds of artists — a family built on trust, creativity, and a genuine love for what we do."
+    },
+    "whatYouGet": {
+      "title": "What You Get",
+      "subtitle": "Beyond booking — a true entertainment partner"
+    },
+    "features": {
+      "matching": {
+        "feature": "Bespoke artist matching",
+        "benefit": "Entertainment that feels like part of your team, not an outsourced vendor"
       },
-      "artistEmpowerment": {
-        "title": "Artist Empowerment",
-        "description": "We believe artists deserve fair compensation. Our zero-commission model means more earnings for talented performers."
+      "preparation": {
+        "feature": "Full artist preparation",
+        "benefit": "Artists arrive knowing your brand, dress code, and expectations"
       },
-      "customerSatisfaction": {
-        "title": "Customer-First Approach",
-        "description": "From inquiry to event completion, we ensure smooth communication, verified quality, and exceptional service."
+      "management": {
+        "feature": "Ongoing management",
+        "benefit": "Schedules, backups, rain cancellations, and last-minute changes — handled"
       },
-      "thaiMarketFocus": {
-        "title": "Built for Thailand",
-        "description": "LINE integration, PromptPay payments, Thai-English bilingual support, and deep understanding of local market needs."
+      "oneContact": {
+        "feature": "One invoice, one contact",
+        "benefit": "No chasing multiple vendors or managing separate relationships"
+      },
+      "transparent": {
+        "feature": "No hidden fees",
+        "benefit": "Transparent pricing with no surprises or forced exclusivity"
+      },
+      "ai": {
+        "feature": "AI-powered solutions",
+        "benefit": "Modern tools to enhance atmosphere, efficiency, and guest experience"
       }
+    },
+    "cta": {
+      "title": "Ready to Elevate Your Entertainment?",
+      "subtitle": "Let's discuss how we can create the perfect atmosphere for your venue or event.",
+      "button": "Get in Touch"
     }
   },
   "faq": {
