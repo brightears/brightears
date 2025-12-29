@@ -37,9 +37,70 @@ This checkpoint marks a **verified stable state** after successful deployment re
 
 ---
 
-## Current Status (December 26, 2025) - 🎯 **ENHANCED LANDING PAGE LIVE** ✅
+## Current Status (December 29, 2025) - 🎯 **VISUAL DESIGN UPGRADE** ✅
 
-### ✅ **LATEST MILESTONE: AI TRAINING & DESIGN REFINEMENT (December 26, 2025)**
+### ✅ **LATEST MILESTONE: HERO SECTION REDESIGN (December 29, 2025)**
+
+**Session: Visual Design & Hero Enhancement**
+
+**Changes Made:**
+
+1. **Hero Section DJ Photo Background**
+   - Added AI-generated DJ silhouette image (corporate event setting)
+   - Cyan + amber lighting matching brand colors
+   - Layered compositing: Photo → Dark overlay → Animated gradient (blend mode) → Content
+   - Mobile: 30% opacity, Desktop: 40% opacity
+   - File: `/public/images/hero-dj.png`
+
+2. **Contact Form Dark Mode Styling**
+   - Changed form wrapper from white to dark glass (`bg-white/10`)
+   - Added `darkMode` prop to ValidatedInput and ValidatedTextarea
+   - Updated all form element colors for dark backgrounds
+   - Seamless integration with dark section backgrounds
+
+3. **How It Works Section Redesign**
+   - Replaced messy zigzag layout with minimal 3-column grid
+   - Large elegant numbers (01, 02, 03) in faded white
+   - Removed icons per user feedback (numbers sufficient)
+   - Clean, professional "grown up" aesthetic
+
+4. **What We Do Section Cleanup**
+   - Reduced from 4 cards to 3 cards
+   - Custom SVG icons (vinyl record, microphone, sound waves)
+   - Benefit-focused copy with scientific stats
+
+5. **Hero Headline Update**
+   - Changed from "Book Perfect Entertainment For Your Event"
+   - New headline: **"20 years. One standard."**
+   - Subheadline explains the business for context
+   - Thai: "20 ปี. มาตรฐานเดียว."
+
+**Commits:**
+- `d9591f6` - Contact form dark mode styling
+- `b8dad7f` - Hero DJ photo background structure
+- `5a25f07` - Add DJ hero image to landing page
+
+**Files Modified:**
+- `components/home/HeroSection.tsx` - Photo integration, layered compositing
+- `components/forms/ValidatedInput.tsx` - darkMode prop and styling
+- `components/forms/ValidatedTextarea.tsx` - darkMode prop and styling
+- `app/components/ContactForm.tsx` - Pass darkMode to form fields
+- `app/[locale]/page.tsx` - How It Works, What We Do, Contact section styling
+- `messages/en.json` - New headline and subheadline
+- `messages/th.json` - Thai headline and subheadline
+- `public/images/hero-dj.png` - AI-generated DJ silhouette image
+
+**Project Folder:**
+```
+~/Documents/Coding Projects/brightears/brightears/
+(synced to iCloud for multi-device access)
+```
+
+---
+
+## Previous Status (December 26, 2025) - 🎯 **ENHANCED LANDING PAGE LIVE** ✅
+
+### ✅ **PREVIOUS MILESTONE: AI TRAINING & DESIGN REFINEMENT (December 26, 2025)**
 
 **Session: Trained User Journeys + Design Polish**
 
