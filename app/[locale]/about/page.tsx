@@ -174,8 +174,8 @@ export default async function AboutPage({
 
         {/* Our Story Section */}
         <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-          {/* Dark gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] to-[#242424]" />
+          {/* Dark gradient background - matching landing page */}
+          <div className="absolute inset-0 bg-gradient-to-b from-stone-800 to-stone-900" />
 
           <div className="relative z-10 max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
@@ -238,8 +238,8 @@ export default async function AboutPage({
 
         {/* Stats Section */}
         <section className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
-          {/* Dark background */}
-          <div className="absolute inset-0 bg-[#1a1a1a]" />
+          {/* Dark background - matching landing page */}
+          <div className="absolute inset-0 bg-gradient-to-b from-stone-900 to-stone-800" />
 
           <div className="relative z-10 max-w-6xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
