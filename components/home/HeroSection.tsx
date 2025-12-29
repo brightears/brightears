@@ -22,7 +22,7 @@ export default function HeroSection() {
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Layer 1: DJ Photo background */}
       <Image
-        src="/images/hero-dj.jpg"
+        src="/images/hero-dj.png"
         alt="DJ performing at a Bangkok venue"
         fill
         priority
