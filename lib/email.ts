@@ -7,10 +7,10 @@ const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KE
 
 // Email configuration
 const EMAIL_CONFIG = {
-  fromAddress: process.env.EMAIL_FROM_ADDRESS || 'noreply@brightears.com',
+  fromAddress: process.env.EMAIL_FROM_ADDRESS || 'noreply@brightears.io',
   fromName: 'Bright Ears',
-  supportEmail: process.env.EMAIL_SUPPORT_ADDRESS || 'support@brightears.com',
-  replyTo: process.env.EMAIL_REPLY_TO || 'support@brightears.com',
+  supportEmail: process.env.EMAIL_SUPPORT_ADDRESS || 'info@brightears.io',
+  replyTo: process.env.EMAIL_REPLY_TO || 'info@brightears.io',
   // Retry configuration
   maxRetries: 3,
   retryDelay: 1000, // 1 second

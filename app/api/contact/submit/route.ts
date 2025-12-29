@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
     try {
       if (validatedData.type === 'general') {
         await sendEmail({
-          to: 'support@brightears.com',
+          to: 'info@brightears.io',
           subject: `[General Inquiry] ${validatedData.subject}`,
           html: `
             <h2>New General Inquiry</h2>
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
         emailSent = true;
       } else if (validatedData.type === 'corporate') {
         await sendEmail({
-          to: 'corporate@brightears.com',
+          to: 'info@brightears.io',
           subject: `[Corporate Partnership] ${validatedData.companyName}`,
           html: `
             <h2>New Corporate Partnership Inquiry</h2>
@@ -134,7 +134,7 @@ export async function POST(request: NextRequest) {
         emailSent = true;
       } else if (validatedData.type === 'artistSupport') {
         await sendEmail({
-          to: 'artist-support@brightears.com',
+          to: 'info@brightears.io',
           subject: `[Artist Support] ${validatedData.supportTopic} - ${validatedData.artistName}`,
           html: `
             <h2>New Artist Support Request</h2>
