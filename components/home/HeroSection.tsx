@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 export default function HeroSection() {
   const t = useTranslations();
@@ -19,15 +20,28 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Dynamic gradient background with mouse tracking */}
+      {/* Layer 1: DJ Photo background */}
+      <Image
+        src="/images/hero-dj.jpg"
+        alt="DJ performing at a Bangkok venue"
+        fill
+        priority
+        className="object-cover opacity-30 md:opacity-40 object-[center_30%] md:object-center"
+        sizes="100vw"
+      />
+
+      {/* Layer 2: Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
+
+      {/* Layer 3: Dynamic gradient with mouse tracking (blend mode for photo interaction) */}
       <div
-        className="absolute inset-0 bg-gradient-to-br from-brand-cyan via-deep-teal to-earthy-brown"
+        className="absolute inset-0 mix-blend-overlay"
         style={{
           background: `
-            radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 187, 228, 0.4) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(165, 119, 100, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 20% 80%, rgba(47, 99, 100, 0.4) 0%, transparent 50%),
-            linear-gradient(135deg, #00bbe4 0%, #2f6364 50%, #a47764 100%)
+            radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 187, 228, 0.5) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(165, 119, 100, 0.4) 0%, transparent 50%),
+            radial-gradient(circle at 20% 80%, rgba(47, 99, 100, 0.5) 0%, transparent 50%),
+            linear-gradient(135deg, rgba(0, 187, 228, 0.3) 0%, rgba(47, 99, 100, 0.3) 50%, rgba(164, 119, 100, 0.3) 100%)
           `
         }}
       />
