@@ -31,7 +31,7 @@ const Header: React.FC = () => {
     { label: t('home'), href: '/' },
     { label: t('about'), href: '/about' },
     { label: t('faq'), href: '/faq' },
-    { label: t('contact'), href: '/contact' },
+    { label: t('contact'), href: '/#contact' },
   ];
 
   useEffect(() => {
