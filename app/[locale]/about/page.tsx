@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import JsonLd from '@/components/JsonLd';
 import {
   generateOrganizationSchema,
@@ -46,7 +46,7 @@ export default async function AboutPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params;
-  const t = useTranslations('about');
+  const t = await getTranslations('about');
 
   // Generate structured data
   const organizationSchema = generateOrganizationSchema({
