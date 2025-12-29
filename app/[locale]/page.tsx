@@ -279,9 +279,9 @@ export default async function HomePage({
               {t('landing.contact.subtitle')}
             </p>
 
-            {/* Contact Form - Glass morphism card */}
-            <div className="bg-white/95 backdrop-blur-lg rounded-2xl p-8 mb-8 shadow-2xl">
-              <ContactForm tab="general" />
+            {/* Contact Form - Dark glass morphism card */}
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mb-8 border border-white/20">
+              <ContactForm tab="general" darkMode />
             </div>
 
             {/* LINE Contact Button */}

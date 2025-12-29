@@ -15,9 +15,10 @@ type ContactTab = 'general' | 'corporate' | 'artistSupport';
 
 interface ContactFormProps {
   tab: ContactTab;
+  darkMode?: boolean;
 }
 
-export default function ContactForm({ tab }: ContactFormProps) {
+export default function ContactForm({ tab, darkMode = false }: ContactFormProps) {
   const t = useTranslations('contact');
   const [submitted, setSubmitted] = React.useState(false);
 
@@ -252,6 +253,7 @@ export default function ContactForm({ tab }: ContactFormProps) {
             error={errors.name}
             touched={touched.name}
             icon={<UserIcon className="w-5 h-5" />}
+            darkMode={darkMode}
           />
 
           <ValidatedInput
@@ -267,6 +269,7 @@ export default function ContactForm({ tab }: ContactFormProps) {
             touched={touched.email}
             icon={<EnvelopeIcon className="w-5 h-5" />}
             helpText="We'll never share your email with anyone"
+            darkMode={darkMode}
           />
         </>
       )}
@@ -286,6 +289,7 @@ export default function ContactForm({ tab }: ContactFormProps) {
             error={errors.companyName}
             touched={touched.companyName}
             icon={<BuildingOfficeIcon className="w-5 h-5" />}
+            darkMode={darkMode}
           />
 
           <ValidatedInput
@@ -300,6 +304,7 @@ export default function ContactForm({ tab }: ContactFormProps) {
             error={errors.contactPerson}
             touched={touched.contactPerson}
             icon={<UserIcon className="w-5 h-5" />}
+            darkMode={darkMode}
           />
 
           <ValidatedInput
@@ -314,6 +319,7 @@ export default function ContactForm({ tab }: ContactFormProps) {
             error={errors.email}
             touched={touched.email}
             icon={<EnvelopeIcon className="w-5 h-5" />}
+            darkMode={darkMode}
           />
 
           <ThaiPhoneInput
@@ -354,6 +360,7 @@ export default function ContactForm({ tab }: ContactFormProps) {
             touched={touched.eventDate}
             icon={<CalendarIcon className="w-5 h-5" />}
             helpText="Event must be at least 7 days from today"
+            darkMode={darkMode}
           />
         </>
       )}
@@ -373,6 +380,7 @@ export default function ContactForm({ tab }: ContactFormProps) {
             error={errors.artistName}
             touched={touched.artistName}
             icon={<UserIcon className="w-5 h-5" />}
+            darkMode={darkMode}
           />
 
           <ValidatedInput
@@ -387,6 +395,7 @@ export default function ContactForm({ tab }: ContactFormProps) {
             error={errors.email}
             touched={touched.email}
             icon={<EnvelopeIcon className="w-5 h-5" />}
+            darkMode={darkMode}
           />
 
           <ValidatedInput
@@ -400,6 +409,7 @@ export default function ContactForm({ tab }: ContactFormProps) {
             error={errors.artistId}
             touched={touched.artistId}
             helpText="If you know your artist ID, it helps us find your account faster"
+            darkMode={darkMode}
           />
 
           <ValidatedSelect
@@ -433,6 +443,7 @@ export default function ContactForm({ tab }: ContactFormProps) {
         maxLength={500}
         minLength={10}
         helpText="Please provide as much detail as possible"
+        darkMode={darkMode}
       />
 
       {/* Submit Button */}

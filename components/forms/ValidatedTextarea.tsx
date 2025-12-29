@@ -23,6 +23,7 @@ export interface ValidatedTextareaProps {
   disabled?: boolean;
   className?: string;
   textareaClassName?: string;
+  darkMode?: boolean;
 }
 
 export default function ValidatedTextarea({
@@ -45,6 +46,7 @@ export default function ValidatedTextarea({
   disabled = false,
   className = '',
   textareaClassName = '',
+  darkMode = false,
 }: ValidatedTextareaProps) {
   const hasError = touched && error;
   const isValid = touched && !error && value;
@@ -66,7 +68,7 @@ export default function ValidatedTextarea({
       {/* Label */}
       <label
         htmlFor={name}
-        className="block font-inter text-sm font-medium text-dark-gray"
+        className={`block font-inter text-sm font-medium ${darkMode ? 'text-white' : 'text-dark-gray'}`}
       >
         {label}
         {required && <span className="text-red-500 ml-1" aria-label="required">*</span>}
@@ -92,14 +94,14 @@ export default function ValidatedTextarea({
           }
           className={`
             w-full px-4 py-3 rounded-lg font-inter
-            bg-white/70 backdrop-blur-sm border-2
+            ${darkMode ? 'bg-white/10 backdrop-blur-sm border-2 text-white placeholder:text-white/40' : 'bg-white/70 backdrop-blur-sm border-2'}
             transition-all duration-300
             resize-none
             focus:outline-none focus:ring-2 focus:ring-brand-cyan/50
-            disabled:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-500
+            ${darkMode ? 'disabled:bg-white/5 disabled:cursor-not-allowed disabled:text-white/30' : 'disabled:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-500'}
             ${hasError ? 'border-red-500 bg-red-50/50 focus:ring-red-500/50' : ''}
             ${isValid ? 'border-green-500 bg-green-50/50 focus:ring-green-500/50' : ''}
-            ${!hasError && !isValid ? 'border-gray-300 hover:border-gray-400 focus:border-brand-cyan' : ''}
+            ${!hasError && !isValid ? (darkMode ? 'border-white/20 hover:border-white/40 focus:border-brand-cyan' : 'border-gray-300 hover:border-gray-400 focus:border-brand-cyan') : ''}
             ${textareaClassName}
           `}
         />
@@ -132,7 +134,7 @@ export default function ValidatedTextarea({
 
       {/* Help Text (only show if no error) */}
       {!hasError && helpText && (
-        <p id={`${name}-help`} className="text-sm text-gray-600 font-inter">
+        <p id={`${name}-help`} className={`text-sm font-inter ${darkMode ? 'text-white/60' : 'text-gray-600'}`}>
           {helpText}
         </p>
       )}
@@ -142,7 +144,7 @@ export default function ValidatedTextarea({
         <div className="flex justify-between items-center text-xs font-inter">
           {/* Length Guide (for minLength fields) */}
           {minLength && touched && valueLength < minLength && (
-            <p className="text-gray-500">
+            <p className={darkMode ? 'text-white/50' : 'text-gray-500'}>
               {minLength - valueLength} more character{minLength - valueLength !== 1 ? 's' : ''} needed
             </p>
           )}
@@ -150,7 +152,7 @@ export default function ValidatedTextarea({
           {/* Counters */}
           <div className="flex gap-4 ml-auto">
             {showWordCount && (
-              <p className="text-gray-500">
+              <p className={darkMode ? 'text-white/50' : 'text-gray-500'}>
                 {wordCount} word{wordCount !== 1 ? 's' : ''}
               </p>
             )}
@@ -160,7 +162,7 @@ export default function ValidatedTextarea({
                 className={
                   valueLength > maxLength * 0.9
                     ? 'text-red-500 font-medium'
-                    : 'text-gray-500'
+                    : darkMode ? 'text-white/50' : 'text-gray-500'
                 }
               >
                 {valueLength} / {maxLength}
