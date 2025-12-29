@@ -173,18 +173,21 @@ export default async function AboutPage({
         </section>
 
         {/* Our Story Section */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-          <div className="max-w-4xl mx-auto">
+        <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          {/* Dark gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] to-[#242424]" />
+
+          <div className="relative z-10 max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-brand-cyan/30 to-transparent" />
-              <h2 className="font-playfair text-3xl sm:text-4xl font-bold text-dark-gray">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <h2 className="font-playfair text-3xl sm:text-4xl font-bold text-white">
                 {t('story.title')}
               </h2>
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-brand-cyan/30 to-transparent" />
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
             </div>
 
-            <div className="space-y-6 font-inter text-lg text-dark-gray/80 leading-relaxed">
-              <p className="first-letter:text-5xl first-letter:font-playfair first-letter:font-bold first-letter:text-deep-teal first-letter:mr-2 first-letter:float-left">
+            <div className="space-y-6 font-inter text-lg text-white/80 leading-relaxed">
+              <p className="first-letter:text-5xl first-letter:font-playfair first-letter:font-bold first-letter:text-brand-cyan first-letter:mr-2 first-letter:float-left">
                 {t('story.p1')}
               </p>
               <p>{t('story.p2')}</p>
@@ -233,25 +236,28 @@ export default async function AboutPage({
           </div>
         </section>
 
-        {/* Stats Section - Light contrast */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-off-white">
-          <div className="max-w-6xl mx-auto">
+        {/* Stats Section */}
+        <section className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          {/* Dark background */}
+          <div className="absolute inset-0 bg-[#1a1a1a]" />
+
+          <div className="relative z-10 max-w-6xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div>
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal mb-2">20+</div>
-                <div className="font-inter text-dark-gray/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'ปีประสบการณ์' : 'Years Experience'}</div>
+              <div className="p-6">
+                <div className="font-playfair text-4xl md:text-5xl font-bold text-brand-cyan mb-2">20+</div>
+                <div className="font-inter text-white/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'ปีประสบการณ์' : 'Years Experience'}</div>
               </div>
-              <div>
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal mb-2">500+</div>
-                <div className="font-inter text-dark-gray/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'ศิลปินในเครือข่าย' : 'Artists Network'}</div>
+              <div className="p-6">
+                <div className="font-playfair text-4xl md:text-5xl font-bold text-brand-cyan mb-2">500+</div>
+                <div className="font-inter text-white/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'ศิลปินในเครือข่าย' : 'Artists Network'}</div>
               </div>
-              <div>
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal mb-2">50+</div>
-                <div className="font-inter text-dark-gray/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'สถานที่พาร์ทเนอร์' : 'Venue Partners'}</div>
+              <div className="p-6">
+                <div className="font-playfair text-4xl md:text-5xl font-bold text-brand-cyan mb-2">50+</div>
+                <div className="font-inter text-white/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'สถานที่พาร์ทเนอร์' : 'Venue Partners'}</div>
               </div>
-              <div>
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-deep-teal mb-2">1000+</div>
-                <div className="font-inter text-dark-gray/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'งานอีเวนต์' : 'Events Delivered'}</div>
+              <div className="p-6">
+                <div className="font-playfair text-4xl md:text-5xl font-bold text-brand-cyan mb-2">1000+</div>
+                <div className="font-inter text-white/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'งานอีเวนต์' : 'Events Delivered'}</div>
               </div>
             </div>
           </div>
