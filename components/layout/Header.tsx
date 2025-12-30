@@ -65,7 +65,7 @@ const Header: React.FC = () => {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'py-3 bg-off-white/95 backdrop-blur-xl shadow-lg border-b border-brand-cyan/20'
+            ? 'py-3 bg-stone-900/95 backdrop-blur-xl shadow-lg border-b border-white/10'
             : 'py-6 bg-deep-teal/90 backdrop-blur-md'
         }`}
       >
@@ -93,8 +93,8 @@ const Header: React.FC = () => {
                   key={item.label}
                   href={item.href}
                   className={`relative font-inter transition-colors duration-300 group ${
-                    isScrolled 
-                      ? 'text-dark-gray/90 hover:text-brand-cyan' 
+                    isScrolled
+                      ? 'text-pure-white/90 hover:text-brand-cyan'
                       : 'text-pure-white hover:text-brand-cyan'
                   }`}
                 >
@@ -115,7 +115,7 @@ const Header: React.FC = () => {
                   aria-haspopup="true"
                   className={`group flex items-center gap-2 px-4 py-2 backdrop-blur-md border rounded-xl transition-all duration-300 ${
                     isScrolled
-                      ? 'bg-white/80 border-brand-cyan/20 text-dark-gray hover:bg-white hover:border-brand-cyan/40'
+                      ? 'bg-white/10 border-white/20 text-white hover:bg-white/20'
                       : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
                   }`}
                 >
@@ -127,11 +127,7 @@ const Header: React.FC = () => {
                 {/* Language Dropdown */}
                 {isLangMenuOpen && (
                   <div
-                    className={`absolute top-full right-0 mt-2 w-48 backdrop-blur-xl border rounded-xl overflow-hidden shadow-2xl ${
-                      isScrolled
-                        ? 'bg-white/95 border-brand-cyan/20'
-                        : 'bg-white/10 border-white/20'
-                    }`}
+                    className="absolute top-full right-0 mt-2 w-48 backdrop-blur-xl border rounded-xl overflow-hidden shadow-2xl bg-stone-800/95 border-white/20"
                     role="menu"
                     aria-label={tA11y('chooseLanguage')}
                   >
@@ -142,14 +138,8 @@ const Header: React.FC = () => {
                         role="menuitem"
                         aria-label={tA11y('selectLanguage', { language: lang.label })}
                         aria-current={currentLocale === lang.code ? 'true' : 'false'}
-                        className={`w-full px-4 py-3 flex items-center gap-3 transition-colors duration-200 ${
-                          isScrolled
-                            ? `text-dark-gray hover:bg-brand-cyan/10 ${
-                                currentLocale === lang.code ? 'bg-brand-cyan/20' : ''
-                              }`
-                            : `text-white hover:bg-white/10 ${
-                                currentLocale === lang.code ? 'bg-brand-cyan/20' : ''
-                              }`
+                        className={`w-full px-4 py-3 flex items-center gap-3 transition-colors duration-200 text-white hover:bg-white/10 ${
+                          currentLocale === lang.code ? 'bg-brand-cyan/20' : ''
                         }`}
                       >
                         <span className="text-lg" aria-hidden="true">{lang.flag}</span>
@@ -165,11 +155,7 @@ const Header: React.FC = () => {
                 <div className="hidden sm:flex items-center gap-3">
                   <Link
                     href="/dashboard"
-                    className={`px-4 py-2 rounded-xl transition-all duration-300 ${
-                      isScrolled
-                        ? 'text-dark-gray hover:text-brand-cyan'
-                        : 'text-white hover:text-brand-cyan'
-                    }`}
+                    className="px-4 py-2 rounded-xl transition-all duration-300 text-white hover:text-brand-cyan"
                     aria-label={t('dashboard')}
                   >
                     {t('dashboard')}
@@ -191,11 +177,7 @@ const Header: React.FC = () => {
                 aria-label={isMobileMenuOpen ? tA11y('closeMenu') : tA11y('openMenu')}
                 aria-expanded={isMobileMenuOpen}
                 aria-controls="mobile-menu"
-                className={`md:hidden p-2 backdrop-blur-md border rounded-xl transition-all duration-300 ${
-                  isScrolled
-                    ? 'bg-white/80 border-brand-cyan/20 text-dark-gray hover:bg-white hover:border-brand-cyan/40'
-                    : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
-                }`}
+                className="md:hidden p-2 backdrop-blur-md border rounded-xl transition-all duration-300 bg-white/10 border-white/20 text-white hover:bg-white/20"
               >
                 {isMobileMenuOpen ? (
                   <XMarkIcon className="w-6 h-6" aria-hidden="true" />
