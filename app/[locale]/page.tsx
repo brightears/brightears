@@ -323,58 +323,6 @@ export default async function HomePage({
           </div>
         </section>
 
-        {/* How It Works Section - Dark background */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-teal to-deep-teal/95 relative overflow-hidden">
-          {/* Animated decorative orbs */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-brand-cyan/10 rounded-full filter blur-3xl animate-pulse" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-earthy-brown/10 rounded-full filter blur-3xl animate-pulse animation-delay-2000" />
-
-          <div className="max-w-5xl mx-auto relative z-10">
-            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-white text-center mb-4">
-              {t('landing.howItWorks.title')}
-            </h2>
-            <p className="font-inter text-xl text-white/80 text-center mb-16 max-w-2xl mx-auto">
-              {t('landing.howItWorks.subtitle')}
-            </p>
-
-            {/* Steps - Minimal 3-column grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-4xl mx-auto">
-              {/* Step 1 - Contact */}
-              <div className="text-center">
-                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-6">01</span>
-                <h3 className="font-playfair text-xl font-semibold text-white mb-2">
-                  {t('landing.howItWorks.steps.contact.title')}
-                </h3>
-                <p className="font-inter text-sm text-white/60 max-w-xs mx-auto">
-                  {t('landing.howItWorks.steps.contact.description')}
-                </p>
-              </div>
-
-              {/* Step 2 - Quote */}
-              <div className="text-center">
-                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-6">02</span>
-                <h3 className="font-playfair text-xl font-semibold text-white mb-2">
-                  {t('landing.howItWorks.steps.quote.title')}
-                </h3>
-                <p className="font-inter text-sm text-white/60 max-w-xs mx-auto">
-                  {t('landing.howItWorks.steps.quote.description')}
-                </p>
-              </div>
-
-              {/* Step 3 - Enjoy */}
-              <div className="text-center">
-                <span className="block text-7xl font-playfair font-extralight text-white/20 mb-6">03</span>
-                <h3 className="font-playfair text-xl font-semibold text-white mb-2">
-                  {t('landing.howItWorks.steps.enjoy.title')}
-                </h3>
-                <p className="font-inter text-sm text-white/60 max-w-xs mx-auto">
-                  {t('landing.howItWorks.steps.enjoy.description')}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Client Logos Section - Sophisticated dark background */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-800 to-stone-900">
           <div className="max-w-7xl mx-auto">
