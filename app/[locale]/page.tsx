@@ -334,9 +334,9 @@ export default async function HomePage({
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
                 { name: 'Marriott', src: '/images/clients/marriott.svg' },
-                { name: 'Hilton', src: '/images/clients/hilton.svg' },
-                { name: 'Centara', src: '/images/clients/centara.svg' },
-                { name: 'Accor', src: '/images/clients/accor.svg' },
+                { name: 'Hilton', src: '/images/clients/hilton.png' },
+                { name: 'Centara', src: '/images/clients/centara.png' },
+                { name: 'Accor', src: '/images/clients/accor.png' },
               ].map((client) => (
                 <div
                   key={client.name}
