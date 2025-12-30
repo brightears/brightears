@@ -213,6 +213,116 @@ export default async function HomePage({
           </div>
         </section>
 
+        {/* What You Get Section - Dark gradient with glass cards */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-teal via-deep-teal/95 to-deep-teal relative overflow-hidden">
+          {/* Decorative orbs */}
+          <div className="absolute top-10 right-10 w-64 h-64 bg-brand-cyan/10 rounded-full filter blur-3xl" />
+          <div className="absolute bottom-10 left-10 w-80 h-80 bg-soft-lavender/10 rounded-full filter blur-3xl" />
+
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="font-playfair text-3xl sm:text-4xl font-bold text-white mb-4">
+                {t('about.whatYouGet.title')}
+              </h2>
+              <p className="font-inter text-lg text-white/70 max-w-2xl mx-auto">
+                {t('about.whatYouGet.subtitle')}
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Bespoke Matching */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:bg-white/15 hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-1">
+                <div className="w-14 h-14 bg-brand-cyan/20 rounded-xl flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="font-inter font-semibold text-lg text-white mb-3">
+                  {t('about.features.matching.feature')}
+                </h3>
+                <p className="font-inter text-white/70 leading-relaxed">
+                  {t('about.features.matching.benefit')}
+                </p>
+              </div>
+
+              {/* Full Preparation */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:bg-white/15 hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-1">
+                <div className="w-14 h-14 bg-brand-cyan/20 rounded-xl flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                  </svg>
+                </div>
+                <h3 className="font-inter font-semibold text-lg text-white mb-3">
+                  {t('about.features.preparation.feature')}
+                </h3>
+                <p className="font-inter text-white/70 leading-relaxed">
+                  {t('about.features.preparation.benefit')}
+                </p>
+              </div>
+
+              {/* Ongoing Management */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:bg-white/15 hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-1">
+                <div className="w-14 h-14 bg-brand-cyan/20 rounded-xl flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="font-inter font-semibold text-lg text-white mb-3">
+                  {t('about.features.management.feature')}
+                </h3>
+                <p className="font-inter text-white/70 leading-relaxed">
+                  {t('about.features.management.benefit')}
+                </p>
+              </div>
+
+              {/* One Contact */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:bg-white/15 hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-1">
+                <div className="w-14 h-14 bg-brand-cyan/20 rounded-xl flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="font-inter font-semibold text-lg text-white mb-3">
+                  {t('about.features.oneContact.feature')}
+                </h3>
+                <p className="font-inter text-white/70 leading-relaxed">
+                  {t('about.features.oneContact.benefit')}
+                </p>
+              </div>
+
+              {/* Transparent Pricing */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:bg-white/15 hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-1">
+                <div className="w-14 h-14 bg-brand-cyan/20 rounded-xl flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="font-inter font-semibold text-lg text-white mb-3">
+                  {t('about.features.transparent.feature')}
+                </h3>
+                <p className="font-inter text-white/70 leading-relaxed">
+                  {t('about.features.transparent.benefit')}
+                </p>
+              </div>
+
+              {/* AI-Powered */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:bg-white/15 hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-1">
+                <div className="w-14 h-14 bg-brand-cyan/20 rounded-xl flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="font-inter font-semibold text-lg text-white mb-3">
+                  {t('about.features.ai.feature')}
+                </h3>
+                <p className="font-inter text-white/70 leading-relaxed">
+                  {t('about.features.ai.benefit')}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* How It Works Section - Dark background */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-teal to-deep-teal/95 relative overflow-hidden">
           {/* Animated decorative orbs */}
