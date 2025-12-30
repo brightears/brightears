@@ -326,7 +326,7 @@ export default async function HomePage({
         {/* Client Logos Section - Sophisticated dark background */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-800 to-stone-900">
           <div className="max-w-7xl mx-auto">
-            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-white text-center mb-16">
+            <h2 className="font-inter text-sm uppercase tracking-[0.2em] text-white/50 text-center mb-12">
               {t('landing.clients.title')}
             </h2>
 
@@ -347,7 +347,7 @@ export default async function HomePage({
                     src={client.src}
                     alt={client.name}
                     className="h-12 w-auto opacity-50 group-hover:opacity-70 transition-all duration-300"
-                    style={{ filter: 'grayscale(100%) brightness(2)' }}
+                    style={{ filter: 'grayscale(100%) brightness(1.5)' }}
                   />
                 </div>
               ))}
