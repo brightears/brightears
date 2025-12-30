@@ -331,14 +331,23 @@ export default async function HomePage({
             </h2>
 
             {/* Logo Grid - Glass morphism on dark */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-              {[1, 2, 3, 4, 5, 6].map((logo) => (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {[
+                { name: 'Marriott', src: '/images/clients/marriott.svg' },
+                { name: 'Hilton', src: '/images/clients/hilton.svg' },
+                { name: 'Centara', src: '/images/clients/centara.svg' },
+                { name: 'Accor', src: '/images/clients/accor.svg' },
+              ].map((client) => (
                 <div
-                  key={logo}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl p-8 flex items-center justify-center h-28 hover:bg-white/10 transition-all duration-300 border border-white/10"
+                  key={client.name}
+                  className="bg-white/5 backdrop-blur-sm rounded-xl p-8 flex items-center justify-center h-28 hover:bg-white/10 transition-all duration-300 border border-white/10 group"
                 >
-                  {/* Placeholder - subtle styling */}
-                  <div className="w-16 h-8 bg-white/20 rounded" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={client.src}
+                    alt={client.name}
+                    className="h-10 w-auto opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+                  />
                 </div>
               ))}
             </div>
