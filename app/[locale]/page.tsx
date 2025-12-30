@@ -340,13 +340,14 @@ export default async function HomePage({
               ].map((client) => (
                 <div
                   key={client.name}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl p-8 flex items-center justify-center h-28 hover:bg-white/10 transition-all duration-300 border border-white/10 group"
+                  className="flex items-center justify-center h-24 group"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={client.src}
                     alt={client.name}
-                    className="h-10 w-auto opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+                    className="h-12 w-auto opacity-50 group-hover:opacity-70 transition-all duration-300"
+                    style={{ filter: 'grayscale(100%) brightness(2)' }}
                   />
                 </div>
               ))}
