@@ -192,6 +192,27 @@ export default async function HomePage({
           </div>
         </section>
 
+        {/* Our Story Section - Dark gradient background */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-800 to-stone-900 relative overflow-hidden">
+          <div className="relative z-10 max-w-4xl mx-auto">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <h2 className="font-playfair text-3xl sm:text-4xl font-bold text-white">
+                {t('about.story.title')}
+              </h2>
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            </div>
+
+            <div className="space-y-6 font-inter text-lg text-white/80 leading-relaxed">
+              <p className="first-letter:text-5xl first-letter:font-playfair first-letter:font-bold first-letter:text-brand-cyan first-letter:mr-2 first-letter:float-left">
+                {t('about.story.p1')}
+              </p>
+              <p>{t('about.story.p2')}</p>
+              <p>{t('about.story.p3')}</p>
+            </div>
+          </div>
+        </section>
+
         {/* How It Works Section - Dark background */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-teal to-deep-teal/95 relative overflow-hidden">
           {/* Animated decorative orbs */}
