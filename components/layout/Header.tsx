@@ -28,8 +28,9 @@ const Header: React.FC = () => {
   ];
 
   const navItems = [
-    { label: t('home'), href: '/' },
-    { label: t('faq'), href: '/faq' },
+    { label: t('services'), href: '/#services' },
+    { label: t('about'), href: '/#about' },
+    { label: t('contact'), href: '/#contact' },
   ];
 
   useEffect(() => {

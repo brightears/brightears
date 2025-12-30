@@ -117,7 +117,7 @@ export default async function HomePage({
         <HeroSection />
 
         {/* What We Do Section - Sophisticated dark background */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-stone-800 via-stone-900 to-stone-800 relative overflow-hidden">
+        <section id="services" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-stone-800 via-stone-900 to-stone-800 relative overflow-hidden scroll-mt-20">
           {/* Subtle decorative orb */}
           <div className="absolute top-10 right-10 w-64 h-64 bg-brand-cyan/10 rounded-full filter blur-3xl" />
           <div className="absolute bottom-10 left-10 w-48 h-48 bg-earthy-brown/10 rounded-full filter blur-3xl" />
@@ -193,7 +193,7 @@ export default async function HomePage({
         </section>
 
         {/* Our Story Section - Dark gradient background */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-800 to-stone-900 relative overflow-hidden">
+        <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-800 to-stone-900 relative overflow-hidden scroll-mt-20">
           <div className="relative z-10 max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -346,7 +346,7 @@ export default async function HomePage({
         </section>
 
         {/* Contact Section - Dark gradient background */}
-        <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-teal via-deep-teal/95 to-earthy-brown/80 relative overflow-hidden">
+        <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-teal via-deep-teal/95 to-earthy-brown/80 relative overflow-hidden scroll-mt-20">
           {/* Decorative orb */}
           <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-brand-cyan/10 rounded-full filter blur-3xl" />
 
