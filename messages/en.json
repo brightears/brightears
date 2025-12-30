@@ -20,10 +20,10 @@
   },
   "nav": {
     "home": "Home",
-    "services": "Services",
-    "about": "About",
+    "services": "Entertainment",
+    "about": "Our Story",
     "faq": "FAQ",
-    "contact": "Contact",
+    "contact": "Get a Quote",
     "browseArtists": "Browse Artists",
     "howItWorks": "How It Works",
     "corporate": "Corporate",
@@ -414,10 +414,10 @@
     "getQuote": "Get Corporate Quote"
   },
   "footer": {
-    "services": "Services",
-    "about": "About",
+    "services": "Entertainment",
+    "about": "Our Story",
     "description": "Thailand's premier entertainment booking platform",
-    "contact": "Contact",
+    "contact": "Get a Quote",
     "email": "Email",
     "phone": "Phone",
     "address": "Bangkok, Thailand",
