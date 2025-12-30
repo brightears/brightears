@@ -236,33 +236,6 @@ export default async function AboutPage({
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
-          {/* Dark background - matching landing page */}
-          <div className="absolute inset-0 bg-gradient-to-b from-stone-900 to-stone-800" />
-
-          <div className="relative z-10 max-w-6xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div className="p-6">
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-brand-cyan mb-2">20+</div>
-                <div className="font-inter text-white/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'ปีประสบการณ์' : 'Years Experience'}</div>
-              </div>
-              <div className="p-6">
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-brand-cyan mb-2">500+</div>
-                <div className="font-inter text-white/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'ศิลปินในเครือข่าย' : 'Artists Network'}</div>
-              </div>
-              <div className="p-6">
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-brand-cyan mb-2">50+</div>
-                <div className="font-inter text-white/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'สถานที่พาร์ทเนอร์' : 'Venue Partners'}</div>
-              </div>
-              <div className="p-6">
-                <div className="font-playfair text-4xl md:text-5xl font-bold text-brand-cyan mb-2">1000+</div>
-                <div className="font-inter text-white/60 text-sm uppercase tracking-wider">{locale === 'th' ? 'งานอีเวนต์' : 'Events Delivered'}</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* CTA Section */}
         <section className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
           {/* Background gradient */}
