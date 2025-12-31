@@ -186,7 +186,7 @@ export default function ContactForm({ tab, darkMode = false }: ContactFormProps)
   if (submitted) {
     return (
       <div className="text-center p-8">
-        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-brand-cyan to-deep-teal rounded-full flex items-center justify-center shadow-lg">
           <svg
             className="w-10 h-10 text-white"
             fill="none"
@@ -202,10 +202,10 @@ export default function ContactForm({ tab, darkMode = false }: ContactFormProps)
           </svg>
         </div>
 
-        <h2 className="font-playfair text-2xl font-bold text-dark-gray mb-4">
+        <h2 className="font-playfair text-2xl font-bold text-white mb-4">
           {t('success.title')}
         </h2>
-        <p className="font-inter text-gray-600 mb-6">
+        <p className="font-inter text-white/70 mb-6">
           {t('success.message')}
         </p>
         <button
