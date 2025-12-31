@@ -63,10 +63,10 @@ const Header: React.FC = () => {
       </a>
 
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-deep-teal/95 backdrop-blur-xl ${
           isScrolled
-            ? 'py-3 bg-stone-900/95 backdrop-blur-xl shadow-lg border-b border-white/10'
-            : 'py-6 bg-deep-teal/90 backdrop-blur-md'
+            ? 'py-3 shadow-lg border-b border-white/10'
+            : 'py-6'
         }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,9 +81,7 @@ const Header: React.FC = () => {
                 alt="Bright Ears"
                 width={150}
                 height={50}
-                className={`h-10 w-auto transition-all duration-300 ${
-                  isScrolled ? 'brightness-150' : ''
-                }`}
+                className="h-10 w-auto"
                 priority
               />
             </Link>
