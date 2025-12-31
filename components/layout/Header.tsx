@@ -76,12 +76,14 @@ const Header: React.FC = () => {
               href="/" 
               className="group flex items-center transition-transform duration-300 hover:scale-105"
             >
-              <Image 
-                src="/logo.png" 
-                alt="Bright Ears" 
-                width={150} 
-                height={50} 
-                className="h-10 w-auto"
+              <Image
+                src="/logo.png"
+                alt="Bright Ears"
+                width={150}
+                height={50}
+                className={`h-10 w-auto transition-all duration-300 ${
+                  isScrolled ? 'brightness-150' : ''
+                }`}
                 priority
               />
             </Link>
