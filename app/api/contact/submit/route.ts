@@ -37,7 +37,7 @@ const generalSchema = z.object({
   type: z.literal('general'),
   name: z.string().min(2).max(50),
   email: z.string().email(),
-  subject: z.string().min(1),
+  subject: z.string().optional().default('General Inquiry'),
   message: z.string().min(10).max(500),
 });
 
