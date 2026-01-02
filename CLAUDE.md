@@ -37,9 +37,63 @@ This checkpoint marks a **verified stable state** after successful deployment re
 
 ---
 
-## Current Status (December 29, 2025) - 🎯 **VISUAL DESIGN UPGRADE** ✅
+## Current Status (January 2, 2026) - 🎯 **CONTACT & SOCIAL INTEGRATION** ✅
 
-### ✅ **LATEST MILESTONE: HERO SECTION REDESIGN (December 29, 2025)**
+### ✅ **LATEST MILESTONE: CONTACT FORM & SOCIAL LINKS (January 2, 2026)**
+
+**Session: Contact Form Email + LINE + Social Media Integration**
+
+**Changes Made:**
+
+1. **Contact Form Email Integration (Web3Forms)**
+   - Tried Resend first - API worked but emails not delivered to Gmail (Gmail filtering issue)
+   - Switched to **Web3Forms** - simpler, more reliable for landing pages
+   - Access Key: `a5ad8841-cb3e-4e63-a42a-035321de7a88`
+   - Recipient: `norbert@bmasiamusic.com` (Gmail blocks third-party automated emails)
+   - Form submissions stored in Web3Forms dashboard (30 days on free tier)
+   - **Free tier limits:** 250 submissions/month, 1 recipient email
+
+2. **LINE Official Account Integration**
+   - LINE Business Account: **Bright Ears** `@944grjuq` (55 followers)
+   - Updated LINE URL format from broken `line.me/R/ti/p/@brightears`
+   - Correct URL: `https://page.line.me/944grjuq?oat_content=url&openQrModal=true`
+   - Opens LINE page with QR modal for adding friend
+
+3. **Instagram Link Fix**
+   - Changed from `instagram.com/brightears` to `instagram.com/brightearsgroup`
+
+4. **Contact Form UI Improvements**
+   - Fixed form footer text visibility: `text-gray-500` → `text-white/70`
+   - Neutral placeholders: "John Doe" → "Enter your name"
+   - Email placeholder: "john@example.com" → "your@email.com"
+
+**Email Workflow (Current Setup):**
+- Visitor submits form → Web3Forms → `norbert@bmasiamusic.com`
+- You reply from `info@brightears.io` or `support@brightears.io`
+- Direct emails to brightears.io aliases → forward to `platzer.norbert@gmail.com` ✓
+
+**Commits:**
+- `fdda081` - Switch contact form to Web3Forms
+- `9093f55` - Use correct LINE page.line.me URL format
+- `06dd73d` - Update Instagram link to brightearsgroup
+- `b64ef7b` - Improve form footer text visibility
+- `67352df` - Use neutral placeholder text in contact form
+
+**Files Modified:**
+- `app/components/ContactForm.tsx` - Web3Forms integration, UI fixes
+- `components/buttons/LineContactButton.tsx` - Correct LINE URL
+- `components/layout/Footer.tsx` - LINE URL, Instagram link
+
+**Environment Notes:**
+- Web3Forms requires no env variables (access key in code, it's public)
+- Resend API key still in `.env.local` and Render (unused for now)
+- Can switch back to Resend after verifying brightears.io domain
+
+---
+
+## Previous Status (December 29, 2025) - 🎯 **VISUAL DESIGN UPGRADE** ✅
+
+### ✅ **PREVIOUS MILESTONE: HERO SECTION REDESIGN (December 29, 2025)**
 
 **Session: Visual Design & Hero Enhancement**
 
