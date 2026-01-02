@@ -488,10 +488,6 @@ export default function ContactForm({ tab, darkMode = false }: ContactFormProps)
         )}
       </button>
 
-      {/* Form Footer */}
-      <p className="text-xs text-center text-white/70 font-inter">
-        {t('form.formFooter')}
-      </p>
     </form>
   );
 }

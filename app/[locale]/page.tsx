@@ -385,10 +385,6 @@ export default async function HomePage({
               />
             </div>
 
-            {/* Response Time */}
-            <p className="text-center font-inter text-sm text-white/60">
-              {t('landing.contact.responseTime')}
-            </p>
           </div>
         </section>
       </main>
