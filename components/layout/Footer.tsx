@@ -33,7 +33,7 @@ export default function Footer() {
                     <span>info@brightears.io</span>
                   </div>
                   <a
-                    href="https://line.me/R/ti/p/@944grjuq"
+                    href="https://page.line.me/944grjuq?oat_content=url&openQrModal=true"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center space-x-3 hover:opacity-80 transition-opacity"

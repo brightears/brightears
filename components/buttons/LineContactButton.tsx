@@ -31,26 +31,12 @@ export default function LineContactButton({
   const params = useParams()
   const locale = params?.locale as string || 'en'
 
-  // LINE Official Account ID for Bright Ears
-  const LINE_ACCOUNT_ID = '@944grjuq'
+  // LINE Official Account link for Bright Ears
+  const LINE_URL = 'https://page.line.me/944grjuq?oat_content=url&openQrModal=true'
 
-  // Generate LINE deep link
+  // Open LINE page
   const handleLineClick = () => {
-    let lineUrl = `https://line.me/R/ti/p/${LINE_ACCOUNT_ID}`
-
-    // Add pre-filled message if provided
-    if (message) {
-      const finalMessage = artistName
-        ? message.replace('{artistName}', artistName)
-        : message
-
-      // URL encode the message
-      const encodedMessage = encodeURIComponent(finalMessage)
-      lineUrl = `https://line.me/R/oaMessage/${LINE_ACCOUNT_ID}/?${encodedMessage}`
-    }
-
-    // Open LINE link in new tab
-    window.open(lineUrl, '_blank', 'noopener,noreferrer')
+    window.open(LINE_URL, '_blank', 'noopener,noreferrer')
   }
 
   // LINE logo SVG
