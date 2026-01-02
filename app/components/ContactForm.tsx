@@ -247,7 +247,7 @@ export default function ContactForm({ tab, darkMode = false }: ContactFormProps)
             name="name"
             label="Your Name"
             type="text"
-            placeholder="John Doe"
+            placeholder="Enter your name"
             required
             value={values.name || ''}
             onChange={handleChange('name')}
@@ -262,7 +262,7 @@ export default function ContactForm({ tab, darkMode = false }: ContactFormProps)
             name="email"
             label="Email Address"
             type="email"
-            placeholder="john@example.com"
+            placeholder="your@email.com"
             required
             value={values.email || ''}
             onChange={handleChange('email')}
