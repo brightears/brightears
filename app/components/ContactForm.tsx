@@ -149,26 +149,28 @@ export default function ContactForm({ tab, darkMode = false }: ContactFormProps)
 
   const onSubmit = async (formData: Record<string, any>) => {
     try {
-      const response = await fetch('/api/contact/submit', {
+      // Prepare data for Web3Forms
+      const web3FormsData = {
+        access_key: 'a5ad8841-cb3e-4e63-a42a-035321de7a88',
+        subject: `[Bright Ears] ${tab === 'general' ? 'General Inquiry' : tab === 'corporate' ? 'Corporate Partnership' : 'Artist Support'}`,
+        from_name: 'Bright Ears Website',
+        form_type: tab,
+        ...formData,
+      };
+
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
-        body: JSON.stringify({
-          type: tab,
-          ...formData,
-        }),
+        body: JSON.stringify(web3FormsData),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
-        // Handle errors
-        if (response.status === 429) {
-          alert(t('errors.rateLimit'));
-          return;
-        }
-        throw new Error(data.error || t('errors.failed'));
+      if (!data.success) {
+        throw new Error(data.message || t('errors.failed'));
       }
 
       // Success
