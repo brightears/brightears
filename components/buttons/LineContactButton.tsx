@@ -32,7 +32,7 @@ export default function LineContactButton({
   const locale = params?.locale as string || 'en'
 
   // LINE Official Account ID for Bright Ears
-  const LINE_ACCOUNT_ID = '@brightears'
+  const LINE_ACCOUNT_ID = '@944grjuq'
 
   // Generate LINE deep link
   const handleLineClick = () => {
