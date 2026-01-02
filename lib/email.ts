@@ -6,8 +6,9 @@ import { ReactElement } from 'react'
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
 // Email configuration
+// Note: Using Resend's test domain until brightears.io is verified
 const EMAIL_CONFIG = {
-  fromAddress: process.env.EMAIL_FROM_ADDRESS || 'noreply@brightears.io',
+  fromAddress: process.env.EMAIL_FROM_ADDRESS || 'onboarding@resend.dev',
   fromName: 'Bright Ears',
   supportEmail: process.env.EMAIL_SUPPORT_ADDRESS || 'info@brightears.io',
   replyTo: process.env.EMAIL_REPLY_TO || 'info@brightears.io',
