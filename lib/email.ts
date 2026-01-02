@@ -90,6 +90,12 @@ export async function sendEmail(emailData: EmailData): Promise<EmailResult> {
   
   for (let attempt = 0; attempt <= EMAIL_CONFIG.maxRetries; attempt++) {
     try {
+      console.log('Attempting to send email via Resend:', {
+        from: `${EMAIL_CONFIG.fromName} <${EMAIL_CONFIG.fromAddress}>`,
+        to: emailData.to,
+        subject: emailData.subject,
+      })
+
       const result = await resend.emails.send({
         from: `${EMAIL_CONFIG.fromName} <${EMAIL_CONFIG.fromAddress}>`,
         to: emailData.to,
@@ -100,6 +106,14 @@ export async function sendEmail(emailData: EmailData): Promise<EmailResult> {
         tags: emailData.tags,
         attachments: emailData.attachments,
       })
+
+      // Debug: Log full Resend response
+      console.log('Resend API response:', JSON.stringify(result, null, 2))
+
+      // Check for errors in response
+      if (result.error) {
+        throw new Error(result.error.message || 'Resend API returned an error')
+      }
 
       // Log successful email
       await logEmail({

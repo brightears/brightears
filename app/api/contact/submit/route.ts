@@ -95,9 +95,12 @@ export async function POST(request: NextRequest) {
     let emailError: string | null = null;
 
     try {
+      // Note: Using Gmail until brightears.io domain is verified in Resend
+      const recipientEmail = process.env.CONTACT_FORM_EMAIL || 'platzer.norbert@gmail.com';
+
       if (validatedData.type === 'general') {
         await sendEmail({
-          to: 'support@brightears.io',
+          to: recipientEmail,
           subject: `[General Inquiry] ${validatedData.subject}`,
           html: `
             <h2>New General Inquiry</h2>
@@ -114,7 +117,7 @@ export async function POST(request: NextRequest) {
         emailSent = true;
       } else if (validatedData.type === 'corporate') {
         await sendEmail({
-          to: 'support@brightears.io',
+          to: recipientEmail,
           subject: `[Corporate Partnership] ${validatedData.companyName}`,
           html: `
             <h2>New Corporate Partnership Inquiry</h2>
@@ -134,7 +137,7 @@ export async function POST(request: NextRequest) {
         emailSent = true;
       } else if (validatedData.type === 'artistSupport') {
         await sendEmail({
-          to: 'support@brightears.io',
+          to: recipientEmail,
           subject: `[Artist Support] ${validatedData.supportTopic} - ${validatedData.artistName}`,
           html: `
             <h2>New Artist Support Request</h2>
