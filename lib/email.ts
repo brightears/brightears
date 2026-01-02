@@ -10,8 +10,8 @@ const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KE
 const EMAIL_CONFIG = {
   fromAddress: process.env.EMAIL_FROM_ADDRESS || 'onboarding@resend.dev',
   fromName: 'Bright Ears',
-  supportEmail: process.env.EMAIL_SUPPORT_ADDRESS || 'info@brightears.io',
-  replyTo: process.env.EMAIL_REPLY_TO || 'info@brightears.io',
+  supportEmail: process.env.EMAIL_SUPPORT_ADDRESS || 'support@brightears.io',
+  replyTo: process.env.EMAIL_REPLY_TO || 'support@brightears.io',
   // Retry configuration
   maxRetries: 3,
   retryDelay: 1000, // 1 second
