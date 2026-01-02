@@ -84,7 +84,7 @@ export default function Footer() {
                 <div className="flex space-x-4">
                   {/* Instagram */}
                   <a
-                    href="https://instagram.com/brightears"
+                    href="https://instagram.com/brightearsgroup"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-pure-white/70 hover:text-pure-white transition-colors"
