@@ -91,6 +91,14 @@ export async function generateMetadata({
       site: '@brightears',
       creator: '@brightears',
     },
+    icons: {
+      icon: [
+        { url: '/favicon.svg', type: 'image/svg+xml' },
+        { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+        { url: '/favicon-16.png', sizes: '16x16', type: 'image/png' },
+      ],
+      apple: '/logo.png',
+    },
     verification: {
       google: 'google-site-verification-code', // TODO: Add actual Google Search Console verification code
     },
