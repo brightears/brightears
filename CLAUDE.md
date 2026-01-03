@@ -1,7 +1,8 @@
 # Bright Ears Development Progress
 
 ## 🚨 DEPLOYMENT: THIS RUNS ON RENDER, NOT LOCALHOST! 🚨
-**Live URL: https://brightears.onrender.com**
+**Live URL: https://brightears.io** (custom domain as of January 3, 2026)
+**Render URL: https://brightears.onrender.com** (redirects to brightears.io)
 **Auto-deploys from GitHub: https://github.com/brightears/brightears**
 
 ## 🤖 IMPORTANT: ALWAYS USE SUB-AGENTS WHEN APPROPRIATE! 🤖
@@ -83,6 +84,12 @@ This checkpoint marks a **verified stable state** after successful deployment re
 - `app/components/ContactForm.tsx` - Web3Forms integration, UI fixes
 - `components/buttons/LineContactButton.tsx` - Correct LINE URL
 - `components/layout/Footer.tsx` - LINE URL, Instagram link
+
+5. **Custom Domain Setup (January 3, 2026)**
+   - Switched from `brightears.onrender.com` to `brightears.io`
+   - DNS configured in Namecheap: A record → `216.24.57.1`, CNAME www → `brightears.onrender.com`
+   - SSL certificate auto-provisioned by Render
+   - All internal URLs updated from onrender.com to brightears.io
 
 **Environment Notes:**
 - Web3Forms requires no env variables (access key in code, it's public)
