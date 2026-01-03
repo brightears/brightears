@@ -6,29 +6,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const currentDate = new Date();
 
   // Define static pages with their priorities and change frequencies
+  // Currently a single-page landing site
   const staticPages = [
     {
       path: '',
       priority: 1.0,
       changefreq: 'weekly' as const,
-      lastModified: currentDate
-    },
-    {
-      path: 'about',
-      priority: 0.8,
-      changefreq: 'monthly' as const,
-      lastModified: currentDate
-    },
-    {
-      path: 'faq',
-      priority: 0.7,
-      changefreq: 'monthly' as const,
-      lastModified: currentDate
-    },
-    {
-      path: 'contact',
-      priority: 0.7,
-      changefreq: 'monthly' as const,
       lastModified: currentDate
     },
   ];
