@@ -21,8 +21,8 @@ export async function generateMetadata({
   const { locale } = await params;
 
   const title = locale === 'th'
-    ? 'จองดีเจ วงดนตรี สำหรับโรงแรม | Bright Ears'
-    : 'Book Live Entertainment for Hotels & Venues | Bright Ears';
+    ? 'Bright Ears | เอเจนซี่บันเทิงไทย'
+    : 'Bright Ears | Thailand Entertainment Agency';
 
   const description = locale === 'th'
     ? 'แพลตฟอร์มจองศิลปินชั้นนำของไทย ดีเจและวงดนตรีมืออาชีพ 500+ คน งาน 10,000+ งาน ไม่มีค่าคอมมิชชั่น จองตรงจากเครือข่ายบันเทิงระดับพรีเมียมในกรุงเทพ'

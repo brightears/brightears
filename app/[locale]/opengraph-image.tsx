@@ -20,6 +20,9 @@ export default async function OGImage({ params }: { params: { locale: string } }
     ? 'ดีเจ วงดนตรี และเพลงประกอบสำหรับโรงแรม สถานที่ และงานอีเวนต์'
     : 'DJs, bands, and background music for hotels, venues, and events';
 
+  // Fetch logo from public folder
+  const logoUrl = 'https://brightears.io/logo.png';
+
   return new ImageResponse(
     (
       <div
@@ -59,31 +62,15 @@ export default async function OGImage({ params }: { params: { locale: string } }
             zIndex: 1,
           }}
         >
-          {/* Logo circle with BE */}
-          <div
+          {/* Actual Logo */}
+          <img
+            src={logoUrl}
+            width={140}
+            height={140}
             style={{
-              width: '120px',
-              height: '120px',
-              borderRadius: '60px',
-              background: 'linear-gradient(135deg, #00bbe4 0%, #2f6364 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               marginBottom: '40px',
-              border: '3px solid rgba(255,255,255,0.3)',
             }}
-          >
-            <span
-              style={{
-                fontSize: '48px',
-                fontWeight: 'bold',
-                color: 'white',
-                fontFamily: 'Georgia, serif',
-              }}
-            >
-              BE
-            </span>
-          </div>
+          />
 
           {/* Brand name */}
           <div
