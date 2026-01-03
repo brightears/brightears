@@ -38,9 +38,73 @@ This checkpoint marks a **verified stable state** after successful deployment re
 
 ---
 
-## Current Status (January 2, 2026) - 🎯 **CONTACT & SOCIAL INTEGRATION** ✅
+## Current Status (January 3, 2026) - 🎯 **SEO SETUP COMPLETE** ✅
 
-### ✅ **LATEST MILESTONE: CONTACT FORM & SOCIAL LINKS (January 2, 2026)**
+### ✅ **LATEST MILESTONE: SEO & GOOGLE SEARCH CONSOLE (January 3, 2026)**
+
+**Session: Complete SEO Setup for Single-Page Landing Site**
+
+**Current Site Structure:**
+- **Single-page landing site** (homepage only, EN + TH locales)
+- This is temporary while we build out the full marketplace over the coming months
+- Future pages (artists, about, faq, contact, booking flow) will be added incrementally
+
+**SEO Work Completed:**
+
+1. **Meta Tags & Open Graph**
+   - Bilingual meta titles: "Bright Ears | Thailand Entertainment Agency" / "Bright Ears | เอเจนซี่บันเทิงไทย"
+   - Bilingual descriptions optimized for search
+   - Keywords for both EN and TH markets
+
+2. **Dynamic OG/Twitter Images**
+   - Created `app/[locale]/opengraph-image.tsx` and `twitter-image.tsx`
+   - Fetches actual logo from `https://brightears.io/logo.png`
+   - Displays headline "20 years. One standard." (bilingual)
+   - Brand gradient background with accent bar
+   - 1200x630px images auto-generated per locale
+
+3. **Favicon**
+   - Created `public/favicon-16.png` and `public/favicon-32.png` from actual logo
+   - Apple touch icon uses `logo.png`
+
+4. **Sitemap Configuration**
+   - `app/sitemap.ts` - generates 2 URLs (homepage EN + TH)
+   - Fixed middleware to exclude `/sitemap.xml`, `/robots.txt`, `/ai.txt` from locale routing
+
+5. **robots.txt & ai.txt**
+   - Updated all URLs from `brightears.onrender.com` to `brightears.io`
+   - AI crawlers allowed (GPTBot, ClaudeBot, PerplexityBot)
+
+6. **Google Search Console**
+   - Domain verified via DNS TXT record in Namecheap
+   - Sitemap submitted successfully (2 pages discovered)
+   - Ready for indexing
+
+**Commits:**
+- `edb4398` - fix: Exclude SEO files from middleware to fix sitemap 404
+- `f7825ce` - fix: Update sitemap to reflect single-page landing site
+
+**Files Modified:**
+- `middleware.ts` - Added sitemap.xml, robots.txt, ai.txt exclusions
+- `app/sitemap.ts` - Simplified to homepage only
+- `app/[locale]/layout.tsx` - Updated title, favicon config
+- `app/[locale]/opengraph-image.tsx` - NEW: Dynamic OG image
+- `app/[locale]/twitter-image.tsx` - NEW: Dynamic Twitter image
+- `public/robots.txt` - Updated URLs
+- `public/ai.txt` - Updated URLs
+- `public/favicon-16.png` - NEW: From logo
+- `public/favicon-32.png` - NEW: From logo
+
+**Next Phase: Marketplace Build-out**
+- Over the coming months, will add: Browse Artists, Artist Profiles, Booking Flow
+- Sitemap will be updated as pages are added
+- Current SEO foundation is ready to scale
+
+---
+
+## Previous Status (January 2, 2026) - 🎯 **CONTACT & SOCIAL INTEGRATION** ✅
+
+### ✅ **PREVIOUS MILESTONE: CONTACT FORM & SOCIAL LINKS (January 2, 2026)**
 
 **Session: Contact Form Email + LINE + Social Media Integration**
 
