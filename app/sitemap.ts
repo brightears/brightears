@@ -1,7 +1,6 @@
 import { MetadataRoute } from 'next';
-import { prisma } from '@/lib/prisma';
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://brightears.io';
   const locales = ['en', 'th'] as const;
   const currentDate = new Date();
@@ -11,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       path: '',
       priority: 1.0,
-      changefreq: 'daily' as const,
+      changefreq: 'weekly' as const,
       lastModified: currentDate
     },
     {
@@ -50,46 +49,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   );
 
-  // Fetch dynamic artist pages from database
-  let artistEntries: MetadataRoute.Sitemap = [];
-
-  try {
-    const artists = await prisma.artist.findMany({
-      where: {
-        user: {
-          isActive: true
-        }
-      },
-      select: {
-        id: true,
-        updatedAt: true,
-        stageName: true
-      },
-      orderBy: {
-        updatedAt: 'desc'
-      }
-    });
-
-    // Create artist profile entries for both locales
-    artistEntries = artists.flatMap((artist) =>
-      locales.map((locale) => ({
-        url: `${baseUrl}/${locale}/artists/${artist.id}`,
-        lastModified: artist.updatedAt,
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-        alternates: {
-          languages: {
-            en: `${baseUrl}/en/artists/${artist.id}`,
-            th: `${baseUrl}/th/artists/${artist.id}`,
-          },
-        },
-      }))
-    );
-  } catch (error) {
-    console.error('Error fetching artists for sitemap:', error);
-    // Return static entries only if database fails
-  }
-
-  // Combine all entries
-  return [...staticEntries, ...artistEntries];
+  return staticEntries;
 }

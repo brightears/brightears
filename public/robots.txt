@@ -1,5 +1,5 @@
 # Bright Ears Entertainment Booking Platform
-# https://brightears.onrender.com
+# https://brightears.io
 
 # AI Crawlers - EXPLICITLY ALLOWED for AI discoverability
 User-agent: GPTBot
@@ -71,7 +71,7 @@ User-agent: DotBot
 Disallow: /
 
 # Sitemap location
-Sitemap: https://brightears.onrender.com/sitemap.xml
+Sitemap: https://brightears.io/sitemap.xml
 
 # AI.txt location (AI-specific instructions)
-# See: https://brightears.onrender.com/ai.txt
+# See: https://brightears.io/ai.txt
