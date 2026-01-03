@@ -39,7 +39,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
   return {
-    metadataBase: new URL('https://brightears.onrender.com'),
+    metadataBase: new URL('https://brightears.io'),
     title: locale === 'th'
       ? 'Bright Ears - จองดีเจ วงดนตรี และศิลปินในประเทศไทย'
       : 'Bright Ears - Book DJs, Bands & Entertainment Thailand',

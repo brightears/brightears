@@ -227,7 +227,7 @@ export async function GET(req: NextRequest) {
       completedBookings: artist.completedBookings,
       genres: artist.genres,
       languages: artist.languages,
-      profileUrl: `https://brightears.onrender.com/en/artists/${artist.id}`,
+      profileUrl: `https://brightears.io/en/artists/${artist.id}`,
       profileImage: artist.profileImage,
       contactMethods: [
         artist.lineId ? 'LINE' : null,

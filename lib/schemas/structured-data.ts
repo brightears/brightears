@@ -54,7 +54,7 @@ export interface BreadcrumbSchemaProps {
  */
 export function generateOrganizationSchema({
   locale,
-  url = 'https://brightears.onrender.com'
+  url = 'https://brightears.io'
 }: OrganizationSchemaProps) {
   return {
     '@context': 'https://schema.org',
@@ -103,13 +103,13 @@ export function generateLocalBusinessSchema({
   const baseSchema: any = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    '@id': 'https://brightears.onrender.com/#business',
+    '@id': 'https://brightears.io/#business',
     name: 'Bright Ears',
     description:
       locale === 'th'
         ? 'แพลตฟอร์มจองบันเทิงสำหรับโรงแรมและสถานที่จัดงานในกรุงเทพ'
         : 'Entertainment booking platform for hotels and venues in Bangkok',
-    image: 'https://brightears.onrender.com/og-images/og-image-home.jpg',
+    image: 'https://brightears.io/og-images/og-image-home.jpg',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Bangkok',
@@ -169,7 +169,7 @@ export function generateArtistSchema({
   const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    '@id': `https://brightears.onrender.com/${locale}/artists/${artistId}`,
+    '@id': `https://brightears.io/${locale}/artists/${artistId}`,
     name: stageName,
     description: bio,
     image: profileImageUrl,

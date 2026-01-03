@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://brightears.onrender.com'),
+  metadataBase: new URL('https://brightears.io'),
   title: "Bright Ears - Book DJs, Bands & Entertainment Thailand",
   description: "Book professional DJs, bands, and entertainment for events in Thailand. No commission fees. Trusted by leading hotels and venues.",
 };

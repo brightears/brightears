@@ -43,7 +43,7 @@ async function makeUserAdmin(email: string) {
 
     console.log(`✅ Success! User ${email} is now an ADMIN`)
     console.log(`🎉 You can now access the admin dashboard at:`)
-    console.log(`   https://brightears.onrender.com/en/dashboard/admin`)
+    console.log(`   https://brightears.io/en/dashboard/admin`)
 
   } catch (error) {
     console.error(`❌ Error updating user role:`, error)

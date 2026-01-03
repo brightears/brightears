@@ -47,7 +47,7 @@ interface ArtistSchemaProps {
 }
 
 export default function ArtistSchema({ artist, locale = 'en' }: ArtistSchemaProps) {
-  const baseUrl = 'https://brightears.onrender.com'
+  const baseUrl = 'https://brightears.io'
   const artistUrl = `${baseUrl}/${locale}/artists/${artist.id}`
 
   // Determine if this is a group or individual

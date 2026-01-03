@@ -101,7 +101,7 @@ export default async function HomePage({
     items: [
       {
         name: locale === 'th' ? 'หน้าแรก' : 'Home',
-        url: `https://brightears.onrender.com/${locale}`
+        url: `https://brightears.io/${locale}`
       }
     ]
   });

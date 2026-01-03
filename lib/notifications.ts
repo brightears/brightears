@@ -75,7 +75,7 @@ export async function notifyArtistOfInquiry(
 
     // Prepare notification data
     const artistName = artist.stageName || `${artist.user.firstName} ${artist.user.lastName}`
-    const dashboardUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://brightears.onrender.com'}/artist/dashboard/inquiries/${data.bookingId}`
+    const dashboardUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://brightears.io'}/artist/dashboard/inquiries/${data.bookingId}`
 
     // Check notification preferences
     const emailEnabled = artist.user.emailPreference?.bookingInquiries ?? true

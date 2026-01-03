@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/prisma';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://brightears.onrender.com';
+  const baseUrl = 'https://brightears.io';
   const locales = ['en', 'th'] as const;
   const currentDate = new Date();
 
