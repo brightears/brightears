@@ -174,7 +174,6 @@ export async function POST(
           user = await tx.user.create({
             data: {
               email: application.email,
-              phone: application.phone,
               role: 'ARTIST',
               name: application.applicantName,
               isActive: true
