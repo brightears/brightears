@@ -7,7 +7,6 @@ import { useTranslations } from 'next-intl';
 import {
   UserIcon,
   EnvelopeIcon,
-  PhoneIcon,
   MusicalNoteIcon,
   PhotoIcon,
   BriefcaseIcon,
@@ -173,32 +172,6 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
             )}
           </div>
 
-          {/* Phone Number */}
-          <div>
-            <label htmlFor="phone" className="block font-inter text-sm font-medium text-white mb-1">
-              {t('fields.phone')} <span className="text-red-500" aria-label={t('required')}>*</span>
-            </label>
-            <div className="relative">
-              <PhoneIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
-              <input
-                id="phone"
-                type="tel"
-                {...register('phone')}
-                className={`w-full pl-10 pr-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
-                  errors.phone ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
-                }`}
-                placeholder="0812345678"
-                maxLength={10}
-                aria-required="true"
-                aria-invalid={!!errors.phone}
-              />
-            </div>
-            {errors.phone && (
-              <p className="mt-1 text-sm text-red-600 font-inter">{errors.phone.message}</p>
-            )}
-            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.phoneHelp')}</p>
-          </div>
-
           {/* LINE ID */}
           <div>
             <label htmlFor="lineId" className="block font-inter text-sm font-medium text-white mb-1">
@@ -219,6 +192,22 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
               <p className="mt-1 text-sm text-red-600 font-inter">{errors.lineId.message}</p>
             )}
             <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.lineIdHelp')}</p>
+          </div>
+
+          {/* Instagram (Optional) */}
+          <div>
+            <label htmlFor="instagram" className="block font-inter text-sm font-medium text-white mb-1">
+              {t('fields.instagram')}
+            </label>
+            <input
+              id="instagram"
+              type="text"
+              {...register('instagram')}
+              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
+              placeholder="@yourhandle"
+              maxLength={30}
+            />
+            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.instagramHelp')}</p>
           </div>
 
           {/* Stage Name */}

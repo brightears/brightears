@@ -11,15 +11,12 @@ import { z } from 'zod';
 // =====================================================
 
 /**
- * Thai Phone Number Validator (10 digits starting with 06/08/09)
+ * Instagram Handle Validator (optional, strips @ if provided)
  */
-const thaiPhoneSchema = z.string()
-  .regex(/^[0-9]+$/, 'Phone number can only contain digits')
-  .length(10, 'Phone number must be exactly 10 digits')
-  .refine(
-    (phone) => ['06', '08', '09'].some(prefix => phone.startsWith(prefix)),
-    { message: 'Phone number must start with 06, 08, or 09' }
-  );
+const instagramSchema = z.string()
+  .max(30, 'Instagram handle is too long')
+  .transform((val) => val.startsWith('@') ? val.slice(1) : val)
+  .optional();
 
 /**
  * LINE ID Validator (automatically prepends @ if missing)
@@ -141,9 +138,9 @@ export const djApplicationSchema = z.object({
     .max(254, 'Email address is too long')
     .toLowerCase(),
 
-  phone: thaiPhoneSchema,
-
   lineId: lineIdSchema,
+
+  instagram: instagramSchema,
 
   stageName: z.string()
     .min(2, 'Stage name must be at least 2 characters')

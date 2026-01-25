@@ -1197,10 +1197,10 @@
     "fields": {
       "fullName": "Full Name",
       "email": "Email Address",
-      "phone": "Phone Number",
-      "phoneHelp": "Thai mobile number (10 digits, starting with 06, 08, or 09)",
       "lineId": "LINE ID",
       "lineIdHelp": "We'll prepend @ automatically if you don't include it",
+      "instagram": "Instagram",
+      "instagramHelp": "Optional - helps us see your work",
       "stageName": "Stage Name / Artist Name",
       "bio": "About You / Bio",
       "bioPlaceholder": "Tell us about your experience, style, and what makes you unique as an artist. What kind of events do you specialize in? What's your performance style?",
