@@ -57,7 +57,7 @@ export default async function ApplyPage({
   const t = await getTranslations('apply');
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-off-white to-white">
+    <main className="min-h-screen bg-gradient-to-b from-stone-900 via-stone-800 to-stone-900">
       {/* Hero Section */}
       <section className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-teal via-deep-teal/95 to-brand-cyan/80 overflow-hidden">
         {/* Decorative orbs */}
@@ -106,61 +106,61 @@ export default async function ApplyPage({
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Benefits Sidebar */}
             <div className="lg:col-span-1 space-y-6">
-              <div className="bg-gradient-to-br from-brand-cyan/5 to-soft-lavender/5 border border-brand-cyan/10 rounded-2xl p-6 sticky top-24">
-                <h2 className="font-playfair text-xl font-bold text-deep-teal mb-6">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sticky top-24">
+                <h2 className="font-playfair text-xl font-bold text-white mb-6">
                   {t('benefits.title')}
                 </h2>
 
                 <div className="space-y-5">
                   {/* Benefit 1 */}
                   <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-brand-cyan/10 rounded-lg flex items-center justify-center">
+                    <div className="flex-shrink-0 w-10 h-10 bg-brand-cyan/20 rounded-lg flex items-center justify-center">
                       <svg className="w-5 h-5 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-inter font-semibold text-dark-gray">{t('benefits.item1Title')}</h3>
-                      <p className="font-inter text-sm text-dark-gray/70">{t('benefits.item1Desc')}</p>
+                      <h3 className="font-inter font-semibold text-white">{t('benefits.item1Title')}</h3>
+                      <p className="font-inter text-sm text-white/70">{t('benefits.item1Desc')}</p>
                     </div>
                   </div>
 
                   {/* Benefit 2 */}
                   <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-brand-cyan/10 rounded-lg flex items-center justify-center">
+                    <div className="flex-shrink-0 w-10 h-10 bg-brand-cyan/20 rounded-lg flex items-center justify-center">
                       <svg className="w-5 h-5 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-inter font-semibold text-dark-gray">{t('benefits.item2Title')}</h3>
-                      <p className="font-inter text-sm text-dark-gray/70">{t('benefits.item2Desc')}</p>
+                      <h3 className="font-inter font-semibold text-white">{t('benefits.item2Title')}</h3>
+                      <p className="font-inter text-sm text-white/70">{t('benefits.item2Desc')}</p>
                     </div>
                   </div>
 
                   {/* Benefit 3 */}
                   <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-brand-cyan/10 rounded-lg flex items-center justify-center">
+                    <div className="flex-shrink-0 w-10 h-10 bg-brand-cyan/20 rounded-lg flex items-center justify-center">
                       <svg className="w-5 h-5 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-inter font-semibold text-dark-gray">{t('benefits.item3Title')}</h3>
-                      <p className="font-inter text-sm text-dark-gray/70">{t('benefits.item3Desc')}</p>
+                      <h3 className="font-inter font-semibold text-white">{t('benefits.item3Title')}</h3>
+                      <p className="font-inter text-sm text-white/70">{t('benefits.item3Desc')}</p>
                     </div>
                   </div>
 
                   {/* Benefit 4 */}
                   <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-brand-cyan/10 rounded-lg flex items-center justify-center">
+                    <div className="flex-shrink-0 w-10 h-10 bg-brand-cyan/20 rounded-lg flex items-center justify-center">
                       <svg className="w-5 h-5 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-inter font-semibold text-dark-gray">{t('benefits.item4Title')}</h3>
-                      <p className="font-inter text-sm text-dark-gray/70">{t('benefits.item4Desc')}</p>
+                      <h3 className="font-inter font-semibold text-white">{t('benefits.item4Title')}</h3>
+                      <p className="font-inter text-sm text-white/70">{t('benefits.item4Desc')}</p>
                     </div>
                   </div>
                 </div>

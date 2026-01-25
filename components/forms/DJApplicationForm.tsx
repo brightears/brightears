@@ -109,13 +109,13 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
               />
             </svg>
           </div>
-          <h2 className="font-playfair text-3xl font-bold text-deep-teal mb-4">
+          <h2 className="font-playfair text-3xl font-bold text-white mb-4">
             {t('success.title')}
           </h2>
-          <p className="font-inter text-lg text-dark-gray/80 mb-6">
+          <p className="font-inter text-lg text-white/80 mb-6">
             {t('success.message')}
           </p>
-          <p className="font-inter text-sm text-dark-gray/60">
+          <p className="font-inter text-sm text-white/60">
             {t('success.timeline')}
           </p>
         </div>
@@ -128,14 +128,14 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       {/* Error Alert */}
       {submitError && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-700 font-inter text-sm">{submitError}</p>
+        <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
+          <p className="text-red-300 font-inter text-sm">{submitError}</p>
         </div>
       )}
 
       {/* SECTION 1: BASIC INFORMATION */}
-      <section className="bg-white/70 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-lg">
-        <h3 className="font-playfair text-2xl font-bold text-deep-teal mb-6 flex items-center gap-2">
+      <section className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-lg">
+        <h3 className="font-playfair text-2xl font-bold text-white mb-6 flex items-center gap-2">
           <UserIcon className="w-6 h-6 text-brand-cyan" />
           {t('sections.basic')}
         </h3>
@@ -143,7 +143,7 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
         <div className="space-y-4">
           {/* Full Name */}
           <div>
-            <label htmlFor="fullName" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="fullName" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.fullName')} <span className="text-red-500" aria-label={t('required')}>*</span>
             </label>
             <input
@@ -151,7 +151,7 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
               type="text"
               {...register('fullName')}
               className={`w-full px-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
-                errors.fullName ? 'border-red-500' : 'border-gray-300'
+                errors.fullName ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
               }`}
               aria-required="true"
               aria-invalid={!!errors.fullName}
@@ -163,17 +163,17 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="email" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.email')} <span className="text-red-500" aria-label={t('required')}>*</span>
             </label>
             <div className="relative">
-              <EnvelopeIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <EnvelopeIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
               <input
                 id="email"
                 type="email"
                 {...register('email')}
                 className={`w-full pl-10 pr-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
-                  errors.email ? 'border-red-500' : 'border-gray-300'
+                  errors.email ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
                 }`}
                 placeholder="artist@example.com"
                 aria-required="true"
@@ -187,17 +187,17 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
 
           {/* Phone Number */}
           <div>
-            <label htmlFor="phone" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="phone" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.phone')} <span className="text-red-500" aria-label={t('required')}>*</span>
             </label>
             <div className="relative">
-              <PhoneIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <PhoneIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
               <input
                 id="phone"
                 type="tel"
                 {...register('phone')}
                 className={`w-full pl-10 pr-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
-                  errors.phone ? 'border-red-500' : 'border-gray-300'
+                  errors.phone ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
                 }`}
                 placeholder="0812345678"
                 maxLength={10}
@@ -208,12 +208,12 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
             {errors.phone && (
               <p className="mt-1 text-sm text-red-600 font-inter">{errors.phone.message}</p>
             )}
-            <p className="mt-1 text-xs text-dark-gray/60 font-inter">{t('fields.phoneHelp')}</p>
+            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.phoneHelp')}</p>
           </div>
 
           {/* LINE ID */}
           <div>
-            <label htmlFor="lineId" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="lineId" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.lineId')} <span className="text-red-500" aria-label={t('required')}>*</span>
             </label>
             <input
@@ -221,7 +221,7 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
               type="text"
               {...register('lineId')}
               className={`w-full px-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
-                errors.lineId ? 'border-red-500' : 'border-gray-300'
+                errors.lineId ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
               }`}
               placeholder="@yourlineid"
               aria-required="true"
@@ -230,12 +230,12 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
             {errors.lineId && (
               <p className="mt-1 text-sm text-red-600 font-inter">{errors.lineId.message}</p>
             )}
-            <p className="mt-1 text-xs text-dark-gray/60 font-inter">{t('fields.lineIdHelp')}</p>
+            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.lineIdHelp')}</p>
           </div>
 
           {/* Stage Name */}
           <div>
-            <label htmlFor="stageName" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="stageName" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.stageName')} <span className="text-red-500" aria-label={t('required')}>*</span>
             </label>
             <input
@@ -243,7 +243,7 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
               type="text"
               {...register('stageName')}
               className={`w-full px-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
-                errors.stageName ? 'border-red-500' : 'border-gray-300'
+                errors.stageName ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
               }`}
               placeholder="DJ Thunder"
               aria-required="true"
@@ -257,8 +257,8 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
       </section>
 
       {/* SECTION 2: PROFESSIONAL DETAILS */}
-      <section className="bg-white/70 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-lg">
-        <h3 className="font-playfair text-2xl font-bold text-deep-teal mb-6 flex items-center gap-2">
+      <section className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-lg">
+        <h3 className="font-playfair text-2xl font-bold text-white mb-6 flex items-center gap-2">
           <MusicalNoteIcon className="w-6 h-6 text-brand-cyan" />
           {t('sections.professional')}
         </h3>
@@ -266,7 +266,7 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
         <div className="space-y-4">
           {/* Bio */}
           <div>
-            <label htmlFor="bio" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="bio" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.bio')} <span className="text-red-500" aria-label={t('required')}>*</span>
             </label>
             <textarea
@@ -274,7 +274,7 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
               {...register('bio')}
               rows={5}
               className={`w-full px-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors resize-none ${
-                errors.bio ? 'border-red-500' : 'border-gray-300'
+                errors.bio ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
               }`}
               placeholder={t('fields.bioPlaceholder')}
               maxLength={500}
@@ -284,19 +284,19 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
             {errors.bio && (
               <p className="mt-1 text-sm text-red-600 font-inter">{errors.bio.message}</p>
             )}
-            <p className="mt-1 text-xs text-dark-gray/60 font-inter">{t('fields.bioHelp')}</p>
+            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.bioHelp')}</p>
           </div>
 
           {/* Category */}
           <div>
-            <label htmlFor="category" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="category" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.category')} <span className="text-red-500" aria-label={t('required')}>*</span>
             </label>
             <select
               id="category"
               {...register('category')}
               className={`w-full px-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
-                errors.category ? 'border-red-500' : 'border-gray-300'
+                errors.category ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
               }`}
               aria-required="true"
               aria-invalid={!!errors.category}
@@ -315,10 +315,10 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
 
           {/* Genres (Multi-select Checkboxes) */}
           <div>
-            <label className="block font-inter text-sm font-medium text-dark-gray mb-2">
+            <label className="block font-inter text-sm font-medium text-white mb-2">
               {t('fields.genres')} <span className="text-red-500" aria-label={t('required')}>*</span>
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-64 overflow-y-auto border border-gray-300 rounded-lg p-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-64 overflow-y-auto border border-white/20 bg-white/5 text-white rounded-lg p-4">
               {MUSIC_GENRES.map((genre) => (
                 <label
                   key={genre}
@@ -337,35 +337,35 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
                             : (field.value || []).filter((g) => g !== genre);
                           field.onChange(newValue);
                         }}
-                        className="w-4 h-4 text-brand-cyan border-gray-300 rounded focus:ring-brand-cyan"
+                        className="w-4 h-4 text-brand-cyan border-white/30 bg-white/10 rounded focus:ring-brand-cyan"
                       />
                     )}
                   />
-                  <span className="font-inter text-sm text-dark-gray">{genre}</span>
+                  <span className="font-inter text-sm text-white">{genre}</span>
                 </label>
               ))}
             </div>
             {errors.genres && (
               <p className="mt-1 text-sm text-red-600 font-inter">{errors.genres.message}</p>
             )}
-            <p className="mt-1 text-xs text-dark-gray/60 font-inter">
+            <p className="mt-1 text-xs text-white/60 font-inter">
               {t('fields.genresHelp')} ({selectedGenres.length}/10)
             </p>
           </div>
 
           {/* Profile Photo URL */}
           <div>
-            <label htmlFor="profilePhotoUrl" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="profilePhotoUrl" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.profilePhoto')} <span className="text-red-500" aria-label={t('required')}>*</span>
             </label>
             <div className="relative">
-              <PhotoIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <PhotoIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
               <input
                 id="profilePhotoUrl"
                 type="url"
                 {...register('profilePhotoUrl')}
                 className={`w-full pl-10 pr-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
-                  errors.profilePhotoUrl ? 'border-red-500' : 'border-gray-300'
+                  errors.profilePhotoUrl ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
                 }`}
                 placeholder="https://example.com/photo.jpg"
                 aria-required="true"
@@ -375,14 +375,14 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
             {errors.profilePhotoUrl && (
               <p className="mt-1 text-sm text-red-600 font-inter">{errors.profilePhotoUrl.message}</p>
             )}
-            <p className="mt-1 text-xs text-dark-gray/60 font-inter">{t('fields.profilePhotoHelp')}</p>
+            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.profilePhotoHelp')}</p>
           </div>
         </div>
       </section>
 
       {/* SECTION 3: OPTIONAL DETAILS */}
-      <section className="bg-white/70 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-lg">
-        <h3 className="font-playfair text-2xl font-bold text-deep-teal mb-6 flex items-center gap-2">
+      <section className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-lg">
+        <h3 className="font-playfair text-2xl font-bold text-white mb-6 flex items-center gap-2">
           <BriefcaseIcon className="w-6 h-6 text-brand-cyan" />
           {t('sections.optional')}
         </h3>
@@ -390,44 +390,44 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
         <div className="space-y-4">
           {/* Website / Social Media */}
           <div>
-            <label htmlFor="website" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="website" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.website')}
             </label>
             <input
               id="website"
               type="url"
               {...register('website')}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
+              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
               placeholder="https://yourwebsite.com"
             />
           </div>
 
           {/* Social Media Links */}
           <div>
-            <label htmlFor="socialMediaLinks" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="socialMediaLinks" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.socialMedia')}
             </label>
             <textarea
               id="socialMediaLinks"
               {...register('socialMediaLinks')}
               rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors resize-none"
+              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors resize-none"
               placeholder={t('fields.socialMediaPlaceholder')}
               maxLength={500}
             />
-            <p className="mt-1 text-xs text-dark-gray/60 font-inter">{t('fields.socialMediaHelp')}</p>
+            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.socialMediaHelp')}</p>
           </div>
 
           {/* Years of Experience */}
           <div>
-            <label htmlFor="yearsExperience" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="yearsExperience" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.experience')}
             </label>
             <input
               id="yearsExperience"
               type="number"
               {...register('yearsExperience', { valueAsNumber: true })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
+              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
               placeholder="5"
               min="0"
               max="50"
@@ -436,14 +436,14 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
 
           {/* Equipment Owned */}
           <div>
-            <label htmlFor="equipmentOwned" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="equipmentOwned" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.equipment')}
             </label>
             <textarea
               id="equipmentOwned"
               {...register('equipmentOwned')}
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors resize-none"
+              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors resize-none"
               placeholder={t('fields.equipmentPlaceholder')}
               maxLength={1000}
             />
@@ -451,31 +451,31 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
 
           {/* Portfolio Links */}
           <div>
-            <label htmlFor="portfolioLinks" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="portfolioLinks" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.portfolio')}
             </label>
             <textarea
               id="portfolioLinks"
               {...register('portfolioLinks')}
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors resize-none"
+              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors resize-none"
               placeholder={t('fields.portfolioPlaceholder')}
               maxLength={1000}
             />
-            <p className="mt-1 text-xs text-dark-gray/60 font-inter">{t('fields.portfolioHelp')}</p>
+            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.portfolioHelp')}</p>
           </div>
 
           {/* Base Location */}
           <div>
-            <label htmlFor="baseLocation" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="baseLocation" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.location')}
             </label>
             <div className="relative">
-              <MapPinIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <MapPinIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
               <select
                 id="baseLocation"
                 {...register('baseLocation')}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
+                className="w-full pl-10 pr-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
               >
                 <option value="">{t('fields.locationPlaceholder')}</option>
                 {THAI_CITIES.map((city) => (
@@ -489,29 +489,29 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
 
           {/* Hourly Rate Expectation */}
           <div>
-            <label htmlFor="hourlyRateExpectation" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+            <label htmlFor="hourlyRateExpectation" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.rate')}
             </label>
             <div className="relative">
-              <CurrencyDollarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <CurrencyDollarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
               <input
                 id="hourlyRateExpectation"
                 type="number"
                 {...register('hourlyRateExpectation', { valueAsNumber: true })}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
+                className="w-full pl-10 pr-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
                 placeholder="3000"
                 min="500"
                 max="100000"
               />
             </div>
-            <p className="mt-1 text-xs text-dark-gray/60 font-inter">{t('fields.rateHelp')}</p>
+            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.rateHelp')}</p>
           </div>
         </div>
       </section>
 
       {/* SECTION 4: MUSIC DESIGN SERVICES */}
       <section className="bg-gradient-to-br from-soft-lavender/10 to-brand-cyan/10 backdrop-blur-md border border-soft-lavender/30 rounded-2xl p-6 shadow-lg">
-        <h3 className="font-playfair text-2xl font-bold text-deep-teal mb-6 flex items-center gap-2">
+        <h3 className="font-playfair text-2xl font-bold text-white mb-6 flex items-center gap-2">
           <SparklesIcon className="w-6 h-6 text-soft-lavender" />
           {t('sections.musicDesign')}
         </h3>
@@ -522,13 +522,13 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
             <input
               type="checkbox"
               {...register('interestedInMusicDesign')}
-              className="mt-1 w-5 h-5 text-brand-cyan border-gray-300 rounded focus:ring-brand-cyan"
+              className="mt-1 w-5 h-5 text-brand-cyan border-white/30 bg-white/10 rounded focus:ring-brand-cyan"
             />
             <div>
-              <span className="font-inter text-base font-medium text-dark-gray group-hover:text-brand-cyan transition-colors">
+              <span className="font-inter text-base font-medium text-white group-hover:text-brand-cyan transition-colors">
                 {t('fields.musicDesignInterest')}
               </span>
-              <p className="mt-1 text-sm text-dark-gray/70 font-inter">
+              <p className="mt-1 text-sm text-white/70 font-inter">
                 {t('fields.musicDesignHelp')}
               </p>
             </div>
@@ -536,49 +536,49 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
 
           {/* Conditional Fee Fields */}
           {interestedInMusicDesign && (
-            <div className="mt-4 p-4 bg-white/50 rounded-lg space-y-4">
+            <div className="mt-4 p-4 bg-white/10 rounded-lg space-y-4">
               {/* One-time Design Fee */}
               <div>
-                <label htmlFor="designFee" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+                <label htmlFor="designFee" className="block font-inter text-sm font-medium text-white mb-1">
                   {t('fields.designFee')}
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-inter text-sm">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60 font-inter text-sm">
                     ฿
                   </span>
                   <input
                     id="designFee"
                     type="number"
                     {...register('designFee', { valueAsNumber: true })}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
+                    className="w-full pl-8 pr-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
                     placeholder="15000"
                     min="0"
                     max="500000"
                   />
                 </div>
-                <p className="mt-1 text-xs text-dark-gray/60 font-inter">{t('fields.designFeeHelp')}</p>
+                <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.designFeeHelp')}</p>
               </div>
 
               {/* Monthly Curation Fee */}
               <div>
-                <label htmlFor="monthlyFee" className="block font-inter text-sm font-medium text-dark-gray mb-1">
+                <label htmlFor="monthlyFee" className="block font-inter text-sm font-medium text-white mb-1">
                   {t('fields.monthlyFee')}
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-inter text-sm">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60 font-inter text-sm">
                     ฿
                   </span>
                   <input
                     id="monthlyFee"
                     type="number"
                     {...register('monthlyFee', { valueAsNumber: true })}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
+                    className="w-full pl-8 pr-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
                     placeholder="5000"
                     min="0"
                     max="200000"
                   />
                 </div>
-                <p className="mt-1 text-xs text-dark-gray/60 font-inter">{t('fields.monthlyFeeHelp')}</p>
+                <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.monthlyFeeHelp')}</p>
               </div>
 
               {errors.designFee && (
