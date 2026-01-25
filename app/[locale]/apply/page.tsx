@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import Image from 'next/image';
 import DJApplicationForm from '@/components/forms/DJApplicationForm';
 
 export async function generateMetadata({
@@ -59,10 +60,17 @@ export default async function ApplyPage({
   return (
     <main className="min-h-screen bg-gradient-to-b from-stone-900 via-stone-800 to-stone-900">
       {/* Hero Section */}
-      <section className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-teal via-deep-teal/95 to-brand-cyan/80 overflow-hidden">
-        {/* Decorative orbs */}
-        <div className="absolute top-10 right-10 w-64 h-64 bg-brand-cyan/20 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-48 h-48 bg-soft-lavender/20 rounded-full filter blur-3xl" />
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Background Image */}
+        <Image
+          src="/images/apply-hero.png"
+          alt=""
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-deep-teal/80 via-deep-teal/70 to-stone-900/90" />
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Badge */}
