@@ -1173,7 +1173,7 @@
   "apply": {
     "badge": "Join Our Artist Community",
     "title": "Apply to Join Bright Ears",
-    "subtitle": "Fill out the application below and we'll review it within 3-5 business days. We manually vet all artists to ensure quality for our clients.",
+    "subtitle": "Submit your details and we'll reach out if there's a good fit.",
     "stats": {
       "artists": "Active Artists",
       "events": "Events Delivered",
@@ -1186,9 +1186,7 @@
       "item2Title": "We Handle the Admin",
       "item2Desc": "Focus on your music. We manage contracts, invoicing, and logistics.",
       "item3Title": "Work on Your Terms",
-      "item3Desc": "Accept gigs that fit your schedule. No minimum commitments.",
-      "item4Title": "Marketing Support",
-      "item4Desc": "Be featured on our platform with professional SEO and social media promotion."
+      "item3Desc": "No exclusive contracts or commitments. Take or leave gigs, work with others—totally up to you."
     },
     "sections": {
       "basic": "Basic Information",
