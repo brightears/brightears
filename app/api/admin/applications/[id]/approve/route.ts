@@ -214,7 +214,9 @@ export async function POST(
           minimumHours: 2,
           currency: 'THB',
           languages: ['en', 'th'],
-          genres: application.genres,
+          genres: application.genres
+            ? application.genres.split(',').map((g: string) => g.trim()).filter((g: string) => g.length > 0)
+            : [],
           profileImage: application.profilePhotoUrl || null,
           website: application.website || null,
           facebook: facebook || null,
