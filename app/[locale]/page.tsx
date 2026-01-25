@@ -348,6 +348,42 @@ export default async function HomePage({
           </div>
         </section>
 
+        {/* DJ Application CTA Section */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-stone-900 via-deep-teal/80 to-stone-900 relative overflow-hidden">
+          {/* Decorative orbs */}
+          <div className="absolute top-10 left-10 w-64 h-64 bg-brand-cyan/10 rounded-full filter blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-48 h-48 bg-soft-lavender/10 rounded-full filter blur-3xl" />
+
+          <div className="max-w-4xl mx-auto text-center relative z-10">
+            <div className="w-20 h-20 mx-auto mb-8 bg-gradient-to-br from-brand-cyan to-deep-teal rounded-full flex items-center justify-center ring-4 ring-brand-cyan/20">
+              <svg className="w-10 h-10 text-white" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="2"/>
+                <circle cx="16" cy="16" r="5" stroke="currentColor" strokeWidth="2"/>
+                <circle cx="16" cy="16" r="2" fill="currentColor"/>
+                <path d="M16 2C16 2 20 8 20 16C20 24 16 30 16 30" stroke="currentColor" strokeWidth="1" opacity="0.4"/>
+              </svg>
+            </div>
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-white mb-4">
+              {t('landing.djCta.title')}
+            </h2>
+            <p className="font-inter text-xl text-white/70 mb-8 max-w-2xl mx-auto">
+              {t('landing.djCta.subtitle')}
+            </p>
+            <Link
+              href="/apply"
+              className="inline-flex items-center gap-3 bg-brand-cyan text-white px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-brand-cyan/90 transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-brand-cyan/25"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+              </svg>
+              {t('landing.djCta.button')}
+            </Link>
+            <p className="font-inter text-sm text-white/50 mt-6">
+              {t('landing.djCta.note')}
+            </p>
+          </div>
+        </section>
+
         {/* Contact Section - Dark gradient background */}
         <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-teal via-deep-teal/95 to-earthy-brown/80 relative overflow-hidden scroll-mt-20">
           {/* Decorative orb */}

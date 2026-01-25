@@ -2060,6 +2060,12 @@
     "clients": {
       "title": "Trusted By"
     },
+    "djCta": {
+      "title": "Are You a DJ?",
+      "subtitle": "Join our roster of 500+ artists. Zero commission, premium clients, and your own dashboard to manage bookings.",
+      "button": "Apply to Join",
+      "note": "Applications reviewed within 3-5 business days"
+    },
     "contact": {
       "title": "Get in Touch",
       "subtitle": "Ready to book? Have questions? We're here to help.",
