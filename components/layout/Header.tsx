@@ -31,6 +31,7 @@ const Header: React.FC = () => {
     { label: t('services'), href: '/#services' },
     { label: t('about'), href: '/#about' },
     { label: t('contact'), href: '/#contact' },
+    { label: t('applyAsDJ'), href: '/apply' },
   ];
 
   useEffect(() => {
@@ -172,12 +173,6 @@ const Header: React.FC = () => {
               ) : isLoaded && (
                 <div className="hidden sm:flex items-center gap-3">
                   <Link
-                    href="/apply"
-                    className="px-4 py-2 rounded-xl transition-all duration-300 text-white hover:text-brand-cyan font-inter text-sm"
-                  >
-                    {t('applyAsDJ')}
-                  </Link>
-                  <Link
                     href="/sign-in"
                     className="px-4 py-2 bg-brand-cyan text-white font-inter text-sm font-medium rounded-xl transition-all duration-300 hover:bg-brand-cyan/90 hover:shadow-lg hover:shadow-brand-cyan/25"
                   >
@@ -264,13 +259,6 @@ const Header: React.FC = () => {
               </div>
             ) : (
               <div className="space-y-3">
-                <Link
-                  href="/apply"
-                  onClick={handleMobileMenuClose}
-                  className="w-full px-6 py-3 bg-white/10 text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:bg-white/20 text-center block"
-                >
-                  {t('applyAsDJ')}
-                </Link>
                 <Link
                   href="/sign-in"
                   onClick={handleMobileMenuClose}
