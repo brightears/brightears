@@ -80,7 +80,6 @@ export async function GET(req: NextRequest) {
         where.OR = [
           { applicantName: { contains: search, mode: 'insensitive' } },
           { email: { contains: search, mode: 'insensitive' } },
-          { phone: { contains: search } },
           { stageName: { contains: search, mode: 'insensitive' } }
         ]
       }
@@ -107,7 +106,7 @@ export async function GET(req: NextRequest) {
             id: true,
             applicantName: true,
             email: true,
-            phone: true,
+            instagram: true,
             lineId: true,
             stageName: true,
             category: true,
