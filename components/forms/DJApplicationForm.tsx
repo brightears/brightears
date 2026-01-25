@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import {
@@ -19,7 +19,6 @@ import {
   djApplicationSchema,
   type DJApplicationFormData,
   ARTIST_CATEGORIES,
-  MUSIC_GENRES,
   THAI_CITIES
 } from '@/lib/validation/application-schemas';
 
@@ -37,18 +36,15 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
     register,
     handleSubmit,
     watch,
-    control,
     formState: { errors }
   } = useForm<DJApplicationFormData>({
     resolver: zodResolver(djApplicationSchema),
     defaultValues: {
-      interestedInMusicDesign: false,
-      genres: []
+      interestedInMusicDesign: false
     }
   });
 
   const interestedInMusicDesign = watch('interestedInMusicDesign');
-  const selectedGenres = watch('genres') || [];
 
   const onSubmit = async (data: DJApplicationFormData) => {
     setIsSubmitting(true);
@@ -79,14 +75,6 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleGenreToggle = (genre: string) => {
-    const currentGenres = selectedGenres;
-    const newGenres = currentGenres.includes(genre)
-      ? currentGenres.filter((g) => g !== genre)
-      : [...currentGenres, genre];
-    return newGenres;
   };
 
   // Success State
@@ -313,44 +301,27 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
             )}
           </div>
 
-          {/* Genres (Multi-select Checkboxes) */}
+          {/* Genres */}
           <div>
-            <label className="block font-inter text-sm font-medium text-white mb-2">
+            <label htmlFor="genres" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.genres')} <span className="text-red-500" aria-label={t('required')}>*</span>
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-64 overflow-y-auto border border-white/20 bg-white/5 text-white rounded-lg p-4">
-              {MUSIC_GENRES.map((genre) => (
-                <label
-                  key={genre}
-                  className="flex items-center gap-2 cursor-pointer hover:bg-brand-cyan/5 p-2 rounded transition-colors"
-                >
-                  <Controller
-                    name="genres"
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        type="checkbox"
-                        checked={field.value?.includes(genre)}
-                        onChange={(e) => {
-                          const newValue = e.target.checked
-                            ? [...(field.value || []), genre]
-                            : (field.value || []).filter((g) => g !== genre);
-                          field.onChange(newValue);
-                        }}
-                        className="w-4 h-4 text-brand-cyan border-white/30 bg-white/10 rounded focus:ring-brand-cyan"
-                      />
-                    )}
-                  />
-                  <span className="font-inter text-sm text-white">{genre}</span>
-                </label>
-              ))}
-            </div>
+            <input
+              id="genres"
+              type="text"
+              {...register('genres')}
+              className={`w-full px-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
+                errors.genres ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
+              }`}
+              placeholder={t('fields.genresPlaceholder')}
+              maxLength={200}
+              aria-required="true"
+              aria-invalid={!!errors.genres}
+            />
             {errors.genres && (
               <p className="mt-1 text-sm text-red-600 font-inter">{errors.genres.message}</p>
             )}
-            <p className="mt-1 text-xs text-white/60 font-inter">
-              {t('fields.genresHelp')} ({selectedGenres.length}/10)
-            </p>
+            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.genresHelp')}</p>
           </div>
 
           {/* Profile Photo URL */}

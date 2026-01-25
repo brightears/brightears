@@ -155,9 +155,9 @@ export const djApplicationSchema = z.object({
     message: 'Please select a category'
   }),
 
-  genres: z.array(z.string())
-    .min(1, 'Please select at least one genre or specialty')
-    .max(10, 'Please select no more than 10 genres'),
+  genres: z.string()
+    .min(1, 'Please enter your music genres or specialties')
+    .max(200, 'Genres must not exceed 200 characters'),
 
   profilePhotoUrl: urlSchema.refine(
     (url) => url && url.trim() !== '',
