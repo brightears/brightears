@@ -297,12 +297,12 @@ model Application {
   // Basic Information (Required)
   applicantName          String            // Full name
   email                  String            // Email with validation
-  phone                  String            // Thai phone number (10 digits)
   lineId                 String            // LINE ID (with @ prepended)
+  instagram              String?           // Instagram handle (optional)
   stageName              String            // Artist/Stage name
   bio                    String            @db.Text // 100-500 characters
   category               ArtistCategory    // DJ, Band, Singer, etc.
-  genres                 String[]          // Music genres/specialties
+  genres                 String            // Music genres/specialties (free text)
   profilePhotoUrl        String            // URL to profile photo
 
   // Optional Information
@@ -330,7 +330,6 @@ model Application {
   updatedAt              DateTime          @updatedAt
 
   @@index([email])
-  @@index([phone])
   @@index([status])
   @@index([submittedAt])
   @@index([category])

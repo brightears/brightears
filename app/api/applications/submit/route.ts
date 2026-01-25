@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 const prisma = new PrismaClient();
 
-// Rate limiting: Track submissions by email/phone
+// Rate limiting: Track submissions by email
 const submissionTracker = new Map<string, { count: number; resetTime: number }>();
 
 const RATE_LIMIT = {
@@ -55,9 +55,8 @@ export async function POST(request: NextRequest) {
 
     // Rate limiting check
     const emailLimit = checkRateLimit(`email:${data.email}`);
-    const phoneLimit = checkRateLimit(`phone:${data.phone}`);
 
-    if (!emailLimit.allowed || !phoneLimit.allowed) {
+    if (!emailLimit.allowed) {
       return NextResponse.json(
         {
           error: 'Rate limit exceeded',
@@ -73,10 +72,7 @@ export async function POST(request: NextRequest) {
 
     const existingApplication = await prisma.application.findFirst({
       where: {
-        OR: [
-          { email: data.email },
-          { phone: data.phone },
-        ],
+        email: data.email,
         submittedAt: {
           gte: sevenDaysAgo,
         },
@@ -100,8 +96,8 @@ export async function POST(request: NextRequest) {
         // Basic Info
         applicantName: data.fullName,
         email: data.email.toLowerCase(),
-        phone: data.phone,
         lineId: data.lineId,
+        instagram: data.instagram || null,
         stageName: data.stageName,
         bio: data.bio,
         category: data.category,
