@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { FieldErrors } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import {
   UserIcon,
@@ -51,6 +52,12 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
 
   const interestedInMusicDesign = watch('interestedInMusicDesign');
 
+  // Scroll to top to show error summary when validation fails
+  const scrollToFirstError = useCallback((_fieldErrors: FieldErrors<DJApplicationFormData>) => {
+    // Scroll to top where the error summary is displayed
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     setPhotoError(null);
@@ -87,6 +94,14 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
     // Validate photo is uploaded
     if (!profilePhoto) {
       setPhotoError(t('fields.photoRequired'));
+      // Scroll to photo upload area
+      const photoElement = document.getElementById('profilePhoto');
+      if (photoElement) {
+        const headerOffset = 100;
+        const elementPosition = photoElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      }
       return;
     }
 
@@ -158,11 +173,46 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
 
   // Form State
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+    <form onSubmit={handleSubmit(onSubmit, scrollToFirstError)} className="space-y-8">
       {/* Error Alert */}
       {submitError && (
         <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
           <p className="text-red-300 font-inter text-sm">{submitError}</p>
+        </div>
+      )}
+
+      {/* Validation Error Summary */}
+      {Object.keys(errors).length > 0 && (
+        <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4" role="alert">
+          <p className="text-red-300 font-inter text-sm font-semibold mb-2">
+            {t('validation.errorSummary')}
+          </p>
+          <ul className="list-disc list-inside text-red-300 font-inter text-sm space-y-1">
+            {Object.entries(errors).map(([field, error]) => (
+              <li key={field}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const element = document.getElementById(field);
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      element.focus();
+                    }
+                  }}
+                  className="underline hover:text-red-200 text-left"
+                >
+                  {error?.message || `${field} is invalid`}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Photo Error Alert */}
+      {photoError && !Object.keys(errors).length && (
+        <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
+          <p className="text-red-300 font-inter text-sm">{photoError}</p>
         </div>
       )}
 

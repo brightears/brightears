@@ -130,7 +130,7 @@ export const djApplicationSchema = z.object({
   fullName: z.string()
     .min(2, 'Full name must be at least 2 characters')
     .max(100, 'Full name must not exceed 100 characters')
-    .regex(/^[a-zA-Z\s'-]+$/, 'Name can only contain letters, spaces, hyphens, and apostrophes'),
+    .regex(/^[\p{L}\s'-]+$/u, 'Name can only contain letters, spaces, hyphens, and apostrophes'),
 
   email: z.string()
     .min(1, 'Email is required')

@@ -1260,7 +1260,11 @@
     "footer": {
       "privacy": "Your information is kept confidential and used only for application review purposes."
     },
-    "required": "required"
+    "required": "required",
+    "validation": {
+      "errorSummary": "Please fix the following errors before submitting:",
+      "scrollToError": "Click on an error to jump to that field"
+    }
   },
   "lineContact": {
     "cta": "Contact on LINE",
