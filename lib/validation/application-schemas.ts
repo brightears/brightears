@@ -138,13 +138,22 @@ export const djApplicationSchema = z.object({
     .max(254, 'Email address is too long')
     .toLowerCase(),
 
-  lineId: lineIdSchema,
+  // LINE ID is now optional
+  lineId: z.string()
+    .max(50, 'LINE ID is too long')
+    .transform((val) => {
+      if (!val || val.trim() === '') return undefined;
+      return val.startsWith('@') ? val : `@${val}`;
+    })
+    .optional(),
 
   instagram: instagramSchema,
 
+  // Stage name is now optional
   stageName: z.string()
-    .min(2, 'Stage name must be at least 2 characters')
-    .max(50, 'Stage name must not exceed 50 characters'),
+    .max(50, 'Stage name must not exceed 50 characters')
+    .optional()
+    .transform((val) => val?.trim() || undefined),
 
   bio: bioSchema,
 
@@ -161,63 +170,10 @@ export const djApplicationSchema = z.object({
   // OPTIONAL FIELDS
   website: urlSchema,
 
-  socialMediaLinks: z.string()
-    .max(500, 'Social media links must not exceed 500 characters')
-    .optional(),
-
-  yearsExperience: z.union([
-    z.number().int('Years of experience must be a whole number').min(0, 'Years of experience cannot be negative').max(50, 'Please enter a realistic number of years'),
-    z.nan(),
-    z.literal('')
-  ]).optional().transform(v => (typeof v === 'number' && !isNaN(v)) ? v : undefined),
-
-  equipmentOwned: z.string()
-    .max(1000, 'Equipment description must not exceed 1000 characters')
-    .optional(),
-
-  portfolioLinks: z.string()
-    .max(1000, 'Portfolio links must not exceed 1000 characters')
-    .optional(),
-
   baseLocation: z.enum(thaiCities, {
     message: 'Please select your base location'
   }).optional(),
-
-  hourlyRateExpectation: z.union([
-    z.number().int('Hourly rate must be a whole number').min(500, 'Hourly rate must be at least ฿500').max(100000, 'Hourly rate must not exceed ฿100,000'),
-    z.nan(),
-    z.literal('')
-  ]).optional().transform(v => (typeof v === 'number' && !isNaN(v)) ? v : undefined),
-
-  // MUSIC DESIGN SERVICE INTEREST
-  interestedInMusicDesign: z.boolean().default(false),
-
-  designFee: z.union([
-    z.number().int('Design fee must be a whole number').min(0, 'Design fee cannot be negative').max(500000, 'Design fee must not exceed ฿500,000'),
-    z.nan(),
-    z.literal('')
-  ]).optional().nullable().transform(v => (typeof v === 'number' && !isNaN(v)) ? v : undefined),
-
-  monthlyFee: z.union([
-    z.number().int('Monthly fee must be a whole number').min(0, 'Monthly fee cannot be negative').max(200000, 'Monthly fee must not exceed ฿200,000'),
-    z.nan(),
-    z.literal('')
-  ]).optional().nullable().transform(v => (typeof v === 'number' && !isNaN(v)) ? v : undefined),
-}).refine(
-  (data) => {
-    // If interested in music design, at least one fee must be provided
-    if (data.interestedInMusicDesign) {
-      const hasDesignFee = data.designFee && data.designFee > 0;
-      const hasMonthlyFee = data.monthlyFee && data.monthlyFee > 0;
-      return hasDesignFee || hasMonthlyFee;
-    }
-    return true;
-  },
-  {
-    message: 'If interested in music design services, please provide at least one fee (design or monthly)',
-    path: ['designFee']
-  }
-);
+});
 
 export type DJApplicationFormData = z.infer<typeof djApplicationSchema>;
 

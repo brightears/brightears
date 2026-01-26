@@ -59,6 +59,7 @@ export async function POST(request: NextRequest) {
     const validationResult = djApplicationSchema.safeParse(body);
 
     if (!validationResult.success) {
+      console.error('Validation errors:', validationResult.error.issues);
       return NextResponse.json(
         {
           error: 'Validation failed',
@@ -91,10 +92,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Use stageName if provided, otherwise use fullName
+    const displayName = data.stageName || data.fullName;
+
     // Convert photo to base64 for email attachment
     const photoBuffer = Buffer.from(await profilePhoto.arrayBuffer());
     const photoBase64 = photoBuffer.toString('base64');
-    const photoFilename = `${data.stageName.replace(/[^a-zA-Z0-9]/g, '_')}_photo.${profilePhoto.type.split('/')[1]}`;
+    const photoFilename = `${displayName.replace(/[^a-zA-Z0-9]/g, '_')}_photo.${profilePhoto.type.split('/')[1]}`;
 
     // Build email content
     const emailHtml = buildEmailHtml(data);
@@ -106,7 +110,7 @@ export async function POST(request: NextRequest) {
       await resend.emails.send({
         from: 'Bright Ears <noreply@brightears.io>',
         to: process.env.OWNER_EMAIL || 'support@brightears.io',
-        subject: `New Artist Application: ${data.stageName}`,
+        subject: `New Artist Application: ${displayName}`,
         html: emailHtml,
         text: emailText,
         attachments: [
@@ -164,6 +168,8 @@ export async function POST(request: NextRequest) {
 }
 
 function buildEmailHtml(data: any): string {
+  const displayName = data.stageName || data.fullName;
+
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h1 style="color: #00bbe4; border-bottom: 2px solid #00bbe4; padding-bottom: 10px;">
@@ -173,9 +179,9 @@ function buildEmailHtml(data: any): string {
       <h2 style="color: #333; margin-top: 20px;">Basic Information</h2>
       <table style="width: 100%; border-collapse: collapse;">
         <tr><td style="padding: 8px 0; color: #666;">Name:</td><td style="padding: 8px 0;"><strong>${data.fullName}</strong></td></tr>
-        <tr><td style="padding: 8px 0; color: #666;">Stage Name:</td><td style="padding: 8px 0;"><strong>${data.stageName}</strong></td></tr>
+        ${data.stageName ? `<tr><td style="padding: 8px 0; color: #666;">Stage Name:</td><td style="padding: 8px 0;"><strong>${data.stageName}</strong></td></tr>` : ''}
         <tr><td style="padding: 8px 0; color: #666;">Email:</td><td style="padding: 8px 0;"><a href="mailto:${data.email}">${data.email}</a></td></tr>
-        <tr><td style="padding: 8px 0; color: #666;">LINE ID:</td><td style="padding: 8px 0;">${data.lineId}</td></tr>
+        ${data.lineId ? `<tr><td style="padding: 8px 0; color: #666;">LINE ID:</td><td style="padding: 8px 0;">${data.lineId}</td></tr>` : ''}
         <tr><td style="padding: 8px 0; color: #666;">Instagram:</td><td style="padding: 8px 0;">${data.instagram ? `@${data.instagram}` : '-'}</td></tr>
         <tr><td style="padding: 8px 0; color: #666;">Category:</td><td style="padding: 8px 0;">${data.category}</td></tr>
         <tr><td style="padding: 8px 0; color: #666;">Genres:</td><td style="padding: 8px 0;">${data.genres}</td></tr>
@@ -184,35 +190,9 @@ function buildEmailHtml(data: any): string {
       <h2 style="color: #333; margin-top: 20px;">Bio</h2>
       <p style="background: #f5f5f5; padding: 15px; border-radius: 8px; line-height: 1.6;">${data.bio}</p>
 
-      <h2 style="color: #333; margin-top: 20px;">Optional Information</h2>
-      <table style="width: 100%; border-collapse: collapse;">
-        <tr><td style="padding: 8px 0; color: #666;">Experience:</td><td style="padding: 8px 0;">${data.yearsExperience ? `${data.yearsExperience} years` : '-'}</td></tr>
-        <tr><td style="padding: 8px 0; color: #666;">Location:</td><td style="padding: 8px 0;">${data.baseLocation || '-'}</td></tr>
-        <tr><td style="padding: 8px 0; color: #666;">Hourly Rate:</td><td style="padding: 8px 0;">${data.hourlyRateExpectation ? `฿${data.hourlyRateExpectation}/hr` : '-'}</td></tr>
-        <tr><td style="padding: 8px 0; color: #666;">Website:</td><td style="padding: 8px 0;">${data.website ? `<a href="${data.website}">${data.website}</a>` : '-'}</td></tr>
-      </table>
-
-      ${data.socialMediaLinks ? `
-        <h3 style="color: #333; margin-top: 15px;">Social Media</h3>
-        <p style="background: #f5f5f5; padding: 10px; border-radius: 8px; white-space: pre-wrap;">${data.socialMediaLinks}</p>
-      ` : ''}
-
-      ${data.portfolioLinks ? `
-        <h3 style="color: #333; margin-top: 15px;">Portfolio</h3>
-        <p style="background: #f5f5f5; padding: 10px; border-radius: 8px; white-space: pre-wrap;">${data.portfolioLinks}</p>
-      ` : ''}
-
-      ${data.equipmentOwned ? `
-        <h3 style="color: #333; margin-top: 15px;">Equipment</h3>
-        <p style="background: #f5f5f5; padding: 10px; border-radius: 8px; white-space: pre-wrap;">${data.equipmentOwned}</p>
-      ` : ''}
-
-      ${data.interestedInMusicDesign ? `
-        <h2 style="color: #d59ec9; margin-top: 20px;">Music Design Interest</h2>
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr><td style="padding: 8px 0; color: #666;">Design Fee:</td><td style="padding: 8px 0;">${data.designFee ? `฿${data.designFee}` : '-'}</td></tr>
-          <tr><td style="padding: 8px 0; color: #666;">Monthly Fee:</td><td style="padding: 8px 0;">${data.monthlyFee ? `฿${data.monthlyFee}/month` : '-'}</td></tr>
-        </table>
+      ${data.website ? `
+        <h3 style="color: #333; margin-top: 15px;">Website</h3>
+        <p><a href="${data.website}">${data.website}</a></p>
       ` : ''}
 
       <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 12px;">
@@ -228,9 +208,9 @@ NEW ARTIST APPLICATION
 
 BASIC INFORMATION
 Name: ${data.fullName}
-Stage Name: ${data.stageName}
+${data.stageName ? `Stage Name: ${data.stageName}` : ''}
 Email: ${data.email}
-LINE ID: ${data.lineId}
+${data.lineId ? `LINE ID: ${data.lineId}` : ''}
 Instagram: ${data.instagram ? `@${data.instagram}` : '-'}
 Category: ${data.category}
 Genres: ${data.genres}
@@ -238,18 +218,7 @@ Genres: ${data.genres}
 BIO
 ${data.bio}
 
-OPTIONAL INFORMATION
-Experience: ${data.yearsExperience ? `${data.yearsExperience} years` : '-'}
-Location: ${data.baseLocation || '-'}
-Hourly Rate: ${data.hourlyRateExpectation ? `฿${data.hourlyRateExpectation}/hr` : '-'}
-Website: ${data.website || '-'}
-${data.socialMediaLinks ? `Social Media:\n${data.socialMediaLinks}` : ''}
-${data.portfolioLinks ? `Portfolio:\n${data.portfolioLinks}` : ''}
-${data.equipmentOwned ? `Equipment:\n${data.equipmentOwned}` : ''}
-
-${data.interestedInMusicDesign ? `MUSIC DESIGN INTEREST
-Design Fee: ${data.designFee ? `฿${data.designFee}` : '-'}
-Monthly Fee: ${data.monthlyFee ? `฿${data.monthlyFee}/month` : '-'}` : ''}
+${data.website ? `Website: ${data.website}` : ''}
 
 Profile photo attached to this email.
   `.trim();
@@ -257,6 +226,7 @@ Profile photo attached to this email.
 
 function buildConfirmationHtml(data: any, locale: string): string {
   const isThaiLocale = locale === 'th';
+  const displayName = data.stageName || data.fullName;
 
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -266,8 +236,8 @@ function buildConfirmationHtml(data: any, locale: string): string {
 
       <p style="font-size: 16px; line-height: 1.6;">
         ${isThaiLocale
-          ? `สวัสดี ${data.stageName},`
-          : `Hi ${data.stageName},`}
+          ? `สวัสดี ${displayName},`
+          : `Hi ${displayName},`}
       </p>
 
       <p style="font-size: 16px; line-height: 1.6;">
@@ -292,10 +262,11 @@ function buildConfirmationHtml(data: any, locale: string): string {
 
 function buildConfirmationText(data: any, locale: string): string {
   const isThaiLocale = locale === 'th';
+  const displayName = data.stageName || data.fullName;
 
   if (isThaiLocale) {
     return `
-สวัสดี ${data.stageName},
+สวัสดี ${displayName},
 
 ขอบคุณที่สมัครเข้าร่วม Bright Ears! เราได้รับใบสมัครของคุณแล้ว และจะติดต่อกลับหากมีโอกาสที่เหมาะสม
 
@@ -305,7 +276,7 @@ Bright Ears Team
   }
 
   return `
-Hi ${data.stageName},
+Hi ${displayName},
 
 Thank you for applying to join Bright Ears! We have received your application and will reach out if there's a good fit.
 

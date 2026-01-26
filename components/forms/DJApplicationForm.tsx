@@ -10,16 +10,11 @@ import {
   EnvelopeIcon,
   MusicalNoteIcon,
   PhotoIcon,
-  BriefcaseIcon,
-  MapPinIcon,
-  CurrencyDollarIcon,
-  SparklesIcon
 } from '@heroicons/react/24/outline';
 import {
   djApplicationSchema,
   type DJApplicationFormData,
   ARTIST_CATEGORIES,
-  THAI_CITIES
 } from '@/lib/validation/application-schemas';
 
 interface DJApplicationFormProps {
@@ -41,17 +36,11 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors }
   } = useForm<DJApplicationFormData>({
     resolver: zodResolver(djApplicationSchema),
     mode: 'onBlur', // Validate on blur for immediate feedback
-    defaultValues: {
-      interestedInMusicDesign: false
-    }
   });
-
-  const interestedInMusicDesign = watch('interestedInMusicDesign');
 
   // Scroll to top to show error summary when validation fails
   const scrollToFirstError = useCallback((fieldErrors: FieldErrors<DJApplicationFormData>) => {
@@ -288,25 +277,18 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
             )}
           </div>
 
-          {/* LINE ID */}
+          {/* LINE ID (Optional) */}
           <div>
             <label htmlFor="lineId" className="block font-inter text-sm font-medium text-white mb-1">
-              {t('fields.lineId')} <span className="text-red-500" aria-label={t('required')}>*</span>
+              {t('fields.lineId')}
             </label>
             <input
               id="lineId"
               type="text"
               {...register('lineId')}
-              className={`w-full px-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
-                errors.lineId ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
-              }`}
+              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
               placeholder="@yourlineid"
-              aria-required="true"
-              aria-invalid={!!errors.lineId}
             />
-            {errors.lineId && (
-              <p className="mt-1 text-sm text-red-600 font-inter">{errors.lineId.message}</p>
-            )}
             <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.lineIdHelp')}</p>
           </div>
 
@@ -326,25 +308,18 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
             <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.instagramHelp')}</p>
           </div>
 
-          {/* Stage Name */}
+          {/* Stage Name (Optional) */}
           <div>
             <label htmlFor="stageName" className="block font-inter text-sm font-medium text-white mb-1">
-              {t('fields.stageName')} <span className="text-red-500" aria-label={t('required')}>*</span>
+              {t('fields.stageName')}
             </label>
             <input
               id="stageName"
               type="text"
               {...register('stageName')}
-              className={`w-full px-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
-                errors.stageName ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
-              }`}
+              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
               placeholder="DJ Thunder"
-              aria-required="true"
-              aria-invalid={!!errors.stageName}
             />
-            {errors.stageName && (
-              <p className="mt-1 text-sm text-red-600 font-inter">{errors.stageName.message}</p>
-            )}
           </div>
         </div>
       </section>
@@ -474,18 +449,8 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
               <p className="mt-1 text-sm text-red-600 font-inter">{photoError}</p>
             )}
           </div>
-        </div>
-      </section>
 
-      {/* SECTION 3: OPTIONAL DETAILS */}
-      <section className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-lg">
-        <h3 className="font-playfair text-2xl font-bold text-white mb-6 flex items-center gap-2">
-          <BriefcaseIcon className="w-6 h-6 text-brand-cyan" />
-          {t('sections.optional')}
-        </h3>
-
-        <div className="space-y-4">
-          {/* Website / Social Media */}
+          {/* Website (Optional) */}
           <div>
             <label htmlFor="website" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.website')}
@@ -498,191 +463,6 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
               placeholder="https://yourwebsite.com"
             />
           </div>
-
-          {/* Social Media Links */}
-          <div>
-            <label htmlFor="socialMediaLinks" className="block font-inter text-sm font-medium text-white mb-1">
-              {t('fields.socialMedia')}
-            </label>
-            <textarea
-              id="socialMediaLinks"
-              {...register('socialMediaLinks')}
-              rows={3}
-              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors resize-none"
-              placeholder={t('fields.socialMediaPlaceholder')}
-              maxLength={500}
-            />
-            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.socialMediaHelp')}</p>
-          </div>
-
-          {/* Years of Experience */}
-          <div>
-            <label htmlFor="yearsExperience" className="block font-inter text-sm font-medium text-white mb-1">
-              {t('fields.experience')}
-            </label>
-            <input
-              id="yearsExperience"
-              type="number"
-              {...register('yearsExperience', { valueAsNumber: true })}
-              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
-              placeholder="5"
-              min="0"
-              max="50"
-            />
-          </div>
-
-          {/* Equipment Owned */}
-          <div>
-            <label htmlFor="equipmentOwned" className="block font-inter text-sm font-medium text-white mb-1">
-              {t('fields.equipment')}
-            </label>
-            <textarea
-              id="equipmentOwned"
-              {...register('equipmentOwned')}
-              rows={4}
-              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors resize-none"
-              placeholder={t('fields.equipmentPlaceholder')}
-              maxLength={1000}
-            />
-          </div>
-
-          {/* Portfolio Links */}
-          <div>
-            <label htmlFor="portfolioLinks" className="block font-inter text-sm font-medium text-white mb-1">
-              {t('fields.portfolio')}
-            </label>
-            <textarea
-              id="portfolioLinks"
-              {...register('portfolioLinks')}
-              rows={4}
-              className="w-full px-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors resize-none"
-              placeholder={t('fields.portfolioPlaceholder')}
-              maxLength={1000}
-            />
-            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.portfolioHelp')}</p>
-          </div>
-
-          {/* Base Location */}
-          <div>
-            <label htmlFor="baseLocation" className="block font-inter text-sm font-medium text-white mb-1">
-              {t('fields.location')}
-            </label>
-            <div className="relative">
-              <MapPinIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
-              <select
-                id="baseLocation"
-                {...register('baseLocation')}
-                className="w-full pl-10 pr-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
-              >
-                <option value="">{t('fields.locationPlaceholder')}</option>
-                {THAI_CITIES.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Hourly Rate Expectation */}
-          <div>
-            <label htmlFor="hourlyRateExpectation" className="block font-inter text-sm font-medium text-white mb-1">
-              {t('fields.rate')}
-            </label>
-            <div className="relative">
-              <CurrencyDollarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
-              <input
-                id="hourlyRateExpectation"
-                type="number"
-                {...register('hourlyRateExpectation', { valueAsNumber: true })}
-                className="w-full pl-10 pr-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
-                placeholder="3000"
-                min="500"
-                max="100000"
-              />
-            </div>
-            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.rateHelp')}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4: MUSIC DESIGN SERVICES */}
-      <section className="bg-gradient-to-br from-soft-lavender/10 to-brand-cyan/10 backdrop-blur-md border border-soft-lavender/30 rounded-2xl p-6 shadow-lg">
-        <h3 className="font-playfair text-2xl font-bold text-white mb-6 flex items-center gap-2">
-          <SparklesIcon className="w-6 h-6 text-soft-lavender" />
-          {t('sections.musicDesign')}
-        </h3>
-
-        <div className="space-y-4">
-          {/* Interest Checkbox */}
-          <label className="flex items-start gap-3 cursor-pointer group">
-            <input
-              type="checkbox"
-              {...register('interestedInMusicDesign')}
-              className="mt-1 w-5 h-5 text-brand-cyan border-white/30 bg-white/10 rounded focus:ring-brand-cyan"
-            />
-            <div>
-              <span className="font-inter text-base font-medium text-white group-hover:text-brand-cyan transition-colors">
-                {t('fields.musicDesignInterest')}
-              </span>
-              <p className="mt-1 text-sm text-white/70 font-inter">
-                {t('fields.musicDesignHelp')}
-              </p>
-            </div>
-          </label>
-
-          {/* Conditional Fee Fields */}
-          {interestedInMusicDesign && (
-            <div className="mt-4 p-4 bg-white/10 rounded-lg space-y-4">
-              {/* One-time Design Fee */}
-              <div>
-                <label htmlFor="designFee" className="block font-inter text-sm font-medium text-white mb-1">
-                  {t('fields.designFee')}
-                </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60 font-inter text-sm">
-                    ฿
-                  </span>
-                  <input
-                    id="designFee"
-                    type="number"
-                    {...register('designFee', { valueAsNumber: true })}
-                    className="w-full pl-8 pr-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
-                    placeholder="15000"
-                    min="0"
-                    max="500000"
-                  />
-                </div>
-                <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.designFeeHelp')}</p>
-              </div>
-
-              {/* Monthly Curation Fee */}
-              <div>
-                <label htmlFor="monthlyFee" className="block font-inter text-sm font-medium text-white mb-1">
-                  {t('fields.monthlyFee')}
-                </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60 font-inter text-sm">
-                    ฿
-                  </span>
-                  <input
-                    id="monthlyFee"
-                    type="number"
-                    {...register('monthlyFee', { valueAsNumber: true })}
-                    className="w-full pl-8 pr-4 py-2 border border-white/20 bg-white/5 text-white rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors"
-                    placeholder="5000"
-                    min="0"
-                    max="200000"
-                  />
-                </div>
-                <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.monthlyFeeHelp')}</p>
-              </div>
-
-              {errors.designFee && (
-                <p className="text-sm text-red-600 font-inter">{errors.designFee.message}</p>
-              )}
-            </div>
-          )}
         </div>
       </section>
 
