@@ -126,7 +126,19 @@ export async function POST(request: NextRequest) {
         ],
       });
 
-      console.log('[Application API] Email sent successfully:', JSON.stringify(emailResult));
+      // Check for Resend API errors (returned in response, not thrown)
+      if (emailResult.error) {
+        console.error('[Application API] Resend API error:', emailResult.error);
+        return NextResponse.json(
+          {
+            error: 'Failed to send application email. Please try again or contact us directly via LINE.',
+            details: emailResult.error.message,
+          },
+          { status: 500 }
+        );
+      }
+
+      console.log('[Application API] Email sent successfully, ID:', emailResult.data?.id);
     } catch (emailError) {
       console.error('[Application API] Failed to send owner notification email:', emailError);
       // This is critical - if we can't notify the owner, the application is lost
