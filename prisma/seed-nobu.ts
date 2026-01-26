@@ -22,14 +22,13 @@ const prisma = new PrismaClient();
 // CONFIGURATION - Update these Clerk User IDs after creating users in Clerk
 // =============================================================================
 
-// These IDs will be created when you set up Clerk users
-// Format: user_xxxxxxxxxxxxxxxxxxxxx (Clerk user ID)
+// Clerk User IDs
 const CLERK_USER_IDS = {
-  // Admin account (you) - create in Clerk with ADMIN role
-  admin: 'user_REPLACE_WITH_ADMIN_CLERK_ID',
+  // Admin account (support@brightears.io)
+  admin: 'user_38nZAkyEkiY2IiiaVtZzenJW73I',
 
-  // Corporate account for NOBU/Le Du Kaan - create in Clerk with CORPORATE role
-  corporate: 'user_REPLACE_WITH_CORPORATE_CLERK_ID',
+  // Corporate account for NOBU/Le Du Kaan (dan.jamme@marriott.com)
+  corporate: 'user_38nZi0YUqCOxVzlya47mwA8qBvh',
 };
 
 // =============================================================================
@@ -341,7 +340,7 @@ async function main() {
     },
     create: {
       id: CLERK_USER_IDS.corporate,
-      email: 'dan.jamme@tgchotels.com', // Update with real email
+      email: 'dan.jamme@marriott.com',
       name: 'TGC Hotel Collection',
       firstName: 'Dan',
       lastName: 'Jamme',
