@@ -17,17 +17,23 @@ const isProtectedRoute = createRouteMatcher([
 // Check if the request is for an API route
 const isApiRoute = createRouteMatcher(['/api(.*)']);
 
+// Auth routes should skip intl middleware (Clerk handles these)
+const isAuthRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)']);
+
 export default clerkMiddleware(async (auth, req) => {
   // Skip internationalization for API routes
   if (isApiRoute(req)) {
-    // Only handle authentication for API routes
-    // Note: Most API routes handle their own auth, but we can add global protection here if needed
     return;
   }
-  
+
+  // Skip internationalization for auth routes (Clerk handles these)
+  if (isAuthRoute(req)) {
+    return;
+  }
+
   // Handle internationalization for non-API routes
   const intlResponse = intlMiddleware(req);
-  
+
   // Check if route requires authentication
   if (isProtectedRoute(req)) {
     await auth.protect();
