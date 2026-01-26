@@ -54,7 +54,16 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
   const interestedInMusicDesign = watch('interestedInMusicDesign');
 
   // Scroll to top to show error summary when validation fails
-  const scrollToFirstError = useCallback((_fieldErrors: FieldErrors<DJApplicationFormData>) => {
+  const scrollToFirstError = useCallback((fieldErrors: FieldErrors<DJApplicationFormData>) => {
+    console.log('[DJApplicationForm] Validation failed with errors:', fieldErrors);
+    console.log('[DJApplicationForm] Error keys:', Object.keys(fieldErrors));
+
+    // Show alert to make errors visible (temporary debugging)
+    const errorMessages = Object.entries(fieldErrors)
+      .map(([field, error]) => `${field}: ${error?.message || 'Invalid'}`)
+      .join('\n');
+    alert(`Form validation errors:\n\n${errorMessages}`);
+
     // Scroll to top where the error summary is displayed
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
@@ -92,8 +101,11 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
   };
 
   const onSubmit = async (data: DJApplicationFormData) => {
+    console.log('[DJApplicationForm] onSubmit called with data:', data);
+
     // Validate photo is uploaded
     if (!profilePhoto) {
+      console.log('[DJApplicationForm] Photo validation failed - no photo');
       setPhotoError(t('fields.photoRequired'));
       // Scroll to photo upload area
       const photoElement = document.getElementById('profilePhoto');
@@ -106,6 +118,7 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
       return;
     }
 
+    console.log('[DJApplicationForm] Starting submission...');
     setIsSubmitting(true);
     setSubmitError('');
 
@@ -172,9 +185,15 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
     );
   }
 
+  // Debug: Log current form errors on each render
+  console.log('[DJApplicationForm] Current errors:', Object.keys(errors), errors);
+
   // Form State
   return (
-    <form onSubmit={handleSubmit(onSubmit, scrollToFirstError)} className="space-y-8">
+    <form onSubmit={(e) => {
+      console.log('[DJApplicationForm] Form submit event triggered');
+      handleSubmit(onSubmit, scrollToFirstError)(e);
+    }} className="space-y-8">
       {/* Error Alert */}
       {submitError && (
         <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
@@ -672,6 +691,7 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
         <button
           type="submit"
           disabled={isSubmitting}
+          onClick={() => console.log('[DJApplicationForm] Submit button clicked')}
           className={`px-8 py-4 bg-gradient-to-r from-brand-cyan to-brand-cyan/80 text-white font-inter font-semibold rounded-lg shadow-lg transition-all duration-300 ${
             isSubmitting
               ? 'opacity-50 cursor-not-allowed'
