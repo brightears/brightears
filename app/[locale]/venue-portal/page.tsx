@@ -4,16 +4,16 @@ import DashboardContent from './DashboardContent';
 
 const prisma = new PrismaClient();
 
-async function getDashboardData(corporateId: string) {
+async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
   const now = new Date();
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-  // Get venues for this corporate
+  // For ADMIN users without corporate, get all venues
+  // For CORPORATE users, get their specific venues
   const venues = await prisma.venue.findMany({
-    where: {
-      corporateId,
-      isActive: true,
-    },
+    where: corporateId
+      ? { corporateId, isActive: true }
+      : { isActive: true }, // Admin sees all venues
     select: { id: true, name: true },
   });
 
@@ -126,7 +126,19 @@ export default async function VenuePortalDashboard({
   const { locale } = await params;
   const user = await getCurrentUser();
 
-  if (!user?.corporate?.id) {
+  if (!user) {
+    return (
+      <div className="text-white text-center py-12">
+        <p>Not authenticated.</p>
+      </div>
+    );
+  }
+
+  const isAdmin = user.role === 'ADMIN';
+  const corporateId = user.corporate?.id || null;
+
+  // Allow ADMIN users to view without corporate profile
+  if (!corporateId && !isAdmin) {
     return (
       <div className="text-white text-center py-12">
         <p>Corporate profile not found.</p>
@@ -134,11 +146,12 @@ export default async function VenuePortalDashboard({
     );
   }
 
-  const data = await getDashboardData(user.corporate.id);
+  const data = await getDashboardData(corporateId, isAdmin);
+  const companyName = user.corporate?.companyName || (isAdmin ? 'All Venues (Admin)' : 'Unknown');
 
   return (
     <DashboardContent
-      companyName={user.corporate.companyName}
+      companyName={companyName}
       data={data}
       locale={locale}
     />

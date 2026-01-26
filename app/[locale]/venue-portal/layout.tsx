@@ -12,18 +12,22 @@ export default async function VenuePortalLayout({
   const { locale } = await params;
   const user = await getCurrentUser();
 
-  // Redirect if not authenticated or not CORPORATE role
+  // Redirect if not authenticated
   if (!user) {
-    redirect(`/${locale}/sign-in?redirect_url=/${locale}/venue-portal`);
+    redirect(`/sign-in?redirect_url=/${locale}/venue-portal`);
   }
 
-  if (user.role !== 'CORPORATE') {
+  // Allow CORPORATE and ADMIN roles
+  if (user.role !== 'CORPORATE' && user.role !== 'ADMIN') {
     redirect(`/${locale}`);
   }
 
+  // For ADMIN users without corporate profile, show admin view
+  const companyName = user.corporate?.companyName || (user.role === 'ADMIN' ? 'Admin View' : undefined);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-deep-teal/30">
-      <PortalSidebar companyName={user.corporate?.companyName} />
+      <PortalSidebar companyName={companyName} />
 
       {/* Main content area */}
       <main className="lg:pl-64 min-h-screen">
