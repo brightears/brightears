@@ -45,6 +45,7 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
     formState: { errors }
   } = useForm<DJApplicationFormData>({
     resolver: zodResolver(djApplicationSchema),
+    mode: 'onBlur', // Validate on blur for immediate feedback
     defaultValues: {
       interestedInMusicDesign: false
     }

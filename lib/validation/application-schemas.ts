@@ -165,12 +165,11 @@ export const djApplicationSchema = z.object({
     .max(500, 'Social media links must not exceed 500 characters')
     .optional(),
 
-  yearsExperience: z.number()
-    .int('Years of experience must be a whole number')
-    .min(0, 'Years of experience cannot be negative')
-    .max(50, 'Please enter a realistic number of years')
-    .optional()
-    .or(z.literal('')),
+  yearsExperience: z.union([
+    z.number().int('Years of experience must be a whole number').min(0, 'Years of experience cannot be negative').max(50, 'Please enter a realistic number of years'),
+    z.nan(),
+    z.literal('')
+  ]).optional().transform(v => (typeof v === 'number' && !isNaN(v)) ? v : undefined),
 
   equipmentOwned: z.string()
     .max(1000, 'Equipment description must not exceed 1000 characters')
@@ -184,31 +183,26 @@ export const djApplicationSchema = z.object({
     message: 'Please select your base location'
   }).optional(),
 
-  hourlyRateExpectation: z.number()
-    .int('Hourly rate must be a whole number')
-    .min(500, 'Hourly rate must be at least ฿500')
-    .max(100000, 'Hourly rate must not exceed ฿100,000')
-    .optional()
-    .or(z.literal('')),
+  hourlyRateExpectation: z.union([
+    z.number().int('Hourly rate must be a whole number').min(500, 'Hourly rate must be at least ฿500').max(100000, 'Hourly rate must not exceed ฿100,000'),
+    z.nan(),
+    z.literal('')
+  ]).optional().transform(v => (typeof v === 'number' && !isNaN(v)) ? v : undefined),
 
   // MUSIC DESIGN SERVICE INTEREST
   interestedInMusicDesign: z.boolean().default(false),
 
-  designFee: z.number()
-    .int('Design fee must be a whole number')
-    .min(0, 'Design fee cannot be negative')
-    .max(500000, 'Design fee must not exceed ฿500,000')
-    .optional()
-    .or(z.literal(''))
-    .nullable(),
+  designFee: z.union([
+    z.number().int('Design fee must be a whole number').min(0, 'Design fee cannot be negative').max(500000, 'Design fee must not exceed ฿500,000'),
+    z.nan(),
+    z.literal('')
+  ]).optional().nullable().transform(v => (typeof v === 'number' && !isNaN(v)) ? v : undefined),
 
-  monthlyFee: z.number()
-    .int('Monthly fee must be a whole number')
-    .min(0, 'Monthly fee cannot be negative')
-    .max(200000, 'Monthly fee must not exceed ฿200,000')
-    .optional()
-    .or(z.literal(''))
-    .nullable(),
+  monthlyFee: z.union([
+    z.number().int('Monthly fee must be a whole number').min(0, 'Monthly fee cannot be negative').max(200000, 'Monthly fee must not exceed ฿200,000'),
+    z.nan(),
+    z.literal('')
+  ]).optional().nullable().transform(v => (typeof v === 'number' && !isNaN(v)) ? v : undefined),
 }).refine(
   (data) => {
     // If interested in music design, at least one fee must be provided

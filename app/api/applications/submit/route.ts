@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
     const emailHtml = buildEmailHtml(data);
     const emailText = buildEmailText(data);
 
-    // Send email to owner with photo attachment
+    // Send email to owner with photo attachment - THIS IS CRITICAL
     try {
       const resend = await getResend();
       await resend.emails.send({
@@ -118,10 +118,17 @@ export async function POST(request: NextRequest) {
       });
     } catch (emailError) {
       console.error('Failed to send owner notification email:', emailError);
-      // Continue - don't fail the whole request
+      // This is critical - if we can't notify the owner, the application is lost
+      return NextResponse.json(
+        {
+          error: 'Failed to submit application. Please try again or contact us directly via LINE.',
+          details: emailError instanceof Error ? emailError.message : 'Email service error',
+        },
+        { status: 500 }
+      );
     }
 
-    // Send confirmation email to applicant
+    // Send confirmation email to applicant (optional - can fail without losing application)
     try {
       const resendClient = await getResend();
       await resendClient.emails.send({
@@ -132,8 +139,8 @@ export async function POST(request: NextRequest) {
         text: buildConfirmationText(data, body.locale || 'en'),
       });
     } catch (emailError) {
+      // Confirmation email is optional - log but continue
       console.error('Failed to send applicant confirmation email:', emailError);
-      // Continue - don't fail the whole request
     }
 
     return NextResponse.json(
