@@ -2,7 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { djApplicationSchema } from '@/lib/validation/application-schemas';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy initialization to avoid build-time errors (env vars not available during build)
+let resend: Resend | null = null;
+function getResend(): Resend {
+  if (!resend) {
+    resend = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resend;
+}
 
 // Rate limiting: Track submissions by email (in-memory)
 const submissionTracker = new Map<string, { count: number; resetTime: number }>();
@@ -95,7 +102,7 @@ export async function POST(request: NextRequest) {
 
     // Send email to owner with photo attachment
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: 'Bright Ears <noreply@brightears.io>',
         to: process.env.OWNER_EMAIL || 'support@brightears.io',
         subject: `New Artist Application: ${data.stageName}`,
@@ -115,7 +122,7 @@ export async function POST(request: NextRequest) {
 
     // Send confirmation email to applicant
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: 'Bright Ears <noreply@brightears.io>',
         to: data.email,
         subject: 'Application Received - Bright Ears',
