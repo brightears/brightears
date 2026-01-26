@@ -38,9 +38,59 @@ This checkpoint marks a **verified stable state** after successful deployment re
 
 ---
 
-## Current Status (January 3, 2026) - 🎯 **SEO SETUP COMPLETE** ✅
+## Current Status (January 26, 2026) - 🎯 **DJ APPLICATION FORM WORKING** ✅
 
-### ✅ **LATEST MILESTONE: SEO & GOOGLE SEARCH CONSOLE (January 3, 2026)**
+### ✅ **LATEST MILESTONE: DJ APPLICATION FORM EMAIL FIX (January 26, 2026)**
+
+**Session: Fix DJ Application Form Email Delivery**
+
+**Problem:** DJ application form at `/apply` showed success but no emails were received.
+
+**Root Causes Found & Fixed:**
+1. **Zod validation errors** - `.refine()` on bio schema caused uncaught promise errors with zodResolver
+2. **Resend domain not verified** - `brightears.io` was added to Resend but DNS records weren't configured in Namecheap
+
+**Solutions Implemented:**
+
+1. **Form Simplification:**
+   - Made Stage Name and LINE ID optional
+   - Removed Music Design Service section
+   - Removed: years of experience, equipment, portfolio links, hourly rate
+   - Kept: Full name*, Email*, Bio*, Category*, Genres*, Photo*, Website (optional)
+
+2. **Validation Fix:**
+   - Removed `.refine()` from bio schema (min/max is sufficient)
+   - Added `.catch()` handler on form submit to catch validation errors
+
+3. **Resend Domain Verification (DNS in Namecheap):**
+   - TXT record: `resend._domainkey` → DKIM key
+   - TXT record: `send` → `v=spf1 include:amazonses.com ~all`
+   - MX record: `send` → `feedback-smtp.ap-northeast-1.amazonses.com` (priority 10)
+
+4. **API Error Handling:**
+   - Fixed code to check `emailResult.error` (Resend returns errors in response, not thrown)
+   - Now returns 500 with user-friendly message when email fails
+
+**Files Modified:**
+- `lib/validation/application-schemas.ts` - Simplified schema, removed .refine()
+- `components/forms/DJApplicationForm.tsx` - Simplified form, added error catching
+- `app/api/applications/submit/route.ts` - Proper Resend error handling
+
+**Commits:**
+- `6be387f` - fix: Handle zodResolver uncaught promise errors
+- `39c7626` - debug: Add detailed logging to application email sending
+- `85429a8` - fix: Properly handle Resend API errors in application submission
+
+**Email Configuration (Working):**
+- From: `noreply@brightears.io`
+- To: `support@brightears.io` (fallback if OWNER_EMAIL not set)
+- Includes photo attachment
+
+---
+
+## Previous Status (January 3, 2026) - 🎯 **SEO SETUP COMPLETE** ✅
+
+### ✅ **PREVIOUS MILESTONE: SEO & GOOGLE SEARCH CONSOLE (January 3, 2026)**
 
 **Session: Complete SEO Setup for Single-Page Landing Site**
 
@@ -1621,10 +1671,22 @@ brightears/
 - ✅ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME (configured in Render - dbfpfm6mw)
 - ✅ CLOUDINARY_API_KEY (configured in Render)
 - ✅ CLOUDINARY_API_SECRET (configured in Render - gitignored locally)
-- 🔄 RESEND_API_KEY (for email service - needs setup)
+- ✅ RESEND_API_KEY (configured in Render - domain verified Jan 26, 2026)
 - ⏳ NEXTAUTH_URL (for authentication - pending)
 - ⏳ NEXTAUTH_SECRET (for authentication - pending)
 - ⏳ LINE_CHANNEL_ACCESS_TOKEN (for Line messaging - pending)
+
+### 📧 Resend Email Configuration (IMPORTANT)
+**Domain:** `brightears.io` verified in Resend (January 26, 2026)
+**DNS Records Required in Namecheap:**
+- TXT: `resend._domainkey` → DKIM key from Resend
+- TXT: `send` → `v=spf1 include:amazonses.com ~all`
+- MX: `send` → `feedback-smtp.ap-northeast-1.amazonses.com` (priority 10)
+
+**Sending Emails:**
+- From: `noreply@brightears.io` (or any @brightears.io address)
+- Must verify domain in Resend dashboard first, then add DNS records
+- Resend returns errors in response object (check `emailResult.error`), not thrown exceptions
 
 ### 💡 Key Decisions Made
 1. Start with music categories (DJ, Band, Singer), expand later
