@@ -181,7 +181,20 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
   return (
     <form onSubmit={(e) => {
       console.log('[DJApplicationForm] Form submit event triggered');
-      handleSubmit(onSubmit, scrollToFirstError)(e);
+      handleSubmit(onSubmit, scrollToFirstError)(e).catch((err) => {
+        // Catch any uncaught validation errors from zodResolver
+        console.error('[DJApplicationForm] Uncaught validation error:', err);
+        if (err?.errors || err?.issues) {
+          const issues = err.errors || err.issues;
+          const errorMessages = issues
+            .map((issue: any) => `${issue.path?.join('.') || 'field'}: ${issue.message}`)
+            .join('\n');
+          alert(`Please fix these errors:\n\n${errorMessages}`);
+        } else {
+          alert('Please fill in all required fields correctly.');
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     }} className="space-y-8">
       {/* Error Alert */}
       {submitError && (

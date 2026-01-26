@@ -28,14 +28,11 @@ const lineIdSchema = z.string()
 
 /**
  * Bio Length Validator (100-500 characters)
+ * Note: Removed .refine() as it was causing uncaught promise errors with zodResolver
  */
 const bioSchema = z.string()
   .min(100, 'Bio must be at least 100 characters')
-  .max(500, 'Bio must not exceed 500 characters')
-  .refine(
-    (bio) => bio.trim().length >= 100,
-    { message: 'Bio must be at least 100 characters (excluding leading/trailing spaces)' }
-  );
+  .max(500, 'Bio must not exceed 500 characters');
 
 /**
  * URL Validator (optional, but must be valid if provided)
