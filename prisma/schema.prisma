@@ -233,6 +233,10 @@ model Artist {
   contactViews      ContactView[]
   bookingInquiries  BookingInquiry[]
 
+  // Venue Portal relations
+  venueAssignments  VenueAssignment[]
+  venueFeedback     VenueFeedback[]
+
   // Simplified indexes - removed marketplace-related ones
   @@index([category])
   @@index([baseCity])
@@ -287,7 +291,114 @@ model Corporate {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
+  // Relations
+  venues            Venue[]
+
   @@index([companyName])
+}
+
+// Venue model for B2B portal (NOBU, Le Du Kaan, etc.)
+model Venue {
+  id              String   @id @default(uuid())
+  corporateId     String
+  corporate       Corporate @relation(fields: [corporateId], references: [id], onDelete: Cascade)
+
+  name            String   // "NOBU", "Le Du Kaan"
+  address         String?
+  city            String   @default("Bangkok")
+
+  venueType       String?  // Restaurant, Bar, Hotel, Club
+  operatingHours  Json?    // { startTime: "18:00", endTime: "02:00" }
+
+  contactPerson   String?
+  contactEmail    String?
+  contactPhone    String?
+
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  assignments     VenueAssignment[]
+  feedback        VenueFeedback[]
+
+  @@index([corporateId])
+  @@index([name])
+}
+
+// DJ/Artist assignments to venues (schedule)
+model VenueAssignment {
+  id              String   @id @default(uuid())
+  venueId         String
+  venue           Venue    @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  artistId        String
+  artist          Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  date            DateTime @db.Date
+  startTime       String   // "20:00"
+  endTime         String   // "24:00"
+  slot            String?  // "Early", "Late" for venues with multiple slots
+
+  status          VenueAssignmentStatus @default(SCHEDULED)
+  notes           String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  feedback        VenueFeedback?
+
+  @@unique([venueId, date, slot])
+  @@index([venueId, date])
+  @@index([artistId])
+  @@index([date])
+  @@index([status])
+}
+
+// Venue assignment status
+enum VenueAssignmentStatus {
+  SCHEDULED       // Upcoming assignment
+  COMPLETED       // Performance completed
+  CANCELLED       // Assignment cancelled
+  NO_SHOW         // Artist didn't show up
+}
+
+// Venue feedback on DJ performances
+model VenueFeedback {
+  id              String   @id @default(uuid())
+
+  assignmentId    String   @unique
+  assignment      VenueAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+
+  venueId         String
+  venue           Venue    @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  artistId        String
+  artist          Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  submittedBy     String   // Corporate user ID (Clerk ID)
+
+  // Ratings (1-5)
+  overallRating       Int
+  musicQuality        Int?
+  crowdEngagement     Int?
+  professionalism     Int?
+
+  // Qualitative feedback
+  whatWentWell        String?  @db.Text
+  areasForImprovement String?  @db.Text
+  wouldRebook         Boolean?
+
+  // Venue context
+  crowdLevel          String?  // "Light", "Moderate", "Busy", "Packed"
+  guestMix            String?  // "Tourists", "Locals", "Business", "Mixed"
+
+  createdAt       DateTime @default(now())
+
+  @@index([venueId])
+  @@index([artistId])
+  @@index([createdAt])
 }
 
 // Artist Application Model - NEW FOR APPLICATION FEATURE
