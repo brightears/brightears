@@ -107,9 +107,14 @@ export async function POST(request: NextRequest) {
     // Send email to owner with photo attachment - THIS IS CRITICAL
     try {
       const resend = await getResend();
-      await resend.emails.send({
+      const toEmail = process.env.OWNER_EMAIL || 'support@brightears.io';
+      console.log('[Application API] Attempting to send email to:', toEmail);
+      console.log('[Application API] From:', 'noreply@brightears.io');
+      console.log('[Application API] Subject:', `New Artist Application: ${displayName}`);
+
+      const emailResult = await resend.emails.send({
         from: 'Bright Ears <noreply@brightears.io>',
-        to: process.env.OWNER_EMAIL || 'support@brightears.io',
+        to: toEmail,
         subject: `New Artist Application: ${displayName}`,
         html: emailHtml,
         text: emailText,
@@ -120,8 +125,10 @@ export async function POST(request: NextRequest) {
           },
         ],
       });
+
+      console.log('[Application API] Email sent successfully:', JSON.stringify(emailResult));
     } catch (emailError) {
-      console.error('Failed to send owner notification email:', emailError);
+      console.error('[Application API] Failed to send owner notification email:', emailError);
       // This is critical - if we can't notify the owner, the application is lost
       return NextResponse.json(
         {
