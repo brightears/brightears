@@ -25,11 +25,17 @@ interface DJApplicationFormProps {
   locale: string;
 }
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
 export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
   const t = useTranslations('apply');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoError, setPhotoError] = useState<string | null>(null);
 
   const {
     register,
@@ -45,17 +51,57 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
 
   const interestedInMusicDesign = watch('interestedInMusicDesign');
 
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setPhotoError(null);
+
+    if (!file) {
+      setProfilePhoto(null);
+      setPhotoPreview(null);
+      return;
+    }
+
+    // Validate file type
+    if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+      setPhotoError(t('fields.photoErrorType'));
+      return;
+    }
+
+    // Validate file size
+    if (file.size > MAX_FILE_SIZE) {
+      setPhotoError(t('fields.photoErrorSize'));
+      return;
+    }
+
+    setProfilePhoto(file);
+
+    // Create preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPhotoPreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const onSubmit = async (data: DJApplicationFormData) => {
+    // Validate photo is uploaded
+    if (!profilePhoto) {
+      setPhotoError(t('fields.photoRequired'));
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError('');
 
     try {
+      // Use FormData to send file
+      const formData = new FormData();
+      formData.append('profilePhoto', profilePhoto);
+      formData.append('data', JSON.stringify({ ...data, locale }));
+
       const response = await fetch('/api/applications/submit', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...data, locale }),
+        body: formData,
       });
 
       const result = await response.json();
@@ -313,29 +359,50 @@ export default function DJApplicationForm({ locale }: DJApplicationFormProps) {
             <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.genresHelp')}</p>
           </div>
 
-          {/* Profile Photo URL */}
+          {/* Profile Photo Upload */}
           <div>
-            <label htmlFor="profilePhotoUrl" className="block font-inter text-sm font-medium text-white mb-1">
+            <label htmlFor="profilePhoto" className="block font-inter text-sm font-medium text-white mb-1">
               {t('fields.profilePhoto')} <span className="text-red-500" aria-label={t('required')}>*</span>
             </label>
-            <div className="relative">
-              <PhotoIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
+            <div className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors ${
+              photoError ? 'border-red-500' : photoPreview ? 'border-brand-cyan' : 'border-white/20 hover:border-white/40'
+            }`}>
+              {photoPreview ? (
+                <div className="space-y-3">
+                  <img
+                    src={photoPreview}
+                    alt="Preview"
+                    className="w-32 h-32 object-cover rounded-lg mx-auto"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setProfilePhoto(null);
+                      setPhotoPreview(null);
+                    }}
+                    className="text-sm text-red-400 hover:text-red-300 font-inter"
+                  >
+                    {t('fields.photoRemove')}
+                  </button>
+                </div>
+              ) : (
+                <label htmlFor="profilePhoto" className="cursor-pointer block">
+                  <PhotoIcon className="w-10 h-10 text-white/40 mx-auto mb-2" />
+                  <span className="text-white/70 font-inter text-sm">{t('fields.photoUpload')}</span>
+                  <p className="mt-1 text-xs text-white/50 font-inter">{t('fields.photoFormats')}</p>
+                </label>
+              )}
               <input
-                id="profilePhotoUrl"
-                type="url"
-                {...register('profilePhotoUrl')}
-                className={`w-full pl-10 pr-4 py-2 border rounded-lg font-inter focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan transition-colors ${
-                  errors.profilePhotoUrl ? 'border-red-500' : 'border-white/20 bg-white/5 text-white'
-                }`}
-                placeholder="https://example.com/photo.jpg"
-                aria-required="true"
-                aria-invalid={!!errors.profilePhotoUrl}
+                id="profilePhoto"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                onChange={handlePhotoChange}
+                className="hidden"
               />
             </div>
-            {errors.profilePhotoUrl && (
-              <p className="mt-1 text-sm text-red-600 font-inter">{errors.profilePhotoUrl.message}</p>
+            {photoError && (
+              <p className="mt-1 text-sm text-red-600 font-inter">{photoError}</p>
             )}
-            <p className="mt-1 text-xs text-white/60 font-inter">{t('fields.profilePhotoHelp')}</p>
           </div>
         </div>
       </section>

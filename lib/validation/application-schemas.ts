@@ -156,10 +156,7 @@ export const djApplicationSchema = z.object({
     .min(1, 'Please enter your music genres or specialties')
     .max(200, 'Genres must not exceed 200 characters'),
 
-  profilePhotoUrl: urlSchema.refine(
-    (url) => url && url.trim() !== '',
-    { message: 'Profile photo URL is required' }
-  ),
+  // Note: profilePhoto (file upload) is validated separately in the form/API
 
   // OPTIONAL FIELDS
   website: urlSchema,
