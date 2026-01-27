@@ -93,7 +93,7 @@ export default function DJsPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-white font-playfair flex items-center gap-3">
-          <UserGroupIcon className="w-7 h-7 text-soft-lavender" />
+          <UserGroupIcon className="w-7 h-7 text-brand-cyan" />
           DJ Directory
         </h1>
         <p className="text-gray-400 mt-1">
