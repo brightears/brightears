@@ -26,7 +26,7 @@ export default async function VenuePortalLayout({
   const companyName = user.corporate?.companyName || (user.role === 'ADMIN' ? 'Admin View' : undefined);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-deep-teal/30">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-deep-teal/15">
       <PortalSidebar companyName={companyName} />
 
       {/* Main content area */}

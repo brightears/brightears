@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
  * Query parameters validation schema
  */
 const querySchema = z.object({
-  venueId: z.string().uuid().optional(),
+  venueId: z.string().optional(), // Not UUID - venue IDs are human-readable strings
   startDate: z.string().optional(),
   endDate: z.string().optional(),
   status: z.enum(['SCHEDULED', 'COMPLETED', 'CANCELLED', 'NO_SHOW', 'ALL']).optional().default('ALL'),

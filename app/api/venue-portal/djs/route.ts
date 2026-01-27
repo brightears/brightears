@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
  * Query parameters validation schema
  */
 const querySchema = z.object({
-  venueId: z.string().uuid().optional(),
+  venueId: z.string().optional(), // Not UUID - venue IDs are human-readable strings
   category: z.string().optional(),
   search: z.string().max(100).optional(),
 });

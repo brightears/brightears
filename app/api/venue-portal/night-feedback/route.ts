@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
  * Query parameters validation schema
  */
 const querySchema = z.object({
-  venueId: z.string().uuid().optional(),
+  venueId: z.string().optional(), // Not UUID - venue IDs are human-readable strings
   date: z.string().optional(), // ISO date string YYYY-MM-DD
   startDate: z.string().optional(),
   endDate: z.string().optional(),
@@ -22,7 +22,7 @@ const querySchema = z.object({
  * Night feedback submission schema
  */
 const nightFeedbackSchema = z.object({
-  venueId: z.string().uuid(),
+  venueId: z.string(), // Not UUID - venue IDs are human-readable strings
   date: z.string(), // ISO date string YYYY-MM-DD
 
   // Overall rating (required)

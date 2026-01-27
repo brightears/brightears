@@ -10,8 +10,8 @@ const prisma = new PrismaClient();
  * Query parameters validation schema
  */
 const querySchema = z.object({
-  venueId: z.string().uuid().optional(),
-  artistId: z.string().uuid().optional(),
+  venueId: z.string().optional(), // Not UUID - venue IDs are human-readable strings
+  artistId: z.string().optional(), // Not UUID - artist IDs are human-readable strings
   pending: z.enum(['true', 'false']).optional(),
   history: z.enum(['true', 'false']).optional(),
   page: z.coerce.number().int().min(1).optional().default(1),
@@ -22,7 +22,7 @@ const querySchema = z.object({
  * Feedback submission schema
  */
 const feedbackSchema = z.object({
-  assignmentId: z.string().uuid(),
+  assignmentId: z.string(), // Not UUID - assignment IDs are human-readable strings
   overallRating: z.number().int().min(1).max(5),
   musicQuality: z.number().int().min(1).max(5).optional(),
   crowdEngagement: z.number().int().min(1).max(5).optional(),
