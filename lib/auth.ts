@@ -1,4 +1,4 @@
-import { auth as clerkAuth } from "@clerk/nextjs/server"
+import { auth as clerkAuth, currentUser } from "@clerk/nextjs/server"
 import { PrismaClient, UserRole } from "@prisma/client"
 
 const prisma = new PrismaClient()
@@ -36,6 +36,7 @@ export async function getSession() {
 
 /**
  * Get the current user from Clerk auth and fetch user data from Prisma
+ * Falls back to Clerk publicMetadata if user not in database
  */
 export async function getCurrentUser(): Promise<ExtendedUser | null> {
   try {
@@ -60,29 +61,43 @@ export async function getCurrentUser(): Promise<ExtendedUser | null> {
       },
     })
 
-    if (!user) {
-      return null
+    if (user) {
+      return {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        artist: user.artist ? {
+          id: user.artist.id,
+          stageName: user.artist.stageName,
+        } : undefined,
+        customer: user.customer ? {
+          id: user.customer.id,
+          firstName: user.customer.firstName,
+          lastName: user.customer.lastName,
+        } : undefined,
+        corporate: user.corporate ? {
+          id: user.corporate.id,
+          companyName: user.corporate.companyName,
+          contactPerson: user.corporate.contactPerson,
+        } : undefined,
+      }
     }
 
-    return {
-      id: user.id,
-      email: user.email,
-      role: user.role,
-      artist: user.artist ? {
-        id: user.artist.id,
-        stageName: user.artist.stageName,
-      } : undefined,
-      customer: user.customer ? {
-        id: user.customer.id,
-        firstName: user.customer.firstName,
-        lastName: user.customer.lastName,
-      } : undefined,
-      corporate: user.corporate ? {
-        id: user.corporate.id,
-        companyName: user.corporate.companyName,
-        contactPerson: user.corporate.contactPerson,
-      } : undefined,
+    // Fallback: Check Clerk publicMetadata for role (for users not yet in DB)
+    const clerkUser = await currentUser()
+    if (clerkUser) {
+      const metadataRole = clerkUser.publicMetadata?.role as string | undefined
+      if (metadataRole && ['ADMIN', 'CORPORATE', 'ARTIST', 'CUSTOMER'].includes(metadataRole)) {
+        return {
+          id: clerkUser.id,
+          email: clerkUser.emailAddresses[0]?.emailAddress,
+          role: metadataRole as UserRole,
+          // No artist/customer/corporate profiles from metadata-only users
+        }
+      }
     }
+
+    return null
   } catch (error) {
     console.error("Error fetching current user:", error)
     return null
