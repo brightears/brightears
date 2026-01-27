@@ -321,6 +321,7 @@ model Venue {
   // Relations
   assignments     VenueAssignment[]
   feedback        VenueFeedback[]
+  nightFeedback   VenueNightFeedback[]
 
   @@index([corporateId])
   @@index([name])
@@ -399,6 +400,54 @@ model VenueFeedback {
   @@index([venueId])
   @@index([artistId])
   @@index([createdAt])
+}
+
+// Venue Night Feedback - venue-level data for analytics
+// Captures general night conditions independent of individual DJ performances
+model VenueNightFeedback {
+  id                    String   @id @default(uuid())
+
+  venueId               String
+  venue                 Venue    @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  date                  DateTime @db.Date
+  submittedBy           String   // Corporate user ID (Clerk ID)
+
+  // Overall night assessment
+  overallNightRating    Int      // 1-5
+
+  // Crowd metrics
+  peakBusyTime          String?  // "21:00-23:00"
+  peakCrowdLevel        String?  // Light, Moderate, Busy, Packed
+  estimatedHeadcount    Int?
+
+  // Nationality breakdown (percentages, should sum to 100)
+  pctThai               Int      @default(0)
+  pctWestern            Int      @default(0)
+  pctAsian              Int      @default(0)
+  pctMiddleEastern      Int      @default(0)
+  pctOther              Int      @default(0)
+
+  // Guest type breakdown (percentages, should sum to 100)
+  pctTourists           Int      @default(0)
+  pctLocals             Int      @default(0)
+  pctBusiness           Int      @default(0)
+  pctHotelGuests        Int      @default(0)
+
+  // External factors
+  weatherCondition      String?  // Clear, Rainy, Hot, Cool
+  specialEvent          String?  // CNY, Songkran, Concert nearby, etc.
+
+  // Comments
+  generalNotes          String?  @db.Text
+  operationalIssues     String?  @db.Text
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@unique([venueId, date])
+  @@index([venueId])
+  @@index([date])
 }
 
 // Artist Application Model - NEW FOR APPLICATION FEATURE

@@ -1,15 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   ChatBubbleLeftRightIcon,
   ClockIcon,
   CheckCircleIcon,
   CalendarDaysIcon,
+  SparklesIcon,
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import FeedbackForm from '@/components/venue-portal/FeedbackForm';
+import FeedbackWizard from '@/components/venue-portal/FeedbackWizard';
 import RatingStars from '@/components/venue-portal/RatingStars';
 import DJAvatar from '@/components/venue-portal/DJAvatar';
 
@@ -65,6 +67,35 @@ interface HistoryAssignment extends Assignment {
 
 type Tab = 'pending' | 'history' | 'submitted';
 
+// Group assignments by date and venue
+interface DateVenueGroup {
+  key: string;
+  date: string;
+  venue: { id: string; name: string };
+  assignments: Assignment[];
+}
+
+function groupAssignmentsByDateVenue(assignments: Assignment[]): DateVenueGroup[] {
+  const groups: Record<string, DateVenueGroup> = {};
+
+  assignments.forEach((a) => {
+    const key = `${a.date}_${a.venue.id}`;
+    if (!groups[key]) {
+      groups[key] = {
+        key,
+        date: a.date,
+        venue: a.venue,
+        assignments: [],
+      };
+    }
+    groups[key].assignments.push(a);
+  });
+
+  return Object.values(groups).sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+}
+
 export default function FeedbackPage() {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<Tab>('pending');
@@ -72,8 +103,20 @@ export default function FeedbackPage() {
   const [historyAssignments, setHistoryAssignments] = useState<HistoryAssignment[]>([]);
   const [submittedFeedback, setSubmittedFeedback] = useState<Feedback[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Old single-assignment form (fallback)
   const [selectedAssignment, setSelectedAssignment] = useState<Assignment | null>(null);
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
+
+  // New wizard mode - all assignments for a date/venue
+  const [wizardAssignments, setWizardAssignments] = useState<Assignment[]>([]);
+  const [showWizard, setShowWizard] = useState(false);
+
+  // Group pending assignments by date/venue
+  const pendingGroups = useMemo(
+    () => groupAssignmentsByDateVenue(pendingAssignments),
+    [pendingAssignments]
+  );
 
   // Check for assignmentId in URL params
   useEffect(() => {
@@ -134,12 +177,25 @@ export default function FeedbackPage() {
   const handleFeedbackSuccess = () => {
     setShowFeedbackForm(false);
     setSelectedAssignment(null);
+    setShowWizard(false);
+    setWizardAssignments([]);
     // Refresh the pending list
     fetch('/api/venue-portal/feedback?pending=true')
       .then((res) => res.json())
       .then((data) => {
         setPendingAssignments(data.assignments || []);
       });
+    // Also refresh history
+    fetch('/api/venue-portal/feedback?history=true')
+      .then((res) => res.json())
+      .then((data) => {
+        setHistoryAssignments(data.assignments || []);
+      });
+  };
+
+  const handleOpenWizard = (assignments: Assignment[]) => {
+    setWizardAssignments(assignments);
+    setShowWizard(true);
   };
 
   return (
@@ -203,8 +259,8 @@ export default function FeedbackPage() {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-cyan"></div>
         </div>
       ) : activeTab === 'pending' ? (
-        /* Pending Feedback */
-        pendingAssignments.length === 0 ? (
+        /* Pending Feedback - Grouped by Date/Venue */
+        pendingGroups.length === 0 ? (
           <div className="text-center py-12">
             <CheckCircleIcon className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-white mb-2">All Caught Up!</h3>
@@ -219,42 +275,61 @@ export default function FeedbackPage() {
             </button>
           </div>
         ) : (
-          <div className="space-y-4">
-            {pendingAssignments.map((assignment) => (
+          <div className="space-y-6">
+            {pendingGroups.map((group) => (
               <div
-                key={assignment.id}
-                className="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+                key={group.key}
+                className="rounded-xl bg-white/5 border border-white/10 overflow-hidden"
               >
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-4 min-w-0">
-                    <DJAvatar
-                      src={assignment.artist.profileImage}
-                      name={assignment.artist.stageName}
-                      size="md"
-                      className="w-14 h-14 rounded-lg"
-                    />
-                    <div className="min-w-0">
-                      <p className="font-medium text-white truncate">
-                        {assignment.artist.stageName}
-                      </p>
-                      <p className="text-sm text-gray-400">
-                        {assignment.venue.name} • {formatDate(assignment.date)}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {assignment.startTime} - {assignment.endTime}
-                        {assignment.slot && ` (${assignment.slot})`}
-                      </p>
-                    </div>
+                {/* Group Header */}
+                <div className="p-4 bg-white/5 border-b border-white/10 flex items-center justify-between">
+                  <div>
+                    <h3 className="font-medium text-white">{group.venue.name}</h3>
+                    <p className="text-sm text-gray-400">{formatDate(group.date)}</p>
                   </div>
                   <button
-                    onClick={() => {
-                      setSelectedAssignment(assignment);
-                      setShowFeedbackForm(true);
-                    }}
-                    className="px-4 py-2 rounded-lg bg-brand-cyan text-white text-sm font-medium hover:bg-brand-cyan/90 transition-colors whitespace-nowrap"
+                    onClick={() => handleOpenWizard(group.assignments)}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-cyan text-white text-sm font-medium hover:bg-brand-cyan/90 transition-colors"
                   >
-                    Give Feedback
+                    <SparklesIcon className="w-4 h-4" />
+                    Submit Full Feedback ({group.assignments.length} DJs)
                   </button>
+                </div>
+
+                {/* DJs in this group */}
+                <div className="divide-y divide-white/5">
+                  {group.assignments.map((assignment) => (
+                    <div key={assignment.id} className="p-4">
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <DJAvatar
+                            src={assignment.artist.profileImage}
+                            name={assignment.artist.stageName}
+                            size="md"
+                            className="w-12 h-12 rounded-lg"
+                          />
+                          <div className="min-w-0">
+                            <p className="font-medium text-white truncate">
+                              {assignment.artist.stageName}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {assignment.startTime} - {assignment.endTime}
+                              {assignment.slot && ` (${assignment.slot})`}
+                            </p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setSelectedAssignment(assignment);
+                            setShowFeedbackForm(true);
+                          }}
+                          className="text-sm text-gray-400 hover:text-white transition-colors"
+                        >
+                          Quick rate →
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
@@ -453,13 +528,25 @@ export default function FeedbackPage() {
         )
       )}
 
-      {/* Feedback Form Modal */}
+      {/* Old Feedback Form Modal (for single DJ quick rate) */}
       {showFeedbackForm && selectedAssignment && (
         <FeedbackForm
           assignment={selectedAssignment}
           onClose={() => {
             setShowFeedbackForm(false);
             setSelectedAssignment(null);
+          }}
+          onSuccess={handleFeedbackSuccess}
+        />
+      )}
+
+      {/* New Feedback Wizard (for full night feedback + all DJs) */}
+      {showWizard && wizardAssignments.length > 0 && (
+        <FeedbackWizard
+          assignments={wizardAssignments}
+          onClose={() => {
+            setShowWizard(false);
+            setWizardAssignments([]);
           }}
           onSuccess={handleFeedbackSuccess}
         />
