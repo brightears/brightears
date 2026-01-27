@@ -11,7 +11,7 @@ export function Providers({ children }: { children: ReactNode }) {
       appearance={{
         baseTheme: undefined,
         variables: {
-          colorPrimary: "#8B5CF6", // Purple to match your brand
+          colorPrimary: "#00bbe4", // Brand cyan
           colorText: "#1F2937",
           colorTextSecondary: "#6B7280",
           colorBackground: "#FFFFFF",
@@ -21,39 +21,41 @@ export function Providers({ children }: { children: ReactNode }) {
           fontFamily: "Inter, system-ui, sans-serif",
         },
         elements: {
-          formButtonPrimary: 
-            "bg-purple-600 hover:bg-purple-700 text-white transition-colors",
+          formButtonPrimary:
+            "bg-brand-cyan hover:bg-brand-cyan/90 text-white transition-colors",
           card: "shadow-lg",
-          formFieldInput: 
-            "border-gray-300 focus:border-purple-500 focus:ring-purple-500",
-          footerActionLink: 
-            "text-purple-600 hover:text-purple-700",
-          identityPreviewText: 
+          formFieldInput:
+            "border-gray-300 focus:border-brand-cyan focus:ring-brand-cyan",
+          footerActionLink:
+            "text-brand-cyan hover:text-brand-cyan/80",
+          identityPreviewText:
             "text-gray-700",
-          identityPreviewEditButton: 
-            "text-purple-600 hover:text-purple-700",
-          formFieldLabel: 
+          identityPreviewEditButton:
+            "text-brand-cyan hover:text-brand-cyan/80",
+          formFieldLabel:
             "text-gray-700 font-medium",
-          phoneInputBox: 
-            "border-gray-300 focus:border-purple-500",
-          formFieldSuccessText: 
+          phoneInputBox:
+            "border-gray-300 focus:border-brand-cyan",
+          formFieldSuccessText:
             "text-green-600",
-          formFieldErrorText: 
+          formFieldErrorText:
             "text-red-600",
-          otpCodeFieldInput: 
-            "border-gray-300 focus:border-purple-500",
-          formResendCodeLink: 
-            "text-purple-600 hover:text-purple-700",
-          headerTitle: 
+          otpCodeFieldInput:
+            "border-gray-300 focus:border-brand-cyan",
+          formResendCodeLink:
+            "text-brand-cyan hover:text-brand-cyan/80",
+          headerTitle:
             "text-2xl font-bold text-gray-900",
-          headerSubtitle: 
+          headerSubtitle:
             "text-gray-600",
-          socialButtonsBlockButton: 
+          socialButtonsBlockButton:
             "border-gray-300 hover:bg-gray-50",
-          dividerLine: 
+          dividerLine:
             "bg-gray-200",
-          dividerText: 
+          dividerText:
             "text-gray-500",
+          // Hide sign-up footer for B2B invite-only portal
+          footerAction: "hidden",
         },
         layout: {
           socialButtonsPlacement: "top",
@@ -61,8 +63,7 @@ export function Providers({ children }: { children: ReactNode }) {
         },
       }}
       localization={{
-        // Thai language support
-        locale: "en-US", // Can be changed to "th-TH" when Thai is needed
+        locale: "en-US",
       }}
     >
       <ThemeProvider attribute="class" defaultTheme="light">
