@@ -213,7 +213,7 @@ export default function DashboardContent({
                           </span>
                         </div>
                       ) : (
-                        <span className="text-xs text-brand-cyan bg-brand-cyan/10 px-2 py-1 rounded">
+                        <span className="text-xs font-medium text-brand-cyan bg-brand-cyan/20 border border-brand-cyan/30 px-2 py-1 rounded-lg">
                           Needs feedback
                         </span>
                       )}
@@ -224,46 +224,6 @@ export default function DashboardContent({
             )}
           </div>
         </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Link
-          href={`/${locale}/venue-portal/schedule`}
-          className="p-4 rounded-xl border border-white/10 bg-slate-800/50 hover:bg-slate-800/70 transition-colors group"
-        >
-          <CalendarIcon className="w-8 h-8 text-brand-cyan mb-3" />
-          <h3 className="font-medium text-white group-hover:text-brand-cyan transition-colors">
-            View Schedule
-          </h3>
-          <p className="text-sm text-gray-500 mt-1">
-            See all upcoming DJ assignments
-          </p>
-        </Link>
-        <Link
-          href={`/${locale}/venue-portal/djs`}
-          className="p-4 rounded-xl border border-white/10 bg-slate-800/50 hover:bg-slate-800/70 transition-colors group"
-        >
-          <UserGroupIcon className="w-8 h-8 text-soft-lavender mb-3" />
-          <h3 className="font-medium text-white group-hover:text-soft-lavender transition-colors">
-            Browse DJs
-          </h3>
-          <p className="text-sm text-gray-500 mt-1">
-            View profiles and performance history
-          </p>
-        </Link>
-        <Link
-          href={`/${locale}/venue-portal/stats`}
-          className="p-4 rounded-xl border border-white/10 bg-slate-800/50 hover:bg-slate-800/70 transition-colors group"
-        >
-          <StarIcon className="w-8 h-8 text-brand-cyan mb-3" />
-          <h3 className="font-medium text-white group-hover:text-brand-cyan transition-colors">
-            View Analytics
-          </h3>
-          <p className="text-sm text-gray-500 mt-1">
-            Detailed performance insights
-          </p>
-        </Link>
       </div>
     </div>
   );
