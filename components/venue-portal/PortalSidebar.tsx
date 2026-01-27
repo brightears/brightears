@@ -31,11 +31,7 @@ const navItems: NavItem[] = [
   { name: 'Statistics', href: '/venue-portal/stats', icon: ChartBarIcon },
 ];
 
-interface PortalSidebarProps {
-  companyName?: string;
-}
-
-export default function PortalSidebar({ companyName }: PortalSidebarProps) {
+export default function PortalSidebar() {
   const pathname = usePathname();
   const locale = useLocale();
   const { signOut } = useClerk();
@@ -102,7 +98,7 @@ export default function PortalSidebar({ companyName }: PortalSidebarProps) {
         }`}
       >
         <div className="flex flex-col h-full">
-          {/* Logo and company name */}
+          {/* Logo */}
           <div className="p-6 border-b border-white/10">
             <Link href={`/${locale}`} className="flex items-center gap-3">
               <Image
@@ -112,16 +108,9 @@ export default function PortalSidebar({ companyName }: PortalSidebarProps) {
                 height={40}
                 className="rounded-lg"
               />
-              <div>
-                <span className="text-white font-playfair text-lg font-bold">
-                  Bright Ears
-                </span>
-                {companyName && (
-                  <p className="text-gray-400 text-xs truncate max-w-[140px]">
-                    {companyName}
-                  </p>
-                )}
-              </div>
+              <span className="text-white font-playfair text-lg font-bold">
+                Bright Ears
+              </span>
             </Link>
           </div>
 

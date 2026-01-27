@@ -22,12 +22,9 @@ export default async function VenuePortalLayout({
     redirect(`/${locale}`);
   }
 
-  // For ADMIN users without corporate profile, show admin view
-  const companyName = user.corporate?.companyName || (user.role === 'ADMIN' ? 'Admin View' : undefined);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800">
-      <PortalSidebar companyName={companyName} />
+      <PortalSidebar />
 
       {/* Main content area */}
       <main className="lg:pl-64 min-h-screen">
