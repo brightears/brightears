@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
-import { StarIcon, UserGroupIcon, CalendarIcon } from '@heroicons/react/24/outline';
+import { CalendarIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
+import DJAvatar from './DJAvatar';
 
 interface DJCardProps {
   dj: {
@@ -34,19 +34,14 @@ export default function DJCard({ dj, onClick }: DJCardProps) {
       className="w-full text-left rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden hover:bg-white/10 hover:border-brand-cyan/30 transition-all duration-200 group"
     >
       {/* Image */}
-      <div className="relative h-48 bg-deep-teal">
-        {dj.profileImage ? (
-          <Image
-            src={dj.profileImage}
-            alt={dj.stageName}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <UserGroupIcon className="w-16 h-16 text-gray-600" />
-          </div>
-        )}
+      <div className="relative h-48">
+        <DJAvatar
+          src={dj.profileImage}
+          name={dj.stageName}
+          size="xl"
+          className="w-full h-full rounded-none"
+          showHoverEffect
+        />
         {/* Category badge */}
         <div className="absolute top-3 left-3">
           <span className="px-2 py-1 bg-black/60 backdrop-blur-sm rounded-full text-xs text-white">

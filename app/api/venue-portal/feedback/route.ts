@@ -13,6 +13,7 @@ const querySchema = z.object({
   venueId: z.string().uuid().optional(),
   artistId: z.string().uuid().optional(),
   pending: z.enum(['true', 'false']).optional(),
+  history: z.enum(['true', 'false']).optional(),
   page: z.coerce.number().int().min(1).optional().default(1),
   limit: z.coerce.number().int().min(1).max(50).optional().default(20),
 });
@@ -64,6 +65,7 @@ export async function GET(req: NextRequest) {
         venueId: searchParams.get('venueId') || undefined,
         artistId: searchParams.get('artistId') || undefined,
         pending: searchParams.get('pending') || undefined,
+        history: searchParams.get('history') || undefined,
         page: searchParams.get('page') || '1',
         limit: searchParams.get('limit') || '20',
       };
@@ -80,7 +82,7 @@ export async function GET(req: NextRequest) {
         );
       }
 
-      const { venueId, artistId, pending, page, limit } = validationResult.data;
+      const { venueId, artistId, pending, history, page, limit } = validationResult.data;
 
       // Get all venue IDs for this corporate user
       const userVenues = await prisma.venue.findMany({
@@ -140,6 +142,58 @@ export async function GET(req: NextRequest) {
 
         return NextResponse.json({
           assignments: pendingAssignments,
+          pagination: {
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+          },
+        });
+      }
+
+      // If history=true, return ALL completed assignments (with or without feedback)
+      if (history === 'true') {
+        const where: any = {
+          venueId: venueId ? venueId : { in: venueIds },
+          status: 'COMPLETED',
+        };
+
+        if (artistId) {
+          where.artistId = artistId;
+        }
+
+        const [historyAssignments, total] = await Promise.all([
+          prisma.venueAssignment.findMany({
+            where,
+            include: {
+              venue: {
+                select: { id: true, name: true },
+              },
+              artist: {
+                select: {
+                  id: true,
+                  stageName: true,
+                  profileImage: true,
+                  category: true,
+                },
+              },
+              feedback: {
+                select: {
+                  id: true,
+                  overallRating: true,
+                  createdAt: true,
+                },
+              },
+            },
+            orderBy: { date: 'desc' },
+            skip,
+            take: limit,
+          }),
+          prisma.venueAssignment.count({ where }),
+        ]);
+
+        return NextResponse.json({
+          assignments: historyAssignments,
           pagination: {
             total,
             page,

@@ -2,18 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Image from 'next/image';
 import {
   ChatBubbleLeftRightIcon,
   ClockIcon,
   CheckCircleIcon,
-  UserGroupIcon,
-  StarIcon,
-  CalendarIcon,
+  CalendarDaysIcon,
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import FeedbackForm from '@/components/venue-portal/FeedbackForm';
 import RatingStars from '@/components/venue-portal/RatingStars';
+import DJAvatar from '@/components/venue-portal/DJAvatar';
 
 interface Assignment {
   id: string;
@@ -57,12 +55,21 @@ interface Feedback {
   };
 }
 
-type Tab = 'pending' | 'submitted';
+interface HistoryAssignment extends Assignment {
+  feedback: {
+    id: string;
+    overallRating: number;
+    createdAt: string;
+  } | null;
+}
+
+type Tab = 'pending' | 'history' | 'submitted';
 
 export default function FeedbackPage() {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [pendingAssignments, setPendingAssignments] = useState<Assignment[]>([]);
+  const [historyAssignments, setHistoryAssignments] = useState<HistoryAssignment[]>([]);
   const [submittedFeedback, setSubmittedFeedback] = useState<Feedback[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedAssignment, setSelectedAssignment] = useState<Assignment | null>(null);
@@ -71,14 +78,22 @@ export default function FeedbackPage() {
   // Check for assignmentId in URL params
   useEffect(() => {
     const assignmentId = searchParams.get('assignmentId');
-    if (assignmentId && pendingAssignments.length > 0) {
-      const assignment = pendingAssignments.find((a) => a.id === assignmentId);
-      if (assignment) {
-        setSelectedAssignment(assignment);
+    if (assignmentId) {
+      // Check pending assignments first
+      const pendingMatch = pendingAssignments.find((a) => a.id === assignmentId);
+      if (pendingMatch) {
+        setSelectedAssignment(pendingMatch);
+        setShowFeedbackForm(true);
+        return;
+      }
+      // Check history assignments
+      const historyMatch = historyAssignments.find((a) => a.id === assignmentId && !a.feedback);
+      if (historyMatch) {
+        setSelectedAssignment(historyMatch);
         setShowFeedbackForm(true);
       }
     }
-  }, [searchParams, pendingAssignments]);
+  }, [searchParams, pendingAssignments, historyAssignments]);
 
   // Fetch data based on active tab
   useEffect(() => {
@@ -86,6 +101,8 @@ export default function FeedbackPage() {
     const params = new URLSearchParams();
     if (activeTab === 'pending') {
       params.set('pending', 'true');
+    } else if (activeTab === 'history') {
+      params.set('history', 'true');
     }
 
     fetch(`/api/venue-portal/feedback?${params}`)
@@ -93,6 +110,8 @@ export default function FeedbackPage() {
       .then((data) => {
         if (activeTab === 'pending') {
           setPendingAssignments(data.assignments || []);
+        } else if (activeTab === 'history') {
+          setHistoryAssignments(data.assignments || []);
         } else {
           setSubmittedFeedback(data.feedback || []);
         }
@@ -155,6 +174,17 @@ export default function FeedbackPage() {
           )}
         </button>
         <button
+          onClick={() => setActiveTab('history')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+            activeTab === 'history'
+              ? 'bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30'
+              : 'text-gray-400 hover:bg-white/10 hover:text-white'
+          }`}
+        >
+          <CalendarDaysIcon className="w-5 h-5" />
+          History
+        </button>
+        <button
           onClick={() => setActiveTab('submitted')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
             activeTab === 'submitted'
@@ -178,9 +208,15 @@ export default function FeedbackPage() {
           <div className="text-center py-12">
             <CheckCircleIcon className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-white mb-2">All Caught Up!</h3>
-            <p className="text-gray-500">
+            <p className="text-gray-500 mb-4">
               You&apos;ve submitted feedback for all completed performances
             </p>
+            <button
+              onClick={() => setActiveTab('history')}
+              className="text-brand-cyan hover:text-brand-cyan/80 text-sm"
+            >
+              View past shows in History →
+            </button>
           </div>
         ) : (
           <div className="space-y-4">
@@ -191,20 +227,12 @@ export default function FeedbackPage() {
               >
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-4 min-w-0">
-                    <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-deep-teal flex-shrink-0">
-                      {assignment.artist.profileImage ? (
-                        <Image
-                          src={assignment.artist.profileImage}
-                          alt={assignment.artist.stageName}
-                          fill
-                          className="object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400">
-                          <UserGroupIcon className="w-7 h-7" />
-                        </div>
-                      )}
-                    </div>
+                    <DJAvatar
+                      src={assignment.artist.profileImage}
+                      name={assignment.artist.stageName}
+                      size="md"
+                      className="w-14 h-14 rounded-lg"
+                    />
                     <div className="min-w-0">
                       <p className="font-medium text-white truncate">
                         {assignment.artist.stageName}
@@ -232,6 +260,69 @@ export default function FeedbackPage() {
             ))}
           </div>
         )
+      ) : activeTab === 'history' ? (
+        /* History - All Completed Shows */
+        historyAssignments.length === 0 ? (
+          <div className="text-center py-12">
+            <CalendarDaysIcon className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-white mb-2">No Show History</h3>
+            <p className="text-gray-500">
+              Completed shows will appear here
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {historyAssignments.map((assignment) => (
+              <div
+                key={assignment.id}
+                className="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-4 min-w-0">
+                    <DJAvatar
+                      src={assignment.artist.profileImage}
+                      name={assignment.artist.stageName}
+                      size="md"
+                      className="w-14 h-14 rounded-lg"
+                    />
+                    <div className="min-w-0">
+                      <p className="font-medium text-white truncate">
+                        {assignment.artist.stageName}
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        {assignment.venue.name} • {formatDate(assignment.date)}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {assignment.startTime} - {assignment.endTime}
+                        {assignment.slot && ` (${assignment.slot})`}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {assignment.feedback ? (
+                      <div className="flex items-center gap-1 text-amber-400">
+                        <StarIconSolid className="w-4 h-4" />
+                        <span className="text-sm font-medium">
+                          {assignment.feedback.overallRating}/5
+                        </span>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setSelectedAssignment(assignment);
+                          setShowFeedbackForm(true);
+                        }}
+                        className="px-4 py-2 rounded-lg bg-brand-cyan text-white text-sm font-medium hover:bg-brand-cyan/90 transition-colors whitespace-nowrap"
+                      >
+                        Give Feedback
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
       ) : (
         /* Submitted Feedback */
         submittedFeedback.length === 0 ? (
@@ -252,20 +343,12 @@ export default function FeedbackPage() {
                 {/* Header */}
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-deep-teal flex-shrink-0">
-                      {feedback.artist.profileImage ? (
-                        <Image
-                          src={feedback.artist.profileImage}
-                          alt={feedback.artist.stageName}
-                          fill
-                          className="object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400">
-                          <UserGroupIcon className="w-6 h-6" />
-                        </div>
-                      )}
-                    </div>
+                    <DJAvatar
+                      src={feedback.artist.profileImage}
+                      name={feedback.artist.stageName}
+                      size="md"
+                      className="rounded-lg"
+                    />
                     <div>
                       <p className="font-medium text-white">
                         {feedback.artist.stageName}

@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   CalendarIcon,
   ChatBubbleLeftRightIcon,
@@ -11,6 +10,7 @@ import {
   ArrowRightIcon,
 } from '@heroicons/react/24/outline';
 import StatsCard from '@/components/venue-portal/StatsCard';
+import DJAvatar from '@/components/venue-portal/DJAvatar';
 
 interface Assignment {
   id: string;
@@ -41,7 +41,7 @@ interface DashboardData {
 }
 
 interface DashboardContentProps {
-  companyName: string;
+  displayName: string;
   data: DashboardData;
   locale: string;
 }
@@ -56,7 +56,7 @@ function formatDate(date: Date | string) {
 }
 
 export default function DashboardContent({
-  companyName,
+  displayName,
   data,
   locale,
 }: DashboardContentProps) {
@@ -67,7 +67,7 @@ export default function DashboardContent({
       {/* Header */}
       <div className="pt-12 lg:pt-0">
         <h1 className="text-3xl font-bold text-white font-playfair">
-          Welcome back, {companyName}
+          Welcome back, {displayName}
         </h1>
         <p className="text-gray-400 mt-2">
           Here&apos;s what&apos;s happening with your venues
@@ -75,7 +75,7 @@ export default function DashboardContent({
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <StatsCard
           title="Upcoming Shows"
           value={stats.upcomingCount}
@@ -134,20 +134,12 @@ export default function DashboardContent({
                   className="p-4 hover:bg-white/5 transition-colors"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-deep-teal flex-shrink-0">
-                      {assignment.artist.profileImage ? (
-                        <Image
-                          src={assignment.artist.profileImage}
-                          alt={assignment.artist.stageName}
-                          fill
-                          className="object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400">
-                          <UserGroupIcon className="w-6 h-6" />
-                        </div>
-                      )}
-                    </div>
+                    <DJAvatar
+                      src={assignment.artist.profileImage}
+                      name={assignment.artist.stageName}
+                      size="md"
+                      className="rounded-lg"
+                    />
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-white truncate">
                         {assignment.artist.stageName}
@@ -198,20 +190,12 @@ export default function DashboardContent({
                   className="p-4 hover:bg-white/5 transition-colors"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-deep-teal flex-shrink-0">
-                      {assignment.artist.profileImage ? (
-                        <Image
-                          src={assignment.artist.profileImage}
-                          alt={assignment.artist.stageName}
-                          fill
-                          className="object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400">
-                          <UserGroupIcon className="w-6 h-6" />
-                        </div>
-                      )}
-                    </div>
+                    <DJAvatar
+                      src={assignment.artist.profileImage}
+                      name={assignment.artist.stageName}
+                      size="md"
+                      className="rounded-lg"
+                    />
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-white truncate">
                         {assignment.artist.stageName}

@@ -147,11 +147,25 @@ export default async function VenuePortalDashboard({
   }
 
   const data = await getDashboardData(corporateId, isAdmin);
-  const companyName = user.corporate?.companyName || (isAdmin ? 'All Venues (Admin)' : 'Unknown');
+
+  // Compute display name from venue names instead of company name
+  const venueNames = data.venues.map((v) => v.name);
+  let displayName: string;
+  if (isAdmin) {
+    displayName = 'All Venues (Admin)';
+  } else if (venueNames.length === 0) {
+    displayName = user.corporate?.companyName || 'Your Venues';
+  } else if (venueNames.length === 1) {
+    displayName = venueNames[0];
+  } else if (venueNames.length === 2) {
+    displayName = `${venueNames[0]} & ${venueNames[1]}`;
+  } else {
+    displayName = `${venueNames[0]}, ${venueNames[1]} & ${venueNames.length - 2} more`;
+  }
 
   return (
     <DashboardContent
-      companyName={companyName}
+      displayName={displayName}
       data={data}
       locale={locale}
     />
