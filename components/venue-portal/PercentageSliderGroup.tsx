@@ -66,13 +66,13 @@ export default function PercentageSliderGroup({
         <div className="flex items-center gap-2">
           <span
             className={`text-sm font-medium ${
-              isValid ? 'text-emerald-400' : 'text-amber-400'
+              isValid ? 'text-emerald-400' : 'text-brand-cyan'
             }`}
           >
             Total: {total}%
           </span>
           {!isValid && (
-            <span className="text-xs text-amber-400">(must equal 100%)</span>
+            <span className="text-xs text-brand-cyan">(must equal 100%)</span>
           )}
         </div>
         <div className="flex gap-2">

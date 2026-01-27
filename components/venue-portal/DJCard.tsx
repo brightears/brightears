@@ -51,7 +51,7 @@ export default function DJCard({ dj, onClick }: DJCardProps) {
         {/* Rating badge */}
         {rating && (
           <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 bg-black/60 backdrop-blur-sm rounded-full">
-            <StarIconSolid className="w-4 h-4 text-amber-400" />
+            <StarIconSolid className="w-4 h-4 text-brand-cyan" />
             <span className="text-sm text-white font-medium">{rating}</span>
           </div>
         )}

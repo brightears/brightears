@@ -238,7 +238,7 @@ export default function SchedulePage() {
                       {assignment.status === 'COMPLETED' && (
                         <div className="pt-2 border-t border-white/10">
                           {assignment.feedback ? (
-                            <div className="flex items-center gap-2 text-amber-400">
+                            <div className="flex items-center gap-2 text-brand-cyan">
                               <StarIcon className="w-4 h-4 fill-current" />
                               <span className="text-sm">
                                 Rated {assignment.feedback.overallRating}/5

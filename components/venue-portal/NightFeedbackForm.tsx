@@ -168,7 +168,7 @@ export default function NightFeedbackForm({
       {/* Overall Night Rating */}
       <div className="space-y-3">
         <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
-          <StarIcon className="w-5 h-5 text-amber-400" />
+          <StarIcon className="w-5 h-5 text-brand-cyan" />
           Overall Night Rating *
         </label>
         <div className="flex items-center gap-4">

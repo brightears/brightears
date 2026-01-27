@@ -11,14 +11,13 @@ interface StatsCardProps {
     value: number;
     isPositive: boolean;
   };
-  color?: 'cyan' | 'lavender' | 'green' | 'amber' | 'red';
+  color?: 'cyan' | 'lavender' | 'green' | 'red';
 }
 
 const colorClasses = {
   cyan: 'from-brand-cyan/20 to-brand-cyan/5 border-brand-cyan/30',
   lavender: 'from-soft-lavender/20 to-soft-lavender/5 border-soft-lavender/30',
   green: 'from-emerald-500/20 to-emerald-500/5 border-emerald-500/30',
-  amber: 'from-amber-500/20 to-amber-500/5 border-amber-500/30',
   red: 'from-red-500/20 to-red-500/5 border-red-500/30',
 };
 
@@ -26,7 +25,6 @@ const iconColorClasses = {
   cyan: 'text-brand-cyan',
   lavender: 'text-soft-lavender',
   green: 'text-emerald-500',
-  amber: 'text-amber-500',
   red: 'text-red-500',
 };
 

@@ -36,7 +36,7 @@ export default function RatingStars({
           <Icon
             key={star}
             className={`${sizeClasses[size]} ${
-              filled ? 'text-amber-400' : 'text-gray-600'
+              filled ? 'text-brand-cyan' : 'text-gray-600'
             }`}
           />
         ) : (
@@ -45,8 +45,8 @@ export default function RatingStars({
             type="button"
             onClick={() => onChange?.(star)}
             className={`${sizeClasses[size]} ${
-              filled ? 'text-amber-400' : 'text-gray-600'
-            } hover:text-amber-400 transition-colors`}
+              filled ? 'text-brand-cyan' : 'text-gray-600'
+            } hover:text-brand-cyan transition-colors`}
             aria-label={`Rate ${star} stars`}
           >
             <Icon className="w-full h-full" />

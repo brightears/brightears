@@ -97,7 +97,7 @@ export default function DJProfileModal({
                 <div className="flex items-center justify-center mb-2">
                   {rating ? (
                     <div className="flex items-center gap-1">
-                      <StarIconSolid className="w-6 h-6 text-amber-400" />
+                      <StarIconSolid className="w-6 h-6 text-brand-cyan" />
                       <span className="text-2xl font-bold text-white">
                         {rating}
                       </span>

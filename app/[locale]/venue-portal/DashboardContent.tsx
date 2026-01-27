@@ -88,7 +88,7 @@ export default function DashboardContent({
           value={stats.pendingFeedback}
           subtitle="Needs review"
           icon={<ChatBubbleLeftRightIcon className="w-6 h-6" />}
-          color={stats.pendingFeedback > 0 ? 'amber' : 'green'}
+          color={stats.pendingFeedback > 0 ? 'cyan' : 'green'}
         />
         <StatsCard
           title="Average Rating"
@@ -206,7 +206,7 @@ export default function DashboardContent({
                     </div>
                     <div className="text-right">
                       {assignment.feedback ? (
-                        <div className="flex items-center gap-1 text-amber-400">
+                        <div className="flex items-center gap-1 text-brand-cyan">
                           <StarIcon className="w-4 h-4 fill-current" />
                           <span className="text-sm font-medium">
                             {assignment.feedback.overallRating}
@@ -230,7 +230,7 @@ export default function DashboardContent({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Link
           href={`/${locale}/venue-portal/schedule`}
-          className="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors group"
+          className="p-4 rounded-xl border border-white/10 bg-slate-800/50 hover:bg-slate-800/70 transition-colors group"
         >
           <CalendarIcon className="w-8 h-8 text-brand-cyan mb-3" />
           <h3 className="font-medium text-white group-hover:text-brand-cyan transition-colors">
@@ -242,7 +242,7 @@ export default function DashboardContent({
         </Link>
         <Link
           href={`/${locale}/venue-portal/djs`}
-          className="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors group"
+          className="p-4 rounded-xl border border-white/10 bg-slate-800/50 hover:bg-slate-800/70 transition-colors group"
         >
           <UserGroupIcon className="w-8 h-8 text-soft-lavender mb-3" />
           <h3 className="font-medium text-white group-hover:text-soft-lavender transition-colors">
@@ -254,10 +254,10 @@ export default function DashboardContent({
         </Link>
         <Link
           href={`/${locale}/venue-portal/stats`}
-          className="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors group"
+          className="p-4 rounded-xl border border-white/10 bg-slate-800/50 hover:bg-slate-800/70 transition-colors group"
         >
-          <StarIcon className="w-8 h-8 text-amber-400 mb-3" />
-          <h3 className="font-medium text-white group-hover:text-amber-400 transition-colors">
+          <StarIcon className="w-8 h-8 text-brand-cyan mb-3" />
+          <h3 className="font-medium text-white group-hover:text-brand-cyan transition-colors">
             View Analytics
           </h3>
           <p className="text-sm text-gray-500 mt-1">
