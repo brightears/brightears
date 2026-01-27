@@ -289,10 +289,15 @@ export default function FeedbackPage() {
                   </div>
                   <button
                     onClick={() => handleOpenWizard(group.assignments)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-cyan text-white text-sm font-medium hover:bg-brand-cyan/90 transition-colors"
+                    className="flex flex-col items-end gap-0.5 px-4 py-2 rounded-lg bg-brand-cyan text-white text-sm font-medium hover:bg-brand-cyan/90 transition-colors"
                   >
-                    <SparklesIcon className="w-4 h-4" />
-                    Submit Full Feedback ({group.assignments.length} DJs)
+                    <span className="flex items-center gap-2">
+                      <SparklesIcon className="w-4 h-4" />
+                      Full Night Report
+                    </span>
+                    <span className="text-xs font-normal text-white/70">
+                      DJs + crowd + notes
+                    </span>
                   </button>
                 </div>
 
@@ -323,9 +328,10 @@ export default function FeedbackPage() {
                             setSelectedAssignment(assignment);
                             setShowFeedbackForm(true);
                           }}
-                          className="text-sm text-gray-400 hover:text-white transition-colors"
+                          className="text-sm text-brand-cyan hover:text-brand-cyan/80 transition-colors flex flex-col items-end"
                         >
-                          Quick rate →
+                          <span>Rate DJ →</span>
+                          <span className="text-xs text-gray-500">Quick rating</span>
                         </button>
                       </div>
                     </div>
@@ -473,18 +479,6 @@ export default function FeedbackPage() {
                         <StarIconSolid className="w-4 h-4 text-amber-400" />
                         <span className="text-white">{feedback.professionalism}/5</span>
                       </div>
-                    </div>
-                  )}
-                  {feedback.wouldRebook !== null && (
-                    <div>
-                      <span className="text-gray-500">Would Rebook</span>
-                      <p
-                        className={`mt-1 font-medium ${
-                          feedback.wouldRebook ? 'text-emerald-400' : 'text-red-400'
-                        }`}
-                      >
-                        {feedback.wouldRebook ? 'Yes' : 'No'}
-                      </p>
                     </div>
                   )}
                 </div>

@@ -493,9 +493,11 @@ async function main() {
   console.log('📅 Creating February 2026 schedule assignments...');
 
   // Get all days in February 2026
+  // Use Date.UTC with noon to avoid timezone boundary issues
+  // (local midnight can shift to previous day when converted to UTC)
   const february2026Days: Date[] = [];
   for (let day = 1; day <= 28; day++) {
-    february2026Days.push(new Date(2026, 1, day)); // Month is 0-indexed
+    february2026Days.push(new Date(Date.UTC(2026, 1, day, 12, 0, 0))); // Noon UTC
   }
 
   let assignmentCount = 0;

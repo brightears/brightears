@@ -140,49 +140,6 @@ export default function DJFeedbackCard({
             </div>
           </div>
 
-          {/* Would Rebook */}
-          <div className="space-y-2">
-            <label className="text-sm text-gray-300">Would you rebook?</label>
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={() => onChange({ ...value, wouldRebook: true })}
-                disabled={disabled}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  value.wouldRebook === true
-                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    : 'bg-white/10 text-gray-400 hover:bg-white/20'
-                } disabled:opacity-50`}
-              >
-                Yes
-              </button>
-              <button
-                type="button"
-                onClick={() => onChange({ ...value, wouldRebook: false })}
-                disabled={disabled}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  value.wouldRebook === false
-                    ? 'bg-red-500/20 text-red-400 border border-red-500/30'
-                    : 'bg-white/10 text-gray-400 hover:bg-white/20'
-                } disabled:opacity-50`}
-              >
-                No
-              </button>
-              <button
-                type="button"
-                onClick={() => onChange({ ...value, wouldRebook: null })}
-                disabled={disabled}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  value.wouldRebook === null
-                    ? 'bg-white/20 text-white border border-white/20'
-                    : 'bg-white/10 text-gray-400 hover:bg-white/20'
-                } disabled:opacity-50`}
-              >
-                Maybe
-              </button>
-            </div>
-          </div>
-
           {/* Comments */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">

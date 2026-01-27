@@ -43,7 +43,6 @@ export default function FeedbackForm({
   const [professionalism, setProfessionalism] = useState(0);
   const [whatWentWell, setWhatWentWell] = useState('');
   const [areasForImprovement, setAreasForImprovement] = useState('');
-  const [wouldRebook, setWouldRebook] = useState<boolean | null>(null);
   const [crowdLevel, setCrowdLevel] = useState<string>('');
   const [guestMix, setGuestMix] = useState<string>('');
 
@@ -78,7 +77,6 @@ export default function FeedbackForm({
           professionalism: professionalism || undefined,
           whatWentWell: whatWentWell || undefined,
           areasForImprovement: areasForImprovement || undefined,
-          wouldRebook: wouldRebook ?? undefined,
           crowdLevel: crowdLevel || undefined,
           guestMix: guestMix || undefined,
         }),
@@ -200,37 +198,6 @@ export default function FeedbackForm({
                   onChange={setProfessionalism}
                   size="sm"
                 />
-              </div>
-            </div>
-
-            {/* Would Rebook */}
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">
-                Would you rebook this DJ?
-              </label>
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => setWouldRebook(true)}
-                  className={`flex-1 py-2 px-4 rounded-lg border transition-colors ${
-                    wouldRebook === true
-                      ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
-                      : 'border-white/20 text-gray-400 hover:border-white/40'
-                  }`}
-                >
-                  Yes
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setWouldRebook(false)}
-                  className={`flex-1 py-2 px-4 rounded-lg border transition-colors ${
-                    wouldRebook === false
-                      ? 'bg-red-500/20 border-red-500/50 text-red-400'
-                      : 'border-white/20 text-gray-400 hover:border-white/40'
-                  }`}
-                >
-                  No
-                </button>
               </div>
             </div>
 
