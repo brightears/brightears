@@ -57,7 +57,7 @@ export default function DJAvatar({
             src={src}
             alt={name}
             fill
-            className={`object-cover transition-all duration-300 ${
+            className={`object-cover object-top transition-all duration-300 ${
               showHoverEffect ? 'group-hover:scale-105' : ''
             } ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
             onError={() => setHasError(true)}
