@@ -69,7 +69,7 @@ export default function DJProfileModal({
                 src={dj.profileImage}
                 alt={dj.stageName}
                 fill
-                className="object-cover"
+                className="object-cover object-top"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
