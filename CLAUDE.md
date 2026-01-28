@@ -38,9 +38,56 @@ This checkpoint marks a **verified stable state** after successful deployment re
 
 ---
 
-## Current Status (January 27, 2026) - 🎯 **VENUE PORTAL DESIGN COMPLETE** ✅
+## Current Status (January 28, 2026) - 🎯 **DJ SCHEDULE & IMAGES UPDATED** ✅
 
-### ✅ **LATEST MILESTONE: VENUE PORTAL DESIGN AUDIT (January 27, 2026)**
+### ✅ **LATEST MILESTONE: DJ ROSTER & SCHEDULE UPDATE (January 28, 2026)**
+
+**Session: DJ Schedule Sync & Image Optimization**
+
+**Changes Made:**
+
+1. **DJ Roster Update**
+   - Removed Justin Mills from roster (now 15 DJs)
+   - Deleted Justin Mills image and database records
+
+2. **February 2026 Schedule Changes**
+   - Monday NOBU: Benji → RabbitDisco
+   - Monday LDK Early: RabbitDisco → Benji
+   - Saturday LDK Early: Justin Mills → Yui Truluv
+   - Updated DJ venue assignments (Benji, RabbitDisco, Yui Truluv)
+
+3. **Schedule Exceptions Added**
+   - Feb 2: DJ Furry at LDK Early (instead of Benji)
+   - Feb 11, 14, 15, 25: Mizuyo at LDK Early
+   - Feb 14, 21: DJ Pound at LDK Late (Scotty B away)
+   - Feb 18: DJ Furry at LDK Early (instead of DJ Enjoy)
+
+4. **DJ Images Replaced with Square Crops**
+   - All DJ photos now 1:1 square PNG format
+   - Better display with `object-cover object-top` CSS
+   - Exception: Mizuyo keeps original (already well-centered)
+   - Old JPG files removed, originals backed up in `/originals/`
+
+**Image Best Practice Learned:**
+- Square (1:1) images work best for DJ cards/modals
+- Keep face in upper third of image
+- 800x800 to 1200x1200 is ideal size range
+- Use `object-top` CSS for consistent face positioning
+
+**Files Modified:**
+- `prisma/seed-nobu.ts` - Updated schedule, removed Justin Mills, new image paths
+- `public/images/djs/*.png` - 14 new square-cropped images
+- `public/images/djs/mizuyo-photo1.jpg` - Kept original (well-centered)
+
+**Commits:**
+- `bdd18c0` - feat: Update DJ schedule and replace images with square crops
+- `d2d62db` - fix: Revert Mizuyo to original centered image
+
+---
+
+## Previous Status (January 27, 2026) - 🎯 **VENUE PORTAL DESIGN COMPLETE** ✅
+
+### ✅ **PREVIOUS MILESTONE: VENUE PORTAL DESIGN AUDIT (January 27, 2026)**
 
 **Session: Venue Portal Design Polish & Layout Fixes**
 
