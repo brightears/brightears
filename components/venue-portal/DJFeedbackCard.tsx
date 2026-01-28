@@ -1,20 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { CheckCircleIcon } from '@heroicons/react/24/outline';
-import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
+import { CheckCircleIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import DJAvatar from './DJAvatar';
 import RatingStars from './RatingStars';
 
 interface DJFeedbackData {
   artistId: string;
   overallRating: number;
-  musicQuality: number | null;
-  crowdEngagement: number | null;
-  professionalism: number | null;
-  whatWentWell: string;
-  areasForImprovement: string;
-  wouldRebook: boolean | null;
+  notes: string;
 }
 
 interface DJFeedbackCardProps {
@@ -41,13 +35,9 @@ export default function DJFeedbackCard({
   onChange,
   disabled = false,
 }: DJFeedbackCardProps) {
-  const [expanded, setExpanded] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
 
   const isComplete = value.overallRating > 0;
-
-  const handleRatingChange = (field: keyof DJFeedbackData, rating: number) => {
-    onChange({ ...value, [field]: rating });
-  };
 
   return (
     <div
@@ -57,7 +47,7 @@ export default function DJFeedbackCard({
           : 'border-white/10 bg-white/5'
       }`}
     >
-      {/* Header - Always visible */}
+      {/* Header with rating */}
       <div className="p-4">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
@@ -83,100 +73,44 @@ export default function DJFeedbackCard({
             </div>
           </div>
 
-          {/* Quick Rating */}
-          <div className="flex items-center gap-3">
-            <RatingStars
-              rating={value.overallRating}
-              size="md"
-              onChange={(rating) => handleRatingChange('overallRating', rating)}
-              readonly={disabled}
-            />
+          {/* Rating */}
+          <RatingStars
+            rating={value.overallRating}
+            size="md"
+            onChange={(rating) => onChange({ ...value, overallRating: rating })}
+            readonly={disabled}
+          />
+        </div>
+
+        {/* Notes toggle - only show after rating */}
+        {isComplete && (
+          <div className="mt-3">
             <button
               type="button"
-              onClick={() => setExpanded(!expanded)}
-              className="text-sm text-brand-cyan hover:text-brand-cyan/80"
+              onClick={() => setShowNotes(!showNotes)}
+              className="flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors"
             >
-              {expanded ? 'Less' : 'More'}
+              <ChevronDownIcon
+                className={`w-4 h-4 transition-transform ${showNotes ? 'rotate-180' : ''}`}
+              />
+              {value.notes ? 'Edit notes' : 'Add notes (optional)'}
             </button>
+
+            {showNotes && (
+              <textarea
+                value={value.notes}
+                onChange={(e) => onChange({ ...value, notes: e.target.value })}
+                disabled={disabled}
+                rows={2}
+                placeholder="Any feedback about this performance..."
+                className="mt-2 w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
+                           text-sm placeholder:text-gray-500 focus:border-brand-cyan focus:outline-none
+                           resize-none disabled:opacity-50"
+              />
+            )}
           </div>
-        </div>
+        )}
       </div>
-
-      {/* Expanded Details */}
-      {expanded && (
-        <div className="px-4 pb-4 space-y-4 border-t border-white/10 pt-4">
-          {/* Detailed Ratings */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="space-y-1">
-              <label className="text-xs text-gray-400">Music Quality</label>
-              <RatingStars
-                rating={value.musicQuality || 0}
-                size="sm"
-                onChange={(rating) => handleRatingChange('musicQuality', rating)}
-                readonly={disabled}
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="text-xs text-gray-400">Crowd Engagement</label>
-              <RatingStars
-                rating={value.crowdEngagement || 0}
-                size="sm"
-                onChange={(rating) =>
-                  handleRatingChange('crowdEngagement', rating)
-                }
-                readonly={disabled}
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="text-xs text-gray-400">Professionalism</label>
-              <RatingStars
-                rating={value.professionalism || 0}
-                size="sm"
-                onChange={(rating) =>
-                  handleRatingChange('professionalism', rating)
-                }
-                readonly={disabled}
-              />
-            </div>
-          </div>
-
-          {/* Comments */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-xs text-gray-400">What went well</label>
-              <textarea
-                value={value.whatWentWell}
-                onChange={(e) =>
-                  onChange({ ...value, whatWentWell: e.target.value })
-                }
-                disabled={disabled}
-                rows={2}
-                placeholder="Highlights from the performance..."
-                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
-                           text-sm placeholder:text-gray-500 focus:border-brand-cyan focus:outline-none
-                           resize-none disabled:opacity-50"
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="text-xs text-gray-400">
-                Areas for improvement
-              </label>
-              <textarea
-                value={value.areasForImprovement}
-                onChange={(e) =>
-                  onChange({ ...value, areasForImprovement: e.target.value })
-                }
-                disabled={disabled}
-                rows={2}
-                placeholder="Suggestions for next time..."
-                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
-                           text-sm placeholder:text-gray-500 focus:border-brand-cyan focus:outline-none
-                           resize-none disabled:opacity-50"
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

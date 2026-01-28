@@ -19,17 +19,13 @@ const querySchema = z.object({
 });
 
 /**
- * Feedback submission schema
+ * Feedback submission schema (simplified)
  */
 const feedbackSchema = z.object({
   assignmentId: z.string(), // Not UUID - assignment IDs are human-readable strings
   overallRating: z.number().int().min(1).max(5),
-  musicQuality: z.number().int().min(1).max(5).optional(),
-  crowdEngagement: z.number().int().min(1).max(5).optional(),
-  professionalism: z.number().int().min(1).max(5).optional(),
-  whatWentWell: z.string().max(1000).optional(),
-  areasForImprovement: z.string().max(1000).optional(),
-  wouldRebook: z.boolean().optional(),
+  notes: z.string().max(2000).optional(),
+  // Venue context (passed from Night Feedback in wizard)
   crowdLevel: z.enum(['Light', 'Moderate', 'Busy', 'Packed']).optional(),
   guestMix: z.enum(['Tourists', 'Locals', 'Business', 'Mixed']).optional(),
 });
@@ -342,12 +338,7 @@ export async function POST(req: NextRequest) {
           artistId: assignment.artistId,
           submittedBy: user.id,
           overallRating: data.overallRating,
-          musicQuality: data.musicQuality,
-          crowdEngagement: data.crowdEngagement,
-          professionalism: data.professionalism,
-          whatWentWell: data.whatWentWell,
-          areasForImprovement: data.areasForImprovement,
-          wouldRebook: data.wouldRebook,
+          notes: data.notes,
           crowdLevel: data.crowdLevel,
           guestMix: data.guestMix,
         },

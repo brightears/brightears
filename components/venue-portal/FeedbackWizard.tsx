@@ -34,12 +34,7 @@ interface NightFeedbackData {
 interface DJFeedbackData {
   artistId: string;
   overallRating: number;
-  musicQuality: number | null;
-  crowdEngagement: number | null;
-  professionalism: number | null;
-  whatWentWell: string;
-  areasForImprovement: string;
-  wouldRebook: boolean | null;
+  notes: string;
 }
 
 interface FeedbackWizardProps {
@@ -81,12 +76,7 @@ export default function FeedbackWizard({
       initial[a.id] = {
         artistId: a.artist.id,
         overallRating: 0,
-        musicQuality: null,
-        crowdEngagement: null,
-        professionalism: null,
-        whatWentWell: '',
-        areasForImprovement: '',
-        wouldRebook: null,
+        notes: '',
       };
     });
     setDjFeedback(initial);
@@ -142,12 +132,7 @@ export default function FeedbackWizard({
           body: JSON.stringify({
             assignmentId: assignment.id,
             overallRating: feedback.overallRating,
-            musicQuality: feedback.musicQuality,
-            crowdEngagement: feedback.crowdEngagement,
-            professionalism: feedback.professionalism,
-            whatWentWell: feedback.whatWentWell || undefined,
-            areasForImprovement: feedback.areasForImprovement || undefined,
-            wouldRebook: feedback.wouldRebook,
+            notes: feedback.notes || undefined,
             // Include night context in DJ feedback
             crowdLevel: nightFeedback.peakCrowdLevel || undefined,
             guestMix: nightFeedback.crowdType || 'Mixed',

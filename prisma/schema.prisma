@@ -387,6 +387,8 @@ model VenueFeedback {
   professionalism     Int?
 
   // Qualitative feedback
+  notes               String?  @db.Text  // NEW: Combined notes field
+  // Legacy fields (kept for historical data)
   whatWentWell        String?  @db.Text
   areasForImprovement String?  @db.Text
   wouldRebook         Boolean?

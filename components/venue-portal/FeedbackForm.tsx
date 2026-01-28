@@ -25,9 +25,6 @@ interface FeedbackFormProps {
   onSuccess: () => void;
 }
 
-const CROWD_LEVELS = ['Light', 'Moderate', 'Busy', 'Packed'] as const;
-const GUEST_MIX = ['Tourists', 'Locals', 'Business', 'Mixed'] as const;
-
 export default function FeedbackForm({
   assignment,
   onClose,
@@ -36,15 +33,9 @@ export default function FeedbackForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Form state
+  // Simplified form state
   const [overallRating, setOverallRating] = useState(0);
-  const [musicQuality, setMusicQuality] = useState(0);
-  const [crowdEngagement, setCrowdEngagement] = useState(0);
-  const [professionalism, setProfessionalism] = useState(0);
-  const [whatWentWell, setWhatWentWell] = useState('');
-  const [areasForImprovement, setAreasForImprovement] = useState('');
-  const [crowdLevel, setCrowdLevel] = useState<string>('');
-  const [guestMix, setGuestMix] = useState<string>('');
+  const [notes, setNotes] = useState('');
 
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleDateString('en-US', {
@@ -72,13 +63,7 @@ export default function FeedbackForm({
         body: JSON.stringify({
           assignmentId: assignment.id,
           overallRating,
-          musicQuality: musicQuality || undefined,
-          crowdEngagement: crowdEngagement || undefined,
-          professionalism: professionalism || undefined,
-          whatWentWell: whatWentWell || undefined,
-          areasForImprovement: areasForImprovement || undefined,
-          crowdLevel: crowdLevel || undefined,
-          guestMix: guestMix || undefined,
+          notes: notes || undefined,
         }),
       });
 
@@ -105,10 +90,10 @@ export default function FeedbackForm({
 
       {/* Modal */}
       <div className="relative min-h-screen flex items-center justify-center p-4">
-        <div className="relative w-full max-w-lg bg-gradient-to-br from-stone-900 to-stone-800 rounded-2xl border border-white/10 overflow-hidden">
+        <div className="relative w-full max-w-md bg-gradient-to-br from-stone-900 to-stone-800 rounded-2xl border border-white/10 overflow-hidden">
           {/* Header */}
           <div className="p-4 border-b border-white/10 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-white">Submit Feedback</h2>
+            <h2 className="text-lg font-semibold text-white">Rate Performance</h2>
             <button
               onClick={onClose}
               className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
@@ -167,109 +152,16 @@ export default function FeedbackForm({
               />
             </div>
 
-            {/* Optional Detailed Ratings */}
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <label className="block text-xs text-gray-400 mb-1">
-                  Music Quality
-                </label>
-                <RatingStars
-                  rating={musicQuality}
-                  onChange={setMusicQuality}
-                  size="sm"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-gray-400 mb-1">
-                  Crowd Engagement
-                </label>
-                <RatingStars
-                  rating={crowdEngagement}
-                  onChange={setCrowdEngagement}
-                  size="sm"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-gray-400 mb-1">
-                  Professionalism
-                </label>
-                <RatingStars
-                  rating={professionalism}
-                  onChange={setProfessionalism}
-                  size="sm"
-                />
-              </div>
-            </div>
-
-            {/* Context: Crowd Level */}
+            {/* Notes (Optional) */}
             <div>
               <label className="block text-sm font-medium text-white mb-2">
-                How busy was the venue?
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {CROWD_LEVELS.map((level) => (
-                  <button
-                    key={level}
-                    type="button"
-                    onClick={() => setCrowdLevel(level)}
-                    className={`px-3 py-1.5 rounded-lg border text-sm transition-colors ${
-                      crowdLevel === level
-                        ? 'bg-brand-cyan/20 border-brand-cyan/50 text-brand-cyan'
-                        : 'border-white/20 text-gray-400 hover:border-white/40'
-                    }`}
-                  >
-                    {level}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Context: Guest Mix */}
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">
-                Guest composition
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {GUEST_MIX.map((mix) => (
-                  <button
-                    key={mix}
-                    type="button"
-                    onClick={() => setGuestMix(mix)}
-                    className={`px-3 py-1.5 rounded-lg border text-sm transition-colors ${
-                      guestMix === mix
-                        ? 'bg-brand-cyan/20 border-brand-cyan/50 text-brand-cyan'
-                        : 'border-white/20 text-gray-400 hover:border-white/40'
-                    }`}
-                  >
-                    {mix}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Comments */}
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">
-                What went well?
+                Notes (optional)
               </label>
               <textarea
-                value={whatWentWell}
-                onChange={(e) => setWhatWentWell(e.target.value)}
-                placeholder="E.g., Great song selection, perfect energy for the crowd..."
-                rows={2}
-                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-brand-cyan resize-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">
-                Areas for improvement
-              </label>
-              <textarea
-                value={areasForImprovement}
-                onChange={(e) => setAreasForImprovement(e.target.value)}
-                placeholder="E.g., Could have read the room better during dinner service..."
-                rows={2}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Any feedback about the performance..."
+                rows={3}
                 className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-brand-cyan resize-none"
               />
             </div>
