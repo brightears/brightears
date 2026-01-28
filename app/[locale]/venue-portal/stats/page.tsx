@@ -173,7 +173,7 @@ export default function StatsPage() {
           {/* Rating Stats */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Rating Overview */}
-            <div className="rounded-xl border border-white/10 bg-slate-800/50 backdrop-blur-sm p-6">
+            <div className="rounded-xl border border-white/10 bg-deep-teal/30 backdrop-blur-sm p-6">
               <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <StarIcon className="w-5 h-5 text-brand-cyan" />
                 Rating Overview
@@ -274,7 +274,7 @@ export default function StatsPage() {
             </div>
 
             {/* Top Performers */}
-            <div className="rounded-xl border border-white/10 bg-slate-800/50 backdrop-blur-sm p-6">
+            <div className="rounded-xl border border-white/10 bg-deep-teal/30 backdrop-blur-sm p-6">
               <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <UserGroupIcon className="w-5 h-5 text-soft-lavender" />
                 Top Performers
@@ -289,7 +289,7 @@ export default function StatsPage() {
                   {stats.topDJs.map((dj, index) => (
                     <div
                       key={dj.id}
-                      className="flex items-center gap-4 p-3 rounded-lg bg-slate-800/50 hover:bg-white/10 transition-colors"
+                      className="flex items-center gap-4 p-3 rounded-lg bg-deep-teal/20 hover:bg-white/10 transition-colors"
                     >
                       {/* Rank */}
                       <div
@@ -348,7 +348,7 @@ export default function StatsPage() {
           </div>
 
           {/* Feedback Status */}
-          <div className="rounded-xl border border-white/10 bg-slate-800/50 backdrop-blur-sm p-6">
+          <div className="rounded-xl border border-white/10 bg-deep-teal/30 backdrop-blur-sm p-6">
             <h2 className="text-lg font-semibold text-white mb-4">
               Feedback Status
             </h2>

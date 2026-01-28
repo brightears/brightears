@@ -52,7 +52,7 @@ export default function DJProfileModal({
 
       {/* Modal */}
       <div className="relative min-h-screen flex items-center justify-center p-4">
-        <div className="relative w-full max-w-2xl bg-gradient-to-br from-slate-900 to-deep-teal/50 rounded-2xl border border-white/10 overflow-hidden">
+        <div className="relative w-full max-w-2xl bg-gradient-to-br from-deep-teal to-deep-teal/80 rounded-2xl border border-white/10 overflow-hidden">
           {/* Close button */}
           <button
             onClick={onClose}
@@ -76,7 +76,7 @@ export default function DJProfileModal({
                 <UserGroupIcon className="w-24 h-24 text-gray-600" />
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-deep-teal to-transparent" />
 
             {/* Name and category */}
             <div className="absolute bottom-4 left-6">

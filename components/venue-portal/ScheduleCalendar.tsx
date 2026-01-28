@@ -124,7 +124,7 @@ export default function ScheduleCalendar({
   };
 
   return (
-    <div className="rounded-xl border border-white/10 bg-slate-800/50 backdrop-blur-sm overflow-hidden">
+    <div className="rounded-xl border border-white/10 bg-deep-teal/30 backdrop-blur-sm overflow-hidden">
       {/* Calendar Header */}
       <div className="p-4 border-b border-white/10 flex items-center justify-between">
         <div className="flex items-center gap-4">

@@ -279,10 +279,10 @@ export default function FeedbackPage() {
             {pendingGroups.map((group) => (
               <div
                 key={group.key}
-                className="rounded-xl bg-slate-800/50 border border-white/10 overflow-hidden"
+                className="rounded-xl bg-deep-teal/30 border border-white/10 overflow-hidden"
               >
                 {/* Group Header */}
-                <div className="p-4 bg-slate-800/30 border-b border-white/10 flex items-center justify-between">
+                <div className="p-4 bg-deep-teal/20 border-b border-white/10 flex items-center justify-between">
                   <div>
                     <h3 className="font-medium text-white">{group.venue.name}</h3>
                     <p className="text-sm text-gray-400">{formatDate(group.date)}</p>

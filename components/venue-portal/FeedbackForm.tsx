@@ -105,7 +105,7 @@ export default function FeedbackForm({
 
       {/* Modal */}
       <div className="relative min-h-screen flex items-center justify-center p-4">
-        <div className="relative w-full max-w-lg bg-gradient-to-br from-slate-900 to-deep-teal/50 rounded-2xl border border-white/10 overflow-hidden">
+        <div className="relative w-full max-w-lg bg-gradient-to-br from-deep-teal to-deep-teal/80 rounded-2xl border border-white/10 overflow-hidden">
           {/* Header */}
           <div className="p-4 border-b border-white/10 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-white">Submit Feedback</h2>
