@@ -23,7 +23,7 @@ export default async function VenuePortalLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-deep-teal via-deep-teal/95 to-deep-teal/90">
+    <div className="min-h-screen bg-gradient-to-b from-stone-900 via-stone-800 to-stone-900">
       <PortalSidebar />
 
       {/* Main content area */}

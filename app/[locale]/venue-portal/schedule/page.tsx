@@ -148,7 +148,7 @@ export default function SchedulePage() {
 
           {/* Selected Date Details */}
           <div className="xl:col-span-1">
-            <div className="rounded-xl border border-white/10 bg-deep-teal/30 backdrop-blur-sm overflow-hidden h-full">
+            <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden h-full">
               <div className="p-4 border-b border-white/10">
                 <h2 className="text-lg font-semibold text-white">
                   {selectedDate ? formatDate(selectedDate) : 'Select a date'}
