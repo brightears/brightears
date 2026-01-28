@@ -167,7 +167,7 @@ const DJ_PROFILES = [
     genres: ['Funk', 'Disco', 'Latin', 'World Fusion'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/mizuyo-photo1.png',
+    profileImage: '/images/djs/mizuyo-photo1.jpg',
     venues: ['Le Du Kaan Early'],
     hourlyRate: 1000,
   },
