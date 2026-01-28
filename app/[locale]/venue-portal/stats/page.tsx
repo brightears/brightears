@@ -29,7 +29,6 @@ interface StatsData {
     avgMusicQuality: number | null;
     avgCrowdEngagement: number | null;
     avgProfessionalism: number | null;
-    rebookRate: number | null;
     ratingDistribution: Record<number, number>;
   };
   topDJs: Array<{
@@ -260,15 +259,6 @@ export default function StatsPage() {
                     </div>
                   </div>
 
-                  {/* Rebook Rate */}
-                  {stats.feedback.rebookRate !== null && (
-                    <div className="pt-4 border-t border-white/10 text-center">
-                      <p className="text-3xl font-bold text-emerald-400">
-                        {stats.feedback.rebookRate}%
-                      </p>
-                      <p className="text-sm text-gray-500">Would rebook rate</p>
-                    </div>
-                  )}
                 </div>
               )}
             </div>

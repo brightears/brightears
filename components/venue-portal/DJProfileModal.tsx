@@ -26,7 +26,6 @@ interface DJProfileModalProps {
       completedAssignments: number;
       feedbackCount: number;
       avgOverallRating: number | null;
-      rebookRate: number | null;
     };
   } | null;
   isOpen: boolean;
@@ -92,7 +91,7 @@ export default function DJProfileModal({
           {/* Content */}
           <div className="p-6 space-y-6">
             {/* Stats grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
                 <div className="flex items-center justify-center mb-2">
                   {rating ? (
@@ -124,15 +123,6 @@ export default function DJProfileModal({
                   {dj.venueStats.completedAssignments}
                 </p>
                 <p className="text-xs text-gray-400">Completed</p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
-                <p className="text-2xl font-bold text-emerald-400 mb-1">
-                  {dj.venueStats.rebookRate !== null
-                    ? `${dj.venueStats.rebookRate}%`
-                    : 'N/A'}
-                </p>
-                <p className="text-xs text-gray-400">Rebook Rate</p>
               </div>
             </div>
 

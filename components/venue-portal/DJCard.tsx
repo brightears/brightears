@@ -19,7 +19,6 @@ interface DJCardProps {
       completedAssignments: number;
       feedbackCount: number;
       avgOverallRating: number | null;
-      rebookRate: number | null;
     };
   };
   onClick: () => void;
@@ -76,11 +75,6 @@ export default function DJCard({ dj, onClick }: DJCardProps) {
             <CalendarIcon className="w-4 h-4" />
             <span>{dj.venueStats.totalAssignments} shows</span>
           </div>
-          {dj.venueStats.rebookRate !== null && (
-            <div className="flex items-center gap-1 text-emerald-400">
-              <span>{dj.venueStats.rebookRate}% rebook</span>
-            </div>
-          )}
         </div>
 
         {/* Bio preview */}
