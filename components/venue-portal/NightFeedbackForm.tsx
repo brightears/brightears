@@ -17,7 +17,6 @@ interface NightFeedbackData {
   overallNightRating: number;
   peakBusyTime: string;
   peakCrowdLevel: string;
-  estimatedHeadcount: number | null;
   pctThai: number;
   pctWestern: number;
   pctAsian: number;
@@ -74,7 +73,6 @@ const defaultData: NightFeedbackData = {
   overallNightRating: 0,
   peakBusyTime: '',
   peakCrowdLevel: '',
-  estimatedHeadcount: null,
   pctThai: 0,
   pctWestern: 0,
   pctAsian: 0,
@@ -167,10 +165,13 @@ export default function NightFeedbackForm({
 
       {/* Overall Night Rating */}
       <div className="space-y-3">
-        <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
-          <StarIcon className="w-5 h-5 text-brand-cyan" />
-          Overall Night Rating *
-        </label>
+        <div className="space-y-1">
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
+            <StarIcon className="w-5 h-5 text-brand-cyan" />
+            How was business tonight? *
+          </label>
+          <p className="text-xs text-gray-500">Helps us understand the context for DJ ratings</p>
+        </div>
         <div className="flex items-center gap-4">
           <RatingStars
             rating={formData.overallNightRating}
@@ -188,7 +189,7 @@ export default function NightFeedbackForm({
       </div>
 
       {/* Crowd Metrics Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Peak Busy Time */}
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
@@ -236,30 +237,6 @@ export default function NightFeedbackForm({
               </option>
             ))}
           </select>
-        </div>
-
-        {/* Estimated Headcount */}
-        <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
-            <UserGroupIcon className="w-4 h-4" />
-            Est. Headcount
-          </label>
-          <input
-            type="number"
-            min="0"
-            value={formData.estimatedHeadcount || ''}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                estimatedHeadcount: e.target.value
-                  ? parseInt(e.target.value, 10)
-                  : null,
-              }))
-            }
-            placeholder="e.g., 150"
-            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
-                       placeholder:text-gray-400 focus:border-brand-cyan focus:outline-none"
-          />
         </div>
       </div>
 

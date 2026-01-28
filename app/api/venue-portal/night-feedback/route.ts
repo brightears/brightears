@@ -31,7 +31,6 @@ const nightFeedbackSchema = z.object({
   // Crowd metrics
   peakBusyTime: z.string().optional(),
   peakCrowdLevel: z.enum(['Light', 'Moderate', 'Busy', 'Packed']).optional(),
-  estimatedHeadcount: z.number().int().min(0).optional(),
 
   // Nationality breakdown (percentages)
   pctThai: z.number().int().min(0).max(100).optional().default(0),
@@ -280,7 +279,6 @@ export async function POST(req: NextRequest) {
           overallNightRating: data.overallNightRating,
           peakBusyTime: data.peakBusyTime,
           peakCrowdLevel: data.peakCrowdLevel,
-          estimatedHeadcount: data.estimatedHeadcount,
           pctThai: data.pctThai || 0,
           pctWestern: data.pctWestern || 0,
           pctAsian: data.pctAsian || 0,
@@ -300,7 +298,6 @@ export async function POST(req: NextRequest) {
           overallNightRating: data.overallNightRating,
           peakBusyTime: data.peakBusyTime,
           peakCrowdLevel: data.peakCrowdLevel,
-          estimatedHeadcount: data.estimatedHeadcount,
           pctThai: data.pctThai || 0,
           pctWestern: data.pctWestern || 0,
           pctAsian: data.pctAsian || 0,

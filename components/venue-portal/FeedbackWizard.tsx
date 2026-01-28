@@ -24,7 +24,6 @@ interface NightFeedbackData {
   overallNightRating: number;
   peakBusyTime: string;
   peakCrowdLevel: string;
-  estimatedHeadcount: number | null;
   pctThai: number;
   pctWestern: number;
   pctAsian: number;
