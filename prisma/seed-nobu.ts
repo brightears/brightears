@@ -81,7 +81,7 @@ const DJ_PROFILES = [
     genres: ['Afro House', 'Organic House', 'Commercial'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/ufo-photo1.jpg',
+    profileImage: '/images/djs/ufo-photo1.png',
     venues: ['NOBU', 'Le Du Kaan Late'],
     hourlyRate: 1000,
   },
