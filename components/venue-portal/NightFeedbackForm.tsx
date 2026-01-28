@@ -258,7 +258,7 @@ export default function NightFeedbackForm({
             }
             placeholder="e.g., 150"
             className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
-                       placeholder:text-gray-500 focus:border-brand-cyan focus:outline-none"
+                       placeholder:text-gray-400 focus:border-brand-cyan focus:outline-none"
           />
         </div>
       </div>
@@ -344,7 +344,7 @@ export default function NightFeedbackForm({
             }
             placeholder="e.g., CNY, Songkran, Concert nearby..."
             className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
-                       placeholder:text-gray-500 focus:border-brand-cyan focus:outline-none"
+                       placeholder:text-gray-400 focus:border-brand-cyan focus:outline-none"
           />
         </div>
       </div>
@@ -362,7 +362,7 @@ export default function NightFeedbackForm({
           rows={3}
           placeholder="Any observations about the night..."
           className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
-                     placeholder:text-gray-500 focus:border-brand-cyan focus:outline-none resize-none"
+                     placeholder:text-gray-400 focus:border-brand-cyan focus:outline-none resize-none"
         />
       </div>
 
@@ -382,7 +382,7 @@ export default function NightFeedbackForm({
           rows={2}
           placeholder="Equipment problems, staffing issues, complaints..."
           className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
-                     placeholder:text-gray-500 focus:border-brand-cyan focus:outline-none resize-none"
+                     placeholder:text-gray-400 focus:border-brand-cyan focus:outline-none resize-none"
         />
       </div>
 
