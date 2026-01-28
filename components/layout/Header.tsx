@@ -155,7 +155,7 @@ const Header: React.FC = () => {
               {isLoaded && user ? (
                 <div className="hidden sm:flex items-center gap-3">
                   <Link
-                    href="/dashboard"
+                    href="/venue-portal"
                     className="px-4 py-2 rounded-xl transition-all duration-300 text-white hover:text-brand-cyan"
                     aria-label={t('dashboard')}
                   >
@@ -249,7 +249,7 @@ const Header: React.FC = () => {
             {user ? (
               <div className="space-y-3">
                 <Link
-                  href="/dashboard"
+                  href="/venue-portal"
                   onClick={handleMobileMenuClose}
                   className="w-full px-6 py-3 bg-brand-cyan text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50 text-center block"
                   aria-label={t('dashboard')}
