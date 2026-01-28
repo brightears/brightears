@@ -19,7 +19,7 @@ const querySchema = z.object({
 });
 
 /**
- * Night feedback submission schema
+ * Night feedback submission schema (simplified)
  */
 const nightFeedbackSchema = z.object({
   venueId: z.string(), // Not UUID - venue IDs are human-readable strings
@@ -32,26 +32,16 @@ const nightFeedbackSchema = z.object({
   peakBusyTime: z.string().optional(),
   peakCrowdLevel: z.enum(['Light', 'Moderate', 'Busy', 'Packed']).optional(),
 
-  // Nationality breakdown (percentages)
-  pctThai: z.number().int().min(0).max(100).optional().default(0),
-  pctWestern: z.number().int().min(0).max(100).optional().default(0),
-  pctAsian: z.number().int().min(0).max(100).optional().default(0),
-  pctMiddleEastern: z.number().int().min(0).max(100).optional().default(0),
-  pctOther: z.number().int().min(0).max(100).optional().default(0),
-
-  // Guest type breakdown (percentages)
-  pctTourists: z.number().int().min(0).max(100).optional().default(0),
-  pctLocals: z.number().int().min(0).max(100).optional().default(0),
-  pctBusiness: z.number().int().min(0).max(100).optional().default(0),
-  pctHotelGuests: z.number().int().min(0).max(100).optional().default(0),
+  // Simplified demographics (single-select)
+  crowdNationality: z.enum(['mostly_thai', 'mostly_western', 'mostly_asian', 'mostly_middle_eastern', 'mixed']).optional(),
+  crowdType: z.enum(['mostly_tourists', 'mostly_locals', 'mostly_hotel', 'mostly_business', 'mixed']).optional(),
 
   // External factors
   weatherCondition: z.string().optional(),
   specialEvent: z.string().optional(),
 
-  // Comments
-  generalNotes: z.string().max(2000).optional(),
-  operationalIssues: z.string().max(2000).optional(),
+  // Combined notes field
+  notes: z.string().max(2000).optional(),
 });
 
 /**
@@ -227,41 +217,6 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      // Validate nationality percentages sum to 100 (if any provided)
-      const nationalitySum =
-        (data.pctThai || 0) +
-        (data.pctWestern || 0) +
-        (data.pctAsian || 0) +
-        (data.pctMiddleEastern || 0) +
-        (data.pctOther || 0);
-
-      if (nationalitySum > 0 && nationalitySum !== 100) {
-        return NextResponse.json(
-          {
-            error: 'Nationality percentages must sum to 100',
-            details: { sum: nationalitySum },
-          },
-          { status: 400 }
-        );
-      }
-
-      // Validate guest type percentages sum to 100 (if any provided)
-      const guestTypeSum =
-        (data.pctTourists || 0) +
-        (data.pctLocals || 0) +
-        (data.pctBusiness || 0) +
-        (data.pctHotelGuests || 0);
-
-      if (guestTypeSum > 0 && guestTypeSum !== 100) {
-        return NextResponse.json(
-          {
-            error: 'Guest type percentages must sum to 100',
-            details: { sum: guestTypeSum },
-          },
-          { status: 400 }
-        );
-      }
-
       const feedbackDate = new Date(data.date);
 
       // Upsert: create or update night feedback
@@ -279,38 +234,22 @@ export async function POST(req: NextRequest) {
           overallNightRating: data.overallNightRating,
           peakBusyTime: data.peakBusyTime,
           peakCrowdLevel: data.peakCrowdLevel,
-          pctThai: data.pctThai || 0,
-          pctWestern: data.pctWestern || 0,
-          pctAsian: data.pctAsian || 0,
-          pctMiddleEastern: data.pctMiddleEastern || 0,
-          pctOther: data.pctOther || 0,
-          pctTourists: data.pctTourists || 0,
-          pctLocals: data.pctLocals || 0,
-          pctBusiness: data.pctBusiness || 0,
-          pctHotelGuests: data.pctHotelGuests || 0,
+          crowdNationality: data.crowdNationality,
+          crowdType: data.crowdType,
           weatherCondition: data.weatherCondition,
           specialEvent: data.specialEvent,
-          generalNotes: data.generalNotes,
-          operationalIssues: data.operationalIssues,
+          notes: data.notes,
         },
         update: {
           submittedBy: user.id,
           overallNightRating: data.overallNightRating,
           peakBusyTime: data.peakBusyTime,
           peakCrowdLevel: data.peakCrowdLevel,
-          pctThai: data.pctThai || 0,
-          pctWestern: data.pctWestern || 0,
-          pctAsian: data.pctAsian || 0,
-          pctMiddleEastern: data.pctMiddleEastern || 0,
-          pctOther: data.pctOther || 0,
-          pctTourists: data.pctTourists || 0,
-          pctLocals: data.pctLocals || 0,
-          pctBusiness: data.pctBusiness || 0,
-          pctHotelGuests: data.pctHotelGuests || 0,
+          crowdNationality: data.crowdNationality,
+          crowdType: data.crowdType,
           weatherCondition: data.weatherCondition,
           specialEvent: data.specialEvent,
-          generalNotes: data.generalNotes,
-          operationalIssues: data.operationalIssues,
+          notes: data.notes,
         },
         include: {
           venue: {

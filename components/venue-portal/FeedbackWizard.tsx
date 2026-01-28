@@ -24,19 +24,11 @@ interface NightFeedbackData {
   overallNightRating: number;
   peakBusyTime: string;
   peakCrowdLevel: string;
-  pctThai: number;
-  pctWestern: number;
-  pctAsian: number;
-  pctMiddleEastern: number;
-  pctOther: number;
-  pctTourists: number;
-  pctLocals: number;
-  pctBusiness: number;
-  pctHotelGuests: number;
+  crowdNationality: string;
+  crowdType: string;
   weatherCondition: string;
   specialEvent: string;
-  generalNotes: string;
-  operationalIssues: string;
+  notes: string;
 }
 
 interface DJFeedbackData {
@@ -158,14 +150,7 @@ export default function FeedbackWizard({
             wouldRebook: feedback.wouldRebook,
             // Include night context in DJ feedback
             crowdLevel: nightFeedback.peakCrowdLevel || undefined,
-            guestMix:
-              nightFeedback.pctTourists > 50
-                ? 'Tourists'
-                : nightFeedback.pctLocals > 50
-                ? 'Locals'
-                : nightFeedback.pctBusiness > 50
-                ? 'Business'
-                : 'Mixed',
+            guestMix: nightFeedback.crowdType || 'Mixed',
           }),
         });
 

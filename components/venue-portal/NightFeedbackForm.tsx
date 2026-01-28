@@ -9,27 +9,17 @@ import {
   GlobeAltIcon,
   ClockIcon,
 } from '@heroicons/react/24/outline';
-import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import RatingStars from './RatingStars';
-import PercentageSliderGroup from './PercentageSliderGroup';
 
 interface NightFeedbackData {
   overallNightRating: number;
   peakBusyTime: string;
   peakCrowdLevel: string;
-  pctThai: number;
-  pctWestern: number;
-  pctAsian: number;
-  pctMiddleEastern: number;
-  pctOther: number;
-  pctTourists: number;
-  pctLocals: number;
-  pctBusiness: number;
-  pctHotelGuests: number;
+  crowdNationality: string;
+  crowdType: string;
   weatherCondition: string;
   specialEvent: string;
-  generalNotes: string;
-  operationalIssues: string;
+  notes: string;
 }
 
 interface NightFeedbackFormProps {
@@ -54,38 +44,31 @@ const PEAK_TIMES = [
 
 const WEATHER_CONDITIONS = ['Clear', 'Rainy', 'Hot', 'Cool', 'Humid'];
 
-const NATIONALITY_ITEMS = [
-  { key: 'pctThai', label: 'Thai', color: '#00bbe4' },
-  { key: 'pctWestern', label: 'Western', color: '#d59ec9' },
-  { key: 'pctAsian', label: 'Asian (non-Thai)', color: '#a47764' },
-  { key: 'pctMiddleEastern', label: 'Middle Eastern', color: '#2f6364' },
-  { key: 'pctOther', label: 'Other', color: '#6b7280' },
+const CROWD_NATIONALITY_OPTIONS = [
+  { value: 'mostly_thai', label: 'Mostly Thai' },
+  { value: 'mostly_western', label: 'Mostly Western/Expat' },
+  { value: 'mostly_asian', label: 'Mostly Asian tourists' },
+  { value: 'mostly_middle_eastern', label: 'Mostly Middle Eastern' },
+  { value: 'mixed', label: 'Mixed crowd' },
 ];
 
-const GUEST_TYPE_ITEMS = [
-  { key: 'pctTourists', label: 'Tourists', color: '#00bbe4' },
-  { key: 'pctLocals', label: 'Locals', color: '#d59ec9' },
-  { key: 'pctBusiness', label: 'Business', color: '#a47764' },
-  { key: 'pctHotelGuests', label: 'Hotel Guests', color: '#2f6364' },
+const CROWD_TYPE_OPTIONS = [
+  { value: 'mostly_tourists', label: 'Mostly Tourists' },
+  { value: 'mostly_locals', label: 'Mostly Locals/Regulars' },
+  { value: 'mostly_hotel', label: 'Mostly Hotel Guests' },
+  { value: 'mostly_business', label: 'Mostly Business travelers' },
+  { value: 'mixed', label: 'Mixed' },
 ];
 
 const defaultData: NightFeedbackData = {
   overallNightRating: 0,
   peakBusyTime: '',
   peakCrowdLevel: '',
-  pctThai: 0,
-  pctWestern: 0,
-  pctAsian: 0,
-  pctMiddleEastern: 0,
-  pctOther: 0,
-  pctTourists: 0,
-  pctLocals: 0,
-  pctBusiness: 0,
-  pctHotelGuests: 0,
+  crowdNationality: '',
+  crowdType: '',
   weatherCondition: '',
   specialEvent: '',
-  generalNotes: '',
-  operationalIssues: '',
+  notes: '',
 };
 
 export default function NightFeedbackForm({
@@ -110,53 +93,16 @@ export default function NightFeedbackForm({
     });
   };
 
-  const handleNationalityChange = (values: Record<string, number>) => {
-    setFormData((prev) => ({
-      ...prev,
-      pctThai: values.pctThai || 0,
-      pctWestern: values.pctWestern || 0,
-      pctAsian: values.pctAsian || 0,
-      pctMiddleEastern: values.pctMiddleEastern || 0,
-      pctOther: values.pctOther || 0,
-    }));
-  };
-
-  const handleGuestTypeChange = (values: Record<string, number>) => {
-    setFormData((prev) => ({
-      ...prev,
-      pctTourists: values.pctTourists || 0,
-      pctLocals: values.pctLocals || 0,
-      pctBusiness: values.pctBusiness || 0,
-      pctHotelGuests: values.pctHotelGuests || 0,
-    }));
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.overallNightRating === 0) return;
     onSubmit(formData);
   };
 
-  const nationalitySum =
-    formData.pctThai +
-    formData.pctWestern +
-    formData.pctAsian +
-    formData.pctMiddleEastern +
-    formData.pctOther;
-
-  const guestTypeSum =
-    formData.pctTourists +
-    formData.pctLocals +
-    formData.pctBusiness +
-    formData.pctHotelGuests;
-
-  const isNationalityValid = nationalitySum === 100 || nationalitySum === 0;
-  const isGuestTypeValid = guestTypeSum === 100 || guestTypeSum === 0;
-  const isFormValid =
-    formData.overallNightRating > 0 && isNationalityValid && isGuestTypeValid;
+  const isFormValid = formData.overallNightRating > 0;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <form onSubmit={handleSubmit} className="space-y-6">
       {/* Header */}
       <div className="text-center pb-4 border-b border-white/10">
         <h2 className="text-xl font-semibold text-white">{venueName}</h2>
@@ -240,43 +186,59 @@ export default function NightFeedbackForm({
         </div>
       </div>
 
-      {/* Nationality Breakdown */}
-      <div className="space-y-3">
-        <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
-          <GlobeAltIcon className="w-5 h-5 text-brand-cyan" />
-          Guest Nationality Mix
-        </label>
-        <PercentageSliderGroup
-          items={NATIONALITY_ITEMS}
-          values={{
-            pctThai: formData.pctThai,
-            pctWestern: formData.pctWestern,
-            pctAsian: formData.pctAsian,
-            pctMiddleEastern: formData.pctMiddleEastern,
-            pctOther: formData.pctOther,
-          }}
-          onChange={handleNationalityChange}
-          disabled={isSubmitting}
-        />
-      </div>
+      {/* Demographics Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Crowd Nationality */}
+        <div className="space-y-2">
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
+            <GlobeAltIcon className="w-4 h-4" />
+            Crowd Nationality
+          </label>
+          <select
+            value={formData.crowdNationality}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                crowdNationality: e.target.value,
+              }))
+            }
+            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
+                       focus:border-brand-cyan focus:outline-none"
+          >
+            <option value="">Select nationality mix</option>
+            {CROWD_NATIONALITY_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      {/* Guest Type Breakdown */}
-      <div className="space-y-3">
-        <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
-          <UserGroupIcon className="w-5 h-5 text-soft-lavender" />
-          Guest Type Mix
-        </label>
-        <PercentageSliderGroup
-          items={GUEST_TYPE_ITEMS}
-          values={{
-            pctTourists: formData.pctTourists,
-            pctLocals: formData.pctLocals,
-            pctBusiness: formData.pctBusiness,
-            pctHotelGuests: formData.pctHotelGuests,
-          }}
-          onChange={handleGuestTypeChange}
-          disabled={isSubmitting}
-        />
+        {/* Crowd Type */}
+        <div className="space-y-2">
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
+            <UserGroupIcon className="w-4 h-4" />
+            Crowd Type
+          </label>
+          <select
+            value={formData.crowdType}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                crowdType: e.target.value,
+              }))
+            }
+            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
+                       focus:border-brand-cyan focus:outline-none"
+          >
+            <option value="">Select crowd type</option>
+            {CROWD_TYPE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* External Factors Row */}
@@ -329,35 +291,15 @@ export default function NightFeedbackForm({
       {/* Notes */}
       <div className="space-y-2">
         <label className="text-sm font-medium text-gray-300">
-          General Notes
+          Notes (optional)
         </label>
         <textarea
-          value={formData.generalNotes}
+          value={formData.notes}
           onChange={(e) =>
-            setFormData((prev) => ({ ...prev, generalNotes: e.target.value }))
+            setFormData((prev) => ({ ...prev, notes: e.target.value }))
           }
           rows={3}
-          placeholder="Any observations about the night..."
-          className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
-                     placeholder:text-gray-400 focus:border-brand-cyan focus:outline-none resize-none"
-        />
-      </div>
-
-      {/* Operational Issues */}
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-300">
-          Operational Issues (if any)
-        </label>
-        <textarea
-          value={formData.operationalIssues}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              operationalIssues: e.target.value,
-            }))
-          }
-          rows={2}
-          placeholder="Equipment problems, staffing issues, complaints..."
+          placeholder="Any observations, issues, or highlights from the night..."
           className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
                      placeholder:text-gray-400 focus:border-brand-cyan focus:outline-none resize-none"
         />

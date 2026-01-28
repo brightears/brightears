@@ -434,11 +434,18 @@ model VenueNightFeedback {
   pctBusiness           Int      @default(0)
   pctHotelGuests        Int      @default(0)
 
+  // Simplified demographic fields (new)
+  crowdNationality      String?  // mostly_thai, mostly_western, mostly_asian, mostly_middle_eastern, mixed
+  crowdType             String?  // mostly_tourists, mostly_locals, mostly_hotel, mostly_business, mixed
+
   // External factors
   weatherCondition      String?  // Clear, Rainy, Hot, Cool
   specialEvent          String?  // CNY, Songkran, Concert nearby, etc.
 
-  // Comments
+  // Comments (simplified)
+  notes                 String?  @db.Text  // Combined notes field
+
+  // Legacy fields (kept for historical data)
   generalNotes          String?  @db.Text
   operationalIssues     String?  @db.Text
 
