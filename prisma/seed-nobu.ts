@@ -4,7 +4,7 @@
  * This script seeds the database with:
  * 1. Corporate record for TGC Hotel Collection
  * 2. Two venues: NOBU and Le Du Kaan
- * 3. 16 DJ Artist profiles
+ * 3. 15 DJ Artist profiles
  * 4. February 2026 schedule assignments
  *
  * Run with: npx tsx prisma/seed-nobu.ts
@@ -45,8 +45,8 @@ const DJ_PROFILES = [
     genres: ['Afro House', 'Organic House', 'Soulful House', 'Deep House', 'Nu Disco'],
     instagram: '@djbenjibkk',
     mixcloud: 'm.mixcloud.com/buabenchawan9',
-    profileImage: '/images/djs/benji-photo1.jpg',
-    venues: ['NOBU'],
+    profileImage: '/images/djs/benji-photo1.png',
+    venues: ['NOBU', 'Le Du Kaan Early'],
     hourlyRate: 1000,
   },
   {
@@ -57,7 +57,7 @@ const DJ_PROFILES = [
     genres: ['Deep House', 'Soulful House', 'Organic House'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/izaar-photo1.jpg',
+    profileImage: '/images/djs/izaar-photo1.png',
     venues: ['NOBU'],
     hourlyRate: 1000,
   },
@@ -69,7 +69,7 @@ const DJ_PROFILES = [
     genres: ['House', 'Tech House', 'Afro House', 'Commercial'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/manymaur-photo1.jpg',
+    profileImage: '/images/djs/manymaur-photo1.png',
     venues: ['NOBU', 'Le Du Kaan Late'],
     hourlyRate: 1000,
   },
@@ -105,7 +105,7 @@ const DJ_PROFILES = [
     genres: ['Pop & Dance', 'Thai Pop', 'K-pop', 'Open Format', 'Techno', 'EDM'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/linze-photo1.jpg',
+    profileImage: '/images/djs/linze-photo1.png',
     venues: ['NOBU', 'Le Du Kaan Early', 'Le Du Kaan Late'],
     hourlyRate: 1000,
   },
@@ -117,7 +117,7 @@ const DJ_PROFILES = [
     genres: ['Open Format', 'Pop', 'K-Pop', 'R&B'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/vita-photo1.jpg',
+    profileImage: '/images/djs/vita-photo1.png',
     venues: ['NOBU', 'Le Du Kaan Late'],
     hourlyRate: 1000,
   },
@@ -131,19 +131,7 @@ const DJ_PROFILES = [
     genres: ['Nu Disco', 'Funky House', 'Soulful House', 'Deep House'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/tomfkg-photo1.jpg',
-    venues: ['Le Du Kaan Early'],
-    hourlyRate: 1000,
-  },
-  {
-    stageName: 'Justin Mills',
-    realName: null,
-    bio: 'Eclectic and indie DJ with over 20 years experience, including legendary Bed Supperclub residency. Prefers early slots.',
-    category: ArtistCategory.DJ,
-    genres: ['Eclectic', 'Indie', 'Alternative'],
-    instagram: null,
-    mixcloud: null,
-    profileImage: '/images/djs/justinmills-photo1.jpg',
+    profileImage: '/images/djs/tomfkg-photo1.png',
     venues: ['Le Du Kaan Early'],
     hourlyRate: 1000,
   },
@@ -155,8 +143,8 @@ const DJ_PROFILES = [
     genres: ['Nu Disco', 'Indie Dance'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/rabbitdisco-photo1.jpg',
-    venues: ['Le Du Kaan Early'],
+    profileImage: '/images/djs/rabbitdisco-photo1.png',
+    venues: ['NOBU', 'Le Du Kaan Early'],
     hourlyRate: 1000,
   },
   {
@@ -167,7 +155,7 @@ const DJ_PROFILES = [
     genres: ['House', 'Uplifting House'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/enjoy-photo2.jpg',
+    profileImage: '/images/djs/enjoy-photo1.png',
     venues: ['Le Du Kaan Early'],
     hourlyRate: 1000,
   },
@@ -179,7 +167,7 @@ const DJ_PROFILES = [
     genres: ['Funk', 'Disco', 'Latin', 'World Fusion'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/mizuyo-photo1.jpg',
+    profileImage: '/images/djs/mizuyo-photo1.png',
     venues: ['Le Du Kaan Early'],
     hourlyRate: 1000,
   },
@@ -205,7 +193,7 @@ const DJ_PROFILES = [
     genres: ['Open Format', 'Pop Charts', 'R&B', 'Hip Hop'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/pound-photo1.jpg',
+    profileImage: '/images/djs/pound-photo1.png',
     venues: ['Le Du Kaan Early', 'Le Du Kaan Late'],
     hourlyRate: 1000,
   },
@@ -217,7 +205,7 @@ const DJ_PROFILES = [
     genres: ['Open Format', 'Nu Disco'],
     instagram: null,
     mixcloud: null,
-    profileImage: '/images/djs/scottyb-photo1.jpg',
+    profileImage: '/images/djs/scottyb-photo1.png',
     venues: ['Le Du Kaan Late'],
     hourlyRate: 1000,
   },
@@ -229,8 +217,8 @@ const DJ_PROFILES = [
     genres: ['Nu Disco', 'Disco House', 'Deep House', 'Tech House', 'Commercial', 'Hip Hop', 'R&B', 'Funky', 'Latin', 'Reggaeton'],
     instagram: '@yuitruluv',
     mixcloud: 'mixcloud.com/yuitruluv',
-    profileImage: '/images/djs/yuitruluv-photo1.jpg',
-    venues: ['Le Du Kaan Late'],
+    profileImage: '/images/djs/yuitruluv-photo1.png',
+    venues: ['Le Du Kaan Early', 'Le Du Kaan Late'],
     hourlyRate: 1000,
   },
 ];
@@ -251,8 +239,8 @@ interface ScheduleEntry {
 // Weekly recurring schedule
 const WEEKLY_SCHEDULE: ScheduleEntry[] = [
   // Monday
-  { dayOfWeek: 1, venue: 'NOBU', slot: null, startTime: '20:00', endTime: '24:00', djStageName: 'Benji' },
-  { dayOfWeek: 1, venue: 'Le Du Kaan', slot: 'Early', startTime: '18:00', endTime: '21:00', djStageName: 'RabbitDisco' },
+  { dayOfWeek: 1, venue: 'NOBU', slot: null, startTime: '20:00', endTime: '24:00', djStageName: 'RabbitDisco' },
+  { dayOfWeek: 1, venue: 'Le Du Kaan', slot: 'Early', startTime: '18:00', endTime: '21:00', djStageName: 'Benji' },
   { dayOfWeek: 1, venue: 'Le Du Kaan', slot: 'Late', startTime: '21:00', endTime: '24:00', djStageName: 'DJ Pound' },
 
   // Tuesday
@@ -277,7 +265,7 @@ const WEEKLY_SCHEDULE: ScheduleEntry[] = [
 
   // Saturday
   { dayOfWeek: 6, venue: 'NOBU', slot: null, startTime: '20:00', endTime: '24:00', djStageName: 'Vita' },
-  { dayOfWeek: 6, venue: 'Le Du Kaan', slot: 'Early', startTime: '18:00', endTime: '21:00', djStageName: 'Justin Mills' },
+  { dayOfWeek: 6, venue: 'Le Du Kaan', slot: 'Early', startTime: '18:00', endTime: '21:00', djStageName: 'Yui Truluv' },
   { dayOfWeek: 6, venue: 'Le Du Kaan', slot: 'Late', startTime: '21:00', endTime: '24:00', djStageName: 'Scotty B' },
 
   // Sunday
@@ -296,14 +284,21 @@ interface ScheduleException {
 }
 
 const SCHEDULE_EXCEPTIONS: ScheduleException[] = [
+  // Feb 2 (Mon): DJ Furry at LDK Early (instead of Benji)
+  { date: '2026-02-02', venue: 'Le Du Kaan', slot: 'Early', djStageName: 'DJ Furry', reason: 'Cover' },
+
   // Feb 11 (Wed): Mizuyo at LDK Early (instead of DJ Enjoy)
   { date: '2026-02-11', venue: 'Le Du Kaan', slot: 'Early', djStageName: 'Mizuyo', reason: 'Guest DJ' },
 
-  // Feb 14 (Sat): DJ Pound at LDK Late (Scotty B away)
+  // Feb 14 (Sat): Mizuyo at LDK Early (instead of Yui Truluv), DJ Pound at LDK Late (Scotty B away)
+  { date: '2026-02-14', venue: 'Le Du Kaan', slot: 'Early', djStageName: 'Mizuyo', reason: 'Valentine\'s Day' },
   { date: '2026-02-14', venue: 'Le Du Kaan', slot: 'Late', djStageName: 'DJ Pound', reason: 'Valentine\'s Day - Scotty B away' },
 
   // Feb 15 (Sun): Mizuyo at LDK Early (instead of Tom FKG)
   { date: '2026-02-15', venue: 'Le Du Kaan', slot: 'Early', djStageName: 'Mizuyo', reason: 'Guest DJ' },
+
+  // Feb 18 (Wed): DJ Furry at LDK Early (instead of DJ Enjoy)
+  { date: '2026-02-18', venue: 'Le Du Kaan', slot: 'Early', djStageName: 'DJ Furry', reason: 'Cover' },
 
   // Feb 21 (Sat): DJ Pound at LDK Late (Scotty B away)
   { date: '2026-02-21', venue: 'Le Du Kaan', slot: 'Late', djStageName: 'DJ Pound', reason: 'Scotty B away' },
