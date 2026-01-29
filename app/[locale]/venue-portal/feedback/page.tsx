@@ -11,7 +11,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import FeedbackForm from '@/components/venue-portal/FeedbackForm';
-import FeedbackWizard from '@/components/venue-portal/FeedbackWizard';
+import NightReportModal from '@/components/venue-portal/NightReportModal';
+import DJRatingsModal from '@/components/venue-portal/DJRatingsModal';
 import RatingStars from '@/components/venue-portal/RatingStars';
 import DJAvatar from '@/components/venue-portal/DJAvatar';
 
@@ -104,13 +105,17 @@ export default function FeedbackPage() {
   const [submittedFeedback, setSubmittedFeedback] = useState<Feedback[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Old single-assignment form (fallback)
+  // Single DJ feedback form
   const [selectedAssignment, setSelectedAssignment] = useState<Assignment | null>(null);
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
 
-  // New wizard mode - all assignments for a date/venue
-  const [wizardAssignments, setWizardAssignments] = useState<Assignment[]>([]);
-  const [showWizard, setShowWizard] = useState(false);
+  // Night report modal
+  const [nightReportGroup, setNightReportGroup] = useState<DateVenueGroup | null>(null);
+  const [showNightReport, setShowNightReport] = useState(false);
+
+  // DJ ratings modal (multiple DJs)
+  const [djRatingsGroup, setDjRatingsGroup] = useState<DateVenueGroup | null>(null);
+  const [showDJRatings, setShowDJRatings] = useState(false);
 
   // Group pending assignments by date/venue
   const pendingGroups = useMemo(
@@ -177,8 +182,10 @@ export default function FeedbackPage() {
   const handleFeedbackSuccess = () => {
     setShowFeedbackForm(false);
     setSelectedAssignment(null);
-    setShowWizard(false);
-    setWizardAssignments([]);
+    setShowNightReport(false);
+    setNightReportGroup(null);
+    setShowDJRatings(false);
+    setDjRatingsGroup(null);
     // Refresh the pending list
     fetch('/api/venue-portal/feedback?pending=true')
       .then((res) => res.json())
@@ -193,9 +200,14 @@ export default function FeedbackPage() {
       });
   };
 
-  const handleOpenWizard = (assignments: Assignment[]) => {
-    setWizardAssignments(assignments);
-    setShowWizard(true);
+  const handleOpenNightReport = (group: DateVenueGroup) => {
+    setNightReportGroup(group);
+    setShowNightReport(true);
+  };
+
+  const handleOpenDJRatings = (group: DateVenueGroup) => {
+    setDjRatingsGroup(group);
+    setShowDJRatings(true);
   };
 
   return (
@@ -282,23 +294,28 @@ export default function FeedbackPage() {
                 className="rounded-xl bg-white/5 border border-white/10 overflow-hidden"
               >
                 {/* Group Header */}
-                <div className="p-4 bg-white/10 border-b border-white/10 flex items-center justify-between">
-                  <div>
-                    <h3 className="font-medium text-white">{group.venue.name}</h3>
-                    <p className="text-sm text-gray-400">{formatDate(group.date)}</p>
+                <div className="p-4 bg-white/10 border-b border-white/10">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <h3 className="font-medium text-white">{group.venue.name}</h3>
+                      <p className="text-sm text-gray-400">{formatDate(group.date)}</p>
+                    </div>
                   </div>
-                  <button
-                    onClick={() => handleOpenWizard(group.assignments)}
-                    className="flex flex-col items-end gap-0.5 px-4 py-2 rounded-lg bg-brand-cyan text-white text-sm font-medium hover:bg-brand-cyan/90 transition-colors"
-                  >
-                    <span className="flex items-center gap-2">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleOpenNightReport(group)}
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/20 text-gray-300 text-sm hover:bg-white/10 hover:text-white transition-colors"
+                    >
                       <SparklesIcon className="w-4 h-4" />
-                      Full Night Report
-                    </span>
-                    <span className="text-xs font-normal text-white/70">
-                      DJs + crowd + notes
-                    </span>
-                  </button>
+                      Night Report
+                    </button>
+                    <button
+                      onClick={() => handleOpenDJRatings(group)}
+                      className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-brand-cyan text-white text-sm font-medium hover:bg-brand-cyan/90 transition-colors"
+                    >
+                      Rate {group.assignments.length} DJ{group.assignments.length > 1 ? 's' : ''}
+                    </button>
+                  </div>
                 </div>
 
                 {/* DJs in this group */}
@@ -522,7 +539,7 @@ export default function FeedbackPage() {
         )
       )}
 
-      {/* Old Feedback Form Modal (for single DJ quick rate) */}
+      {/* Single DJ Feedback Form */}
       {showFeedbackForm && selectedAssignment && (
         <FeedbackForm
           assignment={selectedAssignment}
@@ -534,13 +551,27 @@ export default function FeedbackPage() {
         />
       )}
 
-      {/* New Feedback Wizard (for full night feedback + all DJs) */}
-      {showWizard && wizardAssignments.length > 0 && (
-        <FeedbackWizard
-          assignments={wizardAssignments}
+      {/* Night Report Modal */}
+      {showNightReport && nightReportGroup && (
+        <NightReportModal
+          venueId={nightReportGroup.venue.id}
+          venueName={nightReportGroup.venue.name}
+          date={nightReportGroup.date}
           onClose={() => {
-            setShowWizard(false);
-            setWizardAssignments([]);
+            setShowNightReport(false);
+            setNightReportGroup(null);
+          }}
+          onSuccess={handleFeedbackSuccess}
+        />
+      )}
+
+      {/* DJ Ratings Modal */}
+      {showDJRatings && djRatingsGroup && (
+        <DJRatingsModal
+          assignments={djRatingsGroup.assignments}
+          onClose={() => {
+            setShowDJRatings(false);
+            setDjRatingsGroup(null);
           }}
           onSuccess={handleFeedbackSuccess}
         />

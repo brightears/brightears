@@ -38,9 +38,91 @@ This checkpoint marks a **verified stable state** after successful deployment re
 
 ---
 
-## Current Status (January 28, 2026) - 🎯 **DJ SCHEDULE & IMAGES UPDATED** ✅
+## Current Status (January 29, 2026) - 🎯 **FEEDBACK FORMS SIMPLIFIED** ✅
 
-### ✅ **LATEST MILESTONE: DJ ROSTER & SCHEDULE UPDATE (January 28, 2026)**
+### ✅ **LATEST MILESTONE: FEEDBACK SYSTEM OVERHAUL (January 29, 2026)**
+
+**Session: Venue Portal Feedback Simplification**
+
+**Goals Achieved:**
+- Reduce form completion time from ~2 minutes to ~30 seconds
+- Make Night Report and DJ Ratings independent workflows
+- Simplify demographic questions from percentage sliders to dropdowns
+
+**Changes Made:**
+
+1. **Night Feedback Form Simplified** (commit `fa5b31c` earlier)
+   - Replaced 5 nationality sliders (sum=100%) with single dropdown
+   - Replaced 4 guest type sliders (sum=100%) with single dropdown
+   - Combined "General Notes" + "Operational Issues" into single "Notes" field
+   - Renamed "Overall Rating" to "How was business tonight?" with helper text
+   - New fields: `crowdNationality`, `crowdType`, `notes` in schema
+
+2. **DJ Feedback Ultra-Minimized** (commit `fa5b31c`)
+   - Removed sub-ratings (Music Quality, Crowd Engagement, Professionalism)
+   - Removed duplicate fields (crowdLevel, guestMix - already in Night Feedback)
+   - Combined text fields into single "Notes" field
+   - Now just: Overall Rating (required) + Notes (optional)
+   - ~5 seconds per DJ vs ~45 seconds before
+
+3. **Decoupled Night Report from DJ Ratings** (pending commit)
+   - Created `NightReportModal.tsx` - standalone night feedback
+   - Created `DJRatingsModal.tsx` - rate multiple DJs independently
+   - Removed `FeedbackWizard.tsx` - no more forced 2-step flow
+   - Managers can now submit Night Report OR DJ Ratings independently
+   - Service design principle: different cognitive tasks = different flows
+
+**Files Created:**
+- `components/venue-portal/NightReportModal.tsx` - Standalone night report
+- `components/venue-portal/DJRatingsModal.tsx` - Multiple DJ ratings
+
+**Files Modified:**
+- `components/venue-portal/NightFeedbackForm.tsx` - Simplified form
+- `components/venue-portal/DJFeedbackCard.tsx` - Ultra-minimal (rating + notes)
+- `components/venue-portal/FeedbackForm.tsx` - Simplified standalone
+- `app/api/venue-portal/night-feedback/route.ts` - New schema fields
+- `app/api/venue-portal/feedback/route.ts` - Simplified DJ feedback schema
+- `app/[locale]/venue-portal/feedback/page.tsx` - Two separate buttons
+- `prisma/schema.prisma` - Added `notes` field to VenueFeedback
+
+**Files Deleted:**
+- `components/venue-portal/FeedbackWizard.tsx` - Replaced by separate modals
+
+**UI Change on Feedback Page:**
+```
+Before (forced combined flow):
+┌─────────────────────────────────────┐
+│ NOBU • Mon, Jan 27                  │
+│ [Full Night Report →] (wizard)      │
+└─────────────────────────────────────┘
+
+After (independent actions):
+┌─────────────────────────────────────┐
+│ NOBU • Mon, Jan 27                  │
+│ [Night Report] [Rate 3 DJs]         │
+└─────────────────────────────────────┘
+```
+
+**Database Schema Additions:**
+```prisma
+model VenueNightFeedback {
+  crowdNationality  String?  // mostly_thai, mostly_western, etc.
+  crowdType         String?  // mostly_tourists, mostly_locals, etc.
+  notes             String?  @db.Text
+}
+
+model VenueFeedback {
+  notes             String?  @db.Text  // Combined notes field
+}
+```
+
+**Note:** Git operations slow due to iCloud sync. User may need to commit manually.
+
+---
+
+## Previous Status (January 28, 2026) - 🎯 **DJ SCHEDULE & IMAGES UPDATED** ✅
+
+### ✅ **PREVIOUS MILESTONE: DJ ROSTER & SCHEDULE UPDATE (January 28, 2026)**
 
 **Session: DJ Schedule Sync & Image Optimization**
 
