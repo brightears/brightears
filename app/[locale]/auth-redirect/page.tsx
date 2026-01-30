@@ -1,6 +1,6 @@
 'use client';
 
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useLocale } from 'next-intl';
@@ -15,11 +15,18 @@ import { useLocale } from 'next-intl';
  */
 export default function AuthRedirect() {
   const { user, isLoaded } = useUser();
+  const { isSignedIn } = useAuth();
   const router = useRouter();
   const locale = useLocale();
 
   useEffect(() => {
     if (!isLoaded) return;
+
+    // If not signed in, redirect to sign-in page
+    if (!isSignedIn) {
+      router.replace('/sign-in');
+      return;
+    }
 
     const role = user?.publicMetadata?.role as string;
 
@@ -30,7 +37,7 @@ export default function AuthRedirect() {
     } else {
       router.replace(`/${locale}`);
     }
-  }, [isLoaded, user, router, locale]);
+  }, [isLoaded, isSignedIn, user, router, locale]);
 
   return (
     <div className="min-h-screen bg-deep-teal flex items-center justify-center">

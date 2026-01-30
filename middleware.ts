@@ -13,7 +13,7 @@ const isProtectedRoute = createRouteMatcher([
   '/(.*)/admin(.*)',
   '/(.*)/artist-dashboard(.*)',
   '/(.*)/venue-portal(.*)',
-  '/(.*)/auth-redirect(.*)',
+  // Note: /auth-redirect handles its own auth check via useUser()
 ]);
 
 // Check if the request is for an API route
