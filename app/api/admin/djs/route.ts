@@ -89,11 +89,6 @@ export async function POST(req: NextRequest) {
           soundcloud: data.soundcloud || null,
           website: data.website || null,
           lineId: data.lineId || null,
-          // Set as published so they appear in roster
-          isPublished: true,
-          isDraft: false,
-          // Verification not needed for admin-created DJs
-          verificationLevel: 'BASIC',
         },
       });
 
