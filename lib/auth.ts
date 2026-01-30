@@ -43,16 +43,19 @@ export async function getCurrentUser(): Promise<ExtendedUser | null> {
     const { userId } = await clerkAuth()
 
     if (!userId) {
+      console.log("[getCurrentUser] No userId from Clerk")
       return null
     }
 
     // Get Clerk user to access their email
     const clerkUser = await currentUser()
     if (!clerkUser) {
+      console.log("[getCurrentUser] No clerkUser found")
       return null
     }
 
     const email = clerkUser.emailAddresses[0]?.emailAddress
+    console.log("[getCurrentUser] Looking for user with email:", email, "or userId:", userId)
 
     // Find user by email (most reliable) or Clerk ID as fallback
     const user = await prisma.user.findFirst({
@@ -68,6 +71,9 @@ export async function getCurrentUser(): Promise<ExtendedUser | null> {
         corporate: true,
       },
     })
+
+    console.log("[getCurrentUser] Database user found:", user ? `id=${user.id}, email=${user.email}, role=${user.role}` : "null")
+    console.log("[getCurrentUser] Clerk publicMetadata.role:", clerkUser.publicMetadata?.role)
 
     if (user) {
       return {
