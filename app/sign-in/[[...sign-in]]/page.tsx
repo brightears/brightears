@@ -25,7 +25,7 @@ export default function SignInPage() {
               footerActionLink: "text-brand-cyan hover:text-brand-cyan/80",
             },
           }}
-          forceRedirectUrl="/en/auth-redirect"
+          fallbackRedirectUrl="/en/admin"
         />
 
         <div className="mt-6 text-center">

@@ -46,12 +46,20 @@ export async function getCurrentUser(): Promise<ExtendedUser | null> {
       return null
     }
 
-    // Try to find user by Clerk ID first (stored as id in our database)
+    // Get Clerk user to access their email
+    const clerkUser = await currentUser()
+    if (!clerkUser) {
+      return null
+    }
+
+    const email = clerkUser.emailAddresses[0]?.emailAddress
+
+    // Find user by email (most reliable) or Clerk ID as fallback
     const user = await prisma.user.findFirst({
       where: {
         OR: [
-          { id: userId },  // Clerk ID stored as user ID
-          { email: userId } // Fallback for email-based lookup
+          ...(email ? [{ email }] : []),  // Primary: match by email
+          { id: userId },                  // Fallback: Clerk ID as DB ID
         ]
       },
       include: {
@@ -84,16 +92,13 @@ export async function getCurrentUser(): Promise<ExtendedUser | null> {
     }
 
     // Fallback: Check Clerk publicMetadata for role (for users not yet in DB)
-    const clerkUser = await currentUser()
-    if (clerkUser) {
-      const metadataRole = clerkUser.publicMetadata?.role as string | undefined
-      if (metadataRole && ['ADMIN', 'CORPORATE', 'ARTIST', 'CUSTOMER'].includes(metadataRole)) {
-        return {
-          id: clerkUser.id,
-          email: clerkUser.emailAddresses[0]?.emailAddress,
-          role: metadataRole as UserRole,
-          // No artist/customer/corporate profiles from metadata-only users
-        }
+    const metadataRole = clerkUser.publicMetadata?.role as string | undefined
+    if (metadataRole && ['ADMIN', 'CORPORATE', 'ARTIST', 'CUSTOMER'].includes(metadataRole)) {
+      return {
+        id: clerkUser.id,
+        email: clerkUser.emailAddresses[0]?.emailAddress,
+        role: metadataRole as UserRole,
+        // No artist/customer/corporate profiles from metadata-only users
       }
     }
 
