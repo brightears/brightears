@@ -53,6 +53,20 @@ interface AssignmentModalProps {
   djs: DJ[];
 }
 
+// Convert "24:00" to "00:00" for HTML time input (only accepts 00:00-23:59)
+const normalizeTimeForInput = (time: string): string => {
+  return time === '24:00' ? '00:00' : time;
+};
+
+// Convert "00:00" back to "24:00" for database storage (if end time)
+const normalizeTimeForDb = (time: string, isEndTime: boolean): string => {
+  // If it's an end time and it's midnight, store as "24:00"
+  if (isEndTime && time === '00:00') {
+    return '24:00';
+  }
+  return time;
+};
+
 export default function AssignmentModal({
   isOpen,
   onClose,
@@ -64,8 +78,8 @@ export default function AssignmentModal({
   djs,
 }: AssignmentModalProps) {
   const [selectedDjId, setSelectedDjId] = useState(assignment?.artist.id || '');
-  const [startTime, setStartTime] = useState(assignment?.startTime || '20:00');
-  const [endTime, setEndTime] = useState(assignment?.endTime || '00:00');
+  const [startTime, setStartTime] = useState(normalizeTimeForInput(assignment?.startTime || '20:00'));
+  const [endTime, setEndTime] = useState(normalizeTimeForInput(assignment?.endTime || '00:00'));
   const [notes, setNotes] = useState(assignment?.notes || '');
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -75,15 +89,15 @@ export default function AssignmentModal({
   useEffect(() => {
     if (assignment) {
       setSelectedDjId(assignment.artist.id);
-      setStartTime(assignment.startTime);
-      setEndTime(assignment.endTime);
+      setStartTime(normalizeTimeForInput(assignment.startTime));
+      setEndTime(normalizeTimeForInput(assignment.endTime));
       setNotes(assignment.notes || '');
     } else {
       // Set default times based on venue operating hours
       const hours = venue.operatingHours;
       if (hours) {
-        setStartTime(hours.startTime || '20:00');
-        setEndTime(hours.endTime || '00:00');
+        setStartTime(normalizeTimeForInput(hours.startTime || '20:00'));
+        setEndTime(normalizeTimeForInput(hours.endTime || '00:00'));
       }
       setSelectedDjId('');
       setNotes('');
@@ -110,12 +124,14 @@ export default function AssignmentModal({
 
     try {
       const method = assignment ? 'PATCH' : 'POST';
+      // Convert end time back to "24:00" for database if it's midnight
+      const dbEndTime = normalizeTimeForDb(endTime, true);
       const body = assignment
         ? {
             id: assignment.id,
             artistId: selectedDjId,
             startTime,
-            endTime,
+            endTime: dbEndTime,
             notes: notes || null,
           }
         : {
@@ -123,7 +139,7 @@ export default function AssignmentModal({
             artistId: selectedDjId,
             date: date.toISOString().split('T')[0],
             startTime,
-            endTime,
+            endTime: dbEndTime,
             slot,
             notes: notes || null,
           };
