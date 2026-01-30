@@ -12,6 +12,8 @@ const isProtectedRoute = createRouteMatcher([
   '/(.*)/settings(.*)',
   '/(.*)/admin(.*)',
   '/(.*)/artist-dashboard(.*)',
+  '/(.*)/venue-portal(.*)',
+  '/(.*)/auth-redirect(.*)',
 ]);
 
 // Check if the request is for an API route
