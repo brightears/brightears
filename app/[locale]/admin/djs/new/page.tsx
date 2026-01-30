@@ -33,6 +33,8 @@ export default function NewDJPage() {
     bio: '',
     genres: [] as string[],
     baseCity: 'Bangkok',
+    contactEmail: '',
+    contactPhone: '',
     instagram: '',
     mixcloud: '',
     lineId: '',
@@ -78,6 +80,8 @@ export default function NewDJPage() {
           bio: formData.bio.trim() || null,
           genres: formData.genres,
           baseCity: formData.baseCity,
+          contactEmail: formData.contactEmail.trim() || null,
+          contactPhone: formData.contactPhone.trim() || null,
           instagram: formData.instagram.trim() || null,
           mixcloud: formData.mixcloud.trim() || null,
           lineId: formData.lineId.trim() || null,
@@ -237,6 +241,30 @@ export default function NewDJPage() {
           <h2 className="text-lg font-medium text-white mb-4">Contact & Social</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-gray-400 mb-1">Email</label>
+              <input
+                type="email"
+                name="contactEmail"
+                value={formData.contactEmail}
+                onChange={handleChange}
+                placeholder="dj@example.com"
+                className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-cyan/50 focus:border-brand-cyan/50"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-gray-400 mb-1">Phone</label>
+              <input
+                type="tel"
+                name="contactPhone"
+                value={formData.contactPhone}
+                onChange={handleChange}
+                placeholder="08X-XXX-XXXX"
+                className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-cyan/50 focus:border-brand-cyan/50"
+              />
+            </div>
+
             <div>
               <label className="block text-sm text-gray-400 mb-1">Instagram</label>
               <input

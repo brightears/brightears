@@ -27,6 +27,8 @@ interface DJData {
   languages: string[];
   profileImage: string | null;
   coverImage: string | null;
+  contactEmail: string | null;
+  contactPhone: string | null;
   instagram: string | null;
   mixcloud: string | null;
   facebook: string | null;
@@ -36,7 +38,6 @@ interface DJData {
   soundcloud: string | null;
   website: string | null;
   lineId: string | null;
-  email: string;
 }
 
 interface Stats {
@@ -202,7 +203,9 @@ export default function EditDJPage({
             <h1 className="text-3xl font-playfair font-bold text-white">
               {dj.stageName}
             </h1>
-            <p className="text-gray-400 mt-1">{dj.email}</p>
+            {dj.contactEmail && (
+              <p className="text-gray-400 mt-1">{dj.contactEmail}</p>
+            )}
           </div>
         </div>
       </div>

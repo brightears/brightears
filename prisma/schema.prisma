@@ -183,6 +183,10 @@ model Artist {
   videos            String[]
   audioSamples      String[]
 
+  // Contact info (for notifications)
+  contactEmail      String?          // DJ's real email (not the ghost user email)
+  contactPhone      String?          // DJ's phone number
+
   // Social/External links
   website           String?
   facebook          String?

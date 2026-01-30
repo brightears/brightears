@@ -16,6 +16,8 @@ const updateSchema = z.object({
   languages: z.array(z.string()).optional(),
   profileImage: z.string().nullable().optional(),
   coverImage: z.string().nullable().optional(),
+  contactEmail: z.string().email().nullable().optional(),
+  contactPhone: z.string().nullable().optional(),
   instagram: z.string().nullable().optional(),
   mixcloud: z.string().nullable().optional(),
   facebook: z.string().nullable().optional(),
@@ -96,10 +98,7 @@ export async function GET(
     const venues = venueAssignments.map((a) => a.venue);
 
     return NextResponse.json({
-      artist: {
-        ...artist,
-        email: artist.user.email,
-      },
+      artist,
       stats: {
         totalFeedback: feedbackStats._count.id,
         avgRating: feedbackStats._avg.overallRating
