@@ -6,10 +6,10 @@ export default function SignInPage() {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-playfair font-bold text-white">
-            Venue Portal
+            Welcome Back
           </h1>
           <p className="mt-2 text-white/70">
-            Sign in to manage your venue&apos;s entertainment schedule
+            Sign in to access your dashboard
           </p>
         </div>
 
@@ -25,7 +25,7 @@ export default function SignInPage() {
               footerActionLink: "text-brand-cyan hover:text-brand-cyan/80",
             },
           }}
-          fallbackRedirectUrl="/venue-portal"
+          fallbackRedirectUrl="/en/auth-redirect"
         />
 
         <div className="mt-6 text-center">
