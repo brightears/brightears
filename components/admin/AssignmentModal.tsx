@@ -65,7 +65,7 @@ export default function AssignmentModal({
 }: AssignmentModalProps) {
   const [selectedDjId, setSelectedDjId] = useState(assignment?.artist.id || '');
   const [startTime, setStartTime] = useState(assignment?.startTime || '20:00');
-  const [endTime, setEndTime] = useState(assignment?.endTime || '24:00');
+  const [endTime, setEndTime] = useState(assignment?.endTime || '00:00');
   const [notes, setNotes] = useState(assignment?.notes || '');
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -83,7 +83,7 @@ export default function AssignmentModal({
       const hours = venue.operatingHours;
       if (hours) {
         setStartTime(hours.startTime || '20:00');
-        setEndTime(hours.endTime || '24:00');
+        setEndTime(hours.endTime || '00:00');
       }
       setSelectedDjId('');
       setNotes('');

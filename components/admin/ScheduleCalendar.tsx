@@ -134,13 +134,21 @@ export default function ScheduleCalendar() {
     return columns;
   }, [data?.venues]);
 
+  // Helper to format date as YYYY-MM-DD in local timezone
+  const formatDateKey = (date: Date) => {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+
   // Create assignment lookup map
   const assignmentMap = useMemo(() => {
     if (!data?.assignments) return new Map<string, Assignment>();
 
     const map = new Map<string, Assignment>();
     data.assignments.forEach((assignment) => {
-      const dateStr = new Date(assignment.date).toISOString().split('T')[0];
+      // Parse the UTC date and extract the date portion
+      const d = new Date(assignment.date);
+      const dateStr = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
       const key = `${dateStr}-${assignment.venue.id}-${assignment.slot || 'main'}`;
       map.set(key, assignment);
     });
@@ -301,7 +309,8 @@ export default function ScheduleCalendar() {
           {/* Calendar rows */}
           <tbody>
             {daysInMonth.map((day) => {
-              const dateStr = day.toISOString().split('T')[0];
+              // Use local date parts to create the key (avoid timezone shift with toISOString)
+              const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
               const dayOfWeek = day.toLocaleDateString('en-US', { weekday: 'short' });
               const dayNum = day.getDate();
               const isPast = day < today;
