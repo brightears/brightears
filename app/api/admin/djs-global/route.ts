@@ -4,9 +4,9 @@ import { getCurrentUser } from '@/lib/auth';
 import { z } from 'zod';
 
 const querySchema = z.object({
-  search: z.string().optional(),
-  category: z.string().optional(),
-  sortBy: z.enum(['rating', 'shows', 'name']).optional().default('rating'),
+  search: z.string().nullish(),
+  category: z.string().nullish(),
+  sortBy: z.enum(['rating', 'shows', 'name']).nullish().default('rating'),
 });
 
 /**

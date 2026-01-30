@@ -4,9 +4,9 @@ import { getCurrentUser } from '@/lib/auth';
 import { z } from 'zod';
 
 const querySchema = z.object({
-  month: z.coerce.number().int().min(1).max(12).optional(),
-  year: z.coerce.number().int().min(2020).max(2030).optional(),
-  venueId: z.string().optional(),
+  month: z.coerce.number().int().min(1).max(12).nullish(),
+  year: z.coerce.number().int().min(2020).max(2030).nullish(),
+  venueId: z.string().nullish(),
 });
 
 /**
