@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MagnifyingGlassIcon, ArrowTrendingUpIcon, ArrowTrendingDownIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
+import { MagnifyingGlassIcon, ArrowTrendingUpIcon, ArrowTrendingDownIcon, PlusIcon } from '@heroicons/react/24/outline';
 import GlobalDJCard from '@/components/admin/GlobalDJCard';
 
 interface VenueBreakdown {
@@ -52,6 +54,7 @@ interface Venue {
 }
 
 export default function AdminDJsPage() {
+  const locale = useLocale();
   const [djs, setDJs] = useState<DJ[]>([]);
   const [venues, setVenues] = useState<Venue[]>([]);
   const [summary, setSummary] = useState<Summary | null>(null);
@@ -97,13 +100,22 @@ export default function AdminDJsPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="pt-8 lg:pt-0">
-        <h1 className="text-3xl font-playfair font-bold text-white mb-2">
-          DJ Roster
-        </h1>
-        <p className="text-gray-400">
-          Global performance ratings aggregated across all venues
-        </p>
+      <div className="pt-8 lg:pt-0 flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-playfair font-bold text-white mb-2">
+            DJ Roster
+          </h1>
+          <p className="text-gray-400">
+            Global performance ratings aggregated across all venues
+          </p>
+        </div>
+        <Link
+          href={`/${locale}/admin/djs/new`}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-cyan text-white font-medium hover:bg-brand-cyan/90 transition-colors"
+        >
+          <PlusIcon className="w-5 h-5" />
+          New DJ
+        </Link>
       </div>
 
       {/* Summary Stats */}
