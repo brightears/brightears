@@ -10,8 +10,8 @@ const CATEGORIES = ['SINGER', 'DJ', 'BAND', 'DANCER', 'MAGICIAN', 'COMEDIAN', 'M
 
 // Sample Thai and English names
 const THAI_STAGE_NAMES = [
-  'DJ Boom Bangkok', 'Siam Beats', 'Neon Tiger', 'Bangkok Nights', 'Temple Bass',
-  'Mango Groove', 'Sunset Sessions', 'River Flow Band', 'Golden Buddha', 'Lotus Dreams',
+  'DJ Boom Bangkok', 'Neon Tiger', 'Bangkok Nights', 'Temple Bass',
+  'Mango Groove', 'Sunset Sessions', 'River Flow Band', 'Lotus Dreams',
   'Thai Vibes', 'Spicy Beats', 'Moonlight Orchestra', 'Paradise DJ', 'Urban Monkey'
 ]
 
