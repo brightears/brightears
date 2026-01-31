@@ -6,10 +6,8 @@ import {
   ChatBubbleLeftRightIcon,
   ClockIcon,
   CheckCircleIcon,
-  CalendarDaysIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
-import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import FeedbackForm from '@/components/venue-portal/FeedbackForm';
 import NightReportModal from '@/components/venue-portal/NightReportModal';
 import DJRatingsModal from '@/components/venue-portal/DJRatingsModal';
@@ -60,15 +58,7 @@ interface Feedback {
   };
 }
 
-interface HistoryAssignment extends Assignment {
-  feedback: {
-    id: string;
-    overallRating: number;
-    createdAt: string;
-  } | null;
-}
-
-type Tab = 'pending' | 'history' | 'submitted';
+type Tab = 'pending' | 'submitted';
 
 // Group assignments by date and venue
 interface DateVenueGroup {
@@ -103,7 +93,6 @@ export default function FeedbackPage() {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [pendingAssignments, setPendingAssignments] = useState<Assignment[]>([]);
-  const [historyAssignments, setHistoryAssignments] = useState<HistoryAssignment[]>([]);
   const [submittedFeedback, setSubmittedFeedback] = useState<Feedback[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -129,21 +118,13 @@ export default function FeedbackPage() {
   useEffect(() => {
     const assignmentId = searchParams.get('assignmentId');
     if (assignmentId) {
-      // Check pending assignments first
       const pendingMatch = pendingAssignments.find((a) => a.id === assignmentId);
       if (pendingMatch) {
         setSelectedAssignment(pendingMatch);
         setShowFeedbackForm(true);
-        return;
-      }
-      // Check history assignments
-      const historyMatch = historyAssignments.find((a) => a.id === assignmentId && !a.feedback);
-      if (historyMatch) {
-        setSelectedAssignment(historyMatch);
-        setShowFeedbackForm(true);
       }
     }
-  }, [searchParams, pendingAssignments, historyAssignments]);
+  }, [searchParams, pendingAssignments]);
 
   // Fetch data based on active tab
   useEffect(() => {
@@ -151,8 +132,6 @@ export default function FeedbackPage() {
     const params = new URLSearchParams();
     if (activeTab === 'pending') {
       params.set('pending', 'true');
-    } else if (activeTab === 'history') {
-      params.set('history', 'true');
     }
 
     fetch(`/api/venue-portal/feedback?${params}`)
@@ -160,8 +139,6 @@ export default function FeedbackPage() {
       .then((data) => {
         if (activeTab === 'pending') {
           setPendingAssignments(data.assignments || []);
-        } else if (activeTab === 'history') {
-          setHistoryAssignments(data.assignments || []);
         } else {
           setSubmittedFeedback(data.feedback || []);
         }
@@ -193,12 +170,6 @@ export default function FeedbackPage() {
       .then((res) => res.json())
       .then((data) => {
         setPendingAssignments(data.assignments || []);
-      });
-    // Also refresh history
-    fetch('/api/venue-portal/feedback?history=true')
-      .then((res) => res.json())
-      .then((data) => {
-        setHistoryAssignments(data.assignments || []);
       });
   };
 
@@ -244,17 +215,6 @@ export default function FeedbackPage() {
           )}
         </button>
         <button
-          onClick={() => setActiveTab('history')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-            activeTab === 'history'
-              ? 'bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30'
-              : 'text-gray-400 hover:bg-white/10 hover:text-white'
-          }`}
-        >
-          <CalendarDaysIcon className="w-5 h-5" />
-          History
-        </button>
-        <button
           onClick={() => setActiveTab('submitted')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
             activeTab === 'submitted'
@@ -282,10 +242,10 @@ export default function FeedbackPage() {
               You&apos;ve submitted feedback for all completed performances
             </p>
             <button
-              onClick={() => setActiveTab('history')}
+              onClick={() => setActiveTab('submitted')}
               className="text-brand-cyan hover:text-brand-cyan/80 text-sm"
             >
-              View past shows in History →
+              View submitted feedback →
             </button>
           </div>
         ) : (
@@ -355,69 +315,6 @@ export default function FeedbackPage() {
                       </div>
                     </div>
                   ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )
-      ) : activeTab === 'history' ? (
-        /* History - All Completed Shows */
-        historyAssignments.length === 0 ? (
-          <div className="text-center py-12">
-            <CalendarDaysIcon className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-white mb-2">No Show History</h3>
-            <p className="text-gray-500">
-              Completed shows will appear here
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {historyAssignments.map((assignment) => (
-              <div
-                key={assignment.id}
-                className="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
-              >
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-4 min-w-0">
-                    <DJAvatar
-                      src={assignment.artist.profileImage}
-                      name={assignment.artist.stageName}
-                      size="md"
-                      className="w-14 h-14 rounded-lg"
-                    />
-                    <div className="min-w-0">
-                      <p className="font-medium text-white truncate">
-                        {assignment.artist.stageName}
-                      </p>
-                      <p className="text-sm text-gray-400">
-                        {assignment.venue.name} • {formatDate(assignment.date)}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {assignment.startTime} - {assignment.endTime}
-                        {assignment.slot && ` (${assignment.slot})`}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    {assignment.feedback ? (
-                      <div className="flex items-center gap-1 text-brand-cyan">
-                        <StarIconSolid className="w-4 h-4" />
-                        <span className="text-sm font-medium">
-                          {assignment.feedback.overallRating}/5
-                        </span>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => {
-                          setSelectedAssignment(assignment);
-                          setShowFeedbackForm(true);
-                        }}
-                        className="px-4 py-2 rounded-lg bg-brand-cyan text-white text-sm font-medium hover:bg-brand-cyan/90 transition-colors whitespace-nowrap"
-                      >
-                        Give Feedback
-                      </button>
-                    )}
-                  </div>
                 </div>
               </div>
             ))}
