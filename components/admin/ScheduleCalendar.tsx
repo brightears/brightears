@@ -147,9 +147,10 @@ export default function ScheduleCalendar() {
 
     const map = new Map<string, Assignment>();
     data.assignments.forEach((assignment) => {
-      // Parse the UTC date and extract the date portion
+      // Parse the date and extract using LOCAL time (Thailand UTC+7)
+      // Must match formatDateKey() which also uses local time
       const d = new Date(assignment.date);
-      const dateStr = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
+      const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
       const key = `${dateStr}-${assignment.venue.id}-${assignment.slot || 'main'}`;
       map.set(key, assignment);
     });
