@@ -80,14 +80,16 @@ const styles = StyleSheet.create({
     fontSize: 8,
     textAlign: 'center',
   },
-  dateText: {
-    fontSize: 9,
+  dateNum: {
+    fontSize: 11,
     fontWeight: 'bold',
     color: '#333333',
+    textAlign: 'center',
   },
-  dayText: {
+  dayName: {
     fontSize: 7,
     color: '#666666',
+    textAlign: 'center',
   },
   djName: {
     fontSize: 8,
@@ -235,7 +237,8 @@ export function SchedulePDF({
             return (
               <View key={dateStr} style={rowStyles}>
                 <View style={styles.dateCell}>
-                  <Text style={styles.dateText}>{dayOfWeek} {dayNum}</Text>
+                  <Text style={styles.dateNum}>{dayNum}</Text>
+                  <Text style={styles.dayName}>{dayOfWeek}</Text>
                 </View>
                 {venueColumns.map((col, i) => {
                   const key = `${dateStr}-${col.venue.id}-${col.slot || 'main'}`;
