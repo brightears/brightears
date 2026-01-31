@@ -170,8 +170,7 @@ export default function DJRatingsModal({
               )}
 
               <p className="text-sm text-gray-400">
-                Rate each DJ&apos;s performance. Click the stars to set a rating,
-                then expand for optional notes.
+                Rate each DJ&apos;s performance below.
               </p>
 
               <div className="space-y-3">
