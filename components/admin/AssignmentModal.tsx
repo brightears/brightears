@@ -144,7 +144,8 @@ export default function AssignmentModal({
         : {
             venueId: venue.id,
             artistId: selectedDjId,
-            date: date.toISOString().split('T')[0],
+            // Use local date format to avoid UTC timezone shift
+            date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
             startTime,
             endTime: dbEndTime,
             slot,
