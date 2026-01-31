@@ -93,117 +93,11 @@ export async function getCurrentUser(): Promise<ExtendedUser | null> {
     // Fallback: Check Clerk publicMetadata for role (for users not yet in DB)
     const metadataRole = clerkUser.publicMetadata?.role as string | undefined
     if (metadataRole && ['ADMIN', 'CORPORATE', 'ARTIST', 'CUSTOMER'].includes(metadataRole)) {
-      // Auto-create user record in database if they exist in Clerk but not Prisma
-      console.log(`[Auth] Auto-creating database record for Clerk user: ${clerkUser.id} with role: ${metadataRole}`)
-
-      const userName = `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || 'User'
-      const userEmail = clerkUser.emailAddresses[0]?.emailAddress
-
-      try {
-        // Create the user record
-        const newUser = await prisma.user.create({
-          data: {
-            id: clerkUser.id,
-            email: userEmail || `${clerkUser.id}@placeholder.local`,
-            name: userName,
-            role: metadataRole as UserRole,
-            isActive: true,
-          }
-        })
-
-        // Create role-specific profile
-        if (metadataRole === 'CORPORATE') {
-          const newCorporate = await prisma.corporate.create({
-            data: {
-              userId: newUser.id,
-              companyName: userName,
-              contactPerson: userName,
-            }
-          })
-
-          // Auto-link ALL active venues to this new corporate
-          // This handles first-time corporate user setup where venues exist from seed
-          // but the "real" corporate user is signing in for the first time
-          const allVenues = await prisma.venue.findMany({
-            where: { isActive: true },
-            select: { id: true, name: true, corporateId: true }
-          })
-
-          if (allVenues.length > 0) {
-            console.log(`[Auth] Linking ${allVenues.length} venues to new corporate: ${newCorporate.id}`)
-            await prisma.venue.updateMany({
-              where: {
-                id: { in: allVenues.map(v => v.id) }
-              },
-              data: {
-                corporateId: newCorporate.id
-              }
-            })
-          }
-        } else if (metadataRole === 'CUSTOMER') {
-          await prisma.customer.create({
-            data: {
-              userId: newUser.id,
-              firstName: clerkUser.firstName,
-              lastName: clerkUser.lastName,
-            }
-          })
-        } else if (metadataRole === 'ARTIST') {
-          await prisma.artist.create({
-            data: {
-              userId: newUser.id,
-              stageName: userName,
-              category: 'DJ',
-              baseCity: 'Bangkok',
-              serviceAreas: ['Bangkok'],
-              genres: [],
-            }
-          })
-        }
-
-        console.log(`[Auth] Successfully created database record for user: ${clerkUser.id}`)
-
-        // Re-fetch with relations
-        const createdUser = await prisma.user.findUnique({
-          where: { id: newUser.id },
-          include: {
-            artist: true,
-            customer: true,
-            corporate: true,
-          },
-        })
-
-        if (createdUser) {
-          return {
-            id: createdUser.id,
-            email: createdUser.email,
-            role: createdUser.role,
-            artist: createdUser.artist ? {
-              id: createdUser.artist.id,
-              stageName: createdUser.artist.stageName,
-            } : undefined,
-            customer: createdUser.customer ? {
-              id: createdUser.customer.id,
-              firstName: createdUser.customer.firstName,
-              lastName: createdUser.customer.lastName,
-            } : undefined,
-            corporate: createdUser.corporate ? {
-              id: createdUser.corporate.id,
-              companyName: createdUser.corporate.companyName,
-              contactPerson: createdUser.corporate.contactPerson,
-            } : undefined,
-          }
-        }
-      } catch (createError) {
-        console.error('[Auth] Failed to auto-create user record:', createError)
-        // Fall through to return basic user without profile
-      }
-
-      // Fallback if auto-create failed
       return {
         id: clerkUser.id,
         email: clerkUser.emailAddresses[0]?.emailAddress,
         role: metadataRole as UserRole,
+        // No artist/customer/corporate profiles from metadata-only users
       }
     }
 

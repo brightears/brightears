@@ -1,8 +1,5 @@
 'use client';
 
-// Build version: 2026-01-31-v2 - force Next.js to rebuild client manifest
-export const BUILD_TIMESTAMP = '2026-01-31T09:30:00Z';
-
 import { useState, useEffect, useMemo } from 'react';
 import {
   ChevronLeftIcon,
