@@ -6,127 +6,131 @@ import {
   StyleSheet,
 } from '@react-pdf/renderer';
 
-// Use Helvetica - built-in PDF font, always available
+// Styles for calendar grid layout
 const styles = StyleSheet.create({
   page: {
     padding: 30,
     fontFamily: 'Helvetica',
-    fontSize: 9,
     backgroundColor: '#ffffff',
+    display: 'flex',
+    flexDirection: 'column',
   },
   header: {
-    marginBottom: 20,
+    marginBottom: 15,
     borderBottom: '2px solid #2f6364',
     paddingBottom: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#2f6364',
-    marginBottom: 5,
   },
   subtitle: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#666666',
+    marginTop: 4,
   },
-  table: {
+  calendar: {
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
   },
-  tableRow: {
-    flexDirection: 'row',
-    borderBottom: '1px solid #e5e7eb',
-    minHeight: 35,
-  },
-  tableHeaderRow: {
+  dayHeaderRow: {
     flexDirection: 'row',
     backgroundColor: '#2f6364',
-    minHeight: 30,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
   },
-  dateCell: {
-    width: '12%',
-    padding: 5,
-    borderRight: '1px solid #e5e7eb',
-    justifyContent: 'center',
-  },
-  dateHeaderCell: {
-    width: '12%',
-    padding: 5,
-    borderRight: '1px solid rgba(255,255,255,0.2)',
-    justifyContent: 'center',
-  },
-  venueCell: {
+  dayHeader: {
     flex: 1,
-    padding: 5,
-    borderRight: '1px solid #e5e7eb',
-    justifyContent: 'center',
-  },
-  venueHeaderCell: {
-    flex: 1,
-    padding: 5,
-    borderRight: '1px solid rgba(255,255,255,0.2)',
-    justifyContent: 'center',
-  },
-  headerText: {
+    paddingVertical: 8,
+    textAlign: 'center',
     color: '#ffffff',
     fontWeight: 'bold',
-    fontSize: 8,
-    textAlign: 'center',
+    fontSize: 10,
   },
-  dateNum: {
-    fontSize: 11,
+  weekRow: {
+    flexDirection: 'row',
+    minHeight: 85,
+    borderBottom: '1px solid #e5e7eb',
+  },
+  dayCell: {
+    flex: 1,
+    padding: 6,
+    borderRight: '1px solid #e5e7eb',
+    backgroundColor: '#ffffff',
+  },
+  dayCellEmpty: {
+    flex: 1,
+    padding: 6,
+    borderRight: '1px solid #e5e7eb',
+    backgroundColor: '#fafafa',
+  },
+  dayCellWeekend: {
+    flex: 1,
+    padding: 6,
+    borderRight: '1px solid #e5e7eb',
+    backgroundColor: '#f8f9fa',
+  },
+  dayCellToday: {
+    flex: 1,
+    padding: 6,
+    borderRight: '1px solid #e5e7eb',
+    backgroundColor: '#e0f7fa',
+  },
+  dateNumber: {
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#333333',
-    textAlign: 'center',
+    textAlign: 'right',
+    marginBottom: 4,
   },
-  dayName: {
-    fontSize: 7,
+  dateNumberWeekend: {
+    fontSize: 14,
+    fontWeight: 'bold',
     color: '#666666',
-    textAlign: 'center',
+    textAlign: 'right',
+    marginBottom: 4,
   },
   djName: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: 'bold',
     color: '#2f6364',
     textAlign: 'center',
+    marginTop: 6,
   },
   djTime: {
-    fontSize: 7,
+    fontSize: 8,
     color: '#666666',
     textAlign: 'center',
     marginTop: 2,
   },
-  emptySlot: {
-    fontSize: 7,
-    color: '#999999',
+  specialEvent: {
+    fontSize: 9,
+    color: '#a47764',
     textAlign: 'center',
+    marginTop: 6,
   },
-  todayRow: {
-    backgroundColor: '#e0f7fa',
-  },
-  weekendRow: {
-    backgroundColor: '#f5f5f5',
-  },
-  pastRow: {
-    opacity: 0.6,
+  emptySlot: {
+    fontSize: 9,
+    color: '#cccccc',
+    textAlign: 'center',
+    marginTop: 20,
   },
   footer: {
-    position: 'absolute',
-    bottom: 20,
-    left: 30,
-    right: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     borderTop: '1px solid #e5e7eb',
     paddingTop: 10,
+    marginTop: 15,
   },
   footerText: {
-    fontSize: 8,
+    fontSize: 9,
     color: '#999999',
   },
   brandText: {
-    fontSize: 8,
+    fontSize: 9,
     color: '#00bbe4',
     fontWeight: 'bold',
   },
@@ -156,6 +160,47 @@ interface SchedulePDFProps {
   generatedAt: string;
 }
 
+// Helper: Generate calendar weeks for the month (Mon-Sun format)
+function getCalendarWeeks(year: number, month: number): (Date | null)[][] {
+  const weeks: (Date | null)[][] = [];
+  const firstDay = new Date(year, month - 1, 1);
+  const lastDay = new Date(year, month, 0);
+  const totalDays = lastDay.getDate();
+
+  // Get day of week (0 = Sun, convert to Mon = 0)
+  let startDayOfWeek = firstDay.getDay();
+  startDayOfWeek = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1; // Convert to Mon=0, Sun=6
+
+  let currentWeek: (Date | null)[] = [];
+
+  // Pad the first week with nulls
+  for (let i = 0; i < startDayOfWeek; i++) {
+    currentWeek.push(null);
+  }
+
+  // Add all days of the month
+  for (let day = 1; day <= totalDays; day++) {
+    currentWeek.push(new Date(year, month - 1, day));
+
+    if (currentWeek.length === 7) {
+      weeks.push(currentWeek);
+      currentWeek = [];
+    }
+  }
+
+  // Pad the last week with nulls
+  if (currentWeek.length > 0) {
+    while (currentWeek.length < 7) {
+      currentWeek.push(null);
+    }
+    weeks.push(currentWeek);
+  }
+
+  return weeks;
+}
+
+const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
 export function SchedulePDF({
   month,
   year,
@@ -163,14 +208,11 @@ export function SchedulePDF({
   assignments,
   generatedAt,
 }: SchedulePDFProps) {
-  // Generate days of the month
-  const daysInMonth: Date[] = [];
-  const lastDay = new Date(year, month, 0).getDate();
-  for (let i = 1; i <= lastDay; i++) {
-    daysInMonth.push(new Date(year, month - 1, i));
-  }
+  // Generate calendar weeks
+  const weeks = getCalendarWeeks(year, month);
+  const totalPages = venueColumns.length;
 
-  // Create assignment lookup (use local timezone to match calendar days)
+  // Create assignment lookup map (use local timezone)
   const assignmentMap = new Map<string, Assignment>();
   assignments.forEach((assignment) => {
     const d = new Date(assignment.date);
@@ -189,65 +231,81 @@ export function SchedulePDF({
 
   return (
     <Document>
-      <Page size="A4" orientation="landscape" style={styles.page}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.title}>DJ Schedule - {monthName}</Text>
-          <Text style={styles.subtitle}>
-            Bright Ears Entertainment • Generated {generatedAt}
-          </Text>
-        </View>
-
-        {/* Table */}
-        <View style={styles.table}>
-          {/* Header Row */}
-          <View style={styles.tableHeaderRow}>
-            <View style={styles.dateHeaderCell}>
-              <Text style={styles.headerText}>Date</Text>
-            </View>
-            {venueColumns.map((col, i) => (
-              <View key={i} style={styles.venueHeaderCell}>
-                <Text style={styles.headerText}>{col.label}</Text>
-              </View>
-            ))}
+      {venueColumns.map((venueCol, pageIndex) => (
+        <Page
+          key={`${venueCol.venue.id}-${venueCol.slot || 'main'}`}
+          size="A4"
+          orientation="landscape"
+          style={styles.page}
+        >
+          {/* Header */}
+          <View style={styles.header}>
+            <Text style={styles.title}>{venueCol.label}</Text>
+            <Text style={styles.subtitle}>
+              {monthName} • Bright Ears Entertainment
+            </Text>
           </View>
 
-          {/* Data Rows */}
-          {daysInMonth.map((day) => {
-            const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
-            const dayOfWeek = day.toLocaleDateString('en-US', { weekday: 'short' });
-            const dayNum = day.getDate();
-            const isPast = day < today;
-            const isToday = day.toDateString() === today.toDateString();
-            const isWeekend = day.getDay() === 0 || day.getDay() === 6;
+          {/* Calendar Grid */}
+          <View style={styles.calendar}>
+            {/* Day headers */}
+            <View style={styles.dayHeaderRow}>
+              {DAY_NAMES.map((dayName) => (
+                <Text key={dayName} style={styles.dayHeader}>
+                  {dayName}
+                </Text>
+              ))}
+            </View>
 
-            // Combine styles for the row
-            const rowStyles = {
-              ...styles.tableRow,
-              ...(isToday ? styles.todayRow : isWeekend ? styles.weekendRow : {}),
-              ...(isPast ? styles.pastRow : {}),
-            };
+            {/* Week rows */}
+            {weeks.map((week, weekIndex) => (
+              <View key={weekIndex} style={styles.weekRow}>
+                {week.map((day, dayIndex) => {
+                  // Empty cell for days outside month
+                  if (!day) {
+                    return (
+                      <View key={`empty-${weekIndex}-${dayIndex}`} style={styles.dayCellEmpty} />
+                    );
+                  }
 
-            return (
-              <View key={dateStr} style={rowStyles}>
-                <View style={styles.dateCell}>
-                  <Text style={styles.dateNum}>{dayNum}</Text>
-                  <Text style={styles.dayName}>{dayOfWeek}</Text>
-                </View>
-                {venueColumns.map((col, i) => {
-                  const key = `${dateStr}-${col.venue.id}-${col.slot || 'main'}`;
-                  const assignment = assignmentMap.get(key);
+                  const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
+                  const assignmentKey = `${dateStr}-${venueCol.venue.id}-${venueCol.slot || 'main'}`;
+                  const assignment = assignmentMap.get(assignmentKey);
+
+                  const isWeekend = dayIndex >= 5; // Sat, Sun
+                  const isToday = day.toDateString() === today.toDateString();
+
+                  // Determine cell style
+                  let cellStyle = styles.dayCell;
+                  if (isToday) {
+                    cellStyle = styles.dayCellToday;
+                  } else if (isWeekend) {
+                    cellStyle = styles.dayCellWeekend;
+                  }
 
                   return (
-                    <View key={i} style={styles.venueCell}>
+                    <View key={dateStr} style={cellStyle}>
+                      <Text style={isWeekend ? styles.dateNumberWeekend : styles.dateNumber}>
+                        {day.getDate()}
+                      </Text>
                       {assignment ? (
                         <>
-                          <Text style={styles.djName}>
-                            {assignment.artist?.stageName || assignment.specialEvent || 'No DJ'}
-                          </Text>
-                          <Text style={styles.djTime}>
-                            {assignment.startTime}-{assignment.endTime}
-                          </Text>
+                          {assignment.artist ? (
+                            <>
+                              <Text style={styles.djName}>
+                                {assignment.artist.stageName}
+                              </Text>
+                              <Text style={styles.djTime}>
+                                {assignment.startTime}-{assignment.endTime}
+                              </Text>
+                            </>
+                          ) : assignment.specialEvent ? (
+                            <Text style={styles.specialEvent}>
+                              {assignment.specialEvent}
+                            </Text>
+                          ) : (
+                            <Text style={styles.emptySlot}>-</Text>
+                          )}
                         </>
                       ) : (
                         <Text style={styles.emptySlot}>-</Text>
@@ -256,18 +314,18 @@ export function SchedulePDF({
                   );
                 })}
               </View>
-            );
-          })}
-        </View>
+            ))}
+          </View>
 
-        {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
-            Page 1 of 1 • {daysInMonth.length} days
-          </Text>
-          <Text style={styles.brandText}>Bright Ears</Text>
-        </View>
-      </Page>
+          {/* Footer */}
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
+              Page {pageIndex + 1} of {totalPages} • Generated {generatedAt}
+            </Text>
+            <Text style={styles.brandText}>Bright Ears</Text>
+          </View>
+        </Page>
+      ))}
     </Document>
   );
 }
