@@ -26,9 +26,6 @@ interface StatsData {
     totalFeedback: number;
     pendingFeedback: number;
     avgOverallRating: number | null;
-    avgMusicQuality: number | null;
-    avgCrowdEngagement: number | null;
-    avgProfessionalism: number | null;
     ratingDistribution: Record<number, number>;
   };
   topDJs: Array<{
@@ -235,28 +232,6 @@ export default function StatsPage() {
                         </div>
                       );
                     })}
-                  </div>
-
-                  {/* Category Ratings */}
-                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-white">
-                        {stats.feedback.avgMusicQuality ?? 'N/A'}
-                      </p>
-                      <p className="text-xs text-gray-500">Music Quality</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-white">
-                        {stats.feedback.avgCrowdEngagement ?? 'N/A'}
-                      </p>
-                      <p className="text-xs text-gray-500">Engagement</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-white">
-                        {stats.feedback.avgProfessionalism ?? 'N/A'}
-                      </p>
-                      <p className="text-xs text-gray-500">Professionalism</p>
-                    </div>
                   </div>
 
                 </div>
