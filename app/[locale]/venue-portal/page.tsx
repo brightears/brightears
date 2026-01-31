@@ -8,6 +8,12 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
   const now = new Date();
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
+  // Today's date boundaries (midnight to midnight local time)
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const todayEnd = new Date();
+  todayEnd.setHours(23, 59, 59, 999);
+
   // For ADMIN users without corporate, get all venues
   // For CORPORATE users, get their specific venues
   const venues = await prisma.venue.findMany({
@@ -102,6 +108,22 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
     distinct: ['artistId'],
   });
 
+  // Today's assignments (tonight's lineup)
+  const todayAssignments = await prisma.venueAssignment.findMany({
+    where: {
+      venueId: { in: venueIds },
+      date: { gte: todayStart, lte: todayEnd },
+      status: { not: 'CANCELLED' },
+    },
+    include: {
+      venue: { select: { id: true, name: true } },
+      artist: {
+        select: { id: true, stageName: true, profileImage: true },
+      },
+    },
+    orderBy: [{ venue: { name: 'asc' } }, { startTime: 'asc' }],
+  });
+
   return {
     venues,
     stats: {
@@ -115,6 +137,7 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
     },
     upcomingAssignments,
     recentAssignments,
+    todayAssignments,
   };
 }
 

@@ -28,6 +28,21 @@ interface Assignment {
   feedback?: { overallRating: number } | null;
 }
 
+interface TodayAssignment {
+  id: string;
+  date: Date;
+  startTime: string;
+  endTime: string;
+  slot: string | null;
+  specialEvent?: string | null;
+  venue: { id: string; name: string };
+  artist: {
+    id: string;
+    stageName: string;
+    profileImage: string | null;
+  } | null;
+}
+
 interface DashboardData {
   venues: { id: string; name: string }[];
   stats: {
@@ -39,6 +54,7 @@ interface DashboardData {
   };
   upcomingAssignments: Assignment[];
   recentAssignments: Assignment[];
+  todayAssignments: TodayAssignment[];
 }
 
 interface DashboardContentProps {
@@ -61,7 +77,17 @@ export default function DashboardContent({
   data,
   locale,
 }: DashboardContentProps) {
-  const { stats, upcomingAssignments, recentAssignments } = data;
+  const { stats, upcomingAssignments, recentAssignments, todayAssignments } = data;
+
+  // Group today's assignments by venue
+  const todayByVenue = todayAssignments.reduce((acc, assignment) => {
+    const venueName = assignment.venue.name;
+    if (!acc[venueName]) {
+      acc[venueName] = [];
+    }
+    acc[venueName].push(assignment);
+    return acc;
+  }, {} as Record<string, TodayAssignment[]>);
 
   return (
     <div className="space-y-8">
@@ -73,6 +99,60 @@ export default function DashboardContent({
         <p className="text-gray-400 mt-2">
           Here&apos;s what&apos;s happening with your venues
         </p>
+      </div>
+
+      {/* Tonight's Lineup */}
+      <div className="rounded-xl border border-brand-cyan/30 bg-brand-cyan/5 backdrop-blur-sm overflow-hidden">
+        <div className="p-4 border-b border-brand-cyan/20">
+          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+            <CalendarIcon className="w-5 h-5 text-brand-cyan" />
+            Tonight&apos;s Lineup
+          </h2>
+        </div>
+        {Object.keys(todayByVenue).length === 0 ? (
+          <div className="p-6 text-center text-gray-400">
+            No shows scheduled for today
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+            {Object.entries(todayByVenue).map(([venueName, assignments]) => (
+              <div
+                key={venueName}
+                className="bg-white/5 rounded-lg p-4 border border-white/10"
+              >
+                <h3 className="text-sm font-medium text-gray-400 mb-3">
+                  {venueName}
+                </h3>
+                <div className="space-y-3">
+                  {assignments.map((assignment) => (
+                    <div key={assignment.id} className="flex items-center gap-3">
+                      {assignment.artist ? (
+                        <DJAvatar
+                          src={assignment.artist.profileImage}
+                          name={assignment.artist.stageName}
+                          size="sm"
+                          className="rounded-lg"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-lg bg-gray-600/30 flex items-center justify-center text-gray-400 text-xs">
+                          -
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-white truncate">
+                          {assignment.artist?.stageName || assignment.specialEvent || 'No DJ'}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {assignment.startTime} - {assignment.endTime}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Stats Grid */}
