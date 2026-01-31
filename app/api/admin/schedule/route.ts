@@ -186,6 +186,27 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Validate time format (HH:MM, allowing 24:00 for end-of-day)
+    const timeRegex = /^([01]?[0-9]|2[0-4]):([0-5][0-9])$/;
+    if (!timeRegex.test(startTime) || !timeRegex.test(endTime)) {
+      return NextResponse.json(
+        { error: 'Invalid time format. Use HH:MM (e.g., 20:00)' },
+        { status: 400 }
+      );
+    }
+
+    // Validate startTime < endTime (24:00 = end of day = 1440 minutes)
+    const [startH, startM] = startTime.split(':').map(Number);
+    const [endH, endM] = endTime.split(':').map(Number);
+    const startMinutes = startH * 60 + startM;
+    const endMinutes = endH * 60 + endM;
+    if (startMinutes >= endMinutes) {
+      return NextResponse.json(
+        { error: 'End time must be after start time' },
+        { status: 400 }
+      );
+    }
+
     // Parse date
     const assignmentDate = new Date(date);
 
