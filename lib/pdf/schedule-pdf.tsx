@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   djName: {
     fontSize: 10,
     fontWeight: 'bold',
-    color: '#00bbe4',
+    color: '#333333',
     textAlign: 'center',
     marginTop: 6,
   },
