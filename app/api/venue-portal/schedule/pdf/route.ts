@@ -160,8 +160,15 @@ export async function GET(req: NextRequest) {
     });
   } catch (error) {
     console.error('Error generating schedule PDF:', error);
+    // Return detailed error in development, generic in production
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    console.error('PDF Error details:', { message: errorMessage, stack: errorStack });
     return NextResponse.json(
-      { error: 'Failed to generate PDF' },
+      {
+        error: 'Failed to generate PDF',
+        details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+      },
       { status: 500 }
     );
   }
