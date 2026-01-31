@@ -104,8 +104,10 @@ export async function GET(req: NextRequest) {
     });
 
     // Check for potential conflicts (same DJ at multiple venues on same day)
+    // Skip special events (no artistId)
     const conflictMap: Record<string, string[]> = {};
     assignments.forEach((assignment) => {
+      if (!assignment.artistId) return; // Skip special events
       const dateKey = assignment.date.toISOString().split('T')[0];
       const djKey = `${dateKey}-${assignment.artistId}`;
       if (!conflictMap[djKey]) {
@@ -153,6 +155,7 @@ export async function GET(req: NextRequest) {
 /**
  * POST /api/admin/schedule
  * Create a new venue assignment
+ * Supports either DJ assignment (artistId) or special event (specialEvent)
  */
 export async function POST(req: NextRequest) {
   try {
@@ -162,12 +165,19 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { venueId, artistId, date, startTime, endTime, slot, notes } = body;
+    const { venueId, artistId, specialEvent, date, startTime, endTime, slot, notes } = body;
 
-    // Validate required fields
-    if (!venueId || !artistId || !date || !startTime || !endTime) {
+    // Validate required fields - need either artistId OR specialEvent
+    if (!venueId || !date || !startTime || !endTime) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Missing required fields (venueId, date, startTime, endTime)' },
+        { status: 400 }
+      );
+    }
+
+    if (!artistId && !specialEvent) {
+      return NextResponse.json(
+        { error: 'Must provide either artistId or specialEvent' },
         { status: 400 }
       );
     }
@@ -195,7 +205,8 @@ export async function POST(req: NextRequest) {
     const assignment = await prisma.venueAssignment.create({
       data: {
         venueId,
-        artistId,
+        artistId: artistId || null,
+        specialEvent: specialEvent || null,
         date: assignmentDate,
         startTime,
         endTime,
@@ -222,6 +233,7 @@ export async function POST(req: NextRequest) {
 /**
  * PATCH /api/admin/schedule
  * Update an existing venue assignment
+ * Supports switching between DJ assignment and special event
  */
 export async function PATCH(req: NextRequest) {
   try {
@@ -231,7 +243,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { id, artistId, startTime, endTime, notes, status } = body;
+    const { id, artistId, specialEvent, startTime, endTime, notes, status } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -242,7 +254,23 @@ export async function PATCH(req: NextRequest) {
 
     // Build update data
     const updateData: any = {};
-    if (artistId) updateData.artistId = artistId;
+
+    // Handle artistId and specialEvent - they are mutually exclusive
+    if (artistId !== undefined) {
+      updateData.artistId = artistId || null;
+      // Clear specialEvent when setting a DJ
+      if (artistId) {
+        updateData.specialEvent = null;
+      }
+    }
+    if (specialEvent !== undefined) {
+      updateData.specialEvent = specialEvent || null;
+      // Clear artistId when setting a special event
+      if (specialEvent) {
+        updateData.artistId = null;
+      }
+    }
+
     if (startTime) updateData.startTime = startTime;
     if (endTime) updateData.endTime = endTime;
     if (notes !== undefined) updateData.notes = notes;

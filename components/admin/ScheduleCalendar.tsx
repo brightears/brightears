@@ -31,8 +31,9 @@ interface Assignment {
   slot: string | null;
   status: string;
   notes: string | null;
+  specialEvent: string | null;
   venue: { id: string; name: string };
-  artist: Artist;
+  artist: Artist | null;
   feedback: { id: string; overallRating: number } | null;
 }
 
@@ -182,7 +183,8 @@ export default function ScheduleCalendar() {
 
   // Handle slot click
   const handleSlotClick = (date: Date, venue: Venue, slot: string | null) => {
-    const dateStr = date.toISOString().split('T')[0];
+    // Use local date format (same as row display) to avoid timezone shift
+    const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     const key = `${dateStr}-${venue.id}-${slot || 'main'}`;
     const assignment = assignmentMap.get(key);
 

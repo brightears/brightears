@@ -23,8 +23,9 @@ interface Assignment {
   slot: string | null;
   status: string;
   notes: string | null;
+  specialEvent: string | null;
   venue: { id: string; name: string };
-  artist: Artist;
+  artist: Artist | null;
   feedback: { id: string; overallRating: number } | null;
 }
 
@@ -63,8 +64,47 @@ export default function ScheduleSlot({
     );
   }
 
-  // Assigned slot
+  // Special Event slot (no DJ)
+  if (assignment.specialEvent) {
+    return (
+      <button
+        onClick={onClick}
+        className={`w-full h-16 rounded-lg border transition-all duration-200 p-2 flex items-center justify-center ${
+          isPast
+            ? 'border-gray-600/30 bg-gray-700/20 hover:bg-gray-700/30'
+            : 'border-gray-500/30 bg-gray-500/10 hover:bg-gray-500/20'
+        }`}
+      >
+        <div className="text-center">
+          <div
+            className={`text-sm font-medium italic ${
+              isPast ? 'text-gray-500' : 'text-gray-300'
+            }`}
+          >
+            {assignment.specialEvent}
+          </div>
+          <div className="text-xs text-gray-500">
+            {assignment.startTime}-{assignment.endTime}
+          </div>
+        </div>
+      </button>
+    );
+  }
+
+  // Assigned DJ slot
   const rating = assignment.feedback?.overallRating;
+
+  // Guard against null artist (shouldn't happen for DJ slots, but TypeScript safety)
+  if (!assignment.artist) {
+    return (
+      <button
+        onClick={onClick}
+        className="w-full h-16 rounded-lg border border-red-500/30 bg-red-500/10 p-2 flex items-center justify-center"
+      >
+        <span className="text-red-400 text-sm">Error: No artist</span>
+      </button>
+    );
+  }
 
   return (
     <button

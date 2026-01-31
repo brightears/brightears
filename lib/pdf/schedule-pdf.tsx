@@ -148,8 +148,9 @@ interface Assignment {
   startTime: string;
   endTime: string;
   slot: string | null;
+  specialEvent?: string | null;
   venue: { id: string; name: string };
-  artist: { stageName: string };
+  artist: { stageName: string } | null;
 }
 
 interface SchedulePDFProps {
@@ -245,7 +246,9 @@ export function SchedulePDF({
                     <View key={i} style={styles.venueCell}>
                       {assignment ? (
                         <>
-                          <Text style={styles.djName}>{assignment.artist.stageName}</Text>
+                          <Text style={styles.djName}>
+                            {assignment.artist?.stageName || assignment.specialEvent || 'No DJ'}
+                          </Text>
                           <Text style={styles.djTime}>
                             {assignment.startTime}-{assignment.endTime}
                           </Text>

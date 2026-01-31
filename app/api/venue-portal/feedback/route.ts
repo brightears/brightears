@@ -330,6 +330,14 @@ export async function POST(req: NextRequest) {
         );
       }
 
+      // Cannot submit feedback for special events (no DJ assigned)
+      if (!assignment.artistId) {
+        return NextResponse.json(
+          { error: 'Cannot submit feedback for special events without a DJ' },
+          { status: 400 }
+        );
+      }
+
       // Create feedback
       const feedback = await prisma.venueFeedback.create({
         data: {

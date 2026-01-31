@@ -31,8 +31,9 @@ interface Assignment {
   slot: string | null;
   status: string;
   notes: string | null;
+  specialEvent: string | null;
   venue: { id: string; name: string };
-  artist: Artist;
+  artist: Artist | null;
   feedback: { id: string; overallRating: number } | null;
 }
 
@@ -78,7 +79,11 @@ export default function AssignmentModal({
   assignment,
   djs,
 }: AssignmentModalProps) {
-  const [selectedDjId, setSelectedDjId] = useState(assignment?.artist.id || '');
+  // Determine if this is a special event or DJ assignment
+  const isSpecialEventMode = assignment ? !!assignment.specialEvent : false;
+  const [mode, setMode] = useState<'dj' | 'special'>(isSpecialEventMode ? 'special' : 'dj');
+  const [selectedDjId, setSelectedDjId] = useState(assignment?.artist?.id || '');
+  const [specialEventLabel, setSpecialEventLabel] = useState(assignment?.specialEvent || 'NO DJ');
   const [startTime, setStartTime] = useState(normalizeTimeForInput(assignment?.startTime || '20:00'));
   const [endTime, setEndTime] = useState(normalizeTimeForInput(assignment?.endTime || '00:00'));
   const [notes, setNotes] = useState(assignment?.notes || '');
@@ -95,7 +100,16 @@ export default function AssignmentModal({
   // Update form when assignment changes
   useEffect(() => {
     if (assignment) {
-      setSelectedDjId(assignment.artist.id);
+      // Determine mode based on assignment data
+      if (assignment.specialEvent) {
+        setMode('special');
+        setSpecialEventLabel(assignment.specialEvent);
+        setSelectedDjId('');
+      } else if (assignment.artist) {
+        setMode('dj');
+        setSelectedDjId(assignment.artist.id);
+        setSpecialEventLabel('NO DJ');
+      }
       setStartTime(normalizeTimeForInput(assignment.startTime));
       setEndTime(normalizeTimeForInput(assignment.endTime));
       setNotes(assignment.notes || '');
@@ -106,7 +120,9 @@ export default function AssignmentModal({
         setStartTime(normalizeTimeForInput(hours.startTime || '20:00'));
         setEndTime(normalizeTimeForInput(hours.endTime || '00:00'));
       }
+      setMode('dj');
       setSelectedDjId('');
+      setSpecialEventLabel('NO DJ');
       setNotes('');
     }
   }, [assignment, venue]);
@@ -121,8 +137,13 @@ export default function AssignmentModal({
   });
 
   const handleSave = async () => {
-    if (!selectedDjId) {
+    // Validate based on mode
+    if (mode === 'dj' && !selectedDjId) {
       setError('Please select a DJ');
+      return;
+    }
+    if (mode === 'special' && !specialEventLabel.trim()) {
+      setError('Please enter a label for the special event');
       return;
     }
 
@@ -133,17 +154,21 @@ export default function AssignmentModal({
       const method = assignment ? 'PATCH' : 'POST';
       // Convert end time back to "24:00" for database if it's midnight
       const dbEndTime = normalizeTimeForDb(endTime, true);
+
+      // Build body based on mode
       const body = assignment
         ? {
             id: assignment.id,
-            artistId: selectedDjId,
+            artistId: mode === 'dj' ? selectedDjId : null,
+            specialEvent: mode === 'special' ? specialEventLabel.trim() : null,
             startTime,
             endTime: dbEndTime,
             notes: notes || null,
           }
         : {
             venueId: venue.id,
-            artistId: selectedDjId,
+            artistId: mode === 'dj' ? selectedDjId : null,
+            specialEvent: mode === 'special' ? specialEventLabel.trim() : null,
             // Use local date format to avoid UTC timezone shift
             date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
             startTime,
@@ -228,48 +253,97 @@ export default function AssignmentModal({
             </div>
           )}
 
-          {/* DJ Selection */}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Select DJ
-            </label>
-            <select
-              value={selectedDjId}
-              onChange={(e) => setSelectedDjId(e.target.value)}
-              className="w-full bg-stone-800 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-cyan focus:outline-none"
+          {/* Mode Toggle */}
+          <div className="flex gap-2 p-1 bg-stone-800 rounded-lg">
+            <button
+              type="button"
+              onClick={() => setMode('dj')}
+              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                mode === 'dj'
+                  ? 'bg-brand-cyan text-white'
+                  : 'text-gray-400 hover:text-white'
+              }`}
             >
-              <option value="">Choose a DJ...</option>
-              {djs.map((dj) => (
-                <option key={dj.id} value={dj.id}>
-                  {dj.stageName} - {(dj.genres || []).slice(0, 2).join(', ')}
-                </option>
-              ))}
-            </select>
+              Assign DJ
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode('special')}
+              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                mode === 'special'
+                  ? 'bg-gray-600 text-white'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Special Event / No DJ
+            </button>
           </div>
 
-          {/* Selected DJ Preview */}
-          {selectedDj && (
-            <div className="flex items-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10">
-              <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-deep-teal flex-shrink-0">
-                {selectedDj.profileImage ? (
-                  <Image
-                    src={selectedDj.profileImage}
-                    alt={selectedDj.stageName}
-                    fill
-                    className="object-cover object-top"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-white text-lg font-medium">
-                    {selectedDj.stageName.slice(0, 2).toUpperCase()}
-                  </div>
-                )}
-              </div>
+          {/* DJ Selection (only in DJ mode) */}
+          {mode === 'dj' && (
+            <>
               <div>
-                <div className="text-white font-medium">{selectedDj.stageName}</div>
-                <div className="text-sm text-gray-400">
-                  {(selectedDj.genres || []).slice(0, 3).join(' • ')}
-                </div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Select DJ
+                </label>
+                <select
+                  value={selectedDjId}
+                  onChange={(e) => setSelectedDjId(e.target.value)}
+                  className="w-full bg-stone-800 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-cyan focus:outline-none"
+                >
+                  <option value="">Choose a DJ...</option>
+                  {djs.map((dj) => (
+                    <option key={dj.id} value={dj.id}>
+                      {dj.stageName} - {(dj.genres || []).slice(0, 2).join(', ')}
+                    </option>
+                  ))}
+                </select>
               </div>
+
+              {/* Selected DJ Preview */}
+              {selectedDj && (
+                <div className="flex items-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10">
+                  <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-deep-teal flex-shrink-0">
+                    {selectedDj.profileImage ? (
+                      <Image
+                        src={selectedDj.profileImage}
+                        alt={selectedDj.stageName}
+                        fill
+                        className="object-cover object-top"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-white text-lg font-medium">
+                        {selectedDj.stageName.slice(0, 2).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <div className="text-white font-medium">{selectedDj.stageName}</div>
+                    <div className="text-sm text-gray-400">
+                      {(selectedDj.genres || []).slice(0, 3).join(' • ')}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Special Event Label (only in special mode) */}
+          {mode === 'special' && (
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Event Label
+              </label>
+              <input
+                type="text"
+                value={specialEventLabel}
+                onChange={(e) => setSpecialEventLabel(e.target.value)}
+                placeholder="e.g., NO DJ, Private Event, Closed"
+                className="w-full bg-stone-800 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-brand-cyan focus:outline-none"
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                Common options: NO DJ, Private Event, Closed, Holiday
+              </p>
             </div>
           )}
 
@@ -351,10 +425,10 @@ export default function AssignmentModal({
             </button>
             <button
               onClick={handleSave}
-              disabled={saving || !selectedDjId}
+              disabled={saving || (mode === 'dj' && !selectedDjId) || (mode === 'special' && !specialEventLabel.trim())}
               className="px-6 py-2 rounded-lg bg-brand-cyan text-white font-medium hover:bg-brand-cyan/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {saving ? 'Saving...' : assignment ? 'Update' : 'Assign DJ'}
+              {saving ? 'Saving...' : assignment ? 'Update' : mode === 'dj' ? 'Assign DJ' : 'Save Event'}
             </button>
           </div>
         </div>

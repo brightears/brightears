@@ -18,12 +18,13 @@ interface Assignment {
   startTime: string;
   endTime: string;
   slot: string | null;
+  specialEvent?: string | null;
   venue: { name: string };
   artist: {
     stageName: string;
     profileImage: string | null;
     category?: string;
-  };
+  } | null;
   feedback?: { overallRating: number } | null;
 }
 
@@ -134,15 +135,21 @@ export default function DashboardContent({
                   className="p-4 hover:bg-white/5 transition-colors"
                 >
                   <div className="flex items-center gap-4">
-                    <DJAvatar
-                      src={assignment.artist.profileImage}
-                      name={assignment.artist.stageName}
-                      size="md"
-                      className="rounded-lg"
-                    />
+                    {assignment.artist ? (
+                      <DJAvatar
+                        src={assignment.artist.profileImage}
+                        name={assignment.artist.stageName}
+                        size="md"
+                        className="rounded-lg"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-lg bg-gray-600/30 flex items-center justify-center text-gray-400 text-xs">
+                        N/A
+                      </div>
+                    )}
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-white truncate">
-                        {assignment.artist.stageName}
+                        {assignment.artist?.stageName || assignment.specialEvent || 'No DJ'}
                       </p>
                       <p className="text-sm text-gray-400">
                         {assignment.venue.name}
@@ -190,15 +197,21 @@ export default function DashboardContent({
                   className="p-4 hover:bg-white/5 transition-colors"
                 >
                   <div className="flex items-center gap-4">
-                    <DJAvatar
-                      src={assignment.artist.profileImage}
-                      name={assignment.artist.stageName}
-                      size="md"
-                      className="rounded-lg"
-                    />
+                    {assignment.artist ? (
+                      <DJAvatar
+                        src={assignment.artist.profileImage}
+                        name={assignment.artist.stageName}
+                        size="md"
+                        className="rounded-lg"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-lg bg-gray-600/30 flex items-center justify-center text-gray-400 text-xs">
+                        N/A
+                      </div>
+                    )}
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-white truncate">
-                        {assignment.artist.stageName}
+                        {assignment.artist?.stageName || assignment.specialEvent || 'No DJ'}
                       </p>
                       <p className="text-sm text-gray-400">
                         {assignment.venue.name} • {formatDate(assignment.date)}
