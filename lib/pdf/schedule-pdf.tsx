@@ -174,11 +174,11 @@ export function SchedulePDF({
     daysInMonth.push(new Date(year, month - 1, i));
   }
 
-  // Create assignment lookup
+  // Create assignment lookup (use local timezone to match calendar days)
   const assignmentMap = new Map<string, Assignment>();
   assignments.forEach((assignment) => {
     const d = new Date(assignment.date);
-    const dateStr = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
+    const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     const key = `${dateStr}-${assignment.venue.id}-${assignment.slot || 'main'}`;
     assignmentMap.set(key, assignment);
   });
