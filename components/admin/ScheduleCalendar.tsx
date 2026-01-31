@@ -1,4 +1,5 @@
 'use client';
+// Force rebuild - fix React Client Manifest issue
 
 import { useState, useEffect, useMemo } from 'react';
 import {
