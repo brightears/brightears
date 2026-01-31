@@ -70,11 +70,13 @@
     "description": "Looks like this page went backstage and forgot to come back. No worries—let's get you to where the action is! 🎵",
     "actions": {
       "goHome": "Go to Homepage",
-      "browseArtists": "Browse Artists"
+      "browseArtists": "Browse Artists",
+      "about": "About Us"
     },
     "quickLinks": {
       "title": "Or try these popular pages:",
       "howItWorks": "How It Works",
+      "about": "About Us",
       "faq": "FAQ",
       "contact": "Contact Support"
     },
