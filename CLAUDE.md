@@ -38,6 +38,46 @@ This checkpoint marks a **verified stable state** after successful deployment re
 
 ---
 
+## 🚨 CRITICAL: Authentication Redirect Loop Fix (January 31, 2026)
+
+**Problem:** After sign-in, users get stuck in infinite redirect loop showing "Redirecting..." forever.
+
+**Root Cause:** Prisma schema fields added but never migrated to production database.
+
+When `contactEmail` and `contactPhone` were added to the `Artist` model in `prisma/schema.prisma`, the build only ran `prisma generate` (updates Prisma Client) but NOT `prisma db push` (updates actual database). This caused:
+
+1. `getCurrentUser()` in `lib/auth.ts` queries with `include: { artist: true }`
+2. Prisma Client expects `contactEmail` column that doesn't exist in production DB
+3. Query fails with: `PrismaClientKnownRequestError: The column 'Artist.contactEmail' does not exist`
+4. `getCurrentUser()` returns `null` → layout redirects to sign-in → user already signed in → loop
+
+**The Fix (commit `d087f7a`):**
+Added `prisma db push --skip-generate` to the build script in `package.json`:
+
+```json
+"build": "prisma db push --skip-generate && prisma generate && node --max-old-space-size=1024 ./node_modules/.bin/next build"
+```
+
+This ensures database schema is **always synced** before every deployment.
+
+**Key Files:**
+- `package.json` - Build script with `prisma db push`
+- `lib/auth.ts` - Contains `getCurrentUser()` that was failing
+- `prisma/schema.prisma` - Database schema definition
+- `app/[locale]/auth-redirect/page.tsx` - MUST be client component ('use client')
+
+**How to Debug Similar Issues:**
+1. Check Render logs for actual error messages (don't assume!)
+2. Look for Prisma errors about missing columns
+3. Compare `prisma/schema.prisma` with actual database columns
+4. Run `prisma db push` to sync schema to database
+
+**NEVER:**
+- Change `auth-redirect/page.tsx` to a server component (causes React Error #310)
+- Assume Clerk redirect props are the issue without checking logs first
+
+---
+
 ## Current Status (January 29, 2026) - 🎯 **FEEDBACK FORMS SIMPLIFIED** ✅
 
 ### ✅ **LATEST MILESTONE: FEEDBACK SYSTEM OVERHAUL (January 29, 2026)**
