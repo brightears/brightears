@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import {
   XMarkIcon,
@@ -84,6 +85,12 @@ export default function AssignmentModal({
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Portal needs to render only on client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Update form when assignment changes
   useEffect(() => {
@@ -104,7 +111,7 @@ export default function AssignmentModal({
     }
   }, [assignment, venue]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const dateStr = date.toLocaleDateString('en-US', {
     weekday: 'long',
@@ -190,7 +197,7 @@ export default function AssignmentModal({
 
   const selectedDj = djs.find((dj) => dj.id === selectedDjId);
 
-  return (
+  const modalContent = (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="relative w-full max-w-lg max-h-[90vh] overflow-hidden rounded-2xl bg-gradient-to-br from-stone-900 to-stone-800 border border-white/10 shadow-xl">
         {/* Header */}
@@ -353,4 +360,6 @@ export default function AssignmentModal({
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
