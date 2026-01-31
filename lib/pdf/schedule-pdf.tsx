@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
     fontSize: 7,
     color: '#999999',
     textAlign: 'center',
-    fontStyle: 'italic',
   },
   todayRow: {
     backgroundColor: '#e0f7fa',
