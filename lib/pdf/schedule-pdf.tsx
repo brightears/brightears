@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   calendar: {
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
   },
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
   },
   weekRow: {
     flexDirection: 'row',
-    minHeight: 85,
+    height: 75,
     borderBottom: '1px solid #e5e7eb',
   },
   dayCell: {
@@ -122,8 +121,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderTop: '1px solid #e5e7eb',
-    paddingTop: 10,
-    marginTop: 15,
+    paddingTop: 8,
+    marginTop: 10,
   },
   footerText: {
     fontSize: 9,
