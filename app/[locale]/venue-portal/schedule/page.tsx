@@ -10,6 +10,7 @@ import {
   UserGroupIcon,
   StarIcon,
   XMarkIcon,
+  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
 import ScheduleCalendar from '@/components/venue-portal/ScheduleCalendar';
 
@@ -44,6 +45,11 @@ export default function SchedulePage() {
   const [selectedVenue, setSelectedVenue] = useState<string>('all');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Current month/year for PDF export
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1;
+  const currentYear = now.getFullYear();
 
   // Fetch venues
   useEffect(() => {
@@ -114,21 +120,34 @@ export default function SchedulePage() {
           <p className="text-gray-400 mt-1">View and manage DJ assignments</p>
         </div>
 
-        {/* Venue Filter */}
-        {venues.length > 1 && (
-          <select
-            value={selectedVenue}
-            onChange={(e) => setSelectedVenue(e.target.value)}
-            className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:border-brand-cyan"
+        <div className="flex items-center gap-3">
+          {/* PDF Export Button */}
+          <a
+            href={`/api/venue-portal/schedule/pdf?month=${currentMonth}&year=${currentYear}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-cyan/20 border border-brand-cyan/30 text-brand-cyan hover:bg-brand-cyan/30 transition-colors"
           >
-            <option value="all">All Venues</option>
-            {venues.map((venue) => (
-              <option key={venue.id} value={venue.id}>
-                {venue.name}
-              </option>
-            ))}
-          </select>
-        )}
+            <ArrowDownTrayIcon className="w-4 h-4" />
+            Export PDF
+          </a>
+
+          {/* Venue Filter */}
+          {venues.length > 1 && (
+            <select
+              value={selectedVenue}
+              onChange={(e) => setSelectedVenue(e.target.value)}
+              className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:border-brand-cyan"
+            >
+              <option value="all">All Venues</option>
+              {venues.map((venue) => (
+                <option key={venue.id} value={venue.id}>
+                  {venue.name}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
       </div>
 
       {loading ? (
