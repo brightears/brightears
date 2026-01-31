@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 interface Assignment {
@@ -24,6 +24,8 @@ interface ScheduleCalendarProps {
   assignments: Assignment[];
   onSelectDate: (date: Date) => void;
   selectedDate: Date | null;
+  currentMonth: Date;
+  onMonthChange: (date: Date) => void;
 }
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -44,8 +46,9 @@ export default function ScheduleCalendar({
   assignments,
   onSelectDate,
   selectedDate,
+  currentMonth,
+  onMonthChange,
 }: ScheduleCalendarProps) {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   // Group assignments by date
   const assignmentsByDate = useMemo(() => {
@@ -86,16 +89,16 @@ export default function ScheduleCalendar({
   }, [currentMonth]);
 
   const goToPrevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
+    onMonthChange(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
   };
 
   const goToNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
+    onMonthChange(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
   const goToToday = () => {
     const today = new Date();
-    setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1));
+    onMonthChange(new Date(today.getFullYear(), today.getMonth(), 1));
     onSelectDate(today);
   };
 
