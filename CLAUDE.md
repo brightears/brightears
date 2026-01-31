@@ -78,7 +78,65 @@ This ensures database schema is **always synced** before every deployment.
 
 ---
 
-## Current Status (January 29, 2026) - 🎯 **FEEDBACK FORMS SIMPLIFIED** ✅
+## Current Status (January 31, 2026) - 🎯 **ADMIN SCHEDULE FIXES** ✅
+
+### ✅ **LATEST SESSION: Admin Schedule Bug Fixes (January 31, 2026)**
+
+**Issues Fixed This Session:**
+
+1. **Footer Removed from Admin Pages** (commit `c9c3b5b`)
+   - Extended `ConditionalLayout.tsx` to hide header/footer for `/admin` routes
+   - `isVenuePortal` → `isPortalPage` (checks both `/venue-portal` and `/admin`)
+
+2. **DJ Dropdown Empty in Assign Modal** (commit `ee2e4bb`)
+   - API was filtering to only DJs with existing assignments
+   - Removed `venueAssignments: { some: {} }` filter
+   - Now shows ALL DJs in dropdown
+
+3. **Modal Crash - Null Genres** (commit `99f49cb`)
+   - `dj.genres.slice()` crashed when genres was null
+   - Added null-safe handling: `(dj.genres || []).slice()`
+
+4. **Modal Not Centered** (commit `9f3b58e`)
+   - Modal was positioning relative to scroll, not viewport
+   - Added React Portal: `createPortal(modalContent, document.body)`
+   - Modal now always appears centered on screen
+
+5. **Date Shifting by 1 Day** (commit `7d8796f`)
+   - Thailand UTC+7 causing dates to shift when saved
+   - Changed from `toISOString()` to local date formatting
+   - `date.getFullYear()-${date.getMonth()+1}-${date.getDate()}`
+
+**Files Modified:**
+- `components/layout/ConditionalLayout.tsx` - Admin route detection
+- `app/api/admin/schedule/route.ts` - DJ filter removal
+- `components/admin/AssignmentModal.tsx` - Portal, null-safety, timezone fix
+
+**Key Learnings:**
+- Always use local timezone formatting for Thai market (UTC+7)
+- Use React Portals for modals inside scrollable containers
+- Check Render logs for actual errors before assuming causes
+
+---
+
+### 🚧 **IN PROGRESS: Admin Schedule Enhancements**
+
+**Upcoming Features (Priority Order):**
+1. **PDF Export** - Monthly schedule as calendar grid PDF (installed @react-pdf/renderer)
+2. **"NO DJ" / Special Event** - Custom text for intentionally empty slots
+3. **Recurring Templates** - Set up "DJ X every Wednesday" patterns
+
+**Delete DJ Already Works:**
+- Delete button appears when clicking on EXISTING assignment (not new)
+- Click on assigned DJ slot → modal shows red "Delete" button at bottom left
+
+**Admin→Customer Sync:**
+- Changes sync automatically (same database)
+- Customer sees updates on page refresh (not real-time WebSocket)
+
+---
+
+## Previous Status (January 29, 2026) - 🎯 **FEEDBACK FORMS SIMPLIFIED** ✅
 
 ### ✅ **LATEST MILESTONE: FEEDBACK SYSTEM OVERHAUL (January 29, 2026)**
 
