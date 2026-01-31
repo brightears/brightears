@@ -5,7 +5,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ExclamationTriangleIcon,
-  PlusIcon,
+  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
 import ScheduleSlot from './ScheduleSlot';
 import AssignmentModal from './AssignmentModal';
@@ -69,6 +69,7 @@ export default function ScheduleCalendar() {
     slot: string | null;
     assignment?: Assignment;
   } | null>(null);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
 
   const month = currentDate.getMonth() + 1;
   const year = currentDate.getFullYear();
@@ -174,6 +175,30 @@ export default function ScheduleCalendar() {
     setCurrentDate(new Date());
   };
 
+  // Download PDF
+  const handleDownloadPdf = async () => {
+    setDownloadingPdf(true);
+    try {
+      const res = await fetch(`/api/admin/schedule/pdf?month=${month}&year=${year}`);
+      if (!res.ok) throw new Error('Failed to generate PDF');
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `DJ-Schedule-${monthName.replace(' ', '-')}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (err) {
+      console.error('PDF download error:', err);
+      alert('Failed to download PDF. Please try again.');
+    } finally {
+      setDownloadingPdf(false);
+    }
+  };
+
   // Format month name
   const monthName = currentDate.toLocaleDateString('en-US', {
     month: 'long',
@@ -255,6 +280,18 @@ export default function ScheduleCalendar() {
               <ChevronRightIcon className="w-5 h-5" />
             </button>
           </div>
+
+          {/* Download PDF Button */}
+          <button
+            onClick={handleDownloadPdf}
+            disabled={downloadingPdf}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ArrowDownTrayIcon className="w-4 h-4" />
+            <span className="text-sm font-medium">
+              {downloadingPdf ? 'Generating...' : 'Download PDF'}
+            </span>
+          </button>
         </div>
 
         {/* Conflict warning */}
