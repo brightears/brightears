@@ -34,6 +34,8 @@ interface Assignment {
 interface Feedback {
   id: string;
   overallRating: number;
+  notes: string | null; // Current simplified form field
+  // Legacy fields (kept for backward compatibility with old feedback)
   musicQuality: number | null;
   crowdEngagement: number | null;
   professionalism: number | null;
@@ -469,52 +471,11 @@ export default function FeedbackPage() {
                   </div>
                 </div>
 
-                {/* Details */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4 text-sm">
-                  {feedback.musicQuality && (
-                    <div>
-                      <span className="text-gray-500">Music Quality</span>
-                      <div className="flex items-center gap-1 mt-1">
-                        <StarIconSolid className="w-4 h-4 text-brand-cyan" />
-                        <span className="text-white">{feedback.musicQuality}/5</span>
-                      </div>
-                    </div>
-                  )}
-                  {feedback.crowdEngagement && (
-                    <div>
-                      <span className="text-gray-500">Engagement</span>
-                      <div className="flex items-center gap-1 mt-1">
-                        <StarIconSolid className="w-4 h-4 text-brand-cyan" />
-                        <span className="text-white">{feedback.crowdEngagement}/5</span>
-                      </div>
-                    </div>
-                  )}
-                  {feedback.professionalism && (
-                    <div>
-                      <span className="text-gray-500">Professionalism</span>
-                      <div className="flex items-center gap-1 mt-1">
-                        <StarIconSolid className="w-4 h-4 text-brand-cyan" />
-                        <span className="text-white">{feedback.professionalism}/5</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Comments */}
-                {(feedback.whatWentWell || feedback.areasForImprovement) && (
-                  <div className="pt-4 border-t border-white/10 space-y-3">
-                    {feedback.whatWentWell && (
-                      <div>
-                        <p className="text-xs text-gray-500 mb-1">What went well</p>
-                        <p className="text-sm text-gray-300">{feedback.whatWentWell}</p>
-                      </div>
-                    )}
-                    {feedback.areasForImprovement && (
-                      <div>
-                        <p className="text-xs text-gray-500 mb-1">Areas for improvement</p>
-                        <p className="text-sm text-gray-300">{feedback.areasForImprovement}</p>
-                      </div>
-                    )}
+                {/* Notes */}
+                {feedback.notes && (
+                  <div className="pt-4 border-t border-white/10">
+                    <p className="text-xs text-gray-500 mb-1">Notes</p>
+                    <p className="text-sm text-gray-300">{feedback.notes}</p>
                   </div>
                 )}
 
