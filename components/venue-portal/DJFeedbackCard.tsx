@@ -1,7 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import { CheckCircleIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import DJAvatar from './DJAvatar';
 import RatingStars from './RatingStars';
 
@@ -35,8 +34,6 @@ export default function DJFeedbackCard({
   onChange,
   disabled = false,
 }: DJFeedbackCardProps) {
-  const [showNotes, setShowNotes] = useState(false);
-
   const isComplete = value.overallRating > 0;
 
   return (
@@ -82,34 +79,19 @@ export default function DJFeedbackCard({
           />
         </div>
 
-        {/* Notes toggle - only show after rating */}
-        {isComplete && (
-          <div className="mt-3">
-            <button
-              type="button"
-              onClick={() => setShowNotes(!showNotes)}
-              className="flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors"
-            >
-              <ChevronDownIcon
-                className={`w-4 h-4 transition-transform ${showNotes ? 'rotate-180' : ''}`}
-              />
-              {value.notes ? 'Edit notes' : 'Add notes (optional)'}
-            </button>
-
-            {showNotes && (
-              <textarea
-                value={value.notes}
-                onChange={(e) => onChange({ ...value, notes: e.target.value })}
-                disabled={disabled}
-                rows={2}
-                placeholder="Any feedback about this performance..."
-                className="mt-2 w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
-                           text-sm placeholder:text-gray-500 focus:border-brand-cyan focus:outline-none
-                           resize-none disabled:opacity-50"
-              />
-            )}
-          </div>
-        )}
+        {/* Notes - always visible */}
+        <div className="mt-3">
+          <textarea
+            value={value.notes}
+            onChange={(e) => onChange({ ...value, notes: e.target.value })}
+            disabled={disabled}
+            rows={2}
+            placeholder="Any feedback about this performance... (optional)"
+            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
+                       text-sm placeholder:text-gray-500 focus:border-brand-cyan focus:outline-none
+                       resize-none disabled:opacity-50"
+          />
+        </div>
       </div>
     </div>
   );
