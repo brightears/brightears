@@ -119,10 +119,14 @@ export async function GET(req: NextRequest) {
     const conflicts = Object.entries(conflictMap)
       .filter(([, venues]) => venues.length > 1)
       .map(([key]) => {
-        const [date, artistId] = key.split('-').slice(0, 2);
+        // Key format: "YYYY-MM-DD-artistId"
+        // Date has 2 dashes, so we need to handle carefully
+        const parts = key.split('-');
+        const date = `${parts[0]}-${parts[1]}-${parts[2]}`;
+        const artistId = parts.slice(3).join('-'); // Handle artistIds that might contain dashes
         return {
           date,
-          artistId: key.substring(11), // Everything after date-
+          artistId,
           venues: conflictMap[key],
         };
       });
