@@ -69,6 +69,7 @@ interface Assignment {
 interface Feedback {
   id: string;
   overallRating: number;
+  notes: string | null;
   createdAt: string;
   artist: {
     id: string;
@@ -425,18 +426,25 @@ export default function VenueDetailPage({
             {recentFeedback.map((feedback) => (
               <div
                 key={feedback.id}
-                className="flex items-center justify-between p-3 rounded-lg bg-white/5"
+                className="p-3 rounded-lg bg-white/5"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1 text-brand-cyan">
-                    <StarIcon className="w-5 h-5" />
-                    <span className="font-medium">{feedback.overallRating}</span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1 text-brand-cyan">
+                      <StarIcon className="w-5 h-5" />
+                      <span className="font-medium">{feedback.overallRating}</span>
+                    </div>
+                    <span className="text-white">{feedback.artist.stageName}</span>
                   </div>
-                  <span className="text-white">{feedback.artist.stageName}</span>
+                  <span className="text-sm text-gray-500">
+                    {new Date(feedback.createdAt).toLocaleDateString()}
+                  </span>
                 </div>
-                <span className="text-sm text-gray-500">
-                  {new Date(feedback.createdAt).toLocaleDateString()}
-                </span>
+                {feedback.notes && (
+                  <p className="mt-2 text-sm text-gray-400 italic">
+                    &ldquo;{feedback.notes}&rdquo;
+                  </p>
+                )}
               </div>
             ))}
           </div>
