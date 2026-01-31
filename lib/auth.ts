@@ -113,13 +113,33 @@ export async function getCurrentUser(): Promise<ExtendedUser | null> {
 
         // Create role-specific profile
         if (metadataRole === 'CORPORATE') {
-          await prisma.corporate.create({
+          const newCorporate = await prisma.corporate.create({
             data: {
               userId: newUser.id,
               companyName: userName,
               contactPerson: userName,
             }
           })
+
+          // Auto-link ALL active venues to this new corporate
+          // This handles first-time corporate user setup where venues exist from seed
+          // but the "real" corporate user is signing in for the first time
+          const allVenues = await prisma.venue.findMany({
+            where: { isActive: true },
+            select: { id: true, name: true, corporateId: true }
+          })
+
+          if (allVenues.length > 0) {
+            console.log(`[Auth] Linking ${allVenues.length} venues to new corporate: ${newCorporate.id}`)
+            await prisma.venue.updateMany({
+              where: {
+                id: { in: allVenues.map(v => v.id) }
+              },
+              data: {
+                corporateId: newCorporate.id
+              }
+            })
+          }
         } else if (metadataRole === 'CUSTOMER') {
           await prisma.customer.create({
             data: {
