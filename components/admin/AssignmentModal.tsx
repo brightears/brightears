@@ -233,7 +233,7 @@ export default function AssignmentModal({
               <option value="">Choose a DJ...</option>
               {djs.map((dj) => (
                 <option key={dj.id} value={dj.id}>
-                  {dj.stageName} - {dj.genres.slice(0, 2).join(', ')}
+                  {dj.stageName} - {(dj.genres || []).slice(0, 2).join(', ')}
                 </option>
               ))}
             </select>
@@ -259,7 +259,7 @@ export default function AssignmentModal({
               <div>
                 <div className="text-white font-medium">{selectedDj.stageName}</div>
                 <div className="text-sm text-gray-400">
-                  {selectedDj.genres.slice(0, 3).join(' • ')}
+                  {(selectedDj.genres || []).slice(0, 3).join(' • ')}
                 </div>
               </div>
             </div>
