@@ -89,13 +89,10 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // Get all DJs who have been assigned to venues (for the DJ dropdown)
+    // Get all DJs (for the DJ dropdown)
     const djs = await prisma.artist.findMany({
       where: {
         category: 'DJ',
-        venueAssignments: {
-          some: {},
-        },
       },
       orderBy: { stageName: 'asc' },
       select: {
