@@ -87,10 +87,37 @@ export default function AssignmentModal({
   const [startTime, setStartTime] = useState(normalizeTimeForInput(assignment?.startTime || '20:00'));
   const [endTime, setEndTime] = useState(normalizeTimeForInput(assignment?.endTime || '00:00'));
   const [notes, setNotes] = useState(assignment?.notes || '');
+  const [repeat, setRepeat] = useState<'none' | 'weekly' | 'biweekly'>('none');
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+
+  // Calculate repeat dates for preview
+  const getRepeatDates = (): Date[] => {
+    if (repeat === 'none' || assignment) return []; // No repeat for edits
+
+    const dates: Date[] = [];
+    const currentDate = new Date(date);
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const dayOfWeek = currentDate.getDay();
+
+    // Start from the selected date and go forward
+    let d = new Date(date);
+    while (d.getMonth() === currentMonth) {
+      // Skip the original date (it's already being created)
+      if (d.getTime() !== date.getTime()) {
+        dates.push(new Date(d));
+      }
+      // Increment by 7 or 14 days
+      d.setDate(d.getDate() + (repeat === 'weekly' ? 7 : 14));
+    }
+
+    return dates;
+  };
+
+  const repeatDates = getRepeatDates();
 
   // Portal needs to render only on client
   useEffect(() => {
@@ -155,37 +182,71 @@ export default function AssignmentModal({
       // Convert end time back to "24:00" for database if it's midnight
       const dbEndTime = normalizeTimeForDb(endTime, true);
 
-      // Build body based on mode
-      const body = assignment
-        ? {
-            id: assignment.id,
-            artistId: mode === 'dj' ? selectedDjId : null,
-            specialEvent: mode === 'special' ? specialEventLabel.trim() : null,
-            startTime,
-            endTime: dbEndTime,
-            notes: notes || null,
-          }
-        : {
-            venueId: venue.id,
-            artistId: mode === 'dj' ? selectedDjId : null,
-            specialEvent: mode === 'special' ? specialEventLabel.trim() : null,
-            // Use local date format to avoid UTC timezone shift
-            date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
-            startTime,
-            endTime: dbEndTime,
-            slot,
-            notes: notes || null,
-          };
+      // For PATCH (editing), just update the single assignment
+      if (assignment) {
+        const body = {
+          id: assignment.id,
+          artistId: mode === 'dj' ? selectedDjId : null,
+          specialEvent: mode === 'special' ? specialEventLabel.trim() : null,
+          startTime,
+          endTime: dbEndTime,
+          notes: notes || null,
+        };
 
-      const res = await fetch('/api/admin/schedule', {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
+        const res = await fetch('/api/admin/schedule', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Failed to save assignment');
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.error || 'Failed to update assignment');
+        }
+
+        onSave();
+        return;
+      }
+
+      // For POST (new), handle repeat mode
+      const datesToCreate = [date, ...repeatDates];
+
+      // Create assignments for each date
+      let successCount = 0;
+      let skipCount = 0;
+      const errors: string[] = [];
+
+      for (const d of datesToCreate) {
+        const body = {
+          venueId: venue.id,
+          artistId: mode === 'dj' ? selectedDjId : null,
+          specialEvent: mode === 'special' ? specialEventLabel.trim() : null,
+          date: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`,
+          startTime,
+          endTime: dbEndTime,
+          slot,
+          notes: notes || null,
+        };
+
+        const res = await fetch('/api/admin/schedule', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+
+        if (res.ok) {
+          successCount++;
+        } else if (res.status === 409) {
+          // Conflict - slot already assigned, skip
+          skipCount++;
+        } else {
+          const data = await res.json();
+          errors.push(data.error || 'Unknown error');
+        }
+      }
+
+      if (errors.length > 0) {
+        throw new Error(`Created ${successCount}, skipped ${skipCount} (already assigned), ${errors.length} failed`);
       }
 
       onSave();
@@ -372,6 +433,46 @@ export default function AssignmentModal({
               />
             </div>
           </div>
+
+          {/* Repeat (only for new assignments) */}
+          {!assignment && (
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Repeat
+              </label>
+              <select
+                value={repeat}
+                onChange={(e) => setRepeat(e.target.value as 'none' | 'weekly' | 'biweekly')}
+                className="w-full bg-stone-800 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-cyan focus:outline-none"
+              >
+                <option value="none">Don't repeat</option>
+                <option value="weekly">Every week (same day)</option>
+                <option value="biweekly">Every 2 weeks</option>
+              </select>
+
+              {/* Preview of repeat dates */}
+              {repeatDates.length > 0 && (
+                <div className="mt-3 p-3 rounded-lg bg-brand-cyan/10 border border-brand-cyan/30">
+                  <p className="text-sm text-brand-cyan font-medium mb-2">
+                    Will also create assignments for:
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {repeatDates.map((d, i) => (
+                      <span
+                        key={i}
+                        className="text-xs bg-brand-cyan/20 text-brand-cyan px-2 py-1 rounded"
+                      >
+                        {d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-xs text-gray-400 mt-2">
+                    Total: {repeatDates.length + 1} assignments
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Notes */}
           <div>
