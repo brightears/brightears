@@ -4,19 +4,13 @@ import {
   Text,
   View,
   StyleSheet,
-  Font,
 } from '@react-pdf/renderer';
 
-// Register fonts (using system fonts for simplicity)
-Font.register({
-  family: 'Inter',
-  src: 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2',
-});
-
+// Use Helvetica - built-in PDF font, always available
 const styles = StyleSheet.create({
   page: {
     padding: 30,
-    fontFamily: 'Inter',
+    fontFamily: 'Helvetica',
     fontSize: 9,
     backgroundColor: '#ffffff',
   },
