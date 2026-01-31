@@ -31,6 +31,9 @@ Venue managers view DJ schedules and submit feedback. They do NOT assign DJs (ad
 - Night Report and DJ Ratings are independent workflows
 - Simplified forms (~30 seconds to complete)
 - `crowdNationality` and `crowdType` are dropdowns, not sliders
+- DJ Ratings: Just 1-5 stars + optional notes (no sub-ratings)
+- Two tabs only: **Pending** (needs feedback) and **Submitted** (completed)
+- Notes visible to admin in venue detail page
 
 ## API Endpoints
 - `GET /api/venue-portal/venues` - User's venues

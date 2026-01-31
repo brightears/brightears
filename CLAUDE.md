@@ -10,11 +10,13 @@
 | **Stack** | Next.js 15, TypeScript, Prisma, PostgreSQL |
 | **Locales** | EN, TH (next-intl) |
 
-## Current Status (January 2026)
+## Current Status (February 2026)
 
 - Landing page + Venue Portal + Admin Portal operational
 - 15 DJs across 2 venues (NOBU, Le Du Kaan)
 - PDF schedule export working with calendar grid layout
+- Feedback system simplified: 1-5 stars + optional notes (no sub-ratings)
+- Admin can view venue manager feedback notes
 
 ## Essential Commands
 
@@ -113,4 +115,4 @@ Detailed development history is archived at `docs/sessions/CLAUDE_HISTORY_2024-2
 
 ---
 
-*Last updated: January 31, 2026*
+*Last updated: February 1, 2026*
