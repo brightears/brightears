@@ -17,13 +17,13 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 15,
-    borderBottom: '2px solid #2f6364',
+    borderBottom: '2px solid #00bbe4',
     paddingBottom: 10,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#2f6364',
+    color: '#00bbe4',
   },
   subtitle: {
     fontSize: 11,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   dayHeaderRow: {
     flexDirection: 'row',
-    backgroundColor: '#2f6364',
+    backgroundColor: '#00bbe4',
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
   },
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   djName: {
     fontSize: 10,
     fontWeight: 'bold',
-    color: '#2f6364',
+    color: '#00bbe4',
     textAlign: 'center',
     marginTop: 6,
   },
