@@ -11,7 +11,6 @@ interface NightFeedbackData {
   crowdNationality: string;
   crowdType: string;
   weatherCondition: string;
-  specialEvent: string;
   notes: string;
 }
 

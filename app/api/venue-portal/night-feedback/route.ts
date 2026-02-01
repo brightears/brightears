@@ -38,7 +38,6 @@ const nightFeedbackSchema = z.object({
 
   // External factors
   weatherCondition: z.string().optional(),
-  specialEvent: z.string().optional(),
 
   // Combined notes field
   notes: z.string().max(2000).optional(),
@@ -237,7 +236,6 @@ export async function POST(req: NextRequest) {
           crowdNationality: data.crowdNationality,
           crowdType: data.crowdType,
           weatherCondition: data.weatherCondition,
-          specialEvent: data.specialEvent,
           notes: data.notes,
         },
         update: {
@@ -248,7 +246,6 @@ export async function POST(req: NextRequest) {
           crowdNationality: data.crowdNationality,
           crowdType: data.crowdType,
           weatherCondition: data.weatherCondition,
-          specialEvent: data.specialEvent,
           notes: data.notes,
         },
         include: {
