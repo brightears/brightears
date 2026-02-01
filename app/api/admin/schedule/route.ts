@@ -131,7 +131,7 @@ export async function GET(req: NextRequest) {
         };
       });
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       venues,
       assignments,
       djs,
@@ -141,6 +141,8 @@ export async function GET(req: NextRequest) {
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
     });
+    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    return response;
   } catch (error) {
     console.error('Error fetching schedule:', error);
     if (error instanceof z.ZodError) {

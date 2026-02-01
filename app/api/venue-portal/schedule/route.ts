@@ -132,7 +132,9 @@ export async function GET(req: NextRequest) {
         orderBy: [{ date: 'asc' }, { startTime: 'asc' }],
       });
 
-      return NextResponse.json({ assignments });
+      const response = NextResponse.json({ assignments });
+      response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return response;
     } catch (error) {
       console.error('Error fetching schedule:', error);
       return NextResponse.json(

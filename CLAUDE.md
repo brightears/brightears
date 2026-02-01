@@ -19,6 +19,8 @@
 - Admin can view venue manager feedback notes
 
 ### Recent Updates (Feb 1, 2026)
+- **Admin Schedule improvements**: Venue filter dropdown (scalability for more venues), narrowed date column, removed legend
+- **Venue Portal LOCKED**: Documentation warnings added - never modify when working on Admin features
 - **Color consistency audit**: All emerald/amber/lavender colors changed to brand-cyan
   - Status badges (COMPLETED, NO_SHOW) now brand-cyan/red
   - Success states in modals use brand-cyan
@@ -135,4 +137,4 @@ Detailed development history is archived at `docs/sessions/CLAUDE_HISTORY_2024-2
 
 ---
 
-*Last updated: February 1, 2026 (color consistency audit)*
+*Last updated: February 1, 2026 (admin schedule improvements + venue portal LOCKED)*
