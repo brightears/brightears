@@ -46,8 +46,33 @@ const dateStr = date.toISOString().split('T')[0];
 - Header/footer hidden (same as venue portal)
 - Extended `ConditionalLayout.tsx` to detect `/admin` routes
 
+## Admin↔Customer Sync
+
+**All admin changes automatically reflect on customer (venue portal) side.**
+
+Both portals share the same database tables:
+- `VenueAssignment` - Schedule entries
+- `VenueNightFeedback` - Night reports
+- `VenueFeedback` - DJ ratings
+
+**Note:** No real-time WebSocket - customer must refresh page to see updates.
+
 ## API Endpoints
-- `GET /api/admin/schedule` - All assignments + all DJs
-- `POST /api/admin/schedule` - Create assignment
-- `PUT /api/admin/schedule` - Update assignment
-- `DELETE /api/admin/schedule` - Delete assignment
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/admin/schedule` | GET | All assignments + all DJs for month |
+| `/api/admin/schedule` | POST | Create assignment |
+| `/api/admin/schedule` | PUT | Update assignment |
+| `/api/admin/schedule?id=xxx` | DELETE | Delete single assignment |
+| `/api/admin/schedule?month=1&year=2026` | DELETE | Bulk delete month |
+| `/api/admin/schedule?month=1&year=2026&includeFeedback=true` | DELETE | Bulk delete month + feedback |
+
+### Bulk Delete (for cleanup)
+```bash
+# Delete all January 2026 assignments
+DELETE /api/admin/schedule?month=1&year=2026
+
+# Delete assignments AND night feedback
+DELETE /api/admin/schedule?month=1&year=2026&includeFeedback=true
+```

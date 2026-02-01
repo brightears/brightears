@@ -19,6 +19,9 @@
 - Admin can view venue manager feedback notes
 
 ### Recent Updates (Feb 1, 2026)
+- **Admin↔Customer Sync**: Changes made in admin portal automatically reflect on customer (venue portal) side via shared database. Customer needs to refresh page to see updates (no real-time WebSocket).
+- **Bulk Delete API**: Admin can delete all assignments for a month: `DELETE /api/admin/schedule?month=1&year=2026&includeFeedback=true`
+- **Test Data Cleanup**: Removed January 2026 test data (10 assignments + 3 night feedback records)
 - **Admin Schedule improvements**: Venue filter dropdown (scalability for more venues), narrowed date column, removed legend
 - **Venue Portal LOCKED**: Documentation warnings added - never modify when working on Admin features
 - **Color consistency audit**: All emerald/amber/lavender colors changed to brand-cyan
