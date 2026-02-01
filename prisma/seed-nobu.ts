@@ -221,6 +221,18 @@ const DJ_PROFILES = [
     venues: ['Le Du Kaan Early', 'Le Du Kaan Late'],
     hourlyRate: 1000,
   },
+  {
+    stageName: 'Eskay Da Real',
+    realName: null,
+    bio: 'French DJ with over 15 years of experience. Known for his signature French Touch and diverse cultural influences. Seamlessly blends Hip Hop, R&B, Afro House, and Latino rhythms. Also a sought-after beatmaker collaborating with international artists.',
+    category: ArtistCategory.DJ,
+    genres: ['Hip Hop', 'R&B', 'Afro House', 'Pop', 'House', 'Electro', 'Latino', 'Open Format'],
+    instagram: '@eskaydareal',
+    mixcloud: null,
+    profileImage: '/images/djs/eskay-photo1.png',
+    venues: ['Le Du Kaan Late'],
+    hourlyRate: 1000,
+  },
 ];
 
 // =============================================================================
