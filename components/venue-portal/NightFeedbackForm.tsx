@@ -325,7 +325,7 @@ export default function NightFeedbackForm({
                      hover:bg-brand-cyan/90 transition-colors
                      disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? 'Saving...' : 'Continue to DJ Ratings'}
+          {isSubmitting ? 'Saving...' : 'Submit Report'}
         </button>
       </div>
     </form>
