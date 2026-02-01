@@ -271,9 +271,12 @@ export default function DashboardContent({
                           </span>
                         </div>
                       ) : (
-                        <span className="text-xs font-medium text-brand-cyan bg-brand-cyan/20 border border-brand-cyan/30 px-2 py-1 rounded-lg">
+                        <Link
+                          href={`/${locale}/venue-portal/feedback`}
+                          className="text-xs font-medium text-brand-cyan bg-brand-cyan/20 border border-brand-cyan/30 px-2 py-1 rounded-lg hover:bg-brand-cyan/30 transition-colors"
+                        >
                           Needs feedback
-                        </span>
+                        </Link>
                       )}
                     </div>
                   </div>
