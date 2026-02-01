@@ -318,14 +318,15 @@ export default function StatsPage() {
           </div>
 
           {/* Crowd Insights from Night Reports */}
-          {stats.nightReports && stats.nightReports.totalReports > 0 && (
-            <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6">
-              <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <UserGroupIcon className="w-5 h-5 text-brand-cyan" />
-                Crowd Insights
-              </h2>
+          <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6">
+            <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <UserGroupIcon className="w-5 h-5 text-brand-cyan" />
+              Crowd Insights
+            </h2>
+            {stats.nightReports && stats.nightReports.totalReports > 0 ? (
+              <>
               <p className="text-sm text-gray-500 mb-4">
-                Based on {stats.nightReports.totalReports} night reports
+                Based on {stats.nightReports.totalReports} night report{stats.nightReports.totalReports !== 1 ? 's' : ''}
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -411,8 +412,13 @@ export default function StatsPage() {
                   </div>
                 </div>
               )}
-            </div>
-          )}
+              </>
+            ) : (
+              <p className="text-gray-500 text-center py-8">
+                No night reports yet. Submit night reports to see crowd insights.
+              </p>
+            )}
+          </div>
         </>
       ) : (
         <div className="text-center py-12 text-gray-500">
