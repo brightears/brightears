@@ -7,6 +7,7 @@ Venue managers view DJ schedules and submit feedback. They do NOT assign DJs (ad
 - `/venue-portal` - Dashboard
 - `/venue-portal/schedule` - Calendar view + PDF export
 - `/venue-portal/feedback` - Night reports + DJ ratings
+- `/venue-portal/stats` - Performance analytics & crowd insights
 
 ## Key Components
 
@@ -35,9 +36,19 @@ Venue managers view DJ schedules and submit feedback. They do NOT assign DJs (ad
 - Two tabs only: **Pending** (needs feedback) and **Submitted** (completed)
 - Notes visible to admin in venue detail page
 
+## Statistics Page
+- Overview stats: Total/Completed/Upcoming shows, Unique DJs, Completion Rate
+- Rating Overview: Average rating, distribution chart
+- Top Performers: Top 5 DJs by rating
+- **Crowd Insights** (from Night Reports):
+  - Crowd Nationality distribution (Thai, Western, Asian, etc.)
+  - Crowd Type distribution (Tourists, Locals, Hotel Guests, etc.)
+  - Average Business Rating
+
 ## API Endpoints
 - `GET /api/venue-portal/venues` - User's venues
 - `GET /api/venue-portal/schedule` - Assignments
 - `GET /api/venue-portal/schedule/pdf` - PDF export
+- `GET /api/venue-portal/stats` - Aggregated statistics with night report data
 - `POST /api/venue-portal/night-feedback` - Submit night report
 - `POST /api/venue-portal/feedback` - Submit DJ rating
