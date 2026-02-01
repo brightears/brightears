@@ -101,40 +101,55 @@ export async function GET(req: NextRequest) {
 
       const skip = (page - 1) * limit;
 
+      // Helper: Check if a shift has ended (date + endTime < now)
+      const hasShiftEnded = (assignmentDate: Date, endTime: string): boolean => {
+        const [hours, mins] = endTime.split(':').map(Number);
+        const endDateTime = new Date(assignmentDate);
+        endDateTime.setHours(hours, mins, 0, 0);
+        return endDateTime <= new Date();
+      };
+
       // If pending=true, return assignments needing feedback
+      // A DJ is ready for feedback when their shift has ended (date + endTime < now)
       if (pending === 'true') {
+        const now = new Date();
         const where: any = {
           venueId: venueId ? venueId : { in: venueIds },
-          status: 'COMPLETED',
           feedback: null,
+          artistId: { not: null }, // Only DJ assignments, not special events
+          date: { lte: now }, // Date is today or earlier
         };
 
         if (artistId) {
           where.artistId = artistId;
         }
 
-        const [pendingAssignments, total] = await Promise.all([
-          prisma.venueAssignment.findMany({
-            where,
-            include: {
-              venue: {
-                select: { id: true, name: true },
-              },
-              artist: {
-                select: {
-                  id: true,
-                  stageName: true,
-                  profileImage: true,
-                  category: true,
-                },
+        // Fetch candidates, then filter by endTime in application code
+        // (Prisma can't compare date + time string as datetime)
+        const candidates = await prisma.venueAssignment.findMany({
+          where,
+          include: {
+            venue: {
+              select: { id: true, name: true },
+            },
+            artist: {
+              select: {
+                id: true,
+                stageName: true,
+                profileImage: true,
+                category: true,
               },
             },
-            orderBy: { date: 'desc' },
-            skip,
-            take: limit,
-          }),
-          prisma.venueAssignment.count({ where }),
-        ]);
+          },
+          orderBy: { date: 'desc' },
+        });
+
+        // Filter to only assignments where the shift has actually ended
+        const allPending = candidates.filter(a => hasShiftEnded(a.date, a.endTime));
+
+        // Apply pagination
+        const total = allPending.length;
+        const pendingAssignments = allPending.slice(skip, skip + limit);
 
         return NextResponse.json({
           assignments: pendingAssignments,
@@ -147,46 +162,51 @@ export async function GET(req: NextRequest) {
         });
       }
 
-      // If history=true, return ALL completed assignments (with or without feedback)
+      // If history=true, return ALL assignments where shift has ended (with or without feedback)
       if (history === 'true') {
+        const now = new Date();
         const where: any = {
           venueId: venueId ? venueId : { in: venueIds },
-          status: 'COMPLETED',
+          artistId: { not: null }, // Only DJ assignments
+          date: { lte: now },
         };
 
         if (artistId) {
           where.artistId = artistId;
         }
 
-        const [historyAssignments, total] = await Promise.all([
-          prisma.venueAssignment.findMany({
-            where,
-            include: {
-              venue: {
-                select: { id: true, name: true },
-              },
-              artist: {
-                select: {
-                  id: true,
-                  stageName: true,
-                  profileImage: true,
-                  category: true,
-                },
-              },
-              feedback: {
-                select: {
-                  id: true,
-                  overallRating: true,
-                  createdAt: true,
-                },
+        // Fetch candidates, then filter by endTime
+        const candidates = await prisma.venueAssignment.findMany({
+          where,
+          include: {
+            venue: {
+              select: { id: true, name: true },
+            },
+            artist: {
+              select: {
+                id: true,
+                stageName: true,
+                profileImage: true,
+                category: true,
               },
             },
-            orderBy: { date: 'desc' },
-            skip,
-            take: limit,
-          }),
-          prisma.venueAssignment.count({ where }),
-        ]);
+            feedback: {
+              select: {
+                id: true,
+                overallRating: true,
+                createdAt: true,
+              },
+            },
+          },
+          orderBy: { date: 'desc' },
+        });
+
+        // Filter to only assignments where the shift has ended
+        const allHistory = candidates.filter(a => hasShiftEnded(a.date, a.endTime));
+
+        // Apply pagination
+        const total = allHistory.length;
+        const historyAssignments = allHistory.slice(skip, skip + limit);
 
         return NextResponse.json({
           assignments: historyAssignments,
