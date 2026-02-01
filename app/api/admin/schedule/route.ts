@@ -325,6 +325,9 @@ export async function PATCH(req: NextRequest) {
 /**
  * DELETE /api/admin/schedule
  * Delete a venue assignment
+ *
+ * Single delete: ?id=xxx
+ * Bulk delete by month: ?month=1&year=2026
  */
 export async function DELETE(req: NextRequest) {
   try {
@@ -335,10 +338,37 @@ export async function DELETE(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
+    const month = searchParams.get('month');
+    const year = searchParams.get('year');
 
+    // Bulk delete by month
+    if (month && year) {
+      const monthNum = parseInt(month);
+      const yearNum = parseInt(year);
+
+      const startDate = new Date(Date.UTC(yearNum, monthNum - 1, 1, 0, 0, 0));
+      const endDate = new Date(Date.UTC(yearNum, monthNum, 0, 23, 59, 59));
+
+      const result = await prisma.venueAssignment.deleteMany({
+        where: {
+          date: {
+            gte: startDate,
+            lte: endDate,
+          },
+        },
+      });
+
+      return NextResponse.json({
+        success: true,
+        deleted: result.count,
+        message: `Deleted ${result.count} assignments from ${month}/${year}`
+      });
+    }
+
+    // Single delete by ID
     if (!id) {
       return NextResponse.json(
-        { error: 'Assignment ID required' },
+        { error: 'Assignment ID or month/year required' },
         { status: 400 }
       );
     }
