@@ -156,7 +156,7 @@ export default function DashboardContent({
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <StatsCard
           title="Upcoming Shows"
           value={stats.upcomingCount}
@@ -170,13 +170,6 @@ export default function DashboardContent({
           subtitle="Needs review"
           icon={<ChatBubbleLeftRightIcon className="w-6 h-6" />}
           color={stats.pendingFeedback > 0 ? 'cyan' : 'green'}
-        />
-        <StatsCard
-          title="Average Rating"
-          value={stats.avgRating ? `${stats.avgRating}/5` : 'N/A'}
-          subtitle="This month"
-          icon={<StarIcon className="w-6 h-6" />}
-          color="lavender"
         />
         <StatsCard
           title="Unique DJs"
