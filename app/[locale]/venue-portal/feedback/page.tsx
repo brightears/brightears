@@ -218,7 +218,7 @@ export default function FeedbackPage() {
           onClick={() => setActiveTab('submitted')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
             activeTab === 'submitted'
-              ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+              ? 'bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30'
               : 'text-gray-400 hover:bg-white/10 hover:text-white'
           }`}
         >
@@ -236,7 +236,7 @@ export default function FeedbackPage() {
         /* Pending Feedback - Grouped by Date/Venue */
         pendingGroups.length === 0 ? (
           <div className="text-center py-12">
-            <CheckCircleIcon className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
+            <CheckCircleIcon className="w-16 h-16 text-brand-cyan mx-auto mb-4" />
             <h3 className="text-lg font-medium text-white mb-2">All Caught Up!</h3>
             <p className="text-gray-500 mb-4">
               You&apos;ve submitted feedback for all completed performances
