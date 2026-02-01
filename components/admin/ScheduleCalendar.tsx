@@ -299,14 +299,23 @@ export default function ScheduleCalendar() {
                         type="checkbox"
                         checked={selectedVenueIds.size === 0 || selectedVenueIds.has(venue.id)}
                         onChange={(e) => {
-                          const newSet = new Set(selectedVenueIds);
+                          let newSet: Set<string>;
+
+                          // If currently showing all (empty set), start with all venues
+                          if (selectedVenueIds.size === 0) {
+                            newSet = new Set(data.venues.map(v => v.id));
+                          } else {
+                            newSet = new Set(selectedVenueIds);
+                          }
+
                           if (e.target.checked) {
                             newSet.add(venue.id);
                           } else {
                             newSet.delete(venue.id);
                           }
-                          // If all selected or none, clear set (show all)
-                          if (newSet.size === data.venues.length || newSet.size === 0) {
+
+                          // If all selected, clear to "All" state
+                          if (newSet.size === data.venues.length) {
                             setSelectedVenueIds(new Set());
                           } else {
                             setSelectedVenueIds(newSet);
