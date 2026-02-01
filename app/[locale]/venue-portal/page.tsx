@@ -4,6 +4,17 @@ import DashboardContent from './DashboardContent';
 
 const prisma = new PrismaClient();
 
+// Helper: Check if a shift has ended (date + endTime < now)
+// endTime is in Bangkok time (UTC+7), server runs in UTC
+function hasShiftEnded(assignmentDate: Date, endTime: string): boolean {
+  const [hours, mins] = endTime.split(':').map(Number);
+  const BANGKOK_OFFSET_HOURS = 7;
+  const endDateTime = new Date(assignmentDate);
+  // Convert Bangkok time to UTC: Bangkok 21:00 = UTC 14:00
+  endDateTime.setUTCHours(hours - BANGKOK_OFFSET_HOURS, mins, 0, 0);
+  return endDateTime <= new Date();
+}
+
 async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
   const now = new Date();
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
@@ -52,12 +63,12 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
       orderBy: { date: 'asc' },
       take: 5,
     }),
-    // Recent completed assignments
+    // Recent assignments where shift has ended (last 30 days)
     prisma.venueAssignment.findMany({
       where: {
         venueId: { in: venueIds },
-        status: 'COMPLETED',
-        date: { gte: thirtyDaysAgo },
+        artistId: { not: null }, // Only DJ assignments
+        date: { gte: thirtyDaysAgo, lte: now },
       },
       include: {
         venue: { select: { name: true } },
@@ -69,15 +80,16 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
         },
       },
       orderBy: { date: 'desc' },
-      take: 5,
     }),
-    // Pending feedback count
-    prisma.venueAssignment.count({
+    // Pending feedback - fetch all to filter by endTime
+    prisma.venueAssignment.findMany({
       where: {
         venueId: { in: venueIds },
-        status: 'COMPLETED',
+        artistId: { not: null },
         feedback: null,
+        date: { lte: now },
       },
+      select: { date: true, endTime: true },
     }),
     // Total feedback this month
     prisma.venueFeedback.count({
@@ -124,11 +136,21 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
     orderBy: [{ venue: { name: 'asc' } }, { startTime: 'asc' }],
   });
 
+  // Filter recent assignments to only those where shift has ended, then take 5
+  const filteredRecentAssignments = recentAssignments
+    .filter(a => hasShiftEnded(a.date, a.endTime))
+    .slice(0, 5);
+
+  // Filter pending feedback to only those where shift has ended
+  const filteredPendingFeedback = pendingFeedback.filter(a =>
+    hasShiftEnded(a.date, a.endTime)
+  ).length;
+
   return {
     venues,
     stats: {
       upcomingCount: upcomingAssignments.length,
-      pendingFeedback,
+      pendingFeedback: filteredPendingFeedback,
       totalFeedback,
       avgRating: avgRating._avg.overallRating
         ? Math.round(avgRating._avg.overallRating * 10) / 10
@@ -136,7 +158,7 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
       uniqueDJs: uniqueDJs.length,
     },
     upcomingAssignments,
-    recentAssignments,
+    recentAssignments: filteredRecentAssignments,
     todayAssignments,
   };
 }
