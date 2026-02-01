@@ -32,6 +32,10 @@ interface StatsData {
     avgBusinessRating: number | null;
     crowdNationality: Record<string, number>;
     crowdType: Record<string, number>;
+    peakBusyTime: Record<string, number>;
+    crowdLevel: Record<string, number>;
+    weather: Record<string, number>;
+    specialEvents: Array<{ event: string; date: string }>;
   };
   topDJs: Array<{
     id: string;
@@ -386,6 +390,119 @@ export default function StatsPage() {
                       <p className="text-sm text-gray-500">No data yet</p>
                     )}
                   </div>
+                </div>
+              </div>
+
+              {/* Crowd Level & Weather */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                {/* Crowd Level */}
+                <div>
+                  <h3 className="text-sm font-medium text-gray-400 mb-3">Crowd Level</h3>
+                  <div className="space-y-2">
+                    {Object.entries(stats.nightReports.crowdLevel || {}).length > 0 ? (
+                      Object.entries(stats.nightReports.crowdLevel)
+                        .sort(([a], [b]) => {
+                          const order = ['light', 'moderate', 'busy', 'packed'];
+                          return order.indexOf(a.toLowerCase()) - order.indexOf(b.toLowerCase());
+                        })
+                        .map(([level, count]) => {
+                          const percentage = Math.round((count / stats.nightReports.totalReports) * 100);
+                          return (
+                            <div key={level} className="flex items-center gap-3">
+                              <span className="text-sm text-gray-300 w-24 truncate">{level}</span>
+                              <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                                  style={{ width: `${percentage}%` }}
+                                />
+                              </div>
+                              <span className="text-sm text-gray-500 w-12 text-right">{percentage}%</span>
+                            </div>
+                          );
+                        })
+                    ) : (
+                      <p className="text-sm text-gray-500">No data yet</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Weather */}
+                <div>
+                  <h3 className="text-sm font-medium text-gray-400 mb-3">Weather</h3>
+                  <div className="space-y-2">
+                    {Object.entries(stats.nightReports.weather || {}).length > 0 ? (
+                      Object.entries(stats.nightReports.weather)
+                        .sort(([, a], [, b]) => b - a)
+                        .map(([weather, count]) => {
+                          const percentage = Math.round((count / stats.nightReports.totalReports) * 100);
+                          return (
+                            <div key={weather} className="flex items-center gap-3">
+                              <span className="text-sm text-gray-300 w-24 truncate">{weather}</span>
+                              <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-sky-400 rounded-full transition-all duration-500"
+                                  style={{ width: `${percentage}%` }}
+                                />
+                              </div>
+                              <span className="text-sm text-gray-500 w-12 text-right">{percentage}%</span>
+                            </div>
+                          );
+                        })
+                    ) : (
+                      <p className="text-sm text-gray-500">No data yet</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Peak Hours & Special Events */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                {/* Peak Busy Time */}
+                <div>
+                  <h3 className="text-sm font-medium text-gray-400 mb-3">Peak Hours</h3>
+                  <div className="space-y-2">
+                    {Object.entries(stats.nightReports.peakBusyTime || {}).length > 0 ? (
+                      Object.entries(stats.nightReports.peakBusyTime)
+                        .sort(([a], [b]) => a.localeCompare(b))
+                        .map(([time, count]) => {
+                          const percentage = Math.round((count / stats.nightReports.totalReports) * 100);
+                          return (
+                            <div key={time} className="flex items-center gap-3">
+                              <span className="text-sm text-gray-300 w-24 truncate">{time}</span>
+                              <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-amber-500 rounded-full transition-all duration-500"
+                                  style={{ width: `${percentage}%` }}
+                                />
+                              </div>
+                              <span className="text-sm text-gray-500 w-12 text-right">{percentage}%</span>
+                            </div>
+                          );
+                        })
+                    ) : (
+                      <p className="text-sm text-gray-500">No data yet</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Special Events */}
+                <div>
+                  <h3 className="text-sm font-medium text-gray-400 mb-3">Special Events</h3>
+                  {(stats.nightReports.specialEvents || []).length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {stats.nightReports.specialEvents.map((item, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1.5 bg-white/10 rounded-lg text-sm text-gray-300"
+                          title={item.date}
+                        >
+                          {item.event}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500">No special events recorded</p>
+                  )}
                 </div>
               </div>
 

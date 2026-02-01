@@ -264,6 +264,11 @@ export async function GET(req: NextRequest) {
           crowdNationality: true,
           crowdType: true,
           overallNightRating: true,
+          peakBusyTime: true,
+          peakCrowdLevel: true,
+          weatherCondition: true,
+          specialEvent: true,
+          date: true,
         },
       });
 
@@ -282,6 +287,43 @@ export async function GET(req: NextRequest) {
           crowdTypeCount[r.crowdType] = (crowdTypeCount[r.crowdType] || 0) + 1;
         }
       });
+
+      // Aggregate peak busy time distribution
+      const peakBusyTimeCount: Record<string, number> = {};
+      nightReports.forEach((r) => {
+        if (r.peakBusyTime) {
+          peakBusyTimeCount[r.peakBusyTime] = (peakBusyTimeCount[r.peakBusyTime] || 0) + 1;
+        }
+      });
+
+      // Aggregate crowd level distribution
+      const crowdLevelCount: Record<string, number> = {};
+      nightReports.forEach((r) => {
+        if (r.peakCrowdLevel) {
+          crowdLevelCount[r.peakCrowdLevel] = (crowdLevelCount[r.peakCrowdLevel] || 0) + 1;
+        }
+      });
+
+      // Aggregate weather distribution
+      const weatherCount: Record<string, number> = {};
+      nightReports.forEach((r) => {
+        if (r.weatherCondition) {
+          weatherCount[r.weatherCondition] = (weatherCount[r.weatherCondition] || 0) + 1;
+        }
+      });
+
+      // Collect special events (with dates)
+      const specialEvents: Array<{ event: string; date: string }> = [];
+      nightReports.forEach((r) => {
+        if (r.specialEvent && r.specialEvent.trim()) {
+          specialEvents.push({
+            event: r.specialEvent,
+            date: r.date.toISOString().split('T')[0],
+          });
+        }
+      });
+      // Sort by date descending
+      specialEvents.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
       // Average business rating
       const nightRatings = nightReports.filter((r) => r.overallNightRating && r.overallNightRating > 0);
@@ -311,6 +353,10 @@ export async function GET(req: NextRequest) {
           avgBusinessRating: avgBusinessRating ? Math.round(avgBusinessRating * 10) / 10 : null,
           crowdNationality: nationalityCount,
           crowdType: crowdTypeCount,
+          peakBusyTime: peakBusyTimeCount,
+          crowdLevel: crowdLevelCount,
+          weather: weatherCount,
+          specialEvents: specialEvents.slice(0, 10), // Last 10 events
         },
         topDJs,
         venues: userVenues,
