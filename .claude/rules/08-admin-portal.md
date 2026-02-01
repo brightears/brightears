@@ -42,6 +42,26 @@ const dateStr = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
 const dateStr = date.toISOString().split('T')[0];
 ```
 
+## Feedback Timing (Bangkok Timezone)
+
+DJs are available for feedback **immediately after their shift ends**, not at midnight.
+
+**Key files:**
+- `app/api/venue-portal/feedback/route.ts` - Feedback API with `hasShiftEnded()` helper
+- `app/[locale]/venue-portal/page.tsx` - Dashboard "Recent Shows" section
+
+**Timezone logic:**
+```typescript
+// endTime is stored as Bangkok time (e.g., "21:00")
+// Server runs in UTC, so we must convert
+const BANGKOK_OFFSET_HOURS = 7;
+const endDateTime = new Date(assignmentDate);
+endDateTime.setUTCHours(hours - BANGKOK_OFFSET_HOURS, mins, 0, 0);
+return endDateTime <= new Date();
+```
+
+**Example:** Bangkok 21:00 = UTC 14:00. At 22:00 Bangkok (15:00 UTC), the shift is marked as ended.
+
 ## Layout
 - Header/footer hidden (same as venue portal)
 - Extended `ConditionalLayout.tsx` to detect `/admin` routes

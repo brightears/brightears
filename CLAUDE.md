@@ -13,27 +13,20 @@
 ## Current Status (February 2026)
 
 - Landing page + Venue Portal + Admin Portal operational
-- 15 DJs across 2 venues (NOBU, Le Du Kaan)
+- 16 DJs across 2 venues (NOBU, Le Du Kaan) - added DJ Eskay
 - PDF schedule export working with calendar grid layout
 - Feedback system simplified: 1-5 stars + optional notes (no sub-ratings)
 - Admin can view venue manager feedback notes
 
 ### Recent Updates (Feb 1, 2026)
+- **DJ Eskay Added**: French DJ (15+ years), replaces Scotty B on Feb 7 & 28 LDK Late
+- **Feedback Timing Fix**: DJs now available for feedback immediately after shift ends (not midnight)
+  - Uses Bangkok timezone (UTC+7) calculation
+  - `hasShiftEnded()` helper converts endTime to UTC for comparison
+  - Example: Bangkok 21:00 = UTC 14:00
 - **Admin↔Customer Sync**: Changes made in admin portal automatically reflect on customer (venue portal) side via shared database. Customer needs to refresh page to see updates (no real-time WebSocket).
 - **Bulk Delete API**: Admin can delete all assignments for a month: `DELETE /api/admin/schedule?month=1&year=2026&includeFeedback=true`
 - **Test Data Cleanup**: Removed January 2026 test data (10 assignments + 3 night feedback records)
-- **Admin Schedule improvements**: Venue filter dropdown (scalability for more venues), narrowed date column, removed legend
-- **Venue Portal LOCKED**: Documentation warnings added - never modify when working on Admin features
-- **Color consistency audit**: All emerald/amber/lavender colors changed to brand-cyan
-  - Status badges (COMPLETED, NO_SHOW) now brand-cyan/red
-  - Success states in modals use brand-cyan
-  - Calendar dots, icons, card borders unified
-  - Only exception: trend arrows (+/-) use semantic green/red
-- **Statistics page polish**: Unified brand-cyan color scheme, percentages in rating distribution
-- **Removed Special Events**: From Statistics and Night Report form (no actionable value)
-- **Recent Notes section**: Night report notes now visible in Statistics
-- **Dashboard cleanup**: Removed redundant stats grid (info available in lists below)
-- **"Needs feedback" badge**: Now clickable, links to feedback page
 
 ## Essential Commands
 
@@ -83,6 +76,13 @@ Use local date formatting to avoid day-shifting:
 
 // Bad - shifts dates
 date.toISOString().split('T')[0]
+```
+
+**Feedback timing**: endTime is stored as Bangkok time (e.g., "21:00"), server runs in UTC.
+```typescript
+// Convert Bangkok to UTC: Bangkok 21:00 = UTC 14:00
+const BANGKOK_OFFSET_HOURS = 7;
+endDateTime.setUTCHours(hours - BANGKOK_OFFSET_HOURS, mins, 0, 0);
 ```
 
 ### 2. Auth Redirect Loop
