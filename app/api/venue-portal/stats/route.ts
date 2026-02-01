@@ -254,6 +254,41 @@ export async function GET(req: NextRequest) {
         5: feedback.filter((f) => f.overallRating === 5).length,
       };
 
+      // Get night report data for crowd insights
+      const nightReports = await prisma.venueNightFeedback.findMany({
+        where: {
+          venueId: { in: targetVenueIds },
+          createdAt: dateFilter,
+        },
+        select: {
+          crowdNationality: true,
+          crowdType: true,
+          overallNightRating: true,
+        },
+      });
+
+      // Aggregate crowd nationality distribution
+      const nationalityCount: Record<string, number> = {};
+      nightReports.forEach((r) => {
+        if (r.crowdNationality) {
+          nationalityCount[r.crowdNationality] = (nationalityCount[r.crowdNationality] || 0) + 1;
+        }
+      });
+
+      // Aggregate crowd type distribution
+      const crowdTypeCount: Record<string, number> = {};
+      nightReports.forEach((r) => {
+        if (r.crowdType) {
+          crowdTypeCount[r.crowdType] = (crowdTypeCount[r.crowdType] || 0) + 1;
+        }
+      });
+
+      // Average business rating
+      const nightRatings = nightReports.filter((r) => r.overallNightRating && r.overallNightRating > 0);
+      const avgBusinessRating = nightRatings.length > 0
+        ? nightRatings.reduce((sum, r) => sum + (r.overallNightRating || 0), 0) / nightRatings.length
+        : null;
+
       return NextResponse.json({
         overview: {
           totalAssignments,
@@ -268,13 +303,14 @@ export async function GET(req: NextRequest) {
         },
         feedback: {
           totalFeedback,
-          pendingFeedback,
           avgOverallRating: avgOverallRating ? Math.round(avgOverallRating * 10) / 10 : null,
-          avgMusicQuality: avgMusicQuality ? Math.round(avgMusicQuality * 10) / 10 : null,
-          avgCrowdEngagement: avgCrowdEngagement ? Math.round(avgCrowdEngagement * 10) / 10 : null,
-          avgProfessionalism: avgProfessionalism ? Math.round(avgProfessionalism * 10) / 10 : null,
-          rebookRate: rebookRate ? Math.round(rebookRate) : null,
           ratingDistribution,
+        },
+        nightReports: {
+          totalReports: nightReports.length,
+          avgBusinessRating: avgBusinessRating ? Math.round(avgBusinessRating * 10) / 10 : null,
+          crowdNationality: nationalityCount,
+          crowdType: crowdTypeCount,
         },
         topDJs,
         venues: userVenues,

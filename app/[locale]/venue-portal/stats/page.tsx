@@ -24,9 +24,14 @@ interface StatsData {
   };
   feedback: {
     totalFeedback: number;
-    pendingFeedback: number;
     avgOverallRating: number | null;
     ratingDistribution: Record<number, number>;
+  };
+  nightReports: {
+    totalReports: number;
+    avgBusinessRating: number | null;
+    crowdNationality: Record<string, number>;
+    crowdType: Record<string, number>;
   };
   topDJs: Array<{
     id: string;
@@ -312,56 +317,102 @@ export default function StatsPage() {
             </div>
           </div>
 
-          {/* Feedback Status */}
-          <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6">
-            <h2 className="text-lg font-semibold text-white mb-4">
-              Feedback Status
-            </h2>
-            <div className="flex items-center gap-8">
-              <div>
-                <p className="text-3xl font-bold text-white">
-                  {stats.feedback.totalFeedback}
-                </p>
-                <p className="text-sm text-gray-500">Reviews submitted</p>
-              </div>
-              <div
-                className={`${
-                  stats.feedback.pendingFeedback > 0
-                    ? 'text-brand-cyan'
-                    : 'text-emerald-400'
-                }`}
-              >
-                <p className="text-3xl font-bold">{stats.feedback.pendingFeedback}</p>
-                <p className="text-sm opacity-70">Pending reviews</p>
-              </div>
-              <div className="flex-1">
-                <div className="h-3 bg-white/10 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-emerald-500 rounded-full transition-all duration-500"
-                    style={{
-                      width: `${
-                        stats.overview.completedAssignments > 0
-                          ? (stats.feedback.totalFeedback /
-                              stats.overview.completedAssignments) *
-                            100
-                          : 0
-                      }%`,
-                    }}
-                  />
+          {/* Crowd Insights from Night Reports */}
+          {stats.nightReports && stats.nightReports.totalReports > 0 && (
+            <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6">
+              <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <UserGroupIcon className="w-5 h-5 text-brand-cyan" />
+                Crowd Insights
+              </h2>
+              <p className="text-sm text-gray-500 mb-4">
+                Based on {stats.nightReports.totalReports} night reports
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Crowd Nationality */}
+                <div>
+                  <h3 className="text-sm font-medium text-gray-400 mb-3">Crowd Nationality</h3>
+                  <div className="space-y-2">
+                    {Object.entries(stats.nightReports.crowdNationality).length > 0 ? (
+                      Object.entries(stats.nightReports.crowdNationality)
+                        .sort(([, a], [, b]) => b - a)
+                        .map(([nationality, count]) => {
+                          const percentage = Math.round((count / stats.nightReports.totalReports) * 100);
+                          const label = nationality.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                          return (
+                            <div key={nationality} className="flex items-center gap-3">
+                              <span className="text-sm text-gray-300 w-32 truncate">{label}</span>
+                              <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-brand-cyan rounded-full transition-all duration-500"
+                                  style={{ width: `${percentage}%` }}
+                                />
+                              </div>
+                              <span className="text-sm text-gray-500 w-12 text-right">{percentage}%</span>
+                            </div>
+                          );
+                        })
+                    ) : (
+                      <p className="text-sm text-gray-500">No data yet</p>
+                    )}
+                  </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  {stats.overview.completedAssignments > 0
-                    ? Math.round(
-                        (stats.feedback.totalFeedback /
-                          stats.overview.completedAssignments) *
-                          100
-                      )
-                    : 0}
-                  % of completed shows reviewed
-                </p>
+
+                {/* Crowd Type */}
+                <div>
+                  <h3 className="text-sm font-medium text-gray-400 mb-3">Crowd Type</h3>
+                  <div className="space-y-2">
+                    {Object.entries(stats.nightReports.crowdType).length > 0 ? (
+                      Object.entries(stats.nightReports.crowdType)
+                        .sort(([, a], [, b]) => b - a)
+                        .map(([crowdType, count]) => {
+                          const percentage = Math.round((count / stats.nightReports.totalReports) * 100);
+                          const label = crowdType.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                          return (
+                            <div key={crowdType} className="flex items-center gap-3">
+                              <span className="text-sm text-gray-300 w-32 truncate">{label}</span>
+                              <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-soft-lavender rounded-full transition-all duration-500"
+                                  style={{ width: `${percentage}%` }}
+                                />
+                              </div>
+                              <span className="text-sm text-gray-500 w-12 text-right">{percentage}%</span>
+                            </div>
+                          );
+                        })
+                    ) : (
+                      <p className="text-sm text-gray-500">No data yet</p>
+                    )}
+                  </div>
+                </div>
               </div>
+
+              {/* Business Rating */}
+              {stats.nightReports.avgBusinessRating && (
+                <div className="mt-6 pt-4 border-t border-white/10">
+                  <div className="flex items-center gap-4">
+                    <div>
+                      <p className="text-sm text-gray-400">Avg. Business Rating</p>
+                      <p className="text-2xl font-bold text-white">{stats.nightReports.avgBusinessRating}/5</p>
+                    </div>
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <StarIconSolid
+                          key={star}
+                          className={`w-5 h-5 ${
+                            star <= (stats.nightReports.avgBusinessRating ?? 0)
+                              ? 'text-brand-cyan'
+                              : 'text-gray-600'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
+          )}
         </>
       ) : (
         <div className="text-center py-12 text-gray-500">
