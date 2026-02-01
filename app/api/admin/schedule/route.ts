@@ -345,11 +345,12 @@ export async function DELETE(req: NextRequest) {
     if (month && year) {
       const monthNum = parseInt(month);
       const yearNum = parseInt(year);
+      const includeFeedback = searchParams.get('includeFeedback') === 'true';
 
       const startDate = new Date(Date.UTC(yearNum, monthNum - 1, 1, 0, 0, 0));
       const endDate = new Date(Date.UTC(yearNum, monthNum, 0, 23, 59, 59));
 
-      const result = await prisma.venueAssignment.deleteMany({
+      const assignmentResult = await prisma.venueAssignment.deleteMany({
         where: {
           date: {
             gte: startDate,
@@ -358,10 +359,25 @@ export async function DELETE(req: NextRequest) {
         },
       });
 
+      let feedbackDeleted = 0;
+      if (includeFeedback) {
+        // Also delete night feedback for this month
+        const feedbackResult = await prisma.venueNightFeedback.deleteMany({
+          where: {
+            date: {
+              gte: startDate,
+              lte: endDate,
+            },
+          },
+        });
+        feedbackDeleted = feedbackResult.count;
+      }
+
       return NextResponse.json({
         success: true,
-        deleted: result.count,
-        message: `Deleted ${result.count} assignments from ${month}/${year}`
+        deleted: assignmentResult.count,
+        feedbackDeleted,
+        message: `Deleted ${assignmentResult.count} assignments${includeFeedback ? ` and ${feedbackDeleted} night feedback records` : ''} from ${month}/${year}`
       });
     }
 
