@@ -347,33 +347,13 @@ export default function ScheduleCalendar() {
         </div>
       </div>
 
-      {/* Legend */}
-      <div className="flex items-center gap-6 text-sm text-gray-400">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-brand-cyan/30 border border-brand-cyan/50"></div>
-          <span>Assigned</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-500/30 border border-red-500/50"></div>
-          <span>Unassigned</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-amber-500/30 border border-amber-500/50"></div>
-          <span>Conflict</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-gray-500/30 border border-gray-500/50"></div>
-          <span>Past</span>
-        </div>
-      </div>
-
       {/* Calendar grid */}
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           {/* Header row with venue names */}
           <thead>
             <tr>
-              <th className="sticky left-0 bg-stone-800 z-10 p-3 text-left text-sm font-medium text-gray-400 border-b border-white/10 min-w-[100px]">
+              <th className="sticky left-0 bg-stone-800 z-10 p-2 text-left text-sm font-medium text-gray-400 border-b border-white/10 min-w-[70px]">
                 Date
               </th>
               {venueColumns.map((col, i) => (
@@ -408,7 +388,7 @@ export default function ScheduleCalendar() {
                 >
                   {/* Date cell */}
                   <td
-                    className={`sticky left-0 z-10 p-3 ${
+                    className={`sticky left-0 z-10 p-2 ${
                       isToday ? 'bg-brand-cyan/10' : 'bg-stone-800'
                     }`}
                   >
