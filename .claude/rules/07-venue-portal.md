@@ -40,10 +40,14 @@ Venue managers view DJ schedules and submit feedback. They do NOT assign DJs (ad
 - Overview stats: Total/Completed/Upcoming shows, Unique DJs, Completion Rate
 - Rating Overview: Average rating, distribution chart
 - Top Performers: Top 5 DJs by rating
-- **Crowd Insights** (from Night Reports):
-  - Crowd Nationality distribution (Thai, Western, Asian, etc.)
-  - Crowd Type distribution (Tourists, Locals, Hotel Guests, etc.)
-  - Average Business Rating
+- **Crowd Insights** (from Night Reports - 6 data sections):
+  - Crowd Nationality distribution (Thai, Western, Asian, etc.) - cyan bars
+  - Crowd Type distribution (Tourists, Locals, Hotel Guests, etc.) - lavender bars
+  - Crowd Level distribution (Light, Moderate, Busy, Packed) - green bars
+  - Weather distribution (Clear, Rainy, Hot, Cool) - sky blue bars
+  - Peak Hours distribution (time slots) - amber bars
+  - Special Events (tag list of recorded events)
+  - Average Business Rating with star display
 
 ## API Endpoints
 - `GET /api/venue-portal/venues` - User's venues

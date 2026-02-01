@@ -17,6 +17,9 @@
 - PDF schedule export working with calendar grid layout
 - Feedback system simplified: 1-5 stars + optional notes (no sub-ratings)
 - Admin can view venue manager feedback notes
+- Statistics page shows full Crowd Insights from Night Reports:
+  - Crowd Nationality, Crowd Type, Crowd Level, Weather, Peak Hours, Special Events
+  - Average Business Rating with star display
 
 ## Essential Commands
 
