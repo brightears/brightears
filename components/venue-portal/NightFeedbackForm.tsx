@@ -4,7 +4,6 @@ import { useState } from 'react';
 import {
   StarIcon,
   CloudIcon,
-  CalendarIcon,
   UserGroupIcon,
   GlobeAltIcon,
   ClockIcon,
@@ -18,7 +17,6 @@ interface NightFeedbackData {
   crowdNationality: string;
   crowdType: string;
   weatherCondition: string;
-  specialEvent: string;
   notes: string;
 }
 
@@ -67,7 +65,6 @@ const defaultData: NightFeedbackData = {
   crowdNationality: '',
   crowdType: '',
   weatherCondition: '',
-  specialEvent: '',
   notes: '',
 };
 
@@ -241,51 +238,30 @@ export default function NightFeedbackForm({
         </div>
       </div>
 
-      {/* External Factors Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Weather */}
-        <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
-            <CloudIcon className="w-4 h-4" />
-            Weather
-          </label>
-          <select
-            value={formData.weatherCondition}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                weatherCondition: e.target.value,
-              }))
-            }
-            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
-                       focus:border-brand-cyan focus:outline-none"
-          >
-            <option value="">Select weather</option>
-            {WEATHER_CONDITIONS.map((weather) => (
-              <option key={weather} value={weather}>
-                {weather}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Special Event */}
-        <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
-            <CalendarIcon className="w-4 h-4" />
-            Special Event
-          </label>
-          <input
-            type="text"
-            value={formData.specialEvent}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, specialEvent: e.target.value }))
-            }
-            placeholder="e.g., CNY, Songkran, Concert nearby..."
-            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
-                       placeholder:text-gray-400 focus:border-brand-cyan focus:outline-none"
-          />
-        </div>
+      {/* Weather */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
+          <CloudIcon className="w-4 h-4" />
+          Weather
+        </label>
+        <select
+          value={formData.weatherCondition}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              weatherCondition: e.target.value,
+            }))
+          }
+          className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/10 text-white
+                     focus:border-brand-cyan focus:outline-none"
+        >
+          <option value="">Select weather</option>
+          {WEATHER_CONDITIONS.map((weather) => (
+            <option key={weather} value={weather}>
+              {weather}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Notes */}

@@ -35,7 +35,7 @@ interface StatsData {
     peakBusyTime: Record<string, number>;
     crowdLevel: Record<string, number>;
     weather: Record<string, number>;
-    specialEvents: Array<{ event: string; date: string }>;
+    recentNotes: Array<{ note: string; date: string; venueName: string }>;
   };
   topDJs: Array<{
     id: string;
@@ -378,7 +378,7 @@ export default function StatsPage() {
                               <span className="text-sm text-gray-300 w-32 truncate">{label}</span>
                               <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
                                 <div
-                                  className="h-full bg-soft-lavender rounded-full transition-all duration-500"
+                                  className="h-full bg-brand-cyan/80 rounded-full transition-all duration-500"
                                   style={{ width: `${percentage}%` }}
                                 />
                               </div>
@@ -412,7 +412,7 @@ export default function StatsPage() {
                               <span className="text-sm text-gray-300 w-24 truncate">{level}</span>
                               <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
                                 <div
-                                  className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                                  className="h-full bg-brand-cyan/70 rounded-full transition-all duration-500"
                                   style={{ width: `${percentage}%` }}
                                 />
                               </div>
@@ -440,7 +440,7 @@ export default function StatsPage() {
                               <span className="text-sm text-gray-300 w-24 truncate">{weather}</span>
                               <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
                                 <div
-                                  className="h-full bg-sky-400 rounded-full transition-all duration-500"
+                                  className="h-full bg-brand-cyan/60 rounded-full transition-all duration-500"
                                   style={{ width: `${percentage}%` }}
                                 />
                               </div>
@@ -471,7 +471,7 @@ export default function StatsPage() {
                               <span className="text-sm text-gray-300 w-24 truncate">{time}</span>
                               <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
                                 <div
-                                  className="h-full bg-amber-500 rounded-full transition-all duration-500"
+                                  className="h-full bg-brand-cyan/50 rounded-full transition-all duration-500"
                                   style={{ width: `${percentage}%` }}
                                 />
                               </div>
@@ -485,26 +485,29 @@ export default function StatsPage() {
                   </div>
                 </div>
 
-                {/* Special Events */}
-                <div>
-                  <h3 className="text-sm font-medium text-gray-400 mb-3">Special Events</h3>
-                  {(stats.nightReports.specialEvents || []).length > 0 ? (
-                    <div className="flex flex-wrap gap-2">
-                      {stats.nightReports.specialEvents.map((item, idx) => (
-                        <span
-                          key={idx}
-                          className="px-3 py-1.5 bg-white/10 rounded-lg text-sm text-gray-300"
-                          title={item.date}
-                        >
-                          {item.event}
-                        </span>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-sm text-gray-500">No special events recorded</p>
-                  )}
-                </div>
               </div>
+
+              {/* Recent Notes */}
+              {(stats.nightReports.recentNotes || []).length > 0 && (
+                <div className="mt-6">
+                  <h3 className="text-sm font-medium text-gray-400 mb-3">Recent Notes</h3>
+                  <div className="space-y-3">
+                    {stats.nightReports.recentNotes.slice(0, 5).map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3 bg-white/5 rounded-lg border border-white/10"
+                      >
+                        <p className="text-sm text-gray-300">{item.note}</p>
+                        <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
+                          <span>{item.venueName}</span>
+                          <span>&middot;</span>
+                          <span>{new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Business Rating */}
               {stats.nightReports.avgBusinessRating && (

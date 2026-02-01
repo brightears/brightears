@@ -267,7 +267,6 @@ export async function GET(req: NextRequest) {
           peakBusyTime: true,
           peakCrowdLevel: true,
           weatherCondition: true,
-          specialEvent: true,
           date: true,
         },
       });
@@ -312,18 +311,29 @@ export async function GET(req: NextRequest) {
         }
       });
 
-      // Collect special events (with dates)
-      const specialEvents: Array<{ event: string; date: string }> = [];
-      nightReports.forEach((r) => {
-        if (r.specialEvent && r.specialEvent.trim()) {
-          specialEvents.push({
-            event: r.specialEvent,
-            date: r.date.toISOString().split('T')[0],
-          });
-        }
+      // Get recent notes with venue names
+      const notesWithVenue = await prisma.venueNightFeedback.findMany({
+        where: {
+          venueId: { in: targetVenueIds },
+          createdAt: dateFilter,
+          notes: { not: null },
+        },
+        select: {
+          notes: true,
+          date: true,
+          venue: { select: { name: true } },
+        },
+        orderBy: { date: 'desc' },
+        take: 10,
       });
-      // Sort by date descending
-      specialEvents.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+      const recentNotes = notesWithVenue
+        .filter((r) => r.notes && r.notes.trim())
+        .map((r) => ({
+          note: r.notes!,
+          date: r.date.toISOString().split('T')[0],
+          venueName: r.venue.name,
+        }));
 
       // Average business rating
       const nightRatings = nightReports.filter((r) => r.overallNightRating && r.overallNightRating > 0);
@@ -356,7 +366,7 @@ export async function GET(req: NextRequest) {
           peakBusyTime: peakBusyTimeCount,
           crowdLevel: crowdLevelCount,
           weather: weatherCount,
-          specialEvents: specialEvents.slice(0, 10), // Last 10 events
+          recentNotes: recentNotes,
         },
         topDJs,
         venues: userVenues,
