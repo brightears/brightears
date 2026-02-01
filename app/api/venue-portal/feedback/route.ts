@@ -102,10 +102,13 @@ export async function GET(req: NextRequest) {
       const skip = (page - 1) * limit;
 
       // Helper: Check if a shift has ended (date + endTime < now)
+      // endTime is in Bangkok time (UTC+7), server runs in UTC
       const hasShiftEnded = (assignmentDate: Date, endTime: string): boolean => {
         const [hours, mins] = endTime.split(':').map(Number);
+        const BANGKOK_OFFSET_HOURS = 7;
         const endDateTime = new Date(assignmentDate);
-        endDateTime.setHours(hours, mins, 0, 0);
+        // Convert Bangkok time to UTC: Bangkok 21:00 = UTC 14:00
+        endDateTime.setUTCHours(hours - BANGKOK_OFFSET_HOURS, mins, 0, 0);
         return endDateTime <= new Date();
       };
 
