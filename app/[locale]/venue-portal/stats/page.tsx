@@ -181,7 +181,7 @@ export default function StatsPage() {
             <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6">
               <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <StarIcon className="w-5 h-5 text-brand-cyan" />
-                Rating Overview
+                DJ Rating Overview
               </h2>
 
               {stats.feedback.totalFeedback === 0 ? (
@@ -235,8 +235,10 @@ export default function StatsPage() {
                               style={{ width: `${width}%` }}
                             />
                           </div>
-                          <span className="text-sm text-gray-500 w-8">
-                            {count}
+                          <span className="text-sm text-gray-500 w-12 text-right">
+                            {stats.feedback.totalFeedback > 0
+                              ? `${Math.round((count / stats.feedback.totalFeedback) * 100)}%`
+                              : '0%'}
                           </span>
                         </div>
                       );
@@ -269,11 +271,11 @@ export default function StatsPage() {
                       <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
                           index === 0
-                            ? 'bg-amber-500 text-white'
+                            ? 'bg-brand-cyan text-white'
                             : index === 1
-                            ? 'bg-gray-400 text-white'
+                            ? 'bg-brand-cyan/70 text-white'
                             : index === 2
-                            ? 'bg-amber-700 text-white'
+                            ? 'bg-brand-cyan/50 text-white'
                             : 'bg-white/10 text-gray-400'
                         }`}
                       >
