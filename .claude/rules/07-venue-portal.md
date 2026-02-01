@@ -31,22 +31,29 @@ Venue managers view DJ schedules and submit feedback. They do NOT assign DJs (ad
 ## Feedback System
 - Night Report and DJ Ratings are independent workflows
 - Simplified forms (~30 seconds to complete)
-- `crowdNationality` and `crowdType` are dropdowns, not sliders
+- Night Report fields: Overall rating, peak time, crowd level, crowd nationality, crowd type, weather, notes
+- No special events field (removed - no actionable value)
 - DJ Ratings: Just 1-5 stars + optional notes (no sub-ratings)
 - Two tabs only: **Pending** (needs feedback) and **Submitted** (completed)
-- Notes visible to admin in venue detail page
+- Notes visible in Statistics page (Recent Notes section)
+
+## Dashboard
+- Tonight's Lineup (venue cards with DJ slots)
+- Upcoming Shows list (with "View all" link)
+- Recent Shows list (with clickable "Needs feedback" badges)
+- No stats grid (data is in the lists and Statistics page)
 
 ## Statistics Page
 - Overview stats: Total/Completed/Upcoming shows, Unique DJs, Completion Rate
-- Rating Overview: Average rating, distribution chart
-- Top Performers: Top 5 DJs by rating
-- **Crowd Insights** (from Night Reports - 6 data sections):
-  - Crowd Nationality distribution (Thai, Western, Asian, etc.) - cyan bars
-  - Crowd Type distribution (Tourists, Locals, Hotel Guests, etc.) - lavender bars
-  - Crowd Level distribution (Light, Moderate, Busy, Packed) - green bars
-  - Weather distribution (Clear, Rainy, Hot, Cool) - sky blue bars
-  - Peak Hours distribution (time slots) - amber bars
-  - Special Events (tag list of recorded events)
+- **DJ Rating Overview**: Average rating, distribution chart (shows percentages)
+- Top Performers: Top 5 DJs by rating (brand-cyan medals)
+- **Crowd Insights** (unified brand-cyan color scheme with opacity variations):
+  - Crowd Nationality distribution - `bg-brand-cyan` (100%)
+  - Crowd Type distribution - `bg-brand-cyan/80` (80%)
+  - Crowd Level distribution - `bg-brand-cyan/70` (70%)
+  - Weather distribution - `bg-brand-cyan/60` (60%)
+  - Peak Hours distribution - `bg-brand-cyan/50` (50%)
+  - Recent Notes (from night reports, with venue name and date)
   - Average Business Rating with star display
 
 ## API Endpoints
