@@ -1,5 +1,16 @@
 # Admin Portal Development
 
+## ⚠️ DO NOT TOUCH VENUE PORTAL ⚠️
+
+When working on Admin features, **NEVER modify**:
+- `app/[locale]/venue-portal/*`
+- `components/venue-portal/*`
+- `app/api/venue-portal/*`
+
+The customer-facing venue portal is LOCKED and production-ready. Create new components in `components/admin/` if needed.
+
+---
+
 ## Purpose
 Internal admin assigns DJs to venues. Only admin can modify schedule.
 

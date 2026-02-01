@@ -6,6 +6,7 @@ import {
   ChevronRightIcon,
   ExclamationTriangleIcon,
   PlusIcon,
+  FunnelIcon,
 } from '@heroicons/react/24/outline';
 import ScheduleSlot from './ScheduleSlot';
 import AssignmentModal from './AssignmentModal';
@@ -71,6 +72,10 @@ export default function ScheduleCalendar() {
     assignment?: Assignment;
   } | null>(null);
 
+  // Venue filter state
+  const [selectedVenueIds, setSelectedVenueIds] = useState<Set<string>>(new Set());
+  const [showVenueFilter, setShowVenueFilter] = useState(false);
+
   const month = currentDate.getMonth() + 1;
   const year = currentDate.getFullYear();
 
@@ -110,6 +115,11 @@ export default function ScheduleCalendar() {
     const columns: { venue: Venue; slot: string | null; label: string }[] = [];
 
     data.venues.forEach((venue) => {
+      // Skip if venue not in filter (when filter is active)
+      if (selectedVenueIds.size > 0 && !selectedVenueIds.has(venue.id)) {
+        return;
+      }
+
       const hours = venue.operatingHours as { slots?: string[] } | null;
       const slots = hours?.slots;
 
@@ -133,7 +143,7 @@ export default function ScheduleCalendar() {
     });
 
     return columns;
-  }, [data?.venues]);
+  }, [data?.venues, selectedVenueIds]);
 
   // Helper to format date as YYYY-MM-DD in local timezone
   const formatDateKey = (date: Date) => {
@@ -260,13 +270,72 @@ export default function ScheduleCalendar() {
           </div>
         </div>
 
-        {/* Conflict warning */}
-        {data?.conflicts && data.conflicts.length > 0 && (
-          <div className="flex items-center gap-2 text-amber-400 text-sm">
-            <ExclamationTriangleIcon className="w-5 h-5" />
-            <span>{data.conflicts.length} potential conflict(s)</span>
+        <div className="flex items-center gap-4">
+          {/* Venue Filter */}
+          <div className="relative">
+            <button
+              onClick={() => setShowVenueFilter(!showVenueFilter)}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-colors text-sm"
+            >
+              <FunnelIcon className="w-4 h-4" />
+              Venues ({selectedVenueIds.size || 'All'})
+            </button>
+
+            {showVenueFilter && (
+              <div className="absolute top-full mt-2 right-0 w-64 p-3 rounded-lg bg-stone-800 border border-white/20 shadow-xl z-50">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-sm font-medium text-white">Filter Venues</span>
+                  <button
+                    onClick={() => setSelectedVenueIds(new Set())}
+                    className="text-xs text-brand-cyan hover:text-brand-cyan/80"
+                  >
+                    Show All
+                  </button>
+                </div>
+                <div className="space-y-2 max-h-60 overflow-y-auto">
+                  {data?.venues.map((venue) => (
+                    <label key={venue.id} className="flex items-center gap-2 cursor-pointer hover:bg-white/5 p-1 rounded">
+                      <input
+                        type="checkbox"
+                        checked={selectedVenueIds.size === 0 || selectedVenueIds.has(venue.id)}
+                        onChange={(e) => {
+                          const newSet = new Set(selectedVenueIds);
+                          if (e.target.checked) {
+                            newSet.add(venue.id);
+                          } else {
+                            newSet.delete(venue.id);
+                          }
+                          // If all selected or none, clear set (show all)
+                          if (newSet.size === data.venues.length || newSet.size === 0) {
+                            setSelectedVenueIds(new Set());
+                          } else {
+                            setSelectedVenueIds(newSet);
+                          }
+                        }}
+                        className="rounded border-white/30 bg-white/10 text-brand-cyan focus:ring-brand-cyan"
+                      />
+                      <span className="text-sm text-gray-300">{venue.name}</span>
+                    </label>
+                  ))}
+                </div>
+                <button
+                  onClick={() => setShowVenueFilter(false)}
+                  className="mt-3 w-full px-3 py-1.5 rounded-lg bg-white/10 text-sm text-gray-300 hover:bg-white/20 transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            )}
           </div>
-        )}
+
+          {/* Conflict warning */}
+          {data?.conflicts && data.conflicts.length > 0 && (
+            <div className="flex items-center gap-2 text-amber-400 text-sm">
+              <ExclamationTriangleIcon className="w-5 h-5" />
+              <span>{data.conflicts.length} conflict(s)</span>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Legend */}

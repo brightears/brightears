@@ -220,7 +220,7 @@ export default function DashboardContent({
         <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden">
           <div className="p-4 border-b border-white/10 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-              <ClockIcon className="w-5 h-5 text-soft-lavender" />
+              <ClockIcon className="w-5 h-5 text-brand-cyan" />
               Recent Shows
             </h2>
             <Link

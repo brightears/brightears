@@ -151,8 +151,8 @@ export default function DJRatingsModal({
         <div className="overflow-y-auto max-h-[calc(90vh-180px)] p-6">
           {success ? (
             <div className="flex flex-col items-center justify-center py-12">
-              <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mb-4">
-                <CheckIcon className="w-8 h-8 text-emerald-400" />
+              <div className="w-16 h-16 rounded-full bg-brand-cyan/20 flex items-center justify-center mb-4">
+                <CheckIcon className="w-8 h-8 text-brand-cyan" />
               </div>
               <h3 className="text-lg font-medium text-white mb-2">
                 Ratings Submitted!

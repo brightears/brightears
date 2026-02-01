@@ -40,7 +40,7 @@ export default function DJFeedbackCard({
     <div
       className={`rounded-xl border transition-all ${
         isComplete
-          ? 'border-emerald-500/30 bg-emerald-500/5'
+          ? 'border-brand-cyan/30 bg-brand-cyan/5'
           : 'border-white/10 bg-white/5'
       }`}
     >
@@ -59,7 +59,7 @@ export default function DJFeedbackCard({
                 {artist.stageName}
               </p>
               {isComplete && (
-                <CheckCircleIcon className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                <CheckCircleIcon className="w-5 h-5 text-brand-cyan flex-shrink-0" />
               )}
             </div>
             <p className="text-sm text-gray-400">

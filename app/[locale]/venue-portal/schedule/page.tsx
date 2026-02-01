@@ -101,9 +101,9 @@ export default function SchedulePage() {
   const getStatusBadge = (status: string) => {
     const styles: Record<string, string> = {
       SCHEDULED: 'bg-brand-cyan/20 text-brand-cyan border-brand-cyan/30',
-      COMPLETED: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+      COMPLETED: 'bg-brand-cyan/20 text-brand-cyan border-brand-cyan/30',
       CANCELLED: 'bg-red-500/20 text-red-400 border-red-500/30',
-      NO_SHOW: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+      NO_SHOW: 'bg-red-500/20 text-red-400 border-red-500/30',
     };
     return styles[status] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
   };

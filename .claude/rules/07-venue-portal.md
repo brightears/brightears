@@ -1,5 +1,21 @@
 # Venue Portal Development
 
+## ⚠️ LOCKED - DO NOT MODIFY ⚠️
+
+**Status: PRODUCTION READY (February 1, 2026)**
+
+The customer-facing venue portal is complete and working. DO NOT modify these files when working on Admin features:
+
+```
+app/[locale]/venue-portal/          # All pages - LOCKED
+components/venue-portal/            # All components - LOCKED
+app/api/venue-portal/               # All API routes - LOCKED
+```
+
+If Admin work requires shared components, CREATE NEW components in `components/admin/` instead of modifying venue-portal components.
+
+---
+
 ## Purpose
 Venue managers view DJ schedules and submit feedback. They do NOT assign DJs (admin only).
 
@@ -19,8 +35,27 @@ Venue managers view DJ schedules and submit feedback. They do NOT assign DJs (ad
 
 ## Design Rules
 - Dark theme with `brand-cyan` accents
-- No amber/orange colors (use `brand-cyan` instead)
+- No amber/orange/emerald/lavender colors (use `brand-cyan` instead)
+- Exception: Trend indicators can use emerald/red for +/- semantics
+- Exception: Error states use red (CANCELLED, NO_SHOW badges)
+- Success states: `brand-cyan` (not emerald)
 - Header/footer hidden (ConditionalLayout.tsx)
+
+## Color Patterns
+
+| Element | Color | Classes |
+|---------|-------|---------|
+| Status: Scheduled | brand-cyan | `bg-brand-cyan/20 text-brand-cyan border-brand-cyan/30` |
+| Status: Completed | brand-cyan | `bg-brand-cyan/20 text-brand-cyan border-brand-cyan/30` |
+| Status: Cancelled | red | `bg-red-500/20 text-red-400 border-red-500/30` |
+| Status: No Show | red | `bg-red-500/20 text-red-400 border-red-500/30` |
+| Success state (modals) | brand-cyan | `bg-brand-cyan/20`, `text-brand-cyan` |
+| Calendar dots | brand-cyan/red | `bg-brand-cyan` or `bg-red-500` |
+| Section icons | brand-cyan | `text-brand-cyan` |
+| Completed checkmarks | brand-cyan | `text-brand-cyan` |
+| Stars (ratings) | brand-cyan | `text-brand-cyan` |
+| Trend up | emerald | `text-emerald-400` (semantic) |
+| Trend down | red | `text-red-400` (semantic) |
 
 ## PDF Export
 - API: `/api/venue-portal/schedule/pdf?month=X&year=Y`

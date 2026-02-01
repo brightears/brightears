@@ -116,11 +116,11 @@ export default function ScheduleCalendar({
       case 'SCHEDULED':
         return 'bg-brand-cyan';
       case 'COMPLETED':
-        return 'bg-emerald-500';
+        return 'bg-brand-cyan';
       case 'CANCELLED':
         return 'bg-red-500';
       case 'NO_SHOW':
-        return 'bg-amber-500';
+        return 'bg-red-500';
       default:
         return 'bg-gray-500';
     }

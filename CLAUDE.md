@@ -19,6 +19,11 @@
 - Admin can view venue manager feedback notes
 
 ### Recent Updates (Feb 1, 2026)
+- **Color consistency audit**: All emerald/amber/lavender colors changed to brand-cyan
+  - Status badges (COMPLETED, NO_SHOW) now brand-cyan/red
+  - Success states in modals use brand-cyan
+  - Calendar dots, icons, card borders unified
+  - Only exception: trend arrows (+/-) use semantic green/red
 - **Statistics page polish**: Unified brand-cyan color scheme, percentages in rating distribution
 - **Removed Special Events**: From Statistics and Night Report form (no actionable value)
 - **Recent Notes section**: Night report notes now visible in Statistics
@@ -56,6 +61,14 @@ Detailed instructions are in `.claude/rules/`:
 | `08-admin-portal.md` | Admin DJ assignment features |
 
 ## Critical Gotchas
+
+### 0. Venue Portal is LOCKED
+**DO NOT MODIFY** customer-facing venue portal code when working on Admin:
+- `app/[locale]/venue-portal/*` - LOCKED
+- `components/venue-portal/*` - LOCKED
+- `app/api/venue-portal/*` - LOCKED
+
+If Admin needs shared functionality, create NEW components in `components/admin/`.
 
 ### 1. Timezone (Thailand UTC+7)
 Use local date formatting to avoid day-shifting:
@@ -122,4 +135,4 @@ Detailed development history is archived at `docs/sessions/CLAUDE_HISTORY_2024-2
 
 ---
 
-*Last updated: February 1, 2026*
+*Last updated: February 1, 2026 (color consistency audit)*
