@@ -3,13 +3,10 @@
 import Link from 'next/link';
 import {
   CalendarIcon,
-  ChatBubbleLeftRightIcon,
   StarIcon,
-  UserGroupIcon,
   ClockIcon,
   ArrowRightIcon,
 } from '@heroicons/react/24/outline';
-import StatsCard from '@/components/venue-portal/StatsCard';
 import DJAvatar from '@/components/venue-portal/DJAvatar';
 
 interface Assignment {
@@ -77,7 +74,7 @@ export default function DashboardContent({
   data,
   locale,
 }: DashboardContentProps) {
-  const { stats, upcomingAssignments, recentAssignments, todayAssignments } = data;
+  const { upcomingAssignments, recentAssignments, todayAssignments } = data;
 
   // Group today's assignments by venue
   const todayByVenue = todayAssignments.reduce((acc, assignment) => {
@@ -153,31 +150,6 @@ export default function DashboardContent({
             ))}
           </div>
         )}
-      </div>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <StatsCard
-          title="Upcoming Shows"
-          value={stats.upcomingCount}
-          subtitle="Next 7 days"
-          icon={<CalendarIcon className="w-6 h-6" />}
-          color="cyan"
-        />
-        <StatsCard
-          title="Pending Feedback"
-          value={stats.pendingFeedback}
-          subtitle="Needs review"
-          icon={<ChatBubbleLeftRightIcon className="w-6 h-6" />}
-          color={stats.pendingFeedback > 0 ? 'cyan' : 'green'}
-        />
-        <StatsCard
-          title="Unique DJs"
-          value={stats.uniqueDJs}
-          subtitle="This month"
-          icon={<UserGroupIcon className="w-6 h-6" />}
-          color="cyan"
-        />
       </div>
 
       {/* Content Grid */}
