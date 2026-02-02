@@ -20,7 +20,15 @@
 - Admin can view venue manager feedback notes
 
 ### Recent Updates (Feb 2, 2026)
-- **Special Events Support**: Admin can now mark slots as "NO DJ", "Private Event", "Closed", "Holiday"
+- **CRU/Cocoa XO Separated**: Split into individual accounts for better access control
+  - CRU: `cru@brightears.io` → sees only CRU Champagne Bar
+  - Cocoa XO: `cocoaxo@brightears.io` → sees only Cocoa XO
+  - Seed script: `scripts/seed-separate-cru-cocoaxo.ts`
+- **DJ Directory Bug Fixed**: Null artistIds (from special events) were breaking the query
+  - Fix: Filter nulls before querying artists (commit e464af3)
+- **Feedback Timing Fixed**: Overnight shifts (ending after midnight) now handled correctly
+  - Fix: If endTime < 6 AM, treat as next day (commit d84581b)
+- **Special Events Support**: Admin can mark slots as "NO DJ", "Private Event", "Closed", "Holiday"
   - Overnight shifts work (21:00 → 01:00)
   - Venue portal handles null artists gracefully (shows calendar icon)
 - **UI Polish**:
@@ -28,11 +36,6 @@
   - Feedback page: removed redundant "Rate DJ →" links, buttons now equal weight
   - Feedback buttons: "Night Report" + "Rate DJs" (no DJ count, both filled cyan)
   - Special events show calendar icon instead of user silhouette
-- **CRU & Cocoa XO Added**: Second corporate customer (multi-customer test passed)
-  - Login: `norbert@brightears.com` / `BrightEars2026!`
-  - Venues: CRU Champagne Bar (59F), Cocoa XO (57F) at Centara Grand
-  - 5 new DJs: Tohmo, Krit, April, JJ, Camilo
-- **CLAUDE.md Cleanup**: Renamed archived 63k file to `.bak` to fix size warning
 
 ### Previous Updates (Feb 1, 2026)
 - **DJ Eskay Added**: French DJ (15+ years), replaces Scotty B on Feb 7 & 28 LDK Late
@@ -153,10 +156,78 @@ Use them proactively when task matches their domain. See `.claude/rules/02-subag
 
 ## Customer Logins (Venue Portal)
 
-| Customer | Email | Password |
-|----------|-------|----------|
-| TGC (NOBU/LDK) | dan.jamme@marriott.com | (in Clerk) |
-| CRU & Cocoa XO | norbert@brightears.com | BrightEars2026! |
+| Customer | Email | Password | Venues |
+|----------|-------|----------|--------|
+| NOBU | nobu@brightears.io | Nobu2026! | NOBU Bangkok |
+| Le Du Kaan | ldk@brightears.io | LDK2026! | Le Du Kaan |
+| CRU | cru@brightears.io | CRU2026! | CRU Champagne Bar |
+| Cocoa XO | cocoaxo@brightears.io | CocoaXO2026! | Cocoa XO |
+
+---
+
+## Adding New Venue Accounts
+
+### Process Overview
+
+1. **Create database records** (User, Corporate, Venue)
+2. **Run seed script** against production database
+3. **Create Clerk user** with matching email
+4. **Test login** at /venue-portal
+
+### Step-by-Step
+
+#### 1. Create Seed Script
+
+Copy existing template: `scripts/seed-separate-cru-cocoaxo.ts`
+
+Key structure:
+```typescript
+const CONFIG = {
+  userId: 'venue-name-corporate-user',  // Unique ID
+  email: 'venue@brightears.io',          // Must match Clerk email exactly
+  companyName: 'Venue Name',
+  venueId: 'venue-name-venue',           // Used for VenueAssignments
+};
+```
+
+#### 2. Run Against Production
+
+```bash
+DATABASE_URL="postgresql://..." npx tsx scripts/seed-your-venue.ts
+```
+
+Get DATABASE_URL from Render dashboard → Environment.
+
+#### 3. Create Clerk User
+
+1. Go to [Clerk Dashboard](https://dashboard.clerk.com) → Users → Create user
+2. **Email must match exactly** (e.g., `venue@brightears.io`)
+3. Set password
+4. The user lookup works by email, so case matters
+
+#### 4. Verify
+
+Log in at https://brightears.io/venue-portal with the new credentials.
+
+### Common Issues
+
+| Issue | Cause | Fix |
+|-------|-------|-----|
+| **"Corporate profile not found"** | Seed script not run | Run script with production DATABASE_URL |
+| **DJ Directory empty** | Null artistIds in assignments | Filter nulls: `.filter((id): id is string => id !== null)` |
+| **Wrong venues showing** | corporateId mismatch | Check venue.corporateId matches corporate.id |
+| **Login redirect loop** | Email mismatch | Clerk email must exactly match database User.email |
+
+### Separating Combined Accounts
+
+When a corporate has multiple venues but needs separate logins:
+
+1. Create seed script like `seed-separate-cru-cocoaxo.ts`
+2. Creates new User + Corporate for each venue
+3. Updates venue.corporateId to point to new corporate
+4. Old corporate loses those venues (can be deleted if empty)
+
+Example: CRU & Cocoa XO were combined, now separated into individual logins.
 
 ## Session History
 
@@ -164,4 +235,4 @@ Detailed development history is archived at `docs/sessions/CLAUDE_HISTORY_2024-2
 
 ---
 
-*Last updated: February 2, 2026 (CRU & Cocoa XO live, CLAUDE.md cleanup, no self-registration rule)*
+*Last updated: February 2, 2026 (CRU/Cocoa XO separated, venue account docs added, DJ Directory null fix)*
