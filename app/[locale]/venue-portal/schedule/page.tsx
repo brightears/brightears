@@ -22,6 +22,7 @@ interface Assignment {
   slot: string | null;
   status: string;
   notes: string | null;
+  specialEvent: string | null;
   venue: { id: string; name: string };
   artist: {
     id: string;
@@ -29,7 +30,7 @@ interface Assignment {
     profileImage: string | null;
     category: string;
     genres: string[];
-  };
+  } | null;
   feedback: { id: string; overallRating: number } | null;
 }
 
@@ -191,10 +192,10 @@ export default function SchedulePage() {
                       key={assignment.id}
                       className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3"
                     >
-                      {/* Artist */}
+                      {/* Artist or Special Event */}
                       <div className="flex items-center gap-3">
                         <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-deep-teal flex-shrink-0">
-                          {assignment.artist.profileImage ? (
+                          {assignment.artist?.profileImage ? (
                             <Image
                               src={assignment.artist.profileImage}
                               alt={assignment.artist.stageName}
@@ -209,10 +210,10 @@ export default function SchedulePage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-white truncate">
-                            {assignment.artist.stageName}
+                            {assignment.artist?.stageName || assignment.specialEvent || 'Event'}
                           </p>
                           <p className="text-sm text-gray-400">
-                            {assignment.artist.category}
+                            {assignment.artist?.category || 'Special Event'}
                           </p>
                         </div>
                         <span
@@ -241,7 +242,7 @@ export default function SchedulePage() {
                             {assignment.startTime} - {assignment.endTime}
                           </span>
                         </div>
-                        {assignment.artist.genres.length > 0 && (
+                        {assignment.artist?.genres && assignment.artist.genres.length > 0 && (
                           <div className="flex flex-wrap gap-1 pt-1">
                             {assignment.artist.genres.slice(0, 3).map((genre) => (
                               <span
@@ -255,8 +256,8 @@ export default function SchedulePage() {
                         )}
                       </div>
 
-                      {/* Feedback */}
-                      {assignment.status === 'COMPLETED' && (
+                      {/* Feedback - only for DJ assignments */}
+                      {assignment.status === 'COMPLETED' && assignment.artist && (
                         <div className="pt-2 border-t border-white/10">
                           {assignment.feedback ? (
                             <div className="flex items-center gap-2 text-brand-cyan">

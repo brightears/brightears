@@ -10,13 +10,14 @@ interface Assignment {
   endTime: string;
   slot: string | null;
   status: string;
+  specialEvent: string | null;
   venue: { id: string; name: string };
   artist: {
     id: string;
     stageName: string;
     profileImage: string | null;
     category: string;
-  };
+  } | null;
   feedback: { id: string; overallRating: number } | null;
 }
 
@@ -214,17 +215,20 @@ export default function ScheduleCalendar({
                   {day.getDate()}
                 </span>
                 <div className="flex-1 mt-1 space-y-1 overflow-hidden">
-                  {dayAssignments.slice(0, 2).map((assignment) => (
-                    <div
-                      key={assignment.id}
-                      className={`text-xs px-1.5 py-0.5 rounded truncate text-white ${getStatusColor(
-                        assignment.status
-                      )}`}
-                      title={`${assignment.artist.stageName} at ${assignment.venue.name}`}
-                    >
-                      {assignment.artist.stageName}
-                    </div>
-                  ))}
+                  {dayAssignments.slice(0, 2).map((assignment) => {
+                    const displayName = assignment.artist?.stageName || assignment.specialEvent || 'Event';
+                    return (
+                      <div
+                        key={assignment.id}
+                        className={`text-xs px-1.5 py-0.5 rounded truncate text-white ${getStatusColor(
+                          assignment.status
+                        )}`}
+                        title={`${displayName} at ${assignment.venue.name}`}
+                      >
+                        {displayName}
+                      </div>
+                    );
+                  })}
                   {dayAssignments.length > 2 && (
                     <div className="text-xs text-gray-500 px-1">
                       +{dayAssignments.length - 2} more
