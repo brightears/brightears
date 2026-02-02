@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Bars3Icon, XMarkIcon, GlobeAltIcon, ChevronDownIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon, GlobeAltIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { Link, usePathname, useRouter } from '@/components/navigation';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { locales, localeNames, type Locale } from '@/i18n.config';
-import { useUser, UserButton } from '@clerk/nextjs';
+import { useUser } from '@clerk/nextjs';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -161,14 +161,6 @@ const Header: React.FC = () => {
                   >
                     {t('dashboard')}
                   </Link>
-                  <UserButton
-                    afterSignOutUrl="/"
-                    appearance={{
-                      elements: {
-                        avatarBox: "w-10 h-10"
-                      }
-                    }}
-                  />
                 </div>
               ) : isLoaded && (
                 <div className="hidden sm:flex items-center gap-3">
