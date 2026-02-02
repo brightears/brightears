@@ -90,7 +90,9 @@ export async function GET(req: NextRequest) {
         distinct: ['artistId'],
       });
 
-      const artistIds = artistAssignments.map((a) => a.artistId);
+      const artistIds = artistAssignments
+        .map((a) => a.artistId)
+        .filter((id): id is string => id !== null);
 
       // Build artist query
       const artistWhere: any = {
