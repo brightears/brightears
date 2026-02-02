@@ -20,6 +20,9 @@
 - Admin can view venue manager feedback notes
 
 ### Recent Updates (Feb 2, 2026)
+- **Admin Can Edit Past Dates**: Empty slots on past dates now clickable (commit 77bd173)
+  - Use case: Mark no-show DJs, correct historical records
+  - Past slots show gray "Assign DJ" button (API already supported this)
 - **CRU/Cocoa XO Separated**: Split into individual accounts for better access control
   - CRU: `cru@brightears.io` → sees only CRU Champagne Bar
   - Cocoa XO: `cocoaxo@brightears.io` → sees only Cocoa XO
@@ -235,4 +238,4 @@ Detailed development history is archived at `docs/sessions/CLAUDE_HISTORY_2024-2
 
 ---
 
-*Last updated: February 2, 2026 (CRU/Cocoa XO separated, venue account docs added, DJ Directory null fix)*
+*Last updated: February 2, 2026 (admin past dates, CRU/Cocoa XO separated, venue account docs)*
