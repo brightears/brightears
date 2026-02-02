@@ -1,26 +1,26 @@
 'use client';
 
-import { useUser, useAuth } from '@clerk/nextjs';
+import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
 
 /**
  * Auth Redirect Handler
  *
- * After sign-in, this page checks the user's role and redirects to the appropriate dashboard:
+ * After sign-in, this page fetches the user's role from the database and redirects:
  * - ADMIN → /admin
  * - CORPORATE → /venue-portal
  * - Others → / (homepage)
  */
 export default function AuthRedirect() {
-  const { user, isLoaded } = useUser();
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
   const locale = useLocale();
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
-    if (!isLoaded) return;
+    if (!isLoaded || isRedirecting) return;
 
     // If not signed in, redirect to sign-in page
     if (!isSignedIn) {
@@ -28,16 +28,31 @@ export default function AuthRedirect() {
       return;
     }
 
-    const role = user?.publicMetadata?.role as string;
+    // Fetch user role from database via API
+    const fetchUserRole = async () => {
+      setIsRedirecting(true);
+      try {
+        const res = await fetch('/api/auth/me');
+        const data = await res.json();
 
-    if (role === 'ADMIN') {
-      router.replace(`/${locale}/admin`);
-    } else if (role === 'CORPORATE') {
-      router.replace(`/${locale}/venue-portal`);
-    } else {
-      router.replace(`/${locale}`);
-    }
-  }, [isLoaded, isSignedIn, user, router, locale]);
+        const role = data.user?.role;
+
+        if (role === 'ADMIN') {
+          router.replace(`/${locale}/admin`);
+        } else if (role === 'CORPORATE') {
+          router.replace(`/${locale}/venue-portal`);
+        } else {
+          router.replace(`/${locale}`);
+        }
+      } catch (error) {
+        console.error('Error fetching user role:', error);
+        // Fallback to homepage on error
+        router.replace(`/${locale}`);
+      }
+    };
+
+    fetchUserRole();
+  }, [isLoaded, isSignedIn, router, locale, isRedirecting]);
 
   return (
     <div className="min-h-screen bg-deep-teal flex items-center justify-center">
