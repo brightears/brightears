@@ -284,34 +284,22 @@ export default function FeedbackPage() {
                 <div className="divide-y divide-white/5">
                   {group.assignments.map((assignment) => (
                     <div key={assignment.id} className="p-4">
-                      <div className="flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-3 min-w-0">
-                          <DJAvatar
-                            src={assignment.artist.profileImage}
-                            name={assignment.artist.stageName}
-                            size="md"
-                            className="w-12 h-12 rounded-lg"
-                          />
-                          <div className="min-w-0">
-                            <p className="font-medium text-white truncate">
-                              {assignment.artist.stageName}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              {assignment.startTime} - {assignment.endTime}
-                              {assignment.slot && ` (${assignment.slot})`}
-                            </p>
-                          </div>
+                      <div className="flex items-center gap-3 min-w-0">
+                        <DJAvatar
+                          src={assignment.artist.profileImage}
+                          name={assignment.artist.stageName}
+                          size="md"
+                          className="w-12 h-12 rounded-lg"
+                        />
+                        <div className="min-w-0">
+                          <p className="font-medium text-white truncate">
+                            {assignment.artist.stageName}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {assignment.startTime} - {assignment.endTime}
+                            {assignment.slot && ` (${assignment.slot})`}
+                          </p>
                         </div>
-                        <button
-                          onClick={() => {
-                            setSelectedAssignment(assignment);
-                            setShowFeedbackForm(true);
-                          }}
-                          className="text-sm text-brand-cyan hover:text-brand-cyan/80 transition-colors flex flex-col items-end"
-                        >
-                          <span>Rate DJ →</span>
-                          <span className="text-xs text-gray-500">Quick rating</span>
-                        </button>
                       </div>
                     </div>
                   ))}
