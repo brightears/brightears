@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@clerk/nextjs';
+import { useAuth, useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
@@ -15,10 +15,14 @@ const ROLE_CACHE_KEY = 'brightears_user_role';
  * - CORPORATE → /venue-portal
  * - Others → / (homepage)
  *
- * Uses localStorage caching for instant redirects on repeat logins.
+ * Priority order for role detection:
+ * 1. Clerk publicMetadata.role (instant, synced from DB)
+ * 2. localStorage cache (instant, from previous login)
+ * 3. API call to /api/auth/me (fallback, syncs role to Clerk)
  */
 export default function AuthRedirect() {
   const { isSignedIn, isLoaded } = useAuth();
+  const { user } = useUser();
   const router = useRouter();
   const locale = useLocale();
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -46,23 +50,24 @@ export default function AuthRedirect() {
 
     setIsRedirecting(true);
 
-    // Try cached role first for instant redirect
-    const cachedRole = localStorage.getItem(ROLE_CACHE_KEY);
-    if (cachedRole) {
-      redirectByRole(cachedRole);
-      // Still fetch fresh role in background to keep cache updated
-      fetch('/api/auth/me')
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.user?.role) {
-            localStorage.setItem(ROLE_CACHE_KEY, data.user.role);
-          }
-        })
-        .catch(() => {});
+    // Priority 1: Check Clerk's publicMetadata (instant, no API call)
+    const clerkRole = user?.publicMetadata?.role as string | undefined;
+    if (clerkRole) {
+      localStorage.setItem(ROLE_CACHE_KEY, clerkRole);
+      redirectByRole(clerkRole);
       return;
     }
 
-    // No cache - fetch role and redirect
+    // Priority 2: Check localStorage cache (instant)
+    const cachedRole = localStorage.getItem(ROLE_CACHE_KEY);
+    if (cachedRole) {
+      redirectByRole(cachedRole);
+      // Fetch in background to sync role to Clerk for next time
+      fetch('/api/auth/me').catch(() => {});
+      return;
+    }
+
+    // Priority 3: Fetch from API (syncs role to Clerk for future logins)
     fetch('/api/auth/me')
       .then((res) => res.json())
       .then((data) => {
@@ -76,7 +81,7 @@ export default function AuthRedirect() {
         console.error('Error fetching user role:', error);
         router.replace(`/${locale}`);
       });
-  }, [isLoaded, isSignedIn, router, locale, isRedirecting]);
+  }, [isLoaded, isSignedIn, user, router, locale, isRedirecting]);
 
   return (
     <div className="min-h-screen bg-deep-teal flex items-center justify-center">
