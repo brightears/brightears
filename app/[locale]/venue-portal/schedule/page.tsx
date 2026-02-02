@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl';
 import Image from 'next/image';
 import {
   CalendarIcon,
+  CalendarDaysIcon,
   ClockIcon,
   MapPinIcon,
   UserGroupIcon,
@@ -204,7 +205,11 @@ export default function SchedulePage() {
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-gray-400">
-                              <UserGroupIcon className="w-6 h-6" />
+                              {assignment.specialEvent ? (
+                                <CalendarDaysIcon className="w-6 h-6" />
+                              ) : (
+                                <UserGroupIcon className="w-6 h-6" />
+                              )}
                             </div>
                           )}
                         </div>
