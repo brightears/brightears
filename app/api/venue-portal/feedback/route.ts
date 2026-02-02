@@ -101,15 +101,25 @@ export async function GET(req: NextRequest) {
 
       const skip = (page - 1) * limit;
 
-      // Helper: Check if a shift has ended (date + endTime < now)
-      // endTime is in Bangkok time (UTC+7), server runs in UTC
+      // Helper: Check if a shift has ended (date + endTime < now in Bangkok time)
+      // endTime is in Bangkok time (UTC+7), overnight shifts (ending before 6 AM) are next day
       const hasShiftEnded = (assignmentDate: Date, endTime: string): boolean => {
         const [hours, mins] = endTime.split(':').map(Number);
-        const BANGKOK_OFFSET_HOURS = 7;
+
+        // Create end datetime starting from assignment date
         const endDateTime = new Date(assignmentDate);
-        // Convert Bangkok time to UTC: Bangkok 21:00 = UTC 14:00
-        endDateTime.setUTCHours(hours - BANGKOK_OFFSET_HOURS, mins, 0, 0);
-        return endDateTime <= new Date();
+        endDateTime.setHours(hours, mins, 0, 0);
+
+        // If end time is before 6 AM, it's an overnight shift ending the NEXT day
+        if (hours < 6) {
+          endDateTime.setDate(endDateTime.getDate() + 1);
+        }
+
+        // Get current time in Bangkok (UTC+7)
+        const now = new Date();
+        const bangkokNow = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+
+        return endDateTime <= bangkokNow;
       };
 
       // If pending=true, return assignments needing feedback
