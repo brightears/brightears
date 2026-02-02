@@ -20,15 +20,17 @@
 - Admin can view venue manager feedback notes
 
 ### Recent Updates (Feb 2, 2026)
-- **Overnight Shifts Fix**: Admin schedule now supports times spanning midnight (e.g., 21:00 → 01:00)
-  - Previously failed with "End time must be after start time" error
-  - Fix detects overnight shifts when end hour < 12 and adds 24 hours for comparison
+- **Special Events Support**: Admin can now mark slots as "NO DJ", "Private Event", "Closed", "Holiday"
+  - Overnight shifts work (21:00 → 01:00)
+  - Venue portal handles null artists gracefully (shows calendar icon)
+- **UI Polish**:
+  - Removed Clerk avatar from header (no profile images for backend-created accounts)
+  - Simplified Feedback page (removed redundant "Rate DJ →" links)
+  - Special events show calendar icon instead of user silhouette
 - **CRU & Cocoa XO Added**: Second corporate customer (multi-customer test passed)
   - Login: `norbert@brightears.com` / `BrightEars2026!`
   - Venues: CRU Champagne Bar (59F), Cocoa XO (57F) at Centara Grand
   - 5 new DJs: Tohmo, Krit, April, JJ, Camilo
-  - 50 February 2026 schedule assignments
-  - Script: `scripts/seed-cru-cocoaxo.ts`
 - **CLAUDE.md Cleanup**: Renamed archived 63k file to `.bak` to fix size warning
 
 ### Previous Updates (Feb 1, 2026)

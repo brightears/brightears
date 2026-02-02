@@ -266,7 +266,7 @@ export default function FeedbackPage() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleOpenNightReport(group)}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/20 text-gray-300 text-sm hover:bg-white/10 hover:text-white transition-colors"
+                      className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-brand-cyan text-white text-sm font-medium hover:bg-brand-cyan/90 transition-colors"
                     >
                       <SparklesIcon className="w-4 h-4" />
                       Night Report
@@ -275,7 +275,7 @@ export default function FeedbackPage() {
                       onClick={() => handleOpenDJRatings(group)}
                       className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-brand-cyan text-white text-sm font-medium hover:bg-brand-cyan/90 transition-colors"
                     >
-                      Rate {group.assignments.length} DJ{group.assignments.length > 1 ? 's' : ''}
+                      Rate DJs
                     </button>
                   </div>
                 </div>
