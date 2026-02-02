@@ -20,13 +20,13 @@
 - Admin can view venue manager feedback notes
 
 ### Recent Updates (Feb 2, 2026)
-- **CRU & Cocoa XO Added**: Second corporate customer for multi-customer testing
-  - Login: `norbert@brightears.com`
+- **CRU & Cocoa XO Added**: Second corporate customer (multi-customer test passed)
+  - Login: `norbert@brightears.com` / `BrightEars2026!`
   - Venues: CRU Champagne Bar (59F), Cocoa XO (57F) at Centara Grand
   - 5 new DJs: Tohmo, Krit, April, JJ, Camilo
   - 50 February 2026 schedule assignments
-  - Reuses 8 existing DJs from NOBU roster
   - Script: `scripts/seed-cru-cocoaxo.ts`
+- **CLAUDE.md Cleanup**: Renamed archived 63k file to `.bak` to fix size warning
 
 ### Previous Updates (Feb 1, 2026)
 - **DJ Eskay Added**: French DJ (15+ years), replaces Scotty B on Feb 7 & 28 LDK Late
@@ -140,9 +140,17 @@ Use them proactively when task matches their domain. See `.claude/rules/02-subag
 ## Key Business Rules
 
 - **No Commission**: Revenue from premium features, not booking fees
+- **No Self-Registration**: Customer logins created via Clerk dashboard (backend)
 - **LINE Integration**: Primary messaging for Thailand (not WhatsApp)
 - **Thai Market**: PromptPay payments, Buddhist holidays awareness
 - **Corporate Focus**: English-first for hotel/venue clients
+
+## Customer Logins (Venue Portal)
+
+| Customer | Email | Password |
+|----------|-------|----------|
+| TGC (NOBU/LDK) | dan.jamme@marriott.com | (in Clerk) |
+| CRU & Cocoa XO | norbert@brightears.com | BrightEars2026! |
 
 ## Session History
 
@@ -150,4 +158,4 @@ Detailed development history is archived at `docs/sessions/CLAUDE_HISTORY_2024-2
 
 ---
 
-*Last updated: February 2, 2026 (added CRU & Cocoa XO second corporate customer)*
+*Last updated: February 2, 2026 (CRU & Cocoa XO live, CLAUDE.md cleanup, no self-registration rule)*
