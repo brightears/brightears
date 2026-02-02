@@ -14,6 +14,12 @@ The customer-facing venue portal is LOCKED and production-ready. Create new comp
 ## Purpose
 Internal admin assigns DJs to venues. Only admin can modify schedule.
 
+## Customer Account Creation
+**No self-registration** - Customer logins created via:
+1. Database: Run seed script (e.g., `scripts/seed-cru-cocoaxo.ts`)
+2. Clerk Dashboard: Create user with matching email
+3. System matches by email on first login
+
 ## Routes
 - `/admin` - Dashboard
 - `/admin/schedule` - DJ assignment grid
