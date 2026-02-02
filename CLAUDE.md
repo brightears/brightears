@@ -25,7 +25,8 @@
   - Venue portal handles null artists gracefully (shows calendar icon)
 - **UI Polish**:
   - Removed Clerk avatar from header (no profile images for backend-created accounts)
-  - Simplified Feedback page (removed redundant "Rate DJ →" links)
+  - Feedback page: removed redundant "Rate DJ →" links, buttons now equal weight
+  - Feedback buttons: "Night Report" + "Rate DJs" (no DJ count, both filled cyan)
   - Special events show calendar icon instead of user silhouette
 - **CRU & Cocoa XO Added**: Second corporate customer (multi-customer test passed)
   - Login: `norbert@brightears.com` / `BrightEars2026!`
