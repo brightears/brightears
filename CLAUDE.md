@@ -13,12 +13,22 @@
 ## Current Status (February 2026)
 
 - Landing page + Venue Portal + Admin Portal operational
-- 16 DJs across 2 venues (NOBU, Le Du Kaan) - added DJ Eskay
+- **2 Corporate Customers**: TGC Hotel Collection (NOBU/Le Du Kaan) + CRU & Cocoa XO (test)
+- **21 DJs** across 4 venues (16 shared + 5 CRU-specific)
 - PDF schedule export working with calendar grid layout
 - Feedback system simplified: 1-5 stars + optional notes (no sub-ratings)
 - Admin can view venue manager feedback notes
 
-### Recent Updates (Feb 1, 2026)
+### Recent Updates (Feb 2, 2026)
+- **CRU & Cocoa XO Added**: Second corporate customer for multi-customer testing
+  - Login: `norbert@brightears.com`
+  - Venues: CRU Champagne Bar (59F), Cocoa XO (57F) at Centara Grand
+  - 5 new DJs: Tohmo, Krit, April, JJ, Camilo
+  - 50 February 2026 schedule assignments
+  - Reuses 8 existing DJs from NOBU roster
+  - Script: `scripts/seed-cru-cocoaxo.ts`
+
+### Previous Updates (Feb 1, 2026)
 - **DJ Eskay Added**: French DJ (15+ years), replaces Scotty B on Feb 7 & 28 LDK Late
 - **Feedback Timing Fix**: DJs now available for feedback immediately after shift ends (not midnight)
   - Uses Bangkok timezone (UTC+7) calculation
@@ -140,4 +150,4 @@ Detailed development history is archived at `docs/sessions/CLAUDE_HISTORY_2024-2
 
 ---
 
-*Last updated: February 1, 2026 (admin schedule improvements + venue portal LOCKED)*
+*Last updated: February 2, 2026 (added CRU & Cocoa XO second corporate customer)*
