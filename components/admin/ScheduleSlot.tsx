@@ -42,24 +42,23 @@ export default function ScheduleSlot({
   hasConflict,
   onClick,
 }: ScheduleSlotProps) {
-  // Empty slot
+  // Empty slot - admin can assign DJs to past dates too (e.g., mark no-shows)
   if (!assignment) {
     return (
       <button
         onClick={onClick}
         className={`w-full h-16 rounded-lg border-2 border-dashed transition-all duration-200 flex items-center justify-center group ${
           isPast
-            ? 'border-gray-700 bg-gray-800/30 cursor-not-allowed'
+            ? 'border-gray-600/30 bg-gray-700/20 hover:bg-gray-700/30 hover:border-gray-500/50'
             : 'border-red-500/30 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/50'
         }`}
-        disabled={isPast}
       >
-        {!isPast && (
-          <div className="flex items-center gap-2 text-red-400 text-sm opacity-50 group-hover:opacity-100 transition-opacity">
-            <PlusIcon className="w-4 h-4" />
-            <span>Assign DJ</span>
-          </div>
-        )}
+        <div className={`flex items-center gap-2 text-sm opacity-50 group-hover:opacity-100 transition-opacity ${
+          isPast ? 'text-gray-400' : 'text-red-400'
+        }`}>
+          <PlusIcon className="w-4 h-4" />
+          <span>Assign DJ</span>
+        </div>
       </button>
     );
   }
