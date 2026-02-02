@@ -197,11 +197,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validate startTime < endTime (24:00 = end of day = 1440 minutes)
+    // Validate startTime < endTime (supports overnight shifts like 21:00 → 01:00)
     const [startH, startM] = startTime.split(':').map(Number);
     const [endH, endM] = endTime.split(':').map(Number);
     const startMinutes = startH * 60 + startM;
-    const endMinutes = endH * 60 + endM;
+    let endMinutes = endH * 60 + endM;
+
+    // Handle overnight shifts (end time is next day, e.g., 21:00 → 01:00)
+    // If end time is earlier than start time and end hour is before noon, treat as next day
+    if (endMinutes < startMinutes && endH < 12) {
+      endMinutes += 24 * 60; // Add 24 hours
+    }
+
     if (startMinutes >= endMinutes) {
       return NextResponse.json(
         { error: 'End time must be after start time' },
