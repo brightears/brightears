@@ -20,6 +20,9 @@
 - Admin can view venue manager feedback notes
 
 ### Recent Updates (Feb 2, 2026)
+- **Overnight Shifts Fix**: Admin schedule now supports times spanning midnight (e.g., 21:00 → 01:00)
+  - Previously failed with "End time must be after start time" error
+  - Fix detects overnight shifts when end hour < 12 and adds 24 hours for comparison
 - **CRU & Cocoa XO Added**: Second corporate customer (multi-customer test passed)
   - Login: `norbert@brightears.com` / `BrightEars2026!`
   - Venues: CRU Champagne Bar (59F), Cocoa XO (57F) at Centara Grand

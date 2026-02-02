@@ -37,6 +37,24 @@ Internal admin assigns DJs to venues. Only admin can modify schedule.
 - DJ dropdown shows ALL DJs (not just previously assigned)
 - Uses React Portal for proper centering
 - Null-safe genres handling: `(dj.genres || []).slice()`
+- **Two modes**: "Assign DJ" or "Special Event / No DJ"
+
+## Overnight Shifts
+Venues like nightclubs often have shifts spanning midnight (e.g., 21:00 → 01:00).
+
+The API supports overnight shifts automatically:
+- If end time < start time AND end hour < 12, treats as next-day
+- Example: 21:00 → 01:00 is valid (4-hour overnight shift)
+- Example: 21:00 → 02:00 is valid (5-hour overnight shift)
+
+## Special Events (No DJ)
+To mark a slot without a DJ assignment:
+1. Click "Special Event / No DJ" tab in modal
+2. Enter label (e.g., "NO DJ", "Private Event", "Closed", "Holiday")
+3. Set start/end times (overnight times supported)
+4. Click "Save Event"
+
+Special events appear on the schedule grid with the custom label instead of a DJ name.
 
 ## Date Handling
 Thailand UTC+7 causes date shifting. Use local formatting:
