@@ -349,9 +349,22 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      if (assignment.status !== 'COMPLETED') {
+      // Check if shift has ended (same logic as GET endpoint)
+      const hasShiftEnded = (assignmentDate: Date, endTime: string): boolean => {
+        const [hours, mins] = endTime.split(':').map(Number);
+        const endDateTime = new Date(assignmentDate);
+        endDateTime.setHours(hours, mins, 0, 0);
+        if (hours < 6) {
+          endDateTime.setDate(endDateTime.getDate() + 1);
+        }
+        const now = new Date();
+        const bangkokNow = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+        return endDateTime <= bangkokNow;
+      };
+
+      if (!hasShiftEnded(assignment.date, assignment.endTime)) {
         return NextResponse.json(
-          { error: 'Can only submit feedback for completed assignments' },
+          { error: 'Can only submit feedback after the shift has ended' },
           { status: 400 }
         );
       }
@@ -369,6 +382,14 @@ export async function POST(req: NextRequest) {
           { error: 'Cannot submit feedback for special events without a DJ' },
           { status: 400 }
         );
+      }
+
+      // Mark assignment as COMPLETED now that feedback is being submitted
+      if (assignment.status !== 'COMPLETED') {
+        await prisma.venueAssignment.update({
+          where: { id: data.assignmentId },
+          data: { status: 'COMPLETED' },
+        });
       }
 
       // Create feedback
