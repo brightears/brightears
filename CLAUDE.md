@@ -13,13 +13,25 @@
 ## Current Status (February 2026)
 
 - Landing page + Venue Portal + Admin Portal operational
-- **2 Corporate Customers**: TGC Hotel Collection (NOBU/Le Du Kaan) + CRU & Cocoa XO (test)
-- **21 DJs** across 4 venues (16 shared + 5 CRU-specific)
+- **3 Corporate Customers**: TGC Hotel Collection (NOBU/Le Du Kaan), CRU, Cocoa XO, Horizon
+- **23 DJs** across 5 venues (16 shared + 5 CRU-specific + 2 Horizon-specific)
 - PDF schedule export working with calendar grid layout
 - Feedback system simplified: 1-5 stars + optional notes (no sub-ratings)
 - Admin can view venue manager feedback notes
 
-### Recent Updates (Feb 2, 2026)
+### Recent Updates (Feb 13, 2026)
+- **Horizon Account Created**: New venue with 4 DJs, full Feb 2026 schedule
+  - Login: `horizon@brightears.io` / `Horizon2026!`
+  - 2 new DJs: Ize (R&B/Hip-Hop), Nun (Disco House/Thai)
+  - 2 shared DJs: Eskay Da Real, DJ Pound
+  - Schedule: 28 nights, 18:30-22:30
+  - Seed script: `scripts/seed-horizon.ts`
+- **Feedback Submission Fixed**: Venue managers can now rate DJs (commit 8e6b7d2)
+  - Root cause: API required status=COMPLETED but all assignments stayed SCHEDULED
+  - Fix: Replaced status check with hasShiftEnded() (same logic as GET endpoint)
+  - Also marks assignment COMPLETED when feedback is submitted
+
+### Previous Updates (Feb 2, 2026)
 - **Admin Can Edit Past Dates**: Empty slots on past dates now clickable (commit 77bd173)
   - Use case: Mark no-show DJs, correct historical records
   - Past slots show gray "Assign DJ" button (API already supported this)
@@ -165,6 +177,7 @@ Use them proactively when task matches their domain. See `.claude/rules/02-subag
 | Le Du Kaan | ldk@brightears.io | LDK2026! | Le Du Kaan |
 | CRU | cru@brightears.io | CRU2026! | CRU Champagne Bar |
 | Cocoa XO | cocoaxo@brightears.io | CocoaXO2026! | Cocoa XO |
+| Horizon | horizon@brightears.io | Horizon2026! | Horizon |
 
 ---
 
@@ -181,7 +194,7 @@ Use them proactively when task matches their domain. See `.claude/rules/02-subag
 
 #### 1. Create Seed Script
 
-Copy existing template: `scripts/seed-separate-cru-cocoaxo.ts`
+Copy existing template: `scripts/seed-horizon.ts` (simplest single-venue example)
 
 Key structure:
 ```typescript
@@ -218,6 +231,8 @@ Log in at https://brightears.io/venue-portal with the new credentials.
 |-------|-------|-----|
 | **"Corporate profile not found"** | Seed script not run | Run script with production DATABASE_URL |
 | **DJ Directory empty** | Null artistIds in assignments | Filter nulls: `.filter((id): id is string => id !== null)` |
+| **DJ images missing** | No profileImage in database | Copy to `public/images/djs/`, update DB with path |
+| **Feedback won't submit** | Assignment status stuck at SCHEDULED | Fixed: now uses hasShiftEnded() instead of status check |
 | **Wrong venues showing** | corporateId mismatch | Check venue.corporateId matches corporate.id |
 | **Login redirect loop** | Email mismatch | Clerk email must exactly match database User.email |
 
@@ -238,4 +253,4 @@ Detailed development history is archived at `docs/sessions/CLAUDE_HISTORY_2024-2
 
 ---
 
-*Last updated: February 2, 2026 (admin past dates, CRU/Cocoa XO separated, venue account docs)*
+*Last updated: February 13, 2026 (Horizon account, feedback fix, DJ images)*
