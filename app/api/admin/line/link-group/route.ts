@@ -40,9 +40,9 @@ export async function POST(req: Request) {
 
   const { venueId, lineGroupId } = await req.json();
 
-  if (!venueId || !lineGroupId) {
+  if (!venueId) {
     return NextResponse.json(
-      { error: 'venueId and lineGroupId are required' },
+      { error: 'venueId is required' },
       { status: 400 },
     );
   }
@@ -56,14 +56,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Venue not found' }, { status: 404 });
   }
 
+  // Empty string clears the link
+  const value = lineGroupId?.trim() || null;
+
   await prisma.venue.update({
     where: { id: venueId },
-    data: { lineGroupId },
+    data: { lineGroupId: value },
   });
 
   return NextResponse.json({
     success: true,
     venue: venue.name,
-    lineGroupId,
+    lineGroupId: value,
   });
 }
