@@ -96,8 +96,10 @@ async function processEvents(events: any[]) {
             await handleTextMessage(event);
           }
           break;
+        case 'join':
+          await handleJoin(event);
+          break;
         default:
-          // Ignore other event types (unfollow, join, etc.)
           break;
       }
     } catch (err) {
@@ -411,6 +413,25 @@ async function linkAccountByEmail(
     {
       type: 'text',
       text: `Account linked! ${roleName} account (${email}) is now connected. You'll receive DJ feedback requests and schedule updates here.`,
+    },
+  ]);
+}
+
+// ---------------------------------------------------------------------------
+// Join: Bot added to a group chat
+// ---------------------------------------------------------------------------
+
+async function handleJoin(event: any) {
+  const groupId = event.source.groupId;
+  if (!groupId) return;
+
+  console.log(`[LINE Webhook] Bot joined group: ${groupId}`);
+
+  // Send the group ID in the chat so admin can copy it
+  await replyMessage(event.replyToken, [
+    {
+      type: 'text',
+      text: `Bright Ears bot connected!\n\nGroup ID: ${groupId}\n\nUse this ID to link this group to a venue in the admin portal.`,
     },
   ]);
 }

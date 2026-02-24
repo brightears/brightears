@@ -385,3 +385,69 @@ export function buildDJReminderFlex(params: {
     },
   };
 }
+
+/**
+ * Build a combined schedule message for a LINE group chat.
+ * Shows all DJs playing tonight across venues in the group.
+ */
+export function buildGroupScheduleFlex(params: {
+  date: string;
+  venues: Array<{
+    venueName: string;
+    slots: Array<{ djName: string; startTime: string; endTime: string }>;
+  }>;
+}): Record<string, unknown> {
+  const venueContents: Record<string, unknown>[] = [];
+
+  for (const venue of params.venues) {
+    // Venue name header
+    venueContents.push({
+      type: 'text',
+      text: venue.venueName,
+      weight: 'bold',
+      size: 'sm',
+      margin: venueContents.length > 0 ? 'lg' : 'md',
+    });
+
+    // DJ slots
+    for (const slot of venue.slots) {
+      venueContents.push({
+        type: 'text',
+        text: `${slot.djName} \u2022 ${slot.startTime} - ${slot.endTime}`,
+        size: 'sm',
+        color: '#666666',
+        margin: 'sm',
+      });
+    }
+  }
+
+  return {
+    type: 'bubble',
+    size: 'kilo',
+    body: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'text',
+          text: '\uD83C\uDFB5 Tonight\'s Schedule',
+          weight: 'bold',
+          size: 'md',
+          color: '#00bbe4',
+        },
+        {
+          type: 'text',
+          text: params.date,
+          size: 'xs',
+          color: '#999999',
+          margin: 'sm',
+        },
+        {
+          type: 'separator',
+          margin: 'md',
+        },
+        ...venueContents,
+      ],
+    },
+  };
+}

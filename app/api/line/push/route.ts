@@ -14,7 +14,7 @@
 
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { pushFlexMessage, pushTextMessage, buildDJRatingFlex, buildDJReminderFlex } from '@/lib/line';
+import { pushFlexMessage, pushTextMessage, buildDJRatingFlex, buildGroupScheduleFlex } from '@/lib/line';
 import { hasShiftEnded, formatDateLocal } from '@/lib/venue-utils';
 
 // ---------------------------------------------------------------------------
@@ -160,7 +160,7 @@ async function sendDJReminders(body: { date?: string }) {
   const dateStart = new Date(year, month - 1, day);
   const dateEnd = new Date(year, month - 1, day + 1);
 
-  // Find today's assignments with linked DJs
+  // Find today's assignments with venue lineGroupId
   const assignments = await prisma.venueAssignment.findMany({
     where: {
       date: { gte: dateStart, lt: dateEnd },
@@ -168,44 +168,73 @@ async function sendDJReminders(body: { date?: string }) {
       status: 'SCHEDULED',
     },
     include: {
-      venue: { select: { name: true } },
-      artist: {
-        include: {
-          user: {
-            select: { lineUserId: true },
-          },
-        },
-      },
+      venue: { select: { id: true, name: true, lineGroupId: true } },
+      artist: { select: { id: true, stageName: true } },
     },
   });
 
-  let sent = 0;
-  let skipped = 0;
-  const errors: string[] = [];
+  // Group assignments by lineGroupId (multiple venues can share one group)
+  const groupMap = new Map<
+    string,
+    Array<{ venueName: string; djName: string; startTime: string; endTime: string }>
+  >();
 
+  let skipped = 0;
   for (const assignment of assignments) {
-    const lineUserId = assignment.artist?.user?.lineUserId;
-    if (!lineUserId) {
+    const groupId = assignment.venue.lineGroupId;
+    if (!groupId) {
+      skipped++;
+      continue;
+    }
+    if (!assignment.artist) {
       skipped++;
       continue;
     }
 
+    if (!groupMap.has(groupId)) {
+      groupMap.set(groupId, []);
+    }
+    groupMap.get(groupId)!.push({
+      venueName: assignment.venue.name,
+      djName: assignment.artist.stageName,
+      startTime: assignment.startTime,
+      endTime: assignment.endTime,
+    });
+  }
+
+  let sent = 0;
+  const errors: string[] = [];
+  const dateStr = formatDate(dateStart);
+
+  // Send one combined message per LINE group
+  for (const [groupId, slots] of groupMap) {
+    // Group slots by venue for the Flex Message
+    const venueMap = new Map<string, Array<{ djName: string; startTime: string; endTime: string }>>();
+    for (const slot of slots) {
+      if (!venueMap.has(slot.venueName)) {
+        venueMap.set(slot.venueName, []);
+      }
+      venueMap.get(slot.venueName)!.push({
+        djName: slot.djName,
+        startTime: slot.startTime,
+        endTime: slot.endTime,
+      });
+    }
+
+    const venues = Array.from(venueMap.entries()).map(([venueName, venueSlots]) => ({
+      venueName,
+      slots: venueSlots,
+    }));
+
     try {
-      const dateStr = formatDate(assignment.date);
       await pushFlexMessage(
-        lineUserId,
-        `Schedule reminder: ${assignment.venue.name} tonight`,
-        buildDJReminderFlex({
-          djName: assignment.artist!.stageName,
-          venueName: assignment.venue.name,
-          date: dateStr,
-          startTime: assignment.startTime,
-          endTime: assignment.endTime,
-        }),
+        groupId,
+        `Tonight's DJ Schedule - ${dateStr}`,
+        buildGroupScheduleFlex({ date: dateStr, venues }),
       );
       sent++;
     } catch (err: any) {
-      errors.push(`${assignment.id}: ${err.message}`);
+      errors.push(`group ${groupId}: ${err.message}`);
     }
   }
 
@@ -214,6 +243,7 @@ async function sendDJReminders(body: { date?: string }) {
     total: assignments.length,
     sent,
     skipped,
+    groups: groupMap.size,
     errors: errors.length > 0 ? errors : undefined,
   });
 }
