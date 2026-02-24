@@ -117,6 +117,10 @@ model User {
   lastLogin         DateTime?
   isActive          Boolean  @default(true)
 
+  // LINE messaging integration
+  lineUserId        String?  @unique  // LINE's internal user ID (for push messages)
+  lineLinkedAt      DateTime?          // When they linked their LINE account
+
   // Relations
   artist            Artist?
   customer          Customer?

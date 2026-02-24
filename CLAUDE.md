@@ -19,7 +19,14 @@
 - Feedback system simplified: 1-5 stars + optional notes (no sub-ratings)
 - Admin can view venue manager feedback notes
 
-### Recent Updates (Feb 13, 2026)
+### Recent Updates (Feb 24, 2026)
+- **Favicon Fixed**: BE logo now shows correctly in browser tab
+  - Root cause 1: Metadata API `icons` didn't render in HTML `<head>` due to nested `<html>` tags from root + locale layouts. Fixed by adding direct `<link>` tags in root layout `<head>` (commit 6102fd7)
+  - Root cause 2: `public/favicon.ico` contained a play button icon, not the BE logo. Regenerated from correct PNGs using ImageMagick (commit 54ef1f5)
+  - Favicon links are now in `app/layout.tsx` `<head>` directly (NOT via metadata API)
+  - Known issue: Both `app/layout.tsx` and `app/[locale]/layout.tsx` render `<html>`/`<body>` tags (invalid nesting). This breaks Next.js metadata merging. Direct `<link>` tags bypass this.
+
+### Previous Updates (Feb 13, 2026)
 - **Horizon Account Created**: New venue with 4 DJs, full Feb 2026 schedule
   - Login: `horizon@brightears.io` / `Horizon2026!`
   - 2 new DJs: Ize (R&B/Hip-Hop), Nun (Disco House/Thai)
@@ -132,6 +139,9 @@ If users get stuck at "Redirecting...":
 ### 4. Portal Layouts
 Venue Portal and Admin hide header/footer via `ConditionalLayout.tsx`
 - Checks pathname for `/venue-portal` or `/admin`
+
+### 5. Nested HTML Tags (Metadata Bug)
+Both `app/layout.tsx` and `app/[locale]/layout.tsx` render `<html>` and `<body>` tags, creating invalid nested HTML. This breaks Next.js metadata API merging (e.g., `icons` config silently ignored). Workaround: use direct `<link>` tags in root layout's `<head>` instead of metadata API for icons/favicons.
 
 ## Subagents
 
