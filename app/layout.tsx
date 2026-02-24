@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://brightears.io'),
   title: "Bright Ears - Book DJs, Bands & Entertainment Thailand",
   description: "Book professional DJs, bands, and entertainment for events in Thailand. No commission fees. Trusted by leading hotels and venues.",
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/logo.png',
+  },
 };
 
 export default function RootLayout({
