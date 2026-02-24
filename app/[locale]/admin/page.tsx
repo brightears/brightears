@@ -1,6 +1,7 @@
 import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import ScheduleCalendar from '@/components/admin/ScheduleCalendar';
+import LineActions from '@/components/admin/LineActions';
 
 export default async function AdminDashboard({
   params,
@@ -11,7 +12,7 @@ export default async function AdminDashboard({
   const user = await getCurrentUser();
 
   // Get basic stats for the dashboard header
-  const [venueCount, djCount, upcomingCount, pendingFeedback] = await Promise.all([
+  const [venueCount, djCount, upcomingCount, pendingFeedback, lineLinkedCount] = await Promise.all([
     prisma.venue.count({ where: { isActive: true } }),
     prisma.artist.count({ where: { category: 'DJ' } }),
     prisma.venueAssignment.count({
@@ -29,6 +30,7 @@ export default async function AdminDashboard({
         },
       },
     }),
+    prisma.user.count({ where: { lineUserId: { not: null } } }),
   ]);
 
   return (
@@ -44,7 +46,7 @@ export default async function AdminDashboard({
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
         <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4">
           <div className="text-2xl font-bold text-white">{venueCount}</div>
           <div className="text-gray-400 text-sm">Active Venues</div>
@@ -63,7 +65,14 @@ export default async function AdminDashboard({
           </div>
           <div className="text-gray-400 text-sm">Pending Feedback</div>
         </div>
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4">
+          <div className="text-2xl font-bold text-brand-cyan">{lineLinkedCount}</div>
+          <div className="text-gray-400 text-sm">LINE Linked</div>
+        </div>
       </div>
+
+      {/* LINE Notifications */}
+      <LineActions />
 
       {/* Calendar */}
       <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6">
