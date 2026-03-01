@@ -149,9 +149,20 @@ async function handleFollow(event: any) {
 
 async function handlePostback(event: any) {
   const lineUserId = event.source.userId;
+  const groupId = event.source.groupId;
+  const isGroupEvent = event.source.type === 'group' && !!groupId;
+
   const data = new URLSearchParams(event.postback.data);
   const action = data.get('action');
   const assignmentId = data.get('assignmentId');
+
+  // Group postbacks: verify via manager group, no account linking needed
+  if (isGroupEvent) {
+    await handleGroupPostback(event, groupId, action, assignmentId, lineUserId);
+    return;
+  }
+
+  // --- 1:1 postbacks below (existing flow) ---
 
   // Find linked user
   const user = await prisma.user.findUnique({
@@ -213,6 +224,146 @@ async function handlePostback(event: any) {
     default:
       break;
   }
+}
+
+// ---------------------------------------------------------------------------
+// Group postback: Rating from a manager group (no account linking needed)
+// ---------------------------------------------------------------------------
+
+async function handleGroupPostback(
+  event: any,
+  groupId: string,
+  action: string | null,
+  assignmentId: string | null,
+  tapperLineUserId: string,
+) {
+  // Verify this group is linked as a manager group
+  const venue = await prisma.venue.findFirst({
+    where: { lineManagerGroupId: groupId },
+    select: { id: true, name: true },
+  });
+
+  if (!venue) {
+    // Not a linked manager group — ignore silently
+    return;
+  }
+
+  switch (action) {
+    case 'rate': {
+      const data = new URLSearchParams(event.postback.data);
+      const rating = parseInt(data.get('rating') || '0', 10);
+      if (!assignmentId || rating < 1 || rating > 5) {
+        await replyMessage(event.replyToken, [
+          { type: 'text', text: 'Invalid rating. Please try again.' },
+        ]);
+        return;
+      }
+      await submitGroupRating(event, venue, assignmentId, rating, tapperLineUserId, groupId);
+      break;
+    }
+
+    case 'notes_prompt': {
+      await replyMessage(event.replyToken, [
+        { type: 'text', text: 'To add notes, visit the venue portal.' },
+      ]);
+      break;
+    }
+
+    case 'skip': {
+      await replyMessage(event.replyToken, [
+        { type: 'text', text: 'Skipped. You can still rate this DJ on the venue portal.' },
+      ]);
+      break;
+    }
+
+    default:
+      break;
+  }
+}
+
+async function submitGroupRating(
+  event: any,
+  venue: { id: string; name: string },
+  assignmentId: string,
+  rating: number,
+  tapperLineUserId: string,
+  groupId: string,
+) {
+  const assignment = await prisma.venueAssignment.findUnique({
+    where: { id: assignmentId },
+    include: {
+      venue: { select: { id: true, name: true } },
+      artist: { select: { id: true, stageName: true } },
+      feedback: { select: { id: true } },
+    },
+  });
+
+  if (!assignment) {
+    await replyMessage(event.replyToken, [
+      { type: 'text', text: 'Assignment not found.' },
+    ]);
+    return;
+  }
+
+  // Verify assignment belongs to the venue linked to this manager group
+  if (assignment.venue.id !== venue.id) {
+    await replyMessage(event.replyToken, [
+      { type: 'text', text: 'This assignment is not for your venue.' },
+    ]);
+    return;
+  }
+
+  if (assignment.feedback) {
+    await replyMessage(event.replyToken, [
+      { type: 'text', text: 'Feedback already submitted for this performance.' },
+    ]);
+    return;
+  }
+
+  if (!assignment.artistId || !assignment.artist) {
+    await replyMessage(event.replyToken, [
+      { type: 'text', text: 'Cannot rate special events (no DJ assigned).' },
+    ]);
+    return;
+  }
+
+  // Resolve submittedBy: try tapper's User record, fallback to group identifier
+  let submittedBy = `line-group-${groupId}`;
+  const tapperUser = await prisma.user.findUnique({
+    where: { lineUserId: tapperLineUserId },
+    select: { id: true },
+  });
+  if (tapperUser) {
+    submittedBy = tapperUser.id;
+  }
+
+  await prisma.venueFeedback.create({
+    data: {
+      assignmentId,
+      venueId: venue.id,
+      artistId: assignment.artistId,
+      submittedBy,
+      overallRating: rating,
+    },
+  });
+
+  if (assignment.status !== 'COMPLETED') {
+    await prisma.venueAssignment.update({
+      where: { id: assignmentId },
+      data: { status: 'COMPLETED' },
+    });
+  }
+
+  await replyMessage(event.replyToken, [
+    {
+      type: 'flex',
+      altText: `Rated ${assignment.artist.stageName}: ${'⭐'.repeat(rating)}`,
+      contents: buildRatingConfirmFlex({
+        djName: assignment.artist.stageName,
+        rating,
+      }),
+    } as any,
+  ]);
 }
 
 // ---------------------------------------------------------------------------
@@ -426,7 +577,7 @@ async function handleJoin(event: any) {
   await replyMessage(event.replyToken, [
     {
       type: 'text',
-      text: `Bright Ears bot connected!\n\nGroup ID: ${groupId}\n\nUse this ID to link this group to a venue in the admin portal.`,
+      text: `Bright Ears bot connected!\n\nGroup ID: ${groupId}\n\nIn admin → LINE Group Links:\n• "DJ Group" = schedule reminders\n• "Manager Group" = feedback cards`,
     },
   ]);
 }

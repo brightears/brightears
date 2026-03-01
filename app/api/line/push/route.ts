@@ -65,7 +65,7 @@ async function sendFeedbackRequests() {
   // 1. Shift has ended
   // 2. No feedback submitted yet
   // 3. Has a DJ (not special event)
-  // 4. Venue manager has LINE linked
+  // 4. Venue has manager group or manager has LINE linked
   const recentAssignments = await prisma.venueAssignment.findMany({
     where: {
       artistId: { not: null },
@@ -76,7 +76,10 @@ async function sendFeedbackRequests() {
     },
     include: {
       venue: {
-        include: {
+        select: {
+          id: true,
+          name: true,
+          lineManagerGroupId: true,
           corporate: {
             include: {
               user: {
@@ -107,8 +110,11 @@ async function sendFeedbackRequests() {
   const errors: string[] = [];
 
   for (const assignment of pendingFeedback) {
-    const lineUserId = assignment.venue.corporate?.user?.lineUserId;
-    if (!lineUserId) {
+    // Prefer manager group, fall back to individual LINE user
+    const target = assignment.venue.lineManagerGroupId
+      || assignment.venue.corporate?.user?.lineUserId
+      || null;
+    if (!target) {
       skipped++;
       continue;
     }
@@ -121,7 +127,7 @@ async function sendFeedbackRequests() {
     try {
       const dateStr = formatDate(assignment.date);
       await pushFlexMessage(
-        lineUserId,
+        target,
         `Rate ${assignment.artist.stageName}'s performance at ${assignment.venue.name}`,
         buildDJRatingFlex({
           assignmentId: assignment.id,
@@ -137,18 +143,20 @@ async function sendFeedbackRequests() {
     }
   }
 
-  // After sending rating cards, send a Night Report reminder to each manager
-  // (one per manager, not per assignment)
-  const remindedManagers = new Set<string>();
+  // After sending rating cards, send a Night Report reminder to each target
+  // (one per target, not per assignment)
+  const remindedTargets = new Set<string>();
   for (const assignment of pendingFeedback) {
-    const lineUserId = assignment.venue.corporate?.user?.lineUserId;
-    if (!lineUserId || remindedManagers.has(lineUserId)) continue;
-    remindedManagers.add(lineUserId);
+    const target = assignment.venue.lineManagerGroupId
+      || assignment.venue.corporate?.user?.lineUserId
+      || null;
+    if (!target || remindedTargets.has(target)) continue;
+    remindedTargets.add(target);
 
     try {
       const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brightears.io';
       await pushFlexMessage(
-        lineUserId,
+        target,
         'Submit your Night Report on the venue portal',
         {
           type: 'bubble',
@@ -194,7 +202,7 @@ async function sendFeedbackRequests() {
       );
     } catch (err: any) {
       // Non-critical — don't fail the whole request
-      console.error(`[LINE Push] Night report reminder failed for ${lineUserId}:`, err.message);
+      console.error(`[LINE Push] Night report reminder failed for ${target}:`, err.message);
     }
   }
 
@@ -202,7 +210,7 @@ async function sendFeedbackRequests() {
     total: pendingFeedback.length,
     sent,
     skipped,
-    nightReportReminders: remindedManagers.size,
+    nightReportReminders: remindedTargets.size,
     errors: errors.length > 0 ? errors : undefined,
   });
 }

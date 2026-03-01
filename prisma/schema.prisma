@@ -323,7 +323,8 @@ model Venue {
   contactPhone    String?
 
   // LINE group chat for DJ notifications
-  lineGroupId     String?  // LINE group chat ID (multiple venues can share one group)
+  lineGroupId          String?  // DJ reminder group (schedule notifications)
+  lineManagerGroupId   String?  // Manager feedback group (bot + admin + venue manager)
 
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())

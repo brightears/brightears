@@ -3,10 +3,11 @@
  *
  * POST /api/admin/line/link-group
  *   Links a LINE group chat ID to a venue.
- *   Body: { venueId: string, lineGroupId: string }
+ *   Body: { venueId, lineGroupId, groupType?: 'dj' | 'manager' }
+ *   groupType defaults to 'dj' (lineGroupId). 'manager' updates lineManagerGroupId.
  *
  * GET /api/admin/line/link-group
- *   Lists all venues with their lineGroupId status.
+ *   Lists all venues with their lineGroupId and lineManagerGroupId status.
  */
 
 import { NextResponse } from 'next/server';
@@ -25,6 +26,7 @@ export async function GET() {
       id: true,
       name: true,
       lineGroupId: true,
+      lineManagerGroupId: true,
     },
     orderBy: { name: 'asc' },
   });
@@ -38,7 +40,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { venueId, lineGroupId } = await req.json();
+  const { venueId, lineGroupId, groupType } = await req.json();
 
   if (!venueId) {
     return NextResponse.json(
@@ -58,15 +60,16 @@ export async function POST(req: Request) {
 
   // Empty string clears the link
   const value = lineGroupId?.trim() || null;
+  const field = groupType === 'manager' ? 'lineManagerGroupId' : 'lineGroupId';
 
   await prisma.venue.update({
     where: { id: venueId },
-    data: { lineGroupId: value },
+    data: { [field]: value },
   });
 
   return NextResponse.json({
     success: true,
     venue: venue.name,
-    lineGroupId: value,
+    [field]: value,
   });
 }
