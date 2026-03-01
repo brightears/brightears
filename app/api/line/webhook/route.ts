@@ -92,7 +92,8 @@ async function processEvents(events: any[]) {
           await handlePostback(event);
           break;
         case 'message':
-          if (event.message.type === 'text') {
+          // Only respond to text messages in 1:1 chats, not in groups
+          if (event.message.type === 'text' && event.source.type === 'user') {
             await handleTextMessage(event);
           }
           break;
