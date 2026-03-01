@@ -49,13 +49,13 @@ async function main() {
   // Always send feedback requests for ended shifts
   await callPushAPI('feedback_requests');
 
-  // Send DJ reminders once daily around 4pm Bangkok (9am UTC)
-  // Since cron runs every 30 min, check if current UTC hour is 9
+  // Send DJ reminders once daily around 8am Bangkok (1am UTC)
+  // Since cron runs every 30 min, check if current UTC hour is 1
   const utcHour = new Date().getUTCHours();
   const utcMinute = new Date().getUTCMinutes();
 
-  // Run DJ reminders between 9:00-9:29 UTC (4:00-4:29pm Bangkok)
-  if (utcHour === 9 && utcMinute < 30) {
+  // Run DJ reminders between 1:00-1:29 UTC (8:00-8:29am Bangkok)
+  if (utcHour === 1 && utcMinute < 30) {
     await callPushAPI('dj_reminder');
   }
 
