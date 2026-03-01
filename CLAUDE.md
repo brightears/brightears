@@ -10,16 +10,52 @@
 | **Stack** | Next.js 15, TypeScript, Prisma, PostgreSQL |
 | **Locales** | EN, TH (next-intl) |
 
-## Current Status (February 2026)
+## Current Status (March 2026)
 
 - Landing page + Venue Portal + Admin Portal operational
-- **3 Corporate Customers**: TGC Hotel Collection (NOBU/Le Du Kaan), CRU, Cocoa XO, Horizon
-- **23 DJs** across 5 venues (16 shared + 5 CRU-specific + 2 Horizon-specific)
+- **5 Corporate Customers**: TGC Hotel Collection (NOBU/Le Du Kaan), CRU, Cocoa XO, Horizon
+- **26 DJs** across 5 venues (16 shared + 2 CRU-specific + 2 Horizon-specific + 3 March additions)
 - PDF schedule export working with calendar grid layout
 - Feedback system simplified: 1-5 stars + optional notes (no sub-ratings)
 - Admin can view venue manager feedback notes
+- LINE messaging integration **live and tested** (feedback requests, DJ reminders, broadcast)
+- Manager group feedback: zero-setup ratings via LINE groups
+- March 2026 schedules seeded (186 assignments across all 5 venues)
 
-### Recent Updates (Feb 24, 2026)
+### Recent Updates (Mar 1, 2026)
+- **Manager Group Feedback**: Zero-setup LINE ratings for venue managers
+  - New `lineManagerGroupId` on Venue (separate from DJ `lineGroupId`)
+  - Admin creates group (bot + admin + manager), links as "Manager Group"
+  - Feedback cards pushed to group — manager taps stars, no account linking needed
+  - Postback verification by group→venue (not user→corporate)
+  - Falls back to individual lineUserId if no manager group linked
+  - Admin UI: two rows per venue (DJ Group + Manager Group)
+- **LINE Integration Fully Tested**: All flows verified working
+  - 1:1: Account linking, feedback rating cards, add notes, skip
+  - Groups: Bot joins → posts Group ID, schedule reminders to linked groups
+  - Night Report: Reminder link sent after feedback cards
+  - Broadcast: Custom messages to DJs/Venues/All
+  - Admin UI: LineLinkedAccounts (view/unlink), LineGroupLinks (venue↔group)
+  - Cron: Every 30min feedback requests + 8am Bangkok DJ reminders
+  - LINE Developers Console: Login with `support@brightears.io`
+  - Same Group ID works for multiple venues (e.g., CRU + Cocoa XO share one group)
+
+### Previous Updates (Feb 26, 2026)
+- **LINE Messaging Integration**: Full LINE bot for feedback collection and DJ schedule reminders
+  - Webhook handler: follow, postback ratings, account linking, group join events
+  - Push API: feedback requests (individual), DJ reminders (group chats), broadcast
+  - Admin UI: LineActions (notification controls) + LineGroupLinks (venue↔group linking)
+  - Render cron job for automated daily feedback requests
+  - Schema: `lineUserId`/`lineLinkedAt` on User, `lineGroupId` on Venue
+- **March 2026 Schedules Seeded**: 186 assignments across 5 venues
+  - Seed script: `scripts/seed-march-2026.ts`
+  - 3 new DJs: Joyyly (LDK), T-Gecko (NOBU), Sir i Sax (NOBU Brunch)
+  - Special: Mar 1 NOBU Brunch (11:30-15:30), Mar 4 DJ Enjoy sub, Mar 8/22 T-Gecko
+  - Horizon: Same weekly rotation as February
+  - Profile images added for all 3 new DJs
+- **Seed Script Timezone Fix**: Use `new Date(Date.UTC(year, month, day, 12, 0, 0))` (noon UTC) to avoid date shifting on UTC+7 machines
+
+### Previous Updates (Feb 24, 2026)
 - **Favicon Fixed**: BE logo now shows correctly in browser tab
   - Root cause 1: Metadata API `icons` didn't render in HTML `<head>` due to nested `<html>` tags from root + locale layouts. Fixed by adding direct `<link>` tags in root layout `<head>` (commit 6102fd7)
   - Root cause 2: `public/favicon.ico` contained a play button icon, not the BE logo. Regenerated from correct PNGs using ImageMagick (commit 54ef1f5)
@@ -263,4 +299,4 @@ Detailed development history is archived at `docs/sessions/CLAUDE_HISTORY_2024-2
 
 ---
 
-*Last updated: February 13, 2026 (Horizon account, feedback fix, DJ images)*
+*Last updated: March 1, 2026 (Manager group feedback, LINE integration tested & live)*
