@@ -130,7 +130,7 @@ export default function LineGroupLinks() {
                   key={venue.id}
                   className="flex flex-wrap items-center gap-2"
                 >
-                  <div className="w-36 shrink-0">
+                  <div className="w-44 shrink-0 whitespace-nowrap">
                     <span className="text-sm text-white">{venue.name}</span>
                     {isLinked && (
                       <span className="ml-2 inline-block w-2 h-2 rounded-full bg-brand-cyan" title="Linked" />
