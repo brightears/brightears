@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import ScheduleCalendar from '@/components/admin/ScheduleCalendar';
 import LineActions from '@/components/admin/LineActions';
 import LineGroupLinks from '@/components/admin/LineGroupLinks';
+import LineLinkedAccounts from '@/components/admin/LineLinkedAccounts';
 
 export default async function AdminDashboard({
   params,
@@ -77,6 +78,9 @@ export default async function AdminDashboard({
 
       {/* LINE Group Links */}
       <LineGroupLinks />
+
+      {/* LINE Linked Accounts */}
+      <LineLinkedAccounts />
 
       {/* Calendar */}
       <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6">
