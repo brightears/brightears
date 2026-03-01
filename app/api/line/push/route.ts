@@ -137,10 +137,72 @@ async function sendFeedbackRequests() {
     }
   }
 
+  // After sending rating cards, send a Night Report reminder to each manager
+  // (one per manager, not per assignment)
+  const remindedManagers = new Set<string>();
+  for (const assignment of pendingFeedback) {
+    const lineUserId = assignment.venue.corporate?.user?.lineUserId;
+    if (!lineUserId || remindedManagers.has(lineUserId)) continue;
+    remindedManagers.add(lineUserId);
+
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brightears.io';
+      await pushFlexMessage(
+        lineUserId,
+        'Submit your Night Report on the venue portal',
+        {
+          type: 'bubble',
+          size: 'kilo',
+          body: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                text: 'Night Report',
+                weight: 'bold',
+                size: 'md',
+                color: '#00bbe4',
+              },
+              {
+                type: 'text',
+                text: 'Submit your detailed night report (crowd level, peak time, weather & more) on the venue portal.',
+                size: 'sm',
+                color: '#999999',
+                wrap: true,
+                margin: 'md',
+              },
+            ],
+          },
+          footer: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'button',
+                action: {
+                  type: 'uri',
+                  label: 'Open Night Report',
+                  uri: `${baseUrl}/venue-portal/feedback`,
+                },
+                style: 'primary',
+                color: '#00bbe4',
+              },
+            ],
+          },
+        },
+      );
+    } catch (err: any) {
+      // Non-critical — don't fail the whole request
+      console.error(`[LINE Push] Night report reminder failed for ${lineUserId}:`, err.message);
+    }
+  }
+
   return NextResponse.json({
     total: pendingFeedback.length,
     sent,
     skipped,
+    nightReportReminders: remindedManagers.size,
     errors: errors.length > 0 ? errors : undefined,
   });
 }
