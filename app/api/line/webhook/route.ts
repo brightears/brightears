@@ -238,13 +238,7 @@ async function handleTextMessage(event: any) {
     return;
   }
 
-  // Default response
-  await replyMessage(event.replyToken, [
-    {
-      type: 'text',
-      text: 'Hi! I handle DJ feedback and schedule notifications. If you need to link your account, type your Bright Ears email.',
-    },
-  ]);
+  // Ignore other messages — bot stays silent unless handling a specific flow
 }
 
 // ---------------------------------------------------------------------------
