@@ -222,7 +222,7 @@ async function sendFeedbackRequests() {
 }
 
 // ---------------------------------------------------------------------------
-// Send schedule reminders to DJs playing today
+// Send schedule reminders to DJs and venue managers
 // ---------------------------------------------------------------------------
 
 async function sendDJReminders(body: { date?: string }) {
@@ -236,7 +236,7 @@ async function sendDJReminders(body: { date?: string }) {
   const dateStart = new Date(year, month - 1, day);
   const dateEnd = new Date(year, month - 1, day + 1);
 
-  // Find today's assignments with venue lineGroupId
+  // Find today's assignments
   const assignments = await prisma.venueAssignment.findMany({
     where: {
       date: { gte: dateStart, lt: dateEnd },
@@ -244,52 +244,61 @@ async function sendDJReminders(body: { date?: string }) {
       status: 'SCHEDULED',
     },
     include: {
-      venue: { select: { id: true, name: true, lineGroupId: true } },
+      venue: { select: { id: true, name: true, lineGroupId: true, lineManagerGroupId: true } },
       artist: { select: { id: true, stageName: true } },
     },
   });
 
-  // Group assignments by lineGroupId (multiple venues can share one group)
-  const groupMap = new Map<
-    string,
-    Array<{ venueName: string; djName: string; startTime: string; endTime: string }>
-  >();
+  type SlotInfo = { venueName: string; djName: string; startTime: string; endTime: string };
+
+  // Group assignments by lineGroupId (DJ groups) and lineManagerGroupId (manager groups)
+  const djGroupMap = new Map<string, SlotInfo[]>();
+  const mgrGroupMap = new Map<string, SlotInfo[]>();
 
   let skipped = 0;
   for (const assignment of assignments) {
-    const groupId = assignment.venue.lineGroupId;
-    if (!groupId) {
-      skipped++;
-      continue;
-    }
     if (!assignment.artist) {
       skipped++;
       continue;
     }
 
-    if (!groupMap.has(groupId)) {
-      groupMap.set(groupId, []);
-    }
-    groupMap.get(groupId)!.push({
+    const slot: SlotInfo = {
       venueName: assignment.venue.name,
       djName: assignment.artist.stageName,
       startTime: assignment.startTime,
       endTime: assignment.endTime,
-    });
+    };
+
+    // DJ group
+    const djGid = assignment.venue.lineGroupId;
+    if (djGid) {
+      if (!djGroupMap.has(djGid)) djGroupMap.set(djGid, []);
+      djGroupMap.get(djGid)!.push(slot);
+    }
+
+    // Manager group
+    const mgrGid = assignment.venue.lineManagerGroupId;
+    if (mgrGid) {
+      if (!mgrGroupMap.has(mgrGid)) mgrGroupMap.set(mgrGid, []);
+      mgrGroupMap.get(mgrGid)!.push(slot);
+    }
+
+    if (!djGid && !mgrGid) skipped++;
   }
 
   let sent = 0;
   const errors: string[] = [];
   const dateStr = formatDate(dateStart);
+  const sentGroups = new Set<string>();
 
-  // Send one combined message per LINE group
-  for (const [groupId, slots] of groupMap) {
-    // Group slots by venue for the Flex Message
+  // Helper: send schedule flex to a group
+  async function sendToGroup(groupId: string, slots: SlotInfo[]) {
+    if (sentGroups.has(groupId)) return; // Deduplicate
+    sentGroups.add(groupId);
+
     const venueMap = new Map<string, Array<{ djName: string; startTime: string; endTime: string }>>();
     for (const slot of slots) {
-      if (!venueMap.has(slot.venueName)) {
-        venueMap.set(slot.venueName, []);
-      }
+      if (!venueMap.has(slot.venueName)) venueMap.set(slot.venueName, []);
       venueMap.get(slot.venueName)!.push({
         djName: slot.djName,
         startTime: slot.startTime,
@@ -314,12 +323,23 @@ async function sendDJReminders(body: { date?: string }) {
     }
   }
 
+  // Send to DJ groups
+  for (const [groupId, slots] of djGroupMap) {
+    await sendToGroup(groupId, slots);
+  }
+
+  // Send to manager groups
+  for (const [groupId, slots] of mgrGroupMap) {
+    await sendToGroup(groupId, slots);
+  }
+
   return NextResponse.json({
     date: targetDate,
     total: assignments.length,
     sent,
     skipped,
-    groups: groupMap.size,
+    djGroups: djGroupMap.size,
+    managerGroups: mgrGroupMap.size,
     errors: errors.length > 0 ? errors : undefined,
   });
 }
