@@ -2,9 +2,9 @@
  * LINE Messaging API Webhook
  *
  * Receives events from LINE:
- *   - follow:   User adds the bot → send welcome + link prompt
+ *   - follow:   User adds the bot (no action — account linking disabled)
  *   - postback: User taps a button (star rating, skip, notes prompt)
- *   - message:  User sends text (feedback notes, account linking email)
+ *   - message:  User sends text (feedback notes only)
  *
  * Webhook URL to configure in LINE Developers Console:
  *   https://brightears.io/api/line/webhook
@@ -17,16 +17,18 @@ import {
   replyMessage,
   pushFlexMessage,
   pushTextMessage,
-  buildWelcomeFlex,
   buildRatingConfirmFlex,
 } from '@/lib/line';
+
+// Admin LINE userId (hardcoded — only admin receives DMs)
+const ADMIN_LINE_USER_ID = 'Ue15ee59be451bbc916f46d53b86b8eec';
 
 // Conversation state stored in-memory (fine for small scale).
 // Maps LINE userId → pending action context.
 const conversationState = new Map<
   string,
   {
-    action: 'awaiting_notes' | 'awaiting_email';
+    action: 'awaiting_notes';
     assignmentId?: string;
     rating?: number;
     expiresAt: number;
@@ -114,32 +116,12 @@ async function processEvents(events: any[]) {
 // ---------------------------------------------------------------------------
 
 async function handleFollow(event: any) {
-  const lineUserId = event.source.userId;
-
-  // Check if this LINE user is already linked
-  const existingUser = await prisma.user.findUnique({
-    where: { lineUserId },
-  });
-
-  if (existingUser) {
-    await replyMessage(event.replyToken, [
-      {
-        type: 'text',
-        text: `Welcome back! Your account (${existingUser.email}) is already linked.`,
-      },
-    ]);
-    return;
-  }
-
-  // Prompt to link account
-  const linkUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://brightears.io'}/api/line/link?lineUserId=${lineUserId}`;
-
+  // No account linking — admin LINE is hardcoded
   await replyMessage(event.replyToken, [
     {
-      type: 'flex',
-      altText: 'Welcome to Bright Ears - Link your account',
-      contents: buildWelcomeFlex(linkUrl),
-    } as any,
+      type: 'text',
+      text: `Welcome to Bright Ears! 🎧`,
+    },
   ]);
 }
 
@@ -174,13 +156,9 @@ async function handlePostback(event: any) {
     await replyMessage(event.replyToken, [
       {
         type: 'text',
-        text: 'Please link your Bright Ears account first. Type your account email to get started.',
+        text: 'Your LINE account is not linked to a Bright Ears venue. Please contact support.',
       },
     ]);
-    conversationState.set(lineUserId, {
-      action: 'awaiting_email',
-      expiresAt: Date.now() + 30 * 60 * 1000, // 30 min
-    });
     return;
   }
 
@@ -382,13 +360,6 @@ async function handleTextMessage(event: any) {
     return;
   }
 
-  // Handle account linking via email
-  if (state?.action === 'awaiting_email' || looksLikeEmail(text)) {
-    conversationState.delete(lineUserId);
-    await linkAccountByEmail(event, lineUserId, text.toLowerCase());
-    return;
-  }
-
   // Ignore other messages — bot stays silent unless handling a specific flow
 }
 
@@ -507,61 +478,6 @@ async function submitNotesForAssignment(
   }
 }
 
-async function linkAccountByEmail(
-  event: any,
-  lineUserId: string,
-  email: string,
-) {
-  if (!looksLikeEmail(email)) {
-    await replyMessage(event.replyToken, [
-      { type: 'text', text: 'That doesn\'t look like an email. Please type your Bright Ears account email.' },
-    ]);
-    return;
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { email },
-    include: { corporate: true },
-  });
-
-  if (!user) {
-    await replyMessage(event.replyToken, [
-      {
-        type: 'text',
-        text: `No Bright Ears account found for ${email}. Please check the email and try again.`,
-      },
-    ]);
-    return;
-  }
-
-  // Check if already linked to a different LINE user
-  if (user.lineUserId && user.lineUserId !== lineUserId) {
-    await replyMessage(event.replyToken, [
-      {
-        type: 'text',
-        text: 'This account is already linked to a different LINE user. Please contact support.',
-      },
-    ]);
-    return;
-  }
-
-  // Link the account
-  await prisma.user.update({
-    where: { id: user.id },
-    data: {
-      lineUserId,
-      lineLinkedAt: new Date(),
-    },
-  });
-
-  const roleName = user.corporate ? 'Venue Manager' : 'User';
-  await replyMessage(event.replyToken, [
-    {
-      type: 'text',
-      text: `Account linked! ${roleName} account (${email}) is now connected. You'll receive DJ feedback requests and schedule updates here.`,
-    },
-  ]);
-}
 
 // ---------------------------------------------------------------------------
 // Join: Bot added to a group chat
@@ -573,19 +489,22 @@ async function handleJoin(event: any) {
 
   console.log(`[LINE Webhook] Bot joined group: ${groupId}`);
 
-  // Send the group ID in the chat so admin can copy it
+  // Clean greeting in the group
   await replyMessage(event.replyToken, [
     {
       type: 'text',
-      text: `Bright Ears bot connected!\n\nGroup ID: ${groupId}\n\nIn admin → LINE Group Links:\n• "DJ Group" = schedule reminders\n• "Manager Group" = feedback cards`,
+      text: `Bright Ears connected! 🎧`,
     },
   ]);
+
+  // DM the Group ID to admin
+  await pushTextMessage(
+    ADMIN_LINE_USER_ID,
+    `New group joined!\n\nGroup ID:\n${groupId}\n\nPaste this in admin → LINE Group Links (DJ Group or Manager Group).`
+  );
 }
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
-function looksLikeEmail(text: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text);
-}
