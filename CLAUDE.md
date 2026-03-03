@@ -23,6 +23,11 @@
 - March 2026 schedules seeded (217 assignments across all 6 venues)
 
 ### Recent Updates (Mar 3, 2026)
+- **LINE Security Hardened**: Removed email-based account linking
+  - Admin LINE userId hardcoded (`ADMIN_LINE_USER_ID` constant in webhook)
+  - Group join: clean greeting in group, Group ID DM'd to admin privately
+  - Nobody can hijack accounts by typing emails in LINE chat
+  - Follow handler: just "Welcome to Bright Ears!" (no link prompt)
 - **ABar Account Created**: New venue with 5 shared DJs, full Mar 2026 schedule
   - Login: `abar@brightears.io` / `ABar2026!`
   - 5 shared DJs: Benji, UFO, Linze, Scotty B, DJ Pound
