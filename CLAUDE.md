@@ -13,16 +13,23 @@
 ## Current Status (March 2026)
 
 - Landing page + Venue Portal + Admin Portal operational
-- **5 Corporate Customers**: TGC Hotel Collection (NOBU/Le Du Kaan), CRU, Cocoa XO, Horizon
-- **26 DJs** across 5 venues (16 shared + 2 CRU-specific + 2 Horizon-specific + 3 March additions)
+- **6 Corporate Customers**: TGC Hotel Collection (NOBU/Le Du Kaan), CRU, Cocoa XO, Horizon, ABar
+- **26 DJs** across 6 venues (16 shared + 2 CRU-specific + 2 Horizon-specific + 3 March additions)
 - PDF schedule export working with calendar grid layout
 - Feedback system simplified: 1-5 stars + optional notes (no sub-ratings)
 - Admin can view venue manager feedback notes
 - LINE messaging integration **live and tested** (feedback requests, DJ reminders, broadcast)
 - Manager group feedback: zero-setup ratings via LINE groups
-- March 2026 schedules seeded (186 assignments across all 5 venues)
+- March 2026 schedules seeded (217 assignments across all 6 venues)
 
-### Recent Updates (Mar 1, 2026)
+### Recent Updates (Mar 3, 2026)
+- **ABar Account Created**: New venue with 5 shared DJs, full Mar 2026 schedule
+  - Login: `abar@brightears.io` / `ABar2026!`
+  - 5 shared DJs: Benji, UFO, Linze, Scotty B, DJ Pound
+  - Schedule: 31 nights, variable hours (Sun-Wed 21:00-24:00, Thu-Sat 22:00-24:00)
+  - Seed script: `scripts/seed-abar.ts`
+
+### Previous Updates (Mar 1, 2026)
 - **Manager Group Feedback**: Zero-setup LINE ratings for venue managers
   - New `lineManagerGroupId` on Venue (separate from DJ `lineGroupId`)
   - Admin creates group (bot + admin + manager), links as "Manager Group"
@@ -224,6 +231,7 @@ Use them proactively when task matches their domain. See `.claude/rules/02-subag
 | CRU | cru@brightears.io | CRU2026! | CRU Champagne Bar |
 | Cocoa XO | cocoaxo@brightears.io | CocoaXO2026! | Cocoa XO |
 | Horizon | horizon@brightears.io | Horizon2026! | Horizon |
+| ABar | abar@brightears.io | ABar2026! | ABar |
 
 ---
 
@@ -299,4 +307,4 @@ Detailed development history is archived at `docs/sessions/CLAUDE_HISTORY_2024-2
 
 ---
 
-*Last updated: March 1, 2026 (Manager group feedback, LINE integration tested & live)*
+*Last updated: March 3, 2026 (ABar venue added, manager group feedback, LINE integration live)*

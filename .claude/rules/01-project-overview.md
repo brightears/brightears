@@ -29,4 +29,4 @@ Professional entertainment booking platform for Thailand. Currently operates as:
 - **Corporate Focus**: English-first interface for hotel/venue clients
 
 ## Current DJ Roster
-26 DJs across 5 venues (NOBU, Le Du Kaan, CRU, Cocoa XO, Horizon)
+26 DJs across 6 venues (NOBU, Le Du Kaan, CRU, Cocoa XO, Horizon, ABar)
