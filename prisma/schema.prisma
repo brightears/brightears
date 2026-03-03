@@ -360,6 +360,8 @@ model VenueAssignment {
   status          VenueAssignmentStatus @default(SCHEDULED)
   notes           String?
 
+  feedbackRequestSentAt DateTime? // Tracks when LINE feedback request was sent (prevents re-sending)
+
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

@@ -70,6 +70,7 @@ async function sendFeedbackRequests() {
     where: {
       artistId: { not: null },
       feedback: null, // No feedback yet
+      feedbackRequestSentAt: null, // Not already sent
       date: {
         gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // Last 7 days
       },
@@ -137,6 +138,11 @@ async function sendFeedbackRequests() {
           timeSlot: `${assignment.startTime} - ${assignment.endTime}`,
         }),
       );
+      // Mark as sent so it won't be re-sent
+      await prisma.venueAssignment.update({
+        where: { id: assignment.id },
+        data: { feedbackRequestSentAt: new Date() },
+      });
       sent++;
     } catch (err: any) {
       errors.push(`${assignment.id}: ${err.message}`);
