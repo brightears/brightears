@@ -23,6 +23,12 @@
 - March 2026 schedules seeded (217 assignments across all 6 venues)
 
 ### Recent Updates (Mar 3, 2026)
+- **Manager Schedule Reminders**: Venue managers now get "Tonight's DJ Schedule" card (8am Bangkok)
+  - Same card as DJ groups, sent to `lineManagerGroupId`
+  - Two daily touchpoints for managers: schedule (morning) + feedback (after shift)
+- **Feedback Request Deduplication**: Each feedback card sent exactly once per assignment
+  - New `feedbackRequestSentAt` field on VenueAssignment prevents re-sending
+  - No more duplicate feedback cards every 30 minutes
 - **LINE Security Hardened**: Removed email-based account linking
   - Admin LINE userId hardcoded (`ADMIN_LINE_USER_ID` constant in webhook)
   - Group join: clean greeting in group, Group ID DM'd to admin privately
