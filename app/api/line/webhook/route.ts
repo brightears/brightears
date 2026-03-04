@@ -507,13 +507,16 @@ async function handleJoin(event: any) {
 
   console.log(`[LINE Webhook] Bot joined group: ${groupId}`);
 
-  // Clean greeting in the group
+  // Clean greeting in the group (reply is free, no rate limit)
   await replyMessage(event.replyToken, [
     {
       type: 'text',
       text: `Bright Ears connected! 🎧`,
     },
   ]);
+
+  // Throttle before push to avoid 429 rate limit
+  await new Promise(resolve => setTimeout(resolve, 500));
 
   // DM the Group ID to admin
   await pushTextMessage(
