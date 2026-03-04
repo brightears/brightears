@@ -144,6 +144,8 @@ async function sendFeedbackRequests() {
         data: { feedbackRequestSentAt: new Date() },
       });
       sent++;
+      // Throttle to avoid LINE 429 rate limits
+      await new Promise(resolve => setTimeout(resolve, 500));
     } catch (err: any) {
       errors.push(`${assignment.id}: ${err.message}`);
     }
@@ -318,6 +320,8 @@ async function sendDJReminders(body: { date?: string }) {
         buildGroupScheduleFlex({ date: dateStr, venues }),
       );
       sent++;
+      // Throttle to avoid LINE 429 rate limits
+      await new Promise(resolve => setTimeout(resolve, 500));
     } catch (err: any) {
       errors.push(`group ${groupId}: ${err.message}`);
     }
