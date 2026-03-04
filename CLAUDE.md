@@ -28,6 +28,9 @@
   - Notes append (multiple people can add), never overwrite
   - Star rating remains one-time only (first tap locks it in)
   - Group text messages only captured when sender has active `awaiting_notes` state
+- **LINE Rate Limit Fix**: Added 500ms throttle between push messages
+  - LINE API was returning 429 for 4/6 groups when sent in rapid succession
+  - Applies to both schedule reminders and feedback requests
 
 ### Previous Updates (Mar 3, 2026)
 - **Manager Schedule Reminders**: Venue managers now get "Tonight's DJ Schedule" card (8am Bangkok)
