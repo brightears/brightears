@@ -22,7 +22,14 @@
 - Manager group feedback: zero-setup ratings via LINE groups
 - March 2026 schedules seeded (217 assignments across all 6 venues)
 
-### Recent Updates (Mar 3, 2026)
+### Recent Updates (Mar 4, 2026)
+- **Group Notes Inline**: "Add Notes" now works directly in LINE group chats (was redirecting to venue portal)
+  - Same flow as 1:1: bot asks "Please type your feedback notes", captures next message
+  - Notes append (multiple people can add), never overwrite
+  - Star rating remains one-time only (first tap locks it in)
+  - Group text messages only captured when sender has active `awaiting_notes` state
+
+### Previous Updates (Mar 3, 2026)
 - **Manager Schedule Reminders**: Venue managers now get "Tonight's DJ Schedule" card (8am Bangkok)
   - Same card as DJ groups, sent to `lineManagerGroupId`
   - Two daily touchpoints for managers: schedule (morning) + feedback (after shift)
