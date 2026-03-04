@@ -94,9 +94,17 @@ async function processEvents(events: any[]) {
           await handlePostback(event);
           break;
         case 'message':
-          // Only respond to text messages in 1:1 chats, not in groups
-          if (event.message.type === 'text' && event.source.type === 'user') {
-            await handleTextMessage(event);
+          if (event.message.type === 'text') {
+            if (event.source.type === 'user') {
+              // 1:1 chat — always handle
+              await handleTextMessage(event);
+            } else if (event.source.type === 'group' && event.source.userId) {
+              // Group chat — only handle if user has pending notes state
+              const state = conversationState.get(event.source.userId);
+              if (state?.action === 'awaiting_notes') {
+                await handleTextMessage(event);
+              }
+            }
           }
           break;
         case 'join':
@@ -241,8 +249,14 @@ async function handleGroupPostback(
     }
 
     case 'notes_prompt': {
+      if (!assignmentId) return;
+      conversationState.set(tapperLineUserId, {
+        action: 'awaiting_notes',
+        assignmentId,
+        expiresAt: Date.now() + 30 * 60 * 1000,
+      });
       await replyMessage(event.replyToken, [
-        { type: 'text', text: 'To add notes, visit the venue portal.' },
+        { type: 'text', text: 'Please type your feedback notes for this DJ:' },
       ]);
       break;
     }
@@ -456,10 +470,14 @@ async function submitNotesForAssignment(
   });
 
   if (feedback) {
-    // Update existing feedback with notes
+    // Append to existing notes (don't overwrite)
+    const updatedNotes = feedback.notes
+      ? `${feedback.notes}\n${notes}`
+      : notes;
+
     await prisma.venueFeedback.update({
       where: { id: feedback.id },
-      data: { notes },
+      data: { notes: updatedNotes },
     });
     await replyMessage(event.replyToken, [
       {
