@@ -1,9 +1,13 @@
 /**
  * LINE Cron Job
  *
- * Runs every 30 minutes on Render to:
- * 1. Send feedback requests for ended shifts (always)
- * 2. Send DJ reminders at ~4pm Bangkok time (9am UTC)
+ * Runs every 30 minutes on Render (*/30 * * * *).
+ * Only acts during two daily windows:
+ *
+ * 1. 8am Bangkok (1:00 UTC) → Schedule reminders to DJ + manager groups
+ * 2. 9pm-1:30am Bangkok (14:00-18:00 UTC) → Feedback cards for ended shifts
+ *
+ * Outside these windows, the script is a no-op.
  *
  * Calls the existing /api/line/push endpoint with the LINE_PUSH_API_KEY.
  *
@@ -46,17 +50,18 @@ async function callPushAPI(action: string, extra?: Record<string, unknown>) {
 }
 
 async function main() {
-  // Always send feedback requests for ended shifts
-  await callPushAPI('feedback_requests');
-
-  // Send DJ reminders once daily around 8am Bangkok (1am UTC)
-  // Since cron runs every 30 min, check if current UTC hour is 1
   const utcHour = new Date().getUTCHours();
-  const utcMinute = new Date().getUTCMinutes();
 
-  // Run DJ reminders between 1:00-1:29 UTC (8:00-8:29am Bangkok)
-  if (utcHour === 1 && utcMinute < 30) {
+  // 8am Bangkok (1:00 UTC) → Schedule reminders to DJ groups + manager groups
+  if (utcHour === 1) {
     await callPushAPI('dj_reminder');
+  }
+
+  // 9pm-1:30am Bangkok (14:00-18:00 UTC) → Feedback cards for ended shifts
+  // Runs ~10 times in this window; hasShiftEnded() + feedbackRequestSentAt
+  // ensure each card is sent exactly once, within 30 min of shift ending.
+  if (utcHour >= 14 && utcHour <= 18) {
+    await callPushAPI('feedback_requests');
   }
 
   console.log('[LINE Cron] Done.');

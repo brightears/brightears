@@ -61,6 +61,23 @@ export async function POST(req: Request) {
 // ---------------------------------------------------------------------------
 
 async function sendFeedbackRequests() {
+  // --- Defense: Expire old backlog (>48h) to prevent death spiral ---
+  // Assignments older than 48h that were never sent get marked as "sent"
+  // so they never retry. This breaks the infinite-retry cycle.
+  const backlogCutoff = new Date(Date.now() - 48 * 60 * 60 * 1000);
+  const expiredBacklog = await prisma.venueAssignment.updateMany({
+    where: {
+      artistId: { not: null },
+      feedback: null,
+      feedbackRequestSentAt: null,
+      date: { lt: backlogCutoff },
+    },
+    data: { feedbackRequestSentAt: new Date() },
+  });
+  if (expiredBacklog.count > 0) {
+    console.log(`[LINE Push] Expired ${expiredBacklog.count} old backlog assignments (>48h)`);
+  }
+
   // Find assignments where:
   // 1. Shift has ended
   // 2. No feedback submitted yet
@@ -72,7 +89,7 @@ async function sendFeedbackRequests() {
       feedback: null, // No feedback yet
       feedbackRequestSentAt: null, // Not already sent
       date: {
-        gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // Last 7 days
+        gte: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // Last 2 days (was 7)
       },
     },
     include: {
@@ -108,6 +125,7 @@ async function sendFeedbackRequests() {
 
   let sent = 0;
   let skipped = 0;
+  let rateLimited = false;
   const errors: string[] = [];
 
   for (const assignment of pendingFeedback) {
@@ -147,78 +165,96 @@ async function sendFeedbackRequests() {
       // Throttle to avoid LINE 429 rate limits
       await new Promise(resolve => setTimeout(resolve, 500));
     } catch (err: any) {
+      // Circuit breaker: stop immediately on rate limit
+      if (err.status === 429 || err.statusCode === 429) {
+        console.error(`[LINE Push] 429 rate limit hit — stopping feedback batch`);
+        errors.push(`${assignment.id}: 429 rate limited (circuit breaker triggered)`);
+        rateLimited = true;
+        break;
+      }
       errors.push(`${assignment.id}: ${err.message}`);
     }
   }
 
   // After sending rating cards, send a Night Report reminder to each target
   // (one per target, not per assignment)
-  const remindedTargets = new Set<string>();
-  for (const assignment of pendingFeedback) {
-    const target = assignment.venue.lineManagerGroupId
-      || assignment.venue.corporate?.user?.lineUserId
-      || null;
-    if (!target || remindedTargets.has(target)) continue;
-    remindedTargets.add(target);
+  // Skip entirely if we hit a rate limit during feedback
+  let nightReportCount = 0;
+  if (!rateLimited) {
+    const remindedTargets = new Set<string>();
+    for (const assignment of pendingFeedback) {
+      const target = assignment.venue.lineManagerGroupId
+        || assignment.venue.corporate?.user?.lineUserId
+        || null;
+      if (!target || remindedTargets.has(target)) continue;
+      remindedTargets.add(target);
 
-    try {
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brightears.io';
-      await pushFlexMessage(
-        target,
-        'Submit your Night Report on the venue portal',
-        {
-          type: 'bubble',
-          size: 'kilo',
-          body: {
-            type: 'box',
-            layout: 'vertical',
-            contents: [
-              {
-                type: 'text',
-                text: 'Night Report',
-                weight: 'bold',
-                size: 'md',
-                color: '#00bbe4',
-              },
-              {
-                type: 'text',
-                text: 'Submit your detailed night report (crowd level, peak time, weather & more) on the venue portal.',
-                size: 'sm',
-                color: '#999999',
-                wrap: true,
-                margin: 'md',
-              },
-            ],
-          },
-          footer: {
-            type: 'box',
-            layout: 'vertical',
-            contents: [
-              {
-                type: 'button',
-                action: {
-                  type: 'uri',
-                  label: 'Open Night Report',
-                  uri: `${baseUrl}/venue-portal/feedback`,
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brightears.io';
+        await pushFlexMessage(
+          target,
+          'Submit your Night Report on the venue portal',
+          {
+            type: 'bubble',
+            size: 'kilo',
+            body: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'text',
+                  text: 'Night Report',
+                  weight: 'bold',
+                  size: 'md',
+                  color: '#00bbe4',
                 },
-                style: 'primary',
-                color: '#00bbe4',
-              },
-            ],
+                {
+                  type: 'text',
+                  text: 'Submit your detailed night report (crowd level, peak time, weather & more) on the venue portal.',
+                  size: 'sm',
+                  color: '#999999',
+                  wrap: true,
+                  margin: 'md',
+                },
+              ],
+            },
+            footer: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'button',
+                  action: {
+                    type: 'uri',
+                    label: 'Open Night Report',
+                    uri: `${baseUrl}/venue-portal/feedback`,
+                  },
+                  style: 'primary',
+                  color: '#00bbe4',
+                },
+              ],
+            },
           },
-        },
-      );
-    } catch (err: any) {
-      // Non-critical — don't fail the whole request
-      console.error(`[LINE Push] Night report reminder failed for ${target}:`, err.message);
+        );
+        nightReportCount++;
+        // Throttle night report reminders too
+        await new Promise(resolve => setTimeout(resolve, 500));
+      } catch (err: any) {
+        // Non-critical — don't fail the whole request
+        console.error(`[LINE Push] Night report reminder failed for ${target}:`, err.message);
+      }
     }
+  } else {
+    console.log(`[LINE Push] Skipping night report reminders due to rate limit`);
   }
 
   return NextResponse.json({
     total: pendingFeedback.length,
     sent,
     skipped,
-    nightReportReminders: remindedTargets.size,
+    nightReportReminders: nightReportCount,
+    backlogExpired: expiredBacklog.count,
+    rateLimited,
     errors: errors.length > 0 ? errors : undefined,
   });
 }
