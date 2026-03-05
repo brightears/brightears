@@ -1,7 +1,7 @@
 /**
  * LINE Cron Job
  *
- * Runs every 30 minutes on Render (*/30 * * * *).
+ * Runs every 30 minutes on Render (schedule: every-30-min).
  * Only acts during two daily windows:
  *
  * 1. 8am Bangkok (1:00 UTC) → Schedule reminders to DJ + manager groups
