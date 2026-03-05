@@ -61,25 +61,34 @@ export async function POST(req: Request) {
 // ---------------------------------------------------------------------------
 
 async function sendFeedbackRequests() {
-  // --- Defense: Expire old backlog (>48h) to prevent death spiral ---
-  // Assignments older than 48h that were never sent get marked as "sent"
-  // so they never retry. This breaks the infinite-retry cycle.
-  const backlogCutoff = new Date(Date.now() - 48 * 60 * 60 * 1000);
+  // Calculate today in Bangkok timezone
+  const now = new Date();
+  const bangkokNow = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+  const todayStart = new Date(Date.UTC(
+    bangkokNow.getUTCFullYear(),
+    bangkokNow.getUTCMonth(),
+    bangkokNow.getUTCDate(),
+    0, 0, 0
+  ));
+
+  // --- Defense: Expire old backlog to prevent death spiral ---
+  // Assignments before today that were never sent get marked as "sent"
+  // so they never retry or resurface.
   const expiredBacklog = await prisma.venueAssignment.updateMany({
     where: {
       artistId: { not: null },
       feedback: null,
       feedbackRequestSentAt: null,
-      date: { lt: backlogCutoff },
+      date: { lt: todayStart },
     },
     data: { feedbackRequestSentAt: new Date() },
   });
   if (expiredBacklog.count > 0) {
-    console.log(`[LINE Push] Expired ${expiredBacklog.count} old backlog assignments (>48h)`);
+    console.log(`[LINE Push] Expired ${expiredBacklog.count} old backlog assignments (before today)`);
   }
 
-  // Find assignments where:
-  // 1. Shift has ended
+  // Find TODAY's assignments where:
+  // 1. Shift has ended (checked after query via hasShiftEnded)
   // 2. No feedback submitted yet
   // 3. Has a DJ (not special event)
   // 4. Venue has manager group or manager has LINE linked
@@ -88,9 +97,7 @@ async function sendFeedbackRequests() {
       artistId: { not: null },
       feedback: null, // No feedback yet
       feedbackRequestSentAt: null, // Not already sent
-      date: {
-        gte: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // Last 2 days (was 7)
-      },
+      date: { gte: todayStart }, // Today only (Bangkok timezone)
     },
     include: {
       venue: {
