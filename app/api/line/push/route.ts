@@ -61,30 +61,36 @@ export async function POST(req: Request) {
 // ---------------------------------------------------------------------------
 
 async function sendFeedbackRequests() {
-  // Calculate today in Bangkok timezone
+  // Calculate the "performance day" in Bangkok timezone.
+  // A performance night spans 6pm-6am. If it's past midnight but before
+  // 6am Bangkok, we're still in last night's session (use yesterday's date).
   const now = new Date();
   const bangkokNow = new Date(now.getTime() + 7 * 60 * 60 * 1000);
-  const todayStart = new Date(Date.UTC(
+  const bangkokHour = bangkokNow.getUTCHours();
+  const performanceDayStart = new Date(Date.UTC(
     bangkokNow.getUTCFullYear(),
     bangkokNow.getUTCMonth(),
     bangkokNow.getUTCDate(),
     0, 0, 0
   ));
+  if (bangkokHour < 6) {
+    performanceDayStart.setUTCDate(performanceDayStart.getUTCDate() - 1);
+  }
 
   // --- Defense: Expire old backlog to prevent death spiral ---
-  // Assignments before today that were never sent get marked as "sent"
+  // Assignments before the current performance day get marked as "sent"
   // so they never retry or resurface.
   const expiredBacklog = await prisma.venueAssignment.updateMany({
     where: {
       artistId: { not: null },
       feedback: null,
       feedbackRequestSentAt: null,
-      date: { lt: todayStart },
+      date: { lt: performanceDayStart },
     },
     data: { feedbackRequestSentAt: new Date() },
   });
   if (expiredBacklog.count > 0) {
-    console.log(`[LINE Push] Expired ${expiredBacklog.count} old backlog assignments (before today)`);
+    console.log(`[LINE Push] Expired ${expiredBacklog.count} old backlog assignments (before performance day)`);
   }
 
   // Find TODAY's assignments where:
@@ -97,7 +103,7 @@ async function sendFeedbackRequests() {
       artistId: { not: null },
       feedback: null, // No feedback yet
       feedbackRequestSentAt: null, // Not already sent
-      date: { gte: todayStart }, // Today only (Bangkok timezone)
+      date: { gte: performanceDayStart }, // Current performance night only
     },
     include: {
       venue: {
