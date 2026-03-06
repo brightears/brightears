@@ -9,6 +9,7 @@ import {
   UserGroupIcon,
   BuildingOfficeIcon,
   ChartBarIcon,
+  StarIcon,
   ArrowLeftOnRectangleIcon,
   Bars3Icon,
   XMarkIcon,
@@ -41,6 +42,12 @@ const navItems: NavItem[] = [
     href: '/admin/venues',
     icon: BuildingOfficeIcon,
     description: 'Venue management'
+  },
+  {
+    name: 'Feedback',
+    href: '/admin/feedback',
+    icon: StarIcon,
+    description: 'DJ ratings & notes'
   },
   {
     name: 'Analytics',
