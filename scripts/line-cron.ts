@@ -51,9 +51,11 @@ async function callPushAPI(action: string, extra?: Record<string, unknown>) {
 
 async function main() {
   const utcHour = new Date().getUTCHours();
+  const utcMinutes = new Date().getUTCMinutes();
 
   // 8am Bangkok (1:00 UTC) → Schedule reminders to DJ groups + manager groups
-  if (utcHour === 1) {
+  // Only on the :00 run, not :30 (cron fires twice per hour)
+  if (utcHour === 1 && utcMinutes < 15) {
     await callPushAPI('dj_reminder');
   }
 
