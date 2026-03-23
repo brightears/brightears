@@ -4,7 +4,7 @@
  * This script seeds the database with:
  * 1. Corporate record for TGC Hotel Collection
  * 2. Two venues: NOBU and Le Du Kaan
- * 3. 15 DJ Artist profiles
+ * 3. 16 DJ Artist profiles
  * 4. February 2026 schedule assignments
  *
  * Run with: npx tsx prisma/seed-nobu.ts
@@ -36,7 +36,7 @@ const CLERK_USER_IDS = {
 // =============================================================================
 
 const DJ_PROFILES = [
-  // NOBU DJs (6)
+  // NOBU DJs (7)
   {
     stageName: 'Benji',
     realName: 'Bua Benchawan',
@@ -119,6 +119,19 @@ const DJ_PROFILES = [
     mixcloud: null,
     profileImage: '/images/djs/vita-photo1.png',
     venues: ['NOBU', 'Le Du Kaan Late'],
+    hourlyRate: 1000,
+  },
+
+  {
+    stageName: 'Zara Gift',
+    realName: null,
+    bio: 'One of Thailand\'s most recognised female DJs with over 13 years behind the decks. Ranked #6 in Thailand\'s Top 100 DJanes and featured in DJane Top 100 Asia. Internationally acclaimed with performances across Japan, China, Australia, and Southeast Asia. Has performed at major festivals including 808 Festival and Waterzonic.',
+    category: ArtistCategory.DJ,
+    genres: ['House', 'Progressive', 'Bass House', 'Future Rave', 'Hip Hop', 'Trap', 'Melodic Techno'],
+    instagram: '@djzaragift',
+    mixcloud: null,
+    profileImage: '/images/djs/zaragift-photo1.png',
+    venues: ['NOBU'],
     hourlyRate: 1000,
   },
 
