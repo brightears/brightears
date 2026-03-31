@@ -31,6 +31,7 @@ const NEW_DJS = [
     stageName: 'Hvngyvk',
     genres: ['House', 'Afro House', 'Tech House'],
     bio: 'Replaces Lupø at LDK Early Monday. House/Afro House/Tech House.',
+    profileImage: '/images/djs/hvngyvk-photo1.png',
   },
   {
     djId: 'dj-fias',
@@ -38,6 +39,7 @@ const NEW_DJS = [
     stageName: 'Fias',
     genres: ['House', 'Afro House', 'Commercial'],
     bio: 'LDK Early Wednesday. House/Afro House/Commercial.',
+    profileImage: '/images/djs/fias-photo1.png',
   },
 ];
 
@@ -376,6 +378,7 @@ async function main() {
         category: ArtistCategory.DJ,
         genres: dj.genres,
         bio: dj.bio || null,
+        profileImage: (dj as any).profileImage || null,
         baseCity: 'Bangkok',
         serviceAreas: ['Bangkok'],
         minimumHours: 3,
