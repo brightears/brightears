@@ -536,13 +536,23 @@ async function handleGroupFreeText(event: any) {
   const groupId = event.source.groupId;
   if (!groupId) return;
 
-  // Only escalate from manager groups (not DJ groups)
-  const venue = await prisma.venue.findFirst({
+  // Check manager groups first, then DJ groups
+  let venue = await prisma.venue.findFirst({
     where: { lineManagerGroupId: groupId },
     select: { id: true, name: true },
   });
+  let senderType = 'manager';
 
-  if (!venue) return; // Not a manager group — ignore
+  if (!venue) {
+    // Check DJ groups
+    venue = await prisma.venue.findFirst({
+      where: { lineGroupId: groupId },
+      select: { id: true, name: true },
+    });
+    senderType = 'dj';
+  }
+
+  if (!venue) return; // Not a linked group — ignore
 
   const text = event.message.text.trim();
   const senderUserId = event.source.userId;
@@ -568,7 +578,7 @@ async function handleGroupFreeText(event: any) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         sender_name: senderName,
-        sender_type: 'manager',
+        sender_type: senderType,
         group_name: venue.name,
         text,
         venue_id: venue.id,

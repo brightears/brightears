@@ -51,6 +51,8 @@ export async function POST(req: Request) {
       return await sendDJReminders(body);
     case 'broadcast':
       return await sendBroadcast(body);
+    case 'send_message':
+      return await sendDirectMessage(body);
     default:
       return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
   }
@@ -437,6 +439,25 @@ async function sendBroadcast(body: { message?: string; role?: string }) {
     sent,
     errors: errors.length > 0 ? errors : undefined,
   });
+}
+
+// ---------------------------------------------------------------------------
+// Send a direct message to a LINE group or user (used by Vinyl)
+// ---------------------------------------------------------------------------
+
+async function sendDirectMessage(body: { to?: string; text?: string }) {
+  const { to, text } = body;
+  if (!to || !text) {
+    return NextResponse.json({ error: 'Missing "to" or "text"' }, { status: 400 });
+  }
+
+  try {
+    await pushTextMessage(to, text);
+    return NextResponse.json({ sent: true, to });
+  } catch (err: any) {
+    console.error('[LINE Push] send_message error:', err);
+    return NextResponse.json({ error: err?.message || 'Failed to send' }, { status: 500 });
+  }
 }
 
 // ---------------------------------------------------------------------------
