@@ -99,10 +99,13 @@ async function processEvents(events: any[]) {
               // 1:1 chat — always handle
               await handleTextMessage(event);
             } else if (event.source.type === 'group' && event.source.userId) {
-              // Group chat — only handle if user has pending notes state
+              // Group chat — handle pending notes OR escalate free-text
               const state = conversationState.get(event.source.userId);
               if (state?.action === 'awaiting_notes') {
                 await handleTextMessage(event);
+              } else {
+                // Free-text message in a group — escalate to Vinyl if from a manager group
+                await handleGroupFreeText(event);
               }
             }
           }
@@ -523,6 +526,60 @@ async function handleJoin(event: any) {
     ADMIN_LINE_USER_ID,
     `New group joined!\n\nGroup ID:\n${groupId}\n\nPaste this in admin → LINE Group Links (DJ Group or Manager Group).`
   );
+}
+
+// ---------------------------------------------------------------------------
+// Group free-text: Escalate manager group messages to Vinyl
+// ---------------------------------------------------------------------------
+
+async function handleGroupFreeText(event: any) {
+  const groupId = event.source.groupId;
+  if (!groupId) return;
+
+  // Only escalate from manager groups (not DJ groups)
+  const venue = await prisma.venue.findFirst({
+    where: { lineManagerGroupId: groupId },
+    select: { id: true, name: true },
+  });
+
+  if (!venue) return; // Not a manager group — ignore
+
+  const text = event.message.text.trim();
+  const senderUserId = event.source.userId;
+
+  // Try to get sender's display name from LINE
+  let senderName = senderUserId;
+  try {
+    const { messagingApi } = await import('@line/bot-sdk');
+    const client = new messagingApi.MessagingApiClient({
+      channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN!,
+    });
+    const profile = await client.getGroupMemberProfile(groupId, senderUserId);
+    senderName = profile.displayName;
+  } catch {
+    // Fall back to userId
+  }
+
+  // Send to Vinyl's webhook channel for escalation
+  const webhookUrl = process.env.VINYL_WEBHOOK_URL || 'http://localhost:8200';
+  try {
+    await fetch(`${webhookUrl}/webhook/line-escalation`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sender_name: senderName,
+        sender_type: 'manager',
+        group_name: venue.name,
+        text,
+        venue_id: venue.id,
+        line_user_id: senderUserId,
+        line_group_id: groupId,
+        timestamp: new Date(event.timestamp).toISOString(),
+      }),
+    });
+  } catch (err) {
+    console.error('[LINE Webhook] Failed to escalate to Vinyl:', err);
+  }
 }
 
 // ---------------------------------------------------------------------------
