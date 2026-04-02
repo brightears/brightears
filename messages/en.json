@@ -1092,7 +1092,7 @@
     "skipForNow": "Skip for now"
   },
   "artists": {
-    "title": "Browse 500+ Verified Artists",
+    "title": "Browse Our Artists",
     "subtitle": "Find the perfect DJ, band, or entertainer for your event in Thailand",
     "matchTitle": "Find Your Perfect Match",
     "searchPlaceholder": "Search by name, genre, or style...",
@@ -2072,7 +2072,7 @@
     },
     "djCta": {
       "title": "Are You a DJ?",
-      "subtitle": "Join our roster of 500+ artists. Zero commission, premium clients, and your own dashboard to manage bookings.",
+      "subtitle": "Join our roster of professional DJs and musicians. Premium venue clients and your own dashboard to manage bookings.",
       "button": "Apply to Join",
       "note": "Applications reviewed within 3-5 business days"
     },

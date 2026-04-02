@@ -25,8 +25,8 @@ export async function generateMetadata({
     : 'Bright Ears | Thailand Entertainment Agency';
 
   const description = locale === 'th'
-    ? 'แพลตฟอร์มจองศิลปินชั้นนำของไทย ดีเจและวงดนตรีมืออาชีพ 500+ คน งาน 10,000+ งาน ไม่มีค่าคอมมิชชั่น จองตรงจากเครือข่ายบันเทิงระดับพรีเมียมในกรุงเทพ'
-    : "Thailand's largest entertainment booking platform. 500+ verified artists, 10K+ events delivered. Book DJs, bands, musicians for your Bangkok venue with zero commission.";
+    ? 'เอเจนซี่บันเทิงในกรุงเทพ ดีเจและนักดนตรีมืออาชีพสำหรับโรงแรมและสถานที่ระดับพรีเมียม จองตรงจาก Bright Ears'
+    : 'Bangkok entertainment agency. Professional DJs and musicians for premium hotels and venues. Book directly with Bright Ears.';
 
   return {
     title,
@@ -83,12 +83,9 @@ export default async function HomePage({
 
   // Generate structured data schemas
   const organizationSchema = generateOrganizationSchema({ locale });
+  // Aggregate rating removed — will re-add when we have real public-facing review counts
   const localBusinessSchema = generateLocalBusinessSchema({
-    locale,
-    aggregateRating: {
-      ratingValue: '4.9',
-      reviewCount: '500'
-    }
+    locale
   });
   const breadcrumbSchema = generateBreadcrumbSchema({
     items: [

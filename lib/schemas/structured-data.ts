@@ -64,8 +64,8 @@ export function generateOrganizationSchema({
     alternateName: locale === 'th' ? 'ไบรท์ เอียร์ส' : 'Bright Ears',
     description:
       locale === 'th'
-        ? 'แพลตฟอร์มจองศิลปินชั้นนำของไทย ไม่มีค่าคอมมิชชั่น เชื่อมโยงศิลปินมืออาชีพกับสถานที่ระดับพรีเมียม'
-        : "Thailand's largest commission-free entertainment booking platform connecting verified artists with premium venues",
+        ? 'เอเจนซี่บันเทิงในกรุงเทพ ให้บริการดีเจและนักดนตรีมืออาชีพสำหรับโรงแรมและสถานที่ระดับพรีเมียม'
+        : 'Bangkok entertainment agency providing professional DJs and musicians for premium hotels and venues',
     url,
     logo: {
       '@type': 'ImageObject',
@@ -73,7 +73,7 @@ export function generateOrganizationSchema({
       width: '512',
       height: '512'
     },
-    foundingDate: '2024',
+    foundingDate: '2007',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',

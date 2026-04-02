@@ -14,6 +14,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changefreq: 'weekly' as const,
       lastModified: currentDate
     },
+    {
+      path: 'apply',
+      priority: 0.8,
+      changefreq: 'monthly' as const,
+      lastModified: currentDate
+    },
+    {
+      path: 'entertainment',
+      priority: 0.9,
+      changefreq: 'weekly' as const,
+      lastModified: currentDate
+    },
   ];
 
   // Build sitemap entries for static pages (both locales)

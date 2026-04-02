@@ -129,12 +129,6 @@ export async function GET(req: NextRequest) {
       user: {
         isActive: true
       },
-      // Only return artists with complete, published profiles
-      // isDraft: false means the artist has completed onboarding and published their profile
-      // Note: In agency model, we may not have isDraft field, so we check for essential fields
-      hourlyRate: {
-        not: null // Only artists with pricing set
-      },
       // Ensure artist has basic profile info
       stageName: {
         not: null

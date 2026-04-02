@@ -31,7 +31,10 @@ interface TestimonialsSectionProps {
   className?: string
 }
 
-// Curated testimonials showcasing platform success across different event types
+// TODO: These testimonials are fabricated placeholders. Replace with real client
+// testimonials before using this component on any public-facing page.
+// The trust indicators at the bottom (500+, 10K+, 4.9, 98%) are also fake — remove or
+// replace with real numbers (we have ~27 DJs across 6 venues as of 2026).
 const FEATURED_TESTIMONIALS: Testimonial[] = [
   {
     id: '1',
