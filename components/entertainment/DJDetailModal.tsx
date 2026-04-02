@@ -125,26 +125,6 @@ export default function DJDetailModal({
               </div>
             )}
 
-            {/* Venues */}
-            {dj.venues.length > 0 && (
-              <div>
-                <h3 className="text-sm font-medium text-gray-400 mb-2 flex items-center gap-2">
-                  <MapPinIcon className="w-4 h-4" />
-                  {locale === 'th' ? 'สถานที่' : 'Venues'}
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {dj.venues.map((venue) => (
-                    <span
-                      key={venue}
-                      className="px-3 py-1 bg-earthy-brown/20 border border-earthy-brown/30 rounded-full text-sm text-earthy-brown"
-                    >
-                      {venue}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {/* Bio */}
             {dj.bio && (
               <div>

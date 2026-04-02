@@ -26,13 +26,13 @@ export default function DJGalleryCard({ dj, onClick }: DJGalleryCardProps) {
       className="w-full text-left rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden hover:bg-white/10 hover:border-brand-cyan/30 transition-all duration-300 group hover:-translate-y-1"
     >
       {/* Image */}
-      <div className="relative h-56 bg-deep-teal overflow-hidden">
+      <div className="relative aspect-[3/4] bg-deep-teal overflow-hidden">
         {dj.profileImage ? (
           <Image
             src={dj.profileImage}
             alt={dj.stageName}
             fill
-            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+            className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
         ) : (
@@ -41,25 +41,6 @@ export default function DJGalleryCard({ dj, onClick }: DJGalleryCardProps) {
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-transparent to-transparent" />
-
-        {/* Venue badges */}
-        {dj.venues.length > 0 && (
-          <div className="absolute bottom-3 left-3 flex flex-wrap gap-1">
-            {dj.venues.slice(0, 2).map((venue) => (
-              <span
-                key={venue}
-                className="px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded-full text-[11px] text-white/80"
-              >
-                {venue}
-              </span>
-            ))}
-            {dj.venues.length > 2 && (
-              <span className="px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded-full text-[11px] text-white/80">
-                +{dj.venues.length - 2}
-              </span>
-            )}
-          </div>
-        )}
       </div>
 
       {/* Content */}
