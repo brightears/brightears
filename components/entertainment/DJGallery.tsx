@@ -21,20 +21,43 @@ interface DJGalleryProps {
   locale: string;
 }
 
+// Group sub-genres into parent categories for cleaner filtering
+const GENRE_GROUPS: Record<string, string[]> = {
+  'House': ['House', 'Deep House', 'Afro House', 'Tech House', 'Organic House', 'Soulful House', 'Funky House', 'Classic House', 'Progressive', 'Disco House'],
+  'R&B / Hip-Hop': ['R&B', 'Hip Hop', 'Hip-Hop', 'Soul', 'Funk'],
+  'Pop / Commercial': ['Pop', 'Commercial', 'Open Format', 'Pop Charts', 'Top 40', 'K-pop', 'Thai Pop', 'Pop & Dance'],
+  'Nu Disco': ['Nu Disco', 'Indie Dance', 'Disco'],
+  'Latin': ['Latin', 'Salsa', 'Tropical', 'Afro-Latin', 'Reggaeton', 'Latino'],
+  'Lounge / Chillout': ['Lounge', 'Chillout', 'Chillout'],
+  'EDM / Techno': ['EDM', 'Techno', 'Electro', 'Bass House', 'Future Rave', 'Melodic Techno'],
+};
+
 export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
   const [selectedDJ, setSelectedDJ] = useState<DJ | null>(null);
 
+  // Build grouped genre list from actual DJ data
+  const groupedGenres = useMemo(() => {
+    const active: string[] = [];
+    for (const [group, subGenres] of Object.entries(GENRE_GROUPS)) {
+      if (djs.some((dj) => dj.genres.some((g) => subGenres.includes(g)))) {
+        active.push(group);
+      }
+    }
+    return active;
+  }, [djs]);
+
   const filteredDJs = useMemo(() => {
     if (selectedGenre === 'all') return djs;
-    return djs.filter((dj) => dj.genres.includes(selectedGenre));
+    const subGenres = GENRE_GROUPS[selectedGenre] || [selectedGenre];
+    return djs.filter((dj) => dj.genres.some((g) => subGenres.includes(g)));
   }, [djs, selectedGenre]);
 
   return (
     <>
       {/* Genre Filter */}
       <div className="mb-10">
-        <div className="flex flex-wrap gap-2 justify-center">
+        <div className="flex flex-wrap gap-2 justify-center max-w-2xl mx-auto">
           <button
             onClick={() => setSelectedGenre('all')}
             className={`px-4 py-2 rounded-full font-inter text-sm transition-all duration-200 ${
@@ -45,7 +68,7 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
           >
             {locale === 'th' ? 'ทั้งหมด' : 'All'}
           </button>
-          {genres.map((genre) => (
+          {groupedGenres.map((genre) => (
             <button
               key={genre}
               onClick={() => setSelectedGenre(genre)}
