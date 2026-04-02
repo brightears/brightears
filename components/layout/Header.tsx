@@ -29,6 +29,7 @@ const Header: React.FC = () => {
 
   const navItems = [
     { label: t('services'), href: '/#services' },
+    { label: t('ourDJs'), href: '/entertainment' },
     { label: t('about'), href: '/#about' },
     { label: t('contact'), href: '/#contact' },
     { label: t('applyAsDJ'), href: '/apply' },
