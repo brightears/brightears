@@ -1039,6 +1039,42 @@ model BookingInquiry {
   @@index([createdAt])
 }
 
+// Venue booking inquiry from website (no auth required)
+model VenueInquiry {
+  id              String   @id @default(uuid())
+
+  // Contact info
+  name            String
+  email           String
+  phone           String?
+
+  // Venue details
+  venueName       String
+  venueType       String   // hotel, restaurant, bar_lounge, rooftop, event_space, other
+
+  // Entertainment needs
+  entertainmentType String // regular_nightly, private_event, special_event, other
+  musicStyles     String[] // deep_house, lounge, rnb_hiphop, pop_commercial, latin, open_format, other
+  nightsPerWeek   Int?     // for regular bookings
+  eventDate       DateTime? // for one-off events
+
+  // Additional
+  message         String?
+
+  // Metadata
+  ipAddress       String?
+  userAgent       String?
+  status          String   @default("NEW") // NEW, CONTACTED, QUOTED, CONVERTED, CLOSED
+  notes           String?  // Internal notes (for Vinyl/Norbert)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
 model Session {
   id           String   @id @default(uuid())
   sessionToken String   @unique

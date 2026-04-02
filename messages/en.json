@@ -2196,5 +2196,81 @@
       "calming": "50-80 BPM",
       "partying": "120-140 BPM"
     }
+  },
+  "venueInquiry": {
+    "sections": {
+      "contact": "Your Contact Info",
+      "venue": "Venue Details",
+      "entertainment": "Entertainment Needs"
+    },
+    "fields": {
+      "name": "Your Name",
+      "namePlaceholder": "John Doe",
+      "email": "Email Address",
+      "emailPlaceholder": "john@example.com",
+      "phone": "Phone (Optional)",
+      "phonePlaceholder": "+66 81 234 5678",
+      "phoneHelp": "For faster follow-up",
+      "venueName": "Venue Name",
+      "venueNamePlaceholder": "e.g., The Grand Hotel",
+      "venueType": "Venue Type",
+      "venueTypePlaceholder": "Select venue type",
+      "entertainmentType": "What do you need?",
+      "entertainmentTypePlaceholder": "Select type",
+      "nightsPerWeek": "How many nights per week?",
+      "nightsPerWeekPlaceholder": "Select",
+      "eventDate": "Event Date",
+      "musicStyles": "Music Style Preferences",
+      "musicStylesHelp": "Select all that apply, or leave blank if you're flexible",
+      "message": "Additional Details",
+      "messagePlaceholder": "Tell us about your venue, event, or any specific requirements..."
+    },
+    "venueTypes": {
+      "hotel": "Hotel",
+      "restaurant": "Restaurant",
+      "barLounge": "Bar / Lounge",
+      "rooftop": "Rooftop",
+      "eventSpace": "Event Space",
+      "other": "Other"
+    },
+    "entertainmentTypes": {
+      "regularNightly": "Regular Nightly DJ",
+      "privateEvent": "Private Event DJ",
+      "specialEvent": "Special Event",
+      "other": "Other"
+    },
+    "musicStyles": {
+      "deepHouse": "Deep House",
+      "lounge": "Lounge",
+      "rnbHiphop": "R&B / Hip-Hop",
+      "popCommercial": "Pop / Commercial",
+      "latin": "Latin",
+      "openFormat": "Open Format",
+      "other": "Other"
+    },
+    "nightsPerWeek": {
+      "everyNight": "7 (Every night)"
+    },
+    "validation": {
+      "venueNameRequired": "Please enter your venue name",
+      "venueNameShort": "Venue name is too short",
+      "venueTypeRequired": "Please select a venue type",
+      "entertainmentTypeRequired": "Please select what you need"
+    },
+    "form": {
+      "submit": "Send Inquiry",
+      "submitting": "Sending...",
+      "footer": "We typically respond within 24 hours. No commitment required."
+    },
+    "success": {
+      "title": "Inquiry Received!",
+      "message": "Thank you for your interest in Bright Ears.",
+      "details": "We'll review your requirements and get back to you within 24 hours with options tailored to your venue.",
+      "sendAnother": "Submit Another Inquiry"
+    },
+    "errors": {
+      "failed": "Failed to submit inquiry. Please try again.",
+      "rateLimit": "Too many requests. Please try again in an hour."
+    }
   }
 }

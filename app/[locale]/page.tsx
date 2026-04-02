@@ -9,7 +9,7 @@ import {
 } from '@/lib/schemas/structured-data';
 import Image from 'next/image';
 import LineContactButton from '@/components/buttons/LineContactButton';
-import ContactForm from '@/app/components/ContactForm';
+import VenueInquiryForm from '@/app/components/VenueInquiryForm';
 import HeroSection from '@/components/home/HeroSection';
 // Icons are now custom SVGs inline
 
@@ -358,9 +358,9 @@ export default async function HomePage({
               {t('landing.contact.subtitle')}
             </p>
 
-            {/* Contact Form - Dark glass morphism card */}
+            {/* Venue Inquiry Form - Dark glass morphism card */}
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mb-8 border border-white/20">
-              <ContactForm tab="general" darkMode />
+              <VenueInquiryForm darkMode />
             </div>
 
             {/* LINE Contact Button */}

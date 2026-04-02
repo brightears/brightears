@@ -1730,5 +1730,81 @@
       "calming": "50-80 BPM",
       "partying": "120-140 BPM"
     }
+  },
+  "venueInquiry": {
+    "sections": {
+      "contact": "ข้อมูลติดต่อ",
+      "venue": "รายละเอียดสถานที่",
+      "entertainment": "ความต้องการด้านความบันเทิง"
+    },
+    "fields": {
+      "name": "ชื่อของคุณ",
+      "namePlaceholder": "สมชาย ใจดี",
+      "email": "อีเมล",
+      "emailPlaceholder": "somchai@example.com",
+      "phone": "โทรศัพท์ (ไม่บังคับ)",
+      "phonePlaceholder": "+66 81 234 5678",
+      "phoneHelp": "เพื่อการติดต่อที่รวดเร็วขึ้น",
+      "venueName": "ชื่อสถานที่",
+      "venueNamePlaceholder": "เช่น โรงแรม แกรนด์",
+      "venueType": "ประเภทสถานที่",
+      "venueTypePlaceholder": "เลือกประเภทสถานที่",
+      "entertainmentType": "คุณต้องการอะไร?",
+      "entertainmentTypePlaceholder": "เลือกประเภท",
+      "nightsPerWeek": "กี่คืนต่อสัปดาห์?",
+      "nightsPerWeekPlaceholder": "เลือก",
+      "eventDate": "วันที่จัดงาน",
+      "musicStyles": "สไตล์เพลงที่ต้องการ",
+      "musicStylesHelp": "เลือกทั้งหมดที่ตรง หรือเว้นว่างไว้หากยืดหยุ่น",
+      "message": "รายละเอียดเพิ่มเติม",
+      "messagePlaceholder": "บอกเราเกี่ยวกับสถานที่ งาน หรือข้อกำหนดพิเศษ..."
+    },
+    "venueTypes": {
+      "hotel": "โรงแรม",
+      "restaurant": "ร้านอาหาร",
+      "barLounge": "บาร์ / เลาจน์",
+      "rooftop": "รูฟท็อป",
+      "eventSpace": "สถานที่จัดงาน",
+      "other": "อื่นๆ"
+    },
+    "entertainmentTypes": {
+      "regularNightly": "ดีเจประจำทุกคืน",
+      "privateEvent": "ดีเจงานส่วนตัว",
+      "specialEvent": "งานพิเศษ",
+      "other": "อื่นๆ"
+    },
+    "musicStyles": {
+      "deepHouse": "Deep House",
+      "lounge": "Lounge",
+      "rnbHiphop": "R&B / Hip-Hop",
+      "popCommercial": "Pop / Commercial",
+      "latin": "Latin",
+      "openFormat": "Open Format",
+      "other": "อื่นๆ"
+    },
+    "nightsPerWeek": {
+      "everyNight": "7 (ทุกคืน)"
+    },
+    "validation": {
+      "venueNameRequired": "กรุณาระบุชื่อสถานที่",
+      "venueNameShort": "ชื่อสถานที่สั้นเกินไป",
+      "venueTypeRequired": "กรุณาเลือกประเภทสถานที่",
+      "entertainmentTypeRequired": "กรุณาเลือกสิ่งที่คุณต้องการ"
+    },
+    "form": {
+      "submit": "ส่งคำสอบถาม",
+      "submitting": "กำลังส่ง...",
+      "footer": "เราตอบกลับภายใน 24 ชั่วโมง ไม่มีข้อผูกมัด"
+    },
+    "success": {
+      "title": "ได้รับคำสอบถามแล้ว!",
+      "message": "ขอบคุณที่สนใจ Bright Ears",
+      "details": "เราจะตรวจสอบความต้องการของคุณและติดต่อกลับภายใน 24 ชั่วโมง พร้อมตัวเลือกที่เหมาะกับสถานที่ของคุณ",
+      "sendAnother": "ส่งคำสอบถามอีกครั้ง"
+    },
+    "errors": {
+      "failed": "ไม่สามารถส่งคำสอบถามได้ กรุณาลองใหม่",
+      "rateLimit": "คำขอมากเกินไป กรุณาลองใหม่ในอีกหนึ่งชั่วโมง"
+    }
   }
 }
