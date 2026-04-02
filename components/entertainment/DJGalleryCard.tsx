@@ -25,14 +25,14 @@ export default function DJGalleryCard({ dj, onClick }: DJGalleryCardProps) {
       onClick={onClick}
       className="w-full text-left rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden hover:bg-white/10 hover:border-brand-cyan/30 transition-all duration-300 group hover:-translate-y-1"
     >
-      {/* Image */}
-      <div className="relative aspect-[3/4] bg-deep-teal overflow-hidden">
+      {/* Image — square aspect ratio, all images fill uniformly */}
+      <div className="relative aspect-square bg-deep-teal overflow-hidden">
         {dj.profileImage ? (
           <Image
             src={dj.profileImage}
             alt={dj.stageName}
             fill
-            className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+            className="object-cover object-[center_20%] transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
         ) : (
@@ -40,7 +40,7 @@ export default function DJGalleryCard({ dj, onClick }: DJGalleryCardProps) {
             <UserGroupIcon className="w-16 h-16 text-gray-600" />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent" />
       </div>
 
       {/* Content */}
