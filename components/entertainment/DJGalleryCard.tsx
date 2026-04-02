@@ -43,26 +43,26 @@ export default function DJGalleryCard({ dj, onClick }: DJGalleryCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent" />
       </div>
 
-      {/* Content */}
-      <div className="p-4 space-y-2">
-        <h3 className="font-playfair text-lg font-semibold text-white group-hover:text-brand-cyan transition-colors">
+      {/* Content — fixed height for consistent cards */}
+      <div className="p-4 h-[88px] flex flex-col justify-between">
+        <h3 className="font-playfair text-lg font-semibold text-white group-hover:text-brand-cyan transition-colors truncate">
           {dj.stageName}
         </h3>
 
-        {/* Genre tags */}
+        {/* Genre tags — single line, overflow hidden */}
         {dj.genres.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {dj.genres.slice(0, 3).map((genre) => (
+          <div className="flex gap-1.5 overflow-hidden">
+            {dj.genres.slice(0, 2).map((genre) => (
               <span
                 key={genre}
-                className="px-2 py-0.5 bg-brand-cyan/15 border border-brand-cyan/20 rounded-full text-xs text-brand-cyan"
+                className="px-2 py-0.5 bg-brand-cyan/15 border border-brand-cyan/20 rounded-full text-xs text-brand-cyan whitespace-nowrap"
               >
                 {genre}
               </span>
             ))}
-            {dj.genres.length > 3 && (
-              <span className="px-2 py-0.5 text-xs text-white/40">
-                +{dj.genres.length - 3}
+            {dj.genres.length > 2 && (
+              <span className="px-2 py-0.5 text-xs text-white/40 whitespace-nowrap">
+                +{dj.genres.length - 2}
               </span>
             )}
           </div>
