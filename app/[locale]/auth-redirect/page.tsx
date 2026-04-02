@@ -13,6 +13,7 @@ const ROLE_CACHE_KEY = 'brightears_user_role';
  * After sign-in, redirects based on user role:
  * - ADMIN → /admin
  * - CORPORATE → /venue-portal
+ * - ARTIST → /dj-portal
  * - Others → / (homepage)
  *
  * Priority order for role detection:
@@ -33,6 +34,8 @@ export default function AuthRedirect() {
       router.replace(`/${locale}/admin`);
     } else if (role === 'CORPORATE') {
       router.replace(`/${locale}/venue-portal`);
+    } else if (role === 'ARTIST') {
+      router.replace(`/${locale}/dj-portal`);
     } else {
       router.replace(`/${locale}`);
     }

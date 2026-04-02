@@ -10,7 +10,7 @@ interface ConditionalLayoutProps {
 
 export default function ConditionalLayout({ children }: ConditionalLayoutProps) {
   const pathname = usePathname();
-  const isPortalPage = pathname?.includes('/venue-portal') || pathname?.includes('/admin');
+  const isPortalPage = pathname?.includes('/venue-portal') || pathname?.includes('/dj-portal') || pathname?.includes('/admin');
 
   return (
     <div className="relative min-h-screen flex flex-col">

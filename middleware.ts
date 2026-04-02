@@ -13,6 +13,7 @@ const isProtectedRoute = createRouteMatcher([
   '/(.*)/admin(.*)',
   '/(.*)/artist-dashboard(.*)',
   '/(.*)/venue-portal(.*)',
+  '/(.*)/dj-portal(.*)',
   // Note: /auth-redirect handles its own auth check via useUser()
 ]);
 

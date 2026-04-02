@@ -22,6 +22,10 @@ const Header: React.FC = () => {
   const currentLocale = (params?.locale || 'en') as Locale;
   const { user, isLoaded} = useUser();
 
+  // Route to the correct portal based on user role
+  const userRole = user?.publicMetadata?.role as string | undefined;
+  const portalHref = userRole === 'ARTIST' ? '/dj-portal' : '/venue-portal';
+
   const languages = [
     { code: 'en' as Locale, label: 'English', flag: '🇬🇧' },
     { code: 'th' as Locale, label: 'ไทย', flag: '🇹🇭' },
@@ -156,7 +160,7 @@ const Header: React.FC = () => {
               {isLoaded && user ? (
                 <div className="hidden sm:flex items-center gap-3">
                   <Link
-                    href="/venue-portal"
+                    href={portalHref}
                     className="px-4 py-2 rounded-xl transition-all duration-300 text-white hover:text-brand-cyan"
                     aria-label={t('dashboard')}
                   >
@@ -242,7 +246,7 @@ const Header: React.FC = () => {
             {user ? (
               <div className="space-y-3">
                 <Link
-                  href="/venue-portal"
+                  href={portalHref}
                   onClick={handleMobileMenuClose}
                   className="w-full px-6 py-3 bg-brand-cyan text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50 text-center block"
                   aria-label={t('dashboard')}
