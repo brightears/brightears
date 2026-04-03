@@ -1,14 +1,19 @@
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 import { render } from '@react-email/render'
 import { ReactElement } from 'react'
 
-// Initialize Resend (only if API key is available)
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
+// Initialize nodemailer transporter with Gmail SMTP
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER || 'norbert@brightears.io',
+    pass: process.env.GMAIL_APP_PASSWORD || '',
+  },
+})
 
 // Email configuration
-// Note: Using Resend's test domain until brightears.io is verified
 const EMAIL_CONFIG = {
-  fromAddress: process.env.EMAIL_FROM_ADDRESS || 'onboarding@resend.dev',
+  fromAddress: process.env.EMAIL_FROM_ADDRESS || 'support@brightears.io',
   fromName: 'Bright Ears',
   supportEmail: process.env.EMAIL_SUPPORT_ADDRESS || 'support@brightears.io',
   replyTo: process.env.EMAIL_REPLY_TO || 'support@brightears.io',
@@ -63,11 +68,11 @@ export interface EmailLog {
  * Send an email with retry logic
  */
 export async function sendEmail(emailData: EmailData): Promise<EmailResult> {
-  // Check if Resend is configured
-  if (!resend) {
-    const error = 'Email service not configured - missing RESEND_API_KEY'
+  // Check if Gmail is configured
+  if (!process.env.GMAIL_APP_PASSWORD) {
+    const error = 'Email service not configured - missing GMAIL_APP_PASSWORD'
     console.warn(error)
-    
+
     // Log failed email attempt
     await logEmail({
       to: Array.isArray(emailData.to) ? emailData.to : [emailData.to],
@@ -78,7 +83,7 @@ export async function sendEmail(emailData: EmailData): Promise<EmailResult> {
       error,
       retryCount: 0,
     })
-    
+
     return {
       success: false,
       error,
@@ -87,33 +92,31 @@ export async function sendEmail(emailData: EmailData): Promise<EmailResult> {
   }
 
   let lastError: string = ''
-  
+
   for (let attempt = 0; attempt <= EMAIL_CONFIG.maxRetries; attempt++) {
     try {
-      console.log('Attempting to send email via Resend:', {
+      console.log('Attempting to send email via Gmail SMTP:', {
         from: `${EMAIL_CONFIG.fromName} <${EMAIL_CONFIG.fromAddress}>`,
         to: emailData.to,
         subject: emailData.subject,
       })
 
-      const result = await resend.emails.send({
+      const result = await transporter.sendMail({
         from: `${EMAIL_CONFIG.fromName} <${EMAIL_CONFIG.fromAddress}>`,
-        to: emailData.to,
+        to: Array.isArray(emailData.to) ? emailData.to.join(', ') : emailData.to,
         subject: emailData.subject,
         html: emailData.html,
         text: emailData.text,
         replyTo: emailData.replyTo || EMAIL_CONFIG.replyTo,
-        tags: emailData.tags,
-        attachments: emailData.attachments,
+        attachments: emailData.attachments?.map(att => ({
+          filename: att.filename,
+          content: att.content,
+          contentType: att.contentType,
+        })),
       })
 
-      // Debug: Log full Resend response
-      console.log('Resend API response:', JSON.stringify(result, null, 2))
-
-      // Check for errors in response
-      if (result.error) {
-        throw new Error(result.error.message || 'Resend API returned an error')
-      }
+      // Debug: Log Gmail SMTP response
+      console.log('Gmail SMTP response:', { messageId: result.messageId, accepted: result.accepted })
 
       // Log successful email
       await logEmail({
@@ -122,19 +125,19 @@ export async function sendEmail(emailData: EmailData): Promise<EmailResult> {
         template: 'unknown', // Will be overridden by specific functions
         locale: 'en',
         status: 'sent',
-        messageId: result.data?.id,
+        messageId: result.messageId,
         retryCount: attempt,
       })
 
       return {
         success: true,
-        messageId: result.data?.id,
+        messageId: result.messageId,
         retryCount: attempt,
       }
     } catch (error) {
       lastError = error instanceof Error ? error.message : 'Unknown error'
       console.error(`Email send attempt ${attempt + 1} failed:`, lastError)
-      
+
       // Don't retry on the last attempt
       if (attempt < EMAIL_CONFIG.maxRetries) {
         await new Promise(resolve => setTimeout(resolve, EMAIL_CONFIG.retryDelay * (attempt + 1)))
@@ -184,7 +187,7 @@ async function logEmail(logData: Partial<EmailLog>): Promise<void> {
   try {
     // Import prisma here to avoid circular dependencies
     const { prisma } = await import('./prisma')
-    
+
     // For now, we'll just log to console
     // In production, you might want to store this in a separate emails table
     console.log('Email log:', {
@@ -196,10 +199,10 @@ async function logEmail(logData: Partial<EmailLog>): Promise<void> {
       error: logData.error,
       retryCount: logData.retryCount,
     })
-    
+
     // TODO: Implement email logging to database
     // You could create an EmailLog model in Prisma schema if needed
-    
+
   } catch (error) {
     console.error('Failed to log email:', error)
   }
@@ -211,7 +214,7 @@ async function logEmail(logData: Partial<EmailLog>): Promise<void> {
 export async function getUserEmailPreferences(userId: string) {
   try {
     const { prisma } = await import('./prisma')
-    
+
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
@@ -250,7 +253,7 @@ export async function getUserEmailPreferences(userId: string) {
       // Artist-specific preferences
       bookingInquiries: user.role === 'ARTIST' ? true : false,
       quoteRequests: user.role === 'ARTIST' ? true : false,
-      // Customer-specific preferences  
+      // Customer-specific preferences
       quoteUpdates: user.role === 'CUSTOMER' ? true : false,
       paymentConfirmations: user.role === 'CUSTOMER' ? true : false,
     }
@@ -264,7 +267,7 @@ export async function getUserEmailPreferences(userId: string) {
  * Update user email preferences
  */
 export async function updateUserEmailPreferences(
-  userId: string, 
+  userId: string,
   preferences: {
     emailNotifications?: boolean
     marketingEmails?: boolean
@@ -279,7 +282,7 @@ export async function updateUserEmailPreferences(
 ) {
   try {
     const { prisma } = await import('./prisma')
-    
+
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
@@ -305,7 +308,7 @@ export async function updateUserEmailPreferences(
         // For artists, update their languages array
         const currentLanguages = user.artist.languages || []
         let updatedLanguages = [...currentLanguages]
-        
+
         if (preferences.preferredLanguage === 'th' && !updatedLanguages.includes('th')) {
           updatedLanguages.push('th')
         } else if (preferences.preferredLanguage === 'en' && !updatedLanguages.includes('en')) {
@@ -345,7 +348,7 @@ export async function updateUserEmailPreferences(
 export async function checkEmailConsent(userId: string, emailType: string): Promise<boolean> {
   try {
     const preferences = await getUserEmailPreferences(userId)
-    
+
     if (!preferences) return false
 
     // Check specific email type consent
@@ -388,7 +391,7 @@ export function isValidEmail(email: string): boolean {
  * Get localized subject based on user's preferred language
  */
 export function getLocalizedSubject(
-  subjectKey: string, 
+  subjectKey: string,
   locale: string = 'en',
   variables: Record<string, string> = {}
 ): string {
@@ -420,7 +423,7 @@ export function getLocalizedSubject(
   }
 
   let subject = subjects[locale]?.[subjectKey] || subjects.en[subjectKey] || subjectKey
-  
+
   // Replace variables in subject
   Object.entries(variables).forEach(([key, value]) => {
     subject = subject.replace(`{${key}}`, value)

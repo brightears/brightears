@@ -1,15 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { djApplicationSchema } from '@/lib/validation/application-schemas';
-
-// Lazy initialization to avoid build-time errors (env vars not available during build)
-let resendInstance: any = null;
-async function getResend() {
-  if (!resendInstance) {
-    const { Resend } = await import('resend');
-    resendInstance = new Resend(process.env.RESEND_API_KEY);
-  }
-  return resendInstance;
-}
+import { sendEmail } from '@/lib/email';
 
 // Rate limiting: Track submissions by email (in-memory)
 const submissionTracker = new Map<string, { count: number; resetTime: number }>();
@@ -106,14 +97,11 @@ export async function POST(request: NextRequest) {
 
     // Send email to owner with photo attachment - THIS IS CRITICAL
     try {
-      const resend = await getResend();
       const toEmail = process.env.OWNER_EMAIL || 'support@brightears.io';
       console.log('[Application API] Attempting to send email to:', toEmail);
-      console.log('[Application API] From:', 'noreply@brightears.io');
       console.log('[Application API] Subject:', `New Artist Application: ${displayName}`);
 
-      const emailResult = await resend.emails.send({
-        from: 'Bright Ears <noreply@brightears.io>',
+      const emailResult = await sendEmail({
         to: toEmail,
         subject: `New Artist Application: ${displayName}`,
         html: emailHtml,
@@ -121,24 +109,23 @@ export async function POST(request: NextRequest) {
         attachments: [
           {
             filename: photoFilename,
-            content: photoBase64,
+            content: photoBuffer,
           },
         ],
       });
 
-      // Check for Resend API errors (returned in response, not thrown)
-      if (emailResult.error) {
-        console.error('[Application API] Resend API error:', emailResult.error);
+      if (!emailResult.success) {
+        console.error('[Application API] Email send error:', emailResult.error);
         return NextResponse.json(
           {
             error: 'Failed to send application email. Please try again or contact us directly via LINE.',
-            details: emailResult.error.message,
+            details: emailResult.error,
           },
           { status: 500 }
         );
       }
 
-      console.log('[Application API] Email sent successfully, ID:', emailResult.data?.id);
+      console.log('[Application API] Email sent successfully, ID:', emailResult.messageId);
     } catch (emailError) {
       console.error('[Application API] Failed to send owner notification email:', emailError);
       // This is critical - if we can't notify the owner, the application is lost
@@ -153,9 +140,7 @@ export async function POST(request: NextRequest) {
 
     // Send confirmation email to applicant (optional - can fail without losing application)
     try {
-      const resendClient = await getResend();
-      await resendClient.emails.send({
-        from: 'Bright Ears <noreply@brightears.io>',
+      await sendEmail({
         to: data.email,
         subject: 'Application Received - Bright Ears',
         html: buildConfirmationHtml(data, body.locale || 'en'),

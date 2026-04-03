@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
     let emailError: string | null = null;
 
     try {
-      // Note: Using Gmail until brightears.io domain is verified in Resend
+      // Sends via Gmail SMTP (nodemailer)
       const recipientEmail = process.env.CONTACT_FORM_EMAIL || 'norbert@brightears.io';
 
       if (validatedData.type === 'general') {
