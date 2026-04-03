@@ -161,8 +161,9 @@ export default function DJDetailModal({
             {/* CTA */}
             <div className="pt-2">
               <a
-                href={`/${locale}/#contact`}
+                href={`/${locale}?dj=${encodeURIComponent(dj.stageName)}#contact`}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-brand-cyan text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:bg-brand-cyan/90 hover:shadow-lg hover:shadow-brand-cyan/25"
+                onClick={() => { document.body.style.overflow = ''; }}
               >
                 {locale === 'th' ? 'สอบถามเกี่ยวกับดีเจท่านนี้' : 'Inquire About This DJ'}
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
