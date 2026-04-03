@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
 
     try {
       // Note: Using Gmail until brightears.io domain is verified in Resend
-      const recipientEmail = process.env.CONTACT_FORM_EMAIL || 'platzer.norbert@gmail.com';
+      const recipientEmail = process.env.CONTACT_FORM_EMAIL || 'norbert@brightears.io';
 
       if (validatedData.type === 'general') {
         await sendEmail({
