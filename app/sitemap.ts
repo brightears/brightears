@@ -26,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changefreq: 'weekly' as const,
       lastModified: currentDate
     },
+    {
+      path: 'faq',
+      priority: 0.7,
+      changefreq: 'monthly' as const,
+      lastModified: currentDate
+    },
   ];
 
   // Build sitemap entries for static pages (both locales)

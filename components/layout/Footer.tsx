@@ -70,6 +70,14 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
+                    href="/faq"
+                    className="text-pure-white/70 hover:text-pure-white transition-colors"
+                  >
+                    {t('faq')}
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/#contact"
                     className="text-pure-white/70 hover:text-pure-white transition-colors"
                   >

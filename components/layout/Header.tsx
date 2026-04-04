@@ -35,6 +35,7 @@ const Header: React.FC = () => {
     { label: t('services'), href: '/#services' },
     { label: t('ourDJs'), href: '/entertainment' },
     { label: t('about'), href: '/#about' },
+    { label: t('faq'), href: '/faq' },
     { label: t('contact'), href: '/#contact' },
     { label: t('applyAsDJ'), href: '/apply' },
   ];
