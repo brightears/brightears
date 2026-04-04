@@ -107,7 +107,7 @@ export default async function HomePage({
                 <h2 className="text-4xl md:text-6xl font-playfair text-neutral-100 mb-6">
                   {t('landing.whatWeDo.title')}
                 </h2>
-                <p className="text-[#bcc9ce] text-lg">
+                <p className="text-[#bcc9ce] text-lg text-balance">
                   {t('landing.whatWeDo.subtitle')}
                 </p>
               </div>
@@ -128,7 +128,7 @@ export default async function HomePage({
                 <h3 className="text-2xl font-playfair text-neutral-100 mb-4">
                   {t('landing.whatWeDo.services.djs.title')}
                 </h3>
-                <p className="text-[#bcc9ce] leading-relaxed">
+                <p className="text-[#bcc9ce] leading-relaxed text-balance">
                   {t('landing.whatWeDo.services.djs.description')}
                 </p>
               </div>
@@ -146,7 +146,7 @@ export default async function HomePage({
                 <h3 className="text-2xl font-playfair text-neutral-100 mb-4">
                   {t('landing.whatWeDo.services.bands.title')}
                 </h3>
-                <p className="text-[#bcc9ce] leading-relaxed">
+                <p className="text-[#bcc9ce] leading-relaxed text-balance">
                   {t('landing.whatWeDo.services.bands.description')}
                 </p>
               </div>
@@ -167,7 +167,7 @@ export default async function HomePage({
                 <h3 className="text-2xl font-playfair text-neutral-100 mb-4">
                   {t('landing.whatWeDo.services.backgroundMusic.title')}
                 </h3>
-                <p className="text-[#bcc9ce] leading-relaxed">
+                <p className="text-[#bcc9ce] leading-relaxed text-balance">
                   {t('landing.whatWeDo.services.backgroundMusic.description')}
                 </p>
               </div>
@@ -241,7 +241,7 @@ export default async function HomePage({
               <h2 className="text-4xl md:text-6xl font-playfair text-neutral-100 mb-4">
                 {t('about.whatYouGet.title')}
               </h2>
-              <p className="text-[#bcc9ce] max-w-xl mx-auto">
+              <p className="text-[#bcc9ce] max-w-xl mx-auto text-balance">
                 {t('about.whatYouGet.subtitle')}
               </p>
             </div>
@@ -265,7 +265,7 @@ export default async function HomePage({
                   <h4 className="text-xl font-bold text-neutral-100 mb-3">
                     {t(`about.features.${key}.feature`)}
                   </h4>
-                  <p className="text-[#bcc9ce] text-sm">
+                  <p className="text-[#bcc9ce] text-sm text-balance">
                     {t(`about.features.${key}.benefit`)}
                   </p>
                 </div>
@@ -308,7 +308,7 @@ export default async function HomePage({
               <h2 className="text-5xl md:text-7xl font-playfair text-neutral-100 mb-8">
                 {t('landing.contact.title')}
               </h2>
-              <p className="text-[#bcc9ce] text-lg mb-12 max-w-md">
+              <p className="text-[#bcc9ce] text-lg mb-12 max-w-md text-balance">
                 {t('landing.contact.subtitle')}
               </p>
               <div className="space-y-6">

@@ -180,7 +180,7 @@ export default async function EventsPage({
               {text.heroTitle.split(' ').slice(0, -2).join(' ')}{' '}
               <span className="italic text-[#4fd6ff]">{text.heroTitle.split(' ').slice(-2).join(' ')}</span>
             </h1>
-            <p className="text-xl text-neutral-400 mb-10 leading-relaxed max-w-xl">
+            <p className="text-xl text-neutral-400 mb-10 leading-relaxed max-w-xl text-balance">
               {text.heroSubtitle}
             </p>
             <div className="flex gap-6">
@@ -206,7 +206,7 @@ export default async function EventsPage({
               <h2 className="text-5xl font-playfair font-bold mb-6 text-neutral-100 uppercase tracking-tighter">
                 {text.whatWeOfferTitle}
               </h2>
-              <p className="text-neutral-400 text-lg">
+              <p className="text-neutral-400 text-lg text-balance">
                 {locale === 'th'
                   ? 'ประสบการณ์เสียงเฉพาะตัวที่ออกแบบมาเพื่อบรรยากาศและพลังงานของโอกาสพิเศษของคุณ'
                   : 'Bespoke sonic experiences tailored to the atmosphere and energy of your specific occasion.'}
@@ -245,7 +245,7 @@ export default async function EventsPage({
             <h2 className="text-5xl font-playfair font-bold text-neutral-100 uppercase tracking-tighter mb-4">
               {text.howItWorksTitle}
             </h2>
-            <p className="text-[#f1bca6] font-inter tracking-widest text-sm uppercase font-bold">
+            <p className="text-[#f1bca6] font-inter tracking-widest text-sm uppercase font-bold text-balance">
               {text.howItWorksSubtitle}
             </p>
           </div>
@@ -262,7 +262,7 @@ export default async function EventsPage({
                 <h4 className="text-2xl font-playfair font-bold text-neutral-100 mb-4">
                   {step.title}
                 </h4>
-                <p className="text-neutral-500 font-inter">
+                <p className="text-neutral-500 font-inter text-balance">
                   {step.description}
                 </p>
               </div>
@@ -293,7 +293,7 @@ export default async function EventsPage({
                   <h5 className="text-xl font-playfair font-bold text-neutral-100 mb-2">
                     {reason.title}
                   </h5>
-                  <p className="text-neutral-500 font-inter leading-relaxed">
+                  <p className="text-neutral-500 font-inter leading-relaxed text-balance">
                     {reason.description}
                   </p>
                 </div>
@@ -310,7 +310,7 @@ export default async function EventsPage({
           <h2 className="text-5xl md:text-7xl font-playfair font-bold text-neutral-100 mb-8 tracking-tighter italic">
             {text.ctaTitle}
           </h2>
-          <p className="text-xl text-neutral-400 mb-12 font-inter">
+          <p className="text-xl text-neutral-400 mb-12 font-inter text-balance max-w-2xl mx-auto">
             {text.ctaSubtitle}
           </p>
           <a

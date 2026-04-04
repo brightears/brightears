@@ -57,7 +57,7 @@ export default function HeroSection() {
             <span className="text-[#4fd6ff]">Every night.</span>
           </h1>
 
-          <p className="text-[#bcc9ce] text-lg sm:text-xl max-w-lg leading-relaxed">
+          <p className="text-[#bcc9ce] text-lg sm:text-xl max-w-lg leading-relaxed text-balance">
             {t('landing.hero.subheadline1')}
             <br />
             {t('landing.hero.subheadline2')}
