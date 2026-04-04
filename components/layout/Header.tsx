@@ -101,7 +101,7 @@ const Header: React.FC = () => {
                 className="relative font-playfair text-neutral-400 hover:text-neutral-100 transition-colors duration-300 tracking-tight group"
               >
                 <span className="relative z-10">{item.label}</span>
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mr-primary transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#4fd6ff] transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
           </div>
@@ -137,7 +137,7 @@ const Header: React.FC = () => {
                       aria-label={tA11y('selectLanguage', { language: lang.label })}
                       aria-current={currentLocale === lang.code ? 'true' : 'false'}
                       className={`w-full px-4 py-3 flex items-center gap-3 transition-colors duration-200 text-neutral-300 hover:text-neutral-100 hover:bg-white/10 ${
-                        currentLocale === lang.code ? 'bg-mr-primary-container/20 text-mr-primary' : ''
+                        currentLocale === lang.code ? 'bg-[#00bbe4]/20 text-[#4fd6ff]' : ''
                       }`}
                     >
                       <span className="text-lg" aria-hidden="true">{lang.flag}</span>
@@ -153,7 +153,7 @@ const Header: React.FC = () => {
               <div className="hidden sm:flex items-center gap-3">
                 <Link
                   href={portalHref}
-                  className="px-6 py-2 bg-mr-primary-container text-white font-bold rounded-lg hover:scale-95 transition-all duration-200"
+                  className="px-6 py-2 bg-[#00bbe4] text-white font-bold rounded-lg hover:scale-95 transition-all duration-200"
                   aria-label={t('dashboard')}
                 >
                   {t('dashboard')}
@@ -163,7 +163,7 @@ const Header: React.FC = () => {
               <div className="hidden sm:flex items-center gap-3">
                 <Link
                   href="/sign-in"
-                  className="px-6 py-2 bg-mr-primary-container text-white font-bold rounded-lg hover:scale-95 transition-all duration-200"
+                  className="px-6 py-2 bg-[#00bbe4] text-white font-bold rounded-lg hover:scale-95 transition-all duration-200"
                 >
                   {t('signIn')}
                 </Link>
@@ -176,7 +176,7 @@ const Header: React.FC = () => {
               aria-label={isMobileMenuOpen ? tA11y('closeMenu') : tA11y('openMenu')}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
-              className="md:hidden p-2 text-mr-on-surface"
+              className="md:hidden p-2 text-[#e5e2e1]"
             >
               {isMobileMenuOpen ? (
                 <XMarkIcon className="w-6 h-6" aria-hidden="true" />
@@ -236,7 +236,7 @@ const Header: React.FC = () => {
                 <Link
                   href={portalHref}
                   onClick={handleMobileMenuClose}
-                  className="w-full px-6 py-3 bg-mr-primary-container text-white font-bold rounded-lg transition-all duration-300 hover:bg-mr-primary text-center block"
+                  className="w-full px-6 py-3 bg-[#00bbe4] text-white font-bold rounded-lg transition-all duration-300 hover:bg-[#4fd6ff] text-center block"
                   aria-label={t('dashboard')}
                 >
                   {t('dashboard')}
@@ -247,7 +247,7 @@ const Header: React.FC = () => {
                 <Link
                   href="/sign-in"
                   onClick={handleMobileMenuClose}
-                  className="w-full px-6 py-3 bg-mr-primary-container text-white font-bold rounded-lg transition-all duration-300 hover:bg-mr-primary text-center block"
+                  className="w-full px-6 py-3 bg-[#00bbe4] text-white font-bold rounded-lg transition-all duration-300 hover:bg-[#4fd6ff] text-center block"
                 >
                   {t('signIn')}
                 </Link>

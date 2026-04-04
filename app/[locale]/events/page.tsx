@@ -164,21 +164,21 @@ export default async function EventsPage({
   ];
 
   return (
-    <div className="min-h-screen bg-mr-bg">
+    <div className="min-h-screen bg-[#131313]">
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-mr-bg">
-          <div className="absolute inset-0 bg-gradient-to-t from-mr-bg via-transparent to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-mr-bg/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 z-0 bg-[#131313]">
+          <div className="absolute inset-0 bg-gradient-to-t from-[#131313] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#131313]/80 via-transparent to-transparent" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
           <div className="max-w-3xl">
-            <span className="text-mr-tertiary font-inter uppercase tracking-widest text-sm mb-4 block font-bold">
+            <span className="text-[#f1bca6] font-inter uppercase tracking-widest text-sm mb-4 block font-bold">
               {locale === 'th' ? 'ซาวด์คอนเซียร์จชั้นนำของกรุงเทพ' : "Bangkok's Premier Sonic Concierge"}
             </span>
             <h1 className="text-6xl md:text-8xl font-playfair font-bold leading-tight mb-8 tracking-tighter text-neutral-100">
               {text.heroTitle.split(' ').slice(0, -2).join(' ')}{' '}
-              <span className="italic text-mr-primary">{text.heroTitle.split(' ').slice(-2).join(' ')}</span>
+              <span className="italic text-[#4fd6ff]">{text.heroTitle.split(' ').slice(-2).join(' ')}</span>
             </h1>
             <p className="text-xl text-neutral-400 mb-10 leading-relaxed max-w-xl">
               {text.heroSubtitle}
@@ -186,7 +186,7 @@ export default async function EventsPage({
             <div className="flex gap-6">
               <a
                 href={`/${locale}/#contact`}
-                className="px-10 py-5 bg-gradient-to-r from-mr-primary-container to-mr-primary text-white font-bold rounded-md hover:shadow-cyan-glow-hover transition-all flex items-center group"
+                className="px-10 py-5 bg-gradient-to-r from-[#00bbe4] to-[#4fd6ff] text-white font-bold rounded-md hover:shadow-cyan-glow-hover transition-all flex items-center group"
               >
                 {text.ctaButton}
                 <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -199,7 +199,7 @@ export default async function EventsPage({
       </section>
 
       {/* What We Offer */}
-      <section className="py-32 bg-mr-surface">
+      <section className="py-32 bg-[#131313]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
             <div className="max-w-2xl">
@@ -212,14 +212,14 @@ export default async function EventsPage({
                   : 'Bespoke sonic experiences tailored to the atmosphere and energy of your specific occasion.'}
               </p>
             </div>
-            <div className="h-1 w-24 bg-mr-primary rounded-full mb-4" />
+            <div className="h-1 w-24 bg-[#4fd6ff] rounded-full mb-4" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {eventTypes.map((event, index) => (
               <div
                 key={index}
-                className="glass-card p-8 group hover:bg-mr-surface-high transition-all duration-500 rounded-xl relative overflow-hidden"
+                className="glass-card p-8 group hover:bg-[#2a2a2a] transition-all duration-500 rounded-xl relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 p-4 opacity-10 text-6xl font-playfair font-bold">
                   {event.number}
@@ -239,23 +239,23 @@ export default async function EventsPage({
       </section>
 
       {/* How It Works */}
-      <section className="py-32 bg-mr-surface-lowest">
+      <section className="py-32 bg-[#0e0e0e]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <h2 className="text-5xl font-playfair font-bold text-neutral-100 uppercase tracking-tighter mb-4">
               {text.howItWorksTitle}
             </h2>
-            <p className="text-mr-tertiary font-inter tracking-widest text-sm uppercase font-bold">
+            <p className="text-[#f1bca6] font-inter tracking-widest text-sm uppercase font-bold">
               {text.howItWorksSubtitle}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-mr-outline-variant/30 -z-10" />
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-[#3d494e]/30 -z-10" />
             {steps.map((step, index) => (
               <div key={index} className="flex flex-col items-center text-center group">
-                <div className="w-20 h-20 bg-mr-surface-high rounded-full flex items-center justify-center mb-8 border border-mr-primary/20 group-hover:scale-110 group-hover:bg-mr-primary-container transition-all">
-                  <span className="font-playfair text-2xl font-bold text-mr-primary group-hover:text-white">
+                <div className="w-20 h-20 bg-[#2a2a2a] rounded-full flex items-center justify-center mb-8 border border-[#4fd6ff]/20 group-hover:scale-110 group-hover:bg-[#00bbe4] transition-all">
+                  <span className="font-playfair text-2xl font-bold text-[#4fd6ff] group-hover:text-white">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                 </div>
@@ -272,7 +272,7 @@ export default async function EventsPage({
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-32 bg-mr-surface overflow-hidden">
+      <section className="py-32 bg-[#131313] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-5xl font-playfair font-bold mb-12 text-neutral-100 uppercase tracking-tighter text-center">
             {text.whyTitle}
@@ -282,10 +282,10 @@ export default async function EventsPage({
             {reasons.map((reason, index) => (
               <div
                 key={index}
-                className="flex items-start gap-6 group p-6 rounded-xl hover:bg-mr-surface-low transition-all"
+                className="flex items-start gap-6 group p-6 rounded-xl hover:bg-[#1c1b1b] transition-all"
               >
-                <div className="mt-1 w-12 h-12 flex-shrink-0 flex items-center justify-center bg-mr-surface-low border border-mr-outline-variant/30 rounded-lg group-hover:border-mr-primary transition-colors">
-                  <svg className="w-6 h-6 text-mr-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="mt-1 w-12 h-12 flex-shrink-0 flex items-center justify-center bg-[#1c1b1b] border border-[#3d494e]/30 rounded-lg group-hover:border-[#4fd6ff] transition-colors">
+                  <svg className="w-6 h-6 text-[#4fd6ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={reason.icon} />
                   </svg>
                 </div>
@@ -305,7 +305,7 @@ export default async function EventsPage({
 
       {/* Bottom CTA */}
       <section className="py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-mr-primary-container opacity-5" />
+        <div className="absolute inset-0 bg-[#00bbe4] opacity-5" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <h2 className="text-5xl md:text-7xl font-playfair font-bold text-neutral-100 mb-8 tracking-tighter italic">
             {text.ctaTitle}
@@ -315,7 +315,7 @@ export default async function EventsPage({
           </p>
           <a
             href={`/${locale}/#contact`}
-            className="inline-block px-12 py-6 bg-mr-tertiary text-mr-bg font-bold text-lg rounded-md hover:bg-mr-tertiary-container transition-all duration-300 uppercase tracking-widest shadow-xl"
+            className="inline-block px-12 py-6 bg-[#f1bca6] text-[#131313] font-bold text-lg rounded-md hover:bg-[#d3a18c] transition-all duration-300 uppercase tracking-widest shadow-xl"
           >
             {text.ctaButton}
           </a>

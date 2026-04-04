@@ -69,7 +69,7 @@ export default function Footer() {
                 href="https://instagram.com/brightearsgroup"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-neutral-400 hover:text-mr-primary transition-all opacity-80 hover:opacity-100"
+                className="text-neutral-400 hover:text-[#4fd6ff] transition-all opacity-80 hover:opacity-100"
                 aria-label="Instagram"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

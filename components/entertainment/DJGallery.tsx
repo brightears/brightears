@@ -60,8 +60,8 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
             onClick={() => setSelectedGenre('all')}
             className={`px-4 py-2 rounded-full font-inter text-sm transition-all duration-200 ${
               selectedGenre === 'all'
-                ? 'bg-mr-primary-container text-white shadow-lg shadow-mr-primary-container/25'
-                : 'bg-mr-surface-high/50 text-mr-on-surface-variant border border-mr-outline-variant/20 hover:bg-mr-surface-high hover:text-mr-on-surface'
+                ? 'bg-[#00bbe4] text-white shadow-lg shadow-[#00bbe4]/25'
+                : 'bg-[#2a2a2a]/50 text-[#bcc9ce] border border-[#3d494e]/20 hover:bg-[#2a2a2a] hover:text-[#e5e2e1]'
             }`}
           >
             {locale === 'th' ? '\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14' : 'All'}
@@ -72,8 +72,8 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
               onClick={() => setSelectedGenre(genre)}
               className={`px-4 py-2 rounded-full font-inter text-sm transition-all duration-200 ${
                 selectedGenre === genre
-                  ? 'bg-mr-primary-container text-white shadow-lg shadow-mr-primary-container/25'
-                  : 'bg-mr-surface-high/50 text-mr-on-surface-variant border border-mr-outline-variant/20 hover:bg-mr-surface-high hover:text-mr-on-surface'
+                  ? 'bg-[#00bbe4] text-white shadow-lg shadow-[#00bbe4]/25'
+                  : 'bg-[#2a2a2a]/50 text-[#bcc9ce] border border-[#3d494e]/20 hover:bg-[#2a2a2a] hover:text-[#e5e2e1]'
               }`}
             >
               {genre}
@@ -81,7 +81,7 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
           ))}
         </div>
 
-        <p className="text-center mt-4 font-inter text-sm text-mr-on-surface-variant/50">
+        <p className="text-center mt-4 font-inter text-sm text-[#bcc9ce]/50">
           {filteredDJs.length} {locale === 'th' ? '\u0E14\u0E35\u0E40\u0E08' : filteredDJs.length === 1 ? 'DJ' : 'DJs'}
         </p>
       </div>
@@ -100,7 +100,7 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
       {/* Empty state */}
       {filteredDJs.length === 0 && (
         <div className="text-center py-16">
-          <p className="font-inter text-lg text-mr-on-surface-variant/50">
+          <p className="font-inter text-lg text-[#bcc9ce]/50">
             {locale === 'th'
               ? '\u0E44\u0E21\u0E48\u0E1E\u0E1A\u0E14\u0E35\u0E40\u0E08\u0E43\u0E19\u0E41\u0E19\u0E27\u0E40\u0E1E\u0E25\u0E07\u0E19\u0E35\u0E49'
               : 'No DJs found for this genre.'}

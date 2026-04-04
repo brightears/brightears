@@ -98,19 +98,19 @@ export default async function EntertainmentPage({
   const allGenres = [...new Set(djs.flatMap((dj) => dj.genres))].sort();
 
   return (
-    <div className="min-h-screen bg-mr-bg">
+    <div className="min-h-screen bg-[#131313]">
       {/* Hero Section */}
       <section className="relative py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute -top-10 -right-10 w-64 h-64 bg-mr-primary/5 rounded-full blur-3xl" />
+        <div className="absolute -top-10 -right-10 w-64 h-64 bg-[#4fd6ff]/5 rounded-full blur-3xl" />
 
         <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <span className="text-mr-tertiary font-bold tracking-widest uppercase text-sm mb-4 block">
+          <span className="text-[#f1bca6] font-bold tracking-widest uppercase text-sm mb-4 block">
             {locale === 'th' ? '\u0E17\u0E35\u0E21\u0E28\u0E34\u0E25\u0E1B\u0E34\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32' : 'Our Artist Roster'}
           </span>
           <h1 className="font-playfair text-4xl sm:text-5xl md:text-7xl font-bold text-neutral-100 mb-6 tracking-tighter">
             {locale === 'th' ? '\u0E14\u0E35\u0E40\u0E08\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32' : 'Our DJs'}
           </h1>
-          <p className="font-inter text-lg sm:text-xl text-mr-on-surface-variant max-w-2xl mx-auto">
+          <p className="font-inter text-lg sm:text-xl text-[#bcc9ce] max-w-2xl mx-auto">
             {locale === 'th'
               ? '\u0E14\u0E35\u0E40\u0E08\u0E21\u0E37\u0E2D\u0E2D\u0E32\u0E0A\u0E35\u0E1E\u0E17\u0E35\u0E48\u0E04\u0E31\u0E14\u0E2A\u0E23\u0E23\u0E21\u0E32\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E1A\u0E23\u0E23\u0E22\u0E32\u0E01\u0E32\u0E28\u0E43\u0E2B\u0E49\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E0A\u0E31\u0E49\u0E19\u0E19\u0E33\u0E02\u0E2D\u0E07\u0E01\u0E23\u0E38\u0E07\u0E40\u0E17\u0E1E'
               : 'Handpicked professional DJs setting the tone at Bangkok\'s most prestigious venues.'}
@@ -127,7 +127,7 @@ export default async function EntertainmentPage({
 
       {/* Bottom CTA */}
       <section className="py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-mr-primary-container opacity-5" />
+        <div className="absolute inset-0 bg-[#00bbe4] opacity-5" />
         <div className="relative z-10 max-w-2xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="font-playfair text-4xl sm:text-5xl font-bold text-neutral-100 mb-4 tracking-tighter italic">
             {locale === 'th'
@@ -141,7 +141,7 @@ export default async function EntertainmentPage({
           </p>
           <a
             href={`/${locale}/#contact`}
-            className="inline-flex items-center gap-2 px-10 py-5 bg-mr-tertiary text-mr-bg font-bold rounded-md transition-all duration-300 hover:bg-mr-tertiary-container uppercase tracking-widest shadow-xl"
+            className="inline-flex items-center gap-2 px-10 py-5 bg-[#f1bca6] text-[#131313] font-bold rounded-md transition-all duration-300 hover:bg-[#d3a18c] uppercase tracking-widest shadow-xl"
           >
             {locale === 'th' ? '\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E40\u0E23\u0E32' : 'Get in Touch'}
           </a>

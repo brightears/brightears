@@ -31,7 +31,7 @@ export default function HeroSection() {
           sizes="100vw"
         />
         {/* Gradient overlays matching Stitch */}
-        <div className="absolute inset-0 bg-gradient-to-r from-mr-bg via-mr-bg/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#131313] via-[#131313]/80 to-transparent" />
       </div>
 
       {/* Dynamic gradient with mouse tracking */}
@@ -48,16 +48,16 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div className="space-y-8">
-          <span className="text-mr-tertiary font-bold tracking-widest uppercase text-sm">
+          <span className="text-[#f1bca6] font-bold tracking-widest uppercase text-sm">
             Elevated Sonic Curation
           </span>
 
           <h1 className="text-5xl sm:text-6xl md:text-8xl font-playfair font-extrabold leading-[1.1] tracking-tighter text-neutral-100">
             {t('landing.hero.headline')}{' '}
-            <span className="text-mr-primary">Every night.</span>
+            <span className="text-[#4fd6ff]">Every night.</span>
           </h1>
 
-          <p className="text-mr-on-surface-variant text-lg sm:text-xl max-w-lg leading-relaxed">
+          <p className="text-[#bcc9ce] text-lg sm:text-xl max-w-lg leading-relaxed">
             {t('landing.hero.subheadline1')}
             <br />
             {t('landing.hero.subheadline2')}
@@ -66,13 +66,13 @@ export default function HeroSection() {
           <div className="flex items-center gap-6 pt-4">
             <a
               href="#contact"
-              className="bg-mr-primary-container hover:bg-mr-primary text-white px-8 py-4 font-bold rounded-lg shadow-cyan-glow-lg transition-all scale-100 hover:scale-105"
+              className="bg-[#00bbe4] hover:bg-[#4fd6ff] text-white px-8 py-4 font-bold rounded-lg shadow-cyan-glow-lg transition-all scale-100 hover:scale-105"
             >
               {t('landing.hero.cta')}
             </a>
             <a
               href="#services"
-              className="flex items-center gap-2 text-mr-on-surface hover:text-mr-primary transition-colors font-semibold group"
+              className="flex items-center gap-2 text-[#e5e2e1] hover:text-[#4fd6ff] transition-colors font-semibold group"
             >
               Explore Services
               <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">

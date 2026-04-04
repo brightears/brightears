@@ -95,29 +95,29 @@ export default async function HomePage({
       <JsonLd data={localBusinessSchema} />
       <JsonLd data={breadcrumbSchema} />
 
-      <main className="min-h-screen bg-mr-bg">
+      <main className="min-h-screen bg-[#131313]">
         {/* Hero Section */}
         <HeroSection />
 
         {/* Services Section */}
-        <section id="services" className="py-32 bg-mr-surface-lowest scroll-mt-20">
+        <section id="services" className="py-32 bg-[#0e0e0e] scroll-mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
               <div className="max-w-2xl">
                 <h2 className="text-4xl md:text-6xl font-playfair text-neutral-100 mb-6">
                   {t('landing.whatWeDo.title')}
                 </h2>
-                <p className="text-mr-on-surface-variant text-lg">
+                <p className="text-[#bcc9ce] text-lg">
                   {t('landing.whatWeDo.subtitle')}
                 </p>
               </div>
-              <div className="w-24 h-[1px] bg-mr-outline-variant mb-4 hidden md:block" />
+              <div className="w-24 h-[1px] bg-[#3d494e] mb-4 hidden md:block" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* DJ Management */}
-              <div className="glass p-10 rounded-xl border border-white/5 hover:bg-mr-surface-high transition-all group">
-                <div className="w-14 h-14 rounded-lg bg-mr-primary-container/20 flex items-center justify-center mb-8 text-mr-primary group-hover:scale-110 transition-transform">
+              <div className="glass p-10 rounded-xl border border-white/5 hover:bg-[#2a2a2a] transition-all group">
+                <div className="w-14 h-14 rounded-lg bg-[#00bbe4]/20 flex items-center justify-center mb-8 text-[#4fd6ff] group-hover:scale-110 transition-transform">
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="2"/>
                     <circle cx="16" cy="16" r="5" stroke="currentColor" strokeWidth="2"/>
@@ -128,14 +128,14 @@ export default async function HomePage({
                 <h3 className="text-2xl font-playfair text-neutral-100 mb-4">
                   {t('landing.whatWeDo.services.djs.title')}
                 </h3>
-                <p className="text-mr-on-surface-variant leading-relaxed">
+                <p className="text-[#bcc9ce] leading-relaxed">
                   {t('landing.whatWeDo.services.djs.description')}
                 </p>
               </div>
 
               {/* Live Music */}
-              <div className="glass p-10 rounded-xl border border-white/5 hover:bg-mr-surface-high transition-all group">
-                <div className="w-14 h-14 rounded-lg bg-mr-tertiary/20 flex items-center justify-center mb-8 text-mr-tertiary group-hover:scale-110 transition-transform">
+              <div className="glass p-10 rounded-xl border border-white/5 hover:bg-[#2a2a2a] transition-all group">
+                <div className="w-14 h-14 rounded-lg bg-[#f1bca6]/20 flex items-center justify-center mb-8 text-[#f1bca6] group-hover:scale-110 transition-transform">
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="11" y="2" width="10" height="16" rx="5" stroke="currentColor" strokeWidth="2"/>
                     <path d="M6 14C6 14 6 22 16 22C26 22 26 14 26 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -146,14 +146,14 @@ export default async function HomePage({
                 <h3 className="text-2xl font-playfair text-neutral-100 mb-4">
                   {t('landing.whatWeDo.services.bands.title')}
                 </h3>
-                <p className="text-mr-on-surface-variant leading-relaxed">
+                <p className="text-[#bcc9ce] leading-relaxed">
                   {t('landing.whatWeDo.services.bands.description')}
                 </p>
               </div>
 
               {/* Background Music */}
-              <div className="glass p-10 rounded-xl border border-white/5 hover:bg-mr-surface-high transition-all group">
-                <div className="w-14 h-14 rounded-lg bg-mr-primary-container/20 flex items-center justify-center mb-8 text-mr-primary group-hover:scale-110 transition-transform">
+              <div className="glass p-10 rounded-xl border border-white/5 hover:bg-[#2a2a2a] transition-all group">
+                <div className="w-14 h-14 rounded-lg bg-[#00bbe4]/20 flex items-center justify-center mb-8 text-[#4fd6ff] group-hover:scale-110 transition-transform">
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4 16H4.01" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
                     <path d="M8 12V20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -167,7 +167,7 @@ export default async function HomePage({
                 <h3 className="text-2xl font-playfair text-neutral-100 mb-4">
                   {t('landing.whatWeDo.services.backgroundMusic.title')}
                 </h3>
-                <p className="text-mr-on-surface-variant leading-relaxed">
+                <p className="text-[#bcc9ce] leading-relaxed">
                   {t('landing.whatWeDo.services.backgroundMusic.description')}
                 </p>
               </div>
@@ -176,36 +176,36 @@ export default async function HomePage({
         </section>
 
         {/* Our Story Section */}
-        <section id="about" className="py-32 bg-mr-surface scroll-mt-20">
+        <section id="about" className="py-32 bg-[#131313] scroll-mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7 space-y-8">
-              <span className="text-mr-tertiary font-bold tracking-widest uppercase text-sm">
+              <span className="text-[#f1bca6] font-bold tracking-widest uppercase text-sm">
                 {locale === 'th' ? '\u0E2A\u0E2D\u0E07\u0E17\u0E28\u0E27\u0E23\u0E23\u0E29\u0E41\u0E2B\u0E48\u0E07\u0E04\u0E27\u0E32\u0E21\u0E40\u0E1B\u0E47\u0E19\u0E40\u0E25\u0E34\u0E28' : 'Two Decades of Excellence'}
               </span>
               <h2 className="text-5xl md:text-7xl font-playfair text-neutral-100 leading-tight">
                 {t('about.story.title')}
               </h2>
-              <div className="space-y-6 text-mr-on-surface-variant text-lg leading-relaxed max-w-2xl">
+              <div className="space-y-6 text-[#bcc9ce] text-lg leading-relaxed max-w-2xl">
                 <p>{t('about.story.p1')}</p>
                 <p>{t('about.story.p2')}</p>
                 <p>{t('about.story.p3')}</p>
               </div>
               <div className="flex gap-12 pt-8">
                 <div>
-                  <div className="text-4xl font-playfair text-mr-primary mb-1">20+</div>
-                  <div className="text-xs uppercase tracking-widest text-mr-tertiary">
+                  <div className="text-4xl font-playfair text-[#4fd6ff] mb-1">20+</div>
+                  <div className="text-xs uppercase tracking-widest text-[#f1bca6]">
                     {locale === 'th' ? '\u0E1B\u0E35\u0E1B\u0E23\u0E30\u0E2A\u0E1A\u0E01\u0E32\u0E23\u0E13\u0E4C' : 'Years Exp.'}
                   </div>
                 </div>
                 <div>
-                  <div className="text-4xl font-playfair text-mr-primary mb-1">27</div>
-                  <div className="text-xs uppercase tracking-widest text-mr-tertiary">
+                  <div className="text-4xl font-playfair text-[#4fd6ff] mb-1">27</div>
+                  <div className="text-xs uppercase tracking-widest text-[#f1bca6]">
                     {locale === 'th' ? '\u0E28\u0E34\u0E25\u0E1B\u0E34\u0E19' : 'Active Artists'}
                   </div>
                 </div>
                 <div>
-                  <div className="text-4xl font-playfair text-mr-primary mb-1">6</div>
-                  <div className="text-xs uppercase tracking-widest text-mr-tertiary">
+                  <div className="text-4xl font-playfair text-[#4fd6ff] mb-1">6</div>
+                  <div className="text-xs uppercase tracking-widest text-[#f1bca6]">
                     {locale === 'th' ? '\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E1E\u0E23\u0E35\u0E40\u0E21\u0E35\u0E22\u0E21' : 'Premium Venues'}
                   </div>
                 </div>
@@ -226,7 +226,7 @@ export default async function HomePage({
                 <p className="italic text-neutral-200 font-playfair">
                   &ldquo;Bright Ears transformed our lobby lounge into Bangkok&rsquo;s most sought-after evening destination.&rdquo;
                 </p>
-                <p className="mt-4 text-xs font-bold uppercase tracking-widest text-mr-tertiary">
+                <p className="mt-4 text-xs font-bold uppercase tracking-widest text-[#f1bca6]">
                   &mdash; Hotel Director, Sukhumvit
                 </p>
               </div>
@@ -235,13 +235,13 @@ export default async function HomePage({
         </section>
 
         {/* What You Get Section (Bento Grid) */}
-        <section className="py-32 bg-mr-surface-low">
+        <section className="py-32 bg-[#1c1b1b]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-20">
               <h2 className="text-4xl md:text-6xl font-playfair text-neutral-100 mb-4">
                 {t('about.whatYouGet.title')}
               </h2>
-              <p className="text-mr-on-surface-variant max-w-xl mx-auto">
+              <p className="text-[#bcc9ce] max-w-xl mx-auto">
                 {t('about.whatYouGet.subtitle')}
               </p>
             </div>
@@ -257,15 +257,15 @@ export default async function HomePage({
               ].map(({ key, icon }) => (
                 <div
                   key={key}
-                  className="bg-mr-surface p-8 rounded-lg hover:shadow-[0px_20px_40px_rgba(0,187,228,0.05)] transition-all border border-transparent hover:border-mr-primary/20"
+                  className="bg-[#131313] p-8 rounded-lg hover:shadow-[0px_20px_40px_rgba(0,187,228,0.05)] transition-all border border-transparent hover:border-[#4fd6ff]/20"
                 >
-                  <svg className="w-6 h-6 text-mr-primary mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-6 h-6 text-[#4fd6ff] mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={icon} />
                   </svg>
                   <h4 className="text-xl font-bold text-neutral-100 mb-3">
                     {t(`about.features.${key}.feature`)}
                   </h4>
-                  <p className="text-mr-on-surface-variant text-sm">
+                  <p className="text-[#bcc9ce] text-sm">
                     {t(`about.features.${key}.benefit`)}
                   </p>
                 </div>
@@ -275,7 +275,7 @@ export default async function HomePage({
         </section>
 
         {/* Client Logos Section */}
-        <section className="py-20 bg-mr-bg overflow-hidden">
+        <section className="py-20 bg-[#131313] overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <p className="text-center text-xs font-bold uppercase tracking-[0.3em] text-neutral-500 mb-12">
               {t('landing.clients.title')}
@@ -302,34 +302,34 @@ export default async function HomePage({
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-32 bg-mr-surface-lowest scroll-mt-20">
+        <section id="contact" className="py-32 bg-[#0e0e0e] scroll-mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-20">
             <div>
               <h2 className="text-5xl md:text-7xl font-playfair text-neutral-100 mb-8">
                 {t('landing.contact.title')}
               </h2>
-              <p className="text-mr-on-surface-variant text-lg mb-12 max-w-md">
+              <p className="text-[#bcc9ce] text-lg mb-12 max-w-md">
                 {t('landing.contact.subtitle')}
               </p>
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <svg className="w-5 h-5 text-mr-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 text-[#4fd6ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <span className="text-mr-on-surface">info@brightears.io</span>
+                  <span className="text-[#e5e2e1]">info@brightears.io</span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <svg className="w-5 h-5 text-mr-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 text-[#4fd6ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <span className="text-mr-on-surface">Thong Lo, Bangkok</span>
+                  <span className="text-[#e5e2e1]">Thong Lo, Bangkok</span>
                 </div>
               </div>
 
               {/* LINE Contact */}
               <div className="mt-10">
-                <p className="font-inter text-mr-on-surface-variant mb-4">
+                <p className="font-inter text-[#bcc9ce] mb-4">
                   {t('landing.contact.linePrompt')}
                 </p>
                 <LineContactButton

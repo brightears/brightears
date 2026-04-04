@@ -178,15 +178,15 @@ export default async function FAQPage({
       <JsonLd data={[faqSchema, breadcrumbSchema]} />
 
       {/* Hero */}
-      <section className="relative pt-32 pb-16 sm:pt-40 sm:pb-20 bg-mr-bg">
+      <section className="relative pt-32 pb-16 sm:pt-40 sm:pb-20 bg-[#131313]">
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-mr-tertiary font-bold tracking-widest uppercase text-sm mb-4 block">
+          <span className="text-[#f1bca6] font-bold tracking-widest uppercase text-sm mb-4 block">
             {locale === 'th' ? '\u0E04\u0E33\u0E15\u0E2D\u0E1A' : 'Answers'}
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-playfair font-bold text-neutral-100 mb-4 tracking-tighter">
             {locale === 'th' ? '\u0E04\u0E33\u0E16\u0E32\u0E21\u0E17\u0E35\u0E48\u0E1E\u0E1A\u0E1A\u0E48\u0E2D\u0E22' : 'Frequently Asked Questions'}
           </h1>
-          <p className="text-lg text-mr-on-surface-variant max-w-2xl mx-auto">
+          <p className="text-lg text-[#bcc9ce] max-w-2xl mx-auto">
             {locale === 'th'
               ? '\u0E17\u0E38\u0E01\u0E2A\u0E34\u0E48\u0E07\u0E17\u0E35\u0E48\u0E04\u0E38\u0E13\u0E15\u0E49\u0E2D\u0E07\u0E23\u0E39\u0E49\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23\u0E08\u0E31\u0E14\u0E01\u0E32\u0E23\u0E04\u0E27\u0E32\u0E21\u0E1A\u0E31\u0E19\u0E40\u0E17\u0E34\u0E07\u0E02\u0E2D\u0E07 Bright Ears'
               : 'Everything you need to know about Bright Ears entertainment management services'}
@@ -195,27 +195,27 @@ export default async function FAQPage({
       </section>
 
       {/* FAQ Items */}
-      <section className="relative pb-20 sm:pb-28 bg-mr-bg">
+      <section className="relative pb-20 sm:pb-28 bg-[#131313]">
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <FAQAccordion faqs={faqs} />
         </div>
       </section>
 
       {/* CTA */}
-      <section className="relative py-16 sm:py-20 bg-mr-surface-lowest">
+      <section className="relative py-16 sm:py-20 bg-[#0e0e0e]">
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="glass p-8 sm:p-12 rounded-xl border border-white/5">
             <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-neutral-100 mb-4">
               {locale === 'th' ? '\u0E22\u0E31\u0E07\u0E21\u0E35\u0E04\u0E33\u0E16\u0E32\u0E21?' : 'Still have questions?'}
             </h2>
-            <p className="text-mr-on-surface-variant mb-8">
+            <p className="text-[#bcc9ce] mb-8">
               {locale === 'th'
                 ? '\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E40\u0E23\u0E32\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E1E\u0E39\u0E14\u0E04\u0E38\u0E22\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A\u0E04\u0E27\u0E32\u0E21\u0E15\u0E49\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E14\u0E49\u0E32\u0E19\u0E04\u0E27\u0E32\u0E21\u0E1A\u0E31\u0E19\u0E40\u0E17\u0E34\u0E07\u0E02\u0E2D\u0E07\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13'
                 : 'Get in touch to discuss your venue\'s entertainment needs.'}
             </p>
             <Link
               href="/#contact"
-              className="inline-flex items-center px-8 py-3 bg-mr-primary-container text-white font-bold rounded-lg transition-all duration-300 hover:bg-mr-primary hover:shadow-cyan-glow-lg"
+              className="inline-flex items-center px-8 py-3 bg-[#00bbe4] text-white font-bold rounded-lg transition-all duration-300 hover:bg-[#4fd6ff] hover:shadow-cyan-glow-lg"
             >
               {locale === 'th' ? '\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E40\u0E23\u0E32' : 'Get in Touch'}
             </Link>

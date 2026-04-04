@@ -21,7 +21,7 @@ export default function FAQAccordion({ faqs }: { faqs: FAQItem[] }) {
         return (
           <div
             key={index}
-            className="bg-mr-surface-high/50 border border-mr-outline-variant/20 rounded-xl overflow-hidden transition-colors duration-200 hover:bg-mr-surface-high/70"
+            className="bg-[#2a2a2a]/50 border border-[#3d494e]/20 rounded-xl overflow-hidden transition-colors duration-200 hover:bg-[#2a2a2a]/70"
           >
             <button
               onClick={() => toggle(index)}
@@ -29,12 +29,12 @@ export default function FAQAccordion({ faqs }: { faqs: FAQItem[] }) {
               aria-expanded={isOpen}
               aria-controls={`faq-answer-${index}`}
             >
-              <span className="text-mr-on-surface font-inter font-medium pr-4 text-base sm:text-lg">
+              <span className="text-[#e5e2e1] font-inter font-medium pr-4 text-base sm:text-lg">
                 {faq.question}
               </span>
               <span
-                className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full border border-mr-outline-variant/30 text-mr-on-surface-variant transition-all duration-300 group-hover:border-mr-primary group-hover:text-mr-primary ${
-                  isOpen ? 'bg-mr-primary-container/20 border-mr-primary text-mr-primary rotate-45' : ''
+                className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full border border-[#3d494e]/30 text-[#bcc9ce] transition-all duration-300 group-hover:border-[#4fd6ff] group-hover:text-[#4fd6ff] ${
+                  isOpen ? 'bg-[#00bbe4]/20 border-[#4fd6ff] text-[#4fd6ff] rotate-45' : ''
                 }`}
                 aria-hidden="true"
               >
@@ -56,7 +56,7 @@ export default function FAQAccordion({ faqs }: { faqs: FAQItem[] }) {
                 isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
               }`}
             >
-              <div className="px-6 pb-5 text-mr-on-surface-variant font-inter text-base leading-relaxed border-t border-mr-outline-variant/10 pt-4">
+              <div className="px-6 pb-5 text-[#bcc9ce] font-inter text-base leading-relaxed border-t border-[#3d494e]/10 pt-4">
                 {faq.answer}
               </div>
             </div>
