@@ -447,7 +447,7 @@ export default function VenueInquiryForm({ darkMode = false }: VenueInquiryFormP
         )}
       </button>
 
-      <p className={`text-center text-xs font-inter ${darkMode ? 'text-white/40' : 'text-gray-400'}`}>
+      <p className={`text-center text-xs font-inter ${darkMode ? 'text-white/60' : 'text-gray-400'}`}>
         {t('form.footer')}
       </p>
     </form>

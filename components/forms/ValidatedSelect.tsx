@@ -94,7 +94,7 @@ export default function ValidatedSelect({
             ${hasError ? 'border-red-500 bg-red-50/50 focus:ring-red-500/50' : ''}
             ${isValid ? 'border-green-500 bg-green-50/50 focus:ring-green-500/50' : ''}
             ${!hasError && !isValid ? (darkMode ? 'border-white/20 hover:border-white/40 focus:border-brand-cyan' : 'border-gray-300 hover:border-gray-400 focus:border-brand-cyan') : ''}
-            ${!value ? (darkMode ? 'text-white/40' : 'text-gray-500') : (darkMode ? 'text-white' : 'text-dark-gray')}
+            ${!value ? (darkMode ? 'text-white/60' : 'text-gray-500') : (darkMode ? 'text-white' : 'text-dark-gray')}
             ${selectClassName}
           `}
         >

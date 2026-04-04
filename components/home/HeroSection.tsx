@@ -27,6 +27,7 @@ export default function HeroSection() {
           alt="DJ performing at a Bangkok venue"
           fill
           priority
+          fetchPriority="high"
           className="object-cover opacity-40 grayscale-[20%]"
           sizes="100vw"
         />
@@ -66,7 +67,7 @@ export default function HeroSection() {
           <div className="flex items-center gap-6 pt-4">
             <a
               href="#contact"
-              className="bg-[#00bbe4] hover:bg-[#4fd6ff] text-white px-8 py-4 font-bold rounded-lg shadow-cyan-glow-lg transition-all scale-100 hover:scale-105"
+              className="bg-[#0088a8] hover:bg-[#00a3c7] text-white px-8 py-4 font-bold rounded-lg shadow-cyan-glow-lg transition-all scale-100 hover:scale-105"
             >
               {t('landing.hero.cta')}
             </a>

@@ -53,7 +53,7 @@ export default function LineContactButton({
 
   // Variant styles
   const variantStyles = {
-    primary: 'bg-[#00B900] hover:bg-[#009900] text-white shadow-md shadow-[#00B900]/25 hover:shadow-lg hover:shadow-[#00B900]/30 hover:-translate-y-0.5 active:translate-y-0 active:shadow-md',
+    primary: 'bg-[#006600] hover:bg-[#008800] text-white shadow-md shadow-[#006600]/25 hover:shadow-lg hover:shadow-[#006600]/30 hover:-translate-y-0.5 active:translate-y-0 active:shadow-md',
     secondary: 'bg-transparent border-2 border-[#00B900] text-[#00B900] hover:bg-[#00B900] hover:text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0',
     'icon-only': 'bg-[#00B900] hover:bg-[#009900] text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 p-3 rounded-full'
   }

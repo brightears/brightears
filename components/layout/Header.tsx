@@ -85,8 +85,8 @@ const Header: React.FC = () => {
             <Image
               src="/logo.png"
               alt="Bright Ears"
-              width={150}
-              height={50}
+              width={40}
+              height={40}
               className="h-10 w-auto"
               priority
             />
@@ -153,7 +153,7 @@ const Header: React.FC = () => {
               <div className="hidden sm:flex items-center gap-3">
                 <Link
                   href={portalHref}
-                  className="px-6 py-2 bg-[#00bbe4] text-white font-bold rounded-lg hover:scale-95 transition-all duration-200"
+                  className="px-6 py-2 bg-[#0088a8] text-white font-bold rounded-lg hover:scale-95 transition-all duration-200"
                   aria-label={t('dashboard')}
                 >
                   {t('dashboard')}
@@ -163,7 +163,7 @@ const Header: React.FC = () => {
               <div className="hidden sm:flex items-center gap-3">
                 <Link
                   href="/sign-in"
-                  className="px-6 py-2 bg-[#00bbe4] text-white font-bold rounded-lg hover:scale-95 transition-all duration-200"
+                  className="px-6 py-2 bg-[#0088a8] text-white font-bold rounded-lg hover:scale-95 transition-all duration-200"
                 >
                   {t('signIn')}
                 </Link>
@@ -236,7 +236,7 @@ const Header: React.FC = () => {
                 <Link
                   href={portalHref}
                   onClick={handleMobileMenuClose}
-                  className="w-full px-6 py-3 bg-[#00bbe4] text-white font-bold rounded-lg transition-all duration-300 hover:bg-[#4fd6ff] text-center block"
+                  className="w-full px-6 py-3 bg-[#0088a8] text-white font-bold rounded-lg transition-all duration-300 hover:bg-[#00a3c7] text-center block"
                   aria-label={t('dashboard')}
                 >
                   {t('dashboard')}
@@ -247,7 +247,7 @@ const Header: React.FC = () => {
                 <Link
                   href="/sign-in"
                   onClick={handleMobileMenuClose}
-                  className="w-full px-6 py-3 bg-[#00bbe4] text-white font-bold rounded-lg transition-all duration-300 hover:bg-[#4fd6ff] text-center block"
+                  className="w-full px-6 py-3 bg-[#0088a8] text-white font-bold rounded-lg transition-all duration-300 hover:bg-[#00a3c7] text-center block"
                 >
                   {t('signIn')}
                 </Link>

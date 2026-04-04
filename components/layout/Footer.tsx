@@ -14,7 +14,7 @@ export default function Footer() {
           {/* Company Info */}
           <div className="space-y-6">
             <div className="text-xl font-playfair text-neutral-100">BRIGHT EARS</div>
-            <p className="text-neutral-500 max-w-xs leading-relaxed">
+            <p className="text-neutral-400 max-w-xs leading-relaxed">
               {t('description')}
             </p>
           </div>
@@ -22,37 +22,37 @@ export default function Footer() {
           {/* Navigation */}
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-4">
-              <h5 className="font-inter text-sm uppercase tracking-widest text-cyan-400">{t('links')}</h5>
+              <h4 className="font-inter text-sm uppercase tracking-widest text-cyan-400">{t('links')}</h4>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/#services" className="text-neutral-500 hover:text-cyan-300 transition-colors">
+                  <Link href="/#services" className="text-neutral-400 hover:text-cyan-300 transition-colors">
                     {t('services')}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/#about" className="text-neutral-500 hover:text-cyan-300 transition-colors">
+                  <Link href="/#about" className="text-neutral-400 hover:text-cyan-300 transition-colors">
                     {t('about')}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/faq" className="text-neutral-500 hover:text-cyan-300 transition-colors">
+                  <Link href="/faq" className="text-neutral-400 hover:text-cyan-300 transition-colors">
                     {t('faq')}
                   </Link>
                 </li>
               </ul>
             </div>
             <div className="space-y-4">
-              <h5 className="font-inter text-sm uppercase tracking-widest text-cyan-400">{t('contact')}</h5>
+              <h4 className="font-inter text-sm uppercase tracking-widest text-cyan-400">{t('contact')}</h4>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/#contact" className="text-neutral-500 hover:text-cyan-300 transition-colors">
+                  <Link href="/#contact" className="text-neutral-400 hover:text-cyan-300 transition-colors">
                     {t('contact')}
                   </Link>
                 </li>
                 <li>
                   <a
                     href="mailto:info@brightears.io"
-                    className="text-neutral-500 hover:text-cyan-300 transition-colors"
+                    className="text-neutral-400 hover:text-cyan-300 transition-colors"
                   >
                     info@brightears.io
                   </a>
@@ -63,7 +63,7 @@ export default function Footer() {
 
           {/* Social */}
           <div className="space-y-6">
-            <h5 className="font-inter text-sm uppercase tracking-widest text-cyan-400">Follow Us</h5>
+            <h4 className="font-inter text-sm uppercase tracking-widest text-cyan-400">Follow Us</h4>
             <div className="flex gap-4">
               <a
                 href="https://instagram.com/brightearsgroup"
@@ -93,11 +93,11 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="font-inter text-sm uppercase tracking-widest text-neutral-500">
+          <p className="font-inter text-sm uppercase tracking-widest text-neutral-400">
             {t('copyright')}
           </p>
           <div className="flex gap-8">
-            <span className="text-[10px] uppercase tracking-[0.2em] text-neutral-700">Bangkok</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-neutral-500">Bangkok</span>
           </div>
         </div>
       </div>

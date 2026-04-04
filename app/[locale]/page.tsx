@@ -262,7 +262,7 @@ export default async function HomePage({
                   <svg className="w-6 h-6 text-[#4fd6ff] mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={icon} />
                   </svg>
-                  <h4 className="text-xl font-bold text-neutral-100 mb-3">
+                  <h3 className="text-xl font-bold text-neutral-100 mb-3">
                     {t(`about.features.${key}.feature`)}
                   </h4>
                   <p className="text-[#bcc9ce] text-sm text-balance">
@@ -277,21 +277,22 @@ export default async function HomePage({
         {/* Client Logos Section */}
         <section className="py-20 bg-[#131313] overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p className="text-center text-xs font-bold uppercase tracking-[0.3em] text-neutral-500 mb-12">
+            <p className="text-center text-xs font-bold uppercase tracking-[0.3em] text-neutral-400 mb-12">
               {t('landing.clients.title')}
             </p>
             <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
               {[
-                { name: 'Marriott', src: '/images/clients/marriott.svg' },
-                { name: 'Hilton', src: '/images/clients/hilton.png' },
-                { name: 'Centara', src: '/images/clients/centara.png' },
-                { name: 'Accor', src: '/images/clients/accor.png' },
+                { name: 'Marriott', src: '/images/clients/marriott.svg', width: 96, height: 48 },
+                { name: 'Hilton', src: '/images/clients/hilton.png', width: 96, height: 48 },
+                { name: 'Centara', src: '/images/clients/centara.png', width: 120, height: 48 },
+                { name: 'Accor', src: '/images/clients/accor.png', width: 96, height: 48 },
               ].map((client) => (
                 <div key={client.name} className="flex items-center justify-center h-24 group">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={client.src}
                     alt={client.name}
+                    width={client.width}
+                    height={client.height}
                     className="h-12 w-auto opacity-50 group-hover:opacity-70 transition-all duration-300"
                     style={{ filter: 'brightness(1.5)' }}
                   />
