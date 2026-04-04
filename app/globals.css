@@ -1,5 +1,31 @@
 @import "tailwindcss";
 
+@theme {
+  --color-mr-bg: #131313;
+  --color-mr-surface: #131313;
+  --color-mr-surface-lowest: #0e0e0e;
+  --color-mr-surface-low: #1c1b1b;
+  --color-mr-surface-container: #201f1f;
+  --color-mr-surface-high: #2a2a2a;
+  --color-mr-surface-highest: #353534;
+  --color-mr-surface-bright: #3a3939;
+  --color-mr-primary: #4fd6ff;
+  --color-mr-primary-container: #00bbe4;
+  --color-mr-primary-fixed: #b6eaff;
+  --color-mr-tertiary: #f1bca6;
+  --color-mr-tertiary-container: #d3a18c;
+  --color-mr-secondary: #9cd0d1;
+  --color-mr-secondary-container: #1a5152;
+  --color-mr-on-surface: #e5e2e1;
+  --color-mr-on-surface-variant: #bcc9ce;
+  --color-mr-outline-variant: #3d494e;
+  --color-brand-cyan: #00bbe4;
+  --color-deep-teal: #1a5152;
+  --color-earthy-brown: #a47764;
+  --color-off-white: #e5e2e1;
+  --color-luxury-black: #0a0a0a;
+}
+
 :root {
   /* MIDNIGHT RESONANCE PALETTE (from Stitch design system) */
   --background: #131313;
