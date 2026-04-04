@@ -198,15 +198,15 @@ export default async function HomePage({
                   </div>
                 </div>
                 <div>
-                  <div className="text-4xl font-playfair text-[#4fd6ff] mb-1">27</div>
+                  <div className="text-4xl font-playfair text-[#4fd6ff] mb-1">1000+</div>
                   <div className="text-xs uppercase tracking-widest text-[#f1bca6]">
-                    {locale === 'th' ? '\u0E28\u0E34\u0E25\u0E1B\u0E34\u0E19' : 'Active Artists'}
+                    {locale === 'th' ? 'คืนที่จัดการ' : 'Nights Managed'}
                   </div>
                 </div>
                 <div>
-                  <div className="text-4xl font-playfair text-[#4fd6ff] mb-1">6</div>
+                  <div className="text-4xl font-playfair text-[#4fd6ff] mb-1">4.9★</div>
                   <div className="text-xs uppercase tracking-widest text-[#f1bca6]">
-                    {locale === 'th' ? '\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E1E\u0E23\u0E35\u0E40\u0E21\u0E35\u0E22\u0E21' : 'Premium Venues'}
+                    {locale === 'th' ? 'คะแนนเฉลี่ย' : 'Avg. Rating'}
                   </div>
                 </div>
               </div>
@@ -224,10 +224,10 @@ export default async function HomePage({
               </div>
               <div className="absolute -bottom-10 -left-10 glass p-8 rounded-lg max-w-xs border border-white/10 hidden md:block">
                 <p className="italic text-neutral-200 font-playfair">
-                  &ldquo;Bright Ears transformed our lobby lounge into Bangkok&rsquo;s most sought-after evening destination.&rdquo;
+                  &ldquo;Your venue&rsquo;s entertainment should run like every other department. Reliably. Professionally. Every night.&rdquo;
                 </p>
                 <p className="mt-4 text-xs font-bold uppercase tracking-widest text-[#f1bca6]">
-                  &mdash; Hotel Director, Sukhumvit
+                  &mdash; Bright Ears
                 </p>
               </div>
             </div>
