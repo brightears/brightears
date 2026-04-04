@@ -221,7 +221,7 @@ export default async function EventsPage({
                 key={index}
                 className="glass-card p-8 group hover:bg-[#2a2a2a] transition-all duration-500 rounded-xl relative overflow-hidden"
               >
-                <div className="absolute top-0 right-0 p-4 opacity-10 text-6xl font-playfair font-bold">
+                <div className="absolute -top-2 -right-2 opacity-[0.04] text-[8rem] font-playfair font-bold leading-none select-none pointer-events-none">
                   {event.number}
                 </div>
                 <h3 className="text-2xl font-playfair font-bold text-neutral-100 mb-4">
