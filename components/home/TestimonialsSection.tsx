@@ -1,3 +1,5 @@
+// DISABLED: Contains placeholder testimonials. Will re-enable with real venue manager quotes.
+
 'use client'
 
 import { useState, useEffect } from 'react'
