@@ -83,27 +83,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Audio Equalizer Visualization */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-end justify-center gap-1 h-12">
-        {[...Array(24)].map((_, i) => (
-          <div
-            key={i}
-            className="w-1 bg-white/30 rounded-full"
-            style={{
-              height: `${20 + Math.sin(i * 0.5) * 15 + Math.cos(i * 0.3) * 10}%`,
-              animation: `equalizer ${0.8 + (i % 5) * 0.2}s ease-in-out infinite alternate`,
-              animationDelay: `${i * 0.05}s`,
-            }}
-          />
-        ))}
-      </div>
-
-      <style jsx>{`
-        @keyframes equalizer {
-          0% { height: 20%; opacity: 0.2; }
-          100% { height: 80%; opacity: 0.5; }
-        }
-      `}</style>
+      {/* Equalizer removed — cleaner without it */}
     </section>
   );
 }
