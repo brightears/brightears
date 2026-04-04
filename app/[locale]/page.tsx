@@ -264,7 +264,7 @@ export default async function HomePage({
                   </svg>
                   <h3 className="text-xl font-bold text-neutral-100 mb-3">
                     {t(`about.features.${key}.feature`)}
-                  </h4>
+                  </h3>
                   <p className="text-[#bcc9ce] text-sm text-balance">
                     {t(`about.features.${key}.benefit`)}
                   </p>
