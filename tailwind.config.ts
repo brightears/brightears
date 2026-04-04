@@ -14,27 +14,65 @@ const config: Config = {
         'noto-thai': ['var(--font-noto-thai)', 'sans-serif'],
       },
       colors: {
-        // LUXURY MINIMAL PALETTE
-        'luxury-black': '#0a0a0a',    // Near-black for luxury backgrounds
-        'brand-cyan': '#00bbe4',      // Brand Cyan - use with opacity for luxury feel
-        'deep-teal': '#2f6364',       // Deep Teal (Secondary/Anchor)
-        'earthy-brown': '#a47764',    // Earthy Brown/Taupe
-        'soft-lavender': '#d59ec9',   // Soft Lavender (sparingly)
-        'off-white': '#f7f7f7',       // Off-white
-        'dark-gray': '#333333',       // Dark Gray
-        'pure-white': '#ffffff',      // Pure white
-        
-        // Keep these standard overrides for system compatibility
+        // MIDNIGHT RESONANCE PALETTE
+        'brand-cyan': '#00bbe4',
+        'deep-teal': '#1a5152',
+        'earthy-brown': '#a47764',
+        'soft-lavender': '#d59ec9',
+        'off-white': '#e5e2e1',
+        'dark-gray': '#333333',
+        'pure-white': '#ffffff',
+        'luxury-black': '#0a0a0a',
+
+        // Midnight Resonance surfaces
+        'mr-bg': '#131313',
+        'mr-surface': '#131313',
+        'mr-surface-lowest': '#0e0e0e',
+        'mr-surface-low': '#1c1b1b',
+        'mr-surface-container': '#201f1f',
+        'mr-surface-high': '#2a2a2a',
+        'mr-surface-highest': '#353534',
+        'mr-surface-bright': '#3a3939',
+
+        // Midnight Resonance primary (cyan)
+        'mr-primary': '#4fd6ff',
+        'mr-primary-container': '#00bbe4',
+        'mr-primary-fixed': '#b6eaff',
+
+        // Midnight Resonance tertiary (warm)
+        'mr-tertiary': '#f1bca6',
+        'mr-tertiary-container': '#d3a18c',
+
+        // Midnight Resonance secondary
+        'mr-secondary': '#9cd0d1',
+        'mr-secondary-container': '#1a5152',
+
+        // Midnight Resonance text
+        'mr-on-surface': '#e5e2e1',
+        'mr-on-surface-variant': '#bcc9ce',
+
+        // Midnight Resonance borders
+        'mr-outline': '#869398',
+        'mr-outline-variant': '#3d494e',
+
+        // System compatibility
         background: {
-          DEFAULT: '#f7f7f7',         // Off-white
-          dark: '#2f6364',            // Deep Teal
+          DEFAULT: '#131313',
+          dark: '#0e0e0e',
         },
-        foreground: '#ffffff',        // Text color on dark backgrounds
+        foreground: '#e5e2e1',
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      boxShadow: {
+        'cyan-glow': '0px 20px 40px rgba(0, 187, 228, 0.08)',
+        'cyan-glow-md': '0px 20px 40px rgba(0, 187, 228, 0.15)',
+        'cyan-glow-lg': '0px 20px 40px rgba(0, 187, 228, 0.2)',
+        'cyan-glow-hover': '0 0 30px rgba(79, 214, 255, 0.4)',
+        'deep-shadow': '0px 40px 80px rgba(0, 0, 0, 0.5)',
       },
       animation: {
         blob: "blob 7s infinite",
@@ -58,130 +96,54 @@ const config: Config = {
       },
       keyframes: {
         blob: {
-          "0%": {
-            transform: "translate(0px, 0px) scale(1)",
-          },
-          "33%": {
-            transform: "translate(30px, -50px) scale(1.1)",
-          },
-          "66%": {
-            transform: "translate(-20px, 20px) scale(0.9)",
-          },
-          "100%": {
-            transform: "translate(0px, 0px) scale(1)",
-          },
+          "0%": { transform: "translate(0px, 0px) scale(1)" },
+          "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+          "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+          "100%": { transform: "translate(0px, 0px) scale(1)" },
         },
         float: {
-          "0%, 100%": {
-            transform: "translateY(0px) translateX(0px)",
-          },
-          "25%": {
-            transform: "translateY(-20px) translateX(10px)",
-          },
-          "50%": {
-            transform: "translateY(10px) translateX(-10px)",
-          },
-          "75%": {
-            transform: "translateY(-10px) translateX(5px)",
-          },
+          "0%, 100%": { transform: "translateY(0px) translateX(0px)" },
+          "25%": { transform: "translateY(-20px) translateX(10px)" },
+          "50%": { transform: "translateY(10px) translateX(-10px)" },
+          "75%": { transform: "translateY(-10px) translateX(5px)" },
         },
         "hero-search-enter": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(30px) scale(0.95)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0) scale(1)",
-          },
+          "0%": { opacity: "0", transform: "translateY(30px) scale(0.95)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
         },
         "suggestion-slide-in": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(10px)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0)",
-          },
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
         "filter-panel-expand": {
-          "0%": {
-            "max-height": "0",
-            opacity: "0",
-            transform: "translateY(-10px)",
-          },
-          "50%": {
-            opacity: "0.5",
-          },
-          "100%": {
-            "max-height": "300px",
-            opacity: "1",
-            transform: "translateY(0)",
-          },
+          "0%": { "max-height": "0", opacity: "0", transform: "translateY(-10px)" },
+          "50%": { opacity: "0.5" },
+          "100%": { "max-height": "300px", opacity: "1", transform: "translateY(0)" },
         },
         "card-entrance": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(40px) scale(0.9)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0) scale(1)",
-          },
+          "0%": { opacity: "0", transform: "translateY(40px) scale(0.9)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
         },
         "activity-slide-in": {
-          "0%": {
-            opacity: "0",
-            transform: "translateX(-20px) scale(0.95)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateX(0) scale(1)",
-          },
+          "0%": { opacity: "0", transform: "translateX(-20px) scale(0.95)" },
+          "100%": { opacity: "1", transform: "translateX(0) scale(1)" },
         },
         "live-pulse": {
-          "0%, 100%": {
-            opacity: "1",
-            transform: "scale(1)",
-          },
-          "50%": {
-            opacity: "0.7",
-            transform: "scale(1.1)",
-          },
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.7", transform: "scale(1.1)" },
         },
         "count-up": {
-          "0%": {
-            transform: "scale(0.8)",
-            opacity: "0",
-          },
-          "50%": {
-            transform: "scale(1.05)",
-          },
-          "100%": {
-            transform: "scale(1)",
-            opacity: "1",
-          },
+          "0%": { transform: "scale(0.8)", opacity: "0" },
+          "50%": { transform: "scale(1.05)" },
+          "100%": { transform: "scale(1)", opacity: "1" },
         },
         "step-transition": {
-          "0%": {
-            opacity: "0",
-            transform: "translateX(20px)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateX(0)",
-          },
+          "0%": { opacity: "0", transform: "translateX(20px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
         },
         "modal-slide-up": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(50px) scale(0.9)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0) scale(1)",
-          },
+          "0%": { opacity: "0", transform: "translateY(50px) scale(0.9)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
         },
         "backdrop-fade-in": {
           "0%": { opacity: "0" },

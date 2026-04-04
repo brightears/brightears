@@ -10,11 +10,11 @@ export async function generateMetadata({
   const { locale } = await params;
 
   const title = locale === 'th'
-    ? 'ดีเจและศิลปินของเรา | Bright Ears'
+    ? '\u0E14\u0E35\u0E40\u0E08\u0E41\u0E25\u0E30\u0E28\u0E34\u0E25\u0E1B\u0E34\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32 | Bright Ears'
     : 'Our DJs & Entertainment | Bright Ears';
 
   const description = locale === 'th'
-    ? 'พบกับดีเจมืออาชีพของ Bright Ears ที่ให้บริการในสถานที่ชั้นนำของกรุงเทพ จากเลานจ์สุดหรูไปจนถึงรูฟท็อปบาร์'
+    ? '\u0E1E\u0E1A\u0E01\u0E31\u0E1A\u0E14\u0E35\u0E40\u0E08\u0E21\u0E37\u0E2D\u0E2D\u0E32\u0E0A\u0E35\u0E1E\u0E02\u0E2D\u0E07 Bright Ears \u0E17\u0E35\u0E48\u0E43\u0E2B\u0E49\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23\u0E43\u0E19\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E0A\u0E31\u0E49\u0E19\u0E19\u0E33\u0E02\u0E2D\u0E07\u0E01\u0E23\u0E38\u0E07\u0E40\u0E17\u0E1E \u0E08\u0E32\u0E01\u0E40\u0E25\u0E32\u0E19\u0E08\u0E4C\u0E2A\u0E38\u0E14\u0E2B\u0E23\u0E39\u0E44\u0E1B\u0E08\u0E19\u0E16\u0E36\u0E07\u0E23\u0E39\u0E1F\u0E17\u0E47\u0E2D\u0E1B\u0E1A\u0E32\u0E23\u0E4C'
     : 'Meet the professional DJs of Bright Ears, performing at Bangkok\'s finest venues. From luxury lounges to rooftop bars, find the right sound for your venue.';
 
   return {
@@ -51,7 +51,6 @@ export default async function EntertainmentPage({
 }) {
   const { locale } = await params;
 
-  // Query all DJs with their venue assignment history
   const artists = await prisma.artist.findMany({
     where: {
       category: 'DJ',
@@ -85,7 +84,6 @@ export default async function EntertainmentPage({
     },
   });
 
-  // Transform data for the client component
   const djs = artists.map((artist) => ({
     id: artist.id,
     stageName: artist.stageName,
@@ -97,24 +95,24 @@ export default async function EntertainmentPage({
     venues: [...new Set(artist.venueAssignments.map((va) => va.venue.name))],
   }));
 
-  // Collect all unique genres for the filter
   const allGenres = [...new Set(djs.flatMap((dj) => dj.genres))].sort();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-900 via-deep-teal/90 to-stone-900">
+    <div className="min-h-screen bg-mr-bg">
       {/* Hero Section */}
-      <section className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Decorative orbs */}
-        <div className="absolute top-10 right-10 w-72 h-72 bg-brand-cyan/10 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-56 h-56 bg-earthy-brown/10 rounded-full filter blur-3xl" />
+      <section className="relative py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div className="absolute -top-10 -right-10 w-64 h-64 bg-mr-primary/5 rounded-full blur-3xl" />
 
         <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-            {locale === 'th' ? 'ดีเจของเรา' : 'Our DJs'}
+          <span className="text-mr-tertiary font-bold tracking-widest uppercase text-sm mb-4 block">
+            {locale === 'th' ? '\u0E17\u0E35\u0E21\u0E28\u0E34\u0E25\u0E1B\u0E34\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32' : 'Our Artist Roster'}
+          </span>
+          <h1 className="font-playfair text-4xl sm:text-5xl md:text-7xl font-bold text-neutral-100 mb-6 tracking-tighter">
+            {locale === 'th' ? '\u0E14\u0E35\u0E40\u0E08\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32' : 'Our DJs'}
           </h1>
-          <p className="font-inter text-lg sm:text-xl text-white/70 max-w-2xl mx-auto">
+          <p className="font-inter text-lg sm:text-xl text-mr-on-surface-variant max-w-2xl mx-auto">
             {locale === 'th'
-              ? 'ดีเจมืออาชีพที่คัดสรรมาเพื่อสร้างบรรยากาศให้สถานที่ชั้นนำของกรุงเทพ'
+              ? '\u0E14\u0E35\u0E40\u0E08\u0E21\u0E37\u0E2D\u0E2D\u0E32\u0E0A\u0E35\u0E1E\u0E17\u0E35\u0E48\u0E04\u0E31\u0E14\u0E2A\u0E23\u0E23\u0E21\u0E32\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E1A\u0E23\u0E23\u0E22\u0E32\u0E01\u0E32\u0E28\u0E43\u0E2B\u0E49\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E0A\u0E31\u0E49\u0E19\u0E19\u0E33\u0E02\u0E2D\u0E07\u0E01\u0E23\u0E38\u0E07\u0E40\u0E17\u0E1E'
               : 'Handpicked professional DJs setting the tone at Bangkok\'s most prestigious venues.'}
           </p>
         </div>
@@ -128,28 +126,24 @@ export default async function EntertainmentPage({
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-teal via-deep-teal/95 to-earthy-brown/80 relative overflow-hidden">
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-brand-cyan/10 rounded-full filter blur-3xl" />
-
-        <div className="relative z-10 max-w-2xl mx-auto text-center">
-          <h2 className="font-playfair text-3xl sm:text-4xl font-bold text-white mb-4">
+      <section className="py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-mr-primary-container opacity-5" />
+        <div className="relative z-10 max-w-2xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <h2 className="font-playfair text-4xl sm:text-5xl font-bold text-neutral-100 mb-4 tracking-tighter italic">
             {locale === 'th'
-              ? 'กำลังมองหาดีเจที่ใช่สำหรับสถานที่ของคุณ?'
+              ? '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E21\u0E2D\u0E07\u0E2B\u0E32\u0E14\u0E35\u0E40\u0E08\u0E17\u0E35\u0E48\u0E43\u0E0A\u0E48\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13?'
               : 'Looking for the right DJ for your venue?'}
           </h2>
-          <p className="font-inter text-lg text-white/70 mb-8">
+          <p className="font-inter text-lg text-neutral-400 mb-8">
             {locale === 'th'
-              ? 'บอกเราเกี่ยวกับสถานที่และบรรยากาศที่ต้องการ เราจะจับคู่ดีเจที่เหมาะสมให้'
+              ? '\u0E1A\u0E2D\u0E01\u0E40\u0E23\u0E32\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E41\u0E25\u0E30\u0E1A\u0E23\u0E23\u0E22\u0E32\u0E01\u0E32\u0E28\u0E17\u0E35\u0E48\u0E15\u0E49\u0E2D\u0E07\u0E01\u0E32\u0E23 \u0E40\u0E23\u0E32\u0E08\u0E30\u0E08\u0E31\u0E1A\u0E04\u0E39\u0E48\u0E14\u0E35\u0E40\u0E08\u0E17\u0E35\u0E48\u0E40\u0E2B\u0E21\u0E32\u0E30\u0E2A\u0E21\u0E43\u0E2B\u0E49'
               : 'Tell us about your venue and the vibe you\'re after. We\'ll match you with the right talent.'}
           </p>
           <a
             href={`/${locale}/#contact`}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-brand-cyan text-white font-inter font-semibold rounded-2xl transition-all duration-300 hover:bg-brand-cyan/90 hover:shadow-lg hover:shadow-brand-cyan/25 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 px-10 py-5 bg-mr-tertiary text-mr-bg font-bold rounded-md transition-all duration-300 hover:bg-mr-tertiary-container uppercase tracking-widest shadow-xl"
           >
-            {locale === 'th' ? 'ติดต่อเรา' : 'Get in Touch'}
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+            {locale === 'th' ? '\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E40\u0E23\u0E32' : 'Get in Touch'}
           </a>
         </div>
       </section>

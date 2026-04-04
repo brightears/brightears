@@ -27,8 +27,8 @@ const Header: React.FC = () => {
   const portalHref = userRole === 'ARTIST' ? '/dj-portal' : '/venue-portal';
 
   const languages = [
-    { code: 'en' as Locale, label: 'English', flag: '🇬🇧' },
-    { code: 'th' as Locale, label: 'ไทย', flag: '🇹🇭' },
+    { code: 'en' as Locale, label: 'English', flag: '\u{1F1EC}\u{1F1E7}' },
+    { code: 'th' as Locale, label: '\u0E44\u0E17\u0E22', flag: '\u{1F1F9}\u{1F1ED}' },
   ];
 
   const navItems = [
@@ -52,7 +52,6 @@ const Header: React.FC = () => {
 
   const handleLanguageChange = (locale: Locale) => {
     setIsLangMenuOpen(false);
-    // Use Next.js router to navigate to the same page with different locale
     router.replace(pathname, { locale });
   };
 
@@ -62,7 +61,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      {/* Skip Link for Keyboard Navigation - WCAG 2.4.1 (A) */}
+      {/* Skip Link for Keyboard Navigation */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only"
@@ -71,130 +70,120 @@ const Header: React.FC = () => {
       </a>
 
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-deep-teal/95 backdrop-blur-xl ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'py-3 shadow-lg border-b border-white/10'
-            : 'py-6'
+            ? 'py-0 bg-neutral-950/60 backdrop-blur-xl shadow-[0px_20px_40px_rgba(0,187,228,0.08)]'
+            : 'py-0 bg-neutral-950/60 backdrop-blur-xl shadow-[0px_20px_40px_rgba(0,187,228,0.08)]'
         }`}
       >
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <Link 
-              href="/" 
-              className="group flex items-center transition-transform duration-300 hover:scale-105"
-            >
-              <Image
-                src="/logo.png"
-                alt="Bright Ears"
-                width={150}
-                height={50}
-                className="h-10 w-auto"
-                priority
-              />
-            </Link>
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="group flex items-center transition-transform duration-300 hover:scale-105"
+          >
+            <Image
+              src="/logo.png"
+              alt="Bright Ears"
+              width={150}
+              height={50}
+              className="h-10 w-auto"
+              priority
+            />
+          </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
-              {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className={`relative font-inter transition-colors duration-300 group ${
-                    isScrolled
-                      ? 'text-pure-white/90 hover:text-brand-cyan'
-                      : 'text-pure-white hover:text-brand-cyan'
-                  }`}
-                >
-                  <span className="relative z-10">{item.label}</span>
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-cyan transition-all duration-300 group-hover:w-full" />
-                </Link>
-              ))}
-            </div>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="relative font-playfair text-neutral-400 hover:text-neutral-100 transition-colors duration-300 tracking-tight group"
+              >
+                <span className="relative z-10">{item.label}</span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mr-primary transition-all duration-300 group-hover:w-full" />
+              </Link>
+            ))}
+          </div>
 
-            {/* Right Actions */}
-            <div className="flex items-center gap-4">
-              {/* Language Selector - WCAG 4.1.2 (A) */}
-              <div className="relative">
-                <button
-                  onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+          {/* Right Actions */}
+          <div className="flex items-center gap-4">
+            {/* Language Selector */}
+            <div className="relative">
+              <button
+                onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                aria-label={tA11y('chooseLanguage')}
+                aria-expanded={isLangMenuOpen}
+                aria-haspopup="true"
+                className="group flex items-center gap-2 px-4 py-2 backdrop-blur-md border border-white/10 rounded-lg text-neutral-400 hover:text-neutral-100 hover:border-white/20 transition-all duration-300"
+              >
+                <GlobeAltIcon className="w-4 h-4" aria-hidden="true" />
+                <span className="hidden sm:inline font-inter text-sm">{currentLocale.toUpperCase()}</span>
+                <ChevronDownIcon className={`w-3 h-3 transition-transform duration-300 ${isLangMenuOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
+              </button>
+
+              {/* Language Dropdown */}
+              {isLangMenuOpen && (
+                <div
+                  className="absolute top-full right-0 mt-2 w-48 glass-strong rounded-lg overflow-hidden shadow-2xl"
+                  role="menu"
                   aria-label={tA11y('chooseLanguage')}
-                  aria-expanded={isLangMenuOpen}
-                  aria-haspopup="true"
-                  className={`group flex items-center gap-2 px-4 py-2 backdrop-blur-md border rounded-xl transition-all duration-300 ${
-                    isScrolled
-                      ? 'bg-white/10 border-white/20 text-white hover:bg-white/20'
-                      : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
-                  }`}
                 >
-                  <GlobeAltIcon className="w-4 h-4" aria-hidden="true" />
-                  <span className="hidden sm:inline font-inter text-sm">{currentLocale.toUpperCase()}</span>
-                  <ChevronDownIcon className={`w-3 h-3 transition-transform duration-300 ${isLangMenuOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
-                </button>
-
-                {/* Language Dropdown */}
-                {isLangMenuOpen && (
-                  <div
-                    className="absolute top-full right-0 mt-2 w-48 backdrop-blur-xl border rounded-xl overflow-hidden shadow-2xl bg-stone-800/95 border-white/20"
-                    role="menu"
-                    aria-label={tA11y('chooseLanguage')}
-                  >
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => handleLanguageChange(lang.code)}
-                        role="menuitem"
-                        aria-label={tA11y('selectLanguage', { language: lang.label })}
-                        aria-current={currentLocale === lang.code ? 'true' : 'false'}
-                        className={`w-full px-4 py-3 flex items-center gap-3 transition-colors duration-200 text-white hover:bg-white/10 ${
-                          currentLocale === lang.code ? 'bg-brand-cyan/20' : ''
-                        }`}
-                      >
-                        <span className="text-lg" aria-hidden="true">{lang.flag}</span>
-                        <span className="font-inter text-sm">{lang.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Authentication Buttons */}
-              {isLoaded && user ? (
-                <div className="hidden sm:flex items-center gap-3">
-                  <Link
-                    href={portalHref}
-                    className="px-4 py-2 rounded-xl transition-all duration-300 text-white hover:text-brand-cyan"
-                    aria-label={t('dashboard')}
-                  >
-                    {t('dashboard')}
-                  </Link>
-                </div>
-              ) : isLoaded && (
-                <div className="hidden sm:flex items-center gap-3">
-                  <Link
-                    href="/sign-in"
-                    className="px-4 py-2 bg-brand-cyan text-white font-inter text-sm font-medium rounded-xl transition-all duration-300 hover:bg-brand-cyan/90 hover:shadow-lg hover:shadow-brand-cyan/25"
-                  >
-                    {t('signIn')}
-                  </Link>
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleLanguageChange(lang.code)}
+                      role="menuitem"
+                      aria-label={tA11y('selectLanguage', { language: lang.label })}
+                      aria-current={currentLocale === lang.code ? 'true' : 'false'}
+                      className={`w-full px-4 py-3 flex items-center gap-3 transition-colors duration-200 text-neutral-300 hover:text-neutral-100 hover:bg-white/10 ${
+                        currentLocale === lang.code ? 'bg-mr-primary-container/20 text-mr-primary' : ''
+                      }`}
+                    >
+                      <span className="text-lg" aria-hidden="true">{lang.flag}</span>
+                      <span className="font-inter text-sm">{lang.label}</span>
+                    </button>
+                  ))}
                 </div>
               )}
-
-              {/* Mobile Menu Toggle - WCAG 4.1.2 (A) */}
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                aria-label={isMobileMenuOpen ? tA11y('closeMenu') : tA11y('openMenu')}
-                aria-expanded={isMobileMenuOpen}
-                aria-controls="mobile-menu"
-                className="md:hidden p-2 backdrop-blur-md border rounded-xl transition-all duration-300 bg-white/10 border-white/20 text-white hover:bg-white/20"
-              >
-                {isMobileMenuOpen ? (
-                  <XMarkIcon className="w-6 h-6" aria-hidden="true" />
-                ) : (
-                  <Bars3Icon className="w-6 h-6" aria-hidden="true" />
-                )}
-              </button>
             </div>
+
+            {/* Authentication Buttons */}
+            {isLoaded && user ? (
+              <div className="hidden sm:flex items-center gap-3">
+                <Link
+                  href={portalHref}
+                  className="px-6 py-2 bg-mr-primary-container text-white font-bold rounded-lg hover:scale-95 transition-all duration-200"
+                  aria-label={t('dashboard')}
+                >
+                  {t('dashboard')}
+                </Link>
+              </div>
+            ) : isLoaded && (
+              <div className="hidden sm:flex items-center gap-3">
+                <Link
+                  href="/sign-in"
+                  className="px-6 py-2 bg-mr-primary-container text-white font-bold rounded-lg hover:scale-95 transition-all duration-200"
+                >
+                  {t('signIn')}
+                </Link>
+              </div>
+            )}
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? tA11y('closeMenu') : tA11y('openMenu')}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+              className="md:hidden p-2 text-mr-on-surface"
+            >
+              {isMobileMenuOpen ? (
+                <XMarkIcon className="w-6 h-6" aria-hidden="true" />
+              ) : (
+                <Bars3Icon className="w-6 h-6" aria-hidden="true" />
+              )}
+            </button>
           </div>
         </nav>
       </header>
@@ -209,7 +198,7 @@ const Header: React.FC = () => {
       >
         {/* Backdrop */}
         <div
-          className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-500 ${
+          className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-500 ${
             isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={() => setIsMobileMenuOpen(false)}
@@ -220,20 +209,19 @@ const Header: React.FC = () => {
 
         {/* Menu Panel */}
         <nav
-          className={`absolute right-0 top-0 h-full w-72 bg-deep-teal/95 backdrop-blur-xl border-l border-white/10 transform transition-transform duration-500 ${
+          className={`absolute right-0 top-0 h-full w-72 bg-neutral-950/95 backdrop-blur-xl border-l border-white/10 transform transition-transform duration-500 ${
             isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
           aria-label="Mobile navigation"
         >
           <div className="flex flex-col h-full pt-20 pb-6 px-6">
-            {/* Mobile Navigation Links */}
             <nav className="flex-1 space-y-2">
               {navItems.map((item, index) => (
                 <Link
                   key={item.label}
                   href={item.href}
                   onClick={handleMobileMenuClose}
-                  className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-300"
+                  className="block px-4 py-3 text-neutral-400 hover:text-neutral-100 hover:bg-white/5 rounded-lg transition-all duration-300 font-playfair tracking-tight"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   {item.label}
@@ -241,16 +229,14 @@ const Header: React.FC = () => {
               ))}
             </nav>
 
-            {/* Mobile Actions Divider */}
             <div className="border-t border-white/10 my-4"></div>
 
-            {/* Mobile CTAs */}
             {user ? (
               <div className="space-y-3">
                 <Link
                   href={portalHref}
                   onClick={handleMobileMenuClose}
-                  className="w-full px-6 py-3 bg-brand-cyan text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50 text-center block"
+                  className="w-full px-6 py-3 bg-mr-primary-container text-white font-bold rounded-lg transition-all duration-300 hover:bg-mr-primary text-center block"
                   aria-label={t('dashboard')}
                 >
                   {t('dashboard')}
@@ -261,7 +247,7 @@ const Header: React.FC = () => {
                 <Link
                   href="/sign-in"
                   onClick={handleMobileMenuClose}
-                  className="w-full px-6 py-3 bg-brand-cyan text-white font-inter font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-cyan/50 text-center block"
+                  className="w-full px-6 py-3 bg-mr-primary-container text-white font-bold rounded-lg transition-all duration-300 hover:bg-mr-primary text-center block"
                 >
                   {t('signIn')}
                 </Link>

@@ -21,7 +21,7 @@ export default function FAQAccordion({ faqs }: { faqs: FAQItem[] }) {
         return (
           <div
             key={index}
-            className="bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-colors duration-200 hover:bg-white/[0.07]"
+            className="bg-mr-surface-high/50 border border-mr-outline-variant/20 rounded-xl overflow-hidden transition-colors duration-200 hover:bg-mr-surface-high/70"
           >
             <button
               onClick={() => toggle(index)}
@@ -29,12 +29,12 @@ export default function FAQAccordion({ faqs }: { faqs: FAQItem[] }) {
               aria-expanded={isOpen}
               aria-controls={`faq-answer-${index}`}
             >
-              <span className="text-pure-white font-inter font-medium pr-4 text-base sm:text-lg">
+              <span className="text-mr-on-surface font-inter font-medium pr-4 text-base sm:text-lg">
                 {faq.question}
               </span>
               <span
-                className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-pure-white/70 transition-all duration-300 group-hover:border-brand-cyan group-hover:text-brand-cyan ${
-                  isOpen ? 'bg-brand-cyan/20 border-brand-cyan text-brand-cyan rotate-45' : ''
+                className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full border border-mr-outline-variant/30 text-mr-on-surface-variant transition-all duration-300 group-hover:border-mr-primary group-hover:text-mr-primary ${
+                  isOpen ? 'bg-mr-primary-container/20 border-mr-primary text-mr-primary rotate-45' : ''
                 }`}
                 aria-hidden="true"
               >
@@ -56,7 +56,7 @@ export default function FAQAccordion({ faqs }: { faqs: FAQItem[] }) {
                 isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
               }`}
             >
-              <div className="px-6 pb-5 text-pure-white/70 font-inter text-base leading-relaxed border-t border-white/5 pt-4">
+              <div className="px-6 pb-5 text-mr-on-surface-variant font-inter text-base leading-relaxed border-t border-mr-outline-variant/10 pt-4">
                 {faq.answer}
               </div>
             </div>

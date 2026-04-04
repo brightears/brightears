@@ -19,90 +19,91 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Layer 1: DJ Photo background */}
-      <Image
-        src="/images/hero-dj.jpg"
-        alt="DJ performing at a Bangkok venue"
-        fill
-        priority
-        className="object-cover opacity-30 md:opacity-40 object-[center_30%] md:object-center"
-        sizes="100vw"
-      />
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      {/* Background image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/hero-dj.jpg"
+          alt="DJ performing at a Bangkok venue"
+          fill
+          priority
+          className="object-cover opacity-40 grayscale-[20%]"
+          sizes="100vw"
+        />
+        {/* Gradient overlays matching Stitch */}
+        <div className="absolute inset-0 bg-gradient-to-r from-mr-bg via-mr-bg/80 to-transparent" />
+      </div>
 
-      {/* Layer 2: Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
-
-      {/* Layer 3: Dynamic gradient with mouse tracking (blend mode for photo interaction) */}
+      {/* Dynamic gradient with mouse tracking */}
       <div
-        className="absolute inset-0 mix-blend-overlay"
+        className="absolute inset-0 z-[1] mix-blend-overlay"
         style={{
           background: `
-            radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 187, 228, 0.5) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(165, 119, 100, 0.4) 0%, transparent 50%),
-            radial-gradient(circle at 20% 80%, rgba(47, 99, 100, 0.5) 0%, transparent 50%),
-            linear-gradient(135deg, rgba(0, 187, 228, 0.3) 0%, rgba(47, 99, 100, 0.3) 50%, rgba(164, 119, 100, 0.3) 100%)
+            radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 187, 228, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(241, 188, 166, 0.2) 0%, transparent 50%)
           `
         }}
       />
 
-      {/* Animated orbs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-soft-lavender/20 rounded-full filter blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-brand-cyan/20 rounded-full filter blur-3xl animate-pulse animation-delay-2000" />
-
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
-        {/* Main Headline */}
-        <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-lg">
-          {t('landing.hero.headline')}
-        </h1>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="space-y-8">
+          <span className="text-mr-tertiary font-bold tracking-widest uppercase text-sm">
+            Elevated Sonic Curation
+          </span>
 
-        {/* Subheadline */}
-        <p className="font-inter text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10 drop-shadow-md">
-          {t('landing.hero.subheadline1')}
-          <br />
-          {t('landing.hero.subheadline2')}
-        </p>
+          <h1 className="text-5xl sm:text-6xl md:text-8xl font-playfair font-extrabold leading-[1.1] tracking-tighter text-neutral-100">
+            {t('landing.hero.headline')}{' '}
+            <span className="text-mr-primary">Every night.</span>
+          </h1>
 
-        {/* CTA Button */}
-        <div className="flex items-center justify-center mb-16">
-          <a
-            href="#contact"
-            className="inline-block px-10 py-5 bg-white text-deep-teal font-inter font-bold text-lg rounded-full shadow-2xl hover:shadow-brand-cyan/50 hover:scale-105 transition-all duration-300"
-          >
-            {t('landing.hero.cta')}
-          </a>
+          <p className="text-mr-on-surface-variant text-lg sm:text-xl max-w-lg leading-relaxed">
+            {t('landing.hero.subheadline1')}
+            <br />
+            {t('landing.hero.subheadline2')}
+          </p>
+
+          <div className="flex items-center gap-6 pt-4">
+            <a
+              href="#contact"
+              className="bg-mr-primary-container hover:bg-mr-primary text-white px-8 py-4 font-bold rounded-lg shadow-cyan-glow-lg transition-all scale-100 hover:scale-105"
+            >
+              {t('landing.hero.cta')}
+            </a>
+            <a
+              href="#services"
+              className="flex items-center gap-2 text-mr-on-surface hover:text-mr-primary transition-colors font-semibold group"
+            >
+              Explore Services
+              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
         </div>
-
-        {/* Audio Equalizer Visualization */}
-        <div className="flex items-end justify-center gap-1 h-16 mt-8">
-          {[...Array(24)].map((_, i) => (
-            <div
-              key={i}
-              className="w-1 bg-white/40 rounded-full"
-              style={{
-                height: `${20 + Math.sin(i * 0.5) * 15 + Math.cos(i * 0.3) * 10}%`,
-                animation: `equalizer ${0.8 + (i % 5) * 0.2}s ease-in-out infinite alternate`,
-                animationDelay: `${i * 0.05}s`,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Inline keyframes for equalizer animation */}
-        <style jsx>{`
-          @keyframes equalizer {
-            0% {
-              height: 20%;
-              opacity: 0.3;
-            }
-            100% {
-              height: 80%;
-              opacity: 0.6;
-            }
-          }
-        `}</style>
       </div>
+
+      {/* Audio Equalizer Visualization */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-end justify-center gap-1 h-12">
+        {[...Array(24)].map((_, i) => (
+          <div
+            key={i}
+            className="w-1 bg-white/30 rounded-full"
+            style={{
+              height: `${20 + Math.sin(i * 0.5) * 15 + Math.cos(i * 0.3) * 10}%`,
+              animation: `equalizer ${0.8 + (i % 5) * 0.2}s ease-in-out infinite alternate`,
+              animationDelay: `${i * 0.05}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <style jsx>{`
+        @keyframes equalizer {
+          0% { height: 20%; opacity: 0.2; }
+          100% { height: 80%; opacity: 0.5; }
+        }
+      `}</style>
     </section>
   );
 }

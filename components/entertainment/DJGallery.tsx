@@ -21,7 +21,6 @@ interface DJGalleryProps {
   locale: string;
 }
 
-// Group sub-genres into parent categories for cleaner filtering
 const GENRE_GROUPS: Record<string, string[]> = {
   'House': ['House', 'Deep House', 'Afro House', 'Tech House', 'Organic House', 'Soulful House', 'Funky House', 'Classic House', 'Progressive', 'Disco House'],
   'R&B / Hip-Hop': ['R&B', 'Hip Hop', 'Hip-Hop', 'Soul', 'Funk'],
@@ -36,7 +35,6 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
   const [selectedDJ, setSelectedDJ] = useState<DJ | null>(null);
 
-  // Build grouped genre list from actual DJ data
   const groupedGenres = useMemo(() => {
     const active: string[] = [];
     for (const [group, subGenres] of Object.entries(GENRE_GROUPS)) {
@@ -62,11 +60,11 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
             onClick={() => setSelectedGenre('all')}
             className={`px-4 py-2 rounded-full font-inter text-sm transition-all duration-200 ${
               selectedGenre === 'all'
-                ? 'bg-brand-cyan text-white shadow-lg shadow-brand-cyan/25'
-                : 'bg-white/10 text-white/70 border border-white/10 hover:bg-white/20 hover:text-white'
+                ? 'bg-mr-primary-container text-white shadow-lg shadow-mr-primary-container/25'
+                : 'bg-mr-surface-high/50 text-mr-on-surface-variant border border-mr-outline-variant/20 hover:bg-mr-surface-high hover:text-mr-on-surface'
             }`}
           >
-            {locale === 'th' ? 'ทั้งหมด' : 'All'}
+            {locale === 'th' ? '\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14' : 'All'}
           </button>
           {groupedGenres.map((genre) => (
             <button
@@ -74,8 +72,8 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
               onClick={() => setSelectedGenre(genre)}
               className={`px-4 py-2 rounded-full font-inter text-sm transition-all duration-200 ${
                 selectedGenre === genre
-                  ? 'bg-brand-cyan text-white shadow-lg shadow-brand-cyan/25'
-                  : 'bg-white/10 text-white/70 border border-white/10 hover:bg-white/20 hover:text-white'
+                  ? 'bg-mr-primary-container text-white shadow-lg shadow-mr-primary-container/25'
+                  : 'bg-mr-surface-high/50 text-mr-on-surface-variant border border-mr-outline-variant/20 hover:bg-mr-surface-high hover:text-mr-on-surface'
               }`}
             >
               {genre}
@@ -83,9 +81,8 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
           ))}
         </div>
 
-        {/* Result count */}
-        <p className="text-center mt-4 font-inter text-sm text-white/50">
-          {filteredDJs.length} {locale === 'th' ? 'ดีเจ' : filteredDJs.length === 1 ? 'DJ' : 'DJs'}
+        <p className="text-center mt-4 font-inter text-sm text-mr-on-surface-variant/50">
+          {filteredDJs.length} {locale === 'th' ? '\u0E14\u0E35\u0E40\u0E08' : filteredDJs.length === 1 ? 'DJ' : 'DJs'}
         </p>
       </div>
 
@@ -103,9 +100,9 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
       {/* Empty state */}
       {filteredDJs.length === 0 && (
         <div className="text-center py-16">
-          <p className="font-inter text-lg text-white/50">
+          <p className="font-inter text-lg text-mr-on-surface-variant/50">
             {locale === 'th'
-              ? 'ไม่พบดีเจในแนวเพลงนี้'
+              ? '\u0E44\u0E21\u0E48\u0E1E\u0E1A\u0E14\u0E35\u0E40\u0E08\u0E43\u0E19\u0E41\u0E19\u0E27\u0E40\u0E1E\u0E25\u0E07\u0E19\u0E35\u0E49'
               : 'No DJs found for this genre.'}
           </p>
         </div>

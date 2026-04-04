@@ -8,11 +8,11 @@ export async function generateMetadata({
   const { locale } = await params;
 
   const title = locale === 'th'
-    ? 'งานอีเวนต์ส่วนตัว | Bright Ears'
+    ? '\u0E07\u0E32\u0E19\u0E2D\u0E35\u0E40\u0E27\u0E19\u0E15\u0E4C\u0E2A\u0E48\u0E27\u0E19\u0E15\u0E31\u0E27 | Bright Ears'
     : 'Private Events | Bright Ears';
 
   const description = locale === 'th'
-    ? 'บริการดีเจสำหรับงานอีเวนต์ส่วนตัว งานบริษัท ปาร์ตี้ และงานเฉลิมฉลองในกรุงเทพ จัดการครบวงจรโดย Bright Ears'
+    ? '\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23\u0E14\u0E35\u0E40\u0E08\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E07\u0E32\u0E19\u0E2D\u0E35\u0E40\u0E27\u0E19\u0E15\u0E4C\u0E2A\u0E48\u0E27\u0E19\u0E15\u0E31\u0E27 \u0E07\u0E32\u0E19\u0E1A\u0E23\u0E34\u0E29\u0E31\u0E17 \u0E1B\u0E32\u0E23\u0E4C\u0E15\u0E35\u0E49 \u0E41\u0E25\u0E30\u0E07\u0E32\u0E19\u0E40\u0E09\u0E25\u0E34\u0E21\u0E09\u0E25\u0E2D\u0E07\u0E43\u0E19\u0E01\u0E23\u0E38\u0E07\u0E40\u0E17\u0E1E \u0E08\u0E31\u0E14\u0E01\u0E32\u0E23\u0E04\u0E23\u0E1A\u0E27\u0E07\u0E08\u0E23\u0E42\u0E14\u0E22 Bright Ears'
     : 'DJ services for corporate events, private parties, and celebrations at Bangkok\'s finest venues. Full-service entertainment by Bright Ears.';
 
   return {
@@ -56,56 +56,58 @@ const t = {
     venue: 'Venue Events',
     venueDesc: 'Songkran parties, New Year celebrations, wine dinners. Curated music for Bangkok\'s premier venues.',
     howItWorksTitle: 'How It Works',
+    howItWorksSubtitle: 'Seamless coordination from first contact to the final beat',
     step1Title: 'Tell Us About Your Event',
-    step1Desc: 'Share the details — date, venue, style, and number of guests. We\'ll take it from there.',
+    step1Desc: 'Share the details \u2014 date, venue, style, and number of guests. We\'ll take it from there.',
     step2Title: 'We Recommend the Perfect DJ',
     step2Desc: 'Based on your event\'s vibe, we match you with the ideal DJ and music program from our roster of 25+ professionals.',
     step3Title: 'We Handle Everything',
-    step3Desc: 'From sound check to the last track — setup, performance, coordination. One contact, zero stress.',
+    step3Desc: 'From sound check to the last track \u2014 setup, performance, coordination. One contact, zero stress.',
     whyTitle: 'Why Choose BrightEars for Events',
     why1Title: '25+ Professional DJs',
-    why1Desc: 'Deep house to hip-hop, lounge to high-energy — every genre covered by experienced professionals.',
+    why1Desc: 'Deep house to hip-hop, lounge to high-energy \u2014 every genre covered by experienced professionals.',
     why2Title: 'Premium Venue Experience',
     why2Desc: 'Our DJs perform nightly at NOBU, Marriott, and Hilton properties. They know how to read a room.',
     why3Title: 'One Contact, One Invoice',
     why3Desc: 'No chasing multiple vendors. We handle DJ sourcing, logistics, and coordination end-to-end.',
     why4Title: 'Custom Music Curation',
-    why4Desc: 'Every event gets a tailored music program. Tell us the mood — we\'ll build the soundtrack.',
+    why4Desc: 'Every event gets a tailored music program. Tell us the mood \u2014 we\'ll build the soundtrack.',
     ctaTitle: 'Ready to Plan Your Event?',
     ctaSubtitle: 'Tell us about your event and we\'ll recommend the perfect entertainment.',
     ctaButton: 'Plan Your Event',
   },
   th: {
-    heroTitle: 'ความบันเทิงสำหรับงานพิเศษของคุณ',
-    heroSubtitle: 'บริการดีเจมืออาชีพสำหรับงานบริษัท ปาร์ตี้ส่วนตัว และงานเฉลิมฉลองในสถานที่ชั้นนำของกรุงเทพ',
-    whatWeOfferTitle: 'บริการของเรา',
-    corporate: 'งานบริษัท',
-    corporateDesc: 'งานเปิดตัวผลิตภัณฑ์ ปาร์ตี้บริษัท งานเลี้ยงทีม และการประชุม เราสร้างบรรยากาศให้แบรนด์ของคุณ',
-    private: 'งานเฉลิมฉลองส่วนตัว',
-    privateDesc: 'วันเกิด วันครบรอบ ปาร์ตี้หมั้น และงานสำคัญ ดนตรีที่ออกแบบมาเพื่อโอกาสของคุณ',
-    special: 'งานพิเศษ',
-    specialDesc: 'งานวันหยุด ไนท์ธีม งาน VIP เราส่งมอบพลังงานที่งานของคุณสมควรได้รับ',
-    venue: 'อีเวนต์สถานที่',
-    venueDesc: 'ปาร์ตี้สงกรานต์ งานฉลองปีใหม่ ไวน์ดินเนอร์ ดนตรีคัดสรรสำหรับสถานที่ชั้นนำของกรุงเทพ',
-    howItWorksTitle: 'ขั้นตอนการทำงาน',
-    step1Title: 'บอกเราเกี่ยวกับงานของคุณ',
-    step1Desc: 'แจ้งรายละเอียด — วันที่ สถานที่ สไตล์ และจำนวนแขก เราจะดูแลต่อให้',
-    step2Title: 'เราแนะนำดีเจที่เหมาะสม',
-    step2Desc: 'จากบรรยากาศงานของคุณ เราจับคู่กับดีเจและโปรแกรมเพลงที่เหมาะสมจากทีมดีเจกว่า 25 คน',
-    step3Title: 'เราจัดการทุกอย่าง',
-    step3Desc: 'ตั้งแต่เช็คเสียงจนถึงเพลงสุดท้าย — เซ็ตอัพ การแสดง การประสานงาน ติดต่อจุดเดียว ไม่ต้องกังวล',
-    whyTitle: 'ทำไมต้องเลือก BrightEars สำหรับงานอีเวนต์',
-    why1Title: 'ดีเจมืออาชีพกว่า 25 คน',
-    why1Desc: 'ดีปเฮาส์ถึงฮิปฮอป เลานจ์ถึงไฮเอเนอร์จี — ครบทุกแนวเพลงโดยมืออาชีพ',
-    why2Title: 'ประสบการณ์สถานที่ระดับพรีเมียม',
-    why2Desc: 'ดีเจของเราเล่นทุกคืนที่ NOBU, Marriott และ Hilton พวกเขารู้วิธีอ่านบรรยากาศห้อง',
-    why3Title: 'ติดต่อจุดเดียว ใบแจ้งหนี้เดียว',
-    why3Desc: 'ไม่ต้องติดต่อหลายเจ้า เราจัดหาดีเจ โลจิสติกส์ และประสานงานครบวงจร',
-    why4Title: 'คัดสรรเพลงเฉพาะงาน',
-    why4Desc: 'ทุกงานได้รับโปรแกรมเพลงที่ออกแบบมาเฉพาะ บอกบรรยากาศ — เราสร้างเพลงประกอบให้',
-    ctaTitle: 'พร้อมวางแผนงานอีเวนต์ของคุณ?',
-    ctaSubtitle: 'บอกเราเกี่ยวกับงานของคุณ เราจะแนะนำความบันเทิงที่เหมาะสม',
-    ctaButton: 'วางแผนงานอีเวนต์',
+    heroTitle: '\u0E04\u0E27\u0E32\u0E21\u0E1A\u0E31\u0E19\u0E40\u0E17\u0E34\u0E07\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E07\u0E32\u0E19\u0E1E\u0E34\u0E40\u0E28\u0E29\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13',
+    heroSubtitle: '\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23\u0E14\u0E35\u0E40\u0E08\u0E21\u0E37\u0E2D\u0E2D\u0E32\u0E0A\u0E35\u0E1E\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E07\u0E32\u0E19\u0E1A\u0E23\u0E34\u0E29\u0E31\u0E17 \u0E1B\u0E32\u0E23\u0E4C\u0E15\u0E35\u0E49\u0E2A\u0E48\u0E27\u0E19\u0E15\u0E31\u0E27 \u0E41\u0E25\u0E30\u0E07\u0E32\u0E19\u0E40\u0E09\u0E25\u0E34\u0E21\u0E09\u0E25\u0E2D\u0E07\u0E43\u0E19\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E0A\u0E31\u0E49\u0E19\u0E19\u0E33\u0E02\u0E2D\u0E07\u0E01\u0E23\u0E38\u0E07\u0E40\u0E17\u0E1E',
+    whatWeOfferTitle: '\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32',
+    corporate: '\u0E07\u0E32\u0E19\u0E1A\u0E23\u0E34\u0E29\u0E31\u0E17',
+    corporateDesc: '\u0E07\u0E32\u0E19\u0E40\u0E1B\u0E34\u0E14\u0E15\u0E31\u0E27\u0E1C\u0E25\u0E34\u0E15\u0E20\u0E31\u0E13\u0E11\u0E4C \u0E1B\u0E32\u0E23\u0E4C\u0E15\u0E35\u0E49\u0E1A\u0E23\u0E34\u0E29\u0E31\u0E17 \u0E07\u0E32\u0E19\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07\u0E17\u0E35\u0E21 \u0E41\u0E25\u0E30\u0E01\u0E32\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E38\u0E21 \u0E40\u0E23\u0E32\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E1A\u0E23\u0E23\u0E22\u0E32\u0E01\u0E32\u0E28\u0E43\u0E2B\u0E49\u0E41\u0E1A\u0E23\u0E19\u0E14\u0E4C\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13',
+    private: '\u0E07\u0E32\u0E19\u0E40\u0E09\u0E25\u0E34\u0E21\u0E09\u0E25\u0E2D\u0E07\u0E2A\u0E48\u0E27\u0E19\u0E15\u0E31\u0E27',
+    privateDesc: '\u0E27\u0E31\u0E19\u0E40\u0E01\u0E34\u0E14 \u0E27\u0E31\u0E19\u0E04\u0E23\u0E1A\u0E23\u0E2D\u0E1A \u0E1B\u0E32\u0E23\u0E4C\u0E15\u0E35\u0E49\u0E2B\u0E21\u0E31\u0E49\u0E19 \u0E41\u0E25\u0E30\u0E07\u0E32\u0E19\u0E2A\u0E33\u0E04\u0E31\u0E0D \u0E14\u0E19\u0E15\u0E23\u0E35\u0E17\u0E35\u0E48\u0E2D\u0E2D\u0E01\u0E41\u0E1A\u0E1A\u0E21\u0E32\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E42\u0E2D\u0E01\u0E32\u0E2A\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13',
+    special: '\u0E07\u0E32\u0E19\u0E1E\u0E34\u0E40\u0E28\u0E29',
+    specialDesc: '\u0E07\u0E32\u0E19\u0E27\u0E31\u0E19\u0E2B\u0E22\u0E38\u0E14 \u0E44\u0E19\u0E17\u0E4C\u0E18\u0E35\u0E21 \u0E07\u0E32\u0E19 VIP \u0E40\u0E23\u0E32\u0E2A\u0E48\u0E07\u0E21\u0E2D\u0E1A\u0E1E\u0E25\u0E31\u0E07\u0E07\u0E32\u0E19\u0E17\u0E35\u0E48\u0E07\u0E32\u0E19\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13\u0E2A\u0E21\u0E04\u0E27\u0E23\u0E44\u0E14\u0E49\u0E23\u0E31\u0E1A',
+    venue: '\u0E2D\u0E35\u0E40\u0E27\u0E19\u0E15\u0E4C\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48',
+    venueDesc: '\u0E1B\u0E32\u0E23\u0E4C\u0E15\u0E35\u0E49\u0E2A\u0E07\u0E01\u0E23\u0E32\u0E19\u0E15\u0E4C \u0E07\u0E32\u0E19\u0E09\u0E25\u0E2D\u0E07\u0E1B\u0E35\u0E43\u0E2B\u0E21\u0E48 \u0E44\u0E27\u0E19\u0E4C\u0E14\u0E34\u0E19\u0E40\u0E19\u0E2D\u0E23\u0E4C \u0E14\u0E19\u0E15\u0E23\u0E35\u0E04\u0E31\u0E14\u0E2A\u0E23\u0E23\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E0A\u0E31\u0E49\u0E19\u0E19\u0E33\u0E02\u0E2D\u0E07\u0E01\u0E23\u0E38\u0E07\u0E40\u0E17\u0E1E',
+    howItWorksTitle: '\u0E02\u0E31\u0E49\u0E19\u0E15\u0E2D\u0E19\u0E01\u0E32\u0E23\u0E17\u0E33\u0E07\u0E32\u0E19',
+    howItWorksSubtitle: '\u0E01\u0E32\u0E23\u0E1B\u0E23\u0E30\u0E2A\u0E32\u0E19\u0E07\u0E32\u0E19\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E44\u0E23\u0E49\u0E23\u0E2D\u0E22\u0E15\u0E48\u0E2D\u0E15\u0E31\u0E49\u0E07\u0E41\u0E15\u0E48\u0E01\u0E32\u0E23\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E04\u0E23\u0E31\u0E49\u0E07\u0E41\u0E23\u0E01\u0E08\u0E19\u0E16\u0E36\u0E07\u0E1A\u0E35\u0E17\u0E2A\u0E38\u0E14\u0E17\u0E49\u0E32\u0E22',
+    step1Title: '\u0E1A\u0E2D\u0E01\u0E40\u0E23\u0E32\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A\u0E07\u0E32\u0E19\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13',
+    step1Desc: '\u0E41\u0E08\u0E49\u0E07\u0E23\u0E32\u0E22\u0E25\u0E30\u0E40\u0E2D\u0E35\u0E22\u0E14 \u2014 \u0E27\u0E31\u0E19\u0E17\u0E35\u0E48 \u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48 \u0E2A\u0E44\u0E15\u0E25\u0E4C \u0E41\u0E25\u0E30\u0E08\u0E33\u0E19\u0E27\u0E19\u0E41\u0E02\u0E01 \u0E40\u0E23\u0E32\u0E08\u0E30\u0E14\u0E39\u0E41\u0E25\u0E15\u0E48\u0E2D\u0E43\u0E2B\u0E49',
+    step2Title: '\u0E40\u0E23\u0E32\u0E41\u0E19\u0E30\u0E19\u0E33\u0E14\u0E35\u0E40\u0E08\u0E17\u0E35\u0E48\u0E40\u0E2B\u0E21\u0E32\u0E30\u0E2A\u0E21',
+    step2Desc: '\u0E08\u0E32\u0E01\u0E1A\u0E23\u0E23\u0E22\u0E32\u0E01\u0E32\u0E28\u0E07\u0E32\u0E19\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13 \u0E40\u0E23\u0E32\u0E08\u0E31\u0E1A\u0E04\u0E39\u0E48\u0E01\u0E31\u0E1A\u0E14\u0E35\u0E40\u0E08\u0E41\u0E25\u0E30\u0E42\u0E1B\u0E23\u0E41\u0E01\u0E23\u0E21\u0E40\u0E1E\u0E25\u0E07\u0E17\u0E35\u0E48\u0E40\u0E2B\u0E21\u0E32\u0E30\u0E2A\u0E21\u0E08\u0E32\u0E01\u0E17\u0E35\u0E21\u0E14\u0E35\u0E40\u0E08\u0E01\u0E27\u0E48\u0E32 25 \u0E04\u0E19',
+    step3Title: '\u0E40\u0E23\u0E32\u0E08\u0E31\u0E14\u0E01\u0E32\u0E23\u0E17\u0E38\u0E01\u0E2D\u0E22\u0E48\u0E32\u0E07',
+    step3Desc: '\u0E15\u0E31\u0E49\u0E07\u0E41\u0E15\u0E48\u0E40\u0E0A\u0E47\u0E04\u0E40\u0E2A\u0E35\u0E22\u0E07\u0E08\u0E19\u0E16\u0E36\u0E07\u0E40\u0E1E\u0E25\u0E07\u0E2A\u0E38\u0E14\u0E17\u0E49\u0E32\u0E22 \u2014 \u0E40\u0E0B\u0E47\u0E15\u0E2D\u0E31\u0E1E \u0E01\u0E32\u0E23\u0E41\u0E2A\u0E14\u0E07 \u0E01\u0E32\u0E23\u0E1B\u0E23\u0E30\u0E2A\u0E32\u0E19\u0E07\u0E32\u0E19 \u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E08\u0E38\u0E14\u0E40\u0E14\u0E35\u0E22\u0E27 \u0E44\u0E21\u0E48\u0E15\u0E49\u0E2D\u0E07\u0E01\u0E31\u0E07\u0E27\u0E25',
+    whyTitle: '\u0E17\u0E33\u0E44\u0E21\u0E15\u0E49\u0E2D\u0E07\u0E40\u0E25\u0E37\u0E2D\u0E01 BrightEars \u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E07\u0E32\u0E19\u0E2D\u0E35\u0E40\u0E27\u0E19\u0E15\u0E4C',
+    why1Title: '\u0E14\u0E35\u0E40\u0E08\u0E21\u0E37\u0E2D\u0E2D\u0E32\u0E0A\u0E35\u0E1E\u0E01\u0E27\u0E48\u0E32 25 \u0E04\u0E19',
+    why1Desc: '\u0E14\u0E35\u0E1B\u0E40\u0E2E\u0E32\u0E2A\u0E4C\u0E16\u0E36\u0E07\u0E2E\u0E34\u0E1B\u0E2E\u0E2D\u0E1B \u0E40\u0E25\u0E32\u0E19\u0E08\u0E4C\u0E16\u0E36\u0E07\u0E44\u0E2E\u0E40\u0E2D\u0E40\u0E19\u0E2D\u0E23\u0E4C\u0E08\u0E35\u0E49 \u2014 \u0E04\u0E23\u0E1A\u0E17\u0E38\u0E01\u0E41\u0E19\u0E27\u0E40\u0E1E\u0E25\u0E07\u0E42\u0E14\u0E22\u0E21\u0E37\u0E2D\u0E2D\u0E32\u0E0A\u0E35\u0E1E',
+    why2Title: '\u0E1B\u0E23\u0E30\u0E2A\u0E1A\u0E01\u0E32\u0E23\u0E13\u0E4C\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E23\u0E30\u0E14\u0E31\u0E1A\u0E1E\u0E23\u0E35\u0E40\u0E21\u0E35\u0E22\u0E21',
+    why2Desc: '\u0E14\u0E35\u0E40\u0E08\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32\u0E40\u0E25\u0E48\u0E19\u0E17\u0E38\u0E01\u0E04\u0E37\u0E19\u0E17\u0E35\u0E48 NOBU, Marriott \u0E41\u0E25\u0E30 Hilton \u0E1E\u0E27\u0E01\u0E40\u0E02\u0E32\u0E23\u0E39\u0E49\u0E27\u0E34\u0E18\u0E35\u0E2D\u0E48\u0E32\u0E19\u0E1A\u0E23\u0E23\u0E22\u0E32\u0E01\u0E32\u0E28\u0E2B\u0E49\u0E2D\u0E07',
+    why3Title: '\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E08\u0E38\u0E14\u0E40\u0E14\u0E35\u0E22\u0E27 \u0E43\u0E1A\u0E41\u0E08\u0E49\u0E07\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E14\u0E35\u0E22\u0E27',
+    why3Desc: '\u0E44\u0E21\u0E48\u0E15\u0E49\u0E2D\u0E07\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E2B\u0E25\u0E32\u0E22\u0E40\u0E08\u0E49\u0E32 \u0E40\u0E23\u0E32\u0E08\u0E31\u0E14\u0E2B\u0E32\u0E14\u0E35\u0E40\u0E08 \u0E42\u0E25\u0E08\u0E34\u0E2A\u0E15\u0E34\u0E01\u0E2A\u0E4C \u0E41\u0E25\u0E30\u0E1B\u0E23\u0E30\u0E2A\u0E32\u0E19\u0E07\u0E32\u0E19\u0E04\u0E23\u0E1A\u0E27\u0E07\u0E08\u0E23',
+    why4Title: '\u0E04\u0E31\u0E14\u0E2A\u0E23\u0E23\u0E40\u0E1E\u0E25\u0E07\u0E40\u0E09\u0E1E\u0E32\u0E30\u0E07\u0E32\u0E19',
+    why4Desc: '\u0E17\u0E38\u0E01\u0E07\u0E32\u0E19\u0E44\u0E14\u0E49\u0E23\u0E31\u0E1A\u0E42\u0E1B\u0E23\u0E41\u0E01\u0E23\u0E21\u0E40\u0E1E\u0E25\u0E07\u0E17\u0E35\u0E48\u0E2D\u0E2D\u0E01\u0E41\u0E1A\u0E1A\u0E21\u0E32\u0E40\u0E09\u0E1E\u0E32\u0E30 \u0E1A\u0E2D\u0E01\u0E1A\u0E23\u0E23\u0E22\u0E32\u0E01\u0E32\u0E28 \u2014 \u0E40\u0E23\u0E32\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E1E\u0E25\u0E07\u0E1B\u0E23\u0E30\u0E01\u0E2D\u0E1A\u0E43\u0E2B\u0E49',
+    ctaTitle: '\u0E1E\u0E23\u0E49\u0E2D\u0E21\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E07\u0E32\u0E19\u0E2D\u0E35\u0E40\u0E27\u0E19\u0E15\u0E4C\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13?',
+    ctaSubtitle: '\u0E1A\u0E2D\u0E01\u0E40\u0E23\u0E32\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A\u0E07\u0E32\u0E19\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13 \u0E40\u0E23\u0E32\u0E08\u0E30\u0E41\u0E19\u0E30\u0E19\u0E33\u0E04\u0E27\u0E32\u0E21\u0E1A\u0E31\u0E19\u0E40\u0E17\u0E34\u0E07\u0E17\u0E35\u0E48\u0E40\u0E2B\u0E21\u0E32\u0E30\u0E2A\u0E21',
+    ctaButton: '\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E07\u0E32\u0E19\u0E2D\u0E35\u0E40\u0E27\u0E19\u0E15\u0E4C',
   }
 };
 
@@ -119,153 +121,117 @@ export default async function EventsPage({
 
   const eventTypes = [
     {
+      number: '01',
       title: text.corporate,
-      description: text.corporateDesc,
-      icon: (
-        <svg className="w-8 h-8" fill="none" viewBox="0 0 32 32" stroke="currentColor">
-          <rect x="4" y="8" width="24" height="20" rx="2" strokeWidth="2" />
-          <path d="M12 8V4h8v4" strokeWidth="2" strokeLinecap="round" />
-          <path d="M4 16h24" strokeWidth="2" />
-          <circle cx="16" cy="20" r="2" fill="currentColor" />
-        </svg>
-      ),
+      items: locale === 'th'
+        ? ['งานเปิดตัวผลิตภัณฑ์', 'ปาร์ตี้บริษัท', 'งานเลี้ยงทีม']
+        : ['Product launches', 'Company parties', 'Team events'],
     },
     {
+      number: '02',
       title: text.private,
-      description: text.privateDesc,
-      icon: (
-        <svg className="w-8 h-8" fill="none" viewBox="0 0 32 32" stroke="currentColor">
-          <path d="M16 4l2.5 6h6.5l-5 4 2 6.5L16 17l-6 3.5 2-6.5-5-4h6.5L16 4z" strokeWidth="2" strokeLinejoin="round" />
-          <path d="M8 26h16" strokeWidth="2" strokeLinecap="round" />
-          <path d="M10 29h12" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ),
+      items: locale === 'th'
+        ? ['วันเกิด', 'วันครบรอบ', 'ปาร์ตี้หมั้น']
+        : ['Birthdays', 'Anniversaries', 'Engagements'],
     },
     {
+      number: '03',
       title: text.special,
-      description: text.specialDesc,
-      icon: (
-        <svg className="w-8 h-8" fill="none" viewBox="0 0 32 32" stroke="currentColor">
-          <path d="M16 2v4M6 8l2.8 2.8M26 8l-2.8 2.8M4 18h4M24 18h4" strokeWidth="2" strokeLinecap="round" />
-          <circle cx="16" cy="18" r="8" strokeWidth="2" />
-          <path d="M13 16l2 2 4-4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      ),
+      items: locale === 'th'
+        ? ['งานวันหยุด', 'ไนท์ธีม', 'งาน VIP']
+        : ['Holiday events', 'Themed nights', 'VIP gatherings'],
     },
     {
+      number: '04',
       title: text.venue,
-      description: text.venueDesc,
-      icon: (
-        <svg className="w-8 h-8" fill="none" viewBox="0 0 32 32" stroke="currentColor">
-          <path d="M4 28h24" strokeWidth="2" strokeLinecap="round" />
-          <path d="M6 28V14l10-10 10 10v14" strokeWidth="2" strokeLinejoin="round" />
-          <rect x="12" y="18" width="8" height="10" strokeWidth="2" />
-          <path d="M14 14h4" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ),
+      items: locale === 'th'
+        ? ['ปาร์ตี้สงกรานต์', 'งานปีใหม่', 'ไวน์ดินเนอร์']
+        : ['Songkran parties', 'New Year', 'Wine dinners'],
     },
   ];
 
   const steps = [
-    { number: '01', title: text.step1Title, description: text.step1Desc },
-    { number: '02', title: text.step2Title, description: text.step2Desc },
-    { number: '03', title: text.step3Title, description: text.step3Desc },
+    { title: text.step1Title, description: text.step1Desc },
+    { title: text.step2Title, description: text.step2Desc },
+    { title: text.step3Title, description: text.step3Desc },
   ];
 
   const reasons = [
-    {
-      title: text.why1Title,
-      description: text.why1Desc,
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      ),
-    },
-    {
-      title: text.why2Title,
-      description: text.why2Desc,
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
-      ),
-    },
-    {
-      title: text.why3Title,
-      description: text.why3Desc,
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-    },
-    {
-      title: text.why4Title,
-      description: text.why4Desc,
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-        </svg>
-      ),
-    },
+    { title: text.why1Title, description: text.why1Desc, icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z' },
+    { title: text.why2Title, description: text.why2Desc, icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
+    { title: text.why3Title, description: text.why3Desc, icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+    { title: text.why4Title, description: text.why4Desc, icon: 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3' },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-900 via-deep-teal/90 to-stone-900">
+    <div className="min-h-screen bg-mr-bg">
       {/* Hero Section */}
-      <section className="relative py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Decorative orbs */}
-        <div className="absolute top-10 right-10 w-80 h-80 bg-brand-cyan/10 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-64 h-64 bg-earthy-brown/10 rounded-full filter blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-soft-lavender/5 rounded-full filter blur-3xl" />
-
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            {text.heroTitle}
-          </h1>
-          <p className="font-inter text-lg sm:text-xl text-white/70 max-w-2xl mx-auto mb-10">
-            {text.heroSubtitle}
-          </p>
-          <a
-            href={`/${locale}/#contact`}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-brand-cyan text-white font-inter font-semibold rounded-2xl transition-all duration-300 hover:bg-brand-cyan/90 hover:shadow-lg hover:shadow-brand-cyan/25 hover:-translate-y-0.5"
-          >
-            {text.ctaButton}
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
+      <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+        <div className="absolute inset-0 z-0 bg-mr-bg">
+          <div className="absolute inset-0 bg-gradient-to-t from-mr-bg via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-mr-bg/80 via-transparent to-transparent" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+          <div className="max-w-3xl">
+            <span className="text-mr-tertiary font-inter uppercase tracking-widest text-sm mb-4 block font-bold">
+              {locale === 'th' ? 'ซาวด์คอนเซียร์จชั้นนำของกรุงเทพ' : "Bangkok's Premier Sonic Concierge"}
+            </span>
+            <h1 className="text-6xl md:text-8xl font-playfair font-bold leading-tight mb-8 tracking-tighter text-neutral-100">
+              {text.heroTitle.split(' ').slice(0, -2).join(' ')}{' '}
+              <span className="italic text-mr-primary">{text.heroTitle.split(' ').slice(-2).join(' ')}</span>
+            </h1>
+            <p className="text-xl text-neutral-400 mb-10 leading-relaxed max-w-xl">
+              {text.heroSubtitle}
+            </p>
+            <div className="flex gap-6">
+              <a
+                href={`/${locale}/#contact`}
+                className="px-10 py-5 bg-gradient-to-r from-mr-primary-container to-mr-primary text-white font-bold rounded-md hover:shadow-cyan-glow-hover transition-all flex items-center group"
+              >
+                {text.ctaButton}
+                <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* What We Offer */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-stone-800 via-stone-900 to-stone-800 relative overflow-hidden">
-        <div className="absolute top-10 right-10 w-64 h-64 bg-brand-cyan/10 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-48 h-48 bg-earthy-brown/10 rounded-full filter blur-3xl" />
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-              {text.whatWeOfferTitle}
-            </h2>
+      <section className="py-32 bg-mr-surface">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div className="max-w-2xl">
+              <h2 className="text-5xl font-playfair font-bold mb-6 text-neutral-100 uppercase tracking-tighter">
+                {text.whatWeOfferTitle}
+              </h2>
+              <p className="text-neutral-400 text-lg">
+                {locale === 'th'
+                  ? 'ประสบการณ์เสียงเฉพาะตัวที่ออกแบบมาเพื่อบรรยากาศและพลังงานของโอกาสพิเศษของคุณ'
+                  : 'Bespoke sonic experiences tailored to the atmosphere and energy of your specific occasion.'}
+              </p>
+            </div>
+            <div className="h-1 w-24 bg-mr-primary rounded-full mb-4" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {eventTypes.map((event, index) => (
               <div
                 key={index}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 group hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1"
+                className="glass-card p-8 group hover:bg-mr-surface-high transition-all duration-500 rounded-xl relative overflow-hidden"
               >
-                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-brand-cyan to-deep-teal rounded-full flex items-center justify-center ring-4 ring-brand-cyan/20 group-hover:ring-brand-cyan/40 transition-all text-white">
-                  {event.icon}
+                <div className="absolute top-0 right-0 p-4 opacity-10 text-6xl font-playfair font-bold">
+                  {event.number}
                 </div>
-                <h3 className="font-playfair text-xl font-bold text-white mb-3">
+                <h3 className="text-2xl font-playfair font-bold text-neutral-100 mb-4">
                   {event.title}
                 </h3>
-                <p className="font-inter text-sm text-stone-400 leading-relaxed">
-                  {event.description}
-                </p>
+                <ul className="text-neutral-400 space-y-2 font-inter">
+                  {event.items.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
@@ -273,32 +239,62 @@ export default async function EventsPage({
       </section>
 
       {/* How It Works */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-900 to-stone-800 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+      <section className="py-32 bg-mr-surface-lowest">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl font-playfair font-bold text-neutral-100 uppercase tracking-tighter mb-4">
               {text.howItWorksTitle}
             </h2>
+            <p className="text-mr-tertiary font-inter tracking-widest text-sm uppercase font-bold">
+              {text.howItWorksSubtitle}
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-mr-outline-variant/30 -z-10" />
             {steps.map((step, index) => (
-              <div key={index} className="relative">
-                {/* Connector line on desktop */}
-                {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-12 left-[60%] w-[calc(100%-20%)] h-px bg-gradient-to-r from-brand-cyan/40 to-transparent" />
-                )}
-                <div className="text-center">
-                  <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-brand-cyan/20 to-deep-teal/20 rounded-full flex items-center justify-center border border-brand-cyan/30">
-                    <span className="font-playfair text-3xl font-bold text-brand-cyan">
-                      {step.number}
-                    </span>
-                  </div>
-                  <h3 className="font-playfair text-xl font-bold text-white mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="font-inter text-stone-400 leading-relaxed">
-                    {step.description}
+              <div key={index} className="flex flex-col items-center text-center group">
+                <div className="w-20 h-20 bg-mr-surface-high rounded-full flex items-center justify-center mb-8 border border-mr-primary/20 group-hover:scale-110 group-hover:bg-mr-primary-container transition-all">
+                  <span className="font-playfair text-2xl font-bold text-mr-primary group-hover:text-white">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
+                <h4 className="text-2xl font-playfair font-bold text-neutral-100 mb-4">
+                  {step.title}
+                </h4>
+                <p className="text-neutral-500 font-inter">
+                  {step.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="py-32 bg-mr-surface overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-5xl font-playfair font-bold mb-12 text-neutral-100 uppercase tracking-tighter text-center">
+            {text.whyTitle}
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {reasons.map((reason, index) => (
+              <div
+                key={index}
+                className="flex items-start gap-6 group p-6 rounded-xl hover:bg-mr-surface-low transition-all"
+              >
+                <div className="mt-1 w-12 h-12 flex-shrink-0 flex items-center justify-center bg-mr-surface-low border border-mr-outline-variant/30 rounded-lg group-hover:border-mr-primary transition-colors">
+                  <svg className="w-6 h-6 text-mr-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={reason.icon} />
+                  </svg>
+                </div>
+                <div>
+                  <h5 className="text-xl font-playfair font-bold text-neutral-100 mb-2">
+                    {reason.title}
+                  </h5>
+                  <p className="text-neutral-500 font-inter leading-relaxed">
+                    {reason.description}
                   </p>
                 </div>
               </div>
@@ -307,58 +303,21 @@ export default async function EventsPage({
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-teal via-deep-teal/95 to-deep-teal relative overflow-hidden">
-        <div className="absolute top-10 right-10 w-64 h-64 bg-brand-cyan/10 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-80 h-80 bg-soft-lavender/10 rounded-full filter blur-3xl" />
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-              {text.whyTitle}
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {reasons.map((reason, index) => (
-              <div
-                key={index}
-                className="group bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:bg-white/15 hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-1"
-              >
-                <div className="w-14 h-14 bg-brand-cyan/20 rounded-xl flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
-                  {reason.icon}
-                </div>
-                <h3 className="font-inter font-semibold text-lg text-white mb-3">
-                  {reason.title}
-                </h3>
-                <p className="font-inter text-white/70 leading-relaxed">
-                  {reason.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Bottom CTA */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-stone-900 via-deep-teal/80 to-earthy-brown/80 relative overflow-hidden">
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-brand-cyan/10 rounded-full filter blur-3xl" />
-
-        <div className="relative z-10 max-w-2xl mx-auto text-center">
-          <h2 className="font-playfair text-3xl sm:text-4xl font-bold text-white mb-4">
+      <section className="py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-mr-primary-container opacity-5" />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-5xl md:text-7xl font-playfair font-bold text-neutral-100 mb-8 tracking-tighter italic">
             {text.ctaTitle}
           </h2>
-          <p className="font-inter text-lg text-white/70 mb-8">
+          <p className="text-xl text-neutral-400 mb-12 font-inter">
             {text.ctaSubtitle}
           </p>
           <a
             href={`/${locale}/#contact`}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-brand-cyan text-white font-inter font-semibold rounded-2xl transition-all duration-300 hover:bg-brand-cyan/90 hover:shadow-lg hover:shadow-brand-cyan/25 hover:-translate-y-0.5"
+            className="inline-block px-12 py-6 bg-mr-tertiary text-mr-bg font-bold text-lg rounded-md hover:bg-mr-tertiary-container transition-all duration-300 uppercase tracking-widest shadow-xl"
           >
             {text.ctaButton}
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
           </a>
         </div>
       </section>

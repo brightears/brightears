@@ -113,7 +113,7 @@ export default async function LocaleLayout({
       className={`${inter.variable} ${playfairDisplay.variable} ${notoSansThai.variable}`}
       suppressHydrationWarning
     >
-      <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased bg-off-white`}>
+      <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased bg-mr-bg text-mr-on-surface`}>
         <ClerkProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <ConditionalLayout>
