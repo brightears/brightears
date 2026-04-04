@@ -33,7 +33,8 @@
     "findEntertainment": "Find Entertainment",
     "dashboard": "Dashboard",
     "applyAsDJ": "Apply as an Artist",
-    "ourDJs": "Our DJs"
+    "ourDJs": "Our DJs",
+    "events": "Events"
   },
   "payment": {
     "verification": {
@@ -1270,10 +1271,8 @@
     }
   },
   "lineContact": {
-    "cta": "Contact on LINE",
-    "inquire": "Inquire on LINE",
     "chat": "Chat on LINE",
-    "id": "LINE Official Account"
+    "cta": "Contact on LINE"
   },
   "admin": {
     "dashboard": {
@@ -2084,10 +2083,6 @@
       "lineMessage": "Hi Bright Ears! I'd like to discuss managed entertainment for my venue.",
       "responseTime": "We reply within 24 hours"
     }
-  },
-  "lineContact": {
-    "chat": "Chat on LINE",
-    "cta": "Contact on LINE"
   },
   "contact": {
     "title": "Contact Bright Ears",

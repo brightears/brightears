@@ -27,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: currentDate
     },
     {
+      path: 'events',
+      priority: 0.9,
+      changefreq: 'monthly' as const,
+      lastModified: currentDate
+    },
+    {
       path: 'faq',
       priority: 0.7,
       changefreq: 'monthly' as const,
