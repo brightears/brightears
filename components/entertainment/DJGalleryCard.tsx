@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { UserGroupIcon } from '@heroicons/react/24/outline';
+import { Link } from '@/components/navigation';
 
 interface DJ {
   id: string;
@@ -21,9 +22,10 @@ interface DJGalleryCardProps {
 
 export default function DJGalleryCard({ dj, onClick }: DJGalleryCardProps) {
   return (
-    <button
+    <Link
+      href={`/entertainment/${dj.id}`}
       onClick={onClick}
-      className="w-full text-left rounded-xl glass-card overflow-hidden hover:bg-[#2a2a2a] transition-all duration-500 group hover:-translate-y-1"
+      className="block w-full text-left rounded-xl glass-card overflow-hidden hover:bg-[#2a2a2a] transition-all duration-500 group hover:-translate-y-1"
     >
       {/* Image */}
       <div className="relative aspect-square bg-[#2a2a2a] overflow-hidden">
@@ -67,6 +69,6 @@ export default function DJGalleryCard({ dj, onClick }: DJGalleryCardProps) {
           </div>
         )}
       </div>
-    </button>
+    </Link>
   );
 }
