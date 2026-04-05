@@ -34,7 +34,7 @@ export default function DJGalleryCard({ dj, onClick }: DJGalleryCardProps) {
             src={dj.profileImage}
             alt={dj.stageName}
             fill
-            className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+            className="object-cover object-[center_25%] transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
         ) : (
