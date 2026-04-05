@@ -97,8 +97,7 @@ async function getDJProfile(slug: string) {
           createdAt: true,
           venue: { select: { name: true } },
         },
-        orderBy: { createdAt: 'desc' },
-        take: 10,
+        orderBy: { overallRating: 'desc' },
       },
     },
   });
