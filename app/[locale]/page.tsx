@@ -119,10 +119,13 @@ export default async function HomePage({
               <div className="glass p-10 rounded-xl border border-white/5 hover:bg-[#2a2a2a] transition-all group">
                 <div className="w-14 h-14 rounded-lg bg-[#00bbe4]/20 flex items-center justify-center mb-8 text-[#4fd6ff] group-hover:scale-110 transition-transform">
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="2"/>
-                    <circle cx="16" cy="16" r="5" stroke="currentColor" strokeWidth="2"/>
-                    <circle cx="16" cy="16" r="2" fill="currentColor"/>
-                    <path d="M16 2C16 2 20 8 20 16C20 24 16 30 16 30" stroke="currentColor" strokeWidth="1" opacity="0.4"/>
+                    {/* Turntable platter */}
+                    <circle cx="14" cy="16" r="11" stroke="currentColor" strokeWidth="2.5"/>
+                    <circle cx="14" cy="16" r="6" stroke="currentColor" strokeWidth="1.5" opacity="0.4"/>
+                    <circle cx="14" cy="16" r="2.5" fill="currentColor"/>
+                    {/* Tonearm */}
+                    <path d="M25 5L22 12L18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="25" cy="4.5" r="1.5" fill="currentColor" opacity="0.6"/>
                   </svg>
                 </div>
                 <h3 className="text-2xl font-playfair text-neutral-100 mb-4">
@@ -137,10 +140,14 @@ export default async function HomePage({
               <div className="glass p-10 rounded-xl border border-white/5 hover:bg-[#2a2a2a] transition-all group">
                 <div className="w-14 h-14 rounded-lg bg-[#f1bca6]/20 flex items-center justify-center mb-8 text-[#f1bca6] group-hover:scale-110 transition-transform">
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="11" y="2" width="10" height="16" rx="5" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M6 14C6 14 6 22 16 22C26 22 26 14 26 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M16 22V28" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M10 28H22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    {/* Stage microphone */}
+                    <rect x="12" y="3" width="8" height="14" rx="4" stroke="currentColor" strokeWidth="2.5"/>
+                    <path d="M7 13.5C7 13.5 7 20.5 16 20.5C25 20.5 25 13.5 25 13.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+                    <path d="M16 20.5V26" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+                    <path d="M11 26H21" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+                    {/* Sound arcs */}
+                    <path d="M27 10C28.5 12 28.5 16 27 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+                    <path d="M5 10C3.5 12 3.5 16 5 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
                   </svg>
                 </div>
                 <h3 className="text-2xl font-playfair text-neutral-100 mb-4">
@@ -155,13 +162,12 @@ export default async function HomePage({
               <div className="glass p-10 rounded-xl border border-white/5 hover:bg-[#2a2a2a] transition-all group">
                 <div className="w-14 h-14 rounded-lg bg-[#00bbe4]/20 flex items-center justify-center mb-8 text-[#4fd6ff] group-hover:scale-110 transition-transform">
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 16H4.01" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
-                    <path d="M8 12V20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M12 8V24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M16 4V28" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M20 8V24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M24 12V20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M28 16H28.01" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+                    {/* Headphones */}
+                    <path d="M6 18V16C6 10.477 10.477 6 16 6C21.523 6 26 10.477 26 16V18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+                    <rect x="3" y="18" width="5" height="8" rx="2" fill="currentColor" opacity="0.8"/>
+                    <rect x="24" y="18" width="5" height="8" rx="2" fill="currentColor" opacity="0.8"/>
+                    {/* Sound wave underneath */}
+                    <path d="M10 30L12 28L14 30L16 27L18 30L20 28L22 30" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.4"/>
                   </svg>
                 </div>
                 <h3 className="text-2xl font-playfair text-neutral-100 mb-4">
