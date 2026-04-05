@@ -11,6 +11,7 @@ import Image from 'next/image';
 import LineContactButton from '@/components/buttons/LineContactButton';
 import VenueInquiryForm from '@/app/components/VenueInquiryForm';
 import HeroSection from '@/components/home/HeroSection';
+import HashScroller from '@/components/HashScroller';
 
 export async function generateMetadata({
   params
@@ -95,6 +96,7 @@ export default async function HomePage({
       <JsonLd data={localBusinessSchema} />
       <JsonLd data={breadcrumbSchema} />
 
+      <HashScroller />
       <main className="min-h-screen bg-[#131313]">
         {/* Hero Section */}
         <HeroSection />
