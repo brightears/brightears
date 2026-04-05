@@ -1,6 +1,9 @@
 import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/prisma';
 
+// Force dynamic rendering — sitemap needs DB access at runtime, not build time
+export const dynamic = 'force-dynamic';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://brightears.io';
   const locales = ['en', 'th'] as const;
@@ -56,29 +59,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   );
 
-  // Dynamic DJ profile pages
-  const artists = await prisma.artist.findMany({
-    where: {
-      category: 'DJ',
-      user: { isActive: true },
-    },
-    select: { id: true, updatedAt: true },
-  });
-
-  const djEntries: MetadataRoute.Sitemap = artists.flatMap((artist) =>
-    locales.map((locale) => ({
-      url: `${baseUrl}/${locale}/entertainment/${artist.id}`,
-      lastModified: artist.updatedAt,
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/en/entertainment/${artist.id}`,
-          th: `${baseUrl}/th/entertainment/${artist.id}`,
-        },
+  // Dynamic DJ profile pages — fetched at runtime
+  let djEntries: MetadataRoute.Sitemap = [];
+  try {
+    const artists = await prisma.artist.findMany({
+      where: {
+        category: 'DJ',
+        user: { isActive: true },
       },
-    }))
-  );
+      select: { id: true, updatedAt: true },
+    });
+
+    djEntries = artists.flatMap((artist) =>
+      locales.map((locale) => ({
+        url: `${baseUrl}/${locale}/entertainment/${artist.id}`,
+        lastModified: artist.updatedAt,
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+        alternates: {
+          languages: {
+            en: `${baseUrl}/en/entertainment/${artist.id}`,
+            th: `${baseUrl}/th/entertainment/${artist.id}`,
+          },
+        },
+      }))
+    );
+  } catch {
+    // DB not reachable during build — DJ entries will be served at runtime
+    console.log('Sitemap: DB not reachable, serving static entries only');
+  }
 
   return [...staticEntries, ...djEntries];
 }
