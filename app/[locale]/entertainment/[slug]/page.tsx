@@ -252,7 +252,7 @@ export default async function DJProfilePage({
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
         <div className="relative rounded-xl overflow-hidden">
           {/* Cover / Profile Image */}
-          <div className="relative aspect-[16/9] sm:aspect-[2/1] bg-[#2a2a2a]">
+          <div className="relative aspect-[4/3] sm:aspect-[16/9] bg-[#2a2a2a]">
             {(artist.coverImage || artist.profileImage) ? (
               <Image
                 src={artist.coverImage || artist.profileImage!}
