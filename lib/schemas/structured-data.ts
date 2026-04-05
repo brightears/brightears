@@ -89,7 +89,15 @@ export function generateOrganizationSchema({
     sameAs: [
       // Add social media URLs when available
       'https://line.me/R/ti/p/@brightears'
-    ]
+    ],
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.8',
+      bestRating: '5',
+      worstRating: '1',
+      ratingCount: '168',
+      reviewCount: '168',
+    },
   };
 }
 

@@ -186,6 +186,16 @@ export default async function DJProfilePage({
   const venues = [...new Set(artist.venueAssignments.map((va) => va.venue.name))];
   const recentFeedback = artist.venueFeedback.slice(0, 5);
 
+  // Best venue manager quote for testimonial
+  const bestQuote = recentFeedback.find((fb) => {
+    if (!fb.notes || fb.notes.length < 30 || fb.notes.length > 250 || fb.overallRating < 4) return false;
+    const lower = fb.notes.toLowerCase();
+    if (lower.startsWith('for dj comment:')) return false;
+    if (lower.includes('late') || lower.includes('no show') || lower.includes('no-show') || lower.includes('didn\'t show')) return false;
+    return true;
+  });
+  const bestQuoteNotes = bestQuote?.notes?.replace(/^For DJ comment:\s*/i, '').trim();
+
   // Social links (only show if available)
   const socialLinks = [
     { platform: 'instagram', url: artist.instagram, label: 'Instagram' },
@@ -325,6 +335,18 @@ export default async function DJProfilePage({
               </div>
             )}
 
+            {/* Venue Manager Testimonial */}
+            {bestQuote && bestQuoteNotes && (
+              <div className="border-l-2 border-[#f1bca6]/30 pl-6 my-2">
+                <p className="font-inter text-[#bcc9ce] italic leading-relaxed">
+                  &ldquo;{bestQuoteNotes}&rdquo;
+                </p>
+                <p className="font-inter text-sm text-[#f1bca6] mt-2">
+                  — Venue Manager, {bestQuote.venue.name}
+                </p>
+              </div>
+            )}
+
             {/* Venues */}
             {venues.length > 0 && (
               <div>
@@ -371,7 +393,7 @@ export default async function DJProfilePage({
             {/* CTA */}
             <div className="pt-4">
               <Link
-                href="/#contact"
+                href={`/#contact?dj=${encodeURIComponent(artist.stageName)}`}
                 className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0088a8] hover:bg-[#00a3c7] text-white font-bold rounded-lg transition-all duration-300 uppercase tracking-widest text-sm"
               >
                 {locale === 'th' ? 'จองดีเจ' : `Book ${artist.stageName}`}

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import useFormValidation from '@/hooks/useFormValidation';
 import ValidatedInput from '@/components/forms/ValidatedInput';
@@ -23,9 +24,12 @@ interface VenueInquiryFormProps {
 
 export default function VenueInquiryForm({ darkMode = false }: VenueInquiryFormProps) {
   const t = useTranslations('venueInquiry');
+  const searchParams = useSearchParams();
   const [submitted, setSubmitted] = React.useState(false);
   const [selectedStyles, setSelectedStyles] = React.useState<string[]>([]);
   const [submitError, setSubmitError] = React.useState<string | null>(null);
+
+  const djParam = searchParams.get('dj');
 
   const initialValues = {
     name: '',
@@ -71,7 +75,15 @@ export default function VenueInquiryForm({ darkMode = false }: VenueInquiryFormP
     handleBlur,
     handleSubmit,
     resetForm,
+    setFieldValue,
   } = useFormValidation(initialValues, validationRules);
+
+  // Pre-fill message with DJ name from URL parameter
+  React.useEffect(() => {
+    if (djParam && !values.message) {
+      setFieldValue('message', `We're interested in booking ${djParam} for our venue.`);
+    }
+  }, [djParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleMusicStyle = (style: string) => {
     setSelectedStyles(prev =>
