@@ -390,14 +390,14 @@ export default async function DJProfilePage({
               </div>
             )}
 
-            {/* CTA */}
+            {/* CTA — using <a> tag for cross-page navigation with hash scroll */}
             <div className="pt-4">
-              <Link
-                href={`/?dj=${encodeURIComponent(artist.stageName)}#contact`}
+              <a
+                href={`/${locale}?dj=${encodeURIComponent(artist.stageName)}#contact`}
                 className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0088a8] hover:bg-[#00a3c7] text-white font-bold rounded-lg transition-all duration-300 uppercase tracking-widest text-sm"
               >
                 {locale === 'th' ? 'จองดีเจ' : `Book ${artist.stageName}`}
-              </Link>
+              </a>
             </div>
           </div>
         </div>
