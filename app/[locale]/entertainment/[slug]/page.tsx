@@ -248,32 +248,59 @@ export default async function DJProfilePage({
         </Link>
       </div>
 
-      {/* Hero Section */}
+      {/* Hero — Portrait layout */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
-        <div className="relative rounded-xl overflow-hidden">
-          {/* Cover / Profile Image */}
-          <div className="relative aspect-[4/3] sm:aspect-[16/9] bg-[#2a2a2a]">
-            {(artist.coverImage || artist.profileImage) ? (
-              <Image
-                src={artist.coverImage || artist.profileImage!}
-                alt={artist.stageName}
-                fill
-                className="object-cover object-[center_25%]"
-                sizes="(max-width: 1200px) 100vw, 1200px"
-                priority
-              />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a]" />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#131313] via-[#131313]/40 to-transparent" />
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
+          {/* Portrait Image */}
+          <div className="md:col-span-2">
+            <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#2a2a2a]">
+              {artist.profileImage ? (
+                <Image
+                  src={artist.profileImage}
+                  alt={artist.stageName}
+                  fill
+                  className="object-cover object-[center_20%]"
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  priority
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] flex items-center justify-center">
+                  <svg className="w-20 h-20 text-[#3d494e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
+                  </svg>
+                </div>
+              )}
+            </div>
+          </div>
 
-            {/* Name overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
-              <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl font-bold text-neutral-100 tracking-tighter mb-3">
+          {/* Info */}
+          <div className="md:col-span-3 space-y-6">
+            <div>
+              <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl font-bold text-neutral-100 tracking-tighter mb-4">
                 {artist.stageName}
               </h1>
+
+              {/* Qualitative badge instead of star rating */}
+              {artist.averageRating && artist.averageRating >= 4.5 && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#f1bca6]/10 border border-[#f1bca6]/20 rounded-full text-sm text-[#f1bca6] font-inter mb-4">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  {locale === 'th' ? 'ดีเจยอดนิยม' : 'Venue Favourite'}
+                </span>
+              )}
+              {artist.averageRating && artist.averageRating >= 4.0 && artist.averageRating < 4.5 && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#4fd6ff]/10 border border-[#4fd6ff]/20 rounded-full text-sm text-[#4fd6ff] font-inter mb-4">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                  </svg>
+                  {locale === 'th' ? 'ดีเจคุณภาพ' : 'Consistently Excellent'}
+                </span>
+              )}
+
+              {/* Genre tags */}
               {artist.genres.length > 0 && (
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mt-4">
                   {artist.genres.map((genre) => (
                     <span
                       key={genre}
@@ -285,19 +312,11 @@ export default async function DJProfilePage({
                 </div>
               )}
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Content Grid */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
             {/* Bio */}
             {bio && (
-              <div className="glass border border-white/5 rounded-xl p-6 sm:p-8">
-                <h2 className="font-playfair text-2xl font-semibold text-neutral-100 mb-4">
+              <div>
+                <h2 className="font-playfair text-xl font-semibold text-neutral-100 mb-3">
                   {locale === 'th' ? 'เกี่ยวกับ' : 'About'}
                 </h2>
                 <p className="font-inter text-[#bcc9ce] leading-relaxed whitespace-pre-line">
@@ -306,117 +325,17 @@ export default async function DJProfilePage({
               </div>
             )}
 
-            {/* Recent Feedback */}
-            {recentFeedback.length > 0 && (
-              <div className="glass border border-white/5 rounded-xl p-6 sm:p-8">
-                <h2 className="font-playfair text-2xl font-semibold text-neutral-100 mb-6">
-                  {locale === 'th' ? 'รีวิวล่าสุด' : 'Recent Reviews'}
-                </h2>
-                <div className="space-y-4">
-                  {recentFeedback.map((fb, i) => (
-                    <div
-                      key={i}
-                      className="border-b border-white/5 last:border-0 pb-4 last:pb-0"
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-inter text-sm text-[#f1bca6]">
-                          {fb.venue.name}
-                        </span>
-                        <StarRating rating={fb.overallRating} size="sm" />
-                      </div>
-                      {fb.notes && (
-                        <p className="font-inter text-sm text-[#bcc9ce]/80 italic">
-                          &ldquo;{fb.notes}&rdquo;
-                        </p>
-                      )}
-                      <p className="font-inter text-xs text-[#bcc9ce]/40 mt-1">
-                        {new Date(fb.createdAt).toLocaleDateString(
-                          locale === 'th' ? 'th-TH' : 'en-US',
-                          { year: 'numeric', month: 'short', day: 'numeric' }
-                        )}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Gallery */}
-            {artist.images.length > 0 && (
-              <div className="glass border border-white/5 rounded-xl p-6 sm:p-8">
-                <h2 className="font-playfair text-2xl font-semibold text-neutral-100 mb-6">
-                  {locale === 'th' ? 'แกลเลอรี' : 'Gallery'}
-                </h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {artist.images.map((img, i) => (
-                    <div key={i} className="relative aspect-square rounded-lg overflow-hidden bg-[#2a2a2a]">
-                      <Image
-                        src={img}
-                        alt={`${artist.stageName} photo ${i + 1}`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 50vw, 33vw"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Stats */}
-            <div className="glass border border-white/5 rounded-xl p-6">
-              <h3 className="font-playfair text-lg font-semibold text-neutral-100 mb-4">
-                {locale === 'th' ? 'ข้อมูล' : 'Stats'}
-              </h3>
-              <div className="space-y-4">
-                {artist.averageRating && (
-                  <div>
-                    <p className="font-inter text-xs text-[#bcc9ce]/60 uppercase tracking-wide mb-1">
-                      {locale === 'th' ? 'คะแนนเฉลี่ย' : 'Average Rating'}
-                    </p>
-                    <div className="flex items-center gap-2">
-                      <StarRating rating={Math.round(artist.averageRating)} />
-                      <span className="font-inter text-lg text-neutral-100 font-semibold">
-                        {artist.averageRating.toFixed(1)}
-                      </span>
-                    </div>
-                  </div>
-                )}
-                {venues.length > 0 && (
-                  <div>
-                    <p className="font-inter text-xs text-[#bcc9ce]/60 uppercase tracking-wide mb-1">
-                      {locale === 'th' ? 'สถานที่แสดง' : 'Venues Performed'}
-                    </p>
-                    <span className="font-inter text-lg text-neutral-100 font-semibold">
-                      {venues.length}
-                    </span>
-                  </div>
-                )}
-                <div>
-                  <p className="font-inter text-xs text-[#bcc9ce]/60 uppercase tracking-wide mb-1">
-                    {locale === 'th' ? 'แนวเพลง' : 'Genres'}
-                  </p>
-                  <span className="font-inter text-lg text-neutral-100 font-semibold">
-                    {artist.genres.length}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Venue History */}
+            {/* Venues */}
             {venues.length > 0 && (
-              <div className="glass border border-white/5 rounded-xl p-6">
-                <h3 className="font-playfair text-lg font-semibold text-neutral-100 mb-4">
-                  {locale === 'th' ? 'สถานที่ที่เคยแสดง' : 'Venue History'}
+              <div>
+                <h3 className="font-inter text-xs text-[#bcc9ce]/60 uppercase tracking-widest mb-3">
+                  {locale === 'th' ? 'สถานที่ที่เคยแสดง' : 'Performs at'}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {venues.map((venue) => (
                     <span
                       key={venue}
-                      className="px-3 py-1.5 glass border border-white/5 rounded-xl text-sm font-inter text-[#bcc9ce]"
+                      className="px-3 py-1.5 glass border border-white/5 rounded-lg text-sm font-inter text-[#bcc9ce]"
                     >
                       {venue}
                     </span>
@@ -427,8 +346,8 @@ export default async function DJProfilePage({
 
             {/* Social Links */}
             {socialLinks.length > 0 && (
-              <div className="glass border border-white/5 rounded-xl p-6">
-                <h3 className="font-playfair text-lg font-semibold text-neutral-100 mb-4">
+              <div>
+                <h3 className="font-inter text-xs text-[#bcc9ce]/60 uppercase tracking-widest mb-3">
                   {locale === 'th' ? 'โซเชียลมีเดีย' : 'Follow'}
                 </h3>
                 <div className="flex flex-wrap gap-3">
@@ -438,7 +357,7 @@ export default async function DJProfilePage({
                       href={link.url!}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 glass border border-white/5 rounded-xl text-[#bcc9ce] hover:text-[#4fd6ff] hover:border-[#4fd6ff]/20 transition-all font-inter text-sm"
+                      className="flex items-center gap-2 px-4 py-2 glass border border-white/5 rounded-lg text-[#bcc9ce] hover:text-[#4fd6ff] hover:border-[#4fd6ff]/20 transition-all font-inter text-sm"
                       aria-label={link.label}
                     >
                       <SocialIcon platform={link.platform} />
@@ -450,25 +369,41 @@ export default async function DJProfilePage({
             )}
 
             {/* CTA */}
-            <div className="glass border border-white/5 rounded-xl p-6 text-center">
-              <h3 className="font-playfair text-lg font-semibold text-neutral-100 mb-2">
-                {locale === 'th' ? 'สนใจจองดีเจ?' : 'Book for Your Venue'}
-              </h3>
-              <p className="font-inter text-sm text-[#bcc9ce]/60 mb-4">
-                {locale === 'th'
-                  ? 'ติดต่อเราเพื่อจอง ' + artist.stageName
-                  : `Get in touch to book ${artist.stageName} for your next event.`}
-              </p>
+            <div className="pt-4">
               <Link
                 href="/#contact"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#f1bca6] text-[#131313] font-bold rounded-md transition-all duration-300 hover:bg-[#d3a18c] uppercase tracking-widest text-sm"
+                className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0088a8] hover:bg-[#00a3c7] text-white font-bold rounded-lg transition-all duration-300 uppercase tracking-widest text-sm"
               >
-                {locale === 'th' ? 'ติดต่อเรา' : 'Get in Touch'}
+                {locale === 'th' ? 'จองดีเจ' : `Book ${artist.stageName}`}
               </Link>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Gallery */}
+      {artist.images.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+          <div className="glass border border-white/5 rounded-xl p-6 sm:p-8">
+            <h2 className="font-playfair text-2xl font-semibold text-neutral-100 mb-6">
+              {locale === 'th' ? 'แกลเลอรี' : 'Gallery'}
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {artist.images.map((img, i) => (
+                <div key={i} className="relative aspect-square rounded-lg overflow-hidden bg-[#2a2a2a]">
+                  <Image
+                    src={img}
+                    alt={`${artist.stageName} photo ${i + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
