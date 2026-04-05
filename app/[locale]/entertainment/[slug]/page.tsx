@@ -393,7 +393,7 @@ export default async function DJProfilePage({
             {/* CTA */}
             <div className="pt-4">
               <Link
-                href={`/#contact?dj=${encodeURIComponent(artist.stageName)}`}
+                href={`/?dj=${encodeURIComponent(artist.stageName)}#contact`}
                 className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0088a8] hover:bg-[#00a3c7] text-white font-bold rounded-lg transition-all duration-300 uppercase tracking-widest text-sm"
               >
                 {locale === 'th' ? 'จองดีเจ' : `Book ${artist.stageName}`}
