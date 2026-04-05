@@ -262,7 +262,7 @@ export default async function DJProfilePage({
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
           {/* Portrait Image */}
           <div className="md:col-span-2">
-            <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#2a2a2a]">
+            <div className="relative aspect-[3/4] max-h-[60vh] md:max-h-none rounded-xl overflow-hidden bg-[#2a2a2a]">
               {artist.profileImage ? (
                 <Image
                   src={artist.profileImage}

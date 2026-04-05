@@ -198,7 +198,7 @@ export default async function HomePage({
                 <p>{t('about.story.p2')}</p>
                 <p>{t('about.story.p3')}</p>
               </div>
-              <div className="flex gap-12 pt-8">
+              <div className="flex flex-wrap gap-8 sm:gap-12 pt-8">
                 <div>
                   <div className="text-4xl font-playfair text-[#4fd6ff] mb-1">20+</div>
                   <div className="text-xs uppercase tracking-widest text-[#f1bca6]">
