@@ -219,6 +219,12 @@ body {
   background: linear-gradient(to right, #131313 0%, rgba(19, 19, 19, 0.8) 40%, rgba(19, 19, 19, 0) 100%);
 }
 
+.text-gradient-primary {
+  background: linear-gradient(to right, #b8ebff, #4fd6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Brand-Consistent Animation Utilities */
 .brand-transition {
   transition-property: background-color, border-color, color, fill, stroke, opacity, transform;

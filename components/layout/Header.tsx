@@ -32,10 +32,10 @@ const Header: React.FC = () => {
   ];
 
   const navItems = [
-    { label: t('platform'), href: '/#platform' },
-    { label: t('ourDJs'), href: '/entertainment' },
-    { label: t('forVenues'), href: '/events' },
-    { label: t('pricing'), href: '/#contact' },
+    { label: t('whatWeDo') || 'What We Do', href: '/#two-sides' },
+    { label: t('howItWorks') || 'How It Works', href: '/#how-it-works' },
+    { label: t('aiTools') || 'AI Tools', href: '/ai-tools' },
+    { label: t('pricing'), href: '/#pricing' },
     { label: t('about'), href: '/#about' },
   ];
 
@@ -160,10 +160,10 @@ const Header: React.FC = () => {
             ) : isLoaded && (
               <div className="hidden sm:flex items-center gap-3">
                 <a
-                  href="#contact"
+                  href="/sign-up"
                   className="px-6 py-2 bg-gradient-to-r from-[#4fd6ff] to-[#00bbe4] text-[#003543] font-bold rounded-lg hover:scale-95 transition-all duration-200"
                 >
-                  Book a Demo
+                  Join Free
                 </a>
               </div>
             )}

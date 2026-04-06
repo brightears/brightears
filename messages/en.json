@@ -37,7 +37,10 @@
     "events": "Events",
     "platform": "Platform",
     "forVenues": "For Venues",
-    "pricing": "Pricing"
+    "pricing": "Pricing",
+    "whatWeDo": "What We Do",
+    "howItWorks": "How It Works",
+    "aiTools": "AI Tools"
   },
   "payment": {
     "verification": {
