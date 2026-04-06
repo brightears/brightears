@@ -96,8 +96,14 @@ export default function Footer() {
           <p className="font-inter text-sm uppercase tracking-widest text-neutral-400">
             {t('copyright')}
           </p>
-          <div className="flex gap-8">
+          <div className="flex gap-4">
             <span className="text-xs uppercase tracking-[0.2em] text-neutral-500">Bangkok</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-neutral-600">&middot;</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-neutral-500">Phuket</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-neutral-600">&middot;</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-neutral-500">Koh Samui</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-neutral-600">&middot;</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-neutral-500">Pattaya</span>
           </div>
         </div>
       </div>

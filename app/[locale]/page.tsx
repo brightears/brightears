@@ -116,7 +116,7 @@ export default async function HomePage({
               <div className="w-24 h-[1px] bg-[#3d494e] mb-4 hidden md:block" />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {/* DJ Management */}
               <div className="glass p-10 rounded-xl border border-white/5 hover:bg-[#2a2a2a] transition-all group">
                 <div className="w-14 h-14 rounded-lg bg-[#00bbe4]/20 flex items-center justify-center mb-8 text-[#4fd6ff] group-hover:scale-110 transition-transform">
@@ -177,6 +177,28 @@ export default async function HomePage({
                 </h3>
                 <p className="text-[#bcc9ce] leading-relaxed text-balance">
                   {t('landing.whatWeDo.services.backgroundMusic.description')}
+                </p>
+              </div>
+
+              {/* Venue Consulting */}
+              <div className="glass p-10 rounded-xl border border-white/5 hover:bg-[#2a2a2a] transition-all group">
+                <div className="w-14 h-14 rounded-lg bg-[#f1bca6]/20 flex items-center justify-center mb-8 text-[#f1bca6] group-hover:scale-110 transition-transform">
+                  <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Lightbulb */}
+                    <path d="M16 4C11.582 4 8 7.582 8 12C8 15.066 9.774 17.706 12.333 19.066V22C12.333 22.552 12.781 23 13.333 23H18.667C19.219 23 19.667 22.552 19.667 22V19.066C22.226 17.706 24 15.066 24 12C24 7.582 20.418 4 16 4Z" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M13 26H19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+                    <path d="M13 29H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.5"/>
+                    {/* Light rays */}
+                    <path d="M16 1V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+                    <path d="M26 12H27" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+                    <path d="M5 12H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-playfair text-neutral-100 mb-4">
+                  {locale === 'th' ? 'ที่ปรึกษาสถานที่' : 'Venue Consulting'}
+                </h3>
+                <p className="text-[#bcc9ce] leading-relaxed text-balance">
+                  {locale === 'th' ? 'เราช่วยประเมินและปรับปรุงโปรแกรมความบันเทิงของคุณ' : 'We audit your entertainment program and help you get it right. Genre direction, scheduling strategy, and DJ selection — tailored to your venue\'s identity.'}
                 </p>
               </div>
             </div>
@@ -332,7 +354,7 @@ export default async function HomePage({
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <span className="text-[#e5e2e1]">Bangkok, Thailand</span>
+                  <span className="text-[#e5e2e1]">Bangkok, Phuket, Koh Samui &amp; Pattaya</span>
                 </div>
               </div>
 
