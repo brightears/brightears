@@ -33,6 +33,7 @@ const GENRE_GROUPS: Record<string, string[]> = {
 
 export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedDJ, setSelectedDJ] = useState<DJ | null>(null);
 
   const groupedGenres = useMemo(() => {
@@ -46,13 +47,52 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
   }, [djs]);
 
   const filteredDJs = useMemo(() => {
-    if (selectedGenre === 'all') return djs;
-    const subGenres = GENRE_GROUPS[selectedGenre] || [selectedGenre];
-    return djs.filter((dj) => dj.genres.some((g) => subGenres.includes(g)));
-  }, [djs, selectedGenre]);
+    let results = djs;
+
+    // Genre filter
+    if (selectedGenre !== 'all') {
+      const subGenres = GENRE_GROUPS[selectedGenre] || [selectedGenre];
+      results = results.filter((dj) => dj.genres.some((g) => subGenres.includes(g)));
+    }
+
+    // Search filter
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      results = results.filter((dj) =>
+        dj.stageName.toLowerCase().includes(q) ||
+        dj.genres.some((g) => g.toLowerCase().includes(q)) ||
+        dj.venues.some((v) => v.toLowerCase().includes(q)) ||
+        (dj.bio && dj.bio.toLowerCase().includes(q))
+      );
+    }
+
+    return results;
+  }, [djs, selectedGenre, searchQuery]);
 
   return (
     <>
+      {/* Search */}
+      <div className="mb-8 max-w-md mx-auto">
+        <div className="relative">
+          <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#bcc9ce]/50">search</span>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={locale === 'th' ? 'ค้นหาศิลปิน, แนวเพลง, หรือสถานที่...' : 'Search artists, genres, or venues...'}
+            className="w-full bg-[#1c1b1b] border border-[#3d494e]/20 rounded-xl pl-12 pr-4 py-3 text-[#e5e2e1] placeholder:text-[#bcc9ce]/30 focus:border-[#4fd6ff]/50 focus:ring-0 focus:outline-none transition-colors"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#bcc9ce]/50 hover:text-[#e5e2e1]"
+            >
+              <span className="material-symbols-outlined text-sm">close</span>
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* Genre Filter */}
       <div className="mb-10">
         <div className="flex flex-wrap gap-2 justify-center max-w-2xl mx-auto">
