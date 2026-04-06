@@ -25,7 +25,7 @@ export default function SignUpPage() {
               footerActionLink: "text-[#4fd6ff] hover:text-[#00bbe4]",
             },
           }}
-          forceRedirectUrl="/en/dj-portal"
+          forceRedirectUrl="/en/dj-portal/onboarding"
         />
 
         <div className="mt-6 text-center">

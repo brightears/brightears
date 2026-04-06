@@ -75,7 +75,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               The free platform where performing artists create professional promo content and venues discover the right talent — powered by AI.
             </p>
             <div className="flex flex-wrap gap-6 pt-4">
-              <a href={`/${locale}/apply`} className="bg-gradient-to-r from-[#b8ebff] to-[#4fd6ff] text-[#003543] px-10 py-4 font-bold rounded-lg shadow-lg hover:brightness-110 transition-all">
+              <a href="/sign-up" className="bg-gradient-to-r from-[#b8ebff] to-[#4fd6ff] text-[#003543] px-10 py-4 font-bold rounded-lg shadow-lg hover:brightness-110 transition-all">
                 I&apos;m an Artist
               </a>
               <a href={`/${locale}/entertainment`} className="glass-card text-[#f0bba5] px-10 py-4 font-bold rounded-lg hover:bg-white/5 transition-all">
@@ -119,7 +119,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   <div><p className="font-bold">Venue discovery</p><p className="text-sm text-[#bcc8ce]">Find the perfect stage for your sound.</p></div>
                 </li>
               </ul>
-              <a href={`/${locale}/apply`} className="text-[#b8ebff] font-bold border-b-2 border-[#b8ebff] pb-1 hover:text-white hover:border-white transition-all inline-block">Create Your Profile</a>
+              <a href="/sign-up" className="text-[#b8ebff] font-bold border-b-2 border-[#b8ebff] pb-1 hover:text-white hover:border-white transition-all inline-block">Create Your Profile</a>
             </div>
             <div className="absolute -bottom-20 -right-20 opacity-5 group-hover:opacity-10 transition-opacity">
               <span className="material-symbols-outlined text-[300px]" style={{ fontVariationSettings: "'FILL' 1" }}>music_note</span>
@@ -253,7 +253,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <p className="font-black uppercase tracking-widest text-xs opacity-50">Free</p>
               <div className="text-4xl font-playfair font-bold">$0</div>
               <ul className="text-sm space-y-4 text-[#bcc8ce]"><li>Public Profile</li><li>Venue Direct Contact</li><li>3 AI Generations / Month</li></ul>
-              <a href={`/${locale}/apply`} className="w-full py-3 rounded-lg border border-[#3d494e] hover:bg-white/5 transition-all mt-auto font-bold text-center block">Get Started</a>
+              <a href="/sign-up" className="w-full py-3 rounded-lg border border-[#3d494e] hover:bg-white/5 transition-all mt-auto font-bold text-center block">Get Started</a>
             </div>
             <div className="p-8 bg-[#131313] border-2 border-[#4fd6ff] rounded-xl flex flex-col items-center text-center space-y-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 bg-[#4fd6ff] text-[#003543] px-4 py-1 text-[10px] font-bold uppercase tracking-widest transform rotate-45 translate-x-10 translate-y-4">Popular</div>
@@ -276,7 +276,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="max-w-4xl mx-auto space-y-10 relative z-10">
             <h2 className="text-5xl md:text-6xl font-playfair font-bold tracking-tighter">Join 28 artists and 6 venues already on BrightEars.</h2>
             <div className="flex flex-wrap justify-center gap-6">
-              <a href={`/${locale}/apply`} className="bg-[#4fd6ff] text-[#003543] px-12 py-5 font-bold rounded-lg shadow-xl">Join as Artist</a>
+              <a href="/sign-up" className="bg-[#4fd6ff] text-[#003543] px-12 py-5 font-bold rounded-lg shadow-xl">Join as Artist</a>
               <a href={`/${locale}/entertainment`} className="glass-card text-[#f0bba5] px-12 py-5 font-bold rounded-lg">Join as Venue</a>
             </div>
           </div>
@@ -330,7 +330,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <p className="font-bold text-[#e5e2e1] uppercase tracking-widest text-xs mb-4">Company</p>
               <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href="#about">About</a>
               <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href="#contact">Contact</a>
-              <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href={`/${locale}/apply`}>Join as Artist</a>
+              <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href="/sign-up">Join as Artist</a>
             </div>
           </div>
         </footer>
