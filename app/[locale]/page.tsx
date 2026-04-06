@@ -19,73 +19,34 @@ export async function generateMetadata({
   const { locale } = await params;
 
   const title = locale === 'th'
-    ? 'Bright Ears | แพลตฟอร์มประสบการณ์สถานที่'
-    : 'Bright Ears | The Venue Experience Platform';
+    ? 'Bright Ears | แพลตฟอร์มสร้างสรรค์สำหรับศิลปินและสถานที่'
+    : 'Bright Ears | The Entertainment Creative Platform';
 
   const description = locale === 'th'
-    ? 'แพลตฟอร์มจัดการประสบการณ์สถานที่ครบวงจร ดีเจ นักดนตรี การตลาด AI และบริการพันธมิตร สำหรับโรงแรมและสถานที่ระดับพรีเมียมในประเทศไทย'
-    : 'The venue experience platform for hotels and premium venues. Entertainment scheduling, AI-powered marketing, and partner services — all in one place.';
+    ? 'แพลตฟอร์มฟรีสำหรับศิลปินสร้างคอนเทนต์โปรโมทด้วย AI และสถานที่ค้นหาศิลปินโดยตรง ไม่มีค่าคอมมิชชั่น'
+    : 'Free platform where performing artists create professional promo content and venues discover the right talent — powered by AI. No commissions.';
 
   return {
     title,
     description,
     keywords: locale === 'th'
-      ? 'จองดีเจ, วงดนตรี, ศิลปิน, กรุงเทพ, โรงแรม, งานบริษัท, ไม่มีค่าคอมมิชชั่น, PromptPay, Bright Ears'
-      : 'venue experience platform, book DJ, entertainment management, Bangkok, hotels, AI marketing, analytics, partner ecosystem, Bright Ears',
-    openGraph: {
-      title,
-      description,
-      url: `/${locale}`,
-      siteName: 'Bright Ears',
-      locale: locale === 'th' ? 'th_TH' : 'en_US',
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      site: '@brightears',
-      creator: '@brightears',
-    },
-    alternates: {
-      canonical: `/${locale}`,
-      languages: {
-        'en': '/en',
-        'th': '/th',
-        'x-default': '/en',
-      }
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    }
+      ? 'ดีเจ, นักดนตรี, ศิลปิน, กรุงเทพ, โรงแรม, AI คอนเทนต์, โปรโมท, ฟรี, Bright Ears'
+      : 'DJ, musician, artist, Bangkok, entertainment, AI content, promo, free platform, venue, Bright Ears',
+    openGraph: { title, description, url: `/${locale}`, siteName: 'Bright Ears', locale: locale === 'th' ? 'th_TH' : 'en_US', type: 'website' },
+    twitter: { card: 'summary_large_image', title, description },
+    alternates: { canonical: `/${locale}`, languages: { 'en': '/en', 'th': '/th', 'x-default': '/en' } },
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large' as const } }
   };
 }
 
-export default async function HomePage({
-  params
-}: {
-  params: Promise<{ locale: string }>
-}) {
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations();
 
   const organizationSchema = generateOrganizationSchema({ locale });
   const localBusinessSchema = generateLocalBusinessSchema({ locale });
   const breadcrumbSchema = generateBreadcrumbSchema({
-    items: [
-      {
-        name: locale === 'th' ? 'หน้าแรก' : 'Home',
-        url: `https://brightears.io/${locale}`
-      }
-    ]
+    items: [{ name: locale === 'th' ? 'หน้าแรก' : 'Home', url: `https://brightears.io/${locale}` }]
   });
 
   return (
@@ -93,429 +54,283 @@ export default async function HomePage({
       <JsonLd data={organizationSchema} />
       <JsonLd data={localBusinessSchema} />
       <JsonLd data={breadcrumbSchema} />
-
       <HashScroller />
+
       <main className="min-h-screen bg-[#131313] text-[#e5e2e1]">
 
-        {/* SECTION 1: HERO */}
-        <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        {/* HERO — from Stitch */}
+        <section className="relative h-screen flex items-center pt-20 px-12 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <Image
-              src="/images/hero-dj.jpg"
-              alt="Luxurious dimly lit rooftop lounge at night with atmospheric blue lighting and city skyline in background"
-              fill
-              className="object-cover"
-              sizes="100vw"
-              priority
-            />
-            <div className="absolute inset-0 hero-gradient" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#131313] via-[#131313]/80 to-transparent z-10" />
+            <Image src="/images/hero-dj.jpg" alt="Luxury venue interior" fill priority className="object-cover grayscale opacity-40" sizes="100vw" />
           </div>
-          <div className="relative z-10 max-w-[1440px] mx-auto px-12 w-full">
-            <div className="max-w-3xl">
-              <span className="inline-block px-3 py-1 mb-6 text-xs font-bold tracking-widest uppercase bg-[#f0bba5]/20 text-[#f0bba5] rounded-full">
-                TRUSTED BY BANGKOK&apos;S LEADING VENUES
-              </span>
-              <h1 className="text-7xl md:text-8xl font-playfair font-bold tracking-tighter text-[#e5e2e1] mb-8 leading-[0.9]">
-                Your venue&apos;s <br />entertainment. <br /><span className="text-[#4fd6ff] text-glow">Handled.</span>
-              </h1>
-              <p className="text-lg text-[#bcc8ce] font-light max-w-xl mb-12 leading-relaxed">
-                The platform where bars, restaurants, and hotels schedule DJs, collect real-time feedback, and fill every slot — without the WhatsApp chaos.
-              </p>
-              <div className="flex flex-wrap gap-6">
-                <a
-                  href="#contact"
-                  className="bg-gradient-to-r from-[#4fd6ff] to-[#00bbe4] text-[#003543] font-bold px-10 py-5 rounded-md tracking-tight hover:brightness-110 transition-all shadow-lg shadow-[#4fd6ff]/20"
-                >
-                  Book a Free Demo
-                </a>
-                <a
-                  href="#platform"
-                  className="glass-card text-[#e5e2e1] font-medium px-10 py-5 rounded-md flex items-center gap-3 border-[#3d494e]/30 hover:bg-[#2a2a2a] transition-colors"
-                >
-                  <span className="material-symbols-outlined text-[#4fd6ff]">play_circle</span>
-                  Watch 2-min Tour
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION 2: SOCIAL PROOF */}
-        <section className="bg-[#1c1b1b] py-24 relative z-20">
-          <div className="max-w-[1440px] mx-auto px-12">
-            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all duration-700 mb-20">
-              {[
-                { name: 'Marriott', src: '/images/clients/marriott.svg', width: 96, height: 48 },
-                { name: 'Hilton', src: '/images/clients/hilton.png', width: 96, height: 48 },
-                { name: 'Centara', src: '/images/clients/centara.png', width: 120, height: 48 },
-                { name: 'Accor', src: '/images/clients/accor.png', width: 96, height: 48 },
-              ].map((client) => (
-                <div key={client.name} className="flex items-center justify-center h-16">
-                  <Image
-                    src={client.src}
-                    alt={client.name}
-                    width={client.width}
-                    height={client.height}
-                    className="h-12 w-auto opacity-50 hover:opacity-70 transition-all duration-300"
-                    style={{ filter: 'brightness(1.5)' }}
-                  />
-                </div>
-              ))}
-            </div>
-            <div className="grid grid-cols-3 gap-12 text-center border-t border-[#3d494e]/10 pt-16">
-              <div>
-                <div className="text-5xl font-playfair font-bold text-[#4fd6ff] mb-2">20+</div>
-                <div className="text-xs tracking-[0.3em] font-semibold text-[#bcc8ce] uppercase">Years Experience</div>
-              </div>
-              <div>
-                <div className="text-5xl font-playfair font-bold text-[#4fd6ff] mb-2">1000+</div>
-                <div className="text-xs tracking-[0.3em] font-semibold text-[#bcc8ce] uppercase">Nights Managed</div>
-              </div>
-              <div>
-                <div className="text-5xl font-playfair font-bold text-[#4fd6ff] mb-2">4.9★</div>
-                <div className="text-xs tracking-[0.3em] font-semibold text-[#bcc8ce] uppercase">Avg Rating</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION 3: THE PROBLEM */}
-        <section className="py-32 bg-[#131313]">
-          <div className="max-w-[1440px] mx-auto px-12">
-            <div className="max-w-4xl mb-24">
-              <h2 className="text-5xl md:text-6xl font-playfair font-bold leading-tight mb-6">
-                Your entertainment runs on spreadsheets, WhatsApp, and hope.
-              </h2>
-            </div>
-            <div className="grid md:grid-cols-3 gap-12">
-              <div className="p-10 bg-[#1c1b1b] rounded-2xl group hover:bg-[#2a2a2a] transition-all">
-                <div className="w-12 h-12 flex items-center justify-center bg-[#93000a]/20 text-[#ffb4ab] mb-8 rounded-lg">
-                  <span className="material-symbols-outlined">warning</span>
-                </div>
-                <h3 className="text-2xl font-bold mb-4">No backup plan</h3>
-                <p className="text-[#bcc8ce] leading-relaxed">Last-minute cancellations lead to silent rooms. Scrambling on WhatsApp group chats is not a strategy.</p>
-              </div>
-              <div className="p-10 bg-[#1c1b1b] rounded-2xl group hover:bg-[#2a2a2a] transition-all">
-                <div className="w-12 h-12 flex items-center justify-center bg-[#93000a]/20 text-[#ffb4ab] mb-8 rounded-lg">
-                  <span className="material-symbols-outlined">analytics</span>
-                </div>
-                <h3 className="text-2xl font-bold mb-4">Zero feedback</h3>
-                <p className="text-[#bcc8ce] leading-relaxed">Managers&apos; opinions vanish. You don&apos;t know who performed well or who arrived late until it&apos;s too late.</p>
-              </div>
-              <div className="p-10 bg-[#1c1b1b] rounded-2xl group hover:bg-[#2a2a2a] transition-all">
-                <div className="w-12 h-12 flex items-center justify-center bg-[#93000a]/20 text-[#ffb4ab] mb-8 rounded-lg">
-                  <span className="material-symbols-outlined">campaign</span>
-                </div>
-                <h3 className="text-2xl font-bold mb-4">Marketing afterthought</h3>
-                <p className="text-[#bcc8ce] leading-relaxed">Promos happen hours before the event, if at all. Missed opportunities for table bookings and coverage.</p>
-              </div>
-            </div>
-            <div className="mt-20 text-center flex flex-col items-center">
-              <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-[#ffdbcd] to-transparent mb-6" />
-              <p className="text-[#ffdbcd] text-xl italic font-playfair">There&apos;s a better way.</p>
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION 4: THE PLATFORM (Bento Grid) */}
-        <section id="platform" className="py-32 bg-[#0e0e0e] scroll-mt-20">
-          <div className="max-w-[1440px] mx-auto px-12">
-            <div className="mb-16">
-              <span className="text-[#ffdbcd] uppercase tracking-widest text-sm font-bold">THE PLATFORM</span>
-              <h2 className="text-5xl md:text-6xl font-playfair font-bold mt-4">Everything your venue needs. <br />One login.</h2>
-            </div>
-            <div className="grid md:grid-cols-3 gap-6 auto-rows-[320px]">
-              {/* Large Card 1 */}
-              <div className="md:col-span-2 glass-card rounded-2xl p-10 relative overflow-hidden group hover:shadow-[0px_0px_50px_rgba(79,214,255,0.1)] transition-all">
-                <div className="relative z-10 h-full flex flex-col">
-                  <h3 className="text-3xl font-bold mb-4">Every slot filled. <br />Every night.</h3>
-                  <p className="text-[#bcc8ce] max-w-sm">Schedule DJs across the entire month. Integrated feedback loop ensures managers grade every performance instantly.</p>
-                  <div className="mt-auto flex items-center gap-4">
-                    <div className="flex -space-x-3">
-                      <div className="w-10 h-10 rounded-full border-2 border-[#131313] bg-[#2a2a2a] flex items-center justify-center text-xs font-bold text-[#4fd6ff]">AS</div>
-                      <div className="w-10 h-10 rounded-full border-2 border-[#131313] bg-[#2a2a2a] flex items-center justify-center text-xs font-bold text-[#f0bba5]">MK</div>
-                      <div className="w-10 h-10 rounded-full bg-[#2a2a2a] border-2 border-[#131313] flex items-center justify-center text-xs text-[#4fd6ff]">+12</div>
-                    </div>
-                    <span className="text-xs font-semibold text-[#bcc8ce]">4 slots booked today</span>
-                  </div>
-                </div>
-                <Image
-                  src="/images/hero-dj.jpg"
-                  alt="Modern high-tech audio mixing console with glowing blue lights"
-                  fill
-                  className="object-cover opacity-20"
-                  sizes="66vw"
-                  style={{ maskImage: 'linear-gradient(to left, black, transparent)' }}
-                />
-              </div>
-
-              {/* Small Card 1 */}
-              <div className="glass-card rounded-2xl p-10 flex flex-col justify-between group hover:shadow-[0px_0px_50px_rgba(79,214,255,0.1)] transition-all">
-                <div className="w-10 h-10 bg-[#4fd6ff]/20 rounded-lg flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[#4fd6ff]">share</span>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold mb-2">DJ booked → post ready.</h3>
-                  <p className="text-[#bcc8ce] text-sm">Auto-generated social media kits for every artist slot.</p>
-                </div>
-              </div>
-
-              {/* Small Card 2 */}
-              <div className="glass-card rounded-2xl p-10 flex flex-col justify-between group hover:shadow-[0px_0px_50px_rgba(79,214,255,0.1)] transition-all">
-                <div className="w-10 h-10 bg-[#4fd6ff]/20 rounded-lg flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[#4fd6ff]">hub</span>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold mb-2">All your vendors. One hub.</h3>
-                  <p className="text-[#bcc8ce] text-sm">Coordinate AV, lighting, and scent partners alongside artists.</p>
-                </div>
-              </div>
-
-              {/* Large Card 2 */}
-              <div className="md:col-span-2 glass-card rounded-2xl p-10 relative overflow-hidden group hover:shadow-[0px_0px_50px_rgba(79,214,255,0.1)] transition-all">
-                <div className="relative z-10 flex flex-col h-full">
-                  <h3 className="text-3xl font-bold mb-4">Know what works. <br />Repeat it.</h3>
-                  <p className="text-[#bcc8ce] max-w-sm">AI-driven insights on performer ratings, cover drivers, and drink spend correlations.</p>
-                  <div className="mt-8 grid grid-cols-2 gap-4">
-                    <div className="bg-[#2a2a2a]/60 p-4 rounded-xl border border-[#3d494e]/10">
-                      <div className="text-xs text-[#bcc8ce] mb-1">Efficiency Gain</div>
-                      <div className="text-2xl font-bold text-[#4fd6ff]">+24%</div>
-                    </div>
-                    <div className="bg-[#2a2a2a]/60 p-4 rounded-xl border border-[#3d494e]/10">
-                      <div className="text-xs text-[#bcc8ce] mb-1">Guest Loyalty</div>
-                      <div className="text-2xl font-bold text-[#4fd6ff]">92%</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-[#4fd6ff]/10 blur-[80px] rounded-full" />
-              </div>
-
-              {/* Small Card 3 */}
-              <div className="glass-card rounded-2xl p-10 flex flex-col justify-between group hover:shadow-[0px_0px_50px_rgba(79,214,255,0.1)] transition-all">
-                <div className="w-10 h-10 bg-[#4fd6ff]/20 rounded-lg flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[#4fd6ff]">dashboard</span>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold mb-2">One dashboard. Every property.</h3>
-                  <p className="text-[#bcc8ce] text-sm">Marketing ROI and entertainment spend across your whole portfolio.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION 5: HOW IT WORKS */}
-        <section className="py-32 bg-[#131313]">
-          <div className="max-w-[1440px] mx-auto px-12 text-center">
-            <span className="text-[#ffdbcd] uppercase tracking-widest text-sm font-bold">THE PROCESS</span>
-            <h2 className="text-5xl md:text-6xl font-playfair font-bold mt-4 mb-24">Live in 15 minutes.</h2>
-            <div className="relative max-w-5xl mx-auto">
-              <div className="absolute top-1/2 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#3d494e] to-transparent -translate-y-1/2 hidden md:block" />
-              <div className="grid md:grid-cols-3 gap-20 relative z-10">
-                <div className="flex flex-col items-center">
-                  <div className="w-16 h-16 bg-[#2a2a2a] rounded-full flex items-center justify-center border-2 border-[#4fd6ff] mb-8 relative">
-                    <span className="material-symbols-outlined text-[#4fd6ff] text-3xl">electric_bolt</span>
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-[#4fd6ff] rounded-full text-[#003543] text-[10px] font-bold flex items-center justify-center">1</div>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4">Connect</h3>
-                  <p className="text-[#bcc8ce]">Link your existing venues and upload your preferred vendor lists.</p>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="w-16 h-16 bg-[#2a2a2a] rounded-full flex items-center justify-center border-2 border-[#4fd6ff] mb-8 relative">
-                    <span className="material-symbols-outlined text-[#4fd6ff] text-3xl">event_available</span>
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-[#4fd6ff] rounded-full text-[#003543] text-[10px] font-bold flex items-center justify-center">2</div>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4">Book</h3>
-                  <p className="text-[#bcc8ce]">Browse available artists, check ratings, and schedule slots in two clicks.</p>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="w-16 h-16 bg-[#2a2a2a] rounded-full flex items-center justify-center border-2 border-[#4fd6ff] mb-8 relative">
-                    <span className="material-symbols-outlined text-[#4fd6ff] text-3xl">query_stats</span>
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-[#4fd6ff] rounded-full text-[#003543] text-[10px] font-bold flex items-center justify-center">3</div>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4">Track</h3>
-                  <p className="text-[#bcc8ce]">Monitor live attendance and receive automated feedback logs daily.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION 6: SOCIAL PROOF / RESULTS */}
-        <section className="py-32 bg-[#1c1b1b] overflow-hidden">
-          <div className="max-w-[1440px] mx-auto px-12 grid lg:grid-cols-2 gap-20 items-center">
-            <div>
-              <div className="flex gap-16 mb-12">
-                <div>
-                  <div className="text-4xl font-playfair font-bold text-[#4fd6ff] mb-1">0</div>
-                  <div className="text-[10px] tracking-widest text-[#bcc8ce] uppercase font-bold">no-shows</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-playfair font-bold text-[#4fd6ff] mb-1">4.9★</div>
-                  <div className="text-[10px] tracking-widest text-[#bcc8ce] uppercase font-bold">avg rating</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-playfair font-bold text-[#4fd6ff] mb-1">168+</div>
-                  <div className="text-[10px] tracking-widest text-[#bcc8ce] uppercase font-bold">verified reviews</div>
-                </div>
-              </div>
-              <div className="glass-card p-12 rounded-3xl relative">
-                <span className="material-symbols-outlined absolute top-8 left-8 text-6xl text-[#4fd6ff]/10 select-none">format_quote</span>
-                <p className="text-2xl font-playfair italic mb-8 relative z-10 leading-relaxed">
-                  &ldquo;We used to spend hours every Monday just coordinating the coming weekend. Since BrightEars, I haven&apos;t had to think about our DJ lineup once. We haven&apos;t had an empty slot in 6 months.&rdquo;
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full overflow-hidden bg-[#2a2a2a] flex items-center justify-center text-sm font-bold text-[#f0bba5]">
-                    AS
-                  </div>
-                  <div>
-                    <div className="font-bold">Ananya S.</div>
-                    <div className="text-sm text-[#bcc8ce]">Director of Operations, Bangkok Hospitality Group</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#4fd6ff]/5 rounded-full blur-[100px]" />
-              <div className="relative z-10 aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl grayscale hover:grayscale-0 transition-all duration-700">
-                <Image
-                  src="/images/hero-dj.jpg"
-                  alt="Professional DJ performing in a high-end luxury nightclub"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION 7: FOR VENUE GROUPS */}
-        <section className="py-32 px-12">
-          <div className="max-w-[1440px] mx-auto bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] rounded-[2.5rem] p-12 md:p-20 flex flex-col md:flex-row gap-12 overflow-hidden items-center relative">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#4fd6ff]/5 rounded-full blur-[100px]" />
-            <div className="md:w-3/5 relative z-10">
-              <h2 className="text-4xl md:text-5xl font-playfair font-bold mb-6">Managing entertainment across <br />multiple venues?</h2>
-              <p className="text-[#bcc8ce] text-lg mb-10 max-w-xl">
-                One dashboard for all your properties. Centralized billing, shared DJ roster, brand standards enforced across every location. Scale your guest experience without scaling your overhead.
-              </p>
-              <a
-                href="#contact"
-                className="bg-[#f0bba5] text-[#704938] font-bold px-10 py-5 rounded-md hover:brightness-105 transition-all inline-flex items-center gap-3"
-              >
-                Book a Demo
-                <span className="material-symbols-outlined">arrow_forward</span>
+          <div className="relative z-20 max-w-4xl space-y-8">
+            <span className="inline-block px-4 py-1.5 rounded-full glass-card text-[#4fd6ff] text-xs tracking-widest uppercase font-bold">
+              FREE TO JOIN — NO COMMISSIONS
+            </span>
+            <h1 className="text-7xl md:text-8xl font-playfair font-bold tracking-tighter leading-tight">
+              Your entertainment. <br /> <span className="text-gradient-primary">Elevated.</span>
+            </h1>
+            <p className="text-xl text-[#bcc8ce] max-w-2xl leading-relaxed">
+              The free platform where performing artists create professional promo content and venues discover the right talent — powered by AI.
+            </p>
+            <div className="flex flex-wrap gap-6 pt-4">
+              <a href={`/${locale}/apply`} className="bg-gradient-to-r from-[#b8ebff] to-[#4fd6ff] text-[#003543] px-10 py-4 font-bold rounded-lg shadow-lg hover:brightness-110 transition-all">
+                I&apos;m an Artist
+              </a>
+              <a href={`/${locale}/entertainment`} className="glass-card text-[#f0bba5] px-10 py-4 font-bold rounded-lg hover:bg-white/5 transition-all">
+                I&apos;m a Venue
               </a>
             </div>
-            <div className="md:w-2/5 relative">
-              <div className="relative transform rotate-6 scale-110 shadow-2xl rounded-2xl overflow-hidden glass-card">
-                <div className="bg-[#1c1b1b] p-6 border-b border-[#3d494e]/10 flex items-center justify-between">
-                  <div className="flex gap-2">
-                    <div className="w-2 h-2 rounded-full bg-[#ffb4ab]" />
-                    <div className="w-2 h-2 rounded-full bg-[#ffdbcd]" />
-                    <div className="w-2 h-2 rounded-full bg-[#4fd6ff]" />
-                  </div>
-                  <div className="text-[10px] font-bold uppercase tracking-widest text-[#bcc8ce]">Global Dashboard</div>
+          </div>
+          <div className="hidden lg:block absolute right-24 top-1/2 -translate-y-1/2 glass-card p-6 rounded-xl max-w-xs transform rotate-2 shadow-[0px_20px_40px_rgba(0,187,228,0.08)]">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 rounded-full bg-[#2a2a2a] flex items-center justify-center text-sm font-bold text-[#f0bba5]">EV</div>
+              <div>
+                <p className="font-bold text-sm">Elena Vance</p>
+                <p className="text-xs text-[#bcc8ce]">Soul &amp; Jazz Vocalist</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="h-1.5 w-full bg-[#353534] rounded-full overflow-hidden">
+                <div className="h-full bg-[#4fd6ff] w-3/4 animate-pulse" />
+              </div>
+              <p className="text-[10px] text-[#4fd6ff] uppercase tracking-widest font-bold">AI Promo Generating...</p>
+            </div>
+          </div>
+        </section>
+
+        {/* TWO SIDES — from Stitch */}
+        <section id="two-sides" className="grid grid-cols-1 md:grid-cols-2 scroll-mt-20">
+          <div className="bg-[#1c1b1b] p-16 md:p-24 relative overflow-hidden group">
+            <div className="relative z-10 space-y-12">
+              <h2 className="text-5xl font-playfair font-bold tracking-tighter">Your stage.<br />Your brand.</h2>
+              <ul className="space-y-6">
+                <li className="flex items-start gap-4">
+                  <span className="material-symbols-outlined text-[#4fd6ff] mt-1">account_circle</span>
+                  <div><p className="font-bold">Professional profile</p><p className="text-sm text-[#bcc8ce]">Your sonic identity, curated.</p></div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <span className="material-symbols-outlined text-[#4fd6ff] mt-1">auto_awesome</span>
+                  <div><p className="font-bold">AI-generated promo</p><p className="text-sm text-[#bcc8ce]">IG posts, posters, and EPKs in seconds.</p></div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <span className="material-symbols-outlined text-[#4fd6ff] mt-1">explore</span>
+                  <div><p className="font-bold">Venue discovery</p><p className="text-sm text-[#bcc8ce]">Find the perfect stage for your sound.</p></div>
+                </li>
+              </ul>
+              <a href={`/${locale}/apply`} className="text-[#b8ebff] font-bold border-b-2 border-[#b8ebff] pb-1 hover:text-white hover:border-white transition-all inline-block">Create Your Profile</a>
+            </div>
+            <div className="absolute -bottom-20 -right-20 opacity-5 group-hover:opacity-10 transition-opacity">
+              <span className="material-symbols-outlined text-[300px]" style={{ fontVariationSettings: "'FILL' 1" }}>music_note</span>
+            </div>
+          </div>
+          <div className="bg-[#131313] p-16 md:p-24 relative overflow-hidden group">
+            <div className="relative z-10 space-y-12">
+              <h2 className="text-5xl font-playfair font-bold tracking-tighter">Your sound.<br />Sorted.</h2>
+              <ul className="space-y-6">
+                <li className="flex items-start gap-4">
+                  <span className="material-symbols-outlined text-[#ffdbcd] mt-1">search</span>
+                  <div><p className="font-bold">Browse by genre</p><p className="text-sm text-[#bcc8ce]">Filter by sound, availability, and rating.</p></div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <span className="material-symbols-outlined text-[#ffdbcd] mt-1">chat</span>
+                  <div><p className="font-bold">Direct contact</p><p className="text-sm text-[#bcc8ce]">No agents, no commission, just direct chat.</p></div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <span className="material-symbols-outlined text-[#ffdbcd] mt-1">calendar_today</span>
+                  <div><p className="font-bold">Schedule management</p><p className="text-sm text-[#bcc8ce]">Automate your entertainment calendar.</p></div>
+                </li>
+              </ul>
+              <a href={`/${locale}/entertainment`} className="text-[#f0bba5] font-bold border-b-2 border-[#ffdbcd] pb-1 hover:text-white hover:border-white transition-all inline-block">Find Entertainment</a>
+            </div>
+            <div className="absolute -bottom-20 -right-20 opacity-5 group-hover:opacity-10 transition-opacity">
+              <span className="material-symbols-outlined text-[300px]" style={{ fontVariationSettings: "'FILL' 1" }}>theater_comedy</span>
+            </div>
+          </div>
+        </section>
+
+        {/* AI TOOLS SHOWCASE — from Stitch */}
+        <section className="py-32 px-12 max-w-[1440px] mx-auto text-center overflow-hidden">
+          <div className="mb-16">
+            <p className="text-xs tracking-widest text-[#4fd6ff] font-bold mb-4 uppercase">AI Content Studio</p>
+            <h2 className="text-5xl md:text-6xl font-playfair font-bold tracking-tighter">Professional promo in 10 seconds.</h2>
+          </div>
+          <div className="relative h-[600px] flex items-center justify-center">
+            {[
+              { rotate: 'rotate-[-12deg] -translate-x-40', gradient: 'from-[#131313] to-[#1f4c5b]', icon: 'image', iconColor: '#4fd6ff' },
+              { rotate: 'rotate-[-4deg] -translate-x-20', gradient: 'from-[#131313] to-[#492819]', icon: 'smartphone', iconColor: '#f0bba5' },
+              { rotate: 'rotate-[6deg] translate-x-20 z-10', gradient: 'from-[#131313] to-[#003543]', icon: 'badge', iconColor: '#4fd6ff' },
+              { rotate: 'rotate-[15deg] translate-x-40', gradient: 'from-[#131313] to-[#1c1b1b]', icon: 'grid_view', iconColor: '#f0bba5' },
+            ].map((card, i) => (
+              <div key={i} className={`absolute w-[300px] h-[400px] bg-[#2a2a2a] rounded-xl ${card.rotate} border border-white/5 shadow-2xl overflow-hidden`}>
+                <div className={`w-full h-full bg-gradient-to-br ${card.gradient} flex items-center justify-center`}>
+                  <span className="material-symbols-outlined text-6xl opacity-30" style={{ color: card.iconColor }}>{card.icon}</span>
                 </div>
-                <div className="p-8">
-                  <div className="text-4xl font-playfair font-bold text-[#4fd6ff] mb-2">94%</div>
-                  <div className="text-xs text-[#bcc8ce] uppercase tracking-widest mb-6">Efficiency Gain</div>
-                  <div className="space-y-4">
-                    <div className="h-2 w-full bg-[#353534] rounded-full overflow-hidden">
-                      <div className="h-full w-[94%] bg-[#4fd6ff]" />
-                    </div>
-                    <div className="h-2 w-full bg-[#353534] rounded-full overflow-hidden">
-                      <div className="h-full w-[78%] bg-[#4fd6ff]/60" />
-                    </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-12 space-y-8 max-w-2xl mx-auto">
+            <p className="text-xl text-[#bcc8ce]">&ldquo;Upload a photo. Pick a format. AI does the rest.&rdquo;</p>
+            <a href={`/${locale}/ai-tools`} className="inline-block bg-[#4fd6ff] text-[#005b70] px-12 py-5 font-bold rounded-lg shadow-[0px_20px_40px_rgba(0,187,228,0.08)] hover:scale-105 transition-transform">
+              Try It Free — 3 Generations/Month
+            </a>
+          </div>
+        </section>
+
+        {/* HOW IT WORKS — from Stitch */}
+        <section id="how-it-works" className="py-32 bg-[#1c1b1b] px-12 scroll-mt-20">
+          <div className="max-w-[1440px] mx-auto">
+            <h2 className="text-5xl font-playfair font-bold tracking-tighter mb-20">How It Works</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+              <div className="space-y-12">
+                <h3 className="text-sm uppercase tracking-widest text-[#4fd6ff] font-black">For Artists</h3>
+                {[
+                  { n: '01', t: 'Create profile', d: 'Showcase your repertoire and style in a curated digital space.' },
+                  { n: '02', t: 'Generate content', d: 'Use our AI tools to create stunning promotional materials instantly.' },
+                  { n: '03', t: 'Get discovered', d: 'Appear in venue searches and get contacted directly for gigs.' },
+                ].map((s) => (
+                  <div key={s.n} className="flex gap-8">
+                    <span className="text-6xl font-playfair font-black text-[#3d494e]/30">{s.n}</span>
+                    <div className="space-y-2 pt-4"><h4 className="text-2xl font-bold">{s.t}</h4><p className="text-[#bcc8ce]">{s.d}</p></div>
                   </div>
-                </div>
+                ))}
+              </div>
+              <div className="space-y-12">
+                <h3 className="text-sm uppercase tracking-widest text-[#f0bba5] font-black">For Venues</h3>
+                {[
+                  { n: '01', t: 'Browse artists', d: "Find talent that matches your venue's atmosphere and clientele." },
+                  { n: '02', t: 'Contact directly', d: 'Cut out the middleman. Chat with artists and finalize bookings.' },
+                  { n: '03', t: 'Manage schedule', d: 'View all your upcoming entertainment in one sleek dashboard.' },
+                ].map((s) => (
+                  <div key={s.n} className="flex gap-8">
+                    <span className="text-6xl font-playfair font-black text-[#3d494e]/30">{s.n}</span>
+                    <div className="space-y-2 pt-4"><h4 className="text-2xl font-bold">{s.t}</h4><p className="text-[#bcc8ce]">{s.d}</p></div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
-        {/* SECTION 8: CONTACT */}
-        <section id="contact" className="py-32 bg-[#131313] scroll-mt-20">
-          <div className="max-w-[1440px] mx-auto px-12 grid md:grid-cols-2 gap-24">
-            <div>
-              <h2 className="text-5xl font-playfair font-bold mb-12">
-                {t('landing.contact.title')}
-              </h2>
-              <div className="space-y-8">
-                <div className="flex items-center gap-6">
-                  <div className="w-12 h-12 bg-[#2a2a2a] rounded-full flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[#4fd6ff]">mail</span>
-                  </div>
-                  <div>
-                    <div className="text-sm text-[#bcc8ce]">Email us at</div>
-                    <div className="text-xl font-medium">info@brightears.io</div>
-                  </div>
+        {/* SOCIAL PROOF — from Stitch */}
+        <section id="about" className="py-32 px-12 max-w-[1440px] mx-auto scroll-mt-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center mb-24">
+            {[
+              { val: '20+', label: 'Years Exp' }, { val: '28', label: 'Artists' },
+              { val: '6', label: 'Venues' }, { val: '4.9', label: 'Star Rating' },
+            ].map((s) => (
+              <div key={s.label} className="space-y-2">
+                <p className="text-5xl font-playfair font-bold text-[#4fd6ff]">{s.val}</p>
+                <p className="text-sm uppercase tracking-widest font-bold opacity-50">{s.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-16 mb-24 opacity-40">
+            {['MARRIOTT', 'HILTON', 'CENTARA', 'ACCOR'].map((n) => (
+              <span key={n} className="text-2xl font-black tracking-widest">{n}</span>
+            ))}
+          </div>
+          <div className="flex justify-center">
+            <div className="glass-card p-12 rounded-2xl max-w-2xl text-center relative">
+              <span className="material-symbols-outlined text-[#4fd6ff] text-4xl absolute -top-5 left-1/2 -translate-x-1/2 bg-[#131313] px-4">format_quote</span>
+              <p className="text-2xl italic font-playfair leading-relaxed mb-6 text-[#bcc8ce]">
+                &ldquo;BrightEars completely removed the stress of promoting our residency. The AI content tool is a game changer for busy performing artists.&rdquo;
+              </p>
+              <p className="font-bold">Julian Rossi</p>
+              <p className="text-xs text-[#bcc8ce] uppercase tracking-widest">Resident Pianist, Marriott Bangkok</p>
+            </div>
+          </div>
+        </section>
+
+        {/* PRICING — from Stitch */}
+        <section id="pricing" className="py-32 bg-[#1c1b1b] px-12 scroll-mt-20">
+          <div className="max-w-[1440px] mx-auto text-center mb-16">
+            <h2 className="text-5xl font-playfair font-bold tracking-tighter">Membership</h2>
+          </div>
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-8 bg-[#2a2a2a] rounded-xl flex flex-col items-center text-center space-y-6">
+              <p className="font-black uppercase tracking-widest text-xs opacity-50">Free</p>
+              <div className="text-4xl font-playfair font-bold">$0</div>
+              <ul className="text-sm space-y-4 text-[#bcc8ce]"><li>Public Profile</li><li>Venue Direct Contact</li><li>3 AI Generations / Month</li></ul>
+              <a href={`/${locale}/apply`} className="w-full py-3 rounded-lg border border-[#3d494e] hover:bg-white/5 transition-all mt-auto font-bold text-center block">Get Started</a>
+            </div>
+            <div className="p-8 bg-[#131313] border-2 border-[#4fd6ff] rounded-xl flex flex-col items-center text-center space-y-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-[#4fd6ff] text-[#003543] px-4 py-1 text-[10px] font-bold uppercase tracking-widest transform rotate-45 translate-x-10 translate-y-4">Popular</div>
+              <p className="font-black uppercase tracking-widest text-xs text-[#4fd6ff]">Credits</p>
+              <div className="text-4xl font-playfair font-bold">$5 - $60</div>
+              <ul className="text-sm space-y-4 text-[#bcc8ce]"><li>Pay as you go</li><li>Bulk AI Credits</li><li>Priority Discoverability</li></ul>
+              <a href={`/${locale}/ai-tools`} className="w-full py-3 rounded-lg bg-[#4fd6ff] text-[#003543] transition-all mt-auto font-bold text-center block">Buy Credits</a>
+            </div>
+            <div className="p-8 bg-[#2a2a2a] rounded-xl flex flex-col items-center text-center space-y-6">
+              <p className="font-black uppercase tracking-widest text-xs opacity-50">Premium</p>
+              <div className="text-4xl font-playfair font-bold">$9.99<span className="text-sm">/mo</span></div>
+              <ul className="text-sm space-y-4 text-[#bcc8ce]"><li>Unlimited AI Tools</li><li>Verified Badge</li><li>Advanced Analytics</li></ul>
+              <a href="#contact" className="w-full py-3 rounded-lg border border-[#3d494e] hover:bg-white/5 transition-all mt-auto font-bold text-center block">Go Premium</a>
+            </div>
+          </div>
+        </section>
+
+        {/* FINAL CTA — from Stitch */}
+        <section className="py-32 px-12 relative overflow-hidden text-center">
+          <div className="max-w-4xl mx-auto space-y-10 relative z-10">
+            <h2 className="text-5xl md:text-6xl font-playfair font-bold tracking-tighter">Join 28 artists and 6 venues already on BrightEars.</h2>
+            <div className="flex flex-wrap justify-center gap-6">
+              <a href={`/${locale}/apply`} className="bg-[#4fd6ff] text-[#003543] px-12 py-5 font-bold rounded-lg shadow-xl">Join as Artist</a>
+              <a href={`/${locale}/entertainment`} className="glass-card text-[#f0bba5] px-12 py-5 font-bold rounded-lg">Join as Venue</a>
+            </div>
+          </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#4fd6ff]/10 blur-[120px] -z-10 rounded-full" />
+        </section>
+
+        {/* CONTACT — from Stitch + existing components */}
+        <section id="contact" className="py-32 px-12 bg-[#131313] scroll-mt-20">
+          <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
+            <div className="space-y-10">
+              <h2 className="text-5xl font-playfair font-bold tracking-tighter">{t('landing.contact.title')}</h2>
+              <p className="text-lg text-[#bcc8ce] max-w-md leading-relaxed">
+                Whether you&apos;re looking for the next star or looking for your next stage, we&apos;re here to help.
+              </p>
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <span className="material-symbols-outlined text-[#4fd6ff]">mail</span>
+                  <span className="font-bold">info@brightears.io</span>
                 </div>
-                <div className="flex items-start gap-6">
-                  <div className="w-12 h-12 bg-[#2a2a2a] rounded-full flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[#4fd6ff]">location_on</span>
-                  </div>
-                  <div>
-                    <div className="text-sm text-[#bcc8ce]">Our Offices</div>
-                    <div className="text-xl font-medium">Bangkok, Phuket, Koh Samui, Pattaya</div>
-                  </div>
+                <div className="flex items-center gap-4">
+                  <span className="material-symbols-outlined text-[#4fd6ff]">location_on</span>
+                  <span className="font-bold">Bangkok | Phuket | Koh Samui | Pattaya</span>
                 </div>
               </div>
-
-              {/* LINE Contact */}
               <div className="mt-10">
-                <p className="text-[#bcc8ce] mb-4">
-                  {t('landing.contact.linePrompt')}
-                </p>
-                <LineContactButton
-                  variant="primary"
-                  message={t('landing.contact.lineMessage')}
-                  className="px-8 py-4 rounded-lg shadow-xl hover:shadow-2xl"
-                />
+                <p className="text-[#bcc8ce] mb-4">{t('landing.contact.linePrompt')}</p>
+                <LineContactButton variant="primary" message={t('landing.contact.lineMessage')} className="px-8 py-4 rounded-lg shadow-xl hover:shadow-2xl" />
               </div>
             </div>
-
-            <div className="glass-card p-10 rounded-3xl">
+            <div className="glass-card p-10 rounded-2xl">
               <VenueInquiryForm darkMode />
             </div>
           </div>
         </section>
 
-        {/* FOOTER */}
-        <footer className="bg-[#1c1b1b] w-full pt-20 pb-10">
-          <div className="grid grid-cols-4 gap-12 px-12 max-w-[1440px] mx-auto mb-20">
-            <div className="col-span-4 md:col-span-1">
-              <span className="text-xl font-playfair font-bold text-[#e5e2e1] mb-4 block">BrightEars</span>
-              <p className="text-[#bcc8ce] text-sm leading-relaxed">Defining the next generation of hospitality through sonic curation and operational excellence.</p>
+        {/* FOOTER — from Stitch */}
+        <footer className="bg-[#131313] w-full py-20 px-12">
+          <div className="grid grid-cols-4 gap-8 max-w-[1440px] mx-auto text-sm tracking-wide">
+            <div className="col-span-4 md:col-span-2">
+              <p className="text-[#e5e2e1] font-bold text-2xl font-playfair mb-6">BrightEars</p>
+              <p className="text-[#e5e2e1]/40 max-w-sm mb-12">The entertainment creative platform. Free tools for artists. Free discovery for venues. Powered by AI.</p>
+              <p className="text-[#e5e2e1]/40">&copy; 2026 BrightEars.</p>
             </div>
-            <div className="col-span-2 md:col-span-1">
-              <h4 className="font-playfair text-xl text-[#e5e2e1] mb-6">Platform</h4>
-              <ul className="space-y-4">
-                <li><a className="text-[#e5e2e1]/60 hover:text-[#4fd6ff] transition-colors text-sm" href="#platform">Entertainment</a></li>
-                <li><a className="text-[#e5e2e1]/60 hover:text-[#4fd6ff] transition-colors text-sm" href="#platform">For Venues</a></li>
-                <li><a className="text-[#e5e2e1]/60 hover:text-[#4fd6ff] transition-colors text-sm" href="#contact">Pricing</a></li>
-              </ul>
+            <div className="col-span-2 md:col-span-1 space-y-4">
+              <p className="font-bold text-[#e5e2e1] uppercase tracking-widest text-xs mb-4">Platform</p>
+              <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href={`/${locale}/entertainment`}>Artists</a>
+              <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href={`/${locale}/ai-tools`}>AI Tools</a>
+              <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href="#pricing">Pricing</a>
             </div>
-            <div className="col-span-2 md:col-span-1">
-              <h4 className="font-playfair text-xl text-[#e5e2e1] mb-6">Company</h4>
-              <ul className="space-y-4">
-                <li><a className="text-[#e5e2e1]/60 hover:text-[#4fd6ff] transition-colors text-sm" href="#about">About</a></li>
-                <li><a className="text-[#e5e2e1]/60 hover:text-[#4fd6ff] transition-colors text-sm" href="#contact">Contact</a></li>
-              </ul>
-            </div>
-            <div className="col-span-4 md:col-span-1">
-              <h4 className="font-playfair text-xl text-[#e5e2e1] mb-6">Legal</h4>
-              <ul className="space-y-4">
-                <li><a className="text-[#e5e2e1]/60 hover:text-[#4fd6ff] transition-colors text-sm" href="#">Privacy</a></li>
-                <li><a className="text-[#e5e2e1]/60 hover:text-[#4fd6ff] transition-colors text-sm" href="#">Terms</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="px-12 max-w-[1440px] mx-auto border-t border-[#3d494e]/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="text-[#e5e2e1]/60 text-sm">&copy; 2024 BrightEars. All rights reserved. Built for the modern venue.</div>
-            <div className="flex gap-6">
-              <a className="text-[#e5e2e1]/60 hover:text-[#4fd6ff]" href="#"><span className="material-symbols-outlined text-lg">public</span></a>
-              <a className="text-[#e5e2e1]/60 hover:text-[#4fd6ff]" href="#"><span className="material-symbols-outlined text-lg">share</span></a>
+            <div className="col-span-2 md:col-span-1 space-y-4">
+              <p className="font-bold text-[#e5e2e1] uppercase tracking-widest text-xs mb-4">Company</p>
+              <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href="#about">About</a>
+              <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href="#contact">Contact</a>
+              <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href={`/${locale}/apply`}>Join as Artist</a>
             </div>
           </div>
         </footer>
