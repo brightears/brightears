@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
-import Image from 'next/image';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { useUser } from '@clerk/nextjs';
 
 type ContentType = 'INSTAGRAM_POST' | 'EVENT_POSTER' | 'INSTAGRAM_STORY' | 'EPK_HEADER' | 'SOCIAL_BANNER';
 
@@ -28,6 +28,7 @@ const CONTENT_TYPES: { value: ContentType; label: string; icon: string; dimensio
 ];
 
 export default function AIStudioContent() {
+  const { user, isLoaded } = useUser();
   const [selectedType, setSelectedType] = useState<ContentType>('INSTAGRAM_POST');
   const [artistName, setArtistName] = useState('');
   const [venueName, setVenueName] = useState('');
@@ -42,6 +43,43 @@ export default function AIStudioContent() {
   const [error, setError] = useState<string | null>(null);
   const [captionEdited, setCaptionEdited] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Fetch initial credit balance
+  useEffect(() => {
+    if (isLoaded && user) {
+      fetch('/api/ai/generate-content')
+        .then(res => res.json())
+        .then(data => {
+          if (data.credits) {
+            setUsage({
+              balance: data.credits.balance,
+              freeUsed: data.credits.freeMonthlyUsed,
+              freeLimit: data.credits.freeMonthlyLimit,
+            });
+          }
+        })
+        .catch(() => {});
+    }
+  }, [isLoaded, user]);
+
+  // Show sign-in prompt if not authenticated
+  if (isLoaded && !user) {
+    return (
+      <div className="min-h-screen bg-[#131313] text-[#e5e2e1] flex items-center justify-center">
+        <div className="text-center max-w-md space-y-6">
+          <span className="material-symbols-outlined text-[#4fd6ff] text-6xl">auto_awesome</span>
+          <h1 className="text-3xl font-playfair font-bold">AI Studio</h1>
+          <p className="text-[#bcc8ce]">Sign in to generate professional promotional content with AI. Free to start — 3 generations per month.</p>
+          <a
+            href="/sign-in?redirect_url=/en/ai-tools"
+            className="inline-block bg-gradient-to-r from-[#4fd6ff] to-[#00bbe4] text-[#003543] px-8 py-4 font-bold rounded-lg hover:brightness-110 transition-all"
+          >
+            Sign In to Get Started
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   const handleImageUpload = useCallback((file: File) => {
     if (file.size > 10 * 1024 * 1024) {
