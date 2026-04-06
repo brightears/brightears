@@ -54,7 +54,7 @@ export async function generateContentImage(input: GenerateContentInput): Promise
   });
 
   const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash-exp',
+    model: 'gemini-2.5-flash-image',
     generationConfig: {
       // @ts-expect-error -- responseModalities is supported but not yet in types
       responseModalities: ['TEXT', 'IMAGE'],
@@ -126,7 +126,7 @@ export async function generateCaptionOnly(input: {
   }
 
   const model = genAI.getGenerativeModel({
-    model: 'gemini-1.5-flash',
+    model: 'gemini-2.5-flash',
     generationConfig: {
       temperature: 0.8,
       maxOutputTokens: 300,
