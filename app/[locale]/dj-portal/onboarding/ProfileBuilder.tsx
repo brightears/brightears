@@ -15,10 +15,15 @@ const GENRE_OPTIONS = [
 
 const CATEGORY_OPTIONS = [
   { value: 'DJ', label: 'DJ' },
-  { value: 'MUSICIAN', label: 'Musician' },
   { value: 'BAND', label: 'Band' },
-  { value: 'VOCALIST', label: 'Vocalist' },
-  { value: 'OTHER', label: 'Other Performer' },
+  { value: 'SINGER', label: 'Singer / Vocalist' },
+  { value: 'MUSICIAN', label: 'Musician' },
+  { value: 'MC', label: 'MC / Host' },
+  { value: 'COMEDIAN', label: 'Comedian' },
+  { value: 'MAGICIAN', label: 'Magician' },
+  { value: 'DANCER', label: 'Dancer' },
+  { value: 'PHOTOGRAPHER', label: 'Photographer' },
+  { value: 'SPEAKER', label: 'Speaker' },
 ];
 
 type Step = 'basics' | 'genres' | 'bio' | 'photo' | 'links' | 'review';

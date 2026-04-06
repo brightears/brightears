@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
 
 const updateSchema = z.object({
   stageName: z.string().min(1).max(100).optional(),
-  category: z.enum(['DJ', 'MUSICIAN', 'BAND', 'VOCALIST', 'OTHER']).optional(),
+  category: z.enum(['DJ', 'BAND', 'SINGER', 'MUSICIAN', 'MC', 'COMEDIAN', 'MAGICIAN', 'DANCER', 'PHOTOGRAPHER', 'SPEAKER']).optional(),
   baseCity: z.string().max(100).optional(),
   bio: z.string().max(2000).optional(),
   bioTh: z.string().max(2000).optional(),
