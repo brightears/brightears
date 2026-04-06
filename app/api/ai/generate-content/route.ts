@@ -4,6 +4,12 @@ import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { generateContentImage } from '@/lib/api/gemini-image-client';
 
+// Allow longer execution for image generation (Gemini takes 8-30s)
+export const maxDuration = 60;
+
+// Increase body size limit for base64 image payloads
+export const runtime = 'nodejs';
+
 // Monthly generation limit for free tier
 const FREE_MONTHLY_LIMIT = 3;
 // Max request body size consideration — base64 images can be large

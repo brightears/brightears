@@ -87,16 +87,29 @@ export default function AIStudioContent() {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const dataUrl = e.target?.result as string;
-      // Extract base64 and mime type
-      const [header, base64] = dataUrl.split(',');
-      const mimeMatch = header.match(/data:(.*?);/);
+    // Resize image client-side to max 1024px and compress as JPEG
+    // This keeps the API payload under 1MB
+    const img = new window.Image();
+    img.onload = () => {
+      const MAX_SIZE = 1024;
+      let { width, height } = img;
+      if (width > MAX_SIZE || height > MAX_SIZE) {
+        const ratio = Math.min(MAX_SIZE / width, MAX_SIZE / height);
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.drawImage(img, 0, 0, width, height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      const base64 = dataUrl.split(',')[1];
       setUploadedImage(base64);
-      setUploadedMimeType(mimeMatch?.[1] || 'image/jpeg');
+      setUploadedMimeType('image/jpeg');
     };
-    reader.readAsDataURL(file);
+    img.src = URL.createObjectURL(file);
   }, []);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
