@@ -143,30 +143,37 @@ export default async function HomePage({
         {/* SECTION 2: SOCIAL PROOF */}
         <section className="bg-[#1c1b1b] py-24 relative z-20">
           <div className="max-w-[1440px] mx-auto px-12">
-            <div className="flex flex-wrap justify-between items-center gap-12 opacity-50 mb-20 grayscale transition-all">
-              <span className="text-2xl font-bold tracking-tighter text-[#e5e2e1] hover:grayscale-0 cursor-default transition-all">NOBU</span>
-              <span className="text-2xl font-bold tracking-tighter text-[#e5e2e1] hover:grayscale-0 cursor-default transition-all">LE DU KAAN</span>
-              <span className="text-2xl font-bold tracking-tighter text-[#e5e2e1] hover:grayscale-0 cursor-default transition-all">CRU</span>
-              <span className="text-2xl font-bold tracking-tighter text-[#e5e2e1] hover:grayscale-0 cursor-default transition-all">MARRIOTT</span>
-              <span className="text-2xl font-bold tracking-tighter text-[#e5e2e1] hover:grayscale-0 cursor-default transition-all">HILTON</span>
-              <span className="text-2xl font-bold tracking-tighter text-[#e5e2e1] hover:grayscale-0 cursor-default transition-all">CENTARA</span>
+            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all duration-700 mb-20">
+              {[
+                { name: 'Marriott', src: '/images/clients/marriott.svg', width: 96, height: 48 },
+                { name: 'Hilton', src: '/images/clients/hilton.png', width: 96, height: 48 },
+                { name: 'Centara', src: '/images/clients/centara.png', width: 120, height: 48 },
+                { name: 'Accor', src: '/images/clients/accor.png', width: 96, height: 48 },
+              ].map((client) => (
+                <div key={client.name} className="flex items-center justify-center h-16">
+                  <Image
+                    src={client.src}
+                    alt={client.name}
+                    width={client.width}
+                    height={client.height}
+                    className="h-12 w-auto opacity-50 hover:opacity-70 transition-all duration-300"
+                    style={{ filter: 'brightness(1.5)' }}
+                  />
+                </div>
+              ))}
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center md:text-left border-t border-[#3d494e]/10 pt-16">
+            <div className="grid grid-cols-3 gap-12 text-center border-t border-[#3d494e]/10 pt-16">
               <div>
-                <div className="text-5xl font-playfair font-bold text-[#4fd6ff] mb-2">6</div>
-                <div className="text-xs tracking-[0.3em] font-semibold text-[#bcc8ce] uppercase">Venues</div>
-              </div>
-              <div>
-                <div className="text-5xl font-playfair font-bold text-[#4fd6ff] mb-2">28</div>
-                <div className="text-xs tracking-[0.3em] font-semibold text-[#bcc8ce] uppercase">DJs</div>
+                <div className="text-5xl font-playfair font-bold text-[#4fd6ff] mb-2">20+</div>
+                <div className="text-xs tracking-[0.3em] font-semibold text-[#bcc8ce] uppercase">Years Experience</div>
               </div>
               <div>
                 <div className="text-5xl font-playfair font-bold text-[#4fd6ff] mb-2">1000+</div>
-                <div className="text-xs tracking-[0.3em] font-semibold text-[#bcc8ce] uppercase">Nights</div>
+                <div className="text-xs tracking-[0.3em] font-semibold text-[#bcc8ce] uppercase">Nights Managed</div>
               </div>
               <div>
                 <div className="text-5xl font-playfair font-bold text-[#4fd6ff] mb-2">4.9★</div>
-                <div className="text-xs tracking-[0.3em] font-semibold text-[#bcc8ce] uppercase">Rating</div>
+                <div className="text-xs tracking-[0.3em] font-semibold text-[#bcc8ce] uppercase">Avg Rating</div>
               </div>
             </div>
           </div>

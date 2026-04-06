@@ -32,13 +32,11 @@ const Header: React.FC = () => {
   ];
 
   const navItems = [
-    { label: t('services'), href: '/#services' },
-    { label: t('ourDJs'), href: '/entertainment' },
-    { label: t('events'), href: '/events' },
-    { label: t('about'), href: '/#about' },
-    { label: t('faq'), href: '/faq' },
-    { label: t('contact'), href: '/#contact' },
-    { label: t('applyAsDJ'), href: '/apply' },
+    { label: t('platform') || 'Platform', href: '/#platform' },
+    { label: t('ourDJs') || 'Entertainment', href: '/entertainment' },
+    { label: t('forVenues') || 'For Venues', href: '/events' },
+    { label: t('pricing') || 'Pricing', href: '/#contact' },
+    { label: t('about') || 'About', href: '/#about' },
   ];
 
   useEffect(() => {
@@ -161,12 +159,12 @@ const Header: React.FC = () => {
               </div>
             ) : isLoaded && (
               <div className="hidden sm:flex items-center gap-3">
-                <Link
-                  href="/sign-in"
-                  className="px-6 py-2 bg-[#0088a8] text-white font-bold rounded-lg hover:scale-95 transition-all duration-200"
+                <a
+                  href="#contact"
+                  className="px-6 py-2 bg-gradient-to-r from-[#4fd6ff] to-[#00bbe4] text-[#003543] font-bold rounded-lg hover:scale-95 transition-all duration-200"
                 >
-                  {t('signIn')}
-                </Link>
+                  Book a Demo
+                </a>
               </div>
             )}
 
