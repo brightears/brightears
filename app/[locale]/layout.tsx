@@ -113,6 +113,12 @@ export default async function LocaleLayout({
       className={`${inter.variable} ${playfairDisplay.variable} ${notoSansThai.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className={`${locale === 'th' ? 'font-noto-thai' : 'font-inter'} antialiased bg-[#131313] text-[#e5e2e1]`}>
         <ClerkProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
