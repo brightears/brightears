@@ -53,18 +53,21 @@ export default async function EntertainmentPage({
 
   const artists = await prisma.artist.findMany({
     where: {
-      category: 'DJ',
       user: { isActive: true },
     },
     select: {
       id: true,
       stageName: true,
+      category: true,
       profileImage: true,
       bio: true,
       bioTh: true,
       genres: true,
       instagram: true,
+      contactEmail: true,
+      lineId: true,
       averageRating: true,
+      baseCity: true,
       venueAssignments: {
         select: {
           venue: {
@@ -87,11 +90,15 @@ export default async function EntertainmentPage({
   const djs = artists.map((artist) => ({
     id: artist.id,
     stageName: artist.stageName,
+    category: artist.category,
     profileImage: artist.profileImage,
     bio: locale === 'th' && artist.bioTh ? artist.bioTh : artist.bio,
     genres: artist.genres,
     instagram: artist.instagram,
+    contactEmail: artist.contactEmail,
+    lineId: artist.lineId,
     averageRating: artist.averageRating,
+    baseCity: artist.baseCity,
     venues: [...new Set(artist.venueAssignments.map((va) => va.venue.name))],
   }));
 

@@ -117,6 +117,39 @@ export default function ProfileBuilder() {
     setError(null);
 
     try {
+      let profileImageUrl: string | undefined;
+
+      // Upload photo to Cloudinary if provided
+      if (profileImageBase64) {
+        try {
+          // First get artist ID
+          const profileRes = await fetch('/api/dj-portal/profile');
+          const profileData = await profileRes.json();
+          const artistId = profileData.artist?.id;
+
+          if (artistId) {
+            // Convert base64 data URL to File
+            const res64 = await fetch(profileImageBase64);
+            const blob = await res64.blob();
+            const file = new File([blob], 'profile.jpg', { type: 'image/jpeg' });
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('type', 'profile');
+            formData.append('artistId', artistId);
+
+            const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData });
+            if (uploadRes.ok) {
+              const uploadData = await uploadRes.json();
+              profileImageUrl = uploadData.url;
+            }
+          }
+        } catch {
+          // Photo upload failed — continue without it
+          console.warn('Photo upload failed, continuing without');
+        }
+      }
+
       // Update the artist profile
       const res = await fetch('/api/dj-portal/profile', {
         method: 'PATCH',
@@ -135,7 +168,7 @@ export default function ProfileBuilder() {
           website,
           contactEmail,
           lineId,
-          // profileImage will be handled separately if we add Cloudinary upload
+          ...(profileImageUrl && { profileImage: profileImageUrl }),
         }),
       });
 

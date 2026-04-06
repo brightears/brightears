@@ -69,15 +69,22 @@ export async function GET(req: NextRequest) {
 }
 
 const updateSchema = z.object({
+  stageName: z.string().min(1).max(100).optional(),
+  category: z.enum(['DJ', 'MUSICIAN', 'BAND', 'VOCALIST', 'OTHER']).optional(),
+  baseCity: z.string().max(100).optional(),
   bio: z.string().max(2000).optional(),
   bioTh: z.string().max(2000).optional(),
   genres: z.array(z.string()).optional(),
+  contactEmail: z.string().email().or(z.literal('')).optional(),
+  lineId: z.string().max(100).optional(),
   website: z.string().url().or(z.literal('')).optional(),
   facebook: z.string().optional(),
   instagram: z.string().optional(),
   tiktok: z.string().optional(),
   youtube: z.string().optional(),
   spotify: z.string().optional(),
+  soundcloud: z.string().optional(),
+  profileImage: z.string().optional(), // Cloudinary URL or base64 data URL
 });
 
 /**
@@ -111,17 +118,24 @@ export async function PATCH(req: NextRequest) {
 
       const data = validationResult.data;
 
-      // Sanitize text fields
+      // Sanitize and map fields
       const updateData: any = {};
+      if (data.stageName !== undefined) updateData.stageName = sanitizeInput(data.stageName);
+      if (data.category !== undefined) updateData.category = data.category;
+      if (data.baseCity !== undefined) updateData.baseCity = sanitizeInput(data.baseCity);
       if (data.bio !== undefined) updateData.bio = sanitizeInput(data.bio);
       if (data.bioTh !== undefined) updateData.bioTh = sanitizeInput(data.bioTh);
       if (data.genres !== undefined) updateData.genres = data.genres;
+      if (data.contactEmail !== undefined) updateData.contactEmail = data.contactEmail || null;
+      if (data.lineId !== undefined) updateData.lineId = data.lineId || null;
       if (data.website !== undefined) updateData.website = data.website || null;
       if (data.facebook !== undefined) updateData.facebook = data.facebook || null;
       if (data.instagram !== undefined) updateData.instagram = data.instagram || null;
       if (data.tiktok !== undefined) updateData.tiktok = data.tiktok || null;
       if (data.youtube !== undefined) updateData.youtube = data.youtube || null;
       if (data.spotify !== undefined) updateData.spotify = data.spotify || null;
+      if (data.soundcloud !== undefined) updateData.soundcloud = data.soundcloud || null;
+      if (data.profileImage !== undefined) updateData.profileImage = data.profileImage || null;
 
       const updated = await prisma.artist.update({
         where: { id: artistId },
