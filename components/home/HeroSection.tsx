@@ -1,11 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 export default function HeroSection() {
-  const t = useTranslations();
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
 
   useEffect(() => {
@@ -35,9 +33,12 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#131313] via-[#131313]/80 to-transparent" />
       </div>
 
+      {/* Ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#4fd6ff]/5 rounded-full blur-[120px] z-[1]" />
+
       {/* Dynamic gradient with mouse tracking */}
       <div
-        className="absolute inset-0 z-[1] mix-blend-overlay"
+        className="absolute inset-0 z-[2] mix-blend-overlay"
         style={{
           background: `
             radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 187, 228, 0.3) 0%, transparent 50%),
@@ -47,44 +48,40 @@ export default function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <div className="space-y-8">
-          <span className="text-[#f1bca6] font-bold tracking-widest uppercase text-sm">
-            Elevated Sonic Curation
-          </span>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="lg:col-span-8 space-y-8">
+          {/* Badge */}
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-[#1c1b1b] border border-[#3d494e]/20">
+            <span className="text-[#f1bca6] text-xs font-semibold tracking-widest uppercase mr-3">Excellence</span>
+            <span className="text-[#e5e2e1]/60 text-xs">Trusted by Bangkok&apos;s most prestigious venues</span>
+          </div>
 
           <h1 className="text-5xl sm:text-6xl md:text-8xl font-playfair font-extrabold leading-[1.1] tracking-tighter text-neutral-100">
-            {t('landing.hero.headline')}{' '}
-            <span className="text-[#4fd6ff]">Every night.</span>
+            The Venue{' '}
+            <br className="hidden sm:block" />
+            <span className="text-[#4fd6ff] italic">Experience</span> Platform
           </h1>
 
-          <p className="text-[#bcc9ce] text-lg sm:text-xl max-w-lg leading-relaxed text-balance">
-            {t('landing.hero.subheadline1')}
-            <br />
-            {t('landing.hero.subheadline2')}
+          <p className="text-[#bcc9ce] text-lg sm:text-xl max-w-2xl leading-relaxed">
+            One platform to manage your venue&apos;s sound, sight, and story. Entertainment scheduling, AI-powered marketing, and partner services — all in one place.
           </p>
 
-          <div className="flex items-center gap-6 pt-4">
+          <div className="flex flex-wrap items-center gap-6 pt-4">
             <a
               href="#contact"
-              className="bg-[#0088a8] hover:bg-[#00a3c7] text-white px-8 py-4 font-bold rounded-lg shadow-cyan-glow-lg transition-all scale-100 hover:scale-105"
+              className="px-8 py-4 bg-gradient-to-r from-[#00bbe4] to-[#4fd6ff] text-[#003543] font-bold rounded-lg hover:scale-95 transition-transform shadow-[0px_20px_40px_rgba(0,187,228,0.08)]"
             >
-              {t('landing.hero.cta')}
+              Request a Demo
             </a>
             <a
-              href="#services"
-              className="flex items-center gap-2 text-[#e5e2e1] hover:text-[#4fd6ff] transition-colors font-semibold group"
+              href="#platform"
+              className="px-8 py-4 border border-[#869398]/20 text-[#e5e2e1] font-semibold rounded-lg hover:bg-[#2a2a2a] transition-all"
             >
-              Explore Services
-              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
+              Explore Platform
             </a>
           </div>
         </div>
       </div>
-
-      {/* Equalizer removed — cleaner without it */}
     </section>
   );
 }
