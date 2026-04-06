@@ -1383,3 +1383,114 @@ model DJMusicDesignInquiry {
   @@index([status])
   @@index([serviceType])
 }
+
+// ============================================
+// AI CONTENT GENERATION (BrightEars Platform)
+// ============================================
+
+enum AIContentType {
+  INSTAGRAM_POST
+  EVENT_POSTER
+  INSTAGRAM_STORY
+  EPK_HEADER
+  SOCIAL_BANNER
+}
+
+enum AIGenerationStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model AIGeneration {
+  id                 String              @id @default(uuid())
+
+  // Who generated it
+  userId             String
+  artistId           String?
+
+  // Input parameters
+  contentType        AIContentType
+  artistName         String?
+  venueName          String?
+  eventDate          DateTime?
+  genre              String?
+  customPrompt       String?             @db.Text
+  sourceImageUrl     String?
+
+  // Output
+  generatedImageUrl  String?
+  caption            String?             @db.Text
+  hashtags           String[]
+
+  // Metadata
+  status             AIGenerationStatus  @default(PENDING)
+  errorMessage       String?
+  modelUsed          String              @default("gemini-2.0-flash-exp")
+  processingTimeMs   Int?
+
+  createdAt          DateTime            @default(now())
+
+  @@index([userId])
+  @@index([artistId])
+  @@index([createdAt])
+}
+
+// Credit system for AI generations
+model CreditAccount {
+  id                    String              @id @default(uuid())
+  userId                String              @unique
+  balance               Int                 @default(3) // Start with 3 free credits
+  totalPurchased        Int                 @default(0)
+  totalUsed             Int                 @default(0)
+  totalEarnedReferrals  Int                 @default(0)
+  freeMonthlyUsed       Int                 @default(0) // Track free monthly usage
+  freeMonthlyResetAt    DateTime            @default(now())
+
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  transactions          CreditTransaction[]
+
+  @@index([userId])
+}
+
+enum CreditTransactionType {
+  PURCHASE
+  USAGE
+  REFERRAL_EARNED
+  REFERRAL_BONUS
+  FREE_MONTHLY
+  ADMIN_GRANT
+}
+
+model CreditTransaction {
+  id                 String                  @id @default(uuid())
+  accountId          String
+  account            CreditAccount           @relation(fields: [accountId], references: [id])
+  type               CreditTransactionType
+  amount             Int                     // Positive = credit added, negative = credit used
+  description        String?
+  relatedGenerationId String?               // Links to AIGeneration if type is USAGE
+
+  createdAt          DateTime                @default(now())
+
+  @@index([accountId])
+  @@index([createdAt])
+}
+
+// Referral system
+model Referral {
+  id                 String    @id @default(uuid())
+  referrerUserId     String
+  referredUserId     String?   // Null until someone signs up
+  code               String    @unique
+  status             String    @default("pending") // pending, signed_up, first_purchase, credited
+  creditsEarned      Int       @default(0)
+
+  createdAt          DateTime  @default(now())
+  creditedAt         DateTime?
+
+  @@index([referrerUserId])
+  @@index([code])
+}
