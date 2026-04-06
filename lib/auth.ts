@@ -90,14 +90,68 @@ export async function getCurrentUser(): Promise<ExtendedUser | null> {
       }
     }
 
-    // Fallback: Check Clerk publicMetadata for role (for users not yet in DB)
+    // Auto-provision: If user exists in Clerk but not in DB, create them
+    // This handles new sign-ups before the Clerk webhook fires
+    if (email) {
+      try {
+        const stageName = clerkUser.firstName
+          ? `${clerkUser.firstName}${clerkUser.lastName ? ' ' + clerkUser.lastName : ''}`
+          : email.split('@')[0]
+
+        const newUser = await prisma.user.create({
+          data: {
+            id: userId,
+            email,
+            name: stageName,
+            role: 'ARTIST',
+            isActive: true,
+            artist: {
+              create: {
+                stageName,
+                category: 'DJ',
+                baseCity: 'Bangkok',
+                languages: ['en'],
+                genres: [],
+                images: [],
+                videos: [],
+                audioSamples: [],
+                serviceAreas: [],
+                contactEmail: email,
+              },
+            },
+          },
+          include: {
+            artist: true,
+          },
+        })
+
+        // Create credit account
+        await prisma.creditAccount.create({
+          data: { userId: newUser.id, balance: 3 },
+        }).catch(() => {}) // Ignore if already exists
+
+        return {
+          id: newUser.id,
+          email: newUser.email,
+          role: newUser.role as UserRole,
+          artist: newUser.artist ? {
+            id: newUser.artist.id,
+            stageName: newUser.artist.stageName,
+          } : undefined,
+        }
+      } catch (provisionError) {
+        // If provisioning fails (e.g., unique constraint), fall through
+        console.warn('Auto-provision failed:', provisionError)
+      }
+    }
+
+    // Final fallback: Check Clerk publicMetadata for role
     const metadataRole = clerkUser.publicMetadata?.role as string | undefined
     if (metadataRole && ['ADMIN', 'CORPORATE', 'ARTIST', 'CUSTOMER'].includes(metadataRole)) {
       return {
         id: clerkUser.id,
         email: clerkUser.emailAddresses[0]?.emailAddress,
         role: metadataRole as UserRole,
-        // No artist/customer/corporate profiles from metadata-only users
       }
     }
 
