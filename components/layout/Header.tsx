@@ -32,11 +32,11 @@ const Header: React.FC = () => {
   ];
 
   const navItems = [
-    { label: t('platform') || 'Platform', href: '/#platform' },
-    { label: t('ourDJs') || 'Entertainment', href: '/entertainment' },
-    { label: t('forVenues') || 'For Venues', href: '/events' },
-    { label: t('pricing') || 'Pricing', href: '/#contact' },
-    { label: t('about') || 'About', href: '/#about' },
+    { label: t('platform'), href: '/#platform' },
+    { label: t('ourDJs'), href: '/entertainment' },
+    { label: t('forVenues'), href: '/events' },
+    { label: t('pricing'), href: '/#contact' },
+    { label: t('about'), href: '/#about' },
   ];
 
   useEffect(() => {

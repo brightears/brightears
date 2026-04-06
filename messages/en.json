@@ -33,8 +33,11 @@
     "findEntertainment": "Find Entertainment",
     "dashboard": "Dashboard",
     "applyAsDJ": "Apply as an Artist",
-    "ourDJs": "Our DJs",
-    "events": "Events"
+    "ourDJs": "Entertainment",
+    "events": "Events",
+    "platform": "Platform",
+    "forVenues": "For Venues",
+    "pricing": "Pricing"
   },
   "payment": {
     "verification": {
