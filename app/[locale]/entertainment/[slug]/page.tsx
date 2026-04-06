@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { prisma } from '@/lib/prisma';
 import { Link } from '@/components/navigation';
 
+export const dynamic = 'force-dynamic';
+
 // Star rating component
 function StarRating({ rating, size = 'md' }: { rating: number; size?: 'sm' | 'md' }) {
   const sizeClass = size === 'sm' ? 'w-4 h-4' : 'w-5 h-5';

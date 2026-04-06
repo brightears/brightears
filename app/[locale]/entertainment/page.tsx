@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
 import DJGallery from '@/components/entertainment/DJGallery';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params
 }: {

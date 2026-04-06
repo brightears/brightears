@@ -2,6 +2,8 @@ import { getCurrentUser } from '@/lib/auth';
 import { PrismaClient } from '@prisma/client';
 import DJDashboardContent from './DJDashboardContent';
 
+export const dynamic = 'force-dynamic';
+
 const prisma = new PrismaClient();
 
 async function getDashboardData(artistId: string) {

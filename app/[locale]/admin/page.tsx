@@ -1,6 +1,8 @@
 import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import ScheduleCalendar from '@/components/admin/ScheduleCalendar';
+
+export const dynamic = 'force-dynamic';
 import LineActions from '@/components/admin/LineActions';
 import LineGroupLinks from '@/components/admin/LineGroupLinks';
 import LineLinkedAccounts from '@/components/admin/LineLinkedAccounts';

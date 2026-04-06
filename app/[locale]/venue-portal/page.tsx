@@ -2,6 +2,8 @@ import { getCurrentUser } from '@/lib/auth';
 import { PrismaClient } from '@prisma/client';
 import DashboardContent from './DashboardContent';
 
+export const dynamic = 'force-dynamic';
+
 const prisma = new PrismaClient();
 
 // Helper: Check if a shift has ended (date + endTime < now in Bangkok time)
