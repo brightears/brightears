@@ -13,11 +13,11 @@ export async function generateMetadata({
 
   const title = locale === 'th'
     ? '\u0E14\u0E35\u0E40\u0E08\u0E41\u0E25\u0E30\u0E28\u0E34\u0E25\u0E1B\u0E34\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32 | Bright Ears'
-    : 'Our DJs & Entertainment | Bright Ears';
+    : 'Browse Artists & Entertainment | Bright Ears';
 
   const description = locale === 'th'
-    ? '\u0E1E\u0E1A\u0E01\u0E31\u0E1A\u0E14\u0E35\u0E40\u0E08\u0E21\u0E37\u0E2D\u0E2D\u0E32\u0E0A\u0E35\u0E1E\u0E02\u0E2D\u0E07 Bright Ears \u0E17\u0E35\u0E48\u0E43\u0E2B\u0E49\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23\u0E43\u0E19\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E0A\u0E31\u0E49\u0E19\u0E19\u0E33\u0E02\u0E2D\u0E07\u0E01\u0E23\u0E38\u0E07\u0E40\u0E17\u0E1E \u0E08\u0E32\u0E01\u0E40\u0E25\u0E32\u0E19\u0E08\u0E4C\u0E2A\u0E38\u0E14\u0E2B\u0E23\u0E39\u0E44\u0E1B\u0E08\u0E19\u0E16\u0E36\u0E07\u0E23\u0E39\u0E1F\u0E17\u0E47\u0E2D\u0E1B\u0E1A\u0E32\u0E23\u0E4C'
-    : 'Meet the professional DJs of Bright Ears, performing at Bangkok\'s finest venues. From luxury lounges to rooftop bars, find the right sound for your venue.';
+    ? 'ค้นหาดีเจ นักดนตรี วงดนตรี และนักแสดงมืออาชีพสำหรับสถานที่และงานอีเวนต์ในประเทศไทย'
+    : 'Discover professional DJs, musicians, bands, and performers for your venue or event in Thailand. Browse profiles, listen to sets, and book directly.';
 
   return {
     title,
@@ -114,15 +114,15 @@ export default async function EntertainmentPage({
 
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <span className="text-[#f1bca6] font-bold tracking-widest uppercase text-sm mb-4 block">
-            {locale === 'th' ? '\u0E17\u0E35\u0E21\u0E28\u0E34\u0E25\u0E1B\u0E34\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32' : 'Our Artist Roster'}
+            {locale === 'th' ? 'ค้นหาศิลปิน' : 'Find Entertainment'}
           </span>
           <h1 className="font-playfair text-4xl sm:text-5xl md:text-7xl font-bold text-neutral-100 mb-6 tracking-tighter">
-            {locale === 'th' ? '\u0E14\u0E35\u0E40\u0E08\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32' : 'Our DJs'}
+            {locale === 'th' ? 'ศิลปินทั้งหมด' : 'Browse Artists'}
           </h1>
           <p className="font-inter text-lg sm:text-xl text-[#bcc9ce] max-w-2xl mx-auto text-balance">
             {locale === 'th'
-              ? '\u0E14\u0E35\u0E40\u0E08\u0E21\u0E37\u0E2D\u0E2D\u0E32\u0E0A\u0E35\u0E1E\u0E17\u0E35\u0E48\u0E04\u0E31\u0E14\u0E2A\u0E23\u0E23\u0E21\u0E32\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E1A\u0E23\u0E23\u0E22\u0E32\u0E01\u0E32\u0E28\u0E43\u0E2B\u0E49\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E0A\u0E31\u0E49\u0E19\u0E19\u0E33\u0E02\u0E2D\u0E07\u0E01\u0E23\u0E38\u0E07\u0E40\u0E17\u0E1E'
-              : 'Handpicked professional DJs for Bangkok\'s most prestigious venues.'}
+              ? 'ค้นหาดีเจ นักดนตรี วงดนตรี และศิลปินมืออาชีพสำหรับสถานที่ของคุณ'
+              : 'Discover DJs, musicians, bands, and performers for your venue or event.'}
           </p>
         </div>
       </section>
@@ -141,7 +141,7 @@ export default async function EntertainmentPage({
           <h2 className="font-playfair text-4xl sm:text-5xl font-bold text-neutral-100 mb-4 tracking-tighter italic">
             {locale === 'th'
               ? '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E21\u0E2D\u0E07\u0E2B\u0E32\u0E14\u0E35\u0E40\u0E08\u0E17\u0E35\u0E48\u0E43\u0E0A\u0E48\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13?'
-              : 'Looking for the right DJ for your venue?'}
+              : 'Looking for the right entertainment for your venue?'}
           </h2>
           <p className="font-inter text-lg text-neutral-400 mb-8 text-balance">
             {locale === 'th'

@@ -122,7 +122,7 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
         </div>
 
         <p className="text-center mt-4 font-inter text-sm text-[#bcc9ce]/50">
-          {filteredDJs.length} {locale === 'th' ? '\u0E14\u0E35\u0E40\u0E08' : filteredDJs.length === 1 ? 'DJ' : 'DJs'}
+          {filteredDJs.length} {locale === 'th' ? 'ศิลปิน' : filteredDJs.length === 1 ? 'Artist' : 'Artists'}
         </p>
       </div>
 
@@ -143,7 +143,7 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
           <p className="font-inter text-lg text-[#bcc9ce]/50">
             {locale === 'th'
               ? '\u0E44\u0E21\u0E48\u0E1E\u0E1A\u0E14\u0E35\u0E40\u0E08\u0E43\u0E19\u0E41\u0E19\u0E27\u0E40\u0E1E\u0E25\u0E07\u0E19\u0E35\u0E49'
-              : 'No DJs found for this genre.'}
+              : 'No artists found for this filter.'}
           </p>
         </div>
       )}
