@@ -55,8 +55,8 @@ export async function POST(req: NextRequest) {
         userId: user.id,
         artistId: data.artistId,
         eventType: 'VENUE_BOOKING_REQUEST',
-        message: data.message || `${data.venueName || 'A venue'} is interested in booking ${data.artistName}.`,
-        status: 'PENDING',
+        location: data.venueName || venue?.name || null,
+        inquiryMethod: 'PLATFORM',
         eventDate: data.eventDate ? new Date(data.eventDate) : null,
       },
     });
