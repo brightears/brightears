@@ -1,15 +1,15 @@
 import { SignUp } from "@clerk/nextjs";
 
-export default function SignUpPage() {
+export default function VenueSignUpPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#131313] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-playfair font-bold text-white">
-            Join BrightEars
+            Register Your Venue
           </h1>
           <p className="mt-2 text-[#bcc8ce]">
-            Free to join. Create your profile and start generating AI promo content.
+            List your venue and discover entertainment — free.
           </p>
         </div>
 
@@ -25,7 +25,7 @@ export default function SignUpPage() {
               footerActionLink: "text-[#4fd6ff] hover:text-[#00bbe4]",
             },
           }}
-          forceRedirectUrl="/dj-portal/onboarding"
+          forceRedirectUrl="/venue-onboarding"
         />
 
         <div className="mt-6 text-center space-y-2">
@@ -36,9 +36,9 @@ export default function SignUpPage() {
             </a>
           </p>
           <p className="text-sm text-[#bcc8ce]">
-            Are you a venue?{" "}
-            <a href="/sign-up/venue" className="text-[#4fd6ff] hover:text-[#00bbe4]">
-              Register your venue
+            Are you an artist?{" "}
+            <a href="/sign-up" className="text-[#4fd6ff] hover:text-[#00bbe4]">
+              Join as an artist
             </a>
           </p>
         </div>

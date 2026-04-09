@@ -10,6 +10,7 @@ import {
   UserGroupIcon,
   ChatBubbleLeftRightIcon,
   ChartBarIcon,
+  MagnifyingGlassIcon,
   ArrowLeftOnRectangleIcon,
   Bars3Icon,
   XMarkIcon,
@@ -27,6 +28,7 @@ const navItems: NavItem[] = [
   { name: 'Dashboard', href: '/venue-portal', icon: HomeIcon },
   { name: 'Schedule', href: '/venue-portal/schedule', icon: CalendarIcon },
   { name: 'DJs', href: '/venue-portal/djs', icon: UserGroupIcon },
+  { name: 'Find Artists', href: '/venue-portal/artists', icon: MagnifyingGlassIcon },
   { name: 'Feedback', href: '/venue-portal/feedback', icon: ChatBubbleLeftRightIcon },
   { name: 'Statistics', href: '/venue-portal/stats', icon: ChartBarIcon },
 ];
