@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   UserCircleIcon,
   PencilIcon,
@@ -8,6 +8,7 @@ import {
   XMarkIcon,
   GlobeAltIcon,
   MusicalNoteIcon,
+  CameraIcon,
 } from '@heroicons/react/24/outline';
 import DJAvatar from '@/components/venue-portal/DJAvatar';
 
@@ -62,6 +63,62 @@ export default function DJProfileContent({ artist, locale }: Props) {
   const [tiktok, setTiktok] = useState(artist.tiktok || '');
   const [youtube, setYoutube] = useState(artist.youtube || '');
   const [spotify, setSpotify] = useState(artist.spotify || '');
+  const [profileImage, setProfileImage] = useState(artist.profileImage);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingPhoto(true);
+    setError(null);
+
+    try {
+      // Resize image client-side
+      const resized = await new Promise<Blob>((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxSize = 1024;
+          let { width, height } = img;
+          if (width > maxSize || height > maxSize) {
+            if (width > height) {
+              height = (height / width) * maxSize;
+              width = maxSize;
+            } else {
+              width = (width / height) * maxSize;
+              height = maxSize;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext('2d')!.drawImage(img, 0, 0, width, height);
+          canvas.toBlob((blob) => resolve(blob!), 'image/jpeg', 0.85);
+        };
+        img.src = URL.createObjectURL(file);
+      });
+
+      const resizedFile = new File([resized], 'profile.jpg', { type: 'image/jpeg' });
+      const formData = new FormData();
+      formData.append('file', resizedFile);
+      formData.append('type', 'profile');
+      formData.append('artistId', artist.id);
+
+      const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData });
+      if (uploadRes.ok) {
+        const data = await uploadRes.json();
+        setProfileImage(data.url);
+      } else {
+        const data = await uploadRes.json();
+        throw new Error(data.error || 'Upload failed');
+      }
+    } catch (err: any) {
+      setError(err.message || 'Photo upload failed');
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -172,12 +229,37 @@ export default function DJProfileContent({ artist, locale }: Props) {
       {/* Profile header card */}
       <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6">
         <div className="flex items-center gap-6">
-          <DJAvatar
-            src={artist.profileImage}
-            name={artist.stageName}
-            size="xl"
-            className="rounded-xl"
-          />
+          <div className="relative">
+            <DJAvatar
+              src={profileImage}
+              name={artist.stageName}
+              size="xl"
+              className="rounded-xl"
+            />
+            {isEditing && (
+              <>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoUpload}
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploadingPhoto}
+                  className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl opacity-0 hover:opacity-100 transition-opacity cursor-pointer"
+                >
+                  {uploadingPhoto ? (
+                    <span className="text-white text-sm">Uploading...</span>
+                  ) : (
+                    <CameraIcon className="w-8 h-8 text-white" />
+                  )}
+                </button>
+              </>
+            )}
+          </div>
           <div>
             <h2 className="text-2xl font-bold text-white">{artist.stageName}</h2>
             {artist.realName && (
