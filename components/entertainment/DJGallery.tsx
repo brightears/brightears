@@ -7,6 +7,7 @@ import DJDetailModal from './DJDetailModal';
 interface DJ {
   id: string;
   stageName: string;
+  category: string;
   profileImage: string | null;
   bio: string | null;
   genres: string[];
@@ -21,6 +22,19 @@ interface DJGalleryProps {
   locale: string;
 }
 
+const CATEGORY_LABELS: Record<string, string> = {
+  DJ: 'DJs',
+  BAND: 'Bands',
+  SINGER: 'Singers',
+  MUSICIAN: 'Musicians',
+  MC: 'MCs',
+  COMEDIAN: 'Comedians',
+  MAGICIAN: 'Magicians',
+  DANCER: 'Dancers',
+  PHOTOGRAPHER: 'Photographers',
+  SPEAKER: 'Speakers',
+};
+
 const GENRE_GROUPS: Record<string, string[]> = {
   'House': ['House', 'Deep House', 'Afro House', 'Tech House', 'Organic House', 'Soulful House', 'Funky House', 'Classic House', 'Progressive', 'Disco House'],
   'R&B / Hip-Hop': ['R&B', 'Hip Hop', 'Hip-Hop', 'Soul', 'Funk'],
@@ -32,22 +46,41 @@ const GENRE_GROUPS: Record<string, string[]> = {
 };
 
 export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDJ, setSelectedDJ] = useState<DJ | null>(null);
 
+  // Get active categories (only show tabs for categories that have artists)
+  const activeCategories = useMemo(() => {
+    const cats = new Map<string, number>();
+    for (const dj of djs) {
+      const cat = dj.category || 'DJ';
+      cats.set(cat, (cats.get(cat) || 0) + 1);
+    }
+    return Array.from(cats.entries())
+      .sort((a, b) => b[1] - a[1]) // Sort by count descending
+      .map(([cat]) => cat);
+  }, [djs]);
+
   const groupedGenres = useMemo(() => {
     const active: string[] = [];
+    const categoryDjs = selectedCategory === 'all' ? djs : djs.filter(dj => (dj.category || 'DJ') === selectedCategory);
     for (const [group, subGenres] of Object.entries(GENRE_GROUPS)) {
-      if (djs.some((dj) => dj.genres.some((g) => subGenres.includes(g)))) {
+      if (categoryDjs.some((dj) => dj.genres.some((g) => subGenres.includes(g)))) {
         active.push(group);
       }
     }
     return active;
-  }, [djs]);
+  }, [djs, selectedCategory]);
 
   const filteredDJs = useMemo(() => {
     let results = djs;
+
+    // Category filter
+    if (selectedCategory !== 'all') {
+      results = results.filter((dj) => (dj.category || 'DJ') === selectedCategory);
+    }
 
     // Genre filter
     if (selectedGenre !== 'all') {
@@ -67,7 +100,7 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
     }
 
     return results;
-  }, [djs, selectedGenre, searchQuery]);
+  }, [djs, selectedCategory, selectedGenre, searchQuery]);
 
   return (
     <>
@@ -93,38 +126,69 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
         </div>
       </div>
 
-      {/* Genre Filter */}
-      <div className="mb-10">
-        <div className="flex flex-wrap gap-2 justify-center max-w-2xl mx-auto">
+      {/* Category Filter */}
+      <div className="mb-6">
+        <div className="flex flex-wrap gap-2 justify-center max-w-3xl mx-auto">
           <button
-            onClick={() => setSelectedGenre('all')}
+            onClick={() => { setSelectedCategory('all'); setSelectedGenre('all'); }}
             className={`px-4 py-2 rounded-full font-inter text-sm transition-all duration-200 ${
-              selectedGenre === 'all'
+              selectedCategory === 'all'
                 ? 'bg-[#00bbe4] text-white shadow-lg shadow-[#00bbe4]/25'
                 : 'bg-[#2a2a2a]/50 text-[#bcc9ce] border border-[#3d494e]/20 hover:bg-[#2a2a2a] hover:text-[#e5e2e1]'
             }`}
           >
-            {locale === 'th' ? '\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14' : 'All'}
+            {locale === 'th' ? 'ทั้งหมด' : 'All'}
           </button>
-          {groupedGenres.map((genre) => (
+          {activeCategories.map((cat) => (
             <button
-              key={genre}
-              onClick={() => setSelectedGenre(genre)}
+              key={cat}
+              onClick={() => { setSelectedCategory(cat); setSelectedGenre('all'); }}
               className={`px-4 py-2 rounded-full font-inter text-sm transition-all duration-200 ${
-                selectedGenre === genre
+                selectedCategory === cat
                   ? 'bg-[#00bbe4] text-white shadow-lg shadow-[#00bbe4]/25'
                   : 'bg-[#2a2a2a]/50 text-[#bcc9ce] border border-[#3d494e]/20 hover:bg-[#2a2a2a] hover:text-[#e5e2e1]'
               }`}
             >
-              {genre}
+              {CATEGORY_LABELS[cat] || cat}
             </button>
           ))}
         </div>
-
-        <p className="text-center mt-4 font-inter text-sm text-[#bcc9ce]/50">
-          {filteredDJs.length} {locale === 'th' ? 'ศิลปิน' : filteredDJs.length === 1 ? 'Artist' : 'Artists'}
-        </p>
       </div>
+
+      {/* Genre Filter (show when music categories selected) */}
+      {groupedGenres.length > 0 && (
+        <div className="mb-6">
+          <div className="flex flex-wrap gap-2 justify-center max-w-2xl mx-auto">
+            <button
+              onClick={() => setSelectedGenre('all')}
+              className={`px-3 py-1.5 rounded-full font-inter text-xs transition-all duration-200 ${
+                selectedGenre === 'all'
+                  ? 'bg-[#f1bca6]/20 text-[#f1bca6] border border-[#f1bca6]/30'
+                  : 'bg-[#2a2a2a]/30 text-[#bcc9ce]/70 border border-[#3d494e]/10 hover:text-[#e5e2e1]'
+              }`}
+            >
+              {locale === 'th' ? 'ทุกแนว' : 'All Genres'}
+            </button>
+            {groupedGenres.map((genre) => (
+              <button
+                key={genre}
+                onClick={() => setSelectedGenre(genre)}
+                className={`px-3 py-1.5 rounded-full font-inter text-xs transition-all duration-200 ${
+                  selectedGenre === genre
+                    ? 'bg-[#f1bca6]/20 text-[#f1bca6] border border-[#f1bca6]/30'
+                    : 'bg-[#2a2a2a]/30 text-[#bcc9ce]/70 border border-[#3d494e]/10 hover:text-[#e5e2e1]'
+                }`}
+              >
+                {genre}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <p className="text-center mb-8 font-inter text-sm text-[#bcc9ce]/50">
+        {filteredDJs.length} {locale === 'th' ? 'ศิลปิน' : filteredDJs.length === 1 ? 'Artist' : 'Artists'}
+      </p>
 
       {/* DJ Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
