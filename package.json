@@ -57,17 +57,17 @@
     "server-only": "^0.0.1",
     "svix": "^1.82.0",
     "tailwind-merge": "^3.3.1",
+    "@tailwindcss/postcss": "^4.2.2",
+    "tailwindcss": "^4",
     "zod": "^4.0.17"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.0.0",
-    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/nodemailer": "^7.0.11",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "prisma": "^6.19.1",
-    "tailwindcss": "^4",
     "tsx": "^4.20.3",
     "typescript": "^5"
   }
