@@ -67,15 +67,16 @@ async function getDJProfile(slug: string) {
   const artist = await prisma.artist.findFirst({
     where: {
       id: slug,
-      category: 'DJ',
       user: { isActive: true },
     },
     select: {
       id: true,
       stageName: true,
       realName: true,
+      category: true,
       bio: true,
       bioTh: true,
+      baseCity: true,
       genres: true,
       profileImage: true,
       coverImage: true,
@@ -86,6 +87,7 @@ async function getDJProfile(slug: string) {
       mixcloud: true,
       facebook: true,
       youtube: true,
+      contactEmail: true,
       averageRating: true,
       venueAssignments: {
         select: { venue: { select: { name: true } } },
@@ -107,20 +109,6 @@ async function getDJProfile(slug: string) {
   return artist;
 }
 
-export async function generateStaticParams() {
-  const artists = await prisma.artist.findMany({
-    where: {
-      category: 'DJ',
-      user: { isActive: true },
-    },
-    select: { id: true },
-  });
-
-  return artists.map((artist) => ({
-    slug: artist.id,
-  }));
-}
-
 export async function generateMetadata({
   params,
 }: {
@@ -136,9 +124,9 @@ export async function generateMetadata({
   const bio = locale === 'th' && artist.bioTh ? artist.bioTh : artist.bio;
   const description = bio
     ? bio.slice(0, 160)
-    : `${artist.stageName} is a professional DJ based in Bangkok, performing at the city's finest venues. Book through Bright Ears.`;
+    : `${artist.stageName} is a professional ${artist.category?.toLowerCase() || 'artist'} based in Bangkok. Book through Bright Ears.`;
 
-  const title = `${artist.stageName} | Professional DJ Bangkok | Bright Ears`;
+  const title = `${artist.stageName} | ${artist.category || 'Artist'} Bangkok | Bright Ears`;
 
   return {
     title,
@@ -215,7 +203,7 @@ export default async function DJProfilePage({
     description: bio || undefined,
     image: artist.profileImage || undefined,
     url: `https://brightears.io/${locale}/entertainment/${artist.id}`,
-    jobTitle: 'Professional DJ',
+    jobTitle: `Professional ${artist.category || 'Artist'}`,
     worksFor: {
       '@type': 'Organization',
       name: 'Bright Ears',
@@ -391,13 +379,19 @@ export default async function DJProfilePage({
               </div>
             )}
 
-            {/* CTA — using <a> tag for cross-page navigation with hash scroll */}
-            <div className="pt-4">
+            {/* CTA */}
+            <div className="pt-4 flex flex-wrap gap-3">
               <a
-                href={`/${locale}?dj=${encodeURIComponent(artist.stageName)}#contact`}
+                href={`/${locale}?artist=${encodeURIComponent(artist.stageName)}#contact`}
                 className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0088a8] hover:bg-[#00a3c7] text-white font-bold rounded-lg transition-all duration-300 uppercase tracking-widest text-sm"
               >
-                {locale === 'th' ? 'จองดีเจ' : `Book ${artist.stageName}`}
+                {locale === 'th' ? 'สอบถามรายละเอียด' : `Inquire About ${artist.stageName}`}
+              </a>
+              <a
+                href={`mailto:info@brightears.io?subject=Inquiry about ${encodeURIComponent(artist.stageName)}&body=Hi, I'm interested in booking ${encodeURIComponent(artist.stageName)} for an event.`}
+                className="inline-flex items-center gap-2 px-8 py-3.5 border border-[#4fd6ff]/30 text-[#4fd6ff] hover:bg-[#4fd6ff]/10 font-bold rounded-lg transition-all duration-300 uppercase tracking-widest text-sm"
+              >
+                {locale === 'th' ? 'ส่งอีเมล' : 'Email Us'}
               </a>
             </div>
           </div>
