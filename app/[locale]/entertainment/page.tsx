@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
 import DJGallery from '@/components/entertainment/DJGallery';
+import { generateArtistListSchema } from '@/lib/schemas/structured-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -107,8 +108,27 @@ export default async function EntertainmentPage({
 
   const allGenres = [...new Set(djs.flatMap((dj) => dj.genres))].sort();
 
+  // JSON-LD for AI search indexing
+  const listSchema = generateArtistListSchema({
+    locale,
+    artists: djs.map((dj) => ({
+      id: dj.id,
+      stageName: dj.stageName,
+      bio: dj.bio,
+      category: dj.category,
+      baseCity: dj.baseCity,
+      profileImage: dj.profileImage,
+      averageRating: dj.averageRating,
+      genres: dj.genres,
+    })),
+  });
+
   return (
     <div className="min-h-screen bg-[#131313]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(listSchema) }}
+      />
       {/* Hero Section */}
       <section className="relative py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute -top-10 -right-10 w-64 h-64 bg-[#4fd6ff]/5 rounded-full blur-3xl" />

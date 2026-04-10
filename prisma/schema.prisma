@@ -1518,7 +1518,7 @@ model AIGeneration {
 model CreditAccount {
   id                    String              @id @default(uuid())
   userId                String              @unique
-  balance               Int                 @default(3) // Start with 3 free credits
+  balance               Int                 @default(12) // Start with 12 free credits (2026: Canva, Suno, Picsart norm is double-digit free tier)
   totalPurchased        Int                 @default(0)
   totalUsed             Int                 @default(0)
   totalEarnedReferrals  Int                 @default(0)

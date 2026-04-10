@@ -111,10 +111,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Give the new user 5 bonus credits
+    // Give the new user 5 bonus credits (on top of the 12 free default)
     const newUserAccount = await prisma.creditAccount.upsert({
       where: { userId: user.id },
-      create: { userId: user.id, balance: 8, totalPurchased: 0 }, // 3 free + 5 bonus
+      create: { userId: user.id, balance: 17, totalPurchased: 0 }, // 12 free + 5 bonus
       update: { balance: { increment: 5 } },
     });
 
@@ -127,10 +127,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Give the referrer 10 credits
+    // Give the referrer 10 credits (on top of the 12 free default)
     const referrerAccount = await prisma.creditAccount.upsert({
       where: { userId: referral.referrerUserId },
-      create: { userId: referral.referrerUserId, balance: 13 }, // 3 free + 10 referral
+      create: { userId: referral.referrerUserId, balance: 22 }, // 12 free + 10 referral
       update: { balance: { increment: 10 } },
     });
 

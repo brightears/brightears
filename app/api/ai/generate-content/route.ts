@@ -11,7 +11,10 @@ export const maxDuration = 60;
 export const runtime = 'nodejs';
 
 // Monthly generation limit for free tier
-const FREE_MONTHLY_LIMIT = 3;
+// 2026-04-10: bumped from 3 → 12. Market norm for AI creator tools in 2026 is
+// double-digit free tier (Canva effectively unlimited, Suno 50/day, Picsart ~20/mo).
+// A 3/mo free tier was creating churn at first-use.
+const FREE_MONTHLY_LIMIT = 12;
 // Max request body size consideration — base64 images can be large
 const MAX_IMAGE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
 

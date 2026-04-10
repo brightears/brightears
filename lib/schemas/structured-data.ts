@@ -289,3 +289,184 @@ export function generateBreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
     }))
   };
 }
+
+/**
+ * MusicEvent Schema — for Open Gigs (venues hiring performers).
+ * Helps LLM search engines (Claude/Perplexity/SGE) surface these when users
+ * ask "DJ gigs in Bangkok" or "where can I apply to play in Thailand".
+ */
+export interface GigSchemaProps {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  genres?: string[];
+  date: Date | string;
+  startTime: string;
+  endTime: string;
+  budgetMin?: number | null;
+  budgetMax?: number | null;
+  currency?: string;
+  venue: {
+    id: string;
+    name: string;
+    city: string;
+    venueType?: string | null;
+  };
+  locale: string;
+}
+
+export function generateGigSchema({
+  id, title, description, category, genres = [], date,
+  startTime, endTime, budgetMin, budgetMax, currency = 'THB', venue, locale,
+}: GigSchemaProps) {
+  const dateStr = typeof date === 'string' ? date.split('T')[0] : date.toISOString().split('T')[0];
+  const startDateTime = `${dateStr}T${startTime}:00+07:00`;
+  // If endTime is before startTime, it rolls over past midnight
+  const endsNextDay = endTime < startTime;
+  const endDate = endsNextDay
+    ? new Date(new Date(dateStr).getTime() + 86400000).toISOString().split('T')[0]
+    : dateStr;
+  const endDateTime = `${endDate}T${endTime}:00+07:00`;
+
+  const schema: any = {
+    '@context': 'https://schema.org',
+    '@type': 'MusicEvent',
+    '@id': `https://brightears.io/${locale}/gigs#${id}`,
+    name: title,
+    description,
+    startDate: startDateTime,
+    endDate: endDateTime,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    location: {
+      '@type': venue.venueType === 'Club' || venue.venueType === 'NightClub'
+        ? 'NightClub'
+        : 'Place',
+      name: venue.name,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: venue.city,
+        addressCountry: 'TH',
+      },
+    },
+    performer: {
+      '@type': 'PerformingGroup',
+      name: `${category} — applications open`,
+      description: `Open call for a ${category.toLowerCase()} performer. Artists can apply via the Bright Ears marketplace.`,
+    },
+    organizer: {
+      '@type': 'Organization',
+      name: 'Bright Ears',
+      url: 'https://brightears.io',
+    },
+  };
+
+  if (genres.length > 0) {
+    schema.keywords = genres.join(', ');
+  }
+
+  // Budget → Offer
+  if (budgetMin || budgetMax) {
+    schema.offers = {
+      '@type': 'Offer',
+      url: `https://brightears.io/${locale}/gigs`,
+      priceCurrency: currency,
+      ...(budgetMin && { price: budgetMin.toString() }),
+      ...(budgetMin && budgetMax && {
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          minPrice: budgetMin,
+          maxPrice: budgetMax,
+          priceCurrency: currency,
+        },
+      }),
+      availability: 'https://schema.org/InStock',
+      validFrom: new Date().toISOString(),
+    };
+  }
+
+  return schema;
+}
+
+/**
+ * ItemList schema for a list of gigs (public /gigs page).
+ */
+export function generateGigListSchema({
+  gigs,
+  locale,
+}: {
+  gigs: GigSchemaProps[];
+  locale: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Open Gigs on Bright Ears',
+    description: 'Entertainment gigs posted by venues in Thailand, open for artist applications.',
+    numberOfItems: gigs.length,
+    itemListElement: gigs.map((gig, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: generateGigSchema({ ...gig, locale }),
+    })),
+  };
+}
+
+/**
+ * ItemList schema for a list of artists (public /entertainment page).
+ */
+export interface ArtistListItem {
+  id: string;
+  stageName: string;
+  bio?: string | null;
+  category: string;
+  baseCity?: string | null;
+  profileImage?: string | null;
+  averageRating?: number | null;
+  genres?: string[];
+}
+
+export function generateArtistListSchema({
+  artists,
+  locale,
+}: {
+  artists: ArtistListItem[];
+  locale: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Entertainment Artists on Bright Ears',
+    description: 'Professional DJs, bands, singers, and performers available for booking through Bright Ears.',
+    numberOfItems: artists.length,
+    itemListElement: artists.map((artist, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': artist.category === 'DJ' || artist.category === 'BAND' ? 'MusicGroup' : 'Person',
+        '@id': `https://brightears.io/${locale}/entertainment/${artist.id}`,
+        name: artist.stageName,
+        url: `https://brightears.io/${locale}/entertainment/${artist.id}`,
+        ...(artist.bio && { description: artist.bio.slice(0, 200) }),
+        ...(artist.profileImage && { image: artist.profileImage }),
+        ...(artist.baseCity && {
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: artist.baseCity,
+            addressCountry: 'TH',
+          },
+        }),
+        ...(artist.genres && artist.genres.length > 0 && { genre: artist.genres }),
+        ...(artist.averageRating && {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: artist.averageRating.toFixed(1),
+            bestRating: '5',
+            worstRating: '1',
+          },
+        }),
+      },
+    })),
+  };
+}

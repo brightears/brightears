@@ -5,6 +5,7 @@ import {
   CalendarIcon, ClockIcon, CurrencyDollarIcon, MapPinIcon,
   MegaphoneIcon,
 } from '@heroicons/react/24/outline';
+import { generateGigListSchema } from '@/lib/schemas/structured-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -57,8 +58,37 @@ export default async function PublicGigsPage({
     return `up to ${g.currency} ${max!.toLocaleString()}`;
   };
 
+  // JSON-LD for AI search + SEO
+  const listSchema = generateGigListSchema({
+    locale,
+    gigs: gigs.map((g) => ({
+      id: g.id,
+      title: g.title,
+      description: g.description,
+      category: g.category,
+      genres: g.genres,
+      date: g.date,
+      startTime: g.startTime,
+      endTime: g.endTime,
+      budgetMin: g.budgetMin ? Number(g.budgetMin) : null,
+      budgetMax: g.budgetMax ? Number(g.budgetMax) : null,
+      currency: g.currency,
+      venue: {
+        id: g.venue.id,
+        name: g.venue.name,
+        city: g.venue.city,
+        venueType: g.venue.venueType,
+      },
+      locale,
+    })),
+  });
+
   return (
     <main className="min-h-screen bg-[#131313] text-[#e5e2e1] pt-24 pb-20 px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(listSchema) }}
+      />
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">

@@ -229,7 +229,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="mt-12 space-y-8 max-w-2xl mx-auto">
             <p className="text-xl text-[#bcc8ce]">&ldquo;Upload a photo or type a prompt. Pick a format. AI does the rest.&rdquo;</p>
             <a href={`/${locale}/ai-tools`} className="inline-block bg-[#4fd6ff] text-[#005b70] px-12 py-5 font-bold rounded-lg shadow-[0px_20px_40px_rgba(0,187,228,0.08)] hover:scale-105 transition-transform">
-              Try It Free — 3 Generations/Month
+              Try It Free — 12 Generations/Month
             </a>
           </div>
         </section>
@@ -308,7 +308,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <div className="p-8 bg-[#2a2a2a] rounded-xl flex flex-col items-center text-center space-y-6">
               <p className="font-black uppercase tracking-widest text-xs opacity-50">Free</p>
               <div className="text-4xl font-playfair font-bold">$0</div>
-              <ul className="text-sm space-y-4 text-[#bcc8ce]"><li>Public Profile</li><li>Venue Direct Contact</li><li>3 AI Generations / Month</li></ul>
+              <ul className="text-sm space-y-4 text-[#bcc8ce]"><li>Public Profile</li><li>Venue Direct Contact</li><li>12 AI Generations / Month</li></ul>
               <a href="/sign-up" className="w-full py-3 rounded-lg border border-[#3d494e] hover:bg-white/5 transition-all mt-auto font-bold text-center block">Get Started</a>
             </div>
             <div className="p-8 bg-[#131313] border-2 border-[#4fd6ff] rounded-xl flex flex-col items-center text-center space-y-6 relative overflow-hidden">

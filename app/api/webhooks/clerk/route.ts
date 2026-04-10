@@ -77,11 +77,12 @@ export async function POST(req: NextRequest) {
 
       console.log('[Clerk Webhook] Created user + artist:', email, user.id);
 
-      // Create credit account with 3 free credits
+      // Create credit account with 12 free credits
+      // (2026 free-tier norm — matches FREE_MONTHLY_LIMIT in /api/ai/generate-content)
       await prisma.creditAccount.create({
         data: {
           userId: user.id,
-          balance: 3,
+          balance: 12,
         },
       });
 

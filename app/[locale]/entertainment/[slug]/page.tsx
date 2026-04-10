@@ -107,7 +107,35 @@ async function getDJProfile(slug: string) {
     },
   });
 
-  return artist;
+  if (!artist) return null;
+
+  // Fetch trust-signal stats separately (completed booking count, most recent gig)
+  const [totalGigs, mostRecentGig, feedbackCount] = await Promise.all([
+    prisma.venueAssignment.count({
+      where: { artistId: artist.id, status: 'COMPLETED' },
+    }),
+    prisma.venueAssignment.findFirst({
+      where: { artistId: artist.id, status: 'COMPLETED' },
+      orderBy: { date: 'desc' },
+      select: {
+        date: true,
+        venue: { select: { name: true } },
+      },
+    }),
+    prisma.venueFeedback.count({
+      where: { artistId: artist.id },
+    }),
+  ]);
+
+  return {
+    ...artist,
+    stats: {
+      totalGigs,
+      mostRecentGig,
+      feedbackCount,
+      venueCount: artist.venueAssignments.length,
+    },
+  };
 }
 
 export async function generateMetadata({
@@ -196,15 +224,33 @@ export default async function DJProfilePage({
     { platform: 'youtube', url: artist.youtube, label: 'YouTube' },
   ].filter((link) => link.url);
 
-  // Structured data
-  const structuredData = {
+  // Structured data — use MusicGroup for musical performers (DJs, bands, singers, etc)
+  // and Person for non-musical categories (comedians, speakers, photographers). This
+  // makes artist profiles more citable in AI search results for music-related queries.
+  const musicCategories = ['DJ', 'BAND', 'SINGER', 'MUSICIAN'];
+  const schemaType = musicCategories.includes(artist.category || '') ? 'MusicGroup' : 'Person';
+
+  const structuredData: any = {
     '@context': 'https://schema.org',
-    '@type': 'Person',
+    '@type': schemaType,
+    '@id': `https://brightears.io/${locale}/entertainment/${artist.id}`,
     name: artist.stageName,
     description: bio || undefined,
     image: artist.profileImage || undefined,
     url: `https://brightears.io/${locale}/entertainment/${artist.id}`,
-    jobTitle: `Professional ${artist.category || 'Artist'}`,
+    ...(schemaType === 'Person' && { jobTitle: `Professional ${artist.category || 'Artist'}` }),
+    ...(schemaType === 'MusicGroup' && artist.genres.length > 0 && { genre: artist.genres }),
+    ...(schemaType === 'Person' && artist.genres.length > 0 && { knowsAbout: artist.genres }),
+    ...(artist.baseCity && {
+      location: {
+        '@type': 'Place',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: artist.baseCity,
+          addressCountry: 'TH',
+        },
+      },
+    }),
     worksFor: {
       '@type': 'Organization',
       name: 'Bright Ears',
@@ -217,10 +263,25 @@ export default async function DJProfilePage({
         bestRating: '5',
         worstRating: '1',
         ratingCount: artist.venueFeedback.length,
+        reviewCount: artist.venueFeedback.length,
       },
     }),
-    ...(artist.genres.length > 0 && {
-      knowsAbout: artist.genres,
+    ...(venues.length > 0 && {
+      // Venues this artist has performed at → performerIn (makes it easy for AI search
+      // to answer "which DJs play at NOBU Bangkok?" type questions)
+      performerIn: venues.slice(0, 8).map((venueName) => ({
+        '@type': 'MusicEvent',
+        name: `${artist.stageName} at ${venueName}`,
+        location: {
+          '@type': 'Place',
+          name: venueName,
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Bangkok',
+            addressCountry: 'TH',
+          },
+        },
+      })),
     }),
     ...(socialLinks.length > 0 && {
       sameAs: socialLinks.map((l) => l.url),
@@ -309,6 +370,54 @@ export default async function DJProfilePage({
                       {genre}
                     </span>
                   ))}
+                </div>
+              )}
+
+              {/* Trust stats — real booking history */}
+              {(artist.stats.totalGigs > 0 || artist.averageRating) && (
+                <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {artist.stats.totalGigs > 0 && (
+                    <div className="glass border border-white/5 rounded-lg px-4 py-3">
+                      <div className="text-2xl font-playfair font-bold text-[#4fd6ff]">{artist.stats.totalGigs}</div>
+                      <div className="text-[10px] uppercase tracking-widest text-[#bcc9ce]/60 font-inter mt-1">
+                        {locale === 'th' ? 'งานที่เล่น' : 'Gigs Played'}
+                      </div>
+                    </div>
+                  )}
+                  {artist.averageRating && artist.stats.feedbackCount > 0 && (
+                    <div className="glass border border-white/5 rounded-lg px-4 py-3">
+                      <div className="text-2xl font-playfair font-bold text-[#f1bca6]">
+                        {artist.averageRating.toFixed(1)}★
+                      </div>
+                      <div className="text-[10px] uppercase tracking-widest text-[#bcc9ce]/60 font-inter mt-1">
+                        {locale === 'th'
+                          ? `จาก ${artist.stats.feedbackCount} รีวิว`
+                          : `From ${artist.stats.feedbackCount} review${artist.stats.feedbackCount !== 1 ? 's' : ''}`}
+                      </div>
+                    </div>
+                  )}
+                  {artist.stats.venueCount > 0 && (
+                    <div className="glass border border-white/5 rounded-lg px-4 py-3">
+                      <div className="text-2xl font-playfair font-bold text-[#4fd6ff]">{artist.stats.venueCount}</div>
+                      <div className="text-[10px] uppercase tracking-widest text-[#bcc9ce]/60 font-inter mt-1">
+                        {locale === 'th' ? 'สถานที่' : artist.stats.venueCount === 1 ? 'Venue' : 'Venues'}
+                      </div>
+                    </div>
+                  )}
+                  {artist.stats.mostRecentGig && (
+                    <div className="glass border border-white/5 rounded-lg px-4 py-3">
+                      <div className="text-sm font-bold text-neutral-100 truncate">
+                        {artist.stats.mostRecentGig.venue.name}
+                      </div>
+                      <div className="text-[10px] uppercase tracking-widest text-[#bcc9ce]/60 font-inter mt-1">
+                        {locale === 'th' ? 'งานล่าสุด' : 'Last Gig'}{' · '}
+                        {new Date(artist.stats.mostRecentGig.date).toLocaleDateString(
+                          locale === 'th' ? 'th-TH' : 'en-GB',
+                          { day: 'numeric', month: 'short' }
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
