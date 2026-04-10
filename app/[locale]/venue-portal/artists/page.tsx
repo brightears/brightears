@@ -26,10 +26,11 @@ export default async function ArtistDiscoveryPage({
   const venueId = corporate?.venues[0]?.id || null;
   const venueName = corporate?.venues[0]?.name || null;
 
-  // Fetch all active artists
+  // Fetch all active, visible artists
   const artists = await prisma.artist.findMany({
     where: {
       user: { isActive: true },
+      isVisible: true,
       stageName: { not: '' },
     },
     select: {

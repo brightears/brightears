@@ -129,6 +129,8 @@ export async function GET(req: NextRequest) {
       user: {
         isActive: true
       },
+      // Only return artists marked visible in the marketplace
+      isVisible: true,
       // Ensure artist has basic profile info
       stageName: {
         not: null
@@ -158,7 +160,8 @@ export async function GET(req: NextRequest) {
       where: {
         user: {
           isActive: true
-        }
+        },
+        isVisible: true
       }
     })
 

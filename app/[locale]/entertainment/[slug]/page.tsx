@@ -68,6 +68,7 @@ async function getDJProfile(slug: string) {
     where: {
       id: slug,
       user: { isActive: true },
+      isVisible: true,
     },
     select: {
       id: true,

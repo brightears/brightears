@@ -10,6 +10,9 @@ import Image from 'next/image';
 import LineContactButton from '@/components/buttons/LineContactButton';
 import VenueInquiryForm from '@/app/components/VenueInquiryForm';
 import HashScroller from '@/components/HashScroller';
+import { prisma } from '@/lib/prisma';
+
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params
@@ -49,6 +52,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     items: [{ name: locale === 'th' ? 'หน้าแรก' : 'Home', url: `https://brightears.io/${locale}` }]
   });
 
+  // Live marketplace stats — fetched at render time
+  const [artistCount, venueCount] = await Promise.all([
+    prisma.artist.count({
+      where: { isVisible: true, user: { isActive: true } },
+    }),
+    prisma.venue.count(),
+  ]);
+
   return (
     <>
       <JsonLd data={organizationSchema} />
@@ -78,8 +89,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <a href="/sign-up" className="bg-gradient-to-r from-[#b8ebff] to-[#4fd6ff] text-[#003543] px-10 py-4 font-bold rounded-lg shadow-lg hover:brightness-110 transition-all">
                 I&apos;m an Artist
               </a>
-              <a href={`/${locale}/entertainment`} className="glass-card text-[#f0bba5] px-10 py-4 font-bold rounded-lg hover:bg-white/5 transition-all">
+              <a href="/sign-up/venue" className="glass-card text-[#f0bba5] px-10 py-4 font-bold rounded-lg hover:bg-white/5 transition-all">
                 I&apos;m a Venue
+              </a>
+            </div>
+            <div className="flex flex-wrap gap-6 pt-2 text-sm text-[#bcc8ce]">
+              <a href={`/${locale}/entertainment`} className="underline underline-offset-4 hover:text-white transition-colors">
+                Or browse artists first →
               </a>
             </div>
           </div>
@@ -142,7 +158,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   <div><p className="font-bold">Schedule management</p><p className="text-sm text-[#bcc8ce]">Automate your entertainment calendar.</p></div>
                 </li>
               </ul>
-              <a href={`/${locale}/entertainment`} className="text-[#f0bba5] font-bold border-b-2 border-[#ffdbcd] pb-1 hover:text-white hover:border-white transition-all inline-block">Find Entertainment</a>
+              <div className="flex flex-wrap gap-4">
+                <a href="/sign-up/venue" className="text-[#f0bba5] font-bold border-b-2 border-[#ffdbcd] pb-1 hover:text-white hover:border-white transition-all inline-block">Sign Up as a Venue</a>
+                <a href={`/${locale}/entertainment`} className="text-[#bcc8ce] font-bold border-b-2 border-[#3d494e] pb-1 hover:text-white hover:border-white transition-all inline-block">Browse Artists</a>
+              </div>
             </div>
             <div className="absolute -bottom-20 -right-20 opacity-5 group-hover:opacity-10 transition-opacity">
               <span className="material-symbols-outlined text-[300px]" style={{ fontVariationSettings: "'FILL' 1" }}>theater_comedy</span>
@@ -217,8 +236,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <section id="about" className="py-32 px-12 max-w-[1440px] mx-auto scroll-mt-20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center mb-24">
             {[
-              { val: '20+', label: 'Years Exp' }, { val: '28', label: 'Artists' },
-              { val: '6', label: 'Venues' }, { val: '4.9', label: 'Star Rating' },
+              { val: '20+', label: 'Years Exp' }, { val: String(artistCount), label: 'Artists' },
+              { val: String(venueCount), label: 'Venues' }, { val: '4.9', label: 'Star Rating' },
             ].map((s) => (
               <div key={s.label} className="space-y-2">
                 <p className="text-5xl font-playfair font-bold text-[#4fd6ff]">{s.val}</p>
@@ -274,10 +293,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         {/* FINAL CTA — from Stitch */}
         <section className="py-32 px-12 relative overflow-hidden text-center">
           <div className="max-w-4xl mx-auto space-y-10 relative z-10">
-            <h2 className="text-5xl md:text-6xl font-playfair font-bold tracking-tighter">Join 28 artists and 6 venues already on BrightEars.</h2>
+            <h2 className="text-5xl md:text-6xl font-playfair font-bold tracking-tighter">Join {artistCount} artists and {venueCount} venues already on BrightEars.</h2>
             <div className="flex flex-wrap justify-center gap-6">
               <a href="/sign-up" className="bg-[#4fd6ff] text-[#003543] px-12 py-5 font-bold rounded-lg shadow-xl">Join as Artist</a>
-              <a href={`/${locale}/entertainment`} className="glass-card text-[#f0bba5] px-12 py-5 font-bold rounded-lg">Join as Venue</a>
+              <a href="/sign-up/venue" className="glass-card text-[#f0bba5] px-12 py-5 font-bold rounded-lg">Join as Venue</a>
             </div>
           </div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#4fd6ff]/10 blur-[120px] -z-10 rounded-full" />

@@ -56,6 +56,7 @@ export default async function EntertainmentPage({
   const artists = await prisma.artist.findMany({
     where: {
       user: { isActive: true },
+      isVisible: true,
     },
     select: {
       id: true,

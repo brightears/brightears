@@ -66,6 +66,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       where: {
         category: 'DJ',
         user: { isActive: true },
+        isVisible: true,
       },
       select: { id: true, updatedAt: true },
     });

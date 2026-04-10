@@ -226,6 +226,11 @@ model Artist {
   travelTimeBuffer   Int      @default(60) // minutes
   travelRate         Decimal? @db.Decimal(10, 2) // per km
 
+  // Marketplace visibility
+  // Controls whether the artist appears in the public /entertainment directory.
+  // Default true so new artists are visible; seed/placeholder profiles are set to false.
+  isVisible         Boolean          @default(true)
+
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
 

@@ -156,7 +156,8 @@ export async function GET(req: NextRequest) {
     const where: any = {
       user: {
         isActive: true
-      }
+      },
+      isVisible: true
     }
 
     const conditions: any[] = []
