@@ -54,12 +54,40 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   });
 
   // Live marketplace stats — fetched at render time
-  const [artistCount, venueCount] = await Promise.all([
+  const [artistCount, venueCount, recentActivity] = await Promise.all([
     prisma.artist.count({
       where: { isVisible: true, user: { isActive: true } },
     }),
     prisma.venue.count(),
+    // Recent activity feed — 2026 research: "sense of movement" is what cold
+    // marketplaces lack. Shows real completed gigs to prove the platform is
+    // actually being used.
+    prisma.venueAssignment.findMany({
+      where: {
+        status: 'COMPLETED',
+        artistId: { not: null },
+      },
+      include: {
+        venue: { select: { name: true, id: true } },
+        artist: {
+          select: {
+            id: true,
+            stageName: true,
+            profileImage: true,
+            category: true,
+            isVisible: true,
+          },
+        },
+      },
+      orderBy: { date: 'desc' },
+      take: 20, // fetch more than we need to filter out invisible artists
+    }),
   ]);
+
+  // Filter to only visible artists and take the top 6
+  const activityFeed = recentActivity
+    .filter((a) => a.artist?.isVisible)
+    .slice(0, 6);
 
   // FAQ content (shared between UI + FAQPage schema for AI search citation)
   const faqs = [
@@ -373,6 +401,74 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             </div>
           </div>
         </section>
+
+        {/* RECENT ACTIVITY — proof of life */}
+        {activityFeed.length > 0 && (
+          <section className="py-24 px-12 bg-[#1c1b1b]">
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-12">
+                <p className="text-xs tracking-widest text-[#4fd6ff] font-bold mb-4 uppercase">
+                  Recently on Bright Ears
+                </p>
+                <h2 className="text-4xl md:text-5xl font-playfair font-bold tracking-tighter">
+                  Real gigs, real venues.
+                </h2>
+                <p className="text-stone-400 mt-4 max-w-xl mx-auto">
+                  Every entry below is a gig that actually happened. This is not a demo.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {activityFeed.map((act) => {
+                  const daysAgo = Math.floor((Date.now() - new Date(act.date).getTime()) / 86400000);
+                  const relativeTime = daysAgo === 0
+                    ? 'today'
+                    : daysAgo === 1
+                    ? 'yesterday'
+                    : daysAgo < 7
+                    ? `${daysAgo} days ago`
+                    : daysAgo < 14
+                    ? 'last week'
+                    : daysAgo < 30
+                    ? `${Math.floor(daysAgo / 7)} weeks ago`
+                    : `${Math.floor(daysAgo / 30)} months ago`;
+
+                  return (
+                    <a
+                      key={act.id}
+                      href={`/${locale}/entertainment/${act.artist!.id}`}
+                      className="flex items-center gap-4 p-4 bg-[#2a2a2a]/50 border border-stone-800 rounded-xl hover:border-[#4fd6ff]/40 transition group"
+                    >
+                      {act.artist!.profileImage ? (
+                        <Image
+                          src={act.artist!.profileImage}
+                          alt={act.artist!.stageName}
+                          width={48}
+                          height={48}
+                          className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full bg-stone-800 flex items-center justify-center text-lg font-bold text-stone-500 flex-shrink-0">
+                          {act.artist!.stageName.charAt(0)}
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white font-bold truncate group-hover:text-[#4fd6ff] transition">
+                          {act.artist!.stageName}
+                        </p>
+                        <p className="text-sm text-stone-400 truncate">
+                          at {act.venue.name} · {relativeTime}
+                        </p>
+                      </div>
+                      <span className="text-xs text-stone-500 uppercase tracking-widest font-bold hidden sm:inline">
+                        {act.artist!.category}
+                      </span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* FAQ — AI search citation layer */}
         <section id="faq" className="py-32 px-12 scroll-mt-20">
