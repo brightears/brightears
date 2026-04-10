@@ -4,7 +4,8 @@ import JsonLd from '@/components/JsonLd';
 import {
   generateOrganizationSchema,
   generateLocalBusinessSchema,
-  generateBreadcrumbSchema
+  generateBreadcrumbSchema,
+  generateFAQSchema
 } from '@/lib/schemas/structured-data';
 import Image from 'next/image';
 import LineContactButton from '@/components/buttons/LineContactButton';
@@ -60,11 +61,57 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     prisma.venue.count(),
   ]);
 
+  // FAQ content (shared between UI + FAQPage schema for AI search citation)
+  const faqs = [
+    {
+      question: 'What is Bright Ears?',
+      answer:
+        'Bright Ears is a free entertainment marketplace and AI content engine. Artists — DJs, bands, singers, musicians, dancers, and more — create free profiles and generate professional promotional content (posters, Instagram posts, EPKs) using AI. Venues discover artists and contact them directly, with no commissions and no middleman.',
+    },
+    {
+      question: 'Is Bright Ears really free for artists?',
+      answer:
+        'Yes. Profiles are free, venue discovery is free, and every artist gets 12 AI content generations per month for free. Artists only pay if they want more AI credits beyond the free tier, or eventually for premium features like verified badges and advanced analytics.',
+    },
+    {
+      question: 'Is Bright Ears really free for venues?',
+      answer:
+        'Yes. Browsing artists, posting open gigs, and contacting performers directly is free. There are no booking fees, no commissions on gigs booked through the platform, and no subscription required to get started.',
+    },
+    {
+      question: 'How does the AI content tool work?',
+      answer:
+        'Upload a photo or type a prompt, pick a format (poster, Instagram post, Instagram story, EPK), and the AI generates a professional promotional image in about 10 seconds. It uses Google\'s Gemini 2.5 Flash Image model trained on professional design patterns. You can regenerate, tweak prompts, and download everything.',
+    },
+    {
+      question: 'How do venues find the right artist?',
+      answer:
+        'Two ways. First, browse the directory at /entertainment — filter by category (DJ, band, singer, etc), genre, city, or search by name. Second, post an open gig at /gigs with your date, time, genre, and budget — artists in your category will see it and apply, and we auto-suggest the top 3 matches based on rating and experience.',
+    },
+    {
+      question: 'What cities does Bright Ears cover?',
+      answer:
+        'Bangkok is the current focus, with active venues including NOBU, Le Du Kaan, CRU Champagne Bar, Cocoa XO, Horizon, and ABar. The platform is open to artists and venues across Thailand, and we plan to expand to Phuket, Koh Samui, and Pattaya as the Bangkok marketplace matures.',
+    },
+    {
+      question: 'How does Bright Ears make money?',
+      answer:
+        'We monetize through AI content credits (artists buy top-ups when they exceed the free tier) and future premium subscriptions for artists ($9.99/month for unlimited AI tools + verified badges) and venues (advanced analytics + priority placement). Core marketplace features — profiles, browsing, gig posting, direct contact — remain free forever.',
+    },
+    {
+      question: 'Do foreign DJs need a work permit to perform in Thailand?',
+      answer:
+        'Yes. Performing for pay in Thailand requires a valid work permit for non-Thai nationals. Every Bright Ears artist profile shows a work-permit status badge (Thai National, Valid Permit, Venue-Sponsored, or Tourist Not Bookable) so venues know upfront whether a booking is legally clean. This is critical — foreign performers have been detained and deported for working without permits.',
+    },
+  ];
+  const faqSchema = generateFAQSchema({ faqs });
+
   return (
     <>
       <JsonLd data={organizationSchema} />
       <JsonLd data={localBusinessSchema} />
       <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={faqSchema} />
       <HashScroller />
 
       <main className="min-h-screen bg-[#131313] text-[#e5e2e1]">
@@ -323,6 +370,34 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <div className="text-4xl font-playfair font-bold">$9.99<span className="text-sm">/mo</span></div>
               <ul className="text-sm space-y-4 text-[#bcc8ce]"><li>Unlimited AI Tools</li><li>Verified Badge</li><li>Advanced Analytics</li></ul>
               <a href="#contact" className="w-full py-3 rounded-lg border border-[#3d494e] hover:bg-white/5 transition-all mt-auto font-bold text-center block">Go Premium</a>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ — AI search citation layer */}
+        <section id="faq" className="py-32 px-12 scroll-mt-20">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16">
+              <p className="text-xs tracking-widest text-[#4fd6ff] font-bold mb-4 uppercase">
+                Frequently Asked
+              </p>
+              <h2 className="text-5xl font-playfair font-bold tracking-tighter">Questions</h2>
+            </div>
+            <div className="space-y-4">
+              {faqs.map((faq) => (
+                <details
+                  key={faq.question}
+                  className="group bg-[#1c1b1b] border border-stone-800 rounded-xl px-6 py-5 hover:border-[#4fd6ff]/40 transition"
+                >
+                  <summary className="cursor-pointer list-none flex items-start justify-between gap-4">
+                    <h3 className="text-lg font-bold text-white">{faq.question}</h3>
+                    <span className="text-[#4fd6ff] text-2xl leading-none flex-shrink-0 group-open:rotate-45 transition-transform">
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-4 text-stone-400 leading-relaxed">{faq.answer}</p>
+                </details>
+              ))}
             </div>
           </div>
         </section>
