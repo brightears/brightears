@@ -59,6 +59,51 @@ export default async function VenueGigDetailPage({
     notFound();
   }
 
+  // Auto-suggest top 3 artist matches for this gig (ranked by rating, genre overlap, recency)
+  // Excludes artists who already applied.
+  const appliedArtistIds = gig.applications.map((a) => a.artist.id);
+  const suggestionCandidates = gig.status === 'OPEN'
+    ? await prisma.artist.findMany({
+        where: {
+          isVisible: true,
+          user: { isActive: true },
+          category: gig.category,
+          id: { notIn: appliedArtistIds },
+          // Match at least one genre if gig has genres, otherwise show any
+          ...(gig.genres.length > 0 && { genres: { hasSome: gig.genres } }),
+        },
+        select: {
+          id: true,
+          stageName: true,
+          profileImage: true,
+          bio: true,
+          genres: true,
+          averageRating: true,
+          baseCity: true,
+          venueAssignments: {
+            where: { status: 'COMPLETED' },
+            select: { id: true },
+          },
+        },
+        orderBy: [
+          { averageRating: { sort: 'desc', nulls: 'last' } },
+        ],
+        take: 12, // fetch more than 3 so we can score and slice
+      })
+    : [];
+
+  // Score: (rating * 2) + log(gigCount + 1) + genreOverlapCount
+  const scored = suggestionCandidates
+    .map((a) => {
+      const rating = a.averageRating || 0;
+      const gigCount = a.venueAssignments.length;
+      const genreOverlap = a.genres.filter((g) => gig.genres.includes(g)).length;
+      const score = rating * 2 + Math.log(gigCount + 1) + genreOverlap;
+      return { ...a, _score: score };
+    })
+    .sort((a, b) => b._score - a._score)
+    .slice(0, 3);
+
   const fmtDate = gig.date.toLocaleDateString('en-GB', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   });
@@ -133,6 +178,85 @@ export default async function VenueGigDetailPage({
           </div>
         )}
       </div>
+
+      {/* Suggested matches — auto-generated from category + genres */}
+      {scored.length > 0 && gig.status === 'OPEN' && (
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-playfair font-bold text-white">
+              Suggested Matches
+            </h2>
+            <span className="text-xs text-stone-500 uppercase tracking-widest">
+              Auto-matched from your requirements
+            </span>
+          </div>
+          <p className="text-sm text-stone-400 mb-4">
+            These artists match your gig&apos;s category and genres, ranked by rating and experience.
+            Share your gig with them to speed up applications.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {scored.map((artist) => (
+              <div
+                key={artist.id}
+                className="bg-stone-900/60 backdrop-blur border border-cyan-500/30 rounded-xl p-4 hover:border-cyan-500/60 transition"
+              >
+                <div className="flex items-start gap-3 mb-3">
+                  {artist.profileImage ? (
+                    <Image
+                      src={artist.profileImage}
+                      alt={artist.stageName}
+                      width={56}
+                      height={56}
+                      className="w-14 h-14 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-14 h-14 rounded-full bg-stone-800 flex items-center justify-center text-xl font-bold text-stone-500">
+                      {artist.stageName.charAt(0)}
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <Link
+                      href={`/${locale}/entertainment/${artist.id}`}
+                      className="font-bold text-white hover:text-cyan-300 transition truncate block"
+                    >
+                      {artist.stageName}
+                    </Link>
+                    <p className="text-xs text-stone-400">
+                      {artist.venueAssignments.length} gigs
+                      {artist.averageRating && <> · ★ {artist.averageRating.toFixed(1)}</>}
+                    </p>
+                  </div>
+                </div>
+                {artist.bio && (
+                  <p className="text-xs text-stone-400 line-clamp-2 mb-3">{artist.bio}</p>
+                )}
+                {artist.genres.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {artist.genres.slice(0, 3).map((g) => (
+                      <span
+                        key={g}
+                        className={`px-2 py-0.5 text-[10px] rounded ${
+                          gig.genres.includes(g)
+                            ? 'bg-cyan-500/20 text-cyan-300'
+                            : 'bg-stone-800 text-stone-400'
+                        }`}
+                      >
+                        {g}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <Link
+                  href={`/${locale}/entertainment/${artist.id}`}
+                  className="block w-full text-center px-3 py-2 bg-stone-800 border border-stone-700 text-white font-bold text-xs rounded hover:bg-stone-700 transition"
+                >
+                  View Profile →
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Applicants */}
       <div>

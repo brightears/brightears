@@ -252,6 +252,7 @@ model Artist {
 
   // Marketplace relations
   gigApplications   GigApplication[] @relation("GigApplications")
+  venueRatings      ArtistVenueRating[]
 
   // Simplified indexes - removed marketplace-related ones
   @@index([category])
@@ -343,9 +344,38 @@ model Venue {
   feedback        VenueFeedback[]
   nightFeedback   VenueNightFeedback[]
   openGigs        OpenGig[]
+  artistRatings   ArtistVenueRating[]
 
   @@index([corporateId])
   @@index([name])
+}
+
+// Mutual rating: artists privately rate venues they've performed at.
+// Visible only to other artists (NOT to the venue or the public) to create
+// an early-warning signal for problem venues and an artist-side trust layer.
+// Per 2026 research: one-way trust destroys artist-side liquidity.
+model ArtistVenueRating {
+  id              String   @id @default(uuid())
+  artistId        String
+  artist          Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  venueId         String
+  venue           Venue    @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  // Four dimensions, each 1-5
+  paidOnTime      Int      // 1=never, 5=always
+  soundQuality    Int      // 1=poor, 5=excellent
+  crowdTreatment  Int      // 1=hostile, 5=respectful
+  wouldReturn     Int      // 1=never, 5=absolutely
+
+  // Optional notes (visible to artists only)
+  notes           String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([artistId, venueId]) // one rating per artist-venue pair (updates on re-submit)
+  @@index([venueId])
+  @@index([artistId])
 }
 
 // Marketplace: Open Gigs that venues post for artists to browse and apply.
