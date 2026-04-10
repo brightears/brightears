@@ -250,6 +250,9 @@ model Artist {
   venueAssignments  VenueAssignment[]
   venueFeedback     VenueFeedback[]
 
+  // Marketplace relations
+  gigApplications   GigApplication[] @relation("GigApplications")
+
   // Simplified indexes - removed marketplace-related ones
   @@index([category])
   @@index([baseCity])
@@ -339,9 +342,79 @@ model Venue {
   assignments     VenueAssignment[]
   feedback        VenueFeedback[]
   nightFeedback   VenueNightFeedback[]
+  openGigs        OpenGig[]
 
   @@index([corporateId])
   @@index([name])
+}
+
+// Marketplace: Open Gigs that venues post for artists to browse and apply.
+// This is the core two-sided marketplace primitive — a venue advertises a
+// specific date/time/need, artists apply, venue reviews and selects.
+enum OpenGigStatus {
+  OPEN        // accepting applications
+  FILLED      // venue selected an artist
+  CANCELLED   // venue cancelled the gig
+  EXPIRED     // past the event date without being filled
+}
+
+model OpenGig {
+  id              String   @id @default(uuid())
+  venueId         String
+  venue           Venue    @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  // Gig details
+  title           String              // "Saturday Night Deep House Set"
+  description     String              // free-text: vibe, crowd, requirements
+  category        ArtistCategory      // DJ / BAND / SINGER / etc.
+  genres          String[]            // e.g. ["deep house", "tech house"]
+  date            DateTime @db.Date
+  startTime       String              // "21:00"
+  endTime         String              // "01:00"
+  budgetMin       Decimal? @db.Decimal(10, 2)
+  budgetMax       Decimal? @db.Decimal(10, 2)
+  currency        String   @default("THB")
+
+  status          OpenGigStatus @default(OPEN)
+  filledArtistId  String?             // set when status=FILLED
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  applications    GigApplication[]
+
+  @@index([venueId])
+  @@index([status, date])
+  @@index([category])
+}
+
+enum GigApplicationStatus {
+  PENDING     // artist just applied
+  SHORTLISTED // venue marked as interested
+  ACCEPTED    // venue chose this artist
+  DECLINED    // venue declined
+  WITHDRAWN   // artist withdrew
+}
+
+model GigApplication {
+  id          String   @id @default(uuid())
+  gigId       String
+  gig         OpenGig  @relation(fields: [gigId], references: [id], onDelete: Cascade)
+  artistId    String
+  artist      Artist   @relation("GigApplications", fields: [artistId], references: [id], onDelete: Cascade)
+
+  message     String?              // cover note from artist
+  quotedRate  Decimal? @db.Decimal(10, 2)
+  status      GigApplicationStatus @default(PENDING)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([gigId, artistId])      // one application per artist per gig
+  @@index([gigId])
+  @@index([artistId])
+  @@index([status])
 }
 
 // DJ/Artist assignments to venues (schedule)

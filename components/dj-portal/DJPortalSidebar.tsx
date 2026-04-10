@@ -15,6 +15,7 @@ import {
   SparklesIcon,
   GiftIcon,
   CreditCardIcon,
+  MegaphoneIcon,
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { useClerk } from '@clerk/nextjs';
@@ -29,6 +30,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { name: 'Dashboard', nameTh: 'แดชบอร์ด', href: '/dj-portal', icon: HomeIcon },
   { name: 'AI Studio', nameTh: 'AI สตูดิโอ', href: '/dj-portal/ai-studio', icon: SparklesIcon },
+  { name: 'Open Gigs', nameTh: 'งานที่เปิด', href: '/dj-portal/gigs', icon: MegaphoneIcon },
   { name: 'Schedule', nameTh: 'ตารางงาน', href: '/dj-portal/schedule', icon: CalendarIcon },
   { name: 'Feedback', nameTh: 'คำติชม', href: '/dj-portal/feedback', icon: StarIcon },
   { name: 'Credits', nameTh: 'เครดิต', href: '/dj-portal/credits', icon: CreditCardIcon },

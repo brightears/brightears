@@ -14,6 +14,7 @@ import {
   ArrowLeftOnRectangleIcon,
   Bars3Icon,
   XMarkIcon,
+  MegaphoneIcon,
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { useClerk } from '@clerk/nextjs';
@@ -29,6 +30,7 @@ const navItems: NavItem[] = [
   { name: 'Schedule', href: '/venue-portal/schedule', icon: CalendarIcon },
   { name: 'DJs', href: '/venue-portal/djs', icon: UserGroupIcon },
   { name: 'Find Artists', href: '/venue-portal/artists', icon: MagnifyingGlassIcon },
+  { name: 'Open Gigs', href: '/venue-portal/gigs', icon: MegaphoneIcon },
   { name: 'Feedback', href: '/venue-portal/feedback', icon: ChatBubbleLeftRightIcon },
   { name: 'Statistics', href: '/venue-portal/stats', icon: ChartBarIcon },
 ];
