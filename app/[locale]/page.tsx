@@ -54,7 +54,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   });
 
   // Live marketplace stats — fetched at render time
-  const [artistCount, venueCount, recentActivity] = await Promise.all([
+  const [artistCount, venueCount, recentActivity, featuredArtists, featuredVenues] = await Promise.all([
     prisma.artist.count({
       where: { isVisible: true, user: { isActive: true } },
     }),
@@ -81,6 +81,33 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       },
       orderBy: { date: 'desc' },
       take: 20, // fetch more than we need to filter out invisible artists
+    }),
+    // Featured roster preview — 8 visible artists with highest ratings
+    prisma.artist.findMany({
+      where: {
+        isVisible: true,
+        user: { isActive: true },
+        profileImage: { not: null },
+      },
+      select: {
+        id: true,
+        stageName: true,
+        profileImage: true,
+        category: true,
+        genres: true,
+        averageRating: true,
+        startingRate: true,
+      },
+      orderBy: [
+        { averageRating: { sort: 'desc', nulls: 'last' } },
+      ],
+      take: 8,
+    }),
+    // Venues with real gig history (for the scrolling logo wall)
+    prisma.venue.findMany({
+      where: { isActive: true },
+      select: { id: true, name: true },
+      orderBy: { name: 'asc' },
     }),
   ]);
 
@@ -152,25 +179,25 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
           <div className="relative z-20 max-w-4xl space-y-8">
             <span className="inline-block px-4 py-1.5 rounded-full glass-card text-[#4fd6ff] text-xs tracking-widest uppercase font-bold">
-              FREE TO JOIN — NO COMMISSIONS
+              0% commission · Free forever
             </span>
             <h1 className="text-7xl md:text-8xl font-playfair font-bold tracking-tighter leading-tight">
-              Your entertainment. <br /> <span className="text-gradient-primary">Elevated.</span>
+              The night, <br /><span className="text-gradient-primary">programmed.</span>
             </h1>
             <p className="text-xl text-[#bcc8ce] max-w-2xl leading-relaxed">
-              The free platform where performing artists create professional promo content and venues discover the right talent — powered by AI.
+              {artistCount} resident DJs. {venueCount} venues. Every night of the week in Bangkok.
             </p>
             <div className="flex flex-wrap gap-6 pt-4">
-              <a href="/sign-up" className="bg-gradient-to-r from-[#b8ebff] to-[#4fd6ff] text-[#003543] px-10 py-4 font-bold rounded-lg shadow-lg hover:brightness-110 transition-all">
-                I&apos;m an Artist
+              <a href={`/${locale}/entertainment`} className="bg-gradient-to-r from-[#b8ebff] to-[#4fd6ff] text-[#003543] px-10 py-4 font-bold rounded-lg shadow-lg hover:brightness-110 transition-all">
+                Find a DJ →
               </a>
-              <a href="/sign-up/venue" className="glass-card text-[#f0bba5] px-10 py-4 font-bold rounded-lg hover:bg-white/5 transition-all">
-                I&apos;m a Venue
+              <a href="/sign-up" className="glass-card text-[#f0bba5] px-10 py-4 font-bold rounded-lg hover:bg-white/5 transition-all">
+                List your talent
               </a>
             </div>
             <div className="flex flex-wrap gap-6 pt-2 text-sm text-[#bcc8ce]">
-              <a href={`/${locale}/entertainment`} className="underline underline-offset-4 hover:text-white transition-colors">
-                Or browse artists first →
+              <a href={`/${locale}/gigs`} className="underline underline-offset-4 hover:text-white transition-colors">
+                Looking for a gig? Browse open calls →
               </a>
             </div>
           </div>
@@ -344,32 +371,86 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
         </section>
 
-        {/* SOCIAL PROOF — from Stitch */}
-        <section id="about" className="py-32 px-12 max-w-[1440px] mx-auto scroll-mt-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center mb-24">
-            {[
-              { val: '20+', label: 'Years Exp' }, { val: String(artistCount), label: 'Artists' },
-              { val: String(venueCount), label: 'Venues' }, { val: '4.9', label: 'Star Rating' },
-            ].map((s) => (
-              <div key={s.label} className="space-y-2">
-                <p className="text-5xl font-playfair font-bold text-[#4fd6ff]">{s.val}</p>
-                <p className="text-sm uppercase tracking-widest font-bold opacity-50">{s.label}</p>
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-wrap justify-center items-center gap-16 mb-24 opacity-40">
-            {['MARRIOTT', 'HILTON', 'CENTARA', 'ACCOR'].map((n) => (
-              <span key={n} className="text-2xl font-black tracking-widest">{n}</span>
-            ))}
-          </div>
-          <div className="flex justify-center">
-            <div className="glass-card p-12 rounded-2xl max-w-2xl text-center relative">
-              <span className="material-symbols-outlined text-[#4fd6ff] text-4xl absolute -top-5 left-1/2 -translate-x-1/2 bg-[#131313] px-4">format_quote</span>
-              <p className="text-2xl italic font-playfair leading-relaxed mb-6 text-[#bcc8ce]">
-                &ldquo;BrightEars completely removed the stress of promoting our residency. The AI content tool is a game changer for busy performing artists.&rdquo;
+        {/* ROSTER PREVIEW — real DJs, real venues. "Show the inventory" pattern. */}
+        <section id="about" className="py-32 px-12 scroll-mt-20">
+          <div className="max-w-[1440px] mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-xs tracking-widest text-[#4fd6ff] font-bold mb-4 uppercase">The roster</p>
+              <h2 className="text-5xl md:text-6xl font-playfair font-bold tracking-tighter">
+                Real DJs. Real venues.
+              </h2>
+              <p className="text-stone-400 mt-4 max-w-xl mx-auto">
+                Every profile is verified, every venue booked through the platform. No stock photos, no placeholders.
               </p>
-              <p className="font-bold">Julian Rossi</p>
-              <p className="text-xs text-[#bcc8ce] uppercase tracking-widest">Resident Pianist, Marriott Bangkok</p>
+            </div>
+
+            {/* Scrolling venue logo wall — Supabase's "repeated 4×" trick */}
+            <div className="relative overflow-hidden mask-fade-horizontal mb-16 py-4">
+              <div className="flex gap-12 animate-scroll-x items-center whitespace-nowrap">
+                {/* Repeat the venue list 4× so there's always content scrolling */}
+                {[...featuredVenues, ...featuredVenues, ...featuredVenues, ...featuredVenues].map((v, i) => (
+                  <a
+                    key={`${v.id}-${i}`}
+                    href={`/${locale}/venues/${v.id}`}
+                    className="text-2xl md:text-3xl font-black tracking-widest opacity-40 hover:opacity-100 transition-opacity text-[#bcc8ce] hover:text-[#4fd6ff]"
+                  >
+                    {v.name.toUpperCase()}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Featured artist grid — 8 real DJs with photos */}
+            {featuredArtists.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                {featuredArtists.map((artist) => (
+                  <a
+                    key={artist.id}
+                    href={`/${locale}/entertainment/${artist.id}`}
+                    className="relative aspect-square rounded-xl overflow-hidden group bg-[#2a2a2a]"
+                  >
+                    {artist.profileImage && (
+                      <Image
+                        src={artist.profileImage}
+                        alt={artist.stageName}
+                        fill
+                        className="object-cover object-[center_25%] transition-transform duration-500 group-hover:scale-105 grayscale group-hover:grayscale-0"
+                        sizes="(max-width: 768px) 50vw, 25vw"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#131313] via-[#131313]/30 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <p className="font-playfair text-xl font-bold text-white truncate">{artist.stageName}</p>
+                      {artist.genres.length > 0 && (
+                        <p className="text-xs text-[#bcc8ce] truncate">{artist.genres.slice(0, 2).join(' · ')}</p>
+                      )}
+                      {artist.startingRate && (
+                        <p className="text-[10px] text-[#4fd6ff] mt-1">from ฿{Math.round(Number(artist.startingRate)).toLocaleString()}/hr</p>
+                      )}
+                    </div>
+                  </a>
+                ))}
+              </div>
+            )}
+
+            <div className="text-center mb-24">
+              <a
+                href={`/${locale}/entertainment`}
+                className="inline-block px-8 py-3 glass-card text-[#4fd6ff] font-bold rounded-lg hover:bg-white/5 transition"
+              >
+                See all {artistCount} artists →
+              </a>
+            </div>
+
+            <div className="flex justify-center">
+              <div className="glass-card p-12 rounded-2xl max-w-2xl text-center relative">
+                <span className="material-symbols-outlined text-[#4fd6ff] text-4xl absolute -top-5 left-1/2 -translate-x-1/2 bg-[#131313] px-4">format_quote</span>
+                <p className="text-2xl italic font-playfair leading-relaxed mb-6 text-[#bcc8ce]">
+                  &ldquo;BrightEars completely removed the stress of promoting our residency. The AI content tool is a game changer for busy performing artists.&rdquo;
+                </p>
+                <p className="font-bold">Julian Rossi</p>
+                <p className="text-xs text-[#bcc8ce] uppercase tracking-widest">Resident Pianist, Marriott Bangkok</p>
+              </div>
             </div>
           </div>
         </section>

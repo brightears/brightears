@@ -14,6 +14,7 @@ interface DJ {
   instagram: string | null;
   averageRating: number | null;
   venues: string[];
+  startingRate?: number | null;
 }
 
 interface DJGalleryProps {

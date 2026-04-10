@@ -246,6 +246,13 @@ model Artist {
   // Thailand-specific legal status for foreign performers
   workPermitStatus  WorkPermitStatus @default(UNKNOWN)
 
+  // Marketplace price anchor — "Starting at ฿X" on cards.
+  // The Knot / GigSalad pattern: lets venues filter by budget and reduces
+  // lowball inquiries. Optional — many artists quote per gig; this is just
+  // a floor to set expectations. Separate from hourlyRate which is the
+  // internal ops rate for schedule management.
+  startingRate      Decimal?         @db.Decimal(10, 2)
+
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
 

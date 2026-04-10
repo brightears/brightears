@@ -91,6 +91,7 @@ async function getDJProfile(slug: string) {
       contactEmail: true,
       averageRating: true,
       workPermitStatus: true,
+      startingRate: true,
       venueAssignments: {
         select: { venue: { select: { name: true } } },
         where: { status: 'COMPLETED' },
@@ -513,6 +514,19 @@ export default async function DJProfilePage({
                     </a>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Starting rate anchor */}
+            {artist.startingRate && (
+              <div className="flex items-center gap-2 text-[#bcc9ce] font-inter">
+                <span className="text-xs uppercase tracking-widest opacity-60">
+                  {locale === 'th' ? 'เริ่มต้นที่' : 'Starting at'}
+                </span>
+                <span className="text-2xl font-bold text-white">
+                  ฿{Math.round(Number(artist.startingRate)).toLocaleString()}
+                </span>
+                <span className="text-xs text-[#bcc9ce]/60">/hr</span>
               </div>
             )}
 

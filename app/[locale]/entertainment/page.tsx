@@ -72,6 +72,7 @@ export default async function EntertainmentPage({
       lineId: true,
       averageRating: true,
       baseCity: true,
+      startingRate: true,
       venueAssignments: {
         select: {
           venue: {
@@ -103,6 +104,7 @@ export default async function EntertainmentPage({
     lineId: artist.lineId,
     averageRating: artist.averageRating,
     baseCity: artist.baseCity,
+    startingRate: artist.startingRate ? Number(artist.startingRate) : null,
     venues: [...new Set(artist.venueAssignments.map((va) => va.venue.name))],
   }));
 

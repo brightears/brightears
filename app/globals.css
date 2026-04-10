@@ -258,6 +258,21 @@ body {
 .performance-optimized { transform: translateZ(0); backface-visibility: hidden; }
 .animation-complete { will-change: auto; }
 
+/* Horizontal scrolling marquee for venue logo wall (Supabase-style) */
+@keyframes scroll-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-25%); }
+}
+.animate-scroll-x {
+  animation: scroll-x 40s linear infinite;
+}
+
+/* Gradient fade mask on horizontal scroll edges */
+.mask-fade-horizontal {
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
 /* Touch Feedback for Mobile */
 .touch-feedback { position: relative; overflow: hidden; }
 .touch-feedback::before {
