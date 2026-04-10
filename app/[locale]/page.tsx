@@ -179,25 +179,35 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
           <div className="relative z-20 max-w-4xl space-y-8">
             <span className="inline-block px-4 py-1.5 rounded-full glass-card text-[#4fd6ff] text-xs tracking-widest uppercase font-bold">
-              0% commission · Free forever
+              {locale === 'th' ? 'ไม่มีค่าคอมมิชชั่น · ฟรีตลอดไป' : '0% commission · Free forever'}
             </span>
             <h1 className="text-7xl md:text-8xl font-playfair font-bold tracking-tighter leading-tight">
-              The night, <br /><span className="text-gradient-primary">programmed.</span>
+              {locale === 'th' ? (
+                <>
+                  คืนนี้ <br /><span className="text-gradient-primary">จัดเต็ม.</span>
+                </>
+              ) : (
+                <>
+                  The night, <br /><span className="text-gradient-primary">programmed.</span>
+                </>
+              )}
             </h1>
             <p className="text-xl text-[#bcc8ce] max-w-2xl leading-relaxed">
-              {artistCount} resident DJs. {venueCount} venues. Every night of the week in Bangkok.
+              {locale === 'th'
+                ? `${artistCount} ดีเจประจำ ${venueCount} สถานที่ ทุกคืนในกรุงเทพฯ`
+                : `${artistCount} resident DJs. ${venueCount} venues. Every night of the week in Bangkok.`}
             </p>
             <div className="flex flex-wrap gap-6 pt-4">
               <a href={`/${locale}/entertainment`} className="bg-gradient-to-r from-[#b8ebff] to-[#4fd6ff] text-[#003543] px-10 py-4 font-bold rounded-lg shadow-lg hover:brightness-110 transition-all">
-                Find a DJ →
+                {locale === 'th' ? 'ค้นหาดีเจ →' : 'Find a DJ →'}
               </a>
               <a href="/sign-up" className="glass-card text-[#f0bba5] px-10 py-4 font-bold rounded-lg hover:bg-white/5 transition-all">
-                List your talent
+                {locale === 'th' ? 'ลงทะเบียนศิลปิน' : 'List your talent'}
               </a>
             </div>
             <div className="flex flex-wrap gap-6 pt-2 text-sm text-[#bcc8ce]">
               <a href={`/${locale}/gigs`} className="underline underline-offset-4 hover:text-white transition-colors">
-                Looking for a gig? Browse open calls →
+                {locale === 'th' ? 'กำลังหางาน? เปิดดูงานทั้งหมด →' : 'Looking for a gig? Browse open calls →'}
               </a>
             </div>
           </div>
@@ -375,12 +385,16 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <section id="about" className="py-32 px-12 scroll-mt-20">
           <div className="max-w-[1440px] mx-auto">
             <div className="text-center mb-12">
-              <p className="text-xs tracking-widest text-[#4fd6ff] font-bold mb-4 uppercase">The roster</p>
+              <p className="text-xs tracking-widest text-[#4fd6ff] font-bold mb-4 uppercase">
+                {locale === 'th' ? 'รายชื่อดีเจ' : 'The roster'}
+              </p>
               <h2 className="text-5xl md:text-6xl font-playfair font-bold tracking-tighter">
-                Real DJs. Real venues.
+                {locale === 'th' ? 'ดีเจจริง สถานที่จริง' : 'Real DJs. Real venues.'}
               </h2>
               <p className="text-stone-400 mt-4 max-w-xl mx-auto">
-                Every profile is verified, every venue booked through the platform. No stock photos, no placeholders.
+                {locale === 'th'
+                  ? 'ทุกโปรไฟล์ผ่านการตรวจสอบ ทุกสถานที่จองผ่านแพลตฟอร์มของเรา ไม่มีภาพสต็อก ไม่มีตัวแทน'
+                  : 'Every profile is verified, every venue booked through the platform. No stock photos, no placeholders.'}
               </p>
             </div>
 
@@ -458,10 +472,16 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         {/* PRICING — from Stitch */}
         <section id="pricing" className="py-32 bg-[#1c1b1b] px-12 scroll-mt-20">
           <div className="max-w-[1440px] mx-auto text-center mb-16">
-            <p className="text-xs tracking-widest text-[#4fd6ff] font-bold mb-4 uppercase">Membership</p>
-            <h2 className="text-5xl font-playfair font-bold tracking-tighter">Pay for what you use.</h2>
+            <p className="text-xs tracking-widest text-[#4fd6ff] font-bold mb-4 uppercase">
+              {locale === 'th' ? 'สมาชิก' : 'Membership'}
+            </p>
+            <h2 className="text-5xl font-playfair font-bold tracking-tighter">
+              {locale === 'th' ? 'จ่ายเท่าที่ใช้' : 'Pay for what you use.'}
+            </h2>
             <p className="text-stone-400 mt-4 max-w-xl mx-auto">
-              The marketplace is free forever. Only AI content generation costs credits — and the free tier covers most artists.
+              {locale === 'th'
+                ? 'มาร์เก็ตเพลสใช้ฟรีตลอดไป เฉพาะการสร้างเนื้อหา AI เท่านั้นที่ใช้เครดิต — และแพ็กเกจฟรีก็เพียงพอสำหรับศิลปินส่วนใหญ่'
+                : 'The marketplace is free forever. Only AI content generation costs credits — and the free tier covers most artists.'}
             </p>
           </div>
           <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
