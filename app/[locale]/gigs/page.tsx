@@ -145,9 +145,12 @@ export default async function PublicGigsPage({
                 <p className="text-stone-400 text-sm mb-4 line-clamp-3 whitespace-pre-wrap">{gig.description}</p>
 
                 <div className="flex flex-wrap items-center gap-4 text-sm text-stone-300">
-                  <span className="flex items-center gap-1.5">
+                  <Link
+                    href={`/${locale}/venues/${gig.venue.id}`}
+                    className="flex items-center gap-1.5 hover:text-[#4fd6ff] transition"
+                  >
                     <MapPinIcon className="w-4 h-4" /> {gig.venue.name}, {gig.venue.city}
-                  </span>
+                  </Link>
                   <span className="flex items-center gap-1.5">
                     <CalendarIcon className="w-4 h-4" /> {fmtDate(gig.date)}
                   </span>

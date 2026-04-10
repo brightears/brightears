@@ -32,6 +32,18 @@ enum ArtistCategory {
   SPEAKER
 }
 
+// Thailand-specific work permit status for foreign performers.
+// Required per 2026 research: Feb 2025 Pai deportations of 4 foreign musicians
+// made this a named legal risk for venues. Displayed as a badge on artist
+// profiles so venues know upfront whether a booking exposes them to liability.
+enum WorkPermitStatus {
+  NOT_APPLICABLE      // Thai national or permit not required
+  VALID               // Foreign artist with valid permit, verified
+  VENUE_SPONSORED     // Foreign artist, venue handles work permit sponsorship
+  TOURIST_NOT_BOOKABLE // On tourist visa, cannot legally perform for pay
+  UNKNOWN             // Default — artist hasn't specified
+}
+
 // Booking status enum
 enum BookingStatus {
   INQUIRY
@@ -230,6 +242,9 @@ model Artist {
   // Controls whether the artist appears in the public /entertainment directory.
   // Default true so new artists are visible; seed/placeholder profiles are set to false.
   isVisible         Boolean          @default(true)
+
+  // Thailand-specific legal status for foreign performers
+  workPermitStatus  WorkPermitStatus @default(UNKNOWN)
 
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt

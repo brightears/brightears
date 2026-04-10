@@ -90,6 +90,7 @@ async function getDJProfile(slug: string) {
       youtube: true,
       contactEmail: true,
       averageRating: true,
+      workPermitStatus: true,
       venueAssignments: {
         select: { venue: { select: { name: true } } },
         where: { status: 'COMPLETED' },
@@ -370,6 +371,32 @@ export default async function DJProfilePage({
                       {genre}
                     </span>
                   ))}
+                </div>
+              )}
+
+              {/* Work permit status badge — Thailand legal compliance */}
+              {artist.workPermitStatus && artist.workPermitStatus !== 'UNKNOWN' && (
+                <div className="mt-4">
+                  {artist.workPermitStatus === 'NOT_APPLICABLE' && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-xs font-bold text-emerald-300 uppercase tracking-wider">
+                      ✓ Thai National — No Work Permit Needed
+                    </span>
+                  )}
+                  {artist.workPermitStatus === 'VALID' && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-xs font-bold text-emerald-300 uppercase tracking-wider">
+                      ✓ Valid Work Permit
+                    </span>
+                  )}
+                  {artist.workPermitStatus === 'VENUE_SPONSORED' && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full text-xs font-bold text-amber-300 uppercase tracking-wider">
+                      Requires Venue Sponsorship
+                    </span>
+                  )}
+                  {artist.workPermitStatus === 'TOURIST_NOT_BOOKABLE' && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/30 rounded-full text-xs font-bold text-red-300 uppercase tracking-wider">
+                      ⚠ Tourist Visa — Not Bookable
+                    </span>
+                  )}
                 </div>
               )}
 
