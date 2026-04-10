@@ -24,6 +24,9 @@ const isApiRoute = createRouteMatcher(['/api(.*)']);
 // Auth routes should skip intl middleware (Clerk handles these)
 const isAuthRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)']);
 
+// LIFF Mini App runs outside the [locale] folder — skip intl middleware
+const isLiffRoute = createRouteMatcher(['/liff(.*)']);
+
 export default clerkMiddleware(async (auth, req) => {
   // Skip internationalization for API routes
   if (isApiRoute(req)) {
@@ -32,6 +35,11 @@ export default clerkMiddleware(async (auth, req) => {
 
   // Skip internationalization for auth routes (Clerk handles these)
   if (isAuthRoute(req)) {
+    return;
+  }
+
+  // Skip intl for LIFF Mini App (no locale prefix — embedded in LINE)
+  if (isLiffRoute(req)) {
     return;
   }
 
