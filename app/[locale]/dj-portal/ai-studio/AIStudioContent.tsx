@@ -27,9 +27,29 @@ const CONTENT_TYPES: { value: ContentType; label: string; icon: string; dimensio
   { value: 'SOCIAL_BANNER', label: 'Social Banner', icon: 'panorama_wide_angle', dimensions: '1500×500' },
 ];
 
+// Style presets from 2026 AI creator tool research (Leonardo/Picsart/Canva pattern).
+// Each preset appends aesthetic modifiers to the Gemini prompt — style is the
+// biggest lever for promo poster aesthetics.
+const STYLE_PRESETS = [
+  { id: 'neon',       label: 'Neon',       icon: '💜', prompt: 'neon magenta and cyan, cyberpunk aesthetic, dark moody background, glowing accents, high contrast' },
+  { id: 'minimal',    label: 'Minimal',    icon: '⬜', prompt: 'minimalist design, lots of negative space, refined serif typography, monochrome with single accent color, editorial' },
+  { id: 'luxe',       label: 'Luxe',       icon: '🥂', prompt: 'luxury hospitality aesthetic, deep black and gold, champagne tones, elegant serif typography, five-star hotel vibe' },
+  { id: 'tropical',   label: 'Tropical',   icon: '🌴', prompt: 'tropical sunset gradient, coral orange to purple, palm silhouettes, relaxed island vibe, warm tones' },
+  { id: 'vintage',    label: 'Vintage',    icon: '📻', prompt: 'retro 70s-80s poster aesthetic, warm analog colors, bold vintage typography, distressed textures, nostalgic' },
+  { id: 'y2k',        label: 'Y2K',        icon: '💿', prompt: 'Y2K aesthetic, chrome metallic effects, iridescent holographic, translucent plastic, 2000s club flyer vibe' },
+  { id: 'dark-tech',  label: 'Dark Tech',  icon: '🖤', prompt: 'dark tech aesthetic, matte black, monospace typography, subtle grid patterns, cyan accent, underground club feel' },
+  { id: 'sunset',     label: 'Sunset',     icon: '🌅', prompt: 'sunset rooftop photography style, warm amber golden hour lighting, Bangkok skyline blur, cinematic depth' },
+  { id: 'monochrome', label: 'Monochrome', icon: '⚫', prompt: 'high-contrast monochrome black and white, documentary photography style, grainy film texture, bold typography' },
+  { id: 'bkk',        label: 'Bangkok',    icon: '🏙️', prompt: 'Bangkok night skyline, neon signs reflections, rainy streets, tuk tuk blur, asian cyberpunk vibe' },
+  { id: 'type',       label: 'Typographic', icon: '🔤', prompt: 'typography-driven design, massive bold lettering as the hero element, geometric layout, minimal imagery' },
+  { id: 'photo',      label: 'Photo',      icon: '📸', prompt: 'photo-driven design, dominant photography with minimal text overlay, editorial magazine aesthetic, natural lighting' },
+];
+type StylePresetId = typeof STYLE_PRESETS[number]['id'];
+
 export default function AIStudioContent() {
   const { user, isLoaded } = useUser();
   const [selectedType, setSelectedType] = useState<ContentType>('INSTAGRAM_POST');
+  const [selectedStyle, setSelectedStyle] = useState<StylePresetId | null>(null);
   const [artistName, setArtistName] = useState('');
   const [venueName, setVenueName] = useState('');
   const [eventDate, setEventDate] = useState('');
@@ -131,6 +151,13 @@ export default function AIStudioContent() {
     setResult(null);
 
     try {
+      // Merge the selected style preset into the custom prompt so the Gemini
+      // prompt builder picks it up as additional aesthetic guidance.
+      const stylePrompt = selectedStyle
+        ? STYLE_PRESETS.find((p) => p.id === selectedStyle)?.prompt
+        : null;
+      const combinedPrompt = [customPrompt, stylePrompt].filter(Boolean).join('. ');
+
       const response = await fetch('/api/ai/generate-content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -142,7 +169,7 @@ export default function AIStudioContent() {
           venueName: venueName || undefined,
           eventDate: eventDate || undefined,
           genre: genre || undefined,
-          customPrompt: customPrompt || undefined,
+          customPrompt: combinedPrompt || undefined,
         }),
       });
 
@@ -196,9 +223,30 @@ export default function AIStudioContent() {
             <p className="text-[#bcc8ce] mt-2">Generate professional promo content in seconds</p>
           </div>
           {usage && (
-            <div className="glass-card px-5 py-3 rounded-xl text-sm">
-              <span className="text-[#4fd6ff] font-bold">{usage.balance}</span>
-              <span className="text-[#bcc8ce]"> credits remaining</span>
+            <div className={`glass-card px-5 py-3 rounded-xl text-sm border ${
+              usage.balance === 0
+                ? 'border-red-500/50 bg-red-500/10'
+                : usage.balance <= 1
+                ? 'border-red-500/30 bg-red-500/5'
+                : usage.balance <= 3
+                ? 'border-amber-500/30 bg-amber-500/5'
+                : 'border-transparent'
+            }`}>
+              <span className={`font-bold ${
+                usage.balance === 0 ? 'text-red-300' :
+                usage.balance <= 1 ? 'text-red-300' :
+                usage.balance <= 3 ? 'text-amber-300' :
+                'text-[#4fd6ff]'
+              }`}>{usage.balance}</span>
+              <span className="text-[#bcc8ce]"> credit{usage.balance !== 1 ? 's' : ''} remaining</span>
+              {usage.balance <= 3 && usage.balance > 0 && (
+                <a
+                  href={`/${(typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'en')}/dj-portal/credits`}
+                  className="ml-3 text-xs text-amber-300 hover:text-amber-200 underline"
+                >
+                  Top up →
+                </a>
+              )}
             </div>
           )}
         </div>
@@ -318,6 +366,36 @@ export default function AIStudioContent() {
               </div>
             </div>
 
+            {/* Style preset picker — 2026 best practice (Leonardo/Picsart/Canva pattern).
+                Style is the single biggest lever for promo poster aesthetics. */}
+            <div>
+              <label className="text-[10px] font-bold text-[#bcc8ce] uppercase tracking-widest mb-3 block">
+                Style <span className="opacity-50 font-normal normal-case">— pick a vibe</span>
+              </label>
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                {STYLE_PRESETS.map((preset) => (
+                  <button
+                    key={preset.id}
+                    type="button"
+                    onClick={() => setSelectedStyle(selectedStyle === preset.id ? null : preset.id)}
+                    className={`p-3 rounded-lg border transition-all text-center ${
+                      selectedStyle === preset.id
+                        ? 'border-[#4fd6ff] bg-[#4fd6ff]/15 text-white'
+                        : 'border-[#3d494e]/20 bg-[#1c1b1b] text-[#bcc8ce]/80 hover:border-[#3d494e]/60 hover:text-white'
+                    }`}
+                  >
+                    <div className="text-xl mb-1">{preset.icon}</div>
+                    <div className="text-[11px] font-bold">{preset.label}</div>
+                  </button>
+                ))}
+              </div>
+              {selectedStyle && (
+                <p className="text-xs text-[#4fd6ff]/80 mt-2">
+                  ✓ Style applied. Click again to deselect, or pick another.
+                </p>
+              )}
+            </div>
+
             <div>
               <label className="text-[10px] font-bold text-[#bcc8ce] uppercase tracking-widest mb-2 block">Custom Instructions (optional)</label>
               <textarea
@@ -329,6 +407,22 @@ export default function AIStudioContent() {
                 className="w-full bg-transparent border-0 border-b border-[#3d494e]/30 focus:ring-0 focus:border-[#4fd6ff] py-3 px-0 text-[#e5e2e1] placeholder:text-[#bcc8ce]/30 resize-none"
               />
             </div>
+
+            {/* Out-of-credits nudge */}
+            {usage && usage.balance === 0 && (
+              <div className="p-4 rounded-xl border border-red-500/40 bg-red-500/5 text-sm text-red-200">
+                <p className="font-bold mb-1">Out of credits this month</p>
+                <p className="text-red-200/80 mb-3">
+                  You&apos;ve used all your free generations. Buy a credit pack to keep creating — credits never expire.
+                </p>
+                <a
+                  href="/en/dj-portal/credits"
+                  className="inline-block px-4 py-2 bg-red-500 text-white font-bold rounded-lg text-xs hover:bg-red-600 transition"
+                >
+                  Buy credits →
+                </a>
+              </div>
+            )}
 
             {/* Generate Button */}
             <button

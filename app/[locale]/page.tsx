@@ -458,29 +458,51 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         {/* PRICING — from Stitch */}
         <section id="pricing" className="py-32 bg-[#1c1b1b] px-12 scroll-mt-20">
           <div className="max-w-[1440px] mx-auto text-center mb-16">
-            <h2 className="text-5xl font-playfair font-bold tracking-tighter">Membership</h2>
+            <p className="text-xs tracking-widest text-[#4fd6ff] font-bold mb-4 uppercase">Membership</p>
+            <h2 className="text-5xl font-playfair font-bold tracking-tighter">Pay for what you use.</h2>
+            <p className="text-stone-400 mt-4 max-w-xl mx-auto">
+              The marketplace is free forever. Only AI content generation costs credits — and the free tier covers most artists.
+            </p>
           </div>
           <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-8 bg-[#2a2a2a] rounded-xl flex flex-col items-center text-center space-y-6">
               <p className="font-black uppercase tracking-widest text-xs opacity-50">Free</p>
-              <div className="text-4xl font-playfair font-bold">$0</div>
-              <ul className="text-sm space-y-4 text-[#bcc8ce]"><li>Public Profile</li><li>Venue Direct Contact</li><li>12 AI Generations / Month</li></ul>
+              <div className="text-4xl font-playfair font-bold">฿0</div>
+              <ul className="text-sm space-y-3 text-[#bcc8ce]">
+                <li>Public profile + direct contact</li>
+                <li>Browse + apply to open gigs</li>
+                <li><b className="text-white">12 AI promo images / month</b></li>
+                <li className="text-xs opacity-60">= 12 posters or IG posts or EPK headers</li>
+              </ul>
               <a href="/sign-up" className="w-full py-3 rounded-lg border border-[#3d494e] hover:bg-white/5 transition-all mt-auto font-bold text-center block">Get Started</a>
             </div>
             <div className="p-8 bg-[#131313] border-2 border-[#4fd6ff] rounded-xl flex flex-col items-center text-center space-y-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 bg-[#4fd6ff] text-[#003543] px-4 py-1 text-[10px] font-bold uppercase tracking-widest transform rotate-45 translate-x-10 translate-y-4">Popular</div>
-              <p className="font-black uppercase tracking-widest text-xs text-[#4fd6ff]">Credits</p>
-              <div className="text-4xl font-playfair font-bold">$5 - $60</div>
-              <ul className="text-sm space-y-4 text-[#bcc8ce]"><li>Pay as you go</li><li>Bulk AI Credits</li><li>Priority Discoverability</li></ul>
+              <p className="font-black uppercase tracking-widest text-xs text-[#4fd6ff]">Credit Packs</p>
+              <div className="text-4xl font-playfair font-bold">฿200 – ฿2,000</div>
+              <ul className="text-sm space-y-3 text-[#bcc8ce]">
+                <li><b className="text-white">20 credits for ฿200</b> = 20 posters</li>
+                <li><b className="text-white">100 credits for ฿900</b> = 100 posters</li>
+                <li><b className="text-white">250 credits for ฿2,000</b> = 250 posters</li>
+                <li className="text-xs opacity-60">Credits never expire. Commercial rights included.</li>
+              </ul>
               <a href={`/${locale}/ai-tools`} className="w-full py-3 rounded-lg bg-[#4fd6ff] text-[#003543] transition-all mt-auto font-bold text-center block">Buy Credits</a>
             </div>
             <div className="p-8 bg-[#2a2a2a] rounded-xl flex flex-col items-center text-center space-y-6">
               <p className="font-black uppercase tracking-widest text-xs opacity-50">Premium</p>
-              <div className="text-4xl font-playfair font-bold">$9.99<span className="text-sm">/mo</span></div>
-              <ul className="text-sm space-y-4 text-[#bcc8ce]"><li>Unlimited AI Tools</li><li>Verified Badge</li><li>Advanced Analytics</li></ul>
+              <div className="text-4xl font-playfair font-bold">฿349<span className="text-sm">/mo</span></div>
+              <ul className="text-sm space-y-3 text-[#bcc8ce]">
+                <li><b className="text-white">Unlimited AI generations</b></li>
+                <li>Verified artist badge</li>
+                <li>Priority in directory + search</li>
+                <li>Advanced analytics</li>
+              </ul>
               <a href="#contact" className="w-full py-3 rounded-lg border border-[#3d494e] hover:bg-white/5 transition-all mt-auto font-bold text-center block">Go Premium</a>
             </div>
           </div>
+          <p className="text-center text-xs text-stone-500 mt-10 max-w-2xl mx-auto">
+            Stripe + PromptPay accepted. 0% commission on bookings — venues and artists transact directly. Ever.
+          </p>
         </section>
 
         {/* RECENT ACTIVITY — proof of life */}
