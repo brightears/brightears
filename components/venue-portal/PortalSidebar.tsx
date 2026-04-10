@@ -15,6 +15,7 @@ import {
   Bars3Icon,
   XMarkIcon,
   MegaphoneIcon,
+  BuildingOfficeIcon,
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { useClerk } from '@clerk/nextjs';
@@ -33,6 +34,7 @@ const navItems: NavItem[] = [
   { name: 'Open Gigs', href: '/venue-portal/gigs', icon: MegaphoneIcon },
   { name: 'Feedback', href: '/venue-portal/feedback', icon: ChatBubbleLeftRightIcon },
   { name: 'Statistics', href: '/venue-portal/stats', icon: ChartBarIcon },
+  { name: 'Venue Profile', href: '/venue-portal/profile', icon: BuildingOfficeIcon },
 ];
 
 export default function PortalSidebar() {
