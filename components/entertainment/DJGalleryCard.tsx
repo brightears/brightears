@@ -22,12 +22,6 @@ interface DJGalleryCardProps {
 }
 
 export default function DJGalleryCard({ dj, onClick }: DJGalleryCardProps) {
-  // Trust badge — "Bangkok Nightlife Choice" for high-performing DJs
-  const isNightlifeChoice =
-    dj.averageRating !== null && dj.averageRating >= 4.5 && dj.venues.length >= 3;
-  const isOnesToWatch =
-    !isNightlifeChoice && dj.venues.length >= 1 && dj.venues.length < 3;
-
   return (
     <Link
       href={`/entertainment/${dj.id}`}
@@ -50,18 +44,6 @@ export default function DJGalleryCard({ dj, onClick }: DJGalleryCardProps) {
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#131313]/60 via-transparent to-transparent" />
-
-        {/* Award badge (top-left) */}
-        {isNightlifeChoice && (
-          <div className="absolute top-2 left-2 px-2 py-1 bg-[#f1bca6] text-[#131313] rounded-full text-[9px] font-bold uppercase tracking-wider shadow-lg">
-            ★ Nightlife Choice
-          </div>
-        )}
-        {isOnesToWatch && (
-          <div className="absolute top-2 left-2 px-2 py-1 bg-[#4fd6ff]/90 text-[#131313] rounded-full text-[9px] font-bold uppercase tracking-wider shadow-lg">
-            ✦ Ones to Watch
-          </div>
-        )}
 
         {/* Starting rate (top-right) */}
         {dj.startingRate && (
