@@ -139,11 +139,11 @@ export default async function HomePage({
             <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mb-6 text-center">
               Trusted by global hospitality leaders
             </p>
-            <div className="flex justify-center flex-wrap gap-10 md:gap-16 items-center opacity-50">
-              <Image src="/images/clients/marriott.svg" alt="Marriott" width={120} height={40} className="h-8 w-auto brightness-200 invert" />
-              <Image src="/images/clients/hilton.png" alt="Hilton" width={120} height={40} className="h-8 w-auto brightness-200 invert" />
-              <Image src="/images/clients/centara.png" alt="Centara" width={120} height={40} className="h-8 w-auto brightness-200 invert" />
-              <Image src="/images/clients/accor.png" alt="Accor" width={120} height={40} className="h-8 w-auto brightness-200 invert" />
+            <div className="flex justify-center flex-wrap gap-10 md:gap-16 items-center">
+              <span className="text-2xl md:text-3xl font-black tracking-[0.08em] uppercase" style={{ fontFamily: 'Manrope, sans-serif', color: '#C4262E' }}>MARRIOTT</span>
+              <span className="text-2xl md:text-3xl font-bold tracking-[0.15em] uppercase" style={{ fontFamily: 'Manrope, sans-serif', color: '#104C97' }}>HILTON</span>
+              <span className="text-2xl md:text-3xl font-bold tracking-[0.1em] uppercase" style={{ fontFamily: 'Noto Serif, serif', color: '#B71C2B' }}>CENTARA</span>
+              <span className="text-2xl md:text-3xl font-semibold tracking-[0.12em] uppercase" style={{ fontFamily: 'Manrope, sans-serif', color: '#1B3D6D' }}>ACCOR</span>
             </div>
           </div>
         </section>
