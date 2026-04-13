@@ -1,52 +1,88 @@
+/**
+ * BrightEars Homepage v3 — "Nocturne Gallery" design from Google Stitch
+ *
+ * Positioning: Premium entertainment management agency
+ * Two clear paths: "I need a DJ for an event" / "Ongoing management"
+ * Design: Art gallery meets nightclub — full-bleed photography, editorial
+ * serif typography, hard edges, dramatic negative space.
+ *
+ * Stitch project: 14961156792360455988 (Concept A)
+ * Design system: "Nocturne Gallery" — Noto Serif headlines, Manrope body,
+ * 0px border-radius, #131313 base, #4fd6ff cyan, #f0bba5 coral
+ */
+
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import Image from 'next/image';
+import { prisma } from '@/lib/prisma';
 import JsonLd from '@/components/JsonLd';
 import {
   generateOrganizationSchema,
   generateLocalBusinessSchema,
   generateBreadcrumbSchema,
-  generateFAQSchema
 } from '@/lib/schemas/structured-data';
-import Image from 'next/image';
 import VenueInquiryForm from '@/app/components/VenueInquiryForm';
 import HashScroller from '@/components/HashScroller';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
-  params
+  params,
 }: {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-
-  const title = locale === 'th'
-    ? 'Bright Ears | แพลตฟอร์ม AI สำหรับศิลปินและสถานที่บันเทิง'
-    : 'Bright Ears | AI-Powered Tools for Entertainment Professionals';
-
-  const description = locale === 'th'
-    ? 'แพลตฟอร์ม AI สำหรับศิลปินสร้างคอนเทนต์โปรโมท และสถานที่จัดการความบันเทิง ฟรี ไม่มีค่าคอมมิชชั่น'
-    : 'AI creative studio for performing artists. Entertainment management platform for venues. Free to use. No commissions.';
-
   return {
-    title,
-    description,
-    keywords: 'AI, entertainment, artist tools, venue management, promo content, creative platform, DJ, musician, band, performer, Bright Ears',
-    openGraph: { title, description, url: `/${locale}`, siteName: 'Bright Ears', locale: locale === 'th' ? 'th_TH' : 'en_US', type: 'website' },
-    twitter: { card: 'summary_large_image', title, description },
-    alternates: { canonical: `/${locale}`, languages: { 'en': '/en', 'th': '/th', 'x-default': '/en' } },
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large' as const } }
+    title: 'Bright Ears | Premium Entertainment Management Bangkok',
+    description:
+      'Managed DJ and entertainment services for Bangkok\'s finest hotels and venues. NOBU, Le Du Kaan, CRU Champagne Bar, Cocoa XO, Horizon. AI-powered scheduling, quality control, zero headaches.',
+    keywords:
+      'DJ agency Bangkok, entertainment management, hotel DJ service, venue entertainment, managed DJ, NOBU Bangkok DJ, premium entertainment',
+    openGraph: {
+      title: 'Bright Ears | Premium Entertainment Management Bangkok',
+      description:
+        'Managed DJ and entertainment services for Bangkok\'s finest hotels and venues.',
+      url: `/${locale}`,
+      siteName: 'Bright Ears',
+      type: 'website',
+    },
+    alternates: {
+      canonical: `/${locale}`,
+      languages: { en: '/en', th: '/th', 'x-default': '/en' },
+    },
   };
 }
 
-export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
   const { locale } = await params;
   const t = await getTranslations();
 
   const organizationSchema = generateOrganizationSchema({ locale });
   const localBusinessSchema = generateLocalBusinessSchema({ locale });
   const breadcrumbSchema = generateBreadcrumbSchema({
-    items: [{ name: locale === 'th' ? 'หน้าแรก' : 'Home', url: `https://brightears.io/${locale}` }]
+    items: [{ name: 'Home', url: `https://brightears.io/${locale}` }],
+  });
+
+  // Featured artists for the roster lookbook (top 6 with photos)
+  const featuredArtists = await prisma.artist.findMany({
+    where: {
+      isVisible: true,
+      user: { isActive: true },
+      profileImage: { not: null },
+    },
+    select: {
+      id: true,
+      stageName: true,
+      profileImage: true,
+      genres: true,
+      averageRating: true,
+    },
+    orderBy: [{ averageRating: { sort: 'desc', nulls: 'last' } }],
+    take: 6,
   });
 
   return (
@@ -56,386 +92,425 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <JsonLd data={breadcrumbSchema} />
       <HashScroller />
 
-      <main className="min-h-screen bg-[#131313] text-[#e5e2e1]">
+      {/* Stitch design: "Nocturne Gallery" — art gallery meets nightclub */}
+      <main className="min-h-screen bg-[#131313] text-[#e5e2e1]" style={{ fontFamily: 'Manrope, sans-serif' }}>
 
-        {/* ━━━ HERO — Platform positioning, split design ━━━ */}
-        <section className="relative min-h-screen flex items-center pt-20 px-8 md:px-16 overflow-hidden">
-          {/* Subtle background gradient — no DJ photo */}
+        {/* ━━━ HERO — Full-screen, dramatic, two clear CTAs ━━━ */}
+        <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#131313] via-[#0a1a20] to-[#131313]" />
-            <div className="absolute top-1/4 -left-40 w-[600px] h-[600px] bg-[#4fd6ff]/5 rounded-full blur-[150px]" />
-            <div className="absolute bottom-1/4 -right-40 w-[600px] h-[600px] bg-[#f0bba5]/5 rounded-full blur-[150px]" />
+            <Image
+              src="/images/hero-dj.jpg"
+              alt="Premium entertainment at a luxury Bangkok venue"
+              fill
+              priority
+              className="object-cover opacity-50"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#131313] via-transparent to-transparent" />
           </div>
-
-          <div className="relative z-10 max-w-6xl mx-auto w-full">
-            <div className="text-center mb-16">
-              <span className="inline-block px-4 py-1.5 rounded-full glass-card text-[#4fd6ff] text-xs tracking-widest uppercase font-bold mb-8">
-                {locale === 'th' ? 'ฟรีตลอดไป · ไม่มีค่าคอมมิชชั่น' : 'Free forever · Zero commissions'}
-              </span>
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-playfair font-bold tracking-tighter leading-[1.1] mb-8">
-                {locale === 'th' ? (
-                  <>AI สำหรับ<br />วงการบันเทิง</>
-                ) : (
-                  <>AI-powered tools for<br /><span className="text-gradient-primary">entertainment professionals.</span></>
-                )}
-              </h1>
-              <p className="text-xl md:text-2xl text-[#bcc8ce] max-w-3xl mx-auto leading-relaxed">
-                {locale === 'th'
-                  ? 'สตูดิโอสร้างสรรค์ AI สำหรับศิลปิน แพลตฟอร์มจัดการสำหรับสถานที่ มาร์เก็ตเพลสที่ทั้งสองฝ่ายมาเจอกัน'
-                  : 'A creative studio for artists. A management platform for venues. A marketplace where both sides meet.'}
-              </p>
-            </div>
-
-            {/* ━━━ SPLIT CARDS — The two sides ━━━ */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {/* Artist side */}
+          <div className="relative z-10 text-center px-4 max-w-5xl">
+            <h1
+              className="font-black text-6xl md:text-9xl mb-8 tracking-tighter leading-none italic"
+              style={{ fontFamily: 'Noto Serif, serif' }}
+            >
+              Entertainment. <span className="text-[#4fd6ff]">Managed.</span>
+            </h1>
+            <p className="text-lg md:text-xl text-[#bcc8ce] max-w-2xl mx-auto mb-12 font-light">
+              Premium DJ and entertainment services for Bangkok&apos;s finest hotels and venues.
+              Nightly scheduling, quality control, backup guarantees. One invoice. Zero headaches.
+            </p>
+            <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
               <a
-                href="/sign-up"
-                className="group relative p-8 md:p-10 rounded-2xl border border-[#4fd6ff]/20 bg-[#4fd6ff]/5 hover:bg-[#4fd6ff]/10 hover:border-[#4fd6ff]/40 transition-all duration-500"
+                href={`/${locale}/entertainment`}
+                className="bg-[#4fd6ff] text-[#003543] px-8 py-4 font-bold text-sm tracking-[0.2em] uppercase w-full md:w-auto hover:bg-[#b8ebff] transition-all"
               >
-                <div className="absolute top-6 right-6">
-                  <span className="material-symbols-outlined text-[#4fd6ff] text-3xl opacity-40 group-hover:opacity-80 transition-opacity">auto_awesome</span>
-                </div>
-                <p className="text-xs font-bold text-[#4fd6ff] uppercase tracking-widest mb-4">
-                  {locale === 'th' ? 'สำหรับศิลปิน' : 'For Artists'}
-                </p>
-                <h2 className="text-2xl md:text-3xl font-playfair font-bold text-white mb-4">
-                  {locale === 'th' ? 'สตูดิโอสร้างสรรค์ AI ของคุณ' : 'Your AI creative studio'}
-                </h2>
-                <p className="text-[#bcc8ce] text-sm mb-6">
-                  {locale === 'th'
-                    ? 'หมดยุคจ่ายดีไซเนอร์ หมดยุคเสียเวลาทำคอนเทนต์ AI ทำแทนคุณ — คุณโฟกัสที่ศิลปะ'
-                    : 'Stop paying designers. Stop spending hours on content. The AI does the agency work — you focus on your art.'}
-                </p>
-                <ul className="space-y-3 text-[#bcc8ce] text-sm mb-8">
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#4fd6ff] mt-0.5">→</span>
-                    {locale === 'th' ? 'โปสเตอร์ โพสต์ IG Story EPK — 10 วินาที ไม่ใช่ 10 ชั่วโมง' : 'Posters, IG posts, stories, EPKs — 10 seconds, not 10 hours'}
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#4fd6ff] mt-0.5">→</span>
-                    {locale === 'th' ? 'พอร์ตโฟลิโอมืออาชีพ แชร์ลิงก์เดียว' : 'One shareable portfolio link — replaces PDFs and email chains'}
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#4fd6ff] mt-0.5">→</span>
-                    {locale === 'th' ? 'ไม่มีเอเจนซี่หัก 20% คุณเก็บเงินเต็มจำนวน' : 'No agent taking 20% — keep 100% of what you earn'}
-                  </li>
-                </ul>
-                <span className="inline-flex items-center gap-2 text-[#4fd6ff] font-bold group-hover:gap-3 transition-all">
-                  {locale === 'th' ? 'สร้างโปรไฟล์ฟรี' : 'Create your profile — free'} →
-                </span>
+                I need a DJ for an event
               </a>
-
-              {/* Venue side */}
               <a
-                href="/sign-up/venue"
-                className="group relative p-8 md:p-10 rounded-2xl border border-[#f0bba5]/20 bg-[#f0bba5]/5 hover:bg-[#f0bba5]/10 hover:border-[#f0bba5]/40 transition-all duration-500"
+                href="#contact"
+                className="border border-[#f0bba5]/40 text-[#f0bba5] px-8 py-4 font-bold text-sm tracking-[0.2em] uppercase w-full md:w-auto hover:border-[#f0bba5] transition-all"
               >
-                <div className="absolute top-6 right-6">
-                  <span className="material-symbols-outlined text-[#f0bba5] text-3xl opacity-40 group-hover:opacity-80 transition-opacity">dashboard</span>
-                </div>
-                <p className="text-xs font-bold text-[#f0bba5] uppercase tracking-widest mb-4">
-                  {locale === 'th' ? 'สำหรับสถานที่ & เอเจนซี่' : 'For Venues & Agencies'}
-                </p>
-                <h2 className="text-2xl md:text-3xl font-playfair font-bold text-white mb-4">
-                  {locale === 'th' ? 'แพลตฟอร์มจัดการความบันเทิง' : 'Your entertainment platform'}
-                </h2>
-                <p className="text-[#bcc8ce] text-sm mb-6">
-                  {locale === 'th'
-                    ? 'หมดยุค spreadsheet หมดยุคตาม LINE ตอน 6 โมงเย็น แพลตฟอร์มจัดการทุกอย่าง — คุณโฟกัสงานอื่น'
-                    : 'Stop chasing artists on WhatsApp at 6pm. Stop managing schedules in spreadsheets. The platform handles it — you focus on running your venue.'}
-                </p>
-                <ul className="space-y-3 text-[#bcc8ce] text-sm mb-8">
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#f0bba5] mt-0.5">→</span>
-                    {locale === 'th' ? 'ตารางศิลปิน ฟีดแบ็ก สถิติ — ทุกอย่างที่เดียว' : 'Artist schedules, feedback, analytics — everything in one dashboard'}
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#f0bba5] mt-0.5">→</span>
-                    {locale === 'th' ? 'ประกาศหาศิลปิน ได้ใบสมัครทันที' : 'Post what you need, get qualified applications — no agency middleman'}
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#f0bba5] mt-0.5">→</span>
-                    {locale === 'th' ? 'ไม่มีค่าคอมมิชชั่น ไม่มีค่าเอเจนซี่ ติดต่อตรง 100%' : 'Zero agency fees, zero commissions — direct contact, always'}
-                  </li>
-                </ul>
-                <span className="inline-flex items-center gap-2 text-[#f0bba5] font-bold group-hover:gap-3 transition-all">
-                  {locale === 'th' ? 'ตั้งค่าสถานที่ฟรี' : 'Set up your venue — free'} →
-                </span>
+                Ongoing Management
               </a>
             </div>
           </div>
-        </section>
-
-        {/* ━━━ AI SHOWCASE — The core product demo ━━━ */}
-        <section className="py-32 px-8 md:px-16 bg-[#1c1b1b]">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16 space-y-6">
-              <p className="text-xs tracking-widest text-[#4fd6ff] font-bold uppercase">AI Creative Studio</p>
-              <h2 className="text-4xl md:text-6xl font-playfair font-bold tracking-tighter">
-                {locale === 'th' ? 'คอนเทนต์มืออาชีพใน 10 วินาที' : 'Professional content in 10 seconds.'}
-              </h2>
-              <p className="text-lg text-[#bcc8ce] max-w-2xl mx-auto">
-                {locale === 'th'
-                  ? 'ทุกภาพด้านล่างสร้างจาก AI Studio ของเรา จากข้อความเพียงบรรทัดเดียว ไม่ต้องใช้ Photoshop ไม่ต้องจ้างดีไซเนอร์'
-                  : 'Every image below was generated by our AI Studio from a single text prompt. No Photoshop. No designer. This is what you get.'}
-              </p>
-            </div>
-
-            {/* AI-generated examples — proof the tool works */}
-            <div className="relative h-[560px] md:h-[620px] flex items-center justify-center mb-16">
-              {[
-                {
-                  src: '/images/ai-examples/poster-friday-night.png',
-                  alt: 'AI-generated event poster',
-                  label: 'Event Poster',
-                  rotate: 'rotate-[-12deg] -translate-x-48 md:-translate-x-64',
-                  z: 'z-10',
-                },
-                {
-                  src: '/images/ai-examples/ig-square-dj-drop.png',
-                  alt: 'AI-generated Instagram post',
-                  label: 'Instagram Post',
-                  rotate: 'rotate-[-4deg] -translate-x-24 md:-translate-x-32',
-                  z: 'z-20',
-                },
-                {
-                  src: '/images/ai-examples/story-vertical-jazz.png',
-                  alt: 'AI-generated Instagram story',
-                  label: 'IG Story',
-                  rotate: 'rotate-[6deg] translate-x-24 md:translate-x-32',
-                  z: 'z-30',
-                },
-                {
-                  src: '/images/ai-examples/epk-card-dj-nova.png',
-                  alt: 'AI-generated press kit card',
-                  label: 'Press Kit',
-                  rotate: 'rotate-[15deg] translate-x-48 md:translate-x-64',
-                  z: 'z-10',
-                },
-              ].map((card) => (
-                <div
-                  key={card.src}
-                  className={`absolute w-[260px] h-[380px] md:w-[300px] md:h-[440px] bg-[#2a2a2a] rounded-xl ${card.rotate} ${card.z} border border-white/10 shadow-2xl overflow-hidden group hover:scale-105 hover:rotate-0 hover:z-40 transition-all duration-500`}
+          {/* Trusted By */}
+          <div className="absolute bottom-12 w-full px-8 overflow-hidden">
+            <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mb-6 text-center">
+              Trusted by
+            </p>
+            <div className="flex justify-center flex-wrap gap-8 md:gap-16 opacity-30 items-center">
+              {['NOBU', 'LE DU KAAN', 'CRU', 'COCOA XO', 'HORIZON', 'ABAR'].map((v) => (
+                <span
+                  key={v}
+                  className="text-xl font-bold tracking-widest italic"
+                  style={{ fontFamily: 'Noto Serif, serif' }}
                 >
-                  <Image
-                    src={card.src}
-                    alt={card.alt}
-                    width={600}
-                    height={800}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-3 left-3 glass-card px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-[#4fd6ff]">
-                    {card.label}
-                  </div>
-                </div>
+                  {v}
+                </span>
               ))}
             </div>
+          </div>
+        </section>
 
-            {/* Feature bullets for the AI studio */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto text-center">
-              {[
-                {
-                  icon: 'image',
-                  title: locale === 'th' ? 'โปสเตอร์ & โพสต์' : 'Posters & Posts',
-                  desc: locale === 'th' ? 'IG โพสต์ Story โปสเตอร์ แบนเนอร์ — ทุกรูปแบบ' : 'IG posts, stories, event posters, banners — every format.',
-                },
-                {
-                  icon: 'badge',
-                  title: locale === 'th' ? 'EPK & พอร์ตโฟลิโอ' : 'EPKs & Portfolios',
-                  desc: locale === 'th' ? 'สร้าง press kit มืออาชีพ แชร์ลิงก์เดียว' : 'Professional press kits you can share with a single link.',
-                },
-                {
-                  icon: 'movie',
-                  title: locale === 'th' ? 'วิดีโอ (เร็วๆ นี้)' : 'Video (Coming Soon)',
-                  desc: locale === 'th' ? 'TikTok, Reels, โปรโมคลิป — กำลังพัฒนา' : 'TikTok, Reels, promo clips — in development.',
-                },
-              ].map((f) => (
-                <div key={f.title} className="space-y-3">
-                  <span className="material-symbols-outlined text-[#4fd6ff] text-4xl">{f.icon}</span>
-                  <h3 className="text-lg font-bold text-white">{f.title}</h3>
-                  <p className="text-sm text-[#bcc8ce]">{f.desc}</p>
-                </div>
-              ))}
-            </div>
+        {/* ━━━ WHAT WE DO — Split panels ━━━ */}
+        <section className="bg-[#131313] py-32 px-8">
+          <div className="flex flex-col md:flex-row gap-1 bg-[#1c1b1b]">
+            {/* One-off bookings */}
+            <a
+              href={`/${locale}/entertainment`}
+              className="group relative flex-1 aspect-[4/5] md:aspect-square overflow-hidden bg-[#131313]"
+            >
+              <div className="w-full h-full bg-gradient-to-br from-[#131313] to-[#0a1a20] opacity-80 group-hover:opacity-60 transition-all duration-700" />
+              <div className="absolute inset-0 p-12 flex flex-col justify-end bg-gradient-to-t from-[#131313] to-transparent">
+                <h3
+                  className="text-4xl font-bold mb-4"
+                  style={{ fontFamily: 'Noto Serif, serif' }}
+                >
+                  One-off bookings
+                </h3>
+                <p className="max-w-md text-[#bcc8ce] font-light leading-relaxed">
+                  Need a DJ for your event? Browse our roster, tell us your vibe,
+                  and get a custom proposal within 24 hours. Single events, launches,
+                  private parties.
+                </p>
+              </div>
+            </a>
+            {/* Managed entertainment */}
+            <a
+              href="#contact"
+              className="group relative flex-1 aspect-[4/5] md:aspect-square overflow-hidden bg-[#131313]"
+            >
+              <div className="w-full h-full bg-gradient-to-br from-[#131313] to-[#1a1008] opacity-80 group-hover:opacity-60 transition-all duration-700" />
+              <div className="absolute inset-0 p-12 flex flex-col justify-end bg-gradient-to-t from-[#131313] to-transparent">
+                <h3
+                  className="text-4xl font-bold mb-4 text-[#f0bba5]"
+                  style={{ fontFamily: 'Noto Serif, serif' }}
+                >
+                  Managed entertainment
+                </h3>
+                <p className="max-w-md text-[#bcc8ce] font-light leading-relaxed">
+                  We handle everything. Scheduling, quality control, backup DJs,
+                  monthly reporting. Your venue&apos;s entertainment runs itself.
+                  One invoice, zero headaches.
+                </p>
+              </div>
+            </a>
+          </div>
+        </section>
 
-            <div className="text-center mt-12">
-              <a
-                href={`/${locale}/ai-tools`}
-                className="inline-block bg-[#4fd6ff] text-[#005b70] px-12 py-5 font-bold rounded-lg shadow-[0px_20px_40px_rgba(0,187,228,0.08)] hover:scale-105 transition-transform"
+        {/* ━━━ ROSTER — Horizontal lookbook gallery ━━━ */}
+        <section className="py-32 bg-[#131313] overflow-hidden">
+          <div className="px-8 mb-16 flex flex-col md:flex-row justify-between items-baseline gap-6">
+            <div className="max-w-xl">
+              <h2
+                className="text-5xl font-bold mb-4 tracking-tight"
+                style={{ fontFamily: 'Noto Serif, serif' }}
               >
-                {locale === 'th' ? 'ลองฟรี — 12 ครั้ง/เดือน' : 'Try it free — 12 generations/month'}
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* ━━━ HOW IT WORKS — Two columns, tools-focused ━━━ */}
-        <section id="how-it-works" className="py-32 px-8 md:px-16 scroll-mt-20">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-20">
-              <h2 className="text-4xl md:text-5xl font-playfair font-bold tracking-tighter">
-                {locale === 'th' ? 'ทำงานอย่างไร' : 'How It Works'}
+                The Roster.
               </h2>
+              <p className="text-[#bcc8ce] font-light text-lg">
+                Hand-selected artists for Bangkok&apos;s most discerning venues.
+              </p>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+            <a
+              className="group text-[#4fd6ff] font-bold uppercase text-xs tracking-widest flex items-center gap-2"
+              href={`/${locale}/entertainment`}
+            >
+              View full roster
+              <span className="material-symbols-outlined group-hover:translate-x-2 transition-transform">
+                arrow_right_alt
+              </span>
+            </a>
+          </div>
+          <div className="flex overflow-x-auto gap-8 px-8 pb-12 snap-x" style={{ scrollbarWidth: 'none' }}>
+            {featuredArtists.map((artist) => (
+              <a
+                key={artist.id}
+                href={`/${locale}/entertainment/${artist.id}`}
+                className="flex-none w-[300px] snap-start bg-[#1c1b1b] group"
+              >
+                <div className="h-[420px] overflow-hidden bg-[#0e0e0e]">
+                  {artist.profileImage ? (
+                    <Image
+                      src={artist.profileImage}
+                      alt={artist.stageName}
+                      width={600}
+                      height={840}
+                      className="w-full h-full object-cover object-[center_25%] grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-[#1c1b1b] flex items-center justify-center text-5xl opacity-20">
+                      🎧
+                    </div>
+                  )}
+                </div>
+                <div className="pt-8 pb-4 relative -mt-12 ml-6 mr-6 bg-[#131313] p-6 shadow-2xl">
+                  <div className="flex justify-between items-start mb-2">
+                    <h4
+                      className="text-2xl font-bold tracking-tight"
+                      style={{ fontFamily: 'Noto Serif, serif' }}
+                    >
+                      {artist.stageName.toUpperCase()}
+                    </h4>
+                    {artist.averageRating && (
+                      <div className="flex items-center gap-1 text-[#ffdeae]">
+                        <span className="text-xs font-bold">
+                          {artist.averageRating.toFixed(1)}
+                        </span>
+                        <span
+                          className="material-symbols-outlined text-[14px]"
+                          style={{ fontVariationSettings: "'FILL' 1" }}
+                        >
+                          star
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  {artist.genres.length > 0 && (
+                    <div className="flex gap-2 flex-wrap">
+                      {artist.genres.slice(0, 2).map((g) => (
+                        <span
+                          key={g}
+                          className="px-3 py-1 bg-[#353534] text-[10px] font-bold tracking-widest uppercase text-[#bcc8ce]"
+                        >
+                          {g}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* ━━━ THE TECH EDGE — Dashboard showcase ━━━ */}
+        <section className="py-32 bg-[#0e0e0e] px-8">
+          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-24 items-center">
+            <div>
+              <span className="text-[#4fd6ff] text-[10px] tracking-[0.4em] uppercase font-bold block mb-4">
+                What makes us different
+              </span>
+              <h2
+                className="text-5xl font-black mb-8 leading-tight"
+                style={{ fontFamily: 'Noto Serif, serif' }}
+              >
+                Your entertainment,{' '}
+                <br />
+                <span className="italic text-[#bcc8ce]">on autopilot.</span>
+              </h2>
               <div className="space-y-12">
-                <h3 className="text-sm uppercase tracking-widest text-[#4fd6ff] font-black">
-                  {locale === 'th' ? 'สำหรับศิลปิน' : 'For Artists'}
-                </h3>
                 {[
-                  { n: '01', t: locale === 'th' ? 'สร้างโปรไฟล์' : 'Create your profile', d: locale === 'th' ? 'แสดงผลงาน สไตล์ และความเชี่ยวชาญของคุณ' : 'Showcase your work, style, and expertise in a professional portfolio.' },
-                  { n: '02', t: locale === 'th' ? 'สร้างคอนเทนต์ด้วย AI' : 'Generate content with AI', d: locale === 'th' ? 'โปสเตอร์ โพสต์ IG วิดีโอ EPK — ทุกอย่างใน 10 วินาที' : 'Posters, IG posts, stories, EPKs — professional promo in seconds.' },
-                  { n: '03', t: locale === 'th' ? 'แชร์ & ถูกค้นพบ' : 'Share & get discovered', d: locale === 'th' ? 'โปรไฟล์ของคุณเปิดให้ค้นหาได้ สถานที่และเอเจนซี่ติดต่อคุณโดยตรง' : 'Your profile is discoverable. Venues and agencies contact you directly.' },
-                ].map((s) => (
-                  <div key={s.n} className="flex gap-8">
-                    <span className="text-6xl font-playfair font-black text-[#3d494e]/30">{s.n}</span>
-                    <div className="space-y-2 pt-4"><h4 className="text-2xl font-bold">{s.t}</h4><p className="text-[#bcc8ce]">{s.d}</p></div>
+                  {
+                    icon: 'dashboard',
+                    title: 'Schedule Dashboard',
+                    desc: 'Real-time visibility into your monthly lineup. Instant replacements, arrival tracking, and rider management in one view.',
+                  },
+                  {
+                    icon: 'analytics',
+                    title: 'Performance Ratings',
+                    desc: 'Your venue managers rate every set. We use that data to curate who plays next week. Quality gets better every night.',
+                  },
+                  {
+                    icon: 'auto_awesome',
+                    title: 'AI Promo Content',
+                    desc: 'We generate professional social media content for your venue — posters, IG posts, stories — automatically, every week.',
+                  },
+                ].map((f) => (
+                  <div key={f.title} className="flex gap-6">
+                    <div className="w-12 h-12 bg-[#131313] flex items-center justify-center flex-none">
+                      <span className="material-symbols-outlined text-[#4fd6ff]">
+                        {f.icon}
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold uppercase text-sm tracking-widest mb-2">
+                        {f.title}
+                      </h4>
+                      <p className="text-[#bcc8ce] text-sm font-light leading-relaxed">
+                        {f.desc}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
-              <div className="space-y-12">
-                <h3 className="text-sm uppercase tracking-widest text-[#f0bba5] font-black">
-                  {locale === 'th' ? 'สำหรับสถานที่ & เอเจนซี่' : 'For Venues & Agencies'}
-                </h3>
-                {[
-                  { n: '01', t: locale === 'th' ? 'ตั้งค่าสถานที่' : 'Set up your venue', d: locale === 'th' ? 'เพิ่มรายละเอียดสถานที่ ตารางเวลา ความต้องการ' : 'Add your venue details, operating hours, and entertainment needs.' },
-                  { n: '02', t: locale === 'th' ? 'จัดการความบันเทิง' : 'Manage your entertainment', d: locale === 'th' ? 'จัดตารางศิลปิน ติดตามฟีดแบ็ก ดูสถิติ' : 'Schedule artists, collect feedback, track performance analytics.' },
-                  { n: '03', t: locale === 'th' ? 'ค้นหาศิลปินใหม่' : 'Discover new talent', d: locale === 'th' ? 'โพสต์ตำแหน่งว่าง เรียกดูศิลปิน ติดต่อโดยตรง ไม่มีค่าคอมมิชชั่น' : 'Post open positions, browse artists, contact directly. No commissions, ever.' },
-                ].map((s) => (
-                  <div key={s.n} className="flex gap-8">
-                    <span className="text-6xl font-playfair font-black text-[#3d494e]/30">{s.n}</span>
-                    <div className="space-y-2 pt-4"><h4 className="text-2xl font-bold">{s.t}</h4><p className="text-[#bcc8ce]">{s.d}</p></div>
+              <p className="text-[#bcc8ce]/60 text-xs mt-12 italic">
+                Interested in our corporate platform with full API access and custom analytics?{' '}
+                <a href="#contact" className="text-[#4fd6ff] hover:underline">
+                  Contact us for enterprise solutions.
+                </a>
+              </p>
+            </div>
+            {/* Dashboard mockup */}
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-[#4fd6ff]/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+              <div className="relative bg-[#131313] p-1 border border-[#3d494d]/10 shadow-2xl">
+                <div className="bg-[#2a2a2a] aspect-video overflow-hidden p-8">
+                  <div className="flex items-center justify-between mb-8 border-b border-[#3d494d]/20 pb-4">
+                    <div className="text-[10px] font-bold tracking-widest uppercase">
+                      Venue Dashboard / NOBU BKK
+                    </div>
+                    <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
                   </div>
-                ))}
+                  <div className="grid grid-cols-4 gap-4 mb-8">
+                    {[
+                      { label: 'This Week', value: '7 Sets' },
+                      { label: 'Avg Rating', value: '4.9', color: 'text-[#4fd6ff]' },
+                      { label: 'Active DJ', value: 'DJ Mint' },
+                      { label: 'Next Set', value: 'Tonight' },
+                    ].map((s) => (
+                      <div
+                        key={s.label}
+                        className="h-16 bg-[#0e0e0e] p-2 flex flex-col justify-between"
+                      >
+                        <span className="text-[8px] opacity-40 uppercase">{s.label}</span>
+                        <span
+                          className={`text-lg font-bold ${s.color || ''}`}
+                          style={{ fontFamily: 'Noto Serif, serif' }}
+                        >
+                          {s.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="space-y-4">
+                    {[1, 2, 3].map((i) => (
+                      <div
+                        key={i}
+                        className="h-8 bg-[#0e0e0e] w-full flex items-center px-4 gap-4"
+                      >
+                        <div
+                          className={`h-2 w-2 rounded-full ${
+                            i === 1
+                              ? 'bg-[#4fd6ff]/40'
+                              : i === 2
+                              ? 'bg-[#f0bba5]/40'
+                              : 'bg-[#ffdeae]/40'
+                          }`}
+                        />
+                        <div className="h-1 w-24 bg-[#3d494d]/20" />
+                        <div className="ml-auto h-1 w-12 bg-[#4fd6ff]/20" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ━━━ PRICING ━━━ */}
-        <section id="pricing" className="py-32 bg-[#1c1b1b] px-8 md:px-16 scroll-mt-20">
-          <div className="max-w-6xl mx-auto text-center mb-16">
-            <p className="text-xs tracking-widest text-[#4fd6ff] font-bold mb-4 uppercase">
-              {locale === 'th' ? 'ราคา' : 'Pricing'}
-            </p>
-            <h2 className="text-4xl md:text-5xl font-playfair font-bold tracking-tighter">
-              {locale === 'th' ? 'จ่ายเท่าที่ใช้' : 'The platform is free. Pay only for AI.'}
-            </h2>
-            <p className="text-[#bcc8ce] mt-4 max-w-xl mx-auto">
-              {locale === 'th'
-                ? 'โปรไฟล์ การจัดการ มาร์เก็ตเพลส — ทั้งหมดฟรี เฉพาะ AI ที่ใช้เครดิต'
-                : 'Profiles, management tools, marketplace — all free. Only AI content generation uses credits.'}
+        {/* ━━━ SOCIAL PROOF ━━━ */}
+        <section className="py-32 bg-[#131313]">
+          <div className="max-w-4xl mx-auto px-8 text-center mb-32">
+            <span
+              className="material-symbols-outlined text-[#f0bba5] text-5xl mb-8 opacity-20"
+            >
+              format_quote
+            </span>
+            <blockquote
+              className="text-3xl md:text-5xl italic font-light leading-snug mb-12"
+              style={{ fontFamily: 'Noto Serif, serif' }}
+            >
+              &ldquo;Bright Ears hasn&apos;t just provided DJs; they&apos;ve
+              curated a sonic identity that has directly improved our guest
+              experience on every single night.&rdquo;
+            </blockquote>
+            <p className="font-bold uppercase tracking-[0.3em] text-xs">
+              — Venue Manager, Bangkok
             </p>
           </div>
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 bg-[#2a2a2a] rounded-xl flex flex-col items-center text-center space-y-6">
-              <p className="font-black uppercase tracking-widest text-xs opacity-50">Free</p>
-              <div className="text-4xl font-playfair font-bold">$0</div>
-              <ul className="text-sm space-y-3 text-[#bcc8ce]">
-                <li>Professional profile + portfolio</li>
-                <li>Venue management dashboard</li>
-                <li>Marketplace access</li>
-                <li><b className="text-white">12 AI generations / month</b></li>
-              </ul>
-              <a href="/sign-up" className="w-full py-3 rounded-lg border border-[#3d494e] hover:bg-white/5 transition-all mt-auto font-bold text-center block">Get Started</a>
-            </div>
-            <div className="p-8 bg-[#131313] border-2 border-[#4fd6ff] rounded-xl flex flex-col items-center text-center space-y-6 relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-[#4fd6ff] text-[#003543] px-4 py-1 text-[10px] font-bold uppercase tracking-widest transform rotate-45 translate-x-10 translate-y-4">Popular</div>
-              <p className="font-black uppercase tracking-widest text-xs text-[#4fd6ff]">Credit Packs</p>
-              <div className="text-4xl font-playfair font-bold">$5 – $60</div>
-              <ul className="text-sm space-y-3 text-[#bcc8ce]">
-                <li><b className="text-white">20 credits for $5</b> = 20 images</li>
-                <li><b className="text-white">100 credits for $25</b></li>
-                <li><b className="text-white">250 credits for $60</b></li>
-                <li className="text-xs opacity-60">Credits never expire.</li>
-              </ul>
-              <a href={`/${locale}/ai-tools`} className="w-full py-3 rounded-lg bg-[#4fd6ff] text-[#003543] transition-all mt-auto font-bold text-center block">Buy Credits</a>
-            </div>
-            <div className="p-8 bg-[#2a2a2a] rounded-xl flex flex-col items-center text-center space-y-6">
-              <p className="font-black uppercase tracking-widest text-xs opacity-50">Premium</p>
-              <div className="text-4xl font-playfair font-bold">$9.99<span className="text-sm">/mo</span></div>
-              <ul className="text-sm space-y-3 text-[#bcc8ce]">
-                <li><b className="text-white">Unlimited AI generations</b></li>
-                <li>Verified profile badge</li>
-                <li>Priority in search results</li>
-                <li>Advanced analytics</li>
-              </ul>
-              <a href="#contact" className="w-full py-3 rounded-lg border border-[#3d494e] hover:bg-white/5 transition-all mt-auto font-bold text-center block">Go Premium</a>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-1 px-8 max-w-5xl mx-auto bg-[#3d494d]/10">
+            {[
+              { val: '06', label: 'Premium Venues', color: 'text-[#4fd6ff]' },
+              { val: '27', label: 'Elite Artists', color: 'text-[#f0bba5]' },
+              { val: '1.2K+', label: 'Nights Managed', color: 'text-[#ffdeae]' },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className={`bg-[#131313] py-16 text-center ${
+                  s.label === 'Nights Managed' ? 'col-span-2 md:col-span-1' : ''
+                }`}
+              >
+                <span
+                  className={`block text-5xl font-black ${s.color} mb-2`}
+                  style={{ fontFamily: 'Noto Serif, serif' }}
+                >
+                  {s.val}
+                </span>
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
+                  {s.label}
+                </span>
+              </div>
+            ))}
           </div>
-          <p className="text-center text-xs text-stone-500 mt-10">
-            0% commission on any booking or transaction. Artists and venues connect directly.
-          </p>
-        </section>
-
-        {/* ━━━ CTA ━━━ */}
-        <section className="py-32 px-8 md:px-16 relative overflow-hidden text-center">
-          <div className="max-w-4xl mx-auto space-y-10 relative z-10">
-            <h2 className="text-4xl md:text-6xl font-playfair font-bold tracking-tighter">
-              {locale === 'th' ? 'เริ่มต้นฟรีวันนี้' : 'Start building today.'}
-            </h2>
-            <p className="text-xl text-[#bcc8ce] max-w-2xl mx-auto">
-              {locale === 'th'
-                ? 'ไม่ว่าคุณจะเป็นศิลปินที่ต้องการเครื่องมือสร้างสรรค์ หรือสถานที่ที่ต้องการจัดการความบันเทิง — เริ่มได้ทันทีฟรี'
-                : 'Whether you\'re an artist who needs creative tools or a venue that needs to manage entertainment — get started in under 2 minutes.'}
-            </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <a href="/sign-up" className="bg-[#4fd6ff] text-[#003543] px-12 py-5 font-bold rounded-lg shadow-xl hover:brightness-110 transition-all">
-                {locale === 'th' ? 'สร้างโปรไฟล์ศิลปิน' : 'Create Artist Profile'}
-              </a>
-              <a href="/sign-up/venue" className="glass-card text-[#f0bba5] px-12 py-5 font-bold rounded-lg hover:bg-white/5 transition-all">
-                {locale === 'th' ? 'ตั้งค่าสถานที่' : 'Set Up Your Venue'}
-              </a>
-            </div>
-          </div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#4fd6ff]/10 blur-[120px] -z-10 rounded-full" />
         </section>
 
         {/* ━━━ CONTACT ━━━ */}
-        <section id="contact" className="py-32 px-8 md:px-16 bg-[#131313] scroll-mt-20">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
-            <div className="space-y-10">
-              <h2 className="text-4xl md:text-5xl font-playfair font-bold tracking-tighter">{t('landing.contact.title')}</h2>
-              <p className="text-lg text-[#bcc8ce] max-w-md leading-relaxed">
-                {locale === 'th'
-                  ? 'มีคำถาม? ต้องการ demo? หรือแค่อยากพูดคุย — เราพร้อมช่วยเหลือ'
-                  : 'Questions? Want a demo? Or just want to chat — we\'re here to help.'}
+        <section id="contact" className="py-32 bg-[#1c1b1b] px-8 scroll-mt-20">
+          <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-24">
+            <div className="md:w-1/3">
+              <h2
+                className="text-4xl font-bold mb-6"
+                style={{ fontFamily: 'Noto Serif, serif' }}
+              >
+                Begin the Curation.
+              </h2>
+              <p className="text-[#bcc8ce] font-light mb-8 leading-relaxed">
+                Let&apos;s discuss how we can elevate your venue&apos;s atmosphere. Proposals
+                delivered within 48 hours.
               </p>
               <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined text-[#4fd6ff]">mail</span>
-                  <span className="font-bold">info@brightears.io</span>
-                </div>
+                <p className="text-xs tracking-[0.2em] font-bold opacity-40 uppercase">
+                  Contact
+                </p>
+                <p className="text-sm">info@brightears.io</p>
               </div>
             </div>
-            <div className="glass-card p-10 rounded-2xl">
+            <div className="flex-1">
               <VenueInquiryForm darkMode />
             </div>
           </div>
         </section>
 
         {/* ━━━ FOOTER ━━━ */}
-        <footer className="bg-[#131313] w-full py-20 px-8 md:px-16">
-          <div className="grid grid-cols-4 gap-8 max-w-6xl mx-auto text-sm tracking-wide">
-            <div className="col-span-4 md:col-span-2">
-              <p className="text-[#e5e2e1] font-bold text-2xl font-playfair mb-6">BrightEars</p>
-              <p className="text-[#e5e2e1]/40 max-w-sm mb-12">AI-powered tools for entertainment professionals. Creative studio for artists. Management platform for venues. Free forever.</p>
-              <p className="text-[#e5e2e1]/40">&copy; 2026 BrightEars.</p>
+        <footer className="bg-[#0e0e0e] w-full py-16 px-8 border-t border-[#3d494d]/20 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex flex-col items-center md:items-start gap-4">
+            <div
+              className="text-lg font-bold text-[#ffdeae] uppercase tracking-tight"
+              style={{ fontFamily: 'Noto Serif, serif' }}
+            >
+              BRIGHT EARS
             </div>
-            <div className="col-span-2 md:col-span-1 space-y-4">
-              <p className="font-bold text-[#e5e2e1] uppercase tracking-widest text-xs mb-4">Platform</p>
-              <a className="block text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-opacity" href={`/${locale}/ai-tools`}>AI Studio</a>
-              <a className="block text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-opacity" href={`/${locale}/entertainment`}>Marketplace</a>
-              <a className="block text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-opacity" href={`/${locale}/gigs`}>Open Gigs</a>
-              <a className="block text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-opacity" href="#pricing">Pricing</a>
-            </div>
-            <div className="col-span-2 md:col-span-1 space-y-4">
-              <p className="font-bold text-[#e5e2e1] uppercase tracking-widest text-xs mb-4">Get Started</p>
-              <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href="/sign-up">Artist Sign Up</a>
-              <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href="/sign-up/venue">Venue Sign Up</a>
-              <a className="block text-[#e5e2e1]/40 hover:text-[#f0bba5] transition-opacity" href="#contact">Contact</a>
-            </div>
+            <p className="font-light tracking-widest uppercase text-[10px] text-[#e5e2e1]/40">
+              &copy; 2026 Bright Ears Bangkok. Premium entertainment management.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-8">
+            <a
+              className="font-light tracking-widest uppercase text-xs text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-colors duration-300"
+              href={`/${locale}/entertainment`}
+            >
+              Artists
+            </a>
+            <a
+              className="font-light tracking-widest uppercase text-xs text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-colors duration-300"
+              href={`/${locale}/ai-tools`}
+            >
+              AI Studio
+            </a>
+            <a
+              className="font-light tracking-widest uppercase text-xs text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-colors duration-300"
+              href="#contact"
+            >
+              Contact
+            </a>
+            <a
+              className="font-light tracking-widest uppercase text-xs text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-colors duration-300"
+              href="/sign-up"
+            >
+              Join Roster
+            </a>
           </div>
         </footer>
       </main>
