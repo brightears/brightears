@@ -407,51 +407,9 @@ export default async function HomePage({
           </div>
         </section>
 
-        {/* ━━━ SOCIAL PROOF ━━━ */}
-        <section className="py-32 bg-[#131313]">
-          <div className="max-w-4xl mx-auto px-8 text-center mb-32">
-            <span
-              className="material-symbols-outlined text-[#f0bba5] text-5xl mb-8 opacity-20"
-            >
-              format_quote
-            </span>
-            <blockquote
-              className="text-3xl md:text-5xl italic font-light leading-snug mb-12"
-              style={{ fontFamily: 'Noto Serif, serif' }}
-            >
-              &ldquo;Bright Ears hasn&apos;t just provided DJs; they&apos;ve
-              curated a sonic identity that has directly improved our guest
-              experience on every single night.&rdquo;
-            </blockquote>
-            <p className="font-bold uppercase tracking-[0.3em] text-xs">
-              — Venue Manager, Bangkok
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-1 px-8 max-w-5xl mx-auto bg-[#3d494d]/10">
-            {[
-              { val: '06', label: 'Premium Venues', color: 'text-[#4fd6ff]' },
-              { val: '27', label: 'Elite Artists', color: 'text-[#f0bba5]' },
-              { val: '1.2K+', label: 'Nights Managed', color: 'text-[#ffdeae]' },
-            ].map((s) => (
-              <div
-                key={s.label}
-                className={`bg-[#131313] py-16 text-center ${
-                  s.label === 'Nights Managed' ? 'col-span-2 md:col-span-1' : ''
-                }`}
-              >
-                <span
-                  className={`block text-5xl font-black ${s.color} mb-2`}
-                  style={{ fontFamily: 'Noto Serif, serif' }}
-                >
-                  {s.val}
-                </span>
-                <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
-                  {s.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* Social proof section removed — stats too small to show off,
+            testimonial felt manufactured. Will add back when we have
+            real volume + real named testimonials from venue GMs. */}
 
         {/* ━━━ CONTACT ━━━ */}
         <section id="contact" className="py-32 bg-[#1c1b1b] px-8 scroll-mt-20">
