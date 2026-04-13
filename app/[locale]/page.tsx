@@ -157,7 +157,7 @@ export default async function HomePage({
               className="group relative flex-1 aspect-[4/5] md:aspect-square overflow-hidden bg-[#131313]"
             >
               <Image
-                src="/images/split-dj.jpg"
+                src="/images/split-dj-new.png"
                 alt="DJ performing at a luxury venue"
                 fill
                 className="object-cover opacity-50 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700"
@@ -183,7 +183,7 @@ export default async function HomePage({
               className="group relative flex-1 aspect-[4/5] md:aspect-square overflow-hidden bg-[#131313]"
             >
               <Image
-                src="/images/split-venue.jpg"
+                src="/images/split-venue-new.png"
                 alt="Luxury venue interior with ambient lighting"
                 fill
                 className="object-cover opacity-50 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700"
