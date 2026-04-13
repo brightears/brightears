@@ -134,16 +134,16 @@ export default async function HomePage({
               </a>
             </div>
           </div>
-          {/* Trusted By — hotel group logos (wordmarks) */}
+          {/* Trusted By — actual brand logos */}
           <div className="absolute bottom-12 w-full px-8 overflow-hidden">
             <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mb-6 text-center">
               Trusted by global hospitality leaders
             </p>
-            <div className="flex justify-center flex-wrap gap-10 md:gap-20 opacity-40 items-center">
-              <span className="text-2xl md:text-3xl font-black tracking-[0.15em] uppercase" style={{ fontFamily: 'Manrope, sans-serif' }}>MARRIOTT</span>
-              <span className="text-2xl md:text-3xl font-light tracking-[0.3em] uppercase" style={{ fontFamily: 'Manrope, sans-serif' }}>HILTON</span>
-              <span className="text-2xl md:text-3xl font-bold tracking-[0.2em] uppercase" style={{ fontFamily: 'Noto Serif, serif' }}>CENTARA</span>
-              <span className="text-2xl md:text-3xl font-extralight tracking-[0.25em] uppercase" style={{ fontFamily: 'Manrope, sans-serif' }}>ACCOR</span>
+            <div className="flex justify-center flex-wrap gap-10 md:gap-16 items-center opacity-50">
+              <Image src="/images/clients/marriott.svg" alt="Marriott" width={120} height={40} className="h-8 w-auto brightness-200 invert" />
+              <Image src="/images/clients/hilton.png" alt="Hilton" width={120} height={40} className="h-8 w-auto brightness-200 invert" />
+              <Image src="/images/clients/centara.png" alt="Centara" width={120} height={40} className="h-8 w-auto brightness-200 invert" />
+              <Image src="/images/clients/accor.png" alt="Accor" width={120} height={40} className="h-8 w-auto brightness-200 invert" />
             </div>
           </div>
         </section>
