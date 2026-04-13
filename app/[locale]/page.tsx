@@ -102,18 +102,23 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <h2 className="text-2xl md:text-3xl font-playfair font-bold text-white mb-4">
                   {locale === 'th' ? 'สตูดิโอสร้างสรรค์ AI ของคุณ' : 'Your AI creative studio'}
                 </h2>
+                <p className="text-[#bcc8ce] text-sm mb-6">
+                  {locale === 'th'
+                    ? 'หมดยุคจ่ายดีไซเนอร์ หมดยุคเสียเวลาทำคอนเทนต์ AI ทำแทนคุณ — คุณโฟกัสที่ศิลปะ'
+                    : 'Stop paying designers. Stop spending hours on content. The AI does the agency work — you focus on your art.'}
+                </p>
                 <ul className="space-y-3 text-[#bcc8ce] text-sm mb-8">
                   <li className="flex items-start gap-2">
                     <span className="text-[#4fd6ff] mt-0.5">→</span>
-                    {locale === 'th' ? 'สร้างโปสเตอร์ โพสต์ IG Story EPK ด้วย AI' : 'Generate posters, IG posts, stories, EPKs with AI'}
+                    {locale === 'th' ? 'โปสเตอร์ โพสต์ IG Story EPK — 10 วินาที ไม่ใช่ 10 ชั่วโมง' : 'Posters, IG posts, stories, EPKs — 10 seconds, not 10 hours'}
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#4fd6ff] mt-0.5">→</span>
-                    {locale === 'th' ? 'สร้างโปรไฟล์มืออาชีพ แชร์ได้ทุกที่' : 'Build a professional portfolio you can share anywhere'}
+                    {locale === 'th' ? 'พอร์ตโฟลิโอมืออาชีพ แชร์ลิงก์เดียว' : 'One shareable portfolio link — replaces PDFs and email chains'}
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#4fd6ff] mt-0.5">→</span>
-                    {locale === 'th' ? 'ให้สถานที่ค้นพบคุณ' : 'Get discovered by venues and agencies'}
+                    {locale === 'th' ? 'ไม่มีเอเจนซี่หัก 20% คุณเก็บเงินเต็มจำนวน' : 'No agent taking 20% — keep 100% of what you earn'}
                   </li>
                 </ul>
                 <span className="inline-flex items-center gap-2 text-[#4fd6ff] font-bold group-hover:gap-3 transition-all">
@@ -135,18 +140,23 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <h2 className="text-2xl md:text-3xl font-playfair font-bold text-white mb-4">
                   {locale === 'th' ? 'แพลตฟอร์มจัดการความบันเทิง' : 'Your entertainment platform'}
                 </h2>
+                <p className="text-[#bcc8ce] text-sm mb-6">
+                  {locale === 'th'
+                    ? 'หมดยุค spreadsheet หมดยุคตาม LINE ตอน 6 โมงเย็น แพลตฟอร์มจัดการทุกอย่าง — คุณโฟกัสงานอื่น'
+                    : 'Stop chasing artists on WhatsApp at 6pm. Stop managing schedules in spreadsheets. The platform handles it — you focus on running your venue.'}
+                </p>
                 <ul className="space-y-3 text-[#bcc8ce] text-sm mb-8">
                   <li className="flex items-start gap-2">
                     <span className="text-[#f0bba5] mt-0.5">→</span>
-                    {locale === 'th' ? 'จัดตารางศิลปิน ติดตามฟีดแบ็ก วิเคราะห์ข้อมูล' : 'Schedule artists, track feedback, view analytics'}
+                    {locale === 'th' ? 'ตารางศิลปิน ฟีดแบ็ก สถิติ — ทุกอย่างที่เดียว' : 'Artist schedules, feedback, analytics — everything in one dashboard'}
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#f0bba5] mt-0.5">→</span>
-                    {locale === 'th' ? 'ประกาศหาศิลปิน รับสมัครโดยตรง' : 'Post open positions and receive applications'}
+                    {locale === 'th' ? 'ประกาศหาศิลปิน ได้ใบสมัครทันที' : 'Post what you need, get qualified applications — no agency middleman'}
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#f0bba5] mt-0.5">→</span>
-                    {locale === 'th' ? 'ค้นหาศิลปินใหม่ ติดต่อโดยตรง' : 'Discover new talent and contact them directly'}
+                    {locale === 'th' ? 'ไม่มีค่าคอมมิชชั่น ไม่มีค่าเอเจนซี่ ติดต่อตรง 100%' : 'Zero agency fees, zero commissions — direct contact, always'}
                   </li>
                 </ul>
                 <span className="inline-flex items-center gap-2 text-[#f0bba5] font-bold group-hover:gap-3 transition-all">
