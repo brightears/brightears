@@ -140,10 +140,10 @@ export default async function HomePage({
               Trusted by global hospitality leaders
             </p>
             <div className="flex justify-center flex-wrap gap-10 md:gap-16 items-center">
-              <Image src="/images/clients/marriott.svg" alt="Marriott" width={140} height={48} className="h-10 w-auto" />
-              <Image src="/images/clients/hilton.png" alt="Hilton" width={140} height={48} className="h-10 w-auto" />
-              <Image src="/images/clients/centara.png" alt="Centara" width={140} height={48} className="h-10 w-auto" />
-              <Image src="/images/clients/accor.png" alt="Accor" width={140} height={48} className="h-10 w-auto brightness-150" />
+              <Image src="/images/clients/marriott.svg" alt="Marriott" width={140} height={48} className="h-10 w-auto opacity-60 hover:opacity-100 transition-opacity brightness-200 grayscale" />
+              <Image src="/images/clients/hilton.png" alt="Hilton" width={140} height={48} className="h-10 w-auto opacity-60 hover:opacity-100 transition-opacity brightness-200 grayscale" />
+              <Image src="/images/clients/centara.png" alt="Centara" width={140} height={48} className="h-10 w-auto opacity-60 hover:opacity-100 transition-opacity brightness-200 grayscale" />
+              <Image src="/images/clients/accor.png" alt="Accor" width={140} height={48} className="h-10 w-auto opacity-60 hover:opacity-100 transition-opacity brightness-200 grayscale" />
             </div>
           </div>
         </section>
