@@ -121,11 +121,11 @@ export default function ManagedPage() {
           <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mb-8">Currently managing entertainment at</p>
           <div className="flex justify-center flex-wrap gap-8 md:gap-16 items-center mb-8">
             {[
-              { src: '/images/venues/nobu.png', alt: 'NOBU', w: 120, h: 30 },
-              { src: '/images/venues/ledukaan.svg', alt: 'Le Du Kaan', w: 50, h: 50 },
-              { src: '/images/clients/centara.png', alt: 'Centara Hotels', w: 100, h: 40 },
-              { src: '/images/clients/hilton.png', alt: 'Hilton', w: 90, h: 30 },
-              { src: '/images/venues/abar.png', alt: 'ABar Rooftop', w: 160, h: 50 },
+              { src: '/images/venues/nobu.png', alt: 'NOBU', w: 130, h: 35 },
+              { src: '/images/venues/ledukaan.svg', alt: 'Le Du Kaan', w: 70, h: 70 },
+              { src: '/images/clients/centara.png', alt: 'Centara Hotels', w: 120, h: 45 },
+              { src: '/images/clients/hilton.png', alt: 'Hilton', w: 110, h: 35 },
+              { src: '/images/clients/marriott.svg', alt: 'Marriott', w: 130, h: 45 },
             ].map((logo) => (
               <Image
                 key={logo.alt}
