@@ -119,9 +119,22 @@ export default function ManagedPage() {
       <section className="py-24 px-8 md:px-20">
         <div className="max-w-5xl mx-auto text-center">
           <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mb-8">Currently managing entertainment at</p>
-          <div className="flex justify-center flex-wrap gap-8 md:gap-16 opacity-60 items-center mb-8">
-            {['NOBU', 'LE DU KAAN', 'CRU', 'COCOA XO', 'HORIZON', 'ABAR'].map((v) => (
-              <span key={v} className="text-xl font-bold tracking-widest italic" style={{ fontFamily: 'Noto Serif, serif' }}>{v}</span>
+          <div className="flex justify-center flex-wrap gap-8 md:gap-16 items-center mb-8">
+            {[
+              { src: '/images/venues/nobu.png', alt: 'NOBU', w: 120, h: 30 },
+              { src: '/images/venues/ledukaan.svg', alt: 'Le Du Kaan', w: 50, h: 50 },
+              { src: '/images/clients/centara.png', alt: 'Centara Hotels', w: 100, h: 40 },
+              { src: '/images/clients/hilton.png', alt: 'Hilton', w: 90, h: 30 },
+              { src: '/images/venues/abar.png', alt: 'ABar Rooftop', w: 50, h: 50 },
+            ].map((logo) => (
+              <Image
+                key={logo.alt}
+                src={logo.src}
+                alt={logo.alt}
+                width={logo.w}
+                height={logo.h}
+                className="opacity-60 hover:opacity-100 transition-opacity brightness-200 grayscale"
+              />
             ))}
           </div>
           <p className="text-[#bcc8ce] text-sm">Every night of the week in Bangkok.</p>
