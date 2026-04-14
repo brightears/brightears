@@ -34,6 +34,7 @@ const Header: React.FC = () => {
   const navItems = [
     { label: 'Our Artists', href: '/entertainment' },
     { label: 'Services', href: '/#services' },
+    { label: 'Apply', href: '/apply' },
     { label: 'Contact', href: '/#contact' },
   ];
 
