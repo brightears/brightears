@@ -67,11 +67,12 @@ export default async function HomePage({
     items: [{ name: 'Home', url: `https://brightears.io/${locale}` }],
   });
 
-  // Featured artists for the roster lookbook (top 6 with photos)
-  const featuredArtists = await prisma.artist.findMany({
+  // Featured artists for the roster lookbook — hand-picked by Norbert
+  const featuredNames = ['Benji', 'Vita', 'UFO', 'RabbitDisco', 'Eskay Da Real', 'Linze'];
+  const featuredArtistsRaw = await prisma.artist.findMany({
     where: {
       isVisible: true,
-      user: { isActive: true },
+      stageName: { in: featuredNames },
       profileImage: { not: null },
     },
     select: {
@@ -81,9 +82,11 @@ export default async function HomePage({
       genres: true,
       averageRating: true,
     },
-    orderBy: [{ averageRating: { sort: 'desc', nulls: 'last' } }],
-    take: 6,
   });
+  // Preserve the hand-picked order
+  const featuredArtists = featuredNames
+    .map(name => featuredArtistsRaw.find(a => a.stageName === name))
+    .filter(Boolean) as typeof featuredArtistsRaw;
 
   return (
     <>
