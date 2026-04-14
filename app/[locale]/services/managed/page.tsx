@@ -125,7 +125,7 @@ export default function ManagedPage() {
               { src: '/images/venues/ledukaan.svg', alt: 'Le Du Kaan', w: 50, h: 50 },
               { src: '/images/clients/centara.png', alt: 'Centara Hotels', w: 100, h: 40 },
               { src: '/images/clients/hilton.png', alt: 'Hilton', w: 90, h: 30 },
-              { src: '/images/venues/abar.png', alt: 'ABar Rooftop', w: 100, h: 32 },
+              { src: '/images/venues/abar.png', alt: 'ABar Rooftop', w: 160, h: 50 },
             ].map((logo) => (
               <Image
                 key={logo.alt}
