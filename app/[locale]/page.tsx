@@ -121,13 +121,13 @@ export default async function HomePage({
             </p>
             <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
               <a
-                href={`/${locale}/entertainment`}
+                href={`/${locale}/services/bookings`}
                 className="bg-[#4fd6ff] text-[#003543] px-8 py-4 font-bold text-sm tracking-[0.2em] uppercase w-full md:w-auto hover:bg-[#b8ebff] transition-all"
               >
                 I need a DJ for an event
               </a>
               <a
-                href="#contact"
+                href={`/${locale}/services/managed`}
                 className="border border-[#f0bba5]/40 text-[#f0bba5] px-8 py-4 font-bold text-sm tracking-[0.2em] uppercase w-full md:w-auto hover:border-[#f0bba5] transition-all"
               >
                 Ongoing Management
@@ -153,7 +153,7 @@ export default async function HomePage({
           <div className="flex flex-col md:flex-row gap-1 bg-[#1c1b1b]">
             {/* One-off bookings */}
             <a
-              href={`/${locale}/entertainment`}
+              href={`/${locale}/services/bookings`}
               className="group relative flex-1 aspect-[4/5] md:aspect-square overflow-hidden bg-[#131313]"
             >
               <Image
@@ -179,7 +179,7 @@ export default async function HomePage({
             </a>
             {/* Managed entertainment */}
             <a
-              href="#contact"
+              href={`/${locale}/services/managed`}
               className="group relative flex-1 aspect-[4/5] md:aspect-square overflow-hidden bg-[#131313]"
             >
               <Image
