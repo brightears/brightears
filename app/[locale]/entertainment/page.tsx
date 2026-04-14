@@ -13,12 +13,12 @@ export async function generateMetadata({
   const { locale } = await params;
 
   const title = locale === 'th'
-    ? '\u0E14\u0E35\u0E40\u0E08\u0E41\u0E25\u0E30\u0E28\u0E34\u0E25\u0E1B\u0E34\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32 | Bright Ears'
-    : 'Browse Artists & Entertainment | Bright Ears';
+    ? '\u0E14\u0E35\u0E40\u0E08\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32 | Bright Ears'
+    : 'Our DJs | Bright Ears';
 
   const description = locale === 'th'
-    ? 'ค้นหาดีเจ นักดนตรี วงดนตรี และนักแสดงมืออาชีพสำหรับสถานที่และงานอีเวนต์ในประเทศไทย'
-    : 'Discover professional DJs, musicians, bands, and performers for your venue or event in Thailand. Browse profiles, listen to sets, and book directly.';
+    ? 'ค้นหาดีเจมืออาชีพสำหรับสถานที่และงานอีเวนต์ของคุณ'
+    : 'Professional DJs for hotels, restaurants, and premium venues. Browse profiles, listen to sets, and enquire directly.';
 
   return {
     title,
@@ -137,15 +137,15 @@ export default async function EntertainmentPage({
 
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <span className="text-[#f1bca6] font-bold tracking-widest uppercase text-sm mb-4 block">
-            {locale === 'th' ? 'ค้นหาศิลปิน' : 'Find Entertainment'}
+            {locale === 'th' ? 'ดีเจของเรา' : 'Our DJs'}
           </span>
           <h1 className="font-playfair text-4xl sm:text-5xl md:text-7xl font-bold text-neutral-100 mb-6 tracking-tighter">
-            {locale === 'th' ? 'ศิลปินทั้งหมด' : 'Browse Artists'}
+            {locale === 'th' ? 'ดีเจทั้งหมด' : 'The Roster'}
           </h1>
           <p className="font-inter text-lg sm:text-xl text-[#bcc9ce] max-w-2xl mx-auto text-balance">
             {locale === 'th'
-              ? 'ค้นหาดีเจ นักดนตรี วงดนตรี และศิลปินมืออาชีพสำหรับสถานที่ของคุณ'
-              : 'Discover DJs, musicians, bands, and performers for your venue or event.'}
+              ? 'ดีเจมืออาชีพสำหรับโรงแรม ร้านอาหาร และสถานที่ระดับพรีเมียม'
+              : 'Professional DJs for hotels, restaurants, and premium venues.'}
           </p>
         </div>
       </section>

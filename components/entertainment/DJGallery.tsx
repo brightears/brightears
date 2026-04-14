@@ -127,34 +127,36 @@ export default function DJGallery({ djs, genres, locale }: DJGalleryProps) {
         </div>
       </div>
 
-      {/* Category Filter */}
-      <div className="mb-6">
-        <div className="flex flex-wrap gap-2 justify-center max-w-3xl mx-auto">
-          <button
-            onClick={() => { setSelectedCategory('all'); setSelectedGenre('all'); }}
-            className={`px-4 py-2 rounded-full font-inter text-sm transition-all duration-200 ${
-              selectedCategory === 'all'
-                ? 'bg-[#00bbe4] text-white shadow-lg shadow-[#00bbe4]/25'
-                : 'bg-[#2a2a2a]/50 text-[#bcc9ce] border border-[#3d494e]/20 hover:bg-[#2a2a2a] hover:text-[#e5e2e1]'
-            }`}
-          >
-            {locale === 'th' ? 'ทั้งหมด' : 'All'}
-          </button>
-          {activeCategories.map((cat) => (
+      {/* Category Filter — only show when multiple categories exist */}
+      {activeCategories.length > 1 && (
+        <div className="mb-6">
+          <div className="flex flex-wrap gap-2 justify-center max-w-3xl mx-auto">
             <button
-              key={cat}
-              onClick={() => { setSelectedCategory(cat); setSelectedGenre('all'); }}
+              onClick={() => { setSelectedCategory('all'); setSelectedGenre('all'); }}
               className={`px-4 py-2 rounded-full font-inter text-sm transition-all duration-200 ${
-                selectedCategory === cat
+                selectedCategory === 'all'
                   ? 'bg-[#00bbe4] text-white shadow-lg shadow-[#00bbe4]/25'
                   : 'bg-[#2a2a2a]/50 text-[#bcc9ce] border border-[#3d494e]/20 hover:bg-[#2a2a2a] hover:text-[#e5e2e1]'
               }`}
             >
-              {CATEGORY_LABELS[cat] || cat}
+              {locale === 'th' ? 'ทั้งหมด' : 'All'}
             </button>
-          ))}
+            {activeCategories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => { setSelectedCategory(cat); setSelectedGenre('all'); }}
+                className={`px-4 py-2 rounded-full font-inter text-sm transition-all duration-200 ${
+                  selectedCategory === cat
+                    ? 'bg-[#00bbe4] text-white shadow-lg shadow-[#00bbe4]/25'
+                    : 'bg-[#2a2a2a]/50 text-[#bcc9ce] border border-[#3d494e]/20 hover:bg-[#2a2a2a] hover:text-[#e5e2e1]'
+                }`}
+              >
+                {CATEGORY_LABELS[cat] || cat}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Genre Filter (show when music categories selected) */}
       {groupedGenres.length > 0 && (
