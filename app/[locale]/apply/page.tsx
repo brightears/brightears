@@ -3,6 +3,8 @@ import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import DJApplicationForm from '@/components/forms/DJApplicationForm';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params
 }: {

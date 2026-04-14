@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import AIStudioContent from '../dj-portal/ai-studio/AIStudioContent';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'AI Content Studio | BrightEars',
   description: 'Generate professional promotional content for your entertainment — Instagram posts, event posters, stories, and more. Powered by AI.',

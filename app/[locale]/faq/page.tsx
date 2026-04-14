@@ -4,6 +4,8 @@ import { generateFAQSchema, generateBreadcrumbSchema } from '@/lib/schemas/struc
 import { Link } from '@/components/navigation';
 import FAQAccordion from './FAQAccordion';
 
+export const dynamic = 'force-dynamic';
+
 const faqData = {
   en: [
     {

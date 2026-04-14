@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import VenueInquiryForm from '@/app/components/VenueInquiryForm';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Managed Entertainment Services | Bright Ears Bangkok',
   description: 'Full-cycle entertainment management for hotels and premium venues. Nightly scheduling, quality control, backup guarantees, AI promo content. One invoice, zero headaches.',
@@ -131,13 +133,13 @@ export default function ManagedPage() {
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6 tracking-tight" style={{ fontFamily: 'Noto Serif, serif' }}>Pricing.</h2>
           <p className="text-[#bcc8ce] text-lg mb-4">
-            Custom monthly retainer based on venue size, frequency, and requirements.
+            Custom monthly retainer based on venue size, number of slots, and requirements.
           </p>
           <p className="text-3xl font-bold text-[#f0bba5]" style={{ fontFamily: 'Noto Serif, serif' }}>
-            ฿15,000 – ฿45,000<span className="text-lg font-normal text-[#bcc8ce]"> /month</span>
+            Tailored to your venue.
           </p>
           <p className="text-[#bcc8ce]/60 text-sm mt-4">
-            Includes all scheduling, curation, quality control, backup guarantees, and monthly reporting. AI promo content available as an add-on.
+            Every venue is different. We&apos;ll propose a package that fits your size, schedule, and entertainment goals. Includes scheduling, curation, quality control, backup guarantees, and monthly reporting.
           </p>
         </div>
       </section>

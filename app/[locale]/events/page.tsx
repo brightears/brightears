@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params
 }: {

@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import VenueInquiryForm from '@/app/components/VenueInquiryForm';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'One-off DJ & Entertainment Bookings | Bright Ears Bangkok',
   description: 'Book a professional DJ or performer for your event. Genre-matched to your venue, backup guarantee, logistics handled. Get a proposal within 24 hours.',
@@ -90,8 +92,8 @@ export default function BookingsPage() {
           </div>
           <div className="mt-16 pt-16 border-t border-[#3d494d]/20">
             <p className="text-[#bcc8ce] text-sm">
-              <span className="text-[#f0bba5] font-bold text-lg" style={{ fontFamily: 'Noto Serif, serif' }}>Starting from ฿3,200 per 4-hour set.</span>
-              <br />Custom quotes for multi-artist events, extended sets, and special requirements. Pricing depends on artist, date, and venue.
+              <span className="text-[#f0bba5] font-bold text-lg" style={{ fontFamily: 'Noto Serif, serif' }}>Custom pricing for every event.</span>
+              <br />Rates depend on artist, date, duration, and requirements. Tell us about your event and we&apos;ll send a clear, no-obligation quote within 24 hours.
             </p>
           </div>
         </div>
