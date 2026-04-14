@@ -8,7 +8,7 @@ const intlMiddleware = createMiddleware(routing);
 const isProtectedRoute = createRouteMatcher([
   '/(.*)/dashboard(.*)',
   '/(.*)/profile(.*)',
-  '/(.*)/bookings(.*)',
+  '/(.*)/bookings/(.*)',
   '/(.*)/settings(.*)',
   '/(.*)/admin(.*)',
   '/(.*)/artist-dashboard(.*)',
