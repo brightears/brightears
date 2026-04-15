@@ -51,7 +51,7 @@ export default function Footer() {
         {/* Legal row */}
         <div className="pt-6 border-t border-[#3d494d]/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[#e5e2e1]/30 text-xs">
-            &copy; 2026 Bright Ears Entertainment Co., Ltd. All rights reserved.
+            &copy; 2026 Bright Ears Co., Ltd. All rights reserved.
           </p>
           <div className="flex gap-6">
             <Link href="/privacy" className="text-[#e5e2e1]/30 hover:text-[#e5e2e1]/60 transition-colors text-xs">
