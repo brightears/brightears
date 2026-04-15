@@ -442,45 +442,6 @@ export default async function HomePage({
         </section>
 
         {/* ━━━ FOOTER ━━━ */}
-        <footer className="bg-[#0e0e0e] w-full py-16 px-8 border-t border-[#3d494d]/20 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex flex-col items-center md:items-start gap-4">
-            <div
-              className="text-lg font-bold text-[#ffdeae] uppercase tracking-tight"
-              style={{ fontFamily: 'Noto Serif, serif' }}
-            >
-              BRIGHT EARS
-            </div>
-            <p className="font-light tracking-widest uppercase text-[10px] text-[#e5e2e1]/40">
-              &copy; 2026 Bright Ears Bangkok. Premium entertainment management.
-            </p>
-          </div>
-          <div className="flex flex-wrap justify-center gap-8">
-            <a
-              className="font-light tracking-widest uppercase text-xs text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-colors duration-300"
-              href={`/${locale}/entertainment`}
-            >
-              Artists
-            </a>
-            <a
-              className="font-light tracking-widest uppercase text-xs text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-colors duration-300"
-              href={`/${locale}/ai-tools`}
-            >
-              AI Studio
-            </a>
-            <a
-              className="font-light tracking-widest uppercase text-xs text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-colors duration-300"
-              href="#contact"
-            >
-              Contact
-            </a>
-            <a
-              className="font-light tracking-widest uppercase text-xs text-[#e5e2e1]/40 hover:text-[#4fd6ff] transition-colors duration-300"
-              href="/sign-up"
-            >
-              Join Roster
-            </a>
-          </div>
-        </footer>
       </main>
     </>
   );
