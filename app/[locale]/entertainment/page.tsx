@@ -140,7 +140,7 @@ export default async function EntertainmentPage({
             {locale === 'th' ? 'ดีเจของเรา' : 'Our DJs'}
           </span>
           <h1 className="font-playfair text-4xl sm:text-5xl md:text-7xl font-bold text-neutral-100 mb-6 tracking-tighter">
-            {locale === 'th' ? 'ดีเจทั้งหมด' : 'The Roster'}
+            {locale === 'th' ? 'พบกับดีเจ' : 'Meet the DJs'}
           </h1>
           <p className="font-inter text-lg sm:text-xl text-[#bcc9ce] max-w-2xl mx-auto text-balance">
             {locale === 'th'
