@@ -377,7 +377,69 @@ async function handleTextMessage(event: any) {
     return;
   }
 
-  // Ignore other messages — bot stays silent unless handling a specific flow
+  // Free-text DM to the bot — escalate to Vinyl so a human can respond
+  await handleDirectMessage(event, lineUserId, text);
+}
+
+// ---------------------------------------------------------------------------
+// 1-to-1 DM Escalation
+// ---------------------------------------------------------------------------
+
+async function handleDirectMessage(event: any, lineUserId: string, text: string) {
+  // Try to identify the sender — artist, venue contact, or unknown
+  let senderName = lineUserId;
+  let senderType = 'unknown';
+  let senderContext: Record<string, unknown> = {};
+
+  // Check if this userId belongs to a known artist (lineUserId lives on User model)
+  const user = await prisma.user.findUnique({
+    where: { lineUserId },
+    select: {
+      id: true,
+      name: true,
+      artist: { select: { id: true, stageName: true, realName: true } },
+    },
+  });
+  if (user?.artist) {
+    senderName = user.artist.stageName || user.artist.realName || user.name || lineUserId;
+    senderType = 'dj';
+    senderContext = { artist_id: user.artist.id, stage_name: user.artist.stageName };
+  } else if (user) {
+    senderName = user.name || lineUserId;
+    senderType = 'user';
+  } else {
+    // Fall back to LINE profile lookup
+    try {
+      const { messagingApi } = await import('@line/bot-sdk');
+      const client = new messagingApi.MessagingApiClient({
+        channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN!,
+      });
+      const profile = await client.getProfile(lineUserId);
+      senderName = profile.displayName;
+    } catch {
+      // Fall back to userId
+    }
+  }
+
+  // Forward to Vinyl's escalation webhook
+  const webhookUrl = process.env.VINYL_WEBHOOK_URL || 'http://localhost:8200';
+  try {
+    await fetch(`${webhookUrl}/webhook/line-escalation`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sender_name: senderName,
+        sender_type: senderType,
+        group_name: '1-to-1 DM',
+        text,
+        line_user_id: lineUserId,
+        timestamp: new Date(event.timestamp).toISOString(),
+        ...senderContext,
+      }),
+    });
+  } catch (err) {
+    console.error('[LINE Webhook] Failed to escalate DM to Vinyl:', err);
+  }
 }
 
 // ---------------------------------------------------------------------------
