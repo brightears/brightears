@@ -272,6 +272,9 @@ model Artist {
   venueAssignments  VenueAssignment[]
   venueFeedback     VenueFeedback[]
 
+  // LINE 1:1 groups (Norbert + DJ + bot) — routes messages to Vinyl escalation
+  djPersonalGroups  DjPersonalGroup[]
+
   // Marketplace relations
   gigApplications   GigApplication[] @relation("GigApplications")
   venueRatings      ArtistVenueRating[]
@@ -758,6 +761,22 @@ model PatternException {
 
   @@unique([recurringPatternId, date])
   @@index([date])
+}
+
+// LINE 1:1 personal group between Norbert + a specific DJ + the BrightEars bot.
+// Messages in these groups are escalated to Vinyl so operations can handle them
+// directly with the DJ. Distinct from venue-scoped LINE groups on the Venue model.
+model DjPersonalGroup {
+  id          String   @id @default(cuid())
+  lineGroupId String   @unique
+  artistId    String
+  artist      Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  isActive    Boolean  @default(true)
+  notes       String?  // optional free-text (e.g. "main DM" / deprecated group)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([artistId])
 }
 
 // Blackout dates for holidays, personal time off

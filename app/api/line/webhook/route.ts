@@ -586,7 +586,7 @@ async function handleJoin(event: any) {
   // DM the Group ID to admin
   await pushTextMessage(
     ADMIN_LINE_USER_ID,
-    `New group joined!\n\nGroup ID:\n${groupId}\n\nPaste this in admin → LINE Group Links (DJ Group or Manager Group).`
+    `New group joined!\n\nGroup ID:\n${groupId}\n\nRegister as: venue DJ group, venue manager group, or personal DJ group (1:1).`
   );
 }
 
@@ -614,7 +614,27 @@ async function handleGroupFreeText(event: any) {
     senderType = 'dj';
   }
 
-  if (!venue) return; // Not a linked group — ignore
+  // If not a venue-scoped group, check if it's a 1:1 personal DJ group
+  // (Norbert + single DJ + bot). These are registered in DjPersonalGroup
+  // and routed to Vinyl with sender_type='dj_direct'.
+  let djPersonal: { id: string; artistId: string; stageName: string } | null = null;
+  if (!venue) {
+    const row = await prisma.djPersonalGroup.findUnique({
+      where: { lineGroupId: groupId },
+      select: {
+        id: true,
+        isActive: true,
+        artistId: true,
+        artist: { select: { stageName: true } },
+      },
+    });
+    if (row?.isActive) {
+      djPersonal = { id: row.id, artistId: row.artistId, stageName: row.artist.stageName };
+      senderType = 'dj_direct';
+    }
+  }
+
+  if (!venue && !djPersonal) return; // Not a linked group — ignore
 
   const text = event.message.text.trim();
   const senderUserId = event.source.userId;
@@ -632,6 +652,8 @@ async function handleGroupFreeText(event: any) {
     // Fall back to userId
   }
 
+  const groupName = venue?.name ?? `DJ ${djPersonal?.stageName} (1:1)`;
+
   // Send to Vinyl's webhook channel for escalation
   const webhookUrl = process.env.VINYL_WEBHOOK_URL || 'http://localhost:8200';
   try {
@@ -641,9 +663,11 @@ async function handleGroupFreeText(event: any) {
       body: JSON.stringify({
         sender_name: senderName,
         sender_type: senderType,
-        group_name: venue.name,
+        group_name: groupName,
         text,
-        venue_id: venue.id,
+        venue_id: venue?.id ?? null,
+        artist_id: djPersonal?.artistId ?? null,
+        stage_name: djPersonal?.stageName ?? null,
         line_user_id: senderUserId,
         line_group_id: groupId,
         timestamp: new Date(event.timestamp).toISOString(),
