@@ -85,9 +85,6 @@ export async function generateMetadata({
       site: '@brightears',
       creator: '@brightears',
     },
-    verification: {
-      google: 'google-site-verification-code', // TODO: Add actual Google Search Console verification code
-    },
   };
 }
 
