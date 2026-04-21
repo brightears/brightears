@@ -64,8 +64,8 @@ export function generateOrganizationSchema({
     alternateName: locale === 'th' ? 'ไบรท์ เอียร์ส' : 'Bright Ears',
     description:
       locale === 'th'
-        ? 'เอเจนซี่บันเทิงในกรุงเทพ ให้บริการดีเจและนักดนตรีมืออาชีพสำหรับโรงแรมและสถานที่ระดับพรีเมียม'
-        : 'Bangkok entertainment agency providing professional DJs and musicians for premium hotels and venues',
+        ? 'แพลตฟอร์มจองบันเทิงสำหรับโรงแรมและสถานที่จัดงาน — จัดตารางด้วย AI ควบคุมคุณภาพการแสดง บันทึกข้อมูลศิลปินโปร่งใส ฐานในกรุงเทพ'
+        : 'Entertainment booking platform for hotels and venues — AI-driven scheduling, performance quality control, and transparent artist records. Bangkok-based.',
     url,
     logo: {
       '@type': 'ImageObject',
