@@ -10,6 +10,7 @@ import {
   BuildingOfficeIcon,
   ChartBarIcon,
   StarIcon,
+  HeartIcon,
   ArrowLeftOnRectangleIcon,
   Bars3Icon,
   XMarkIcon,
@@ -48,6 +49,12 @@ const navItems: NavItem[] = [
     href: '/admin/feedback',
     icon: StarIcon,
     description: 'DJ ratings & notes'
+  },
+  {
+    name: 'Roster Health',
+    href: '/admin/roster-health',
+    icon: HeartIcon,
+    description: '30d drift & volume'
   },
   {
     name: 'Analytics',
