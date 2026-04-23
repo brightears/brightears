@@ -4,10 +4,47 @@ import VenueInquiryForm from '@/app/components/VenueInquiryForm';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  title: 'One-off DJ & Entertainment Bookings | Bright Ears Bangkok',
-  description: 'Book a professional DJ or performer for your event. Genre-matched to your venue, backup guarantee, logistics handled. Get a proposal within 24 hours.',
-};
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  const title = locale === 'th'
+    ? 'จองดีเจและความบันเทิงครั้งเดียว | Bright Ears Bangkok'
+    : 'One-off DJ & Entertainment Bookings | Bright Ears Bangkok';
+
+  const description = locale === 'th'
+    ? 'จองดีเจหรือศิลปินมืออาชีพสำหรับงานของคุณ จับคู่สไตล์ที่เข้ากับสถานที่ มีการันตีสำรอง จัดการโลจิสติกส์ครบวงจร รับข้อเสนอภายใน 24 ชั่วโมง'
+    : 'Book a professional DJ or performer for your event. Genre-matched to your venue, backup guarantee, logistics handled. Get a proposal within 24 hours.';
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/${locale}/services/bookings`,
+      siteName: 'Bright Ears',
+      locale: locale === 'th' ? 'th_TH' : 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `/${locale}/services/bookings`,
+      languages: {
+        'en': '/en/services/bookings',
+        'th': '/th/services/bookings',
+        'x-default': '/en/services/bookings',
+      }
+    },
+  };
+}
 
 export default function BookingsPage() {
   return (

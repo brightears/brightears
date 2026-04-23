@@ -53,14 +53,6 @@ export default function Footer() {
           <p className="text-[#e5e2e1]/30 text-xs">
             &copy; 2026 Bright Ears Co., Ltd. All rights reserved.
           </p>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="text-[#e5e2e1]/30 hover:text-[#e5e2e1]/60 transition-colors text-xs">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="text-[#e5e2e1]/30 hover:text-[#e5e2e1]/60 transition-colors text-xs">
-              Terms of Service
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

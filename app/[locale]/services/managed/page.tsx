@@ -4,10 +4,47 @@ import VenueInquiryForm from '@/app/components/VenueInquiryForm';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  title: 'Managed Entertainment Services | Bright Ears Bangkok',
-  description: 'Full-cycle entertainment management for hotels and premium venues. Nightly scheduling, quality control, backup guarantees, AI promo content. One invoice, zero headaches.',
-};
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  const title = locale === 'th'
+    ? 'บริการจัดการความบันเทิงแบบครบวงจร | Bright Ears Bangkok'
+    : 'Managed Entertainment Services | Bright Ears Bangkok';
+
+  const description = locale === 'th'
+    ? 'การจัดการความบันเทิงแบบครบวงจรสำหรับโรงแรมและสถานที่ระดับพรีเมียม จัดตารางรายคืน ควบคุมคุณภาพ มีการันตีสำรอง คอนเทนต์ AI ใบแจ้งหนี้ใบเดียว ไม่ปวดหัว'
+    : 'Full-cycle entertainment management for hotels and premium venues. Nightly scheduling, quality control, backup guarantees, AI promo content. One invoice, zero headaches.';
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/${locale}/services/managed`,
+      siteName: 'Bright Ears',
+      locale: locale === 'th' ? 'th_TH' : 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `/${locale}/services/managed`,
+      languages: {
+        'en': '/en/services/managed',
+        'th': '/th/services/managed',
+        'x-default': '/en/services/managed',
+      }
+    },
+  };
+}
 
 export default function ManagedPage() {
   return (

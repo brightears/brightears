@@ -4,10 +4,47 @@ import { Link } from '@/components/navigation';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  title: 'Services | Bright Ears Bangkok',
-  description: 'Premium entertainment services for hotels and venues. One-off DJ bookings or fully managed nightly entertainment.',
-};
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  const title = locale === 'th'
+    ? 'บริการ | Bright Ears Bangkok'
+    : 'Services | Bright Ears Bangkok';
+
+  const description = locale === 'th'
+    ? 'บริการความบันเทิงระดับพรีเมียมสำหรับโรงแรมและสถานที่ต่างๆ จองดีเจครั้งเดียวหรือจัดการความบันเทิงรายคืนแบบครบวงจร'
+    : 'Premium entertainment services for hotels and venues. One-off DJ bookings or fully managed nightly entertainment.';
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/${locale}/services`,
+      siteName: 'Bright Ears',
+      locale: locale === 'th' ? 'th_TH' : 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `/${locale}/services`,
+      languages: {
+        'en': '/en/services',
+        'th': '/th/services',
+        'x-default': '/en/services',
+      }
+    },
+  };
+}
 
 export default function ServicesPage() {
   return (

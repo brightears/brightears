@@ -15,11 +15,38 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+
+  const title = locale === 'th'
+    ? 'งานดีเจที่เปิดรับ | Bright Ears'
+    : 'Open Gigs | Bright Ears';
+
+  const description = locale === 'th'
+    ? 'ดูงานบันเทิงที่เปิดรับจากสถานที่ทั่วประเทศไทย ดีเจ วง นักร้อง และศิลปิน — หางานต่อไปของคุณ'
+    : 'Browse open entertainment gigs posted by venues across Thailand. DJs, bands, singers, and performers — find your next booking.';
+
   return {
-    title: 'Open Gigs | Bright Ears',
-    description: 'Browse open entertainment gigs posted by venues across Thailand. DJs, bands, singers, and performers — find your next booking.',
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/${locale}/gigs`,
+      siteName: 'Bright Ears',
+      locale: locale === 'th' ? 'th_TH' : 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
     alternates: {
       canonical: `/${locale}/gigs`,
+      languages: {
+        'en': '/en/gigs',
+        'th': '/th/gigs',
+        'x-default': '/en/gigs',
+      }
     },
   };
 }
@@ -44,18 +71,23 @@ export default async function PublicGigsPage({
     take: 100,
   });
 
+  const dateLocale = locale === 'th' ? 'th-TH' : 'en-GB';
+
   const fmtDate = (d: Date) =>
-    d.toLocaleDateString('en-GB', {
+    d.toLocaleDateString(dateLocale, {
       weekday: 'short', day: 'numeric', month: 'short', year: 'numeric',
     });
+
+  const budgetTbdLabel = locale === 'th' ? 'งบประมาณ: TBD' : 'Budget: TBD';
+  const upToLabel = locale === 'th' ? 'สูงสุด' : 'up to';
 
   const fmtBudget = (g: any) => {
     const min = g.budgetMin ? Number(g.budgetMin) : null;
     const max = g.budgetMax ? Number(g.budgetMax) : null;
-    if (!min && !max) return 'Budget: TBD';
-    if (min && max) return `${g.currency} ${min.toLocaleString()}–${max.toLocaleString()}`;
-    if (min) return `${g.currency} ${min.toLocaleString()}+`;
-    return `up to ${g.currency} ${max!.toLocaleString()}`;
+    if (!min && !max) return budgetTbdLabel;
+    if (min && max) return `${g.currency} ${min.toLocaleString(dateLocale)}–${max.toLocaleString(dateLocale)}`;
+    if (min) return `${g.currency} ${min.toLocaleString(dateLocale)}+`;
+    return `${upToLabel} ${g.currency} ${max!.toLocaleString(dateLocale)}`;
   };
 
   // JSON-LD for AI search + SEO
