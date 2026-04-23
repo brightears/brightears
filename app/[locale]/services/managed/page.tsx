@@ -16,8 +16,8 @@ export async function generateMetadata({
     : 'Managed Entertainment Services | Bright Ears Bangkok';
 
   const description = locale === 'th'
-    ? 'การจัดการความบันเทิงแบบครบวงจรสำหรับโรงแรมและสถานที่ระดับพรีเมียม จัดตารางรายคืน ควบคุมคุณภาพ มีการันตีสำรอง คอนเทนต์ AI ใบแจ้งหนี้ใบเดียว ไม่ปวดหัว'
-    : 'Full-cycle entertainment management for hotels and premium venues. Nightly scheduling, quality control, backup guarantees, AI promo content. One invoice, zero headaches.';
+    ? 'การจัดการความบันเทิงแบบครบวงจรสำหรับโรงแรมและสถานที่ระดับพรีเมียม สามการันตี: คะแนน 4.0+ สำรอง DJ และจับคู่แนวเพลง หากเราพลาด คืนฟรี'
+    : 'Full-cycle entertainment management for hotels and premium venues. Three written guarantees: 4.0+ ratings, backup DJ coverage, genre-fit match. Miss any guarantee and the night is free.';
 
   return {
     title,
@@ -61,8 +61,65 @@ export default function ManagedPage() {
           <h1 className="text-5xl md:text-7xl italic mb-6 leading-tight font-bold" style={{ fontFamily: 'Noto Serif, serif' }}>
             Managed entertainment.
           </h1>
-          <p className="text-xl text-[#bcc8ce] max-w-xl leading-relaxed">
+          <p className="text-xl text-[#bcc8ce] max-w-xl leading-relaxed mb-4">
             Your venue&apos;s nightly entertainment, on autopilot. We handle everything from booking to last call. One invoice. Zero headaches.
+          </p>
+          <p className="text-base text-[#4fd6ff] max-w-xl leading-relaxed font-bold">
+            Three written guarantees. If we miss, the night is free.
+          </p>
+        </div>
+      </section>
+
+      {/* The Three Guarantees */}
+      <section className="py-32 px-8 md:px-20 bg-[#0e0e0e]">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl mb-16">
+            <span className="text-[#4fd6ff] text-[10px] tracking-[0.4em] uppercase font-bold block mb-4">Our promise</span>
+            <h2 className="text-5xl font-bold mb-6 leading-tight" style={{ fontFamily: 'Noto Serif, serif' }}>
+              Three guarantees. <span className="italic text-[#f0bba5]">Backed in writing.</span>
+            </h2>
+            <p className="text-[#bcc8ce] text-lg leading-relaxed">
+              Every managed venue gets the same three promises on every single night. Miss any of them and we refund the night in full &mdash; plus a credit toward your next booking. No small print, no excuses.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Guarantee 1 */}
+            <div className="border border-[#4fd6ff]/20 bg-[#131313] p-8 hover:border-[#4fd6ff]/50 transition-colors">
+              <div className="text-[10px] tracking-[0.3em] uppercase text-[#4fd6ff] font-bold mb-6">01 / Quality</div>
+              <h3 className="text-2xl font-bold mb-4 leading-tight" style={{ fontFamily: 'Noto Serif, serif' }}>
+                4.0+ rating, every night.
+              </h3>
+              <p className="text-[#bcc8ce] leading-relaxed">
+                Every DJ&apos;s performance is rated by your floor manager. If a night comes in below 4.0/5, we refund that night&apos;s fee in full. Our roster-health data means we only book DJs who hit this bar.
+              </p>
+            </div>
+
+            {/* Guarantee 2 */}
+            <div className="border border-[#4fd6ff]/20 bg-[#131313] p-8 hover:border-[#4fd6ff]/50 transition-colors">
+              <div className="text-[10px] tracking-[0.3em] uppercase text-[#4fd6ff] font-bold mb-6">02 / No-show cover</div>
+              <h3 className="text-2xl font-bold mb-4 leading-tight" style={{ fontFamily: 'Noto Serif, serif' }}>
+                Backup DJ, confirmed 24h out.
+              </h3>
+              <p className="text-[#bcc8ce] leading-relaxed">
+                Every booked night has a designated backup confirmed a day ahead. If the primary cancels, we activate the backup and cover their travel. If we can&apos;t fill the slot, the night is free and you get credit toward your next booking.
+              </p>
+            </div>
+
+            {/* Guarantee 3 */}
+            <div className="border border-[#4fd6ff]/20 bg-[#131313] p-8 hover:border-[#4fd6ff]/50 transition-colors">
+              <div className="text-[10px] tracking-[0.3em] uppercase text-[#4fd6ff] font-bold mb-6">03 / Genre match</div>
+              <h3 className="text-2xl font-bold mb-4 leading-tight" style={{ fontFamily: 'Noto Serif, serif' }}>
+                The right DJ for your room.
+              </h3>
+              <p className="text-[#bcc8ce] leading-relaxed">
+                Every DJ is matched to your venue&apos;s genre and crowd based on performance history &mdash; Michelin dining sounds nothing like a rooftop. If your GM rates the style-fit below 3.5/5, we re-book at our cost or refund.
+              </p>
+            </div>
+          </div>
+
+          <p className="text-sm text-[#bcc8ce]/60 mt-12 max-w-3xl leading-relaxed">
+            <strong className="text-[#bcc8ce]">Why we can offer this:</strong> we&apos;re the only DJ agency in Bangkok that tracks rating, crowd engagement, and would-rebook data across every single shift. That roster-health data is what lets us price the risk. Most agencies can&apos;t promise this because they don&apos;t measure it.
           </p>
         </div>
       </section>
@@ -76,7 +133,7 @@ export default function ManagedPage() {
               { icon: 'calendar_month', t: 'Nightly scheduling', d: 'Your entertainment calendar, planned weeks in advance. Every night covered, every slot filled.' },
               { icon: 'tune', t: 'Artist curation', d: 'Genre-matched to your venue\'s atmosphere and clientele. We know which DJ fits your Friday vs your Tuesday.' },
               { icon: 'analytics', t: 'Quality control', d: 'Performance ratings after every single set. Data drives who plays next week. Quality improves every night.' },
-              { icon: 'shield', t: 'Backup guarantee', d: 'DJ cancels at 8pm? We have a qualified replacement at your venue within 2 hours. Every time.' },
+              { icon: 'shield', t: 'Backup guarantee', d: 'Every night has a designated backup DJ confirmed 24h ahead. Primary no-shows? We activate the backup and cover their travel. If we can\'t fill the slot, the night is free.' },
               { icon: 'receipt_long', t: 'Monthly reporting', d: 'One invoice, full transparency. Shift counts, ratings summary, attendance trends, recommendations.' },
               { icon: 'auto_awesome', t: 'AI promo content', d: 'Professional social media content for your venue — posters, IG posts, stories — generated weekly by our AI studio.' },
             ].map((f) => (
