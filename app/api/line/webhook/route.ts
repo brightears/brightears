@@ -108,6 +108,11 @@ async function processEvents(events: any[]) {
                 await handleGroupFreeText(event);
               }
             }
+          } else if (event.message.type === 'image') {
+            // Image message in a linked group — escalate to Vinyl with the image attached.
+            if (event.source.type === 'group' && event.source.userId) {
+              await handleGroupImage(event);
+            }
           }
           break;
         case 'join':
@@ -675,6 +680,112 @@ async function handleGroupFreeText(event: any) {
     });
   } catch (err) {
     console.error('[LINE Webhook] Failed to escalate to Vinyl:', err);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Image escalation (same routing as handleGroupFreeText but with image attached)
+// ---------------------------------------------------------------------------
+
+async function handleGroupImage(event: any) {
+  const groupId = event.source.groupId;
+  if (!groupId) return;
+
+  // Same group-identification logic as handleGroupFreeText
+  let venue = await prisma.venue.findFirst({
+    where: { lineManagerGroupId: groupId },
+    select: { id: true, name: true },
+  });
+  let senderType = 'manager';
+
+  if (!venue) {
+    venue = await prisma.venue.findFirst({
+      where: { lineGroupId: groupId },
+      select: { id: true, name: true },
+    });
+    senderType = 'dj';
+  }
+
+  let djPersonal: { id: string; artistId: string; stageName: string } | null = null;
+  if (!venue) {
+    const row = await prisma.djPersonalGroup.findUnique({
+      where: { lineGroupId: groupId },
+      select: {
+        id: true,
+        isActive: true,
+        artistId: true,
+        artist: { select: { stageName: true } },
+      },
+    });
+    if (row?.isActive) {
+      djPersonal = { id: row.id, artistId: row.artistId, stageName: row.artist.stageName };
+      senderType = 'dj_direct';
+    }
+  }
+
+  if (!venue && !djPersonal) return; // Unlinked group — ignore
+
+  const messageId = event.message.id;
+  const senderUserId = event.source.userId;
+
+  // Fetch sender display name (best-effort, same pattern as text path)
+  let senderName = senderUserId;
+  try {
+    const { messagingApi } = await import('@line/bot-sdk');
+    const client = new messagingApi.MessagingApiClient({
+      channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN!,
+    });
+    const profile = await client.getGroupMemberProfile(groupId, senderUserId);
+    senderName = profile.displayName;
+  } catch {
+    // Fall back to userId
+  }
+
+  const groupName = venue?.name ?? `DJ ${djPersonal?.stageName} (1:1)`;
+
+  // Download the image binary from LINE's Content API (different host: api-data.line.me)
+  let imageBase64: string | null = null;
+  let imageMime = 'image/jpeg';
+  try {
+    const resp = await fetch(`https://api-data.line.me/v2/bot/message/${messageId}/content`, {
+      headers: { Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN!}` },
+    });
+    if (!resp.ok) {
+      throw new Error(`LINE content API ${resp.status}`);
+    }
+    imageMime = resp.headers.get('content-type') || 'image/jpeg';
+    const buf = Buffer.from(await resp.arrayBuffer());
+    imageBase64 = buf.toString('base64');
+  } catch (err) {
+    console.error('[LINE Webhook] Failed to fetch image content:', err);
+    // Fall through — we still escalate, but without the image, so Vinyl knows an image arrived.
+  }
+
+  // Forward to Vinyl's webhook channel. Reuses /webhook/line-escalation with
+  // two new optional fields (image_b64 + image_mime). The text field is a stub.
+  const webhookUrl = process.env.VINYL_WEBHOOK_URL || 'http://localhost:8200';
+  try {
+    await fetch(`${webhookUrl}/webhook/line-escalation`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sender_name: senderName,
+        sender_type: senderType,
+        group_name: groupName,
+        text: imageBase64 ? '[image attached]' : '[image — failed to fetch content]',
+        image_b64: imageBase64,
+        image_mime: imageMime,
+        line_message_id: messageId,
+        venue_id: venue?.id ?? null,
+        artist_id: djPersonal?.artistId ?? null,
+        stage_name: djPersonal?.stageName ?? null,
+        line_user_id: senderUserId,
+        line_group_id: groupId,
+        timestamp: new Date(event.timestamp).toISOString(),
+      }),
+    });
+  } catch (err) {
+    console.error('[LINE Webhook] Failed to escalate image to Vinyl:', err);
   }
 }
 
