@@ -55,6 +55,25 @@ export async function pushTextMessage(userId: string, text: string) {
   });
 }
 
+export async function pushTextAndImageMessage(
+  userId: string,
+  text: string,
+  imageUrl: string,
+) {
+  const client = getLineClient();
+  await client.pushMessage({
+    to: userId,
+    messages: [
+      { type: 'text', text },
+      {
+        type: 'image',
+        originalContentUrl: imageUrl,
+        previewImageUrl: imageUrl,
+      },
+    ],
+  });
+}
+
 export async function pushFlexMessage(
   userId: string,
   altText: string,
