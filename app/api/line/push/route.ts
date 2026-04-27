@@ -14,7 +14,7 @@
 
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { pushFlexMessage, pushTextMessage, buildDJRatingFlex, buildGroupScheduleFlex } from '@/lib/line';
+import { pushFlexMessage, pushTextMessage, pushTextAndImageMessage, buildDJRatingFlex, buildGroupScheduleFlex } from '@/lib/line';
 import { hasShiftEnded, formatDateLocal } from '@/lib/venue-utils';
 
 // ---------------------------------------------------------------------------
@@ -445,15 +445,19 @@ async function sendBroadcast(body: { message?: string; role?: string }) {
 // Send a direct message to a LINE group or user (used by Vinyl)
 // ---------------------------------------------------------------------------
 
-async function sendDirectMessage(body: { to?: string; text?: string }) {
-  const { to, text } = body;
+async function sendDirectMessage(body: { to?: string; text?: string; imageUrl?: string }) {
+  const { to, text, imageUrl } = body;
   if (!to || !text) {
     return NextResponse.json({ error: 'Missing "to" or "text"' }, { status: 400 });
   }
 
   try {
-    await pushTextMessage(to, text);
-    return NextResponse.json({ sent: true, to });
+    if (imageUrl) {
+      await pushTextAndImageMessage(to, text, imageUrl);
+    } else {
+      await pushTextMessage(to, text);
+    }
+    return NextResponse.json({ sent: true, to, imageUrl: imageUrl ?? null });
   } catch (err: any) {
     console.error('[LINE Push] send_message error:', err);
     return NextResponse.json({ error: err?.message || 'Failed to send' }, { status: 500 });
