@@ -159,6 +159,12 @@ const Header: React.FC = () => {
             ) : isLoaded && (
               <div className="hidden sm:flex items-center gap-3">
                 <a
+                  href="/sign-in"
+                  className="font-playfair text-neutral-400 hover:text-neutral-100 transition-colors duration-300 tracking-tight"
+                >
+                  {t('signIn')}
+                </a>
+                <a
                   href="/sign-up"
                   className="px-6 py-2 bg-gradient-to-r from-[#4fd6ff] to-[#00bbe4] text-[#003543] font-bold rounded-lg hover:scale-95 transition-all duration-200"
                 >
