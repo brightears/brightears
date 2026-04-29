@@ -10,8 +10,8 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
-import { prisma } from '@/lib/prisma';
-import { AgentSlotStatus } from '@prisma/client';
+import { prismaAgent } from '@/lib/prisma-agent';
+import { AgentSlotStatus } from '@prisma/agent-client';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,14 +38,14 @@ export default async function SchedulePage({ params, searchParams }: Props) {
   const { userId } = await auth();
   if (!userId) redirect('/sign-in');
 
-  const tenant = await prisma.agentTenant.findUnique({
+  const tenant = await prismaAgent.agentTenant.findUnique({
     where: { slug },
     include: { members: { where: { clerkUserId: userId } } },
   });
   if (!tenant || tenant.members.length === 0) notFound();
   const member = tenant.members[0];
 
-  const venues = await prisma.agentVenue.findMany({
+  const venues = await prismaAgent.agentVenue.findMany({
     where: {
       tenantId: tenant.id,
       ...(member.venueScope.length > 0 ? { id: { in: member.venueScope } } : {}),
@@ -89,7 +89,7 @@ export default async function SchedulePage({ params, searchParams }: Props) {
   const endUtc = new Date(startUtc);
   endUtc.setUTCDate(endUtc.getUTCDate() + 30);
 
-  const slots = await prisma.agentScheduleSlot.findMany({
+  const slots = await prismaAgent.agentScheduleSlot.findMany({
     where: {
       venueId: activeVenue.id,
       date: { gte: startUtc, lte: endUtc },

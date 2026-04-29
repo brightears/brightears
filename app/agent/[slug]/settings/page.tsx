@@ -12,10 +12,10 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
-import { prisma } from '@/lib/prisma';
+import { prismaAgent } from '@/lib/prisma-agent';
 import { addVenue } from '@/lib/agent/venues';
 import { logAuditEvent } from '@/lib/agent/audit';
-import { AgentAutopilotMode } from '@prisma/client';
+import { AgentAutopilotMode } from '@prisma/agent-client';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,7 +32,7 @@ async function handleAutopilotChange(formData: FormData) {
   const { userId } = await auth();
   if (!userId) redirect('/sign-in');
 
-  const tenant = await prisma.agentTenant.findUnique({
+  const tenant = await prismaAgent.agentTenant.findUnique({
     where: { slug },
     include: { members: { where: { clerkUserId: userId } } },
   });
@@ -47,7 +47,7 @@ async function handleAutopilotChange(formData: FormData) {
     redirect(`/agent/${slug}/settings?error=Invalid+mode`);
   }
 
-  await prisma.agentTenant.update({
+  await prismaAgent.agentTenant.update({
     where: { id: tenant.id },
     data: { autopilotMode: mode },
   });
@@ -85,7 +85,7 @@ export default async function SettingsPage({ params, searchParams }: Props) {
   const { userId } = await auth();
   if (!userId) redirect('/sign-in');
 
-  const tenant = await prisma.agentTenant.findUnique({
+  const tenant = await prismaAgent.agentTenant.findUnique({
     where: { slug },
     include: {
       members: { include: {} },
@@ -95,7 +95,7 @@ export default async function SettingsPage({ params, searchParams }: Props) {
   const me = tenant.members.find((m) => m.clerkUserId === userId);
   if (!me) notFound();
 
-  const venues = await prisma.agentVenue.findMany({
+  const venues = await prismaAgent.agentVenue.findMany({
     where: { tenantId: tenant.id },
     orderBy: { name: 'asc' },
   });

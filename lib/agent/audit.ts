@@ -6,7 +6,7 @@
  * Crucial for the "co-pilot trust" UX — manager can replay every step.
  */
 
-import { prisma } from '@/lib/prisma';
+import { prismaAgent } from '@/lib/prisma-agent';
 
 export type AuditEvent = {
   tenantId: string;
@@ -20,7 +20,7 @@ export type AuditEvent = {
 
 export async function logAuditEvent(event: AuditEvent): Promise<void> {
   try {
-    await prisma.agentAuditLog.create({
+    await prismaAgent.agentAuditLog.create({
       data: {
         tenantId: event.tenantId,
         actorClerkUserId: event.actorClerkUserId,

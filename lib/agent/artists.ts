@@ -9,7 +9,7 @@
 
 'use server';
 
-import { prisma } from '@/lib/prisma';
+import { prismaAgent } from '@/lib/prisma-agent';
 import { getAgentSession, requireRole, AgentForbiddenError } from './tenant';
 import { logAuditEvent } from './audit';
 
@@ -34,7 +34,7 @@ export async function listArtists(opts?: { activeOnly?: boolean }) {
   const session = await getAgentSession();
   if (!session) throw new AgentForbiddenError('Not signed in');
 
-  return prisma.agentArtist.findMany({
+  return prismaAgent.agentArtist.findMany({
     where: {
       tenantId: session.tenant.id,
       ...(opts?.activeOnly ? { active: true } : {}),
@@ -57,14 +57,14 @@ export async function addArtist(input: ArtistInput): Promise<ArtistResult> {
   const stageName = input.stageName.trim();
   if (!stageName) return { ok: false, error: 'Stage name is required' };
 
-  const existing = await prisma.agentArtist.findUnique({
+  const existing = await prismaAgent.agentArtist.findUnique({
     where: {
       tenantId_stageName: { tenantId: session.tenant.id, stageName },
     },
   });
   if (existing) return { ok: false, error: 'Artist already exists in roster' };
 
-  const artist = await prisma.agentArtist.create({
+  const artist = await prismaAgent.agentArtist.create({
     data: {
       tenantId: session.tenant.id,
       stageName,
@@ -105,7 +105,7 @@ export async function updateArtist(
     return { ok: false, error: 'Manager role required' };
   }
 
-  const artist = await prisma.agentArtist.findUnique({ where: { id: artistId } });
+  const artist = await prismaAgent.agentArtist.findUnique({ where: { id: artistId } });
   if (!artist || artist.tenantId !== session.tenant.id) {
     return { ok: false, error: 'Artist not in tenant roster' };
   }
@@ -121,7 +121,7 @@ export async function updateArtist(
   if (patch.notes !== undefined) data.notes = patch.notes;
   if (patch.active !== undefined) data.active = patch.active;
 
-  await prisma.agentArtist.update({ where: { id: artistId }, data });
+  await prismaAgent.agentArtist.update({ where: { id: artistId }, data });
 
   await logAuditEvent({
     tenantId: session.tenant.id,

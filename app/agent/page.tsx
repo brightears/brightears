@@ -9,7 +9,7 @@
 
 import Link from 'next/link';
 import { auth } from '@clerk/nextjs/server';
-import { prisma } from '@/lib/prisma';
+import { prismaAgent } from '@/lib/prisma-agent';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,7 +42,7 @@ export default async function AgentLandingPage() {
     );
   }
 
-  const memberships = await prisma.agentMember.findMany({
+  const memberships = await prismaAgent.agentMember.findMany({
     where: { clerkUserId: userId },
     include: { tenant: true },
     orderBy: { invitedAt: 'desc' },

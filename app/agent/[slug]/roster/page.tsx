@@ -10,7 +10,7 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
-import { prisma } from '@/lib/prisma';
+import { prismaAgent } from '@/lib/prisma-agent';
 import { addArtist, updateArtist } from '@/lib/agent/artists';
 
 export const dynamic = 'force-dynamic';
@@ -62,13 +62,13 @@ export default async function RosterPage({ params, searchParams }: Props) {
   const { userId } = await auth();
   if (!userId) redirect('/sign-in');
 
-  const tenant = await prisma.agentTenant.findUnique({
+  const tenant = await prismaAgent.agentTenant.findUnique({
     where: { slug },
     include: { members: { where: { clerkUserId: userId } } },
   });
   if (!tenant || tenant.members.length === 0) notFound();
 
-  const artists = await prisma.agentArtist.findMany({
+  const artists = await prismaAgent.agentArtist.findMany({
     where: { tenantId: tenant.id },
     orderBy: [{ active: 'desc' }, { stageName: 'asc' }],
   });

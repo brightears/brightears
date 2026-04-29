@@ -9,10 +9,10 @@
 
 'use server';
 
-import { prisma } from '@/lib/prisma';
+import { prismaAgent } from '@/lib/prisma-agent';
 import { getAgentSession, requireRole, AgentForbiddenError } from './tenant';
 import { logAuditEvent } from './audit';
-import { AgentTenantTier } from '@prisma/client';
+import { AgentTenantTier } from '@prisma/agent-client';
 
 export type VenueInput = {
   name: string;
@@ -40,7 +40,7 @@ export async function listVenues() {
   const session = await getAgentSession();
   if (!session) throw new AgentForbiddenError('Not signed in');
 
-  return prisma.agentVenue.findMany({
+  return prismaAgent.agentVenue.findMany({
     where: {
       tenantId: session.tenant.id,
       ...(session.member.venueScope.length > 0
@@ -65,7 +65,7 @@ export async function addVenue(input: VenueInput): Promise<VenueResult> {
   const name = input.name.trim();
   if (!name) return { ok: false, error: 'Venue name is required' };
 
-  const venueCount = await prisma.agentVenue.count({
+  const venueCount = await prismaAgent.agentVenue.count({
     where: { tenantId: session.tenant.id },
   });
   const limit = VENUE_LIMIT_BY_TIER[session.tenant.tier];
@@ -76,7 +76,7 @@ export async function addVenue(input: VenueInput): Promise<VenueResult> {
     };
   }
 
-  const venue = await prisma.agentVenue.create({
+  const venue = await prismaAgent.agentVenue.create({
     data: {
       tenantId: session.tenant.id,
       name,
@@ -116,7 +116,7 @@ export async function updateVenue(
     return { ok: false, error: 'Corporate head or owner role required' };
   }
 
-  const venue = await prisma.agentVenue.findUnique({ where: { id: venueId } });
+  const venue = await prismaAgent.agentVenue.findUnique({ where: { id: venueId } });
   if (!venue || venue.tenantId !== session.tenant.id) {
     return { ok: false, error: 'Venue not in tenant' };
   }
@@ -129,7 +129,7 @@ export async function updateVenue(
   if (patch.djRateCeiling !== undefined) data.djRateCeiling = patch.djRateCeiling;
   if (patch.notes !== undefined) data.notes = patch.notes;
 
-  await prisma.agentVenue.update({ where: { id: venueId }, data });
+  await prismaAgent.agentVenue.update({ where: { id: venueId }, data });
 
   await logAuditEvent({
     tenantId: session.tenant.id,

@@ -15,8 +15,8 @@
  */
 
 import { auth } from '@clerk/nextjs/server';
-import { prisma } from '@/lib/prisma';
-import { AgentTenant, AgentMember, AgentMemberRole } from '@prisma/client';
+import { prismaAgent } from '@/lib/prisma-agent';
+import { AgentTenant, AgentMember, AgentMemberRole } from '@prisma/agent-client';
 
 export type AgentSession = {
   tenant: AgentTenant;
@@ -34,7 +34,7 @@ export async function getAgentSession(opts?: {
   if (!userId) return null;
 
   if (opts?.tenantSlug) {
-    const tenant = await prisma.agentTenant.findUnique({
+    const tenant = await prismaAgent.agentTenant.findUnique({
       where: { slug: opts.tenantSlug },
       include: {
         members: { where: { clerkUserId: userId } },
@@ -45,7 +45,7 @@ export async function getAgentSession(opts?: {
   }
 
   // Default: most-recently-accepted membership.
-  const member = await prisma.agentMember.findFirst({
+  const member = await prismaAgent.agentMember.findFirst({
     where: { clerkUserId: userId, acceptedAt: { not: null } },
     orderBy: { acceptedAt: 'desc' },
     include: { tenant: true },
@@ -77,7 +77,7 @@ export function requireRole(
  */
 export async function getAccessibleVenueIds(session: AgentSession): Promise<string[]> {
   if (session.member.venueScope.length > 0) return session.member.venueScope;
-  const venues = await prisma.agentVenue.findMany({
+  const venues = await prismaAgent.agentVenue.findMany({
     where: { tenantId: session.tenant.id },
     select: { id: true },
   });

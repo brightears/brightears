@@ -12,7 +12,7 @@
 'use server';
 
 import { auth, currentUser } from '@clerk/nextjs/server';
-import { prisma } from '@/lib/prisma';
+import { prismaAgent } from '@/lib/prisma-agent';
 import { logAuditEvent } from './audit';
 
 export type OnboardInput = {
@@ -50,14 +50,14 @@ export async function onboardTenant(input: OnboardInput): Promise<OnboardResult>
     return { ok: false, error: 'That slug is reserved. Pick another.' };
   }
 
-  const existing = await prisma.agentTenant.findUnique({ where: { slug } });
+  const existing = await prismaAgent.agentTenant.findUnique({ where: { slug } });
   if (existing) return { ok: false, error: 'A tenant with that slug already exists' };
 
   const user = await currentUser();
   const email = user?.primaryEmailAddress?.emailAddress;
   if (!email) return { ok: false, error: 'No email on Clerk account' };
 
-  const result = await prisma.$transaction(async (tx) => {
+  const result = await prismaAgent.$transaction(async (tx) => {
     const tenant = await tx.agentTenant.create({
       data: {
         name: tenantName,

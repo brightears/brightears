@@ -9,7 +9,7 @@
 
 'use server';
 
-import { prisma } from '@/lib/prisma';
+import { prismaAgent } from '@/lib/prisma-agent';
 import {
   getAgentSession,
   getAccessibleVenueIds,
@@ -17,7 +17,7 @@ import {
   AgentForbiddenError,
 } from './tenant';
 import { logAuditEvent } from './audit';
-import { AgentSlotStatus } from '@prisma/client';
+import { AgentSlotStatus } from '@prisma/agent-client';
 
 export type ScheduleSlotInput = {
   venueId: string;
@@ -60,7 +60,7 @@ export async function listSlots(opts: {
   const to = parseDateOnly(opts.toDate);
   if (!from || !to) throw new Error('Invalid date');
 
-  return prisma.agentScheduleSlot.findMany({
+  return prismaAgent.agentScheduleSlot.findMany({
     where: {
       venueId: opts.venueId,
       date: { gte: from, lte: to },
@@ -94,13 +94,13 @@ export async function upsertSlot(input: ScheduleSlotInput): Promise<ScheduleSlot
   if (!date) return { ok: false, error: 'date must be yyyy-mm-dd' };
 
   if (input.artistId) {
-    const artist = await prisma.agentArtist.findFirst({
+    const artist = await prismaAgent.agentArtist.findFirst({
       where: { id: input.artistId, tenantId: session.tenant.id },
     });
     if (!artist) return { ok: false, error: 'Artist not found in tenant roster' };
   }
 
-  const slot = await prisma.agentScheduleSlot.upsert({
+  const slot = await prismaAgent.agentScheduleSlot.upsert({
     where: {
       venueId_date_slot: {
         venueId: input.venueId,
@@ -167,7 +167,7 @@ export async function deleteSlot(slotId: string): Promise<ScheduleSlotResult> {
     return { ok: false, error: 'Manager role required' };
   }
 
-  const slot = await prisma.agentScheduleSlot.findUnique({ where: { id: slotId } });
+  const slot = await prismaAgent.agentScheduleSlot.findUnique({ where: { id: slotId } });
   if (!slot || slot.tenantId !== session.tenant.id) {
     return { ok: false, error: 'Slot not found in tenant' };
   }
@@ -177,7 +177,7 @@ export async function deleteSlot(slotId: string): Promise<ScheduleSlotResult> {
     return { ok: false, error: 'Venue out of scope' };
   }
 
-  await prisma.agentScheduleSlot.delete({ where: { id: slotId } });
+  await prismaAgent.agentScheduleSlot.delete({ where: { id: slotId } });
 
   await logAuditEvent({
     tenantId: session.tenant.id,

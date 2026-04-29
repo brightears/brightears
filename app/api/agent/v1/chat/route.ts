@@ -12,7 +12,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prismaAgent } from '@/lib/prisma-agent';
 
 export const dynamic = 'force-dynamic';
 
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Missing tenantId or messages' }, { status: 400 });
   }
 
-  const tenant = await prisma.agentTenant.findUnique({ where: { id: tenantId } });
+  const tenant = await prismaAgent.agentTenant.findUnique({ where: { id: tenantId } });
   if (!tenant) {
     return NextResponse.json({ error: 'Unknown tenant' }, { status: 404 });
   }
@@ -143,8 +143,8 @@ export async function POST(req: Request) {
 
     // Persist usage + decrement tenant allowance.
     const totalTokens = inputTokens + outputTokens;
-    await prisma.$transaction([
-      prisma.agentLlmUsage.create({
+    await prismaAgent.$transaction([
+      prismaAgent.agentLlmUsage.create({
         data: {
           tenantId,
           model,
@@ -156,7 +156,7 @@ export async function POST(req: Request) {
           durationMs: Date.now() - startedAt,
         },
       }),
-      prisma.agentTenant.update({
+      prismaAgent.agentTenant.update({
         where: { id: tenantId },
         data: {
           monthlyTokenUsed: { increment: totalTokens },

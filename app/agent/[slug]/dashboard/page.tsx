@@ -10,8 +10,8 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
-import { prisma } from '@/lib/prisma';
-import { AgentSlotStatus } from '@prisma/client';
+import { prismaAgent } from '@/lib/prisma-agent';
+import { AgentSlotStatus } from '@prisma/agent-client';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,7 +35,7 @@ export default async function TenantDashboardPage({ params }: Props) {
   const { userId } = await auth();
   if (!userId) redirect('/sign-in');
 
-  const tenant = await prisma.agentTenant.findUnique({
+  const tenant = await prismaAgent.agentTenant.findUnique({
     where: { slug },
     include: { members: { where: { clerkUserId: userId } } },
   });
@@ -52,7 +52,7 @@ export default async function TenantDashboardPage({ params }: Props) {
     ...(member.venueScope.length > 0 ? { id: { in: member.venueScope } } : {}),
   };
 
-  const venues = await prisma.agentVenue.findMany({
+  const venues = await prismaAgent.agentVenue.findMany({
     where: venueWhere,
     include: {
       scheduleSlots: {
