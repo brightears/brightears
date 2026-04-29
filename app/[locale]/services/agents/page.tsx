@@ -10,6 +10,11 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import VenueInquiryForm from '@/app/components/VenueInquiryForm';
+import JsonLd from '@/components/JsonLd';
+import {
+  generateAgentSchemas,
+  generateBreadcrumbSchema,
+} from '@/lib/schemas/structured-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -111,11 +116,25 @@ export default async function AgentsOverviewPage({
 }) {
   const { locale } = await params;
 
+  const agentSchemas = generateAgentSchemas({ locale });
+  const breadcrumbSchema = generateBreadcrumbSchema({
+    items: [
+      { name: 'Home', url: `https://brightears.io/${locale}` },
+      { name: 'Services', url: `https://brightears.io/${locale}/services` },
+      { name: 'AI Agents', url: `https://brightears.io/${locale}/services/agents` },
+    ],
+  });
+
   return (
     <main
       className="min-h-screen bg-[#131313] text-[#e5e2e1]"
       style={{ fontFamily: 'Manrope, sans-serif' }}
     >
+      {agentSchemas.map((s, i) => (
+        <JsonLd key={i} data={s} />
+      ))}
+      <JsonLd data={breadcrumbSchema} />
+
       {/* Hero */}
       <section className="relative pt-32 pb-24 px-8 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center">

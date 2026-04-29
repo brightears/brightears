@@ -257,6 +257,74 @@ export function generateServiceSchema({ locale }: ServiceSchemaProps) {
 }
 
 /**
+ * SoftwareApplication Schemas - For the AI Agents product line
+ *
+ * Each agent SKU is a SoftwareApplication. Returns an array so the page
+ * can drop them all into JsonLd at once.
+ */
+export function generateAgentSchemas({ locale }: { locale: string }) {
+  const baseUrl = 'https://brightears.io';
+  const agentsUrl = `${baseUrl}/${locale}/services/agents`;
+
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: 'Bright Ears Venue Agent',
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      url: agentsUrl,
+      description:
+        locale === 'th'
+          ? 'ผู้ช่วย AI สำหรับผู้จัดการสถานที่ — จัดตารางดีเจ ติดตามผลตอบรับ และเตรียมใบแจ้งหนี้รายเดือน'
+          : 'AI assistant for venue managers — schedules DJ programming, tracks performance feedback, prepares monthly invoices.',
+      offers: {
+        '@type': 'Offer',
+        price: '25',
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/PreOrder',
+        priceValidUntil: '2026-12-31',
+      },
+      provider: { '@type': 'Organization', name: 'Bright Ears', url: baseUrl },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: 'Bright Ears DJ Agent',
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      url: agentsUrl,
+      description:
+        locale === 'th'
+          ? 'ผู้ช่วย AI ส่วนตัวสำหรับดีเจและศิลปิน — จัดการการจองและคอนเทนต์โซเชียล'
+          : 'Personal AI assistant for DJs and performing artists — booking inbox triage, social content generation, calendar coordination.',
+      offers: {
+        '@type': 'Offer',
+        availability: 'https://schema.org/PreOrder',
+      },
+      provider: { '@type': 'Organization', name: 'Bright Ears', url: baseUrl },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: 'Bright Ears Music Agent',
+      applicationCategory: 'MultimediaApplication',
+      operatingSystem: 'Web',
+      url: agentsUrl,
+      description:
+        locale === 'th'
+          ? 'AI ดีเจส่วนตัวที่เชื่อมต่อกับ Spotify และ Sonos เพื่อมิกซ์เพลงในบ้านของคุณ'
+          : 'Personal AI DJ that connects to Spotify, Apple Music, and Sonos to mix music live in your home.',
+      offers: {
+        '@type': 'Offer',
+        availability: 'https://schema.org/PreOrder',
+      },
+      provider: { '@type': 'Organization', name: 'Bright Ears', url: baseUrl },
+    },
+  ];
+}
+
+/**
  * FAQPage Schema - For FAQ page
  */
 export function generateFAQSchema({ faqs }: FAQSchemaProps) {
