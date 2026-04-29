@@ -96,6 +96,7 @@ model AgentTenant {
   venues             AgentVenue[]
   artists            AgentArtist[]
   auditLog           AgentAuditLog[]
+  llmUsage           AgentLlmUsage[]
 
   @@index([status])
   @@index([slug])
@@ -261,6 +262,8 @@ model AgentLlmUsage {
   taskType        String?           // "chat", "draft_email", "schedule_suggest"
   durationMs      Int?
   occurredAt      DateTime          @default(now())
+
+  tenant          AgentTenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId, occurredAt])
 }
