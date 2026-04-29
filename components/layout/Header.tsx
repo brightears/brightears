@@ -32,6 +32,7 @@ const Header: React.FC = () => {
   ];
 
   const navItems = [
+    { label: 'Agents', href: '/services/agents', highlight: true },
     { label: 'DJs', href: '/entertainment' },
     { label: 'Services', href: '/services' },
     { label: 'Apply', href: '/apply' },
@@ -95,9 +96,20 @@ const Header: React.FC = () => {
               <Link
                 key={item.label}
                 href={item.href}
-                className="relative font-playfair text-neutral-400 hover:text-neutral-100 transition-colors duration-300 tracking-tight group"
+                className={`relative font-playfair transition-colors duration-300 tracking-tight group ${
+                  item.highlight
+                    ? 'text-[#4fd6ff] font-semibold hover:text-[#b8ebff]'
+                    : 'text-neutral-400 hover:text-neutral-100'
+                }`}
               >
-                <span className="relative z-10">{item.label}</span>
+                <span className="relative z-10 flex items-center gap-2">
+                  {item.label}
+                  {item.highlight && (
+                    <span className="text-[8px] font-bold tracking-[0.2em] uppercase bg-[#4fd6ff]/15 text-[#4fd6ff] px-1.5 py-0.5 rounded">
+                      New
+                    </span>
+                  )}
+                </span>
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#4fd6ff] transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
