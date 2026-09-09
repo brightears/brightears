@@ -1,6 +1,7 @@
 import { getCurrentUser } from '@/lib/auth';
 import { PrismaClient } from '@prisma/client';
 import DJDashboardContent from './DJDashboardContent';
+import { addAssignmentDays, assignmentMonthBounds, bangkokAssignmentToday, upcomingAssignments } from '@/lib/venue-assignment-time';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,24 +9,28 @@ const prisma = new PrismaClient();
 
 async function getDashboardData(artistId: string) {
   const now = new Date();
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const today = bangkokAssignmentToday(now);
+  const month = assignmentMonthBounds(today);
 
   const [
-    upcomingThisMonth,
+    scheduledAssignments,
     totalShifts,
     avgRating,
-    next3,
     recentFeedback,
     stageName,
   ] = await Promise.all([
-    // Upcoming shifts this month
-    prisma.venueAssignment.count({
+    // DATE keys need yesterday's overnight shifts as well as today's shifts.
+    // Filter by actual Bangkok end time before taking the three dashboard rows.
+    prisma.venueAssignment.findMany({
       where: {
         artistId,
-        date: { gte: now, lte: monthEnd },
+        date: { gte: addAssignmentDays(today, -1) },
         status: 'SCHEDULED',
       },
+      include: {
+        venue: { select: { name: true } },
+      },
+      orderBy: [{ date: 'asc' }, { startTime: 'asc' }],
     }),
     // Total shifts all time
     prisma.venueAssignment.count({
@@ -36,19 +41,6 @@ async function getDashboardData(artistId: string) {
       where: { artistId },
       _avg: { overallRating: true },
       _count: { overallRating: true },
-    }),
-    // Next 3 upcoming performances
-    prisma.venueAssignment.findMany({
-      where: {
-        artistId,
-        date: { gte: now },
-        status: 'SCHEDULED',
-      },
-      include: {
-        venue: { select: { name: true } },
-      },
-      orderBy: { date: 'asc' },
-      take: 3,
     }),
     // Last 5 feedback entries
     prisma.venueFeedback.findMany({
@@ -67,6 +59,11 @@ async function getDashboardData(artistId: string) {
     }),
   ]);
 
+  const upcoming = upcomingAssignments(scheduledAssignments, now);
+  const upcomingThisMonth = upcoming.filter(a =>
+    a.date >= month.start && a.date < month.endExclusive
+  ).length;
+
   return {
     stageName: stageName?.stageName || 'DJ',
     profileImage: stageName?.profileImage || null,
@@ -78,7 +75,7 @@ async function getDashboardData(artistId: string) {
         : null,
       totalRatings: avgRating._count.overallRating,
     },
-    upcoming: next3.map((a) => ({
+    upcoming: upcoming.slice(0, 3).map((a) => ({
       id: a.id,
       venue: a.venue.name,
       date: a.date.toISOString(),

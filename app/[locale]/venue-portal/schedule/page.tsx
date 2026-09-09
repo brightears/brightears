@@ -14,6 +14,8 @@ import {
   ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
 import ScheduleCalendar from '@/components/venue-portal/ScheduleCalendar';
+import CalendarDownload from '@/components/venue-portal/CalendarDownload';
+import { bangkokDate } from '@/lib/schedule-calendar';
 
 interface Assignment {
   id: string;
@@ -47,7 +49,9 @@ export default function SchedulePage() {
   const [selectedVenue, setSelectedVenue] = useState<string>('all');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [loading, setLoading] = useState(true);
-  const [displayedMonth, setDisplayedMonth] = useState(new Date());
+  const [displayedMonth, setDisplayedMonth] = useState(() => new Date(bangkokDate(new Date()) + 'T12:00:00'));
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [retry, setRetry] = useState(0);
 
   // Month/year for PDF export (from displayed month)
   const pdfMonth = displayedMonth.getMonth() + 1;
@@ -63,25 +67,34 @@ export default function SchedulePage() {
       .catch(console.error);
   }, []);
 
-  // Fetch assignments
+  // Load only the visible month and discard responses from an old selection.
   useEffect(() => {
+    const controller = new AbortController();
     setLoading(true);
-    const params = new URLSearchParams();
-    if (selectedVenue !== 'all') {
-      params.set('venueId', selectedVenue);
-    }
-
-    fetch(`/api/venue-portal/schedule?${params}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setAssignments(data.assignments || []);
-        setLoading(false);
+    setLoadError(null);
+    setSelectedDate(null);
+    const params = new URLSearchParams({
+      startDate: new Date(Date.UTC(pdfYear, pdfMonth - 1, 1)).toISOString(),
+      endDate: new Date(Date.UTC(pdfYear, pdfMonth, 0)).toISOString(),
+    });
+    if (selectedVenue !== 'all') params.set('venueId', selectedVenue);
+    fetch(`/api/venue-portal/schedule?${params}`, { signal: controller.signal, cache: 'no-store' })
+      .then(async res => {
+        if (!res.ok) throw new Error(res.status === 401 || res.status === 403 ? 'session' : 'load');
+        return res.json();
       })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-      });
-  }, [selectedVenue]);
+      .then(data => {
+        if (!Array.isArray(data.assignments)) throw new Error('load');
+        setAssignments(data.assignments);
+      })
+      .catch(error => {
+        if (controller.signal.aborted) return;
+        setAssignments([]);
+        setLoadError(error.message === 'session' ? 'session' : 'load');
+      })
+      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
+    return () => controller.abort();
+  }, [selectedVenue, pdfMonth, pdfYear, retry]);
 
   // Filter assignments for selected date
   const selectedDateAssignments = selectedDate
@@ -92,7 +105,7 @@ export default function SchedulePage() {
     : [];
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString(locale === 'th' ? 'th-TH' : 'en-US', {
       weekday: 'long',
       month: 'long',
       day: 'numeric',
@@ -117,31 +130,37 @@ export default function SchedulePage() {
         <div>
           <h1 className="text-2xl font-bold text-white font-playfair flex items-center gap-3">
             <CalendarIcon className="w-7 h-7 text-brand-cyan" />
-            Schedule
+            {locale === 'th' ? 'ตารางดีเจ' : 'Schedule'}
           </h1>
-          <p className="text-gray-400 mt-1">View and manage DJ assignments</p>
+          <p className="text-gray-400 mt-1">{locale === 'th' ? 'ตารางงานประจำเดือน · เวลากรุงเทพฯ' : 'Your monthly programme · Bangkok time'}</p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-start gap-3">
           {/* PDF Export Button */}
           <a
-            href={`/api/venue-portal/schedule/pdf?month=${pdfMonth}&year=${pdfYear}`}
+            href={`/api/venue-portal/schedule/pdf?month=${pdfMonth}&year=${pdfYear}${selectedVenue === 'all' ? '' : `&venueId=${encodeURIComponent(selectedVenue)}`}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-cyan/20 border border-brand-cyan/30 text-brand-cyan hover:bg-brand-cyan/30 transition-colors"
           >
             <ArrowDownTrayIcon className="w-4 h-4" />
-            Export PDF
+            {locale === 'th' ? 'ดาวน์โหลด PDF' : 'Export PDF'}
           </a>
+
+          {!loading && !loadError && <CalendarDownload locale={locale}
+            month={`${pdfYear}-${String(pdfMonth).padStart(2, '0')}`}
+            assignments={assignments.map(a => ({ id: a.id, date: a.date, startTime: a.startTime, endTime: a.endTime,
+              status: a.status, title: `${a.artist?.stageName || 'DJ to be confirmed'} at ${a.venue.name}`, venue: a.venue.name }))} />}
 
           {/* Venue Filter */}
           {venues.length > 1 && (
             <select
+              aria-label={locale === 'th' ? 'เลือกสถานที่' : 'Filter by venue'}
               value={selectedVenue}
               onChange={(e) => setSelectedVenue(e.target.value)}
               className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:border-brand-cyan"
             >
-              <option value="all">All Venues</option>
+              <option value="all">{locale === 'th' ? 'ทุกสถานที่' : 'All venues'}</option>
               {venues.map((venue) => (
                 <option key={venue.id} value={venue.id}>
                   {venue.name}
@@ -152,7 +171,13 @@ export default function SchedulePage() {
         </div>
       </div>
 
-      {loading ? (
+      {loadError ? (
+        <div role="alert" className="rounded-xl border border-amber-400/30 bg-amber-400/10 p-6 text-white">
+          <p>{loadError === 'session' ? (locale === 'th' ? 'โปรดเข้าสู่ระบบอีกครั้งเพื่อตรวจสอบสิทธิ์และดูตารางงาน' : 'Your session or venue access needs attention. Sign in again to view the schedule.') : (locale === 'th' ? 'โหลดตารางงานไม่สำเร็จ ข้อมูลงานของคุณไม่ได้ถูกเปลี่ยนแปลง' : 'The schedule could not be loaded. Your assignments have not been changed.')}</p>
+          {loadError === 'session' ? <a className="mt-4 inline-block text-brand-cyan underline" href={`/sign-in?redirect_url=/${locale}/venue-portal/schedule`}>{locale === 'th' ? 'เข้าสู่ระบบอีกครั้ง' : 'Sign in again'}</a>
+            : <button className="mt-4 min-h-11 text-brand-cyan underline" onClick={() => setRetry(value => value + 1)}>{locale === 'th' ? 'ลองอีกครั้ง' : 'Try again'}</button>}
+        </div>
+      ) : loading ? (
         <div className="flex items-center justify-center py-12">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-cyan"></div>
         </div>

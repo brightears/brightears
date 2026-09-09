@@ -71,6 +71,7 @@ export default async function HomePage({
   const featuredNames = ['Benji', 'Vita', 'UFO', 'RabbitDisco', 'Eskay Da Real', 'Linze'];
   const featuredArtistsRaw = await prisma.artist.findMany({
     where: {
+      user: { isActive: true },
       isVisible: true,
       stageName: { in: featuredNames },
       profileImage: { not: null },

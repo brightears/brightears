@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { requireArtistOwnership, safeErrorResponse, sanitizeInput } from '@/lib/api-auth'
 import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit'
+import { publicArtistSelect, publicArtistWhere, publicReviewSelect, publicAvailabilitySelect, serializePublicArtist, serializePublicReview, serializePublicAvailability } from '@/lib/public-artists'
 
 export async function GET(
   req: NextRequest,
@@ -11,55 +12,36 @@ export async function GET(
   try {
     const { id } = await params
     
-    // Track profile view activity
-    const artist = await prisma.artist.findUnique({
-      where: { id },
-      include: {
-        user: {
-          select: {
-            email: true,
-            isActive: true,
-            createdAt: true
-          }
-        },
+    const artist = await prisma.artist.findFirst({
+      where: { id, ...publicArtistWhere },
+      select: {
+        ...publicArtistSelect,
         reviews: {
           where: { isPublic: true },
-          include: {
-            reviewer: {
-              select: {
-                email: false,
-                role: true
-              }
-            },
-            booking: {
-              select: {
-                eventType: true,
-                eventDate: true
-              }
-            }
-          },
+          select: publicReviewSelect,
           orderBy: { createdAt: 'desc' },
-          take: 10
+          take: 10,
         },
         availability: {
           where: {
             date: { gte: new Date() },
             status: 'AVAILABLE',
-            isBooked: false
+            isBooked: false,
           },
+          select: publicAvailabilitySelect,
           orderBy: { date: 'asc' },
-          take: 30
-        }
-      }
+          take: 30,
+        },
+      },
     })
-    
-    if (!artist || !artist.user.isActive) {
+
+    if (!artist) {
       return NextResponse.json(
         { error: 'Artist not found' },
         { status: 404 }
       )
     }
-    
+
     const ratings = artist.reviews.map(r => r.rating)
     const averageRating = ratings.length > 0 
       ? ratings.reduce((a, b) => a + b, 0) / ratings.length 
@@ -102,8 +84,9 @@ export async function GET(
     }
     
     return NextResponse.json({
-      ...artist,
-      hourlyRate: artist.hourlyRate ? artist.hourlyRate.toNumber() : null,
+      ...serializePublicArtist(artist),
+      reviews: artist.reviews.map(serializePublicReview),
+      availability: artist.availability.map(serializePublicAvailability),
       averageRating,
       reviewCount: artist.reviews.length,
       detailedRatings: avgDetailedRatings

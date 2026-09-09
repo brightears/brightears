@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { rateLimit } from '@/lib/rate-limit'
+import { publicArtistSelect, publicArtistWhere, serializePublicArtist } from '@/lib/public-artists'
 
 /**
  * Public Artists API Endpoint for AI Platforms
@@ -23,7 +24,7 @@ import { rateLimit } from '@/lib/rate-limit'
  * Security:
  * - No authentication required (public endpoint)
  * - Only returns public data (no email, phone, private fields)
- * - Only returns ACTIVE artists with complete profiles (isDraft: false)
+ * - Only returns active artists explicitly marked visible
  *
  * Example Usage:
  * GET /api/public/artists?category=DJ&city=Bangkok&limit=10&verified=true
@@ -125,15 +126,10 @@ export async function GET(req: NextRequest) {
 
     // Build the where clause for database query
     const where: any = {
-      // Only return ACTIVE artists
-      user: {
-        isActive: true
-      },
-      // Only return artists marked visible in the marketplace
-      isVisible: true,
+      ...publicArtistWhere,
       // Ensure artist has basic profile info
       stageName: {
-        not: null
+        not: ''
       }
     }
 
@@ -157,12 +153,7 @@ export async function GET(req: NextRequest) {
 
     // Get total count for API response metadata
     const totalArtists = await prisma.artist.count({
-      where: {
-        user: {
-          isActive: true
-        },
-        isVisible: true
-      }
+      where: publicArtistWhere
     })
 
     // Execute the query with only necessary fields for AI consumption
@@ -170,31 +161,12 @@ export async function GET(req: NextRequest) {
       where,
       take: limit,
       select: {
-        id: true,
-        stageName: true,
-        category: true,
-        bio: true,
-        bioTh: true,
-        hourlyRate: true,
-        minimumHours: true,
-        currency: true,
-        baseCity: true,
-        serviceAreas: true,
-        averageRating: true,
-        genres: true,
-        languages: true,
-        profileImage: true,
-        website: true,
-        facebook: true,
-        instagram: true,
-        lineId: true,
-        totalBookings: true,
-        completedBookings: true,
+        ...publicArtistSelect,
         _count: {
           select: {
-            reviews: true
-          }
-        }
+            reviews: { where: { isPublic: true } },
+          },
+        },
       },
       orderBy: [
         { averageRating: 'desc' },
@@ -203,46 +175,48 @@ export async function GET(req: NextRequest) {
     })
 
     // Transform the data into AI-friendly format
-    const transformedArtists = artists.map(artist => ({
-      id: artist.id,
-      stageName: artist.stageName,
-      categories: [artist.category],
-      bio: artist.bio || 'Professional entertainer available for bookings',
-      bioTh: artist.bioTh,
-      pricing: {
-        hourlyRate: artist.hourlyRate ? parseFloat(artist.hourlyRate.toString()) : null,
-        minimumHours: artist.minimumHours,
-        currency: artist.currency
-      },
-      location: {
-        serviceAreas: artist.serviceAreas,
-        basedIn: artist.baseCity
-      },
-      rating: artist.averageRating || null,
-      reviewCount: artist._count.reviews,
-      verified: true, // In agency model, all artists are owner-verified
-      totalBookings: artist.totalBookings,
-      completedBookings: artist.completedBookings,
-      genres: artist.genres,
-      languages: artist.languages,
-      profileUrl: `https://brightears.io/en/artists/${artist.id}`,
-      profileImage: artist.profileImage,
-      contactMethods: [
-        artist.lineId ? 'LINE' : null,
-        'Phone'
-      ].filter(Boolean),
-      socialMedia: {
-        website: artist.website || null,
-        facebook: artist.facebook || null,
-        instagram: artist.instagram || null,
-        lineId: artist.lineId || null
+    const transformedArtists = artists.map(row => {
+      const artist = serializePublicArtist(row)
+      return {
+        id: artist.id,
+        stageName: artist.stageName,
+        categories: [artist.category],
+        bio: artist.bio || 'Professional entertainer available for bookings',
+        bioTh: artist.bioTh,
+        pricing: {
+          // Legacy keys are intentionally empty: hourlyRate is an internal ops rate.
+          hourlyRate: null,
+          minimumHours: null,
+          startingRate: artist.startingRate,
+          currency: artist.currency
+        },
+        location: {
+          serviceAreas: artist.serviceAreas,
+          basedIn: artist.baseCity
+        },
+        rating: artist.averageRating || null,
+        reviewCount: row._count.reviews,
+        verified: true, // In agency model, all artists are owner-verified
+        totalBookings: artist.totalBookings,
+        completedBookings: artist.completedBookings,
+        genres: artist.genres,
+        languages: artist.languages,
+        profileUrl: `https://agency.brightears.io/en/entertainment/${artist.id}`,
+        profileImage: artist.profileImage,
+        contactMethods: ['Agency inquiry'],
+        socialMedia: {
+          website: artist.website || null,
+          facebook: artist.facebook || null,
+          instagram: artist.instagram || null,
+          lineId: null
+        }
       }
-    }))
+    })
 
     // Build response following the specified format
     const response = {
       platform: 'Bright Ears',
-      description: "Thailand's largest commission-free entertainment booking platform",
+      description: "Entertainment booking and management agency in Thailand",
       apiVersion: '1.0',
       totalArtists,
       resultCount: transformedArtists.length,

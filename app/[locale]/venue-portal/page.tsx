@@ -1,41 +1,20 @@
 import { getCurrentUser } from '@/lib/auth';
 import { PrismaClient } from '@prisma/client';
 import DashboardContent from './DashboardContent';
+import { addAssignmentDays, assignmentHasEnded, bangkokAssignmentToday, upcomingAssignments as filterUpcomingAssignments } from '@/lib/venue-assignment-time';
 
 export const dynamic = 'force-dynamic';
 
 const prisma = new PrismaClient();
 
-// Helper: Check if a shift has ended (date + endTime < now in Bangkok time)
-// endTime is in Bangkok time (UTC+7), overnight shifts (ending before 6 AM) are next day
-function hasShiftEnded(assignmentDate: Date, endTime: string): boolean {
-  const [hours, mins] = endTime.split(':').map(Number);
-
-  // Create end datetime starting from assignment date
-  const endDateTime = new Date(assignmentDate);
-  endDateTime.setHours(hours, mins, 0, 0);
-
-  // If end time is before 6 AM, it's an overnight shift ending the NEXT day
-  if (hours < 6) {
-    endDateTime.setDate(endDateTime.getDate() + 1);
-  }
-
-  // Get current time in Bangkok (UTC+7)
-  const now = new Date();
-  const bangkokNow = new Date(now.getTime() + 7 * 60 * 60 * 1000);
-
-  return endDateTime <= bangkokNow;
-}
-
 async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
   const now = new Date();
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-  // Today's date boundaries (midnight to midnight local time)
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
-  const todayEnd = new Date();
-  todayEnd.setHours(23, 59, 59, 999);
+  // VenueAssignment.date is a DATE key; do not compare it to a current instant.
+  const today = bangkokAssignmentToday(now);
+  const tomorrow = addAssignmentDays(today, 1);
+  const recentStartDay = addAssignmentDays(today, -30);
 
   // For ADMIN users without corporate, get all venues
   // For CORPORATE users, get their specific venues
@@ -56,14 +35,14 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
     totalFeedback,
     avgRating,
   ] = await Promise.all([
-    // Upcoming assignments (next 7 days)
+    // Today and the next six days, including an overnight shift still in progress.
     prisma.venueAssignment.findMany({
       where: {
         venueId: { in: venueIds },
         status: 'SCHEDULED',
         date: {
-          gte: now,
-          lte: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000),
+          gte: addAssignmentDays(today, -1),
+          lt: addAssignmentDays(today, 7),
         },
       },
       include: {
@@ -72,15 +51,14 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
           select: { stageName: true, profileImage: true, category: true },
         },
       },
-      orderBy: { date: 'asc' },
-      take: 5,
+      orderBy: [{ date: 'asc' }, { startTime: 'asc' }],
     }),
     // Recent assignments where shift has ended (last 30 days)
     prisma.venueAssignment.findMany({
       where: {
         venueId: { in: venueIds },
         artistId: { not: null }, // Only DJ assignments
-        date: { gte: thirtyDaysAgo, lte: now },
+        date: { gte: recentStartDay, lt: tomorrow },
       },
       include: {
         venue: { select: { name: true } },
@@ -99,9 +77,9 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
         venueId: { in: venueIds },
         artistId: { not: null },
         feedback: null,
-        date: { lte: now },
+        date: { lt: tomorrow },
       },
-      select: { date: true, endTime: true },
+      select: { date: true, startTime: true, endTime: true },
     }),
     // Total feedback this month
     prisma.venueFeedback.count({
@@ -122,11 +100,11 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
     }),
   ]);
 
-  // Count unique DJs this month
+  // Count unique DJs in the recent date window, excluding future assignments.
   const uniqueDJs = await prisma.venueAssignment.findMany({
     where: {
       venueId: { in: venueIds },
-      date: { gte: thirtyDaysAgo },
+      date: { gte: recentStartDay, lt: tomorrow },
     },
     select: { artistId: true },
     distinct: ['artistId'],
@@ -136,7 +114,7 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
   const todayAssignments = await prisma.venueAssignment.findMany({
     where: {
       venueId: { in: venueIds },
-      date: { gte: todayStart, lte: todayEnd },
+      date: today,
       status: { not: 'CANCELLED' },
     },
     include: {
@@ -148,20 +126,22 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
     orderBy: [{ venue: { name: 'asc' } }, { startTime: 'asc' }],
   });
 
+  const filteredUpcomingAssignments = filterUpcomingAssignments(upcomingAssignments, now);
+
   // Filter recent assignments to only those where shift has ended, then take 5
   const filteredRecentAssignments = recentAssignments
-    .filter(a => hasShiftEnded(a.date, a.endTime))
+    .filter(a => assignmentHasEnded(a, now))
     .slice(0, 5);
 
   // Filter pending feedback to only those where shift has ended
   const filteredPendingFeedback = pendingFeedback.filter(a =>
-    hasShiftEnded(a.date, a.endTime)
+    assignmentHasEnded(a, now)
   ).length;
 
   return {
     venues,
     stats: {
-      upcomingCount: upcomingAssignments.length,
+      upcomingCount: filteredUpcomingAssignments.length,
       pendingFeedback: filteredPendingFeedback,
       totalFeedback,
       avgRating: avgRating._avg.overallRating
@@ -169,7 +149,7 @@ async function getDashboardData(corporateId: string | null, isAdmin: boolean) {
         : null,
       uniqueDJs: uniqueDJs.length,
     },
-    upcomingAssignments,
+    upcomingAssignments: filteredUpcomingAssignments.slice(0, 5),
     recentAssignments: filteredRecentAssignments,
     todayAssignments,
   };

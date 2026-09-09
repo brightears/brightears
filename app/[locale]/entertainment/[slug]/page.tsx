@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { prisma } from '@/lib/prisma';
+import { sanitizePublicArtistBio } from '@/lib/public-artist-bio';
 import { Link } from '@/components/navigation';
 
 export const dynamic = 'force-dynamic';
@@ -73,7 +74,6 @@ async function getDJProfile(slug: string) {
     select: {
       id: true,
       stageName: true,
-      realName: true,
       category: true,
       bio: true,
       bioTh: true,
@@ -88,23 +88,12 @@ async function getDJProfile(slug: string) {
       mixcloud: true,
       facebook: true,
       youtube: true,
-      contactEmail: true,
       averageRating: true,
-      workPermitStatus: true,
       startingRate: true,
       venueAssignments: {
         select: { venue: { select: { name: true } } },
         where: { status: 'COMPLETED' },
         distinct: ['venueId'],
-      },
-      venueFeedback: {
-        select: {
-          overallRating: true,
-          notes: true,
-          createdAt: true,
-          venue: { select: { name: true } },
-        },
-        orderBy: { overallRating: 'desc' },
       },
     },
   });
@@ -131,6 +120,8 @@ async function getDJProfile(slug: string) {
 
   return {
     ...artist,
+    bio: sanitizePublicArtistBio(artist.bio),
+    bioTh: sanitizePublicArtistBio(artist.bioTh),
     stats: {
       totalGigs,
       mostRecentGig,
@@ -204,18 +195,6 @@ export default async function DJProfilePage({
 
   const bio = locale === 'th' && artist.bioTh ? artist.bioTh : artist.bio;
   const venues = [...new Set(artist.venueAssignments.map((va) => va.venue.name))];
-  const recentFeedback = artist.venueFeedback.slice(0, 5);
-
-  // Best venue manager quote for testimonial
-  const bestQuote = recentFeedback.find((fb) => {
-    if (!fb.notes || fb.notes.length < 30 || fb.notes.length > 250 || fb.overallRating < 4) return false;
-    const lower = fb.notes.toLowerCase();
-    if (lower.startsWith('for dj comment:')) return false;
-    if (lower.includes('late') || lower.includes('no show') || lower.includes('no-show') || lower.includes('didn\'t show')) return false;
-    return true;
-  });
-  const bestQuoteNotes = bestQuote?.notes?.replace(/^For DJ comment:\s*/i, '').trim();
-
   // Social links (only show if available)
   const socialLinks = [
     { platform: 'instagram', url: artist.instagram, label: 'Instagram' },
@@ -258,14 +237,14 @@ export default async function DJProfilePage({
       name: 'Bright Ears',
       url: 'https://brightears.io',
     },
-    ...(artist.averageRating && {
+    ...(artist.averageRating && artist.stats.feedbackCount > 0 && {
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: artist.averageRating.toFixed(1),
         bestRating: '5',
         worstRating: '1',
-        ratingCount: artist.venueFeedback.length,
-        reviewCount: artist.venueFeedback.length,
+        ratingCount: artist.stats.feedbackCount,
+        reviewCount: artist.stats.feedbackCount,
       },
     }),
     ...(venues.length > 0 && {
@@ -375,32 +354,6 @@ export default async function DJProfilePage({
                 </div>
               )}
 
-              {/* Work permit status badge — Thailand legal compliance */}
-              {artist.workPermitStatus && artist.workPermitStatus !== 'UNKNOWN' && (
-                <div className="mt-4">
-                  {artist.workPermitStatus === 'NOT_APPLICABLE' && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-xs font-bold text-emerald-300 uppercase tracking-wider">
-                      ✓ Thai National — No Work Permit Needed
-                    </span>
-                  )}
-                  {artist.workPermitStatus === 'VALID' && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-xs font-bold text-emerald-300 uppercase tracking-wider">
-                      ✓ Valid Work Permit
-                    </span>
-                  )}
-                  {artist.workPermitStatus === 'VENUE_SPONSORED' && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full text-xs font-bold text-amber-300 uppercase tracking-wider">
-                      Requires Venue Sponsorship
-                    </span>
-                  )}
-                  {artist.workPermitStatus === 'TOURIST_NOT_BOOKABLE' && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/30 rounded-full text-xs font-bold text-red-300 uppercase tracking-wider">
-                      ⚠ Tourist Visa — Not Bookable
-                    </span>
-                  )}
-                </div>
-              )}
-
               {/* Trust stats — real booking history */}
               {(artist.stats.totalGigs > 0 || artist.averageRating) && (
                 <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -458,18 +411,6 @@ export default async function DJProfilePage({
                 </h2>
                 <p className="font-inter text-[#bcc9ce] leading-relaxed whitespace-pre-line">
                   {bio}
-                </p>
-              </div>
-            )}
-
-            {/* Venue Manager Testimonial */}
-            {bestQuote && bestQuoteNotes && (
-              <div className="border-l-2 border-[#f1bca6]/30 pl-6 my-2">
-                <p className="font-inter text-[#bcc9ce] italic leading-relaxed">
-                  &ldquo;{bestQuoteNotes}&rdquo;
-                </p>
-                <p className="font-inter text-sm text-[#f1bca6] mt-2">
-                  — Venue Manager, {bestQuote.venue.name}
                 </p>
               </div>
             )}
