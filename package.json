@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma db push --skip-generate --accept-data-loss && prisma generate && node --max-old-space-size=1024 ./node_modules/.bin/next build",
+    "build": "prisma generate && node --max-old-space-size=2048 ./node_modules/.bin/next build",
     "start": "next start -p ${PORT:-3000} -H 0.0.0.0",
     "lint": "next lint",
     "postinstall": "prisma generate",
@@ -12,7 +12,8 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
-    "db:seed-nobu": "tsx prisma/seed-nobu.ts"
+    "db:seed-nobu": "tsx prisma/seed-nobu.ts",
+    "test:agency": "tsx --test lib/__tests__/public-artists.test.ts lib/__tests__/public-artist-bio.test.ts lib/__tests__/schedule-calendar.test.ts lib/__tests__/venue-assignment-time.test.ts lib/__tests__/venue-export-scope.test.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -35,6 +36,7 @@
     "@react-email/components": "^0.5.0",
     "@react-email/render": "^1.2.0",
     "@react-pdf/renderer": "^4.3.2",
+    "@tailwindcss/postcss": "^4.2.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
@@ -58,12 +60,15 @@
     "server-only": "^0.0.1",
     "svix": "^1.82.0",
     "tailwind-merge": "^3.3.1",
-    "@tailwindcss/postcss": "^4.2.2",
     "tailwindcss": "^4",
     "zod": "^4.0.17"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.0.0",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/nodemailer": "^7.0.11",
     "@types/react": "^19",

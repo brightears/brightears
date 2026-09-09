@@ -1,3 +1,4 @@
+import { publicArtistWhere } from '@/lib/public-artists'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
@@ -46,16 +47,12 @@ export async function GET(
     }
 
     // Verify artist exists and is active
-    const artist = await prisma.artist.findUnique({
-      where: { id: artistId },
-      include: {
-        user: {
-          select: { isActive: true }
-        }
-      }
+    const artist = await prisma.artist.findFirst({
+      where: { id: artistId, ...publicArtistWhere },
+      select: { id: true },
     })
 
-    if (!artist || !artist.user.isActive) {
+    if (!artist) {
       return NextResponse.json(
         { error: 'Artist not found' },
         { status: 404 }

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
+import { sanitizePublicArtistBio } from '@/lib/public-artist-bio';
 import DJGallery from '@/components/entertainment/DJGallery';
 import { generateArtistListSchema } from '@/lib/schemas/structured-data';
 
@@ -68,8 +69,6 @@ export default async function EntertainmentPage({
       bioTh: true,
       genres: true,
       instagram: true,
-      contactEmail: true,
-      lineId: true,
       averageRating: true,
       baseCity: true,
       startingRate: true,
@@ -97,11 +96,11 @@ export default async function EntertainmentPage({
     stageName: artist.stageName,
     category: artist.category,
     profileImage: artist.profileImage,
-    bio: locale === 'th' && artist.bioTh ? artist.bioTh : artist.bio,
+    bio: locale === 'th'
+      ? sanitizePublicArtistBio(artist.bioTh) || sanitizePublicArtistBio(artist.bio)
+      : sanitizePublicArtistBio(artist.bio),
     genres: artist.genres,
     instagram: artist.instagram,
-    contactEmail: artist.contactEmail,
-    lineId: artist.lineId,
     averageRating: artist.averageRating,
     baseCity: artist.baseCity,
     startingRate: artist.startingRate ? Number(artist.startingRate) : null,

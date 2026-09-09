@@ -35,3 +35,4 @@ export default async function VenuePortalLayout({
     </div>
   );
 }
+export const dynamic = 'force-dynamic';

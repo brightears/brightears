@@ -3,6 +3,7 @@ import { renderToBuffer } from '@react-pdf/renderer';
 import { prisma } from '@/lib/prisma';
 import { getCurrentUser } from '@/lib/auth';
 import { SchedulePDF } from '@/lib/pdf/schedule-pdf';
+import { selectVenuesForExport } from '@/lib/venue-export-scope';
 
 /**
  * GET /api/venue-portal/schedule/pdf
@@ -27,6 +28,7 @@ export async function GET(req: NextRequest) {
 
     // Parse query parameters
     const { searchParams } = new URL(req.url);
+    const requestedVenueId = searchParams.get('venueId');
     const month = parseInt(searchParams.get('month') || String(new Date().getMonth() + 1));
     const year = parseInt(searchParams.get('year') || String(new Date().getFullYear()));
 
@@ -43,7 +45,7 @@ export async function GET(req: NextRequest) {
     const endDate = new Date(Date.UTC(year, month, 0, 23, 59, 59));
 
     // Fetch venues - filtered by corporate ID unless admin
-    const venues = await prisma.venue.findMany({
+    const authorizedVenues = await prisma.venue.findMany({
       where: corporateId
         ? { corporateId, isActive: true }
         : { isActive: true },
@@ -54,6 +56,11 @@ export async function GET(req: NextRequest) {
         operatingHours: true,
       },
     });
+
+    const venues = selectVenuesForExport(authorizedVenues, requestedVenueId);
+    if (venues === null) {
+      return NextResponse.json({ error: 'Venue not found or access denied' }, { status: 403 });
+    }
 
     if (venues.length === 0) {
       return NextResponse.json({ error: 'No venues found' }, { status: 404 });
@@ -155,6 +162,7 @@ export async function GET(req: NextRequest) {
     return new NextResponse(uint8Array, {
       headers: {
         'Content-Type': 'application/pdf',
+        'Cache-Control': 'private, no-store',
         'Content-Disposition': `attachment; filename="${filename}"`,
       },
     });

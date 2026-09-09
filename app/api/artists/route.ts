@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { safeErrorResponse } from '@/lib/api-auth'
 import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit'
 import { searchCache, CACHE_TTL } from '@/lib/search-cache'
+import { publicArtistSelect, publicArtistWhere, serializePublicArtist } from '@/lib/public-artists'
 
 /**
  * Browse Artists API - Simplified Filters for Early-Stage Marketplace
@@ -53,16 +54,16 @@ function getOrderBy(sort?: string) {
     case 'rating':
       return [
         { averageRating: 'desc' as const },
-        { reviewCount: 'desc' as const }
+        { stageName: 'asc' as const }
       ]
     case 'price_low':
       return [
-        { hourlyRate: 'asc' as const },
+        { startingRate: 'asc' as const },
         { averageRating: 'desc' as const }
       ]
     case 'price_high':
       return [
-        { hourlyRate: 'desc' as const },
+        { startingRate: 'desc' as const },
         { averageRating: 'desc' as const }
       ]
     case 'most_booked':
@@ -133,6 +134,7 @@ export async function GET(req: NextRequest) {
 
     // Generate cache key for this search
     const cacheKey = searchCache.generateKey({
+      responseSchema: 'public-artist-v3',
       search,
       categories,
       city,
@@ -153,12 +155,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Build the where clause
-    const where: any = {
-      user: {
-        isActive: true
-      },
-      isVisible: true
-    }
+    const where: any = { ...publicArtistWhere }
 
     const conditions: any[] = []
 
@@ -208,15 +205,10 @@ export async function GET(req: NextRequest) {
         where,
         skip,
         take: limit,
-        include: {
-          user: {
-            select: {
-              id: true,
-              email: true,
-              isActive: true
-            }
-          },
+        select: {
+          ...publicArtistSelect,
           reviews: {
+            where: { isPublic: true },
             select: {
               rating: true
             }
@@ -243,14 +235,11 @@ export async function GET(req: NextRequest) {
         ? parseFloat((ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1))
         : 0
 
-      const { reviews, user, hourlyRate, _count, ...artistData } = artist
-
       return {
-        ...artistData,
+        ...serializePublicArtist(artist),
         averageRating,
         reviewCount: ratings.length,
-        completedBookings: _count.bookings,
-        hourlyRate: hourlyRate ? parseFloat(hourlyRate.toString()) : null
+        completedBookings: artist._count.bookings,
       }
     })
 

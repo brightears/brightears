@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import CalendarDownload from '@/components/venue-portal/CalendarDownload';
+import { bangkokDate } from '@/lib/schedule-calendar';
 import {
   CalendarIcon,
   ClockIcon,
@@ -52,6 +54,7 @@ function formatMonthYear(year: number, month: number, locale: string) {
 function formatDate(date: string, locale: string) {
   const d = new Date(date);
   return d.toLocaleDateString(locale === 'th' ? 'th-TH' : 'en-US', {
+    timeZone: 'Asia/Bangkok',
     weekday: 'short',
     day: 'numeric',
     month: 'short',
@@ -61,14 +64,15 @@ function formatDate(date: string, locale: string) {
 export default function DJScheduleContent({ assignments, locale }: Props) {
   const isTh = locale === 'th';
   const now = new Date();
-  const [currentYear, setCurrentYear] = useState(now.getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(now.getMonth());
+  const today = bangkokDate(now);
+  const [year, month] = today.split('-').map(Number);
+  const [currentYear, setCurrentYear] = useState(year);
+  const [currentMonth, setCurrentMonth] = useState(month - 1);
   const [filterStatus, setFilterStatus] = useState<string>('ALL');
 
   const filtered = useMemo(() => {
     return assignments.filter((a) => {
-      const d = new Date(a.date);
-      const matchMonth = d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+      const matchMonth = bangkokDate(a.date).startsWith(`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`);
       const matchStatus = filterStatus === 'ALL' || a.status === filterStatus;
       return matchMonth && matchStatus;
     });
@@ -98,8 +102,8 @@ export default function DJScheduleContent({ assignments, locale }: Props) {
   };
 
   const goToToday = () => {
-    setCurrentYear(now.getFullYear());
-    setCurrentMonth(now.getMonth());
+    setCurrentYear(year);
+    setCurrentMonth(month - 1);
   };
 
   return (
@@ -115,8 +119,9 @@ export default function DJScheduleContent({ assignments, locale }: Props) {
       {/* Controls */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         {/* Month navigation */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
+            aria-label={isTh ? 'เดือนก่อนหน้า' : 'Previous month'}
             onClick={goToPrevMonth}
             className="p-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
           >
@@ -126,6 +131,7 @@ export default function DJScheduleContent({ assignments, locale }: Props) {
             {formatMonthYear(currentYear, currentMonth, locale)}
           </h2>
           <button
+            aria-label={isTh ? 'เดือนถัดไป' : 'Next month'}
             onClick={goToNextMonth}
             className="p-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
           >
@@ -140,10 +146,11 @@ export default function DJScheduleContent({ assignments, locale }: Props) {
         </div>
 
         {/* Status filter */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {['ALL', 'SCHEDULED', 'COMPLETED', 'CANCELLED'].map((status) => (
             <button
               key={status}
+              aria-pressed={filterStatus === status}
               onClick={() => setFilterStatus(status)}
               className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
                 filterStatus === status
@@ -160,6 +167,9 @@ export default function DJScheduleContent({ assignments, locale }: Props) {
         </div>
       </div>
 
+      <CalendarDownload locale={locale} month={`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`}
+        assignments={sorted.map(a => ({ ...a, title: `DJ set at ${a.venue}` }))} />
+
       {/* Schedule list */}
       <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden">
         {sorted.length === 0 ? (
@@ -169,7 +179,7 @@ export default function DJScheduleContent({ assignments, locale }: Props) {
         ) : (
           <div className="divide-y divide-white/5">
             {sorted.map((assignment) => {
-              const isPast = new Date(assignment.date) < now;
+              const isPast = bangkokDate(assignment.date) < today;
               return (
                 <div
                   key={assignment.id}

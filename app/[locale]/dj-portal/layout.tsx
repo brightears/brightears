@@ -2,6 +2,9 @@ import { getCurrentUser } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import DJPortalSidebar from '@/components/dj-portal/DJPortalSidebar';
 
+// Resolve each private session at request time, including client-page routes.
+export const dynamic = 'force-dynamic';
+
 export default async function DJPortalLayout({
   children,
   params,
