@@ -9,8 +9,22 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: fixture
+          POSTGRES_PASSWORD: fixture
+          POSTGRES_DB: ai_guards_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U fixture -d ai_guards_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     env:
-      DATABASE_URL: postgresql://fixture:fixture@127.0.0.1:5432/agency_build
+      DATABASE_URL: postgresql://fixture:fixture@127.0.0.1:5432/ai_guards_test?schema=public
+      AI_GENERATION_TEST_DATABASE_URL: postgresql://fixture:fixture@127.0.0.1:5432/ai_guards_test?schema=public
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_Zml4dHVyZS5jbGVyay5hY2NvdW50cy5kZXYk
       NEXT_TELEMETRY_DISABLED: '1'
     steps:
@@ -22,5 +36,8 @@ jobs:
       - run: npm ci
       - run: npx tsc --noEmit
       - run: npm run test:agency
+      # This schema push targets only the disposable PostgreSQL service above.
+      - run: npx prisma db push --skip-generate
+      - run: npm run test:ai
       # The build generates Prisma types; it must never push schema changes.
       - run: npm run build

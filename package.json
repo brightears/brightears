@@ -13,7 +13,8 @@
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
     "db:seed-nobu": "tsx prisma/seed-nobu.ts",
-    "test:agency": "tsx --test lib/__tests__/public-artists.test.ts lib/__tests__/public-artist-bio.test.ts lib/__tests__/schedule-calendar.test.ts lib/__tests__/venue-assignment-time.test.ts lib/__tests__/venue-export-scope.test.ts"
+    "test:agency": "tsx --test lib/__tests__/public-artists.test.ts lib/__tests__/public-artist-bio.test.ts lib/__tests__/schedule-calendar.test.ts lib/__tests__/venue-assignment-time.test.ts lib/__tests__/venue-export-scope.test.ts lib/__tests__/conversation-retired.test.ts",
+    "test:ai": "tsx --test lib/__tests__/ai-generation*.test.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

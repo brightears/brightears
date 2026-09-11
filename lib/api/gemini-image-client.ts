@@ -7,6 +7,7 @@
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { buildContentPrompt, parseGeneratedText, type ContentType } from './ai-content-prompts';
+import { AiProviderError, GENERATION_TIMEOUT_MS } from '../ai-generation-policy';
 
 const apiKey = process.env.GOOGLE_GEMINI_API_KEY;
 
@@ -15,6 +16,7 @@ if (!apiKey) {
 }
 
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
+export const isImageGenerationConfigured = () => genAI !== null;
 
 export interface GenerateContentInput {
   sourceImageBase64: string;
@@ -42,7 +44,7 @@ export interface GenerateContentResult {
  */
 export async function generateContentImage(input: GenerateContentInput): Promise<GenerateContentResult> {
   if (!genAI) {
-    throw new Error('Gemini API not configured. Set GOOGLE_GEMINI_API_KEY.');
+    throw new AiProviderError('unavailable');
   }
 
   const prompt = buildContentPrompt(input.contentType, {
@@ -61,7 +63,12 @@ export async function generateContentImage(input: GenerateContentInput): Promise
     },
   });
 
-  const result = await model.generateContent([
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), GENERATION_TIMEOUT_MS);
+  timer.unref?.();
+  let result;
+  try {
+    result = await model.generateContent([
     { text: prompt },
     {
       inlineData: {
@@ -69,21 +76,41 @@ export async function generateContentImage(input: GenerateContentInput): Promise
         data: input.sourceImageBase64,
       },
     },
-  ]);
+    ], { signal: controller.signal });
+  } catch (error) {
+    // SDK error URLs can contain API keys. Never log or persist their text.
+    const status = typeof error === 'object' && error !== null && 'status' in error ? error.status : undefined;
+    const details = typeof error === 'object' && error !== null && 'errorDetails' in error ? error.errorDetails : undefined;
+    const configurationFailure = Array.isArray(details) && details.some(detail => {
+      const reason = typeof detail === 'object' && detail !== null && 'reason' in detail ? detail.reason : undefined;
+      return typeof reason === 'string' && /^(API_KEY_|BILLING_|CREDENTIALS_|ACCESS_TOKEN_|IAM_)|^(SERVICE_DISABLED|CONSUMER_INVALID|PERMISSION_DENIED|ACCESS_DENIED)$/.test(reason);
+    });
+    // Explicit rejection statuses only. A timeout/cancel (408/499) does not
+    // prove that provider work stopped or was never accepted.
+    if (!controller.signal.aborted && typeof status === 'number' && [400, 401, 402, 403, 404, 405, 412, 413, 415, 422, 429].includes(status)) {
+      throw new AiProviderError(configurationFailure ? 'unavailable' : status === 429 ? 'quota' : status === 400 ? 'rejected' : 'unavailable');
+    }
+    throw new AiProviderError('unknown');
+  } finally { clearTimeout(timer); }
 
   const response = result.response;
   const candidates = response.candidates;
-
-  if (!candidates || candidates.length === 0) {
-    throw new Error('No response from Gemini. The content may have been filtered.');
+  if (response.promptFeedback?.blockReason && response.promptFeedback.blockReason !== 'BLOCKED_REASON_UNSPECIFIED') {
+    throw new AiProviderError('rejected');
   }
+  if (!candidates?.length) throw new AiProviderError('unknown');
+  const candidate = candidates[0];
+  if (candidate.finishReason && ['SAFETY', 'RECITATION', 'BLOCKLIST', 'PROHIBITED_CONTENT', 'SPII', 'IMAGE_SAFETY'].includes(candidate.finishReason)) {
+    throw new AiProviderError('rejected');
+  }
+  if (!Array.isArray(candidate.content?.parts)) throw new AiProviderError('unknown');
 
   let imageBase64 = '';
   let imageMimeType = 'image/png';
   let textContent = '';
 
   // Parse response parts — separate image data from text
-  for (const part of candidates[0].content.parts) {
+  for (const part of candidate.content.parts) {
     if (part.inlineData) {
       imageBase64 = part.inlineData.data;
       imageMimeType = part.inlineData.mimeType || 'image/png';
@@ -96,7 +123,7 @@ export async function generateContentImage(input: GenerateContentInput): Promise
   if (!imageBase64) {
     // Fallback: if Gemini doesn't return an image, try text-only model
     // and generate image separately. For MVP, just throw.
-    throw new Error('Gemini did not return an image. Try a different photo or content type.');
+    throw new AiProviderError('rejected');
   }
 
   const { caption, hashtags } = parseGeneratedText(textContent);
